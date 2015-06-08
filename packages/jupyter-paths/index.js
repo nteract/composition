@@ -217,3 +217,32 @@ function jupyterPath() {
 
   return paths;
 }
+
+var SYSTEM_CONFIG_PATH;
+
+if (process.platform == 'win32') {
+  programData = process.env.PROGRAMDATA;
+  if (programData){
+    SYSTEM_CONFIG_PATH = [path.join(programData, 'jupyter')];
+  } else { // PROGRAMDATA is not defined by default in XP
+    SYSTEM_CONFIG_PATH = [];
+  }
+} else {
+  SYSTEM_CONFIG_PATH = [
+    "/usr/local/etc/jupyter",
+    "/etc/jupyter"
+  ];
+}
+
+var ENV_CONFIG_PATH = [path.join(sysPrefix, 'etc', 'jupyter')];
+
+function jupyterConfigPath() {
+  var paths = [jupyterConfigDir()];
+  ENV_CONFIG_PATH.forEach(function(p){
+    if (! (p in SYSTEM_CONFIG_PATH)) {
+      paths.push(p);
+    }
+  });
+  paths.push.apply(paths, SYSTEM_CONFIG_PATH);
+  return paths;
+}
