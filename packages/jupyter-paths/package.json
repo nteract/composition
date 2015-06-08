@@ -4,7 +4,7 @@
   "description": "Port of jupyter/jupyter_core for node to resolve paths across IPython/Jupyter installations.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine-node --coffee spec"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/rgbkrk/jupyter-paths/issues"
   },
-  "homepage": "https://github.com/rgbkrk/jupyter-paths"
+  "homepage": "https://github.com/rgbkrk/jupyter-paths",
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
 }
