@@ -2,6 +2,7 @@ path = require('path')
 
 # TODO: mock process.env
 # TODO: mock process.platform
+# TODO: Convert (back) to JavaScript?
 
 describe "JupyterPath", ->
   # Because `paths` shells out to Python, we need a chance to mock it first
