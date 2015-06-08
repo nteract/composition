@@ -1,0 +1,24 @@
+{
+  "name": "jupyter-paths",
+  "version": "0.0.1",
+  "description": "Port of jupyter/jupyter_core for node to resolve paths across IPython/Jupyter installations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rgbkrk/jupyter-paths.git"
+  },
+  "keywords": [
+    "jupyter",
+    "paths",
+    "ipython"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/rgbkrk/jupyter-paths/issues"
+  },
+  "homepage": "https://github.com/rgbkrk/jupyter-paths"
+}
