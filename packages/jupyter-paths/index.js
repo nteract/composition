@@ -51,12 +51,23 @@ module.exports = {
 var fs = require('fs');
 var path = require('path');
 
+// Since sysPrefix and userHome are used all over the place (and should stay the same during run)
+// these are done synchronously for initialization.
+
 // Access `sys.prefix` from Python, to handle particular conda and virtualenv setups
-// TODO: Think of something more sensible here, possibly doing this asynchronously elsewhere
 // TODO: Provide a timeout, handle error
 var child_process = require('child_process');
 var response = child_process.spawnSync('python', ['-c', 'import sys; print(sys.prefix)']);
 var sysPrefix = response.stdout.toString().replace(/^\s+|\s+$/g, "");
+
+// Returns the home specified by environment variable or
+// node's built in path.resolve('~')
+function _userHome () {
+  var homeDir = process.env.HOME || process.env.USERPROFILE || path.resolve('~');
+  homeDir = fs.realpathSync(homeDir);
+  return homeDir;
+}
+var userHome = _userHome();
 
 var SYSTEM_JUPYTER_PATH;
 
@@ -79,18 +90,10 @@ else {
 
 var ENV_JUPYTER_PATH = [path.join(sysPrefix, 'share', 'jupyter')];
 
-// Returns the home specified by environment variable or
-// node's built in path.resolve('~')
-function userHome () {
-  var homeDir = process.env.HOME || process.env.USERPROFILE || path.resolve('~');
-  homeDir = fs.realpathSync(homeDir);
-  return homeDir;
-}
-
 // Get the Jupyter config directory for this platform and user.
 // Returns env[JUPYTER_CONFIG_DIR] if defined, else ~/.jupyter
 function jupyterConfigDir () {
-  var homeDir = userHome();
+  var homeDir = userHome;
   if (process.env.JUPYTER_CONFIG_DIR) {
     return process.env.JUPYTER_CONFIG_DIR;
   }
@@ -117,13 +120,13 @@ function jupyterDataDir() {
     }
   }
   else if (process.platform == 'darwin') {
-    return path.join(userHome(), 'Library', 'Jupyter');
+    return path.join(userHome, 'Library', 'Jupyter');
   }
   else {
     // Linux, non-OS X Unix, AIX, etc.
     var xdg = process.env.XDG_DATA_HOME;
     if (!xdg) {
-      xdg = path.join(userHome(), '.local', 'share');
+      xdg = path.join(userHome, '.local', 'share');
     }
     return path.join(xdg, 'jupyter');
   }
@@ -131,7 +134,7 @@ function jupyterDataDir() {
 
 // Returns the path for ~/.ipython
 function ipythonDataDir() {
-  return path.join(userHome(), '.ipython');
+  return path.join(userHome, '.ipython');
 }
 
 // Return the runtime dir for transient jupyter files.
