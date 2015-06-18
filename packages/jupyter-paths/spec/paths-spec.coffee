@@ -34,6 +34,13 @@ describe "JupyterPath", ->
         expect(parsed.base).toBe('kernels')
 
 describe "JupyterPath mocked", ->
+  beforeEach ->
+      # process.platform is not writeable but it can be overridden with
+      # defineProperty
+      Object.defineProperty(process, 'platform', {
+        value: 'darwin'
+      })
+    
   describe "when on OS X", ->
     it "has OS X specific system directories", ->
       spyOn(process, 'platform')
