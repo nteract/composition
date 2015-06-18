@@ -16,7 +16,7 @@
     "ipython"
   ],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/rgbkrk/jupyter-paths/issues"
   },
