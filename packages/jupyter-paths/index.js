@@ -43,11 +43,11 @@ var path = require('path');
 var child_process = require('child_process');
 
 function JupyterPaths() {
-  var pathsResponse, basePaths;
+  var pathsResponse, path;
 
   try {
     pathsResponse = child_process.spawnSync('jupyter',  ['--paths', '--json']);
-    basePaths = JSON.parse(pathsResponse.stdout.toString());
+    _path = JSON.parse(pathsResponse.stdout.toString());
   } catch(e) {
     console.error(e);
     console.error(pathsResponse.stdout.toString());
@@ -55,12 +55,12 @@ function JupyterPaths() {
     return;
   }
 
-  this.basePaths = basePaths;
+  this.path = _path;
 }
 
 // Get the Jupyter config directory for this platform and user.
 JupyterPaths.prototype.configDirs = function () {
-  return this.basePaths.config;
+  return this.path.config;
 };
 
 /**
@@ -68,12 +68,12 @@ JupyterPaths.prototype.configDirs = function () {
  * These are non-transient, non-configuration files.
  */
 JupyterPaths.prototype.dataDirs = function() {
-  return this.basePaths.data;
+  return this.path.data;
 };
 
 // Return the runtime dirs for transient jupyter files.
 JupyterPaths.prototype.runtimeDirs = function() {
-  return this.basePaths.runtime;
+  return this.path.runtime;
 };
 
 JupyterPaths.prototype.kernelDirs = function() {
