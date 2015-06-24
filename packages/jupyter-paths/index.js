@@ -79,7 +79,7 @@ JupyterPaths.prototype.runtimeDirs = function() {
 JupyterPaths.prototype.kernelDirs = function() {
   var dataDirs = this.dataDirs();
 
-  return paths.map(function(p){
+  return dataDirs.map(function(p){
     return path.join(p, "kernels");
   });
 };
