@@ -3,4 +3,4 @@ node_js:
   - "0.12"
   - "iojs"
 sudo: false
-before_install: pip install git+https://github.com/jupyter/jupyter_core.git#egg=jupyter_core
+before_install: pip install --user git+https://github.com/jupyter/jupyter_core.git#egg=jupyter_core
