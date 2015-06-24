@@ -40,73 +40,97 @@
  *
  */
 
-module.exports = {
-  jupyterPath: jupyterPath,
-  jupyterConfigDir: jupyterConfigDir,
-  jupyterDataDir: jupyterDataDir,
-  jupyterRuntimeDir: jupyterRuntimeDir,
-  userHome: userHome
-};
-
 var fs = require('fs');
 var path = require('path');
-
-// Since sysPrefix and userHome are used all over the place (and should stay the same during run)
-// these are done synchronously for initialization.
-
-// Access `sys.prefix` from Python, to handle particular conda and virtualenv setups
-// TODO: Provide a timeout, handle error
 var child_process = require('child_process');
-var response = child_process.spawnSync('python', ['-c', 'import sys; print(sys.prefix)']);
-var sysPrefix = response.stdout.toString().replace(/^\s+|\s+$/g, "");
 
-// Returns the home specified by environment variable or
-// node's built in path.resolve('~')
-function _userHome () {
-  var homeDir = process.env.HOME || process.env.USERPROFILE || path.resolve('~');
-  homeDir = fs.realpathSync(homeDir);
-  return homeDir;
-}
-var userHome = _userHome();
+function Jupyter() {
+  // Since sysPrefix and userHome are used all over the place (and should stay the same during run)
+  // these are done synchronously for initialization.
 
-var SYSTEM_JUPYTER_PATH;
+  // Access `sys.prefix` from Python, to handle particular conda and virtualenv setups
+  // TODO: Provide a timeout, handle error
+  var response = child_process.spawnSync('python', ['-c', 'import sys; print(sys.prefix)']);
+  var sysPrefix = response.stdout.toString().replace(/^\s+|\s+$/g, "");
 
-// Compute default system configurations
-if (process.platform == 'win32') {
-  programData = process.env.PROGRAMDATA;
-  if (programData){
-    SYSTEM_JUPYTER_PATH = [path.join(programData, 'jupyter')];
+  this.sysPrefix = fs.realpathSync(sysPrefix);
+
+  var versionCheck = child_process.spawnSync('python', [ path.join(__dirname, 'wrap.py') ]);
+
+  stdout = versionCheck.stdout.toString();
+  stderr = versionCheck.stdout.toString();
+
+  if (stderr !== '') {
+    try {
+      console.error(JSON.parse(stderr));
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  // Cache the user home directory
+  this.userHome = process.env.HOME || process.env.USERPROFILE || path.resolve('~');
+  this.userHome = fs.realpathSync(this.userHome);
+
+  // Globally installed Jupyter components, particularly kernel specs
+  this.SYSTEM_JUPYTER_PATHS = [];
+  this.ENV_JUPYTER_PATHS = [];
+
+  // Compute default system configurations
+  if (process.platform == 'win32') {
+    programData = process.env.PROGRAMDATA;
+    if (programData){
+      this.SYSTEM_JUPYTER_PATHS = [path.join(programData, 'jupyter')];
+    }
+    else {
+      this.SYSTEM_JUPYTER_PATHS = [path.join(sysPrefix, 'share', 'jupyter')];
+    }
   }
   else {
-    SYSTEM_JUPYTER_PATH = [path.join(sysPrefix, 'share', 'jupyter')];
+    this.SYSTEM_JUPYTER_PATHS = [
+      "/usr/local/share/jupyter",
+      "/usr/share/jupyter"
+    ];
   }
-}
-else {
-  SYSTEM_JUPYTER_PATH = [
-    "/usr/local/share/jupyter",
-    "/usr/share/jupyter"
-  ];
-}
 
-var ENV_JUPYTER_PATH = [path.join(sysPrefix, 'share', 'jupyter')];
+  this.ENV_JUPYTER_PATHS = [path.join(sysPrefix, 'share', 'jupyter')];
+
+  this.SYSTEM_CONFIG_PATHS = [];
+
+  if (process.platform == 'win32') {
+    programData = process.env.PROGRAMDATA;
+    if (programData){
+      this.SYSTEM_CONFIG_PATHS = [path.join(programData, 'jupyter')];
+    } else { // PROGRAMDATA is not defined by default in XP
+      this.SYSTEM_CONFIG_PATHS = [];
+    }
+  } else {
+    this.SYSTEM_CONFIG_PATHS = [
+      "/usr/local/etc/jupyter",
+      "/etc/jupyter"
+    ];
+  }
+
+  this.ENV_CONFIG_PATHS = [path.join(sysPrefix, 'etc', 'jupyter')];
+}
 
 // Get the Jupyter config directory for this platform and user.
 // Returns env[JUPYTER_CONFIG_DIR] if defined, else ~/.jupyter
-function jupyterConfigDir () {
-  var homeDir = userHome;
+Jupyter.prototype.configDir = function () {
   if (process.env.JUPYTER_CONFIG_DIR) {
     return process.env.JUPYTER_CONFIG_DIR;
   }
-  return path.join(homeDir, '.jupyter');
-}
+  return path.join(this.userHome, '.jupyter');
+};
 
-// Get the config directory for Jupyter data files.
-//
-// These are non-transient, non-configuration files.
-//
-// Returns process.env[JUPYTER_DATA_DIR] if defined,
-// else a platform-appropriate path.
-function jupyterDataDir() {
+/**
+ * Get the config directory for Jupyter data files.
+ * These are non-transient, non-configuration files.
+ *
+ * Returns process.env[JUPYTER_DATA_DIR] if defined,
+ * else a platform-appropriate path.
+ */
+Jupyter.prototype.dataDir = function() {
   if (process.env.JUPYTER_DATA_DIR){
     return process.env.JUPYTER_DATA_DIR;
   }
@@ -116,50 +140,50 @@ function jupyterDataDir() {
       return path.join(appData, 'jupyter');
     }
     else {
-      return path.join(jupyterConfigDir(), 'data');
+      return path.join(this.jupyterConfigDir(), 'data');
     }
   }
   else if (process.platform == 'darwin') {
-    return path.join(userHome, 'Library', 'Jupyter');
+    return path.join(this.userHome, 'Library', 'Jupyter');
   }
   else {
     // Linux, non-OS X Unix, AIX, etc.
     var xdg = process.env.XDG_DATA_HOME;
     if (!xdg) {
-      xdg = path.join(userHome, '.local', 'share');
+      xdg = path.join(this.userHome, '.local', 'share');
     }
     return path.join(xdg, 'jupyter');
   }
-}
+};
 
 // Returns the path for ~/.ipython
-function ipythonDataDir() {
-  return path.join(userHome, '.ipython');
-}
+Jupyter.prototype.ipythonDataDir = function() {
+  return path.join(this.userHome, '.ipython');
+};
 
-// Return the runtime dir for transient jupyter files.
+// Return the runtime dirs for transient jupyter files.
 //
 // Returns process.env[JUPYTER_RUNTIME_DIR] if defined.
 //
 // Respects XDG_RUNTIME_DIR on non-OS X, non-Windows,
 //   falls back on data_dir/runtime otherwise.
-function jupyterRuntimeDir() {
+Jupyter.prototype.runtimeDirs = function() {
   if (process.env.JUPYTER_RUNTIME_DIR){
-    return process.env.JUPYTER_RUNTIME_DIR;
+    return [process.env.JUPYTER_RUNTIME_DIR];
   }
   if (process.platform == 'darwin' || process.platform == 'win32'){
-    return path.join(jupyterDataDir(), 'runtime');
+    return [path.join(this.dataDir(), 'runtime')];
   }
   else {
     // Linux, non-OS X Unix, AIX, etc.
     xdg = process.env.XDG_RUNTIME_DIR;
     if (xdg) {
       // Ref https://github.com/jupyter/jupyter_core/commit/176b7a9067bfc20bfa97be5dae93912e2930a427#commitcomment-11331375
-      return path.join(xdg, 'jupyter');
+      return [path.join(xdg, 'jupyter')];
     }
-    return path.join(jupyterDataDir, 'runtime');
+    return [path.join(this.dataDir(), 'runtime')];
   }
-}
+};
 
 
 /**
@@ -175,11 +199,12 @@ function jupyterRuntimeDir() {
  * > jupyterPath('kernels')
  * ['/Users/rgbkrk/.local/jupyter/kernels', '/usr/local/share/jupyter/kernels']
  */
-function jupyterPath() {
+Jupyter.prototype._path = function () {
   var subdir;
   var paths = [];
   var i;
 
+  // Allows for nested directories
   if (arguments) {
     subdir = path.join.apply(null, arguments);
   }
@@ -196,20 +221,20 @@ function jupyterPath() {
   }
 
   // Next up, user directory
-  paths.push(jupyterDataDir());
+  paths.push(this.jupyterDataDir());
 
   // Oh joy, it's sys.prefix
-  ENV_JUPYTER_PATH.forEach(function(p) {
-    if (! (p in SYSTEM_JUPYTER_PATH)) {
+  this.ENV_JUPYTER_PATH.forEach(function(p) {
+    if (! (p in this.SYSTEM_JUPYTER_PATH)) {
       paths.push(p);
     }
   });
 
-  SYSTEM_JUPYTER_PATH.forEach(function(p){
+  this.SYSTEM_JUPYTER_PATH.forEach(function(p){
     paths.push(p);
   });
 
-  paths.push(ipythonDataDir());
+  paths.push(this.ipythonDataDir());
 
   // Append the subdir
   if (subdir) {
@@ -219,33 +244,17 @@ function jupyterPath() {
   }
 
   return paths;
-}
+};
 
-var SYSTEM_CONFIG_PATH;
-
-if (process.platform == 'win32') {
-  programData = process.env.PROGRAMDATA;
-  if (programData){
-    SYSTEM_CONFIG_PATH = [path.join(programData, 'jupyter')];
-  } else { // PROGRAMDATA is not defined by default in XP
-    SYSTEM_CONFIG_PATH = [];
-  }
-} else {
-  SYSTEM_CONFIG_PATH = [
-    "/usr/local/etc/jupyter",
-    "/etc/jupyter"
-  ];
-}
-
-var ENV_CONFIG_PATH = [path.join(sysPrefix, 'etc', 'jupyter')];
-
-function jupyterConfigPath() {
+Jupyter.prototype.configPath = function() {
   var paths = [jupyterConfigDir()];
-  ENV_CONFIG_PATH.forEach(function(p){
-    if (! (p in SYSTEM_CONFIG_PATH)) {
+  this.ENV_CONFIG_PATH.forEach(function(p){
+    if (! (p in this.SYSTEM_CONFIG_PATH)) {
       paths.push(p);
     }
   });
-  paths.push.apply(paths, SYSTEM_CONFIG_PATH);
+  paths.push.apply(paths, this.SYSTEM_CONFIG_PATH);
   return paths;
-}
+};
+
+module.exports = new Jupyter();
