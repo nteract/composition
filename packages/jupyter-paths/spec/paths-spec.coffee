@@ -1,20 +1,15 @@
-path = require('path')
-fs = require('fs')
-
-# TODO: mock process.env
-# TODO: mock process.platform
 # TODO: Convert (back) to JavaScript?
 
-describe "JupyterPath", ->
-  # Because `paths` shells out to Python, we need a chance to mock it first
-  [jupyterPath, jupyterConfigDir, jupyterDataDir, jupyterRuntimeDir] = []
+path = require('path')
 
+describe "JupyterPath", ->
   describe "when a dir is requested", ->
     it "it returns an array of path strings", ->
-      jp = require '../index'
+      jp = require('../index')
 
-      for dirs in [jp.kernelDirs(), jp.runtimeDirs(), jp.dataDirs(), jp.configDirs()]
+      for dirs in [jp.paths.kernelspecs, jp.paths.runtime, jp.paths.data, jp.paths.config]
         expect(Array.isArray(dirs)).toBeTruthy()
+
         for dir in dirs
           expect(typeof(dir)).toBe('string')
 
