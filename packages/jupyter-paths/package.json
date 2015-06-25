@@ -1,6 +1,6 @@
 {
   "name": "jupyter-paths",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Port of jupyter/jupyter_core for node to resolve paths across IPython/Jupyter installations.",
   "main": "index.js",
   "scripts": {
