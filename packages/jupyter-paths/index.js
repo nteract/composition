@@ -1,7 +1,7 @@
 /**
  * @module jupyter-paths
  *
- * @description Module `jupyter-paths` provides path helpers ported from github.com/jupyter/jupyter_core
+ * @description Module `jupyter-paths` provides path helpers from github.com/jupyter/jupyter_core
  */
 
 var path = require('path');
