@@ -12,9 +12,11 @@ npm install jupyter-paths
 
 ## Usage
 
+```JavaScript
 > jp = require('jupyter-paths')
 > jp.paths.kernelspecs
 [ '/Users/kyle6475/Library/Jupyter/kernels',
   '/usr/local/Cellar/python/2.7.9/Frameworks/Python.framework/Versions/2.7/share/jupyter/kernels',
   '/usr/local/share/jupyter/kernels',
   '/usr/share/jupyter/kernels' ]
+```
