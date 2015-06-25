@@ -1,7 +1,7 @@
 {
   "name": "jupyter-paths",
   "version": "0.3.1",
-  "description": "Port of jupyter/jupyter_core for node to resolve paths across IPython/Jupyter installations.",
+  "description": "Node wrapping of jupyter/jupyter_core to resolve paths across Jupyter installations.",
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node --coffee spec"
