@@ -14,6 +14,7 @@ function JupyterPaths() {
     pathsResponse = child_process.spawnSync('jupyter',  ['--paths', '--json']);
     _path = JSON.parse(pathsResponse.stdout.toString());
   } catch(e) {
+    console.error("Unable to run `jupyter --paths --json`. Is `jupyter` on your path?");
     console.error(e);
     console.error(pathsResponse.stdout.toString());
     console.error(pathsResponse.stderr.toString());
