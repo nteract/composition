@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rgbkrk/jupyter-paths.git"
+    "url": "https://github.com/nteract/jupyter-paths.git"
   },
   "keywords": [
     "jupyter",
@@ -18,9 +18,9 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/rgbkrk/jupyter-paths/issues"
+    "url": "https://github.com/nteract/jupyter-paths/issues"
   },
-  "homepage": "https://github.com/rgbkrk/jupyter-paths",
+  "homepage": "https://github.com/nteract/jupyter-paths",
   "devDependencies": {
     "jasmine-node": "^1.14.5"
   }
