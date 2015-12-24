@@ -6,7 +6,7 @@
 
 Node wrapping of jupyter/jupyter_core to resolve paths across Jupyter installations.
 
-Requires Jupyter 4.0, particularly `jupyter_core` (not released yet).
+Requires Jupyter >= 4.0, particularly `jupyter_core`.
 
 ```
 npm install jupyter-paths
