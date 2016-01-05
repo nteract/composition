@@ -1,0 +1,18 @@
+{
+  "name": "ansi-to-react",
+  "version": "0.0.0",
+  "description": "ANSI to React Elements",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ansi",
+    "react"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "ansi-to-json": "^1.0.0"
+  }
+}
