@@ -25,6 +25,8 @@ for(const cell of notebook.cells) {
 
 const immutableNotebook = Immutable.fromJS(notebook);
 
+require('./setupMenu');
+
 ReactDOM.render(
   <Notebook cells={immutableNotebook.get('cells')}
             language={immutableNotebook.getIn(['metadata', 'language_info', 'name'])} />
