@@ -2,9 +2,22 @@
 
 Channeling Jupyter over zmq
 
+Given a currently running Jupyter runtime, creates RxJS subjects for three of the Jupyter channels: shell, control, and iopub.
+
 ```javascript
 > var enchannelZMQ = require('enchannel-zmq-backend')
 > var uuid = require('uuid')
+> var kernel = require('./kernel.json')
+> kernel
+{ stdin_port: 58786,
+  ip: '127.0.0.1',
+  control_port: 58787,
+  hb_port: 58788,
+  signature_scheme: 'hmac-sha256',
+  key: 'dddddddd-eeee-aaaa-dddd-dddddddddddd',
+  shell_port: 58784,
+  transport: 'tcp',
+  iopub_port: 58785 }
 > var enchan = enchannelZMQ(require('./kernel.json'))
 > var payload =
 ... { header:
