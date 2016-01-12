@@ -18,8 +18,6 @@ global.uuid = uuid;
 
   console.log(chalk.green('\nHINT: ') + chalk.white('var enchan = enchannelZMQ(require(\'./kernel.json\'))\n'));
 
-  console.log('Example payload: ');
-
   const message = {
     header: {
       msg_id: `execute_${uuid.v4()}`,
@@ -39,6 +37,8 @@ global.uuid = uuid;
 
   console.log('var payload = ');
   console.log(message);
+  console.log('\n      ' + chalk.white('enchan.shell.subscribe(console.log)'));
+  console.log('\n      ' + chalk.white('enchan.shell.send(payload)'));
 
 })();
 

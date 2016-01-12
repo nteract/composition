@@ -47,7 +47,10 @@ function createObservable(jmpSocket) {
 }
 
 function createSubject(jmpSocket) {
-  return Subject.create(createObserver(jmpSocket), createObservable(jmpSocket));
+  const subj = Subject.create(createObserver(jmpSocket),
+                              createObservable(jmpSocket));
+  subj.send = subj.onNext; // Adapt naming to fit our parlance
+  return subj;
 }
 
 function enchannelZMQ(config) {
