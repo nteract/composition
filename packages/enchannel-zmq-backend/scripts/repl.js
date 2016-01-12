@@ -11,7 +11,7 @@ global.enchannelZMQ = require('..');
   codeLog('\nconsole.log(enchannelZMQ)');
   console.log(insp(global.enchannelZMQ));
 
-  console.log(chalk.green('\nHINT: ') + chalk.white('enchannelZMQ(\'kernel.json\')\n'));
+  console.log(chalk.green('\nHINT: ') + chalk.white('var enchan = enchannelZMQ(require(\'./kernel.json\'))\n'));
 })();
 
 require('repl').start('> ');
