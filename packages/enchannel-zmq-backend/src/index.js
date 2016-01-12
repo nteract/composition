@@ -1,6 +1,8 @@
 import * as jmp from 'jmp';
 import * as uuid from 'uuid';
 
+import { Observer, Observable, Subject } from 'rx';
+
 function formConnectionString(config, channel) {
   const portDelimiter = config.transport === 'tcp' ? ':' : '-';
   const port = config[channel + '_port'];
@@ -15,28 +17,59 @@ function sendMessage(socket, messageObject) {
   socket.send(message);
 }
 
-export default class EnchannelZMQ {
-  constructor(config) {
-    const scheme = config.signature_scheme.slice('hmac-'.length);
+function createObserver(jmpSocket) {
+  return Observer.create(messageObject => {
+    sendMessage(jmpSocket, messageObject);
+  }, err => {
+    // We don't expect to send errors to the kernel
+    console.error(err);
+  }, () => {
+    jmpSocket.close();
+  });
+}
 
-    this.shellSocket = new jmp.Socket('dealer', scheme, config.key);
-    this.controlSocket = new jmp.Socket('dealer', scheme, config.key);
-    this.ioSocket = new jmp.Socket('sub', config.signature_scheme, config.key);
+function createObservable(jmpSocket) {
+  return Observable.create(observer => {
+    jmpSocket.on('message', message => {
+      observer.onNext(message);
+    });
 
-    this.shellSocket.identity = 'dealer' + uuid.v4();
-    this.controlSocket.identity = 'control' + uuid.v4();
-    this.ioSocket.identity = 'sub' + uuid.v4();
+    jmpSocket.on('error', err => {
+      observer.onError(err);
+    });
 
-    this.shellSocket.connect(formConnectionString(config, 'shell'));
-    this.controlSocket.connect(formConnectionString(config, 'control'));
-    this.ioSocket.connect(formConnectionString(config, 'iopub'));
+    return () => {
+      jmpSocket.close();
+    };
+  })
+  .publish()
+  .refCount();
+}
 
-    this.ioSocket.subscribe('');
-  }
+function createSubject(jmpSocket) {
+  return Subject.create(createObserver(jmpSocket), createObservable(jmpSocket));
+}
 
-  dispose() {
-    this.shellSocket.close();
-    this.ioSocket.close();
-    this.controlSocket.close();
-  }
+export default function enchannelZMQ(config) {
+  const scheme = config.signature_scheme.slice('hmac-'.length);
+
+  const shellSocket = new jmp.Socket('dealer', scheme, config.key);
+  const controlSocket = new jmp.Socket('dealer', scheme, config.key);
+  const ioSocket = new jmp.Socket('sub', config.signature_scheme, config.key);
+
+  shellSocket.identity = 'dealer' + uuid.v4();
+  controlSocket.identity = 'control' + uuid.v4();
+  ioSocket.identity = 'sub' + uuid.v4();
+
+  shellSocket.connect(formConnectionString(config, 'shell'));
+  controlSocket.connect(formConnectionString(config, 'control'));
+  ioSocket.connect(formConnectionString(config, 'iopub'));
+
+  ioSocket.subscribe('');
+
+  return {
+    shellSubject: createSubject(shellSocket),
+    controlSubject: createSubject(controlSocket),
+    ioSubject: createSubject(ioSocket),
+  };
 }
