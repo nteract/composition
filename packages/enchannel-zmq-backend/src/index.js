@@ -50,7 +50,7 @@ function createSubject(jmpSocket) {
   return Subject.create(createObserver(jmpSocket), createObservable(jmpSocket));
 }
 
-export default function enchannelZMQ(config) {
+function enchannelZMQ(config) {
   const scheme = config.signature_scheme.slice('hmac-'.length);
 
   const shellSocket = new jmp.Socket('dealer', scheme, config.key);
@@ -73,3 +73,5 @@ export default function enchannelZMQ(config) {
     ioSubject: createSubject(ioSocket),
   };
 }
+
+module.exports = enchannelZMQ;
