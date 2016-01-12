@@ -57,9 +57,9 @@ function enchannelZMQ(config) {
   const controlSocket = new jmp.Socket('dealer', scheme, config.key);
   const ioSocket = new jmp.Socket('sub', scheme, config.key);
 
-  shellSocket.identity = 'dealer' + uuid.v4();
+  shellSocket.identity = 'shell' + uuid.v4();
   controlSocket.identity = 'control' + uuid.v4();
-  ioSocket.identity = 'sub' + uuid.v4();
+  ioSocket.identity = 'iopub' + uuid.v4();
 
   shellSocket.connect(formConnectionString(config, 'shell'));
   controlSocket.connect(formConnectionString(config, 'control'));
@@ -68,9 +68,9 @@ function enchannelZMQ(config) {
   ioSocket.subscribe('');
 
   return {
-    shellSubject: createSubject(shellSocket),
-    controlSubject: createSubject(controlSocket),
-    ioSubject: createSubject(ioSocket),
+    shell: createSubject(shellSocket),
+    control: createSubject(controlSocket),
+    io: createSubject(ioSocket),
   };
 }
 
