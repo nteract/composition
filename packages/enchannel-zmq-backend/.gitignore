@@ -27,3 +27,6 @@ build/Release
 node_modules
 
 lib/
+
+# Local toy file
+kernel.json
