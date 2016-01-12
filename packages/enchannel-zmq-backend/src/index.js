@@ -55,7 +55,7 @@ function enchannelZMQ(config) {
 
   const shellSocket = new jmp.Socket('dealer', scheme, config.key);
   const controlSocket = new jmp.Socket('dealer', scheme, config.key);
-  const ioSocket = new jmp.Socket('sub', config.signature_scheme, config.key);
+  const ioSocket = new jmp.Socket('sub', scheme, config.key);
 
   shellSocket.identity = 'dealer' + uuid.v4();
   controlSocket.identity = 'control' + uuid.v4();
