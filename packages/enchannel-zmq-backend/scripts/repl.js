@@ -1,4 +1,4 @@
-global.enchannelZMQ = require('..');
+global.enchannelZMQ = require('../src');
 
 (() => {
   const chalk = require('chalk');
