@@ -18,7 +18,7 @@ Given a currently running Jupyter runtime, creates RxJS subjects for three of th
   shell_port: 58784,
   transport: 'tcp',
   iopub_port: 58785 }
-> var enchan = enchannelZMQ(require('./kernel.json'))
+> var enchan = enchannelZMQ(kernel)
 > var payload =
 ... { header:
 ...    { msg_id: 'execute_9ed11a0f-707e-4f71-829c-a19b8ff8eed8',
