@@ -99,7 +99,6 @@ Until we make changes, you'll need to have at least one subscription before you 
 ```javascript
 > channels.shell.send(payload)
 > Message {
-  idents: [],
   header:
    { username: 'rgbkrk',
      msg_type: 'execute_reply',
@@ -122,7 +121,5 @@ Until we make changes, you'll need to have at least one subscription before you 
    { status: 'ok',
      execution_count: 60,
      user_expressions: {},
-     payload: [] },
-  blobs: [],
-  signatureOK: true }
+     payload: [] } }
 ```
