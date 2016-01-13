@@ -40,6 +40,7 @@ function createSubject(jmpSocket) {
   const subj = Subject.create(createObserver(jmpSocket),
                               createObservable(jmpSocket));
   subj.send = subj.onNext; // Adapt naming to fit our parlance
+  subj.close = subj.onCompleted;
   return subj;
 }
 
