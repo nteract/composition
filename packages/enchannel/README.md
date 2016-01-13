@@ -10,6 +10,51 @@ In the case of the Jupyter/IPython notebook, it communicates over websockets (wh
 
 What if you want to serve the same HTML and Javascript for the notebook application itself while being able to work in a native 0MQ environment? What if websockets are fairly restricted in your *ahem corporate* environment and you need to do e.g. `POST`ing + Server Sent Events?
 
-We'd need a nice clean way to abstract the transport layer. Since Jupyter is messages all the way down, one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on `Observable`s, asynchronous data streams. Even better is to rely on RxJS's implementation, since we get a nice functional approach to messages.
+We'd need a nice clean way to abstract the transport layer. Since Jupyter is messages all the way down, one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on `Observable`s, asynchronous data streams. Even better is to rely on RxJS's implementation, since we get a nice functional approach to messaging:
 
+```
+iopub.filter(msg => msg.header.msg_type === 'execute_result')
+     .map(msg => msg.content.data)
+     .subscribe(x => { console.log(`DATA: ${util.inspect(x)}`)})
+```
 
+On top of that, since these are subjects, we can go ahead and submit messages to the underlying transport:
+
+```
+var message = {
+  header: {
+    msg_id: `execute_${uuid.v4()}`,
+    username: '',
+    session: '00000000-0000-0000-0000-000000000000',
+    msg_type: 'execute_request',
+    version: '5.0',
+  },
+  content: {
+    code: 'print("woo")',
+    silent: false,
+    store_history: true,
+    user_expressions: {},
+    allow_stdin: false,
+  },
+};
+
+shell.send(message); // alias of onNext - the actual Rx parlance
+```
+
+In order to get this, we make 4 RxJS Subjects:
+
+* Shell
+* STDIN
+* Control
+* IOPub (ok, this should actually just be an `Observable`)
+
+Each backend has to implement this by providing an exported function that can take their choice of parameters, so long as they all return 
+
+```javascript
+{
+  iopub: iopubObservable,
+  shell: shellSubject,
+  control: controlSubject,
+  stdin: stdinSubject
+}
+```
