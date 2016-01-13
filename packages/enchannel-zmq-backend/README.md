@@ -2,14 +2,32 @@
 
 The ZeroMQ backend for [`enchannel`](https://github.com/nteract/enchannel).
 
-Given a currently running Jupyter runtime, creates RxJS subjects for three of the Jupyter channels: shell, control, and iopub.
+## Installation
+
+`npm install enchanell-zmq-backend`
+
+## About
+
+Given a currently running Jupyter runtime, creates [RxJS](https://github.com/Reactive-Extensions/RxJS) subjects (`Observable`s and `Observer`s) for four of the Jupyter channels:
+
+* shell
+* control
+* iopub
+* stdin
+
+## Usage
+
+`enchannel-zmq-backend` exports exactly one function 
 
 ```javascript
-> var enchannelZMQ = require('enchannel-zmq-backend')
-> var uuid = require('uuid')
-> var kernel = require('./kernel.json')
-> kernel
-{ stdin_port: 58786,
+var ez = require('enchannel-zmq-backend')
+```
+
+that takes in a kernel runtime object (this matches the on-disk JSON):
+
+```javascript
+var runtimeConfig = {
+  stdin_port: 58786,
   ip: '127.0.0.1',
   control_port: 58787,
   hb_port: 58788,
@@ -17,23 +35,69 @@ Given a currently running Jupyter runtime, creates RxJS subjects for three of th
   key: 'dddddddd-eeee-aaaa-dddd-dddddddddddd',
   shell_port: 58784,
   transport: 'tcp',
-  iopub_port: 58785 }
-> var enchan = enchannelZMQ(kernel)
-> var payload =
-... { header:
-...    { msg_id: 'execute_9ed11a0f-707e-4f71-829c-a19b8ff8eed8',
-.....      username: '',
-.....      session: '00000000-0000-0000-0000-000000000000',
-.....      msg_type: 'execute_request',
-.....      version: '5.0' },
-...   content:
-...    { code: 'print("woo")',
-.....      silent: false,
-.....      store_history: true,
-.....      user_expressions: {},
-.....      allow_stdin: false } }
-> enchan.shell.subscribe(console.log)
-> enchan.shell.send(payload)
+  iopub_port: 58785
+}
+var channels = ez(runtimeConfig)
+```
+
+The resulting `channels` are all the sockets for kernel interaction:
+
+```javascript
+> Object.keys(channels)
+[ 'shell', 'control', 'iopub', 'stdin' ]
+```
+
+### Subscribing to messages
+
+Subscribing to iopub:
+
+```javascript
+var obs = channels.iopub.subscribe(msg => {
+  console.log(msg);
+}
+
+// later, run obs.dispose() to unsubscribe
+```
+
+Since these are RxJS Observables, you can also `filter`, `map`, `scan` and many other operators:
+
+```javascript
+channels.iopub.filter(msg => msg.header.msg_type === 'execute_result')
+              .map(msg => msg.content.data)
+              .subscribe(x => { console.log(`DATA! ${util.inspect(x)}`)})
+```
+
+### Sending messages to the kernel
+
+Executing code will rely on sending an [`execute_request` to the `shell` channel](http://jupyter-client.readthedocs.org/en/latest/messaging.html#execute).
+
+```javascript
+var message = {
+  header: {
+    msg_id: `execute_9ed11a0f-707e-4f71-829c-a19b8ff8eed8`,
+    username: 'rgbkrk',
+    session: '00000000-0000-0000-0000-000000000000',
+    msg_type: 'execute_request',
+    version: '5.0',
+  },
+  content: {
+    code: 'print("woo")',
+    silent: false,
+    store_history: true,
+    user_expressions: {},
+    allow_stdin: false,
+  },
+};
+```
+
+Until we make changes, you'll need to have at least one subscription before you can send on a channel.
+
+```javascript
+> channels.shell.subscribe(console.log)
+```
+
+```javascript
+> channels.shell.send(payload)
 > Message {
   idents: [],
   header:
@@ -44,7 +108,7 @@ Given a currently running Jupyter runtime, creates RxJS subjects for three of th
      session: '40472e70-e008-48d1-9537-55837a905c05',
      date: '2016-01-12T00:39:44.686986' },
   parent_header:
-   { username: '',
+   { username: 'rgbkrk',
      session: '00000000-0000-0000-0000-000000000000',
      version: '5.0',
      msg_id: 'execute_9ed11a0f-707e-4f71-829c-a19b8ff8eed8',
