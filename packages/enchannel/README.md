@@ -12,7 +12,7 @@ What if you want to serve the same HTML and Javascript for the notebook applicat
 
 We'd need a nice clean way to abstract the transport layer. Since Jupyter is messages all the way down, one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on `Observable`s, asynchronous data streams. Even better is to rely on RxJS's implementation, since we get a nice functional approach to messaging:
 
-```
+```javascript
 iopub.filter(msg => msg.header.msg_type === 'execute_result')
      .map(msg => msg.content.data)
      .subscribe(x => { console.log(`DATA: ${util.inspect(x)}`)})
@@ -20,7 +20,7 @@ iopub.filter(msg => msg.header.msg_type === 'execute_result')
 
 On top of that, since these are subjects, we can go ahead and submit messages to the underlying transport:
 
-```
+```javascript
 var message = {
   header: {
     msg_id: `execute_${uuid.v4()}`,
