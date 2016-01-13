@@ -6,7 +6,7 @@ Enchannel is a light spec for setting up communications between a frontend, like
 
 The core functionality of the notebook is to send messages from a frontend to a backend, and from a backend to a frontend ([or many frontends](https://github.com/nteract/jupyter-sidecar)). In the case of the Jupyter/IPython notebook, it communicates over websockets (which in turn reach out to ØMQ on the backend).
 
-What if you want to serve the same HTML and Javascript for the notebook application itself while being able to work in a native ØMQ environment? What if websockets are fairly restricted in your *ahem corporate* environment and you need to send data via `POST` and receive streaming updates using server-sent events?
+What if you want to serve the same HTML and Javascript for the notebook application itself while being able to work in a native ØMQ environment? What if websockets are fairly restricted in your working \*ahem\* *corporate* environment and you need to send data via `POST` and receive streaming updates using server-sent events?
 
 We'd need a nice clean way to abstract the transport layer. Since [Jupyter is messages all the way down](http://jupyter-client.readthedocs.org/en/latest/messaging.html), one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on Observables - asynchronous data streams, [*from the future*](https://zenparsing.github.io/es-observable/). Observables are the multi-valued promise we've all been waiting for:
 
