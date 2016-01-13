@@ -32,6 +32,14 @@ function createObserver(jmpSocket) {
 
 function createObservable(jmpSocket) {
   return Observable.fromEvent(jmpSocket, 'message')
+                   .map(msg => {
+                     // Conform to same message format as notebook websockets
+                     // See https://github.com/n-riesco/jmp/issues/10
+                     delete msg.idents;
+                     delete msg.signatureOK;
+                     delete msg.blobs;
+                     return msg;
+                   })
                    .publish()
                    .refCount();
 }
