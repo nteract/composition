@@ -30,6 +30,20 @@ function createObserver(jmpSocket) {
   });
 }
 
+// To make obj fully immutable, freeze each object in obj.
+// To do so, we use this function.
+function deepFreeze(obj) {
+  // Freeze properties before freezing self
+  Object.getOwnPropertyNames(obj).forEach(name => {
+    const prop = obj[name];
+    if(typeof prop === 'object' && prop !== null && !Object.isFrozen(prop)) {
+      deepFreeze(prop);
+    }
+  });
+  // Freeze self
+  return Object.freeze(obj);
+}
+
 function createObservable(jmpSocket) {
   return Observable.fromEvent(jmpSocket, 'message')
                    .map(msg => {
@@ -38,6 +52,8 @@ function createObservable(jmpSocket) {
                      delete msg.idents;
                      delete msg.signatureOK;
                      delete msg.blobs;
+                     // Deep freeze the message
+                     deepFreeze(msg);
                      return msg;
                    })
                    .publish()
