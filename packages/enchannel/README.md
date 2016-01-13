@@ -4,13 +4,27 @@ Enchannel is a light spec for setting up communications between a frontend, like
 
 [![enchannel](https://cloud.githubusercontent.com/assets/836375/12282043/b19bb16e-b960-11e5-8661-ce2111ec0417.png)](https://cloud.githubusercontent.com/assets/836375/12282043/b19bb16e-b960-11e5-8661-ce2111ec0417.png)
 
-The core functionality of the notebook is to send messages from a frontend to a backend, and from a backend to a frontend ([or many frontends](https://github.com/nteract/jupyter-sidecar)).
-
-In the case of the Jupyter/IPython notebook, it communicates over websockets (which in turn reach out to 0MQ on the backend).
+The core functionality of the notebook is to send messages from a frontend to a backend, and from a backend to a frontend ([or many frontends](https://github.com/nteract/jupyter-sidecar)). In the case of the Jupyter/IPython notebook, it communicates over websockets (which in turn reach out to 0MQ on the backend).
 
 What if you want to serve the same HTML and Javascript for the notebook application itself while being able to work in a native 0MQ environment? What if websockets are fairly restricted in your *ahem corporate* environment and you need to send data via `POST` and receive streaming updates using server-sent events?
 
-We'd need a nice clean way to abstract the transport layer. Since [Jupyter is messages all the way down](http://jupyter-client.readthedocs.org/en/latest/messaging.html), one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on `Observable`s, asynchronous data streams. Even better is to rely on RxJS's implementation, since we get a nice functional approach to messaging:
+We'd need a nice clean way to abstract the transport layer. Since [Jupyter is messages all the way down](http://jupyter-client.readthedocs.org/en/latest/messaging.html), one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on `Observable`s - asynchronous data streams, [*from the future*](https://zenparsing.github.io/es-observable/). They complete the chart of async/sync against single return/multi-return:
+
+<table>
+   <th></th><th>Single return value</th><th>Mutiple return values</th>
+   <tr>
+      <td>Pull/Synchronous/Interactive</td>
+      <td>Object</td>
+      <td>Iterables (Array | Set | Map | Object)</td>
+   </tr>
+   <tr>
+      <td>Push/Asynchronous/Reactive</td>
+      <td>Promise</td>
+      <td>Observable</td>
+   </tr>
+</table>
+
+Even better is to rely on RxJS's implementation, since we get a nice functional approach to messaging:
 
 ```javascript
 iopub.filter(msg => msg.header.msg_type === 'execute_result')
@@ -60,3 +74,7 @@ Each backend has to implement this by providing an exported function that can ta
 ```
 
 Note that [heartbeat](http://jupyter-client.readthedocs.org/en/latest/messaging.html#heartbeat-for-kernels) is not included above, primarily because it's being thought of as something that may end up being deprecated.
+
+## Implementations
+
+* [enchannel-zmq-backend](https://github.com/nteract/enchannel-zmq-backend)
