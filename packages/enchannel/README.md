@@ -46,7 +46,7 @@ In order to get this, we make 4 RxJS Subjects:
 * Shell
 * STDIN
 * Control
-* IOPub (Which can alternatively be an `Observable`)
+* IOPub
 
 Each backend has to implement this by providing an exported function that can take their choice of parameters, so long as they all return 
 
