@@ -29,21 +29,9 @@ function createObserver(jmpSocket) {
 }
 
 function createObservable(jmpSocket) {
-  return Observable.create(observer => {
-    jmpSocket.on('message', message => {
-      observer.onNext(message);
-    });
-
-    jmpSocket.on('error', err => {
-      observer.onError(err);
-    });
-
-    return () => {
-      jmpSocket.close();
-    };
-  })
-  .publish()
-  .refCount();
+  return Observable.fromEvent(jmpSocket, 'message')
+                   .publish()
+                   .refCount();
 }
 
 function createSubject(jmpSocket) {
