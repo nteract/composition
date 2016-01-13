@@ -24,6 +24,8 @@ function createObserver(jmpSocket) {
     // We don't expect to send errors to the kernel
     console.error(err);
   }, () => {
+    // tear it down, tear it *all* down
+    jmpSocket.removeAllListeners();
     jmpSocket.close();
   });
 }
