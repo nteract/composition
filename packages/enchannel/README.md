@@ -8,7 +8,7 @@ The core functionality of the notebook is to send messages from a frontend to a 
 
 What if you want to serve the same HTML and Javascript for the notebook application itself while being able to work in a native 0MQ environment? What if websockets are fairly restricted in your *ahem corporate* environment and you need to send data via `POST` and receive streaming updates using server-sent events?
 
-We'd need a nice clean way to abstract the transport layer. Since [Jupyter is messages all the way down](http://jupyter-client.readthedocs.org/en/latest/messaging.html), one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on `Observable`s - asynchronous data streams, [*from the future*](https://zenparsing.github.io/es-observable/). They complete the chart of async/sync against single return/multi-return:
+We'd need a nice clean way to abstract the transport layer. Since [Jupyter is messages all the way down](http://jupyter-client.readthedocs.org/en/latest/messaging.html), one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). What is proposed here is that we would rely on Observables - asynchronous data streams, [*from the future*](https://zenparsing.github.io/es-observable/). Observables are the multi-valued promise we've all been waiting for:
 
 <table>
    <th></th><th>Single return value</th><th>Mutiple return values</th>
@@ -24,7 +24,7 @@ We'd need a nice clean way to abstract the transport layer. Since [Jupyter is me
    </tr>
 </table>
 
-Even better is to rely on RxJS's implementation, since we get a nice functional approach to messaging:
+Even better is to rely on RxJS's implementation, since we get a nice functional approach to handling messaging:
 
 ```javascript
 iopub.filter(msg => msg.header.msg_type === 'execute_result')
