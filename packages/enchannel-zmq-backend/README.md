@@ -1,6 +1,6 @@
 # enchannel-zmq-backend
 
-Channeling Jupyter over zmq
+The ZeroMQ backend for [`enchannel`](https://github.com/nteract/enchannel).
 
 Given a currently running Jupyter runtime, creates RxJS subjects for three of the Jupyter channels: shell, control, and iopub.
 

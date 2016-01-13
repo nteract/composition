@@ -37,6 +37,7 @@ global.uuid = uuid;
 
   console.log('var payload = ');
   console.log(message);
+  console.log('\n      ' + chalk.white('enchan.io.subscribe(console.log)'));
   console.log('\n      ' + chalk.white('enchan.shell.subscribe(console.log)'));
   console.log('\n      ' + chalk.white('enchan.shell.send(payload)'));
 
