@@ -44,27 +44,27 @@ function createSubject(jmpSocket) {
   return subj;
 }
 
-function enchannelZMQ(config) {
+function createSocket(type, channel, config) {
   const scheme = config.signature_scheme.slice('hmac-'.length);
+  const socket = new jmp.Socket(type, scheme, config.key);
+  socket.identity = channel + uuid.v4();
+  socket.connect(formConnectionString(config, channel));
+  return socket;
+}
 
-  const shellSocket = new jmp.Socket('dealer', scheme, config.key);
-  const controlSocket = new jmp.Socket('dealer', scheme, config.key);
-  const ioSocket = new jmp.Socket('sub', scheme, config.key);
+function enchannelZMQ(config) {
+  const shellSocket = createSocket('dealer', 'shell', config);
+  const controlSocket = createSocket('dealer', 'control', config);
+  const stdinSocket = createSocket('dealer', 'stdin', config);
+  const iopubSocket = createSocket('sub', 'iopub', config);
 
-  shellSocket.identity = 'shell' + uuid.v4();
-  controlSocket.identity = 'control' + uuid.v4();
-  ioSocket.identity = 'iopub' + uuid.v4();
-
-  shellSocket.connect(formConnectionString(config, 'shell'));
-  controlSocket.connect(formConnectionString(config, 'control'));
-  ioSocket.connect(formConnectionString(config, 'iopub'));
-
-  ioSocket.subscribe('');
+  iopubSocket.subscribe('');
 
   return {
     shell: createSubject(shellSocket),
     control: createSubject(controlSocket),
-    io: createSubject(ioSocket),
+    iopub: createSubject(iopubSocket),
+    stdin: createSubject(stdinSocket),
   };
 }
 
