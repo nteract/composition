@@ -52,9 +52,11 @@ Each backend has to implement this by providing an exported function that can ta
 
 ```javascript
 {
-  iopub: iopubObservable,
+  iopub: iopubSubject,
   shell: shellSubject,
   control: controlSubject,
   stdin: stdinSubject
 }
 ```
+
+Note that [heartbeat](http://jupyter-client.readthedocs.org/en/latest/messaging.html#heartbeat-for-kernels) is not included above, primarily because it's being thought of as something that may end up being deprecated.
