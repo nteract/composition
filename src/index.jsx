@@ -26,13 +26,22 @@ function readJSON(filepath) {
   });
 }
 
+function updateCell(notebook, index, cell) {
+  const newNotebook = notebook.setIn(['cells', index], cell);
+  renderNotebook(newNotebook);
+}
+
+function renderNotebook(notebook) {
+  ReactDOM.render(
+    <Notebook notebook={notebook}
+      onCellChange={(index, cell) => updateCell(notebook, index, cell)} />
+    , document.querySelector('#app'));
+}
+
 readJSON('./test-notebooks/multiples.ipynb')
   .then((notebook) => {
     const immutableNotebook = commutable.fromJS(notebook);
-    ReactDOM.render(
-      <Notebook cells={immutableNotebook.get('cells')}
-                language={immutableNotebook.getIn(['metadata', 'language_info', 'name'])} />
-    , document.querySelector('#app'));
+    renderNotebook(immutableNotebook);
   }).catch(err => {
     ReactDOM.render(
       <pre>{err.toString()}</pre>

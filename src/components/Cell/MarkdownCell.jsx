@@ -8,10 +8,10 @@ export default class MarkdownCell extends React.Component {
   static displayName = 'MarkdownCell';
 
   static propTypes = {
-    input: React.PropTypes.any,
     // Unlike the code cell, we default to language of markdown
     // and don't have outputs
-    outputs: React.PropTypes.any,
+    input: React.PropTypes.any,
+    onTextChange: React.PropTypes.func,
   };
 
   constructor(props) {
@@ -39,9 +39,13 @@ export default class MarkdownCell extends React.Component {
           <div onKeyDown={this.keyDown.bind(this)}>
             <Editor language='markdown'
                     text={this.state.source}
-                    onChange={(text) => this.setState({
-                      source: text,
-                    }) }
+                    onChange={(text) => {
+                      this.setState({
+                        source: text,
+                      });
+                      this.props.onTextChange(text);
+                    }
+                    }
                     />
           </div>
     );
