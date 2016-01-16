@@ -9,7 +9,7 @@ node_js:
 addons:
   apt:
     sources:
-      - libzmq3-dev
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
+      - libzmq3-dev
