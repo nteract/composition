@@ -8,6 +8,7 @@ export default class Notebook extends React.Component {
   static propTypes = {
     language: React.PropTypes.string,
     notebook: React.PropTypes.any,
+    onCellChange: React.PropTypes.func,
   };
 
   componentWillMount() {
@@ -42,7 +43,11 @@ export default class Notebook extends React.Component {
                        outputs={cell.get('outputs')}
                        type={cell.get('cell_type')}
                        key={index}
-                       onTextChange={text => {console.log(text);}}
+                       onTextChange={text => {
+                         const newCell = cell.set('source', text);
+                         this.props.onCellChange(index, newCell);
+                       }
+                       }
                        />;
         })
       }
