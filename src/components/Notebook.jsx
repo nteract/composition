@@ -11,7 +11,12 @@ export default class Notebook extends React.Component {
   };
 
   componentWillMount() {
+    require('codemirror/mode/markdown/markdown');
+
     const lang = this.props.notebook.getIn(['metadata', 'language_info', 'name']);
+    if (!lang) {
+      return;
+    }
     // HACK: This should give you the heeby-jeebies
     // Mostly because lang could be ../../../../whatever
     // This is the notebook though, so hands off
@@ -19,7 +24,6 @@ export default class Notebook extends React.Component {
     // and any other validation
     require('codemirror/mode/' + lang + '/' + lang);
     // Assume markdown should be required
-    require('codemirror/mode/markdown/markdown');
   }
 
   render() {
@@ -38,6 +42,7 @@ export default class Notebook extends React.Component {
                        outputs={cell.get('outputs')}
                        type={cell.get('cell_type')}
                        key={index}
+                       onTextChange={text => {console.log(text);}}
                        />;
         })
       }
