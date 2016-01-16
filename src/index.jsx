@@ -30,8 +30,7 @@ readJSON('./test-notebooks/multiples.ipynb')
   .then((notebook) => {
     const immutableNotebook = commutable.fromJS(notebook);
     ReactDOM.render(
-      <Notebook cells={immutableNotebook.get('cells')}
-                language={immutableNotebook.getIn(['metadata', 'language_info', 'name'])} />
+      <Notebook notebook={immutableNotebook} />
     , document.querySelector('#app'));
   }).catch(err => {
     ReactDOM.render(
