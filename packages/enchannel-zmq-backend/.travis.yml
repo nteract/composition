@@ -8,9 +8,8 @@ node_js:
 
 addons:
   apt:
-    packages:
-      - gcc-4.8
-      - g++-4.8
-      - libzmq3
+    sources:
       - libzmq3-dev
-      - uuid-dev
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
