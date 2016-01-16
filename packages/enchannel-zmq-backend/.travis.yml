@@ -1,5 +1,16 @@
 language: node_js
 
+sudo: false
+
 node_js: 
   - "4.2"
   - "5.4"
+
+addons:
+  apt:
+    packages:
+      - gcc-4.8
+      - g++-4.8
+      - libzmq3
+      - libzmq3-dev
+      - uuid-dev
