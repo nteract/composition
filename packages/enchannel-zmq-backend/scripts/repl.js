@@ -16,7 +16,11 @@ global.uuid = uuid;
   codeLog('\nconsole.log(enchannelZMQ)');
   console.log(insp(global.enchannelZMQ));
 
-  console.log(chalk.green('\nHINT: ') + chalk.white('var enchan = enchannelZMQ(require(\'./kernel.json\'))\n'));
+  codeLog('\nvar identity = uuid.v4()');
+  global.identity = uuid.v4();
+
+  console.log(chalk.green('\nHINT: ') + chalk.white('var config = require(\'./kernel.json\')'));
+  console.log(chalk.white('var shell = createShellSubject(identity, config)'));
 
   const message = {
     header: {
@@ -37,9 +41,9 @@ global.uuid = uuid;
 
   console.log('var payload = ');
   console.log(message);
-  console.log('\n      ' + chalk.white('enchan.iopub.subscribe(console.log)'));
-  console.log('\n      ' + chalk.white('enchan.shell.subscribe(console.log)'));
-  console.log('\n      ' + chalk.white('enchan.shell.send(payload)'));
+  console.log('\n      ' + chalk.white('iopub.subscribe(console.log)'));
+  console.log('\n      ' + chalk.white('shell.subscribe(console.log)'));
+  console.log('\n      ' + chalk.white('shell.send(payload)'));
 
 })();
 
