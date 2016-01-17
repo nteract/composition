@@ -46,6 +46,8 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.4",
     "portfinder": "^0.4.0",
-    "rimraf": "^2.5.0"
+    "rimraf": "^2.5.0",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
   }
 }
