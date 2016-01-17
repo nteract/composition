@@ -1,12 +1,16 @@
+/* eslint camelcase: 0 */ // <-- Per Jupyter message spec
+
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 const expect = chai.expect;
 chai.use(sinonChai);
 
-const util = require('util');
+const uuid = require('uuid');
 
 import { EventEmitter } from 'events';
+
+import * as constants from '../src/constants';
 
 import * as jmp from 'jmp';
 
@@ -15,6 +19,7 @@ import {
   createObserver,
   createObservable,
   createSubject,
+  createSocket,
 } from '../src/subjection';
 
 describe('deepFreeze', () => {
@@ -162,5 +167,23 @@ describe('createSubject', () => {
     expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
 
     hokeySocket.emit('message', msg);
+  });
+});
+
+describe('createSocket', () => {
+  it('creates a JMP socket on the channel with identity', () => {
+    const config = {
+      signature_scheme: 'hmac-sha256',
+      key: '5ca1ab1e-c0da-aced-cafe-c0ffeefacade',
+      ip: '127.0.0.1',
+      transport: 'tcp',
+      iopub_port: 9009,
+    };
+    const identity = uuid.v4();
+
+    const socket = createSocket('iopub', identity, config);
+    expect(socket).to.not.be.null;
+    expect(socket.identity).to.equal(identity);
+    expect(socket.type).to.equal(constants.ZMQType.frontend.iopub);
   });
 });
