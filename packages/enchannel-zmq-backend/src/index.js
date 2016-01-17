@@ -79,7 +79,7 @@ function createObservable(socket) {
 }
 
 /**
- * Helper function for enchannelZMQ
+ * Helper function for creating a subject from a socket
  * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
  * @return {Rx.Subject} subject for sending and receiving messages to kernels
  */
@@ -92,6 +92,7 @@ function createSubject(socket) {
 }
 
 /**
+ * Creates a socket for the given channel with ZMQ channel type given a config
  * @param {string} type ZMQ channel type ("dealer", "router", "sub", etc)
  * @param {string} channel Jupyter channel ("iopub", "shell", "control", "stdin")
  * @param {Object} config  Jupyter connection information
@@ -106,25 +107,64 @@ function createSocket(type, channel, config) {
 }
 
 /**
- * Takes in Jupyter connection information and return an object with subjects
- * for each of the Jupyter channels.
- * @param {Object} config  Jupyter connection information
- * @return {Object}
+ * createShellSubject creates a subject for sending and receiving messages on a
+ * kernel's shell channel
+ * @param  {Object} config                  Jupyter connection information
+ * @param  {string} config.ip               IP address of the kernel
+ * @param  {string} config.transport        Transport, e.g. TCP
+ * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
+ * @param  {number} config.shell_port       Port for shell channel
+ * @return {Rx.Subject} subject for sending and receiving messages on the shell
+ *                      channel
  */
-function enchannelZMQ(config) {
-  const shellSocket = createSocket('dealer', 'shell', config);
-  const controlSocket = createSocket('dealer', 'control', config);
-  const stdinSocket = createSocket('dealer', 'stdin', config);
-  const iopubSocket = createSocket('sub', 'iopub', config);
-
-  iopubSocket.subscribe('');
-
-  return {
-    shell: createSubject(shellSocket),
-    control: createSubject(controlSocket),
-    iopub: createSubject(iopubSocket),
-    stdin: createSubject(stdinSocket),
-  };
+export function createShellSubject(config) {
+  return createSubject(createSocket('dealer', 'shell', config));
 }
 
-module.exports = enchannelZMQ;
+/**
+ * createControlSubject creates a subject for sending and receiving on a
+ * kernel's control channel
+ * @param  {Object} config                  Jupyter connection information
+ * @param  {string} config.ip               IP address of the kernel
+ * @param  {string} config.transport        Transport, e.g. TCP
+ * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
+ * @param  {number} config.control_port     Port for control channel
+ * @return {Rx.Subject} subject for sending and receiving messages on the control
+ *                      channel
+ */
+export function createControlSubject(config) {
+  return createSubject(createSocket('dealer', 'control', config));
+}
+
+/**
+ * createStdinSubject creates a subject for sending and receiving messages on a
+ * kernel's stdin channel
+ * @param  {Object} config                  Jupyter connection information
+ * @param  {string} config.ip               IP address of the kernel
+ * @param  {string} config.transport        Transport, e.g. TCP
+ * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
+ * @param  {number} config.stdin_port       Port for stdin channel
+ * @return {Rx.Subject} subject for sending and receiving messages on the stdin
+ *                      channel
+ */
+export function createStdinSubject(config) {
+  return createSubject(createSocket('dealer', 'stdin', config));
+}
+
+/**
+ * createIOPubSubject creates a shell subject for receiving messages on a
+ * kernel's iopub channel
+ * @param  {Object} config                  Jupyter connection information
+ * @param  {string} config.ip               IP address of the kernel
+ * @param  {string} config.transport        Transport, e.g. TCP
+ * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
+ * @param  {number} config.iopub_port       Port for iopub channel
+ * @param  {string} subscription            subscribed topic; defaults to all
+ * @return {Rx.Subject} subject for receiving messages on the shell_port
+ *                      channel
+ */
+export function createIOPubSubject(config, subscription = '') {
+  const ioPubSocket = createSocket('sub', 'iopub', config);
+  ioPubSocket.subscribe(subscription);
+  return createSubject();
+}
