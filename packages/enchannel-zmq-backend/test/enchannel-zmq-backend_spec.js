@@ -4,7 +4,10 @@ import {
   createIOPubSubject,
 } from '../src';
 
+import { Subject } from 'rx';
+
 import * as jmp from 'jmp';
+import { getPort } from 'portfinder';
 
 import { expect } from 'chai';
 
@@ -14,18 +17,23 @@ describe('createIOPubSubject', () => {
     const key = '5ca1ab1e-c0da-aced-cafe-c0ffeefacade';
 
     const pub = new jmp.Socket('pub', scheme, key);
-    // TODO: Rely on portfinder
-    const address = 'tcp://127.0.0.1:9006';
-    pub.bind(address, () => {
-      const config = {
-        ip: '127.0.0.1',
-        transport: 'tcp',
-        signature_scheme: 'hmac-sha256',
-        iopub_port: '9006',
-      };
-      const s = createIOPubSubject(config);
-      expect(s).to.not.be.null;
-      done();
+    getPort((err, port) => {
+      if(err) {
+        throw err;
+      }
+      const address = `tcp://127.0.0.1:${port}`;
+
+      pub.bind(address, () => {
+        const config = {
+          ip: '127.0.0.1',
+          transport: 'tcp',
+          signature_scheme: 'hmac-sha256',
+          iopub_port: port,
+        };
+        const s = createIOPubSubject(config);
+        expect(s).to.be.an.instanceof(Subject);
+        done();
+      });
     });
   });
 });
