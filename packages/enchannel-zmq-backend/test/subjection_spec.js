@@ -4,11 +4,14 @@ const sinonChai = require('sinon-chai');
 const expect = chai.expect;
 chai.use(sinonChai);
 
+import { EventEmitter } from 'events';
+
 import * as jmp from 'jmp';
 
 import {
   deepFreeze,
   createObserver,
+  createObservable,
 } from '../src/subjection';
 
 describe('deepFreeze', () => {
@@ -72,5 +75,49 @@ describe('createObserver', () => {
     ob.onCompleted();
     expect(hokeySocket.removeAllListeners).to.not.have.been.calledWith();
     expect(hokeySocket.close).to.not.have.been.calledWith();
+  });
+});
+
+describe('createObservable', () => {
+  it('publishes clean enchannel messages', (done) => {
+    const emitter = new EventEmitter();
+    const obs = createObservable(emitter);
+
+    obs.subscribe(msg => {
+      expect(msg).to.deep.equal({
+        content: {
+          success: true,
+        },
+      });
+      done();
+    });
+    const msg = {
+      idents: [],
+      signatureOK: true,
+      blobs: [],
+      content: {
+        success: true,
+      },
+    };
+    emitter.emit('message', msg);
+  });
+  it('publishes deeply frozen objects', (done) => {
+    const emitter = new EventEmitter();
+    const obs = createObservable(emitter);
+
+    obs.subscribe(msg => {
+      expect(Object.isFrozen(msg)).to.be.true;
+      expect(Object.isFrozen(msg.content)).to.be.true;
+      done();
+    });
+    const msg = {
+      idents: [],
+      signatureOK: true,
+      blobs: [],
+      content: {
+        success: true,
+      },
+    };
+    emitter.emit('message', msg);
   });
 });
