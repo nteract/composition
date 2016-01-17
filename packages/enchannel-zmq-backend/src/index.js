@@ -20,23 +20,15 @@ function formConnectionString(config, channel) {
 }
 
 /**
- * @param {jmp.Socket} socket
- * @param {Object} messageObject Message you want to send to the kernel
- */
-function sendMessage(socket, messageObject) {
-  const message = new jmp.Message(messageObject);
-  socket.send(message);
-}
-
-/**
  * A RxJS wrapper around jmp sockets, that takes care of sending messages and
  * cleans up after itself
- * @param {jmp.Socket} socket
- * @return {Rx.Observer}
+ * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
+ * @return {Rx.Observer} an observer that allows sending messages onNext and
+ *                       closes the underlying socket onCompleted
  */
 function createObserver(socket) {
   return Observer.create(messageObject => {
-    sendMessage(socket, messageObject);
+    socket.send(new jmp.Message(messageObject));
   }, err => {
     // We don't expect to send errors to the kernel
     console.error(err);
@@ -48,8 +40,10 @@ function createObserver(socket) {
 }
 
 /**
- * Recursive Object.freeze
- * @param {Object} obj
+ * Recursive Object.freeze, does not handle functions since Jupyter messages
+ * are plain JSON.
+ * @param {Object} obj object to deeply freeze
+ * @return {Object} the immutable object
  */
 function deepFreeze(obj) {
   // Freeze properties before freezing self
@@ -65,8 +59,8 @@ function deepFreeze(obj) {
 
 /**
  * Creates observable that behaves according to enchannel spec
- * @param {jmp.Socket} socket
- * @return {Rx.Observable}
+ * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
+ * @return {Rx.Observable} an Observable that publishes kernel channel messages
  */
 function createObservable(socket) {
   return Observable.fromEvent(socket, 'message')
@@ -86,8 +80,8 @@ function createObservable(socket) {
 
 /**
  * Helper function for enchannelZMQ
- * @param {jmp.Socket} socket
- * @return {Rx.Subject}
+ * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
+ * @return {Rx.Subject} subject for sending and receiving messages to kernels
  */
 function createSubject(socket) {
   const subj = Subject.create(createObserver(socket),
