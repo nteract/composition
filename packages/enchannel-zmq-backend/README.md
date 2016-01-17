@@ -17,16 +17,22 @@ Given a currently running Jupyter runtime, creates [RxJS](https://github.com/Rea
 
 ## Usage
 
-`enchannel-zmq-backend` exports exactly one function 
+`enchannel-zmq-backend` exports four functions to create channels
 
 ```javascript
-var ez = require('enchannel-zmq-backend')
+import {
+  createControlSubject,
+  createStdinSubject,
+  createIOPubSubject,
+  createShellSubject,
+} from 'enchannel-zmq-backend'
 ```
 
-that takes in a kernel runtime object (this matches the on-disk JSON):
+Each of those functions accepts an identity and a kernel runtime object
+(this matches the on-disk JSON):
 
 ```javascript
-var runtimeConfig = {
+const runtimeConfig = {
   stdin_port: 58786,
   ip: '127.0.0.1',
   control_port: 58787,
@@ -37,14 +43,19 @@ var runtimeConfig = {
   transport: 'tcp',
   iopub_port: 58785
 }
-var channels = ez(runtimeConfig)
 ```
 
-The resulting `channels` are all the sockets for kernel interaction:
+You'll want to set up your identity, relying on the node `uuid` package:
 
 ```javascript
-> Object.keys(channels)
-[ 'shell', 'control', 'iopub', 'stdin' ]
+const uuid = require('uuid');
+const identity = uuid.v4();
+```
+
+Creating a subject
+
+```javascript
+const shell = createShellSubject(identity, runtimeConfig)
 ```
 
 ### Subscribing to messages
@@ -52,7 +63,8 @@ The resulting `channels` are all the sockets for kernel interaction:
 Subscribing to iopub:
 
 ```javascript
-var obs = channels.iopub.subscribe(msg => {
+const iopub = createIOPubSubject(identity, runtimeConfig);
+var obs = iopub.subscribe(msg => {
   console.log(msg);
 }
 
@@ -62,9 +74,9 @@ var obs = channels.iopub.subscribe(msg => {
 Since these are RxJS Observables, you can also `filter`, `map`, `scan` and many other operators:
 
 ```javascript
-channels.iopub.filter(msg => msg.header.msg_type === 'execute_result')
-              .map(msg => msg.content.data)
-              .subscribe(x => { console.log(`DATA! ${util.inspect(x)}`)})
+iopub.filter(msg => msg.header.msg_type === 'execute_result')
+     .map(msg => msg.content.data)
+     .subscribe(x => { console.log(`DATA! ${util.inspect(x)}`)})
 ```
 
 ### Sending messages to the kernel
@@ -93,7 +105,7 @@ var message = {
 Until we make changes, you'll need to have at least one subscription before you can send on a channel.
 
 ```javascript
-> channels.shell.subscribe(console.log)
+> shell.subscribe(console.log)
 ```
 
 ```javascript
