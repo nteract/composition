@@ -43,7 +43,7 @@ describe('createObserver', () => {
     ob.onNext(message);
     expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
   });
-  it('removes all listeneres and closes the socket onCompleted', () => {
+  it('removes all listeners and closes the socket onCompleted', () => {
     const hokeySocket = {
       send: sinon.spy(),
       removeAllListeners: sinon.spy(),
