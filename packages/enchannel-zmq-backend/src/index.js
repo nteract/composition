@@ -166,5 +166,5 @@ export function createStdinSubject(config) {
 export function createIOPubSubject(config, subscription = '') {
   const ioPubSocket = createSocket('sub', 'iopub', config);
   ioPubSocket.subscribe(subscription);
-  return createSubject();
+  return createSubject(ioPubSocket);
 }
