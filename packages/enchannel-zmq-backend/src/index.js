@@ -11,9 +11,26 @@ import {
 } from './subjection';
 
 /**
+ * createChannelSubject creates a subject for sending and receiving messages on
+ * the given channel
+ * @param  {string} channel                 iopub || shell || control || stdin
+ * @param  {string} identity                UUID
+ * @param  {Object} config                  Jupyter connection information
+ * @param  {string} config.ip               IP address of the kernel
+ * @param  {string} config.transport        Transport, e.g. TCP
+ * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
+ * @param  {number} config.shell_port       Port for shell channel
+ * @return {Rx.Subject} subject for sending and receiving messages on the shell
+ *                      channel
+ */
+function createChannelSubject(channel, identity, config) {
+  return createSubject(createSocket(channel, identity, config));
+}
+
+/**
  * createShellSubject creates a subject for sending and receiving messages on a
  * kernel's shell channel
- * @param  {string} identity UUID
+ * @param  {string} identity                UUID
  * @param  {Object} config                  Jupyter connection information
  * @param  {string} config.ip               IP address of the kernel
  * @param  {string} config.transport        Transport, e.g. TCP
@@ -23,13 +40,13 @@ import {
  *                      channel
  */
 export function createShellSubject(identity, config) {
-  return createSubject(createSocket(SHELL, identity, config));
+  return createChannelSubject(SHELL, identity, config);
 }
 
 /**
  * createControlSubject creates a subject for sending and receiving on a
  * kernel's control channel
- * @param  {string} identity UUID
+ * @param  {string} identity                UUID
  * @param  {Object} config                  Jupyter connection information
  * @param  {string} config.ip               IP address of the kernel
  * @param  {string} config.transport        Transport, e.g. TCP
@@ -39,13 +56,13 @@ export function createShellSubject(identity, config) {
  *                      channel
  */
 export function createControlSubject(identity, config) {
-  return createSubject(createSocket(CONTROL, identity, config));
+  return createChannelSubject(CONTROL, identity, config);
 }
 
 /**
  * createStdinSubject creates a subject for sending and receiving messages on a
  * kernel's stdin channel
- * @param  {string} identity UUID
+ * @param  {string} identity                UUID
  * @param  {Object} config                  Jupyter connection information
  * @param  {string} config.ip               IP address of the kernel
  * @param  {string} config.transport        Transport, e.g. TCP
@@ -55,13 +72,13 @@ export function createControlSubject(identity, config) {
  *                      channel
  */
 export function createStdinSubject(identity, config) {
-  return createSubject(createSocket(STDIN, identity, config));
+  return createChannelSubject(STDIN, identity, config);
 }
 
 /**
  * createIOPubSubject creates a shell subject for receiving messages on a
  * kernel's iopub channel
- * @param  {string} identity UUID
+ * @param  {string} identity                UUID
  * @param  {Object} config                  Jupyter connection information
  * @param  {string} config.ip               IP address of the kernel
  * @param  {string} config.transport        Transport, e.g. TCP
@@ -73,6 +90,7 @@ export function createStdinSubject(identity, config) {
  */
 export function createIOPubSubject(identity, config, subscription = '') {
   const ioPubSocket = createSocket(IOPUB, identity, config);
+  // ZMQ PUB/SUB subscription (not an Rx subscription)
   ioPubSocket.subscribe(subscription);
   return createSubject(ioPubSocket);
 }
