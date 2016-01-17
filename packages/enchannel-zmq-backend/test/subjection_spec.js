@@ -55,4 +55,22 @@ describe('createObserver', () => {
     expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
     expect(hokeySocket.close).to.have.been.calledWith();
   });
+  it('should only close once', () => {
+    const hokeySocket = {
+      send: sinon.spy(),
+      removeAllListeners: sinon.spy(),
+      close: sinon.spy(),
+    };
+
+    const ob = createObserver(hokeySocket);
+    ob.onCompleted();
+    expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
+    expect(hokeySocket.close).to.have.been.calledWith();
+
+    hokeySocket.removeAllListeners = sinon.spy();
+    hokeySocket.close = sinon.spy();
+    ob.onCompleted();
+    expect(hokeySocket.removeAllListeners).to.not.have.been.calledWith();
+    expect(hokeySocket.close).to.not.have.been.calledWith();
+  });
 });
