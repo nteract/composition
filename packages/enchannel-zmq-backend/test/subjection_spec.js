@@ -156,6 +156,11 @@ describe('createSubject', () => {
         success: true,
       },
     };
+
+    const message = { content: { x: 2 } };
+    s.send(message);
+    expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
+
     hokeySocket.emit('message', msg);
   });
 });
