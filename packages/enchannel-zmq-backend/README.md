@@ -109,7 +109,7 @@ Until we make changes, you'll need to have at least one subscription before you 
 ```
 
 ```javascript
-> channels.shell.send(payload)
+> shell.send(payload)
 > Message {
   header:
    { username: 'rgbkrk',
