@@ -55,25 +55,17 @@ var message = {
 shell.send(message); // alias of onNext - the actual Rx parlance
 ```
 
-In order to get this, we make 4 RxJS Subjects for each of the [four sockets](http://jupyter-client.readthedocs.org/en/latest/messaging.html):
+In order to get this, we make 5 [RxJS Subjects](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/subjects.md) for each of the [five sockets](http://jupyter-client.readthedocs.org/en/latest/messaging.html):
 
 * Shell
 * STDIN
 * Control
 * IOPub
+* Heartbeat (optional)
 
-Each backend has to implement this by providing an exported function that can take their choice of parameters, so long as they all return 
+Each backend has to implement this by providing an exported function that can take their choice of parameters, so long as they all allow for creating subjects for these.
 
-```javascript
-{
-  iopub: iopubSubject,
-  shell: shellSubject,
-  control: controlSubject,
-  stdin: stdinSubject
-}
-```
-
-Messages observed from these Subjects are all immutable, not by convention but through `Object.freeze`. 
+Messages observed from these Subjects are all immutable, not by convention but through a recursive `Object.freeze`. 
 
 Note that [heartbeat](http://jupyter-client.readthedocs.org/en/latest/messaging.html#heartbeat-for-kernels) is not included above, primarily because it's being thought of as something that may end up being deprecated.
 
