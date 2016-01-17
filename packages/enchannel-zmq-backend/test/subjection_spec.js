@@ -4,6 +4,8 @@ const sinonChai = require('sinon-chai');
 const expect = chai.expect;
 chai.use(sinonChai);
 
+const util = require('util');
+
 import { EventEmitter } from 'events';
 
 import * as jmp from 'jmp';
@@ -12,6 +14,7 @@ import {
   deepFreeze,
   createObserver,
   createObservable,
+  createSubject,
 } from '../src/subjection';
 
 describe('deepFreeze', () => {
@@ -119,5 +122,40 @@ describe('createObservable', () => {
       },
     };
     emitter.emit('message', msg);
+  });
+});
+
+describe('createSubject', () => {
+  it('creates a subject that can send and receive', (done) => {
+    // This is largely captured above, we make sure that the subject gets
+    // created properly
+    const hokeySocket = new EventEmitter();
+
+    hokeySocket.removeAllListeners = sinon.spy();
+    hokeySocket.send = sinon.spy();
+    hokeySocket.close = sinon.spy();
+
+    const s = createSubject(hokeySocket);
+
+    s.subscribe(msg => {
+      expect(msg).to.deep.equal({
+        content: {
+          success: true,
+        },
+      });
+      s.close();
+      expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
+      expect(hokeySocket.close).to.have.been.calledWith();
+      done();
+    });
+    const msg = {
+      idents: [],
+      signatureOK: true,
+      blobs: [],
+      content: {
+        success: true,
+      },
+    };
+    hokeySocket.emit('message', msg);
   });
 });
