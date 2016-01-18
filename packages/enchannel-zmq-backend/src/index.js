@@ -23,7 +23,7 @@ import {
  * @return {Rx.Subject} subject for sending and receiving messages on the shell
  *                      channel
  */
-function createChannelSubject(channel, identity, config) {
+export function createChannelSubject(channel, identity, config) {
   return createSubject(createSocket(channel, identity, config));
 }
 

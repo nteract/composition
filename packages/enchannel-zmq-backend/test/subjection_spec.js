@@ -185,5 +185,6 @@ describe('createSocket', () => {
     expect(socket).to.not.be.null;
     expect(socket.identity).to.equal(identity);
     expect(socket.type).to.equal(constants.ZMQType.frontend.iopub);
+    socket.close();
   });
 });
