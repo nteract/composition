@@ -8,7 +8,7 @@ import {
 } from '..';
 
 // Solely testing the exported interface on the built ES5 JavaScript
-describe('index', () => {
+describe('the built version of enchannel-zmq-backend', () => {
   it('exports create helpers for control, stdin, iopub, and shell', () => {
     expect(createControlSubject).to.not.be.undefined;
     expect(createStdinSubject).to.not.be.undefined;
