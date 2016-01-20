@@ -1,11 +1,15 @@
 {
   "name": "spawnteract",
   "version": "0.0.0",
-  "description": "Proving out and API for spawning Jupyter kernels",
+  "description": "Proving out an API for spawning Jupyter kernels",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "jupyter-paths": "^0.3.5",
+    "portfinder": "^0.4.0"
+  }
 }
