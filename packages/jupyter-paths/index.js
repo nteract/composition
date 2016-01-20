@@ -118,6 +118,9 @@ function runtimeDir() {
 }
 
 module.exports = {
+  expectedRuntimeDir,
+  expectedDataDirs,
+  userDataDir,
   dataDirs,
   kernelDirs,
   runtimeDir,

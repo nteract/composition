@@ -2,6 +2,9 @@ const jp = require('../')
 
 const expect = require('chai').expect
 
+const path = require('path')
+const home = require('home-dir')
+
 describe('dataDirs', () => {
   it('returns a promise that resolves to a list of directories that exist', () => {
     return jp.dataDirs()
@@ -26,11 +29,9 @@ describe('kernelDirs', () => {
   })
 })
 
-describe('runtimeDir', () => {
-  it('returns a string for a path that contains runtime files', () => {
-    return jp.runtimeDir()
-             .then((dir) => {
-              expect(dir).to.be.a('String')
-             })
+describe('expectedRuntimeDir', () => {
+  it('returns the path to the specced runtime directory', () => {
+    const dir = jp.expectedRuntimeDir()
+    expect(dir).to.equal(path.join(jp.userDataDir(), 'runtime'))
   })
 })
