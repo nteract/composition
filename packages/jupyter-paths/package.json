@@ -4,7 +4,8 @@
   "description": "Node wrapping of jupyter/jupyter_core to resolve paths across Jupyter installations.",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node --coffee spec"
+    "test": "mocha 'test/*.js'",
+    "test:watch": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,11 @@
   },
   "homepage": "https://github.com/nteract/jupyter-paths",
   "devDependencies": {
-    "jasmine-node": "^1.14.5"
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "home-dir": "^1.0.0"
   }
 }
