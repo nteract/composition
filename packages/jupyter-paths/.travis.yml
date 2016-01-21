@@ -3,3 +3,7 @@ node_js:
   - "5.4"
   - "4.2"
 sudo: false
+before_install:
+  - curl https://bootstrap.pypa.io/get-pip.py | python
+  - pip install jupyter_core
+

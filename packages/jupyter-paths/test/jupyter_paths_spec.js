@@ -35,3 +35,7 @@ describe('expectedRuntimeDir', () => {
     expect(dir).to.equal(path.join(jp.userDataDir(), 'runtime'))
   })
 })
+
+describe('expectedDataDirs', () => {
+  const dirs = jp.expectedDataDirs()
+})
