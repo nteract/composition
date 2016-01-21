@@ -52,7 +52,7 @@ function kernels(d, cb) {
 const kernelsBound = Observable.bindCallback(kernels)
 const getKernelResourcesBound = Observable.bindCallback(getKernelResources)
 
-function kernelSpecs() {
+function asObservable() {
   var potentialKernelDirs = jp.dataDirs().map(dir => path.join(dir, 'kernels'))
   var o = Observable.fromArray(potentialKernelDirs)
                     .flatMap(x => {return kernelsBound(x)})
@@ -64,14 +64,21 @@ function kernelSpecs() {
                       return getKernelResourcesBound(x)
                     })
                     .filter(x => !x.err)
-                    .reduce((kernels, kernel) => {
-                      kernels[kernel.language] = kernel;
-                      delete kernel.language // Take out redundancy
-                      return kernels;
-                    }, {})
-  return o.toPromise();
+                    .publish()
+                    .refCount()
+  return o
+}
+
+function asPromise() {
+  return asObservable()
+           .reduce((kernels, kernel) => {
+             kernels[kernel.language] = kernel;
+              return kernels;
+            }, {})
+           .toPromise()
 }
 
 module.exports = {
-  kernelSpecs,
+  asPromise,
+  asObservable,
 }
