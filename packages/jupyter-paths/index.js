@@ -83,7 +83,10 @@ function dataDirs(withSysPrefix) {
     return sysPrefixPromise()
             .then(sysPrefix => path.join(sysPrefix, 'share', 'jupyter'))
             .then(sysPathed => {
-              paths.push(sysPathed)
+              const systemDirs = systemDataDirs()
+              if(systemDirs.indexOf(sysPathed) === -1) {
+                paths.push(sysPathed)
+              }
               return paths.concat(systemDataDirs())
             })
   }
