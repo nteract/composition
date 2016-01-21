@@ -5,11 +5,7 @@
  */
 
 const path = require('path');
-const fs = require('fs');
-const async = require('async');
-
 const home = require('home-dir');
-
 const sysPrefixPromise = require('sys-prefix-promise')
 
 function systemConfigDirs() {
