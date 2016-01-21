@@ -1,0 +1,19 @@
+{
+  "name": "kernelspecs",
+  "version": "0.0.0",
+  "description": "Find Jupyter kernelspecs on a system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/kernelspecs.git"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/kernelspecs/issues"
+  },
+  "homepage": "https://github.com/nteract/kernelspecs#readme"
+}
