@@ -58,7 +58,7 @@ Like `dataDirs`, an optional `opts` parameter is accepted with key
 ```JavaScript
 > jp.configDirs({ withSysPrefix: true }).then(console.log)
 Promise { <pending> }
-> [ '/Users/kyle6475/.jupyter',
+> [ '/Users/rgbkrk/.jupyter',
   '/usr/local/Cellar/python/2.7.11/Frameworks/Python.framework/Versions/2.7/etc/jupyter',
   '/usr/local/etc/jupyter',
   '/etc/jupyter' ]
