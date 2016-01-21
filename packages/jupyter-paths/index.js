@@ -26,7 +26,7 @@ function systemConfigDirs() {
   return paths;
 }
 
-function configDirs(withSysPrefix) {
+function configDirs(opts) {
   var paths = [];
   if (process.env.JUPYTER_CONFIG_DIR) {
     paths.push(process.env.JUPYTER_CONFIG_DIR);
@@ -34,7 +34,7 @@ function configDirs(withSysPrefix) {
 
   paths.push(home('.jupyter'));
 
-  if(withSysPrefix) {
+  if(opts && opts.withSysPrefix) {
     return sysPrefixPromise()
             .then(sysPrefix => path.join(sysPrefix, 'etc', 'jupyter'))
             .then(sysPathed => {
@@ -71,7 +71,7 @@ function systemDataDirs() {
  * @param  {bool} withSysPrefix include the sys.prefix paths
  * @return {Array} All the Jupyter Data Dirs
  */
-function dataDirs(withSysPrefix) {
+function dataDirs(opts) {
   var paths = [];
   if (process.env.JUPYTER_PATH) {
     paths.push(process.env.JUPYTER_PATH);
@@ -79,7 +79,7 @@ function dataDirs(withSysPrefix) {
 
   paths.push(userDataDir());
 
-  if(withSysPrefix) {
+  if(opts && opts.withSysPrefix) {
     return sysPrefixPromise()
             .then(sysPrefix => path.join(sysPrefix, 'share', 'jupyter'))
             .then(sysPathed => {

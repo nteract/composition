@@ -13,7 +13,7 @@ actual.config.sort()
 
 describe('dataDirs', () => {
   it('returns a promise that resolves to a list of directories that exist', () => {
-    return jp.dataDirs(true)
+    return jp.dataDirs({withSysPrefix: true})
              .then((dirs) => {
                dirs.sort()
                expect(dirs).to.be.an('Array')
@@ -33,7 +33,7 @@ describe('runtimeDir', () => {
 
 describe('configDirs', () => {
   it('returns a promise that resolves to a list of directories that exist', () => {
-    return jp.configDirs(true)
+    return jp.configDirs({withSysPrefix: true})
              .then((dirs) => {
                dirs.sort()
                expect(dirs).to.be.an('Array')
