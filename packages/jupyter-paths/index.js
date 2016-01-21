@@ -10,24 +10,10 @@ const async = require('async');
 
 const home = require('home-dir');
 
-/**
- * expectedDataDirs returns all the expected static directories for this OS.
- * The user of this function should make sure to make sure the directories
- * exist.
- *
- * At this time, we don't include {sys.prefix}/share/jupyter
- * When we do, we can assume that withSysPrefix is passed
- *
- * @return {Array} All the Jupyter Data Dirs
- */
-function expectedDataDirs() {
+const sysPrefixPromise = require('sys-prefix-promise')
+
+function systemDataDirs() {
   var paths = [];
-  if (process.env.JUPYTER_PATH) {
-    paths.push(process.env.JUPYTER_PATH);
-  }
-
-  paths.push(userDataDir());
-
   // System wide for Windows and Unix
   if (process.platform === 'win32') {
     paths.push(path.resolve(
@@ -37,8 +23,38 @@ function expectedDataDirs() {
     paths.push('/usr/share/jupyter/');
     paths.push('/usr/local/share/jupyter/');
   }
-
   return paths;
+}
+
+/**
+ * dataDirs returns all the expected static directories for this OS.
+ * The user of this function should make sure to make sure the directories
+ * exist.
+ *
+ * When withSysPrefix is set, this returns a promise of directories
+ *
+ * @param  {bool} withSysPrefix include the sys.prefix paths
+ * @return {Array} All the Jupyter Data Dirs
+ */
+function dataDirs(withSysPrefix) {
+  var paths = [];
+  if (process.env.JUPYTER_PATH) {
+    paths.push(process.env.JUPYTER_PATH);
+  }
+
+  paths.push(userDataDir());
+
+  if(withSysPrefix) {
+    return sysPrefixPromise()
+            .then(sysPrefix => path.join(sysPrefix, 'share', 'jupyter'))
+            .then(sysPathed => {
+              paths.push(sysPathed)
+              return paths.concat(systemDataDirs())
+            })
+  }
+  else {
+    return paths.concat(systemDataDirs())
+  }
 }
 
 /**
@@ -60,37 +76,28 @@ function userDataDir() {
   }
 }
 
-function validDirectory(p, cb) {
-  fs.stat(p, (err, stat) => {
-    // explicitly ignoring err, file doesn't exist or can't be reached
-    if(err) {
-      return cb(false);
-    }
-    return cb(stat.isDirectory());
-  });
+/**
+ * kernelDirs returns all the expected locations for kernels on this OS.
+ * The user of this function should make sure to make sure the directories
+ * exist.
+ *
+ * When withSysPrefix is set, this returns a promise of directories
+ *
+ * @param  {bool} withSysPrefix include the sys.prefix paths
+ * @return {Array} All the Jupyter Kernelspec Dirs
+ */
+function kernelDirs(withSysPrefix) {
+  if(withSysPrefix) {
+    return dataDirs(withSysPrefix).then(dirs => {
+      return dirs.map(dir => path.join(dir, 'kernels'))
+    })
+  }
+  else {
+    return dirs.map(dir => path.join(dir, 'kernels'))
+  }
 }
 
-function filteredValidDirectories(dirs) {
-  return new Promise((resolve, reject) => {
-    async.filter(dirs, validDirectory, (results) => {
-      resolve(results);
-    });
-  });
-}
-
-function dataDirs() {
-  return filteredValidDirectories(expectedDataDirs());
-}
-
-function kernelDirs() {
-  return filteredValidDirectories(
-           expectedDataDirs().map((dir) => {
-             return path.join(dir, 'kernels');
-           })
-         )
-}
-
-function expectedRuntimeDir() {
+function runtimeDir() {
   if(process.env.JUPYTER_RUNTIME_DIR) {
       return JUPYTER_RUNTIME_DIR
   }
@@ -101,26 +108,7 @@ function expectedRuntimeDir() {
   return path.join(userDataDir(), 'runtime');
 }
 
-function runtimeDir() {
-  const p = expectedRuntimeDir();
-  return new Promise((resolve, reject) => {
-    fs.stat(p, (err, stat) => {
-      // explicitly ignoring err, file doesn't exist or can't be reached
-      if(err) {
-        reject(err);
-      }
-      if(stat.isDirectory()) {
-        resolve(p);
-      }
-      reject(new Error(`${p} is not a directory`))
-    });
-  })
-}
-
 module.exports = {
-  expectedRuntimeDir,
-  expectedDataDirs,
-  userDataDir,
   dataDirs,
   kernelDirs,
   runtimeDir,

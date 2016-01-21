@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "async": "^1.5.2",
-    "home-dir": "^1.0.0"
+    "home-dir": "^1.0.0",
+    "sys-prefix-promise": "^1.0.2"
   }
 }
