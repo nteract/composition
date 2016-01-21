@@ -111,27 +111,6 @@ function userDataDir() {
   }
 }
 
-/**
- * kernelDirs returns all the expected locations for kernels on this OS.
- * The user of this function should make sure to make sure the directories
- * exist.
- *
- * When withSysPrefix is set, this returns a promise of directories
- *
- * @param  {bool} withSysPrefix include the sys.prefix paths
- * @return {Array} All the Jupyter Kernelspec Dirs
- */
-function kernelDirs(withSysPrefix) {
-  if(withSysPrefix) {
-    return dataDirs(withSysPrefix).then(dirs => {
-      return dirs.map(dir => path.join(dir, 'kernels'))
-    })
-  }
-  else {
-    return dirs.map(dir => path.join(dir, 'kernels'))
-  }
-}
-
 function runtimeDir() {
   if(process.env.JUPYTER_RUNTIME_DIR) {
       return JUPYTER_RUNTIME_DIR
@@ -145,7 +124,6 @@ function runtimeDir() {
 
 module.exports = {
   dataDirs,
-  kernelDirs,
   runtimeDir,
   configDirs,
 };

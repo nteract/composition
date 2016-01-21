@@ -31,19 +31,6 @@ describe('runtimeDir', () => {
   })
 })
 
-describe('kernelDirs', () => {
-  it('returns a promise that resolves to a list of directories that exist', () => {
-    return jp.kernelDirs(true)
-             .then((dirs) => {
-               dirs.sort()
-               expect(dirs).to.be.an('Array')
-               dirs.forEach(el => {
-                 expect(el).to.be.a('String')
-               })
-             })
-  })
-})
-
 describe('configDirs', () => {
   it('returns a promise that resolves to a list of directories that exist', () => {
     return jp.configDirs(true)
