@@ -20,8 +20,8 @@ function systemConfigDirs() {
       path.join(process.env('PROGRAMDATA'), 'jupyter')));
   }
   else {
-    paths.push('/usr/local/etc/jupyter/');
-    paths.push('/etc/jupyter/');
+    paths.push('/usr/local/etc/jupyter');
+    paths.push('/etc/jupyter');
   }
   return paths;
 }
@@ -55,8 +55,8 @@ function systemDataDirs() {
       path.join(process.env('PROGRAMDATA'), 'jupyter')));
   }
   else {
-    paths.push('/usr/share/jupyter/');
-    paths.push('/usr/local/share/jupyter/');
+    paths.push('/usr/share/jupyter');
+    paths.push('/usr/local/share/jupyter');
   }
   return paths;
 }
