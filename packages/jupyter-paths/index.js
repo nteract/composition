@@ -12,6 +12,41 @@ const home = require('home-dir');
 
 const sysPrefixPromise = require('sys-prefix-promise')
 
+function systemConfigDirs() {
+  var paths = [];
+  // System wide for Windows and Unix
+  if (process.platform === 'win32') {
+    paths.push(path.resolve(
+      path.join(process.env('PROGRAMDATA'), 'jupyter')));
+  }
+  else {
+    paths.push('/usr/local/etc/jupyter/');
+    paths.push('/etc/jupyter/');
+  }
+  return paths;
+}
+
+function configDirs(withSysPrefix) {
+  var paths = [];
+  if (process.env.JUPYTER_CONFIG_DIR) {
+    paths.push(process.env.JUPYTER_CONFIG_DIR);
+  }
+
+  paths.push(home('.jupyter'));
+
+  if(withSysPrefix) {
+    return sysPrefixPromise()
+            .then(sysPrefix => path.join(sysPrefix, 'etc', 'jupyter'))
+            .then(sysPathed => {
+              paths.push(sysPathed)
+              return paths.concat(systemConfigDirs())
+            })
+  }
+  else {
+    return paths.concat(systemConfigDirs())
+  }
+}
+
 function systemDataDirs() {
   var paths = [];
   // System wide for Windows and Unix
@@ -112,4 +147,5 @@ module.exports = {
   dataDirs,
   kernelDirs,
   runtimeDir,
+  configDirs,
 };
