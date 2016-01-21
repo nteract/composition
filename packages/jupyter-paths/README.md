@@ -17,7 +17,7 @@ $ node
 > var jp = require('jupyter-paths')
 ```
 
-### runtimeDir()
+### `runtimeDir()`
 
 Returns immediately with the path to running kernels
 
@@ -26,7 +26,7 @@ Returns immediately with the path to running kernels
 '/Users/rgbkrk/Library/Jupyter/runtime'
 ```
 
-### dataDirs()
+### `dataDirs()`
 
 ```JavaScript
 > jp.dataDirs()
@@ -50,7 +50,7 @@ Promise { <pending> }
   '/usr/local/share/jupyter' ]
 ```
 
-### configDirs()
+### `configDirs()`
 
 Like `dataDirs`, an optional `opts` parameter is accepted with key
 `withSysPrefix` as an argument.
