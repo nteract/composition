@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/nteract/kernelspecs/issues"
   },
-  "homepage": "https://github.com/nteract/kernelspecs#readme"
+  "homepage": "https://github.com/nteract/kernelspecs#readme",
+  "dependencies": {
+    "jupyter-paths": "^1.0.0"
+  }
 }
