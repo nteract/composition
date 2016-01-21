@@ -24,6 +24,12 @@ describe('dataDirs', () => {
   })
 })
 
+describe('runtimeDir', () => {
+  it('returns the directory where runtime data is stored', () => {
+    expect(jp.runtimeDir()).to.equal(actual.runtime[0])
+  })
+})
+
 describe('kernelDirs', () => {
   it('returns a promise that resolves to a list of directories that exist', () => {
     return jp.kernelDirs(true)
