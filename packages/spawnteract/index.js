@@ -10,6 +10,8 @@ const uuid = require('uuid');
 const getPorts = require('portfinder').getPorts;
 const jsonfile = require('jsonfile');
 
+const child_process = require('child_process');
+
 function createConnectionConfig(ports) {
   return {
     version: 5,
@@ -52,32 +54,43 @@ function writeConnectionFile(opts) {
       });
     });
   });
-
 }
 
-/*
-function launchSpec(spec) {
-  return spec.argv;
+function launchSpec(spec, opts) {
+  return writeConnectionFile(opts).then((c) => {
+    const connFile = c.connFile;
+    const config = c.config;
+    const argv = spec.argv.map(x => x === '{connection_file}' ? connFile : x);
+    const runningKernel = child_process.spawn(argv[0], argv.slice(1));
+    return {
+      spawn: runningKernel,
+      connFile,
+      config,
+    };
+  });
 }
 
 function launch(kernelName, specs) {
+  // Let them pass in a cached specs file
   if(!specs) {
     return kernelspecs.asPromise()
                       .then((sp) => launch(kernelName, sp));
   }
-
-  return new Promise((resolve, reject) => {
-      if(!specs[kernelName]) {
-        reject(new Error(`No spec available for ${kernelName}`));
-      }
-      const spec = specs[kernelName].spec
-      resolve(launchSpec(spec))
-  })
+  if(!specs[kernelName]) {
+    return Promise.reject(new Error(`No spec available for ${kernelName}`));
+  }
+  const spec = specs[kernelName].spec;
+  return launchSpec(spec);
 }
-*/
 
 module.exports = {
-  // launch,
-  // launchSpec,
+  launch,
+  launchSpec,
   writeConnectionFile,
 };
+
+launch('python3').then(x => {
+  console.log(x);
+}).catch(x => {
+  console.error(x);
+});

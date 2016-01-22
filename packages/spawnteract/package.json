@@ -10,7 +10,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "jsonfile": "^2.2.3",
-    "jupyter-paths": "^0.3.5",
+    "jupyter-paths": "^1.0.0",
     "kernelspecs": "^0.1.0",
     "portfinder": "^0.4.0",
     "uuid": "^2.0.1"
