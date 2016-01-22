@@ -9,7 +9,10 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "jsonfile": "^2.2.3",
     "jupyter-paths": "^0.3.5",
-    "portfinder": "^0.4.0"
+    "kernelspecs": "^0.1.0",
+    "portfinder": "^0.4.0",
+    "uuid": "^2.0.1"
   }
 }
