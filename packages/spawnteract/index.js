@@ -58,7 +58,7 @@ function writeConnectionFile(opts) {
 
 function launchSpec(spec, opts) {
   return writeConnectionFile(opts).then((c) => {
-    const connFile = c.connFile;
+    const connFile = c.configFile;
     const config = c.config;
     const argv = spec.argv.map(x => x === '{connection_file}' ? connFile : x);
     const runningKernel = child_process.spawn(argv[0], argv.slice(1));
