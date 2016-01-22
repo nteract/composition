@@ -12,7 +12,7 @@ function getKernelResources(k, cb) {
             return
         }
         const kernelSpec = {
-           language: k.language,
+           name: k.name,
            files: files.map(x => path.join(k.resourceDir, x)),
            resources_dir: k.resourceDir
         }
@@ -41,7 +41,7 @@ function kernels(d, cb) {
         else {
           cb(files.map(x => {
               return {
-                  language: x,
+                  name: x,
                   resourceDir: path.join(d, x)
               }
           }))
@@ -72,7 +72,7 @@ function asObservable() {
 function asPromise() {
   return asObservable()
            .reduce((kernels, kernel) => {
-             kernels[kernel.language] = kernel;
+             kernels[kernel.name] = kernel;
               return kernels;
             }, {})
            .toPromise()
