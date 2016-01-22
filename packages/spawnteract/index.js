@@ -88,9 +88,3 @@ module.exports = {
   launchSpec,
   writeConnectionFile,
 };
-
-launch('python3').then(x => {
-  console.log(x);
-}).catch(x => {
-  console.error(x);
-});
