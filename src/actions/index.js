@@ -23,8 +23,8 @@ export const readJSON = (filePath) =>
 export const updateCell = (notebook, index, cell) =>
   actions.onNext(Object.assign({}, { type: 'UPDATE_CELL' }, { notebook, index, cell }));
 
-export const launchKernel = (kernelSpecName) => {
-  return launch(kernelSpecName)
+export const launchKernel = (kernelSpecName) =>
+  launch(kernelSpecName)
     .then(c => {
       const kernel = c.config;
       const spawn = c.spawn;
@@ -41,4 +41,3 @@ export const launchKernel = (kernelSpecName) => {
         { channels, connectionFile, spawn }
       ));
     });
-};
