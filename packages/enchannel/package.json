@@ -1,0 +1,23 @@
+{
+  "name": "enchannel",
+  "version": "1.0.0",
+  "description": "Light spec for wiring up communications between Jupyter frontend and backend implementations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/enchannel.git"
+  },
+  "keywords": [
+    "enchannel",
+    "jupyter"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/enchannel/issues"
+  },
+  "homepage": "https://github.com/nteract/enchannel#readme"
+}
