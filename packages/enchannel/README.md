@@ -52,7 +52,7 @@ var message = {
   },
 };
 
-shell.send(message); // alias of onNext - the actual Rx parlance
+shell.next(message); // send the message
 ```
 
 In order to get this, we make 5 [RxJS Subjects](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/subjects.md) for each of the [five sockets](http://jupyter-client.readthedocs.org/en/latest/messaging.html):
