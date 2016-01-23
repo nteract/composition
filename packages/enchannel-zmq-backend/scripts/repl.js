@@ -15,11 +15,13 @@ const runtimeDir = require('jupyter-paths').runtimeDir();
 
 fsp.readdir(runtimeDir)
    .then(data => {
-	  const kernels = data.filter(x => /kernel.+\.json/.test(x))
-	  if(kernels.length <= 0) throw new Error('You need a running Jupyter session');
-    console.log('Using the first kernel!');
-    return path.join(runtimeDir, kernels[0]);
-	})
+     const kernels = data.filter(x => (/kernel.+\.json/).test(x));
+     if(kernels.length <= 0) {
+       throw new Error('You need a running Jupyter session');
+     }
+     console.log('Using the first kernel!');
+     return path.join(runtimeDir, kernels[0]);
+   })
   .then(runtimePath => {
     return fsp.readFile(runtimePath);
   })
@@ -27,7 +29,7 @@ fsp.readdir(runtimeDir)
     return JSON.parse(contents);
   })
   .then(kernelConfig => {
-  	const shell = createShellSubject(identity, kernelConfig);
+    const shell = createShellSubject(identity, kernelConfig);
     const iopub = createIOPubSubject(identity, kernelConfig);
     global.shell = shell;
     global.iopub = iopub;
@@ -48,14 +50,13 @@ fsp.readdir(runtimeDir)
         allow_stdin: false,
       },
     };
-  
-    console.log(chalk.green('\nHINT: ') + chalk.white('iopub.subscribe(console.log, console.error)'))
-    console.log(chalk.green('\nHINT: ') + chalk.white('shell.subscribe(console.log, console.error)'))
-    console.log(chalk.green('\nHINT: ') + chalk.white('shell.send(message)'))
 
-	  require('repl').start('> ');
+    console.log(chalk.green('\nHINT: ') + chalk.white('iopub.subscribe(console.log, console.error)'));
+    console.log(chalk.green('\nHINT: ') + chalk.white('shell.subscribe(console.log, console.error)'));
+    console.log(chalk.green('\nHINT: ') + chalk.white('shell.send(message)'));
+
+    require('repl').start('> ');
   })
   .catch(err => {
     console.error(err);
-  })
-
+  });
