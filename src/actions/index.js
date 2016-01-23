@@ -26,10 +26,13 @@ export const updateCell = (notebook, index, cell) =>
 export const launchKernel = (kernelSpecName) =>
   launch(kernelSpecName)
     .then(c => {
+      debugger;
       const kernel = c.config;
       const spawn = c.spawn;
       const connectionFile = c.connFile;
       const identity = uuid.v4();
+      console.log(identity);
+      console.log(connectionFile);
       const channels = {
         shell: createShellSubject(identity, kernel),
         iopub: createIOPubSubject(identity, kernel),
