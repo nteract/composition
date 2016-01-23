@@ -43,6 +43,8 @@
     "chalk": "^1.1.1",
     "eslint": "^1.10.3",
     "eslint-plugin-babel": "^3.0.0",
+    "fs-promise": "^0.3.1",
+    "jupyter-paths": "^1.0.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.4",
     "portfinder": "^0.4.0",
