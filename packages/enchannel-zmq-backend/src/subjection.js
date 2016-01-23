@@ -1,4 +1,4 @@
-import { Observer, Observable, Subject } from 'rx';
+import { Subscriber, Observable, Subject } from '@reactivex/rxjs';
 import * as jmp from 'jmp';
 
 import {
@@ -44,11 +44,11 @@ export function formConnectionString(config, channel) {
  * A RxJS wrapper around jmp sockets, that takes care of sending messages and
  * cleans up after itself
  * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
- * @return {Rx.Observer} an observer that allows sending messages onNext and
- *                       closes the underlying socket onCompleted
+ * @return {Rx.Subscriber} a subscriber that allows sending messages on next()
+ *                         and closes the underlying socket on complete()
  */
-export function createObserver(socket) {
-  return Observer.create(messageObject => {
+export function createSubscriber(socket) {
+  return Subscriber.create(messageObject => {
     socket.send(new jmp.Message(messageObject));
   }, err => {
     // We don't expect to send errors to the kernel
@@ -87,10 +87,8 @@ export function createObservable(socket) {
  * @return {Rx.Subject} subject for sending and receiving messages to kernels
  */
 export function createSubject(socket) {
-  const subj = Subject.create(createObserver(socket),
-                              createObservable(socket));
-  subj.send = subj.onNext;       // Adapt naming to fit our parlance
-  subj.close = subj.onCompleted;
+  const subj = Subject.create(createObservable(socket),
+                              createSubscriber(socket));
   return subj;
 }
 
