@@ -4,7 +4,12 @@ import { getJSON } from '../api';
 
 export const actions = new Rx.Subject();
 
-import { createShellSubject, createIOPubSubject } from 'enchannel-zmq-backend';
+import {
+  createControlSubject,
+  createStdinSubject,
+  createIOPubSubject,
+  createShellSubject,
+} from 'enchannel-zmq-backend';
 
 import * as uuid from 'uuid';
 import { launch } from 'spawnteract';
@@ -28,6 +33,8 @@ export const launchKernel = (kernelSpecName) => {
       const channels = {
         shell: createShellSubject(identity, kernel),
         iopub: createIOPubSubject(identity, kernel),
+        control: createControlSubject(identity, kernel),
+        stdin: createStdinSubject(identity, kernel),
       };
       actions.onNext(Object.assign({},
         { type: 'LAUNCH_KERNEL' },
