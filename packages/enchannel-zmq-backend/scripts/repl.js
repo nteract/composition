@@ -2,6 +2,8 @@
 //                   ^^---- for ignoring Jupyter JSON, like msg_id
 
 global.enchannelZMQ = require('../src');
+global.createShellSubject = enchannelZMQ.createShellSubject;
+global.createIOPubSubject = enchannelZMQ.createIOPubSubject;
 const uuid = require('uuid');
 global.uuid = uuid;
 
