@@ -8,10 +8,6 @@ import {
   createIOPubSubject,
 } from '../src';
 
-import {
-  AnonymousSubject,
-} from 'rx';
-
 describe('createChannelSubject', () => {
   it('creates a subject for the channel', () => {
     const config = {
@@ -22,13 +18,10 @@ describe('createChannelSubject', () => {
       iopub_port: 19009,
     };
     const s = createChannelSubject('iopub', uuid.v4(), config);
-    expect(s).to.be.instanceof(AnonymousSubject);
-    expect(s.onNext).to.be.a('function');
-    expect(s.send).to.be.a('function');
-    expect(s.onCompleted).to.be.a('function');
-    expect(s.close).to.be.a('function');
+    expect(s.next).to.be.a('function');
+    expect(s.complete).to.be.a('function');
     expect(s.subscribe).to.be.a('function');
-    s.close();
+    s.complete();
   });
 });
 
@@ -42,6 +35,6 @@ describe('createIOPubSubject', () => {
       iopub_port: 19011,
     };
     const s = createIOPubSubject(uuid.v4(), config);
-    s.close();
+    s.complete();
   });
 });

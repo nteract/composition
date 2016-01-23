@@ -16,7 +16,7 @@ import * as jmp from 'jmp';
 
 import {
   deepFreeze,
-  createObserver,
+  createSubscriber,
   createObservable,
   createSubject,
   createSocket,
@@ -41,28 +41,28 @@ describe('deepFreeze', () => {
   });
 });
 
-describe('createObserver', () => {
-  it('creates an observer from a socket', () => {
+describe('createSubscriber', () => {
+  it('creates a subscriber from a socket', () => {
     const hokeySocket = {
       send: sinon.spy(),
       removeAllListeners: sinon.spy(),
       close: sinon.spy(),
     };
 
-    const ob = createObserver(hokeySocket);
+    const ob = createSubscriber(hokeySocket);
     const message = { content: { x: 2 } };
-    ob.onNext(message);
+    ob.next(message);
     expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
   });
-  it('removes all listeners and closes the socket onCompleted', () => {
+  it('removes all listeners and closes the socket on complete()', () => {
     const hokeySocket = {
       send: sinon.spy(),
       removeAllListeners: sinon.spy(),
       close: sinon.spy(),
     };
 
-    const ob = createObserver(hokeySocket);
-    ob.onCompleted();
+    const ob = createSubscriber(hokeySocket);
+    ob.complete();
     expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
     expect(hokeySocket.close).to.have.been.calledWith();
   });
@@ -73,14 +73,14 @@ describe('createObserver', () => {
       close: sinon.spy(),
     };
 
-    const ob = createObserver(hokeySocket);
-    ob.onCompleted();
+    const ob = createSubscriber(hokeySocket);
+    ob.complete();
     expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
     expect(hokeySocket.close).to.have.been.calledWith();
 
     hokeySocket.removeAllListeners = sinon.spy();
     hokeySocket.close = sinon.spy();
-    ob.onCompleted();
+    ob.complete();
     expect(hokeySocket.removeAllListeners).to.not.have.been.calledWith();
     expect(hokeySocket.close).to.not.have.been.calledWith();
   });
@@ -148,7 +148,7 @@ describe('createSubject', () => {
           success: true,
         },
       });
-      s.close();
+      s.complete();
       expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
       expect(hokeySocket.close).to.have.been.calledWith();
       done();
@@ -163,7 +163,7 @@ describe('createSubject', () => {
     };
 
     const message = { content: { x: 2 } };
-    s.send(message);
+    s.next(message);
     expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
 
     hokeySocket.emit('message', msg);
