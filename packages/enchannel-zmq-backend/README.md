@@ -1,6 +1,6 @@
 # enchannel-zmq-backend
 
-The ZeroMQ backend for [`enchannel`](https://github.com/nteract/enchannel).
+The ZeroMQ backend for [`enchannel`](https://github.com/nteract/enchannel). The classic edition, since Jupyter relies on ZeroMQ first and foremost.
 
 ## Installation
 
