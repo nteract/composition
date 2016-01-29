@@ -77,3 +77,4 @@ Note that [heartbeat](http://jupyter-client.readthedocs.org/en/latest/messaging.
 
 * [The introduction to Reactive Programming you've been missing](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754)
 * [RxJS (4.0)](https://github.com/Reactive-Extensions/RxJS)
+* [RxJS (5.0)](https://github.com/ReactiveX/RxJS)
