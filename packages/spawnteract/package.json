@@ -1,6 +1,6 @@
 {
   "name": "spawnteract",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Proving out an API for spawning Jupyter kernels",
   "main": "index.js",
   "scripts": {
