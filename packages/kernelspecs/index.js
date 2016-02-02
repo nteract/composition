@@ -53,8 +53,11 @@ const kernelsBound = Observable.bindCallback(kernels)
 const getKernelResourcesBound = Observable.bindCallback(getKernelResources)
 
 function asObservable() {
-  var potentialKernelDirs = jp.dataDirs().map(dir => path.join(dir, 'kernels'))
-  var o = Observable.fromArray(potentialKernelDirs)
+  return Observable.fromPromise(jp.dataDirs({ withSysPrefix: true }))
+                    .flatMap(x => {
+                      return Observable.fromArray(x)
+                    })
+                    .map(d => path.join(d, 'kernels'))
                     .flatMap(x => {return kernelsBound(x)})
                     .filter(x => x !== {})
                     .flatMap(x => {
@@ -66,7 +69,6 @@ function asObservable() {
                     .filter(x => !x.err)
                     .publish()
                     .refCount()
-  return o
 }
 
 function asPromise() {
