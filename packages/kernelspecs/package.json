@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/nteract/kernelspecs#readme",
   "dependencies": {
-    "jupyter-paths": "^1.0.0",
-    "rxjs": "^5.0.0-beta.1"
+    "jupyter-paths": "^1.0.0"
   }
 }
