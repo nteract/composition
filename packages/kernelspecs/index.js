@@ -20,17 +20,21 @@ function promisify(f, args) {
  * @return {Promise<Object>}                  Promise for a kernelResources object
  */
 function getKernelResources(kernelInfo) {
-  return Promise.all([
-    promisify(fs.readdir, [kernelInfo.resourceDir]),
-    promisify(fs.readFile, [path.join(kernelInfo.resourceDir, 'kernel.json')])
-  ]).then((files, data) => {
-    return promisify(fs.readFile, [path.join(kernelInfo.resourceDir, 'kernel.json')]).then(data => ({
-      name: kernelInfo.name,
-      files: files.map(x => path.join(kernelInfo.resourceDir, x)),
-      resources_dir: kernelInfo.resourceDir, // eslint-disable-line camelcase
-      spec: JSON.parse(data),
-    }));
-  });
+  return Promise.resolve(kernelInfo).then(kernelInfo =>
+    promisify(fs.readdir, [kernelInfo.resourceDir]).then(files => {
+      const kernelJSONIndex = files.indexOf('kernel.json');
+      if (kernelJSONIndex === -1) {
+        throw new Error('kernel.json not found');
+      }
+
+      return promisify(fs.readFile, [path.join(kernelInfo.resourceDir, 'kernel.json')]).then(data => ({
+        name: kernelInfo.name,
+        files: files.map(x => path.join(kernelInfo.resourceDir, x)),
+        resources_dir: kernelInfo.resourceDir, // eslint-disable-line camelcase
+        spec: JSON.parse(data),
+      }));
+    })
+  );
 }
 
 /**
