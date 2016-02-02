@@ -5,8 +5,8 @@ const fs = require('fs');
 /**
  * Converts a callback style call to a Promise
  * @param  {function} f       a node style function that accepts a callback
- * @param  {object[]} args    arguments to pass to the function when invoking it
- * @return {Promise<object>}  object returned by the function
+ * @param  {Object[]} args    arguments to pass to the function when invoking it
+ * @return {Promise<Object>}  object returned by the function
  */
 function promisify(f, args) {
   return new Promise((resolve, reject) => f.apply(this, args.concat((err, x) => err ? reject(err) : resolve(x))));
@@ -14,10 +14,10 @@ function promisify(f, args) {
 
 /**
  * Get a kernel resources object
- * @param  {object}   kernelInfo              description of a kernel
+ * @param  {Object}   kernelInfo              description of a kernel
  * @param  {string}   kernelInfo.name         name of the kernel
  * @param  {string}   kernelInfo.resourceDir  kernel's resources directory
- * @return {Promise<object>}                  Promise for a kernelResources object
+ * @return {Promise<Object>}                  Promise for a kernelResources object
  */
 function getKernelResources(kernelInfo) {
   return Promise.resolve().then(() =>
@@ -40,7 +40,7 @@ function getKernelResources(kernelInfo) {
 /**
  * Gets a list of kernelInfo objects for a given directory of kernels
  * @param  {string}   directory path to a directory full of kernels
- * @return {Promise<object[]>}  Promise for an array of kernelInfo objects
+ * @return {Promise<Object[]>}  Promise for an array of kernelInfo objects
  */
 function getKernelInfos(directory) {
   return promisify(fs.readdir, [directory]).then(files =>
