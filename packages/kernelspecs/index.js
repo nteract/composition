@@ -38,7 +38,11 @@ function getKernelResources(kernelInfo) {
 /**
  * Gets a list of kernelInfo objects for a given directory of kernels
  * @param  {string}   directory path to a directory full of kernels
-return return     files.map(fileName => ({
+ * @return {Promise<object[]>}  Promise for an array of kernelInfo objects
+ */
+function getKernelInfos(directory) {
+  return callPromise(fs.readdir, [directory]).then(files  => 
+    files.map(fileName => ({
       name: fileName,
       resourceDir: path.join(directory, fileName)
     }))
