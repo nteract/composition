@@ -8,7 +8,7 @@ const fs = require('fs');
  * @param  {object[]} args    arguments to pass to the function when invoking it
  * @return {Promise<object>}  object returned by the function
  */
-function callPromise(f, args) {
+function promisify(f, args) {
   return new Promise((resolve, reject) => f.apply(this, args.concat((err, x) => err ? reject(err) : resolve(x))));
 }
 
@@ -21,11 +21,11 @@ function callPromise(f, args) {
  */
 function getKernelResources(kernelInfo) {
   return Promise.resolve(kernelInfo).then(kernelInfo => 
-    callPromise(fs.readdir, [kernelInfo.resourceDir]).then(files => {
+    promisify(fs.readdir, [kernelInfo.resourceDir]).then(files => {
       var kernelJSONIndex = files.indexOf('kernel.json');
       if (kernelJSONIndex === -1) throw new Error('kernel.json not found');
       
-      return callPromise(fs.readFile, [path.join(kernelInfo.resourceDir, 'kernel.json')]).then(data => ({
+      return promisify(fs.readFile, [path.join(kernelInfo.resourceDir, 'kernel.json')]).then(data => ({
         name: kernelInfo.name,
         files: files.map(x => path.join(kernelInfo.resourceDir, x)),
         resources_dir: kernelInfo.resourceDir,
@@ -41,7 +41,7 @@ function getKernelResources(kernelInfo) {
  * @return {Promise<object[]>}  Promise for an array of kernelInfo objects
  */
 function getKernelInfos(directory) {
-  return callPromise(fs.readdir, [directory]).then(files  => 
+  return promisify(fs.readdir, [directory]).then(files  => 
     files.map(fileName => ({
       name: fileName,
       resourceDir: path.join(directory, fileName)
@@ -56,12 +56,14 @@ function getKernelInfos(directory) {
 function kernelSpecs() {
   return jp.dataDirs({ withSysPrefix: true }).then(dirs => {
     return Promise.all(dirs
-      .map(dir => getKernelInfos(dir)) // get kernel infos for each directory
+      .map(dir => getKernelInfos(path.join(dir, 'kernels')).catch(()=>{})) // get kernel infos for each directory and ignore errors
+    ).then(kernelInfos => Promise.all(kernelInfos
+      .filter(a => a) // remove null/undefined kernelInfo
       .reduce((a, b) => a.concat(b)) // flatten the results into one array
-      .map(a => a.catch())) // ignore kernelInfo related errors
-      .map(a => getKernelResources(a)) // convert kernelInfo -> kernelResources
-      .map(a => a.catch()) // ignore kernelResources related errors
-      .filter(a => a); // remove null/undefined kernelResources
+      .map(a => getKernelResources(a).catch(()=>{})) // convert kernelInfo -> kernelResources and ignore errors
+    )).then(kernelResources => kernelResources
+      .filter(a => a) // remove null/undefined kernelResources
+    );
   });
 }
 
