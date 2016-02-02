@@ -20,7 +20,7 @@ function promisify(f, args) {
  * @return {Promise<Object>}                  Promise for a kernelResources object
  */
 function getKernelResources(kernelInfo) {
-  return Promise.resolve().then(() =>
+  return Promise.resolve(kernelInfo).then(kernelInfo =>
     promisify(fs.readdir, [kernelInfo.resourceDir]).then(files => {
       const kernelJSONIndex = files.indexOf('kernel.json');
       if (kernelJSONIndex === -1) {
