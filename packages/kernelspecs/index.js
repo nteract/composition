@@ -65,6 +65,10 @@ function kernelSpecs() {
       .map(a => getKernelResources(a).catch(()=>{})) // convert kernelInfo -> kernelResources and ignore errors
     )).then(kernelResources => kernelResources
       .filter(a => a) // remove null/undefined kernelResources
+      .reduce((kernels, kernel) => {
+        kernels[kernel.name] = kernel;
+        return kernels;
+      }, {})
     );
   });
 }
