@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "4.1"
+  - "5.1"
+sudo: false
+
+before_install:
+  - pip install jupyter_console
+  - jupyter kernelspec install-self
