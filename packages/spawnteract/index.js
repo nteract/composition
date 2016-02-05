@@ -108,7 +108,7 @@ function writeConnectionFile(options) {
  */
 function launchSpec(kernelSpec, options) {
   return writeConnectionFile(options).then((c) => {
-    const connectionFile = c.configFile;
+    const connectionFile = c.connectionFile;
     const config = c.config;
     const argv = kernelSpec.argv.map(x => x === '{connection_file}' ? connectionFile : x);
     const runningKernel = child_process.spawn(argv[0], argv.slice(1));

@@ -14,7 +14,7 @@ describe('launch', () => {
       expect(c.spawn).to.not.be.null;
 
       c.spawn.kill();
-      fs.unlink(c.connFile);
+      fs.unlink(c.connectionFile);
     });
   });
 });
