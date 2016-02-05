@@ -10,11 +10,18 @@
  * // Print the ip address and port for the shell channel
  * console.log(spawnResults.config.ip + ':' + spawnResults.config.shell_port);
  * ```
+ *
+ * You'll need to close `spawnResults.spawn` yourself as well as delete
+ * `spawnResults.connectionFile` from disk when finished.
+ *
+ * @exports spawnteract
  */
 
 /* eslint camelcase: 0 */
 // ^--- #justjupyterthings
-
+/**
+ *
+ */
 const path = require('path');
 
 const kernelspecs = require('kernelspecs');
