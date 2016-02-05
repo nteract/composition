@@ -73,7 +73,7 @@ function launchSpec(spec, opts) {
 function launch(kernelName, specs) {
   // Let them pass in a cached specs file
   if(!specs) {
-    return kernelspecs.asPromise()
+    return kernelspecs.findAll()
                       .then((sp) => launch(kernelName, sp));
   }
   if(!specs[kernelName]) {
