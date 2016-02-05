@@ -6,4 +6,4 @@ sudo: false
 
 before_install:
   - pip install jupyter_console --user
-  - jupyter kernelspec install-self
+  - jupyter kernelspec install-self --user
