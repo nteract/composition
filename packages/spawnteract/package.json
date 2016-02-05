@@ -4,7 +4,7 @@
   "description": "Proving out an API for spawning Jupyter kernels",
   "main": "index.js",
   "scripts": {
-    "test": "node -e \"require('.').launch('python2').then(console.log).catch(() => {process.exit(1)})\""
+    "test": "mocha --recursive"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
@@ -14,5 +14,9 @@
     "kernelspecs": "^1.0.0",
     "portfinder": "^0.4.0",
     "uuid": "^2.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
   }
 }
