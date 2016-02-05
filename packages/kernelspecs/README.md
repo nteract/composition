@@ -9,7 +9,7 @@ npm install kernelspecs
 ## Usage
 
 ```javascript
-> require('kernelspecs')().then(console.log)
+> require('kernelspecs').findAll().then(console.log)
 Promise { <pending> }
 > { babel:
    { files:
