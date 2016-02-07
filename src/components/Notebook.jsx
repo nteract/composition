@@ -6,6 +6,7 @@ export default class Notebook extends React.Component {
   static displayName = 'Notebook';
 
   static propTypes = {
+    channels: React.PropTypes.any,
     notebook: React.PropTypes.any,
     onCellChange: React.PropTypes.func,
   };
