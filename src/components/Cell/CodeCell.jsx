@@ -7,6 +7,7 @@ export default class CodeCell extends React.Component {
   static displayName = 'CodeCell';
 
   static propTypes = {
+    channels: React.PropTypes.any,
     input: React.PropTypes.any,
     language: React.PropTypes.string,
     outputs: React.PropTypes.any,

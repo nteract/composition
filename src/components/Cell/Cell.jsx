@@ -7,6 +7,7 @@ export default class Cell extends React.Component {
   static displayName = 'Cell';
 
   static propTypes = {
+    channels: React.PropTypes.any,
     index: React.PropTypes.number,
     input: React.PropTypes.any,
     language: React.PropTypes.string,
@@ -35,6 +36,7 @@ export default class Cell extends React.Component {
           language={this.props.language}
           outputs={this.props.outputs}
           notebook={this.props.notebook}
+          channels={this.props.channels}
         />
       }
       </div>
