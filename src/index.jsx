@@ -30,7 +30,8 @@ class App extends React.Component {
           {
             this.state.notebook &&
             <Notebook
-              notebook={this.state.notebook} />
+              notebook={this.state.notebook}
+              channels={this.state.channels} />
           }
         </div>
       </Provider>

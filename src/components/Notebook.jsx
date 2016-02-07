@@ -6,6 +6,7 @@ export default class Notebook extends React.Component {
   static displayName = 'Notebook';
 
   static propTypes = {
+    channels: React.PropTypes.any,
     notebook: React.PropTypes.any,
     onCellChange: React.PropTypes.func,
   };
@@ -44,6 +45,7 @@ export default class Notebook extends React.Component {
                        index={index}
                        type={cell.get('cell_type')}
                        key={index}
+                       channels={this.props.channels}
                        onTextChange={text => {
                          const newCell = cell.set('source', text);
                          this.props.onCellChange(index, newCell);

@@ -7,8 +7,11 @@ export default class Cell extends React.Component {
   static displayName = 'Cell';
 
   static propTypes = {
+    channels: React.PropTypes.any,
+    index: React.PropTypes.number,
     input: React.PropTypes.any,
     language: React.PropTypes.string,
+    notebook: React.PropTypes.any,
     outputs: React.PropTypes.any,
     type: React.PropTypes.string,
   };
@@ -22,8 +25,19 @@ export default class Cell extends React.Component {
       }}>
       {
       this.props.type === 'markdown' ?
-        <MarkdownCell {...this.props}/> :
-        <CodeCell {...this.props}/>
+        <MarkdownCell
+          index={this.props.index}
+          input={this.props.input}
+          notebook={this.props.notebook}
+        /> :
+        <CodeCell
+          index={this.props.index}
+          input={this.props.input}
+          language={this.props.language}
+          outputs={this.props.outputs}
+          notebook={this.props.notebook}
+          channels={this.props.channels}
+        />
       }
       </div>
     );
