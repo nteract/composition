@@ -77,7 +77,14 @@ export default class CodeCell extends React.Component {
 
      const executeResult = childMessages
        .filter(msg => msg.header.msg_type === 'execute_result')
-       .map(msg => msg.content);
+       .map(msg => {
+         return {
+           data: msg.content,
+           metadata: {},
+           output_type: msg.header.msg_type, // eslint-disable-line camelcase
+           execution_count: msg.content.execution_count,
+         };
+       });
 
      const executeInput = childMessages
        .filter(msg => msg.header.msg_type === 'execute_input')
