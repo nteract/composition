@@ -62,11 +62,18 @@ export default class CodeCell extends React.Component {
       .publish()
       .refCount();
 
+    const oldOutputs = this.props.outputs;
+    console.log(oldOutputs.toJS());
+
     const displayData = childMessages
-      .filter(msg => msg.header.msg_type === 'execute_result' ||
-                     msg.header.msg_type === 'display_data')
-      .filter(msg => msg.content)
-      .map(msg => msg.content.data);
+      .filter(msg => msg.header.msg_type === 'display_data')
+      .map(msg => {
+        return {
+          data: msg.content,
+          metadata: {},
+          output_type: msg.header.msg_type, // eslint-disable-line camelcase
+        };
+      });
 
      const executeResult = childMessages
        .filter(msg => msg.header.msg_type === 'execute_result')
