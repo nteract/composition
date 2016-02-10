@@ -32,6 +32,7 @@ const getPorts = require('portfinder').getPorts;
 const jsonfile = require('jsonfile');
 
 const child_process = require('child_process');
+const mkdirp = require('mkdirp');
 
 /**
  * Creates a connectionConfig object given an array of ports
@@ -75,6 +76,12 @@ function writeConnectionFile(options) {
       if(err) {
         reject(err);
       } else {
+        // Make sure the kernel runtime dir exists before trying to write the
+        // kernel file.
+        const runtimeDir = jp.runtimeDir();
+        mkdirp(runtimeDir);
+
+        // Write the kernel connection file.
         const config = _createConnectionConfig(ports);
         const connectionFile = path.join(jp.runtimeDir(), `kernel-${uuid.v4()}.json`);
         jsonfile.writeFile(connectionFile, config, (jsonErr) => {

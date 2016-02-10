@@ -12,6 +12,7 @@
     "jsonfile": "^2.2.3",
     "jupyter-paths": "^1.0.0",
     "kernelspecs": "^1.0.0",
+    "mkdirp": "^0.5.1",
     "portfinder": "^0.4.0",
     "uuid": "^2.0.1"
   },
