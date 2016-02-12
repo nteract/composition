@@ -87,8 +87,8 @@ export function createObservable(socket) {
  * @return {Rx.Subject} subject for sending and receiving messages to kernels
  */
 export function createSubject(socket) {
-  const subj = Subject.create(createObservable(socket),
-                              createSubscriber(socket));
+  const subj = Subject.create(createSubscriber(socket),
+                              createObservable(socket));
   return subj;
 }
 
