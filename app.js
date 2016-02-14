@@ -1,6 +1,7 @@
 // This gets bootstrapped by main.js
 import app from 'app';
 import BrowserWindow from 'browser-window';
+import { setApplicationMenu, DEFAULT_MENU } from './src/menu';
 
 import path from 'path';
 
@@ -22,6 +23,7 @@ if(notebooks <= 0) {
 }
 
 app.on('ready', () => {
+  setApplicationMenu(DEFAULT_MENU);
   windows = notebooks.forEach((notebook) => {
     let win = new BrowserWindow({
       width: 800,

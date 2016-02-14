@@ -5,12 +5,11 @@ import createStore from './store';
 import { reducers } from './reducers';
 import { readJSON } from './actions';
 import Provider from './components/util/provider';
-import { setApplicationMenu, DEFAULT_MENU } from './menu';
+import bindEvents from './menu/ipc-host';
 import Notebook from './components/notebook';
 
 const { store, dispatch } = createStore({ notebook: null, selected: [] }, reducers);
-setApplicationMenu(DEFAULT_MENU, dispatch);
-
+bindEvents(dispatch);
 class App extends React.Component {
   constructor(props) {
     super(props);
