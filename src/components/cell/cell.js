@@ -25,17 +25,16 @@ class Cell extends React.Component {
   }
 
   componentWillUpdate() {
-    if(this.props.isFocused) {
-      const node = this.getDOMNode();
-      this.scrollHeight = node.scrollHeight;
-      this.scrollTop = node.scrollTop;
-    }
+    const node = this.getDOMNode();
+    this.scrollHeight = node.scrollHeight;
+    this.scrollTop = node.scrollTop;
   }
 
   componentDidUpdate() {
+    const node = this.getDOMNode();
+    node.scrollTop = this.scrollTop + (node.scrollHeight - this.scrollHeight);
     if(this.props.isFocused) {
-      const node = this.getDOMNode();
-      node.scrollTop = this.scrollTop + (node.scrollHeight - this.scrollHeight);
+      node.scrollIntoView();
     }
   }
 

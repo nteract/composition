@@ -62,6 +62,8 @@ reducers[NEXT_CELL] = function nextCell(state, action) {
     // what cellID I want or for it to return one to me
     // notebook = commutable.appendCell(notebook, cell);
     // doing it here, then writing the idiomatic clean interface later
+    // When writing tests, I ran into this too as the cell ID was wrapped
+    // in a closure and had to be extracted by "knowing" where the next cell was
     const cellID = uuid();
     notebook = notebook.setIn(['cellMap', cellID], cell)
                        .set('cellOrder',
