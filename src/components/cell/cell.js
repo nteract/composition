@@ -11,6 +11,7 @@ class Cell extends React.Component {
   static propTypes = {
     cell: React.PropTypes.any,
     id: React.PropTypes.string,
+    isFocused: React.PropTypes.bool,
     isSelected: React.PropTypes.bool,
   };
 
@@ -21,6 +22,21 @@ class Cell extends React.Component {
   constructor(props) {
     super(props);
     this.setSelected = this.setSelected.bind(this);
+  }
+
+  componentWillUpdate() {
+    if(this.props.isFocused) {
+      const node = this.getDOMNode();
+      this.scrollHeight = node.scrollHeight;
+      this.scrollTop = node.scrollTop;
+    }
+  }
+
+  componentDidUpdate() {
+    if(this.props.isFocused) {
+      const node = this.getDOMNode();
+      node.scrollTop = this.scrollTop + (node.scrollHeight - this.scrollHeight);
+    }
   }
 
   setSelected(e) {

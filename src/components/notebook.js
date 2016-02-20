@@ -69,7 +69,7 @@ class Notebook extends React.Component {
                        id={id}
                        key={id}
                        isSelected={selected}
-                       focused={this.props.focused === id}
+                       isFocused={this.props.focused === id}
                        onTextChange={text => {
                          const newCell = cellMap.get(id).set('source', text);
                          this.props.onCellChange(id, newCell);

@@ -17,6 +17,7 @@ export const READ_NOTEBOOK = Symbol('READ_NOTEBOOK');
 
 export const MOVE_CELL = Symbol('MOVE_CELL');
 export const NEW_CELL_AFTER = Symbol('NEW_CELL_AFTER');
+export const NEXT_CELL = Symbol('NEXT_CELL');
 export const UPDATE_CELL_EXECUTION_COUNT = Symbol('UPDATE_CELL_EXECUTION_COUNT');
 export const UPDATE_CELL_OUTPUTS = Symbol('UPDATE_CELL_OUTPUTS');
 export const UPDATE_CELL_SOURCE = Symbol('UPDATE_CELL_SOURCE');

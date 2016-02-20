@@ -18,6 +18,7 @@ import {
   UPDATE_CELL_OUTPUTS,
   MOVE_CELL,
   NEW_CELL_AFTER,
+  NEXT_CELL,
   UPDATE_CELL_EXECUTION_COUNT,
   READ_NOTEBOOK,
   ERROR_KERNEL_NOT_CONNECTED,
@@ -154,6 +155,13 @@ export function updateCellExecutionCount(id, count) {
     type: UPDATE_CELL_EXECUTION_COUNT,
     id,
     count,
+  };
+}
+
+export function nextCell(id) {
+  return {
+    type: NEXT_CELL,
+    id,
   };
 }
 
