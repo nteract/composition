@@ -42,7 +42,6 @@ class Cell extends React.Component {
   }
 
   focus() {
-    console.log(this.props.id, this.props.isFocused);
     if(this.props.isFocused) {
       ReactDOM.findDOMNode(this).scrollIntoView();
     }
