@@ -21,6 +21,7 @@ import {
   UPDATE_CELL_EXECUTION_COUNT,
   READ_NOTEBOOK,
   ERROR_KERNEL_NOT_CONNECTED,
+  SET_FOCUSED,
 } from './constants';
 
 import {
@@ -121,6 +122,13 @@ export function updateCellOutputs(id, outputs) {
     type: UPDATE_CELL_OUTPUTS,
     id,
     outputs,
+  };
+}
+
+export function focusCell(id) {
+  return {
+    type: SET_FOCUSED,
+    id,
   };
 }
 

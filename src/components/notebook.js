@@ -10,6 +10,7 @@ class Notebook extends React.Component {
 
   static propTypes = {
     channels: React.PropTypes.any,
+    focused: React.PropTypes.string,
     notebook: React.PropTypes.any,
     onCellChange: React.PropTypes.func,
     selected: React.PropTypes.array,
@@ -68,6 +69,7 @@ class Notebook extends React.Component {
                        id={id}
                        key={id}
                        isSelected={selected}
+                       focused={this.props.focused === id}
                        onTextChange={text => {
                          const newCell = cellMap.get(id).set('source', text);
                          this.props.onCellChange(id, newCell);

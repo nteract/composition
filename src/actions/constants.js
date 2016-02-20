@@ -11,6 +11,7 @@ export const KILL_KERNEL = Symbol('KILL_KERNEL');
 export const EXIT = Symbol('EXIT');
 
 export const SET_SELECTED = Symbol('SET_SELECTED');
+export const SET_FOCUSED = Symbol('SET_FOCUSED');
 
 export const READ_NOTEBOOK = Symbol('READ_NOTEBOOK');
 

@@ -15,6 +15,7 @@ import {
   UPDATE_CELL_OUTPUTS,
   UPDATE_CELL_SOURCE,
   ERROR_KERNEL_NOT_CONNECTED,
+  SET_FOCUSED,
 } from '../actions/constants';
 
 import {
@@ -41,6 +42,13 @@ reducers[SET_SELECTED] = function setSelected(state, action) {
       action.ids;
   return Object.assign({}, state, {
     selected,
+  });
+};
+
+reducers[SET_FOCUSED] = function setFocused(state, action) {
+  const focused = action.id;
+  return Object.assign({}, state, {
+    focused,
   });
 };
 
