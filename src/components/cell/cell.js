@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import CodeCell from './code-cell';
 import MarkdownCell from './markdown-cell';
@@ -25,13 +26,13 @@ class Cell extends React.Component {
   }
 
   componentWillUpdate() {
-    const node = this.getDOMNode();
+    const node = ReactDOM.findDOMNode(this);
     this.scrollHeight = node.scrollHeight;
     this.scrollTop = node.scrollTop;
   }
 
   componentDidUpdate() {
-    const node = this.getDOMNode();
+    const node = ReactDOM.findDOMNode(this);
     node.scrollTop = this.scrollTop + (node.scrollHeight - this.scrollHeight);
     if(this.props.isFocused) {
       node.scrollIntoView();
