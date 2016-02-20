@@ -25,6 +25,10 @@ class Cell extends React.Component {
     this.setSelected = this.setSelected.bind(this);
   }
 
+  componentDidMount() {
+    this.focus();
+  }
+
   componentWillUpdate() {
     const node = ReactDOM.findDOMNode(this);
     this.scrollHeight = node.scrollHeight;
@@ -34,8 +38,13 @@ class Cell extends React.Component {
   componentDidUpdate() {
     const node = ReactDOM.findDOMNode(this);
     node.scrollTop = this.scrollTop + (node.scrollHeight - this.scrollHeight);
+    this.focus();
+  }
+
+  focus() {
+    console.log(this.props.id, this.props.isFocused);
     if(this.props.isFocused) {
-      node.scrollIntoView();
+      ReactDOM.findDOMNode(this).scrollIntoView();
     }
   }
 

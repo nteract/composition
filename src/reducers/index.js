@@ -50,7 +50,7 @@ reducers[NEXT_CELL] = function nextCell(state, action) {
 
   const priorIndex = cellOrder.indexOf(id);
 
-  let focused = cellOrder[priorIndex + 1];
+  let focused = cellOrder.get(priorIndex + 1);
 
   if(priorIndex === -1 || // What does this behavior mean?
      priorIndex === cellOrder.size - 1) {
