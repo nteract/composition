@@ -4,7 +4,7 @@ The ZeroMQ backend for [`enchannel`](https://github.com/nteract/enchannel). The 
 
 ## Installation
 
-`npm install enchanell-zmq-backend`
+`npm install enchannel-zmq-backend`
 
 ### ZeroMQ Dependency
 
