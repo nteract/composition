@@ -47,7 +47,8 @@ class App extends React.Component {
             <Notebook
               selected={this.state.selected}
               notebook={this.state.notebook}
-              channels={this.state.channels} />
+              channels={this.state.channels}
+              focused={this.state.focused} />
           }
         </div>
       </Provider>

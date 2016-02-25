@@ -18,9 +18,11 @@ import {
   UPDATE_CELL_OUTPUTS,
   MOVE_CELL,
   NEW_CELL_AFTER,
+  NEXT_CELL,
   UPDATE_CELL_EXECUTION_COUNT,
   READ_NOTEBOOK,
   ERROR_KERNEL_NOT_CONNECTED,
+  SET_FOCUSED,
 } from './constants';
 
 import {
@@ -124,6 +126,13 @@ export function updateCellOutputs(id, outputs) {
   };
 }
 
+export function focusCell(id) {
+  return {
+    type: SET_FOCUSED,
+    id,
+  };
+}
+
 export function moveCell(id, destinationId, above) {
   return {
     type: MOVE_CELL,
@@ -146,6 +155,13 @@ export function updateCellExecutionCount(id, count) {
     type: UPDATE_CELL_EXECUTION_COUNT,
     id,
     count,
+  };
+}
+
+export function nextCell(id) {
+  return {
+    type: NEXT_CELL,
+    id,
   };
 }
 
