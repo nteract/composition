@@ -59,6 +59,7 @@
     "babel-eslint": "^4.1.6",
     "babel-plugin-transform-class-properties": "^6.3.13",
     "babel-plugin-transform-export-extensions": "^6.3.13",
+    "babel-plugin-transform-object-rest-spread": "^6.6.4",
     "babel-preset-es2015": "^6.1.18",
     "babel-preset-react": "^6.3.13",
     "chai": "^3.4.1",
