@@ -11,5 +11,10 @@
     "react"
   ],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  "license": "MPL-2.0",
+  "dependencies": {
+    "ansi-parser": "^3.2.0",
+    "ansi-to-html": "^0.3.0",
+    "entities": "^1.1.1"
+  }
 }
