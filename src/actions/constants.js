@@ -6,7 +6,7 @@ module.exports = createConstants(
   'ERROR_KERNEL_NOT_CONNECTED',
   'NEW_KERNEL', 'KILL_KERNEL',
   'EXIT',
-  'SET_SELECTED',
+  'SET_SELECTED_CELLS',
   'SET_NOTEBOOK',
   'MOVE_CELL', 'REMOVE_CELL',
   'NEW_CELL_AFTER',
