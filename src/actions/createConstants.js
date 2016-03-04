@@ -6,5 +6,5 @@
  */
 export default (...constants) => constants.reduce((acc, constant) => Object.assign(
   acc,
-  { [constant]: Symbol(constant) }
+  { [constant]: constant }
 ), {});

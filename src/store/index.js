@@ -1,43 +1,34 @@
-import * as Rx from '@reactivex/rxjs';
+import {
+  createStore,
+  applyMiddleware,
+  compose
+} from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import logger from 'redux-logger'
 
-export default function createStore(initialState, reducers) {
+import rootReducer from '../reducers';
 
-  const subject = new Rx.Subject();
+import {
+  cleanupKernel,
+  executeCell,
+  newKernel,
+  save,
+  saveAs,
+  setNotebook
+} from '../sagas';
 
-  const store = subject.scan(
-    function inreduction(state, action) {
-      if(!action || !action.type || ! (action.type in reducers)) {
-        console.error('Action not registered');
-        console.error(action);
-        console.error(action.type);
-        return state; // no reduction
-      }
+const sagas = [
+  cleanupKernel,
+  executeCell,
+  newKernel,
+  save,
+  saveAs,
+  setNotebook
+];
 
-      return reducers[action.type].call(null, state, action);
-    },
-    initialState || {}
-  ).share();
-
-  // Debugging time
-  store.subscribe(null, (err) => {
-    console.error('Error in the store', err);
-  });
-
-  let lastState = {};
-  store.subscribe(st => {
-    lastState = st;
-  });
-
-  function dispatch(action) {
-    // We need the current state at this time
-    return typeof action === 'function'
-      ? action.call(null, subject, dispatch, lastState)
-      : subject.next(action);
-  }
-
-  return {
-    store,
-    dispatch,
-  };
-
-}
+export default (launchData) => createStore(
+  rootReducer(launchData),
+  applyMiddleware(createSagaMiddleware(...sagas), logger({
+    stateTransformer: state => state.toJS()
+  }))
+);

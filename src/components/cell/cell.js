@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
+import PropTypes from '../../utils/PropTypes';
 
 import CodeCell from './code-cell';
 import MarkdownCell from './markdown-cell';
@@ -6,48 +9,44 @@ import Toolbar from './toolbar';
 
 import { setSelected } from '../../actions';
 
-class Cell extends React.Component {
+const mapDispatchToProps = {
+  setSelected
+};
+
+export class Cell extends React.Component {
   static displayName = 'Cell';
 
   static propTypes = {
-    cell: React.PropTypes.any,
-    id: React.PropTypes.string,
-    isSelected: React.PropTypes.bool,
+    cell: PropTypes.any,
+    id: PropTypes.string,
+    isSelected: PropTypes.bool,
   };
-
-  static contextTypes = {
-    dispatch: React.PropTypes.func,
-  };
-
-  constructor(props) {
-    super(props);
-    this.setSelected = this.setSelected.bind(this);
-  }
 
   setSelected(e) {
     const additive = e.shiftKey;
-    this.context.dispatch(setSelected([this.props.id], additive));
+    this.props.setSelected([this.props.id], additive);
   }
 
   render() {
-    const cell = this.props.cell;
+    const { cell } = this.props;
+
     const type = cell.get('cell_type');
+
     const selected = this.props.isSelected ? 'selected' : '';
+
     return (
       <div
-        onClick={this.setSelected}
+        onClick={this.setSelected.bind(this)}
         className={'cell ' + selected}>
+        {this.props.isSelected && <Toolbar {...this.props}/>}
         {
-          this.props.isSelected && <Toolbar {...this.props}/>
-        }
-        {
-        type === 'markdown' ?
-          <MarkdownCell {...this.props}/> :
-          <CodeCell {...this.props}/>
+          type === 'markdown'
+            ? <MarkdownCell {...this.props}/>
+            : <CodeCell {...this.props}/>
         }
       </div>
     );
   }
 }
 
-export default Cell;
+export default connect(null, mapDispatchToProps)(Cell);
