@@ -30,6 +30,8 @@ export class Notebook extends React.Component {
     channels: PropTypes.any,
     notebook: PropTypes.any,
     selected: PropTypes.list,
+    moveCell: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
   };
 
   static childContextTypes = {
@@ -45,7 +47,7 @@ export class Notebook extends React.Component {
   componentWillMount() {
     require('codemirror/mode/markdown/markdown');
 
-    const lang = this.props.notebook.getIn(['metadata', 'language_info', 'name']);
+    const lang = this.props.notebook && this.props.notebook.getIn(['metadata', 'language_info', 'name']);
 
     if (!lang) return;
 

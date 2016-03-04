@@ -4,6 +4,7 @@ import {
   compose
 } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import logger from 'redux-logger'
 
 import rootReducer from '../reducers';
 
@@ -27,5 +28,11 @@ const sagas = [
 
 export default (launchData) => createStore(
   rootReducer(launchData),
-  applyMiddleware(createSagaMiddleware(...sagas))
+  applyMiddleware(createSagaMiddleware(...sagas), logger({
+    stateTransformer: state => state.toJS(),
+    errorTransformer: error => {
+      console.log(error);
+      return error;
+    }
+  }))
 );

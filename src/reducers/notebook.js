@@ -38,7 +38,7 @@ export default (launchData) => createReducer({
     data
   ),
   [SET_SELECTED_CELLS]: (state, action) => {
-    const method = action.additive ? 'push' : 'set';
+    const method = action.additive ? 'concat' : 'set';
 
     state[method]('selected', action.ids);
   },

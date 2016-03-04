@@ -3,11 +3,11 @@ import {
 } from 'redux-saga/effects';
 import { unlink } from 'fs';
 
-import { CLEANUP_KERNEL } from '../actions/constants';
+import { CLEANUP_KERNEL, KILL_KERNEL } from '../actions/constants';
 
 export default function* cleanupKernel (getState) {
   while (true) {
-    yield take(CLEANUP_KERNEL);
+    yield take([KILL_KERNEL, CLEANUP_KERNEL]);
 
     // Get everything we need from state tree
     const state = getState();

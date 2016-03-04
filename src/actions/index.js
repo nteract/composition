@@ -49,7 +49,7 @@ export const setNotebook = (notebook) => ({
 });
 
 export const setSelected = (ids, additive) => ({
-  type: SET_SELECTED,
+  type: SET_SELECTED_CELLS,
   ids,
   additive
 })

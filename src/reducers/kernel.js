@@ -3,10 +3,15 @@ import { fromJS } from 'immutable';
 import {
   ADD_KERNEL,
   ERROR_KERNEL_NOT_CONNECTED,
-  CLEANUP_KERNEL
+  CLEANUP_KERNEL, KILL_KERNEL
 } from '../actions/constants';
 
 const initialState = fromJS({});
+
+const cleanupKernels = (state) => state
+  .remove('channels')
+  .remove('connectionFile')
+  .remove('spawn');
 
 export default () => createReducer({
   [ADD_KERNEL]: (state, { channels, connectionFile, spawn }) => state.merge({
@@ -18,8 +23,6 @@ export default () => createReducer({
     'error',
     'Error: We\'re not connected to a runtime!'
   ),
-  [CLEANUP_KERNEL]: (state) => state
-    .remove('channels')
-    .remove('connectionFile')
-    .remove('spawn')
+  [CLEANUP_KERNEL]: cleanupKernels,
+  [KILL_KERNEL]: cleanupKernels
 }, initialState);

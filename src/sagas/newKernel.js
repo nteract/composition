@@ -14,7 +14,6 @@ export default function* newKernel(getState) {
 
     try {
       // Spawn a kernel
-      debugger;
       const kc = yield call(launchKernel, kernelSpecName);
       const { channels, connectionFile, spawn } = kc;
 
