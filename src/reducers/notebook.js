@@ -85,6 +85,5 @@ export default (launchData) => createReducer({
     (notebook) => updateOutputs(notebook, id, outputs)
   )
 }, initialState.merge({
-  filename: launchData.filename,
-  current: launchData.notebook
+  filename: launchData.filename
 }));

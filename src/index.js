@@ -21,6 +21,8 @@ ipc.on('main:load', (e, launchData) => {
 
   initKeymap(window, dispatch);
 
+  dispatch(setNotebook(launchData.notebook));
+
   ipc.on('menu:new-kernel', (e, name) => dispatch(newKernel(name)));
   ipc.on('menu:save', () => dispatch(save()));
   ipc.on('menu:save-as', (e, fn) => dispatch(saveAs(fn)));
