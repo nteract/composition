@@ -31,7 +31,7 @@ export class Notebook extends React.Component {
     notebook: PropTypes.any,
     selected: PropTypes.list,
     moveCell: PropTypes.func.isRequired,
-    update: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired
   };
 
   static childContextTypes = {

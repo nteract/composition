@@ -15,6 +15,7 @@ export default function* newKernel(getState) {
     try {
       // Spawn a kernel
       const kc = yield call(launchKernel, kernelSpecName);
+
       const { channels, connectionFile, spawn } = kc;
 
       // And put it in store

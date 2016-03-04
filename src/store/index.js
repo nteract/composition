@@ -29,10 +29,6 @@ const sagas = [
 export default (launchData) => createStore(
   rootReducer(launchData),
   applyMiddleware(createSagaMiddleware(...sagas), logger({
-    stateTransformer: state => state.toJS(),
-    errorTransformer: error => {
-      console.log(error);
-      return error;
-    }
+    stateTransformer: state => state.toJS()
   }))
 );
