@@ -1,7 +1,7 @@
 import createReducer from '../utils/createReducer';
 import { fromJS } from 'immutable';
 import {
-  NEW_KERNEL,
+  ADD_KERNEL,
   ERROR_KERNEL_NOT_CONNECTED,
   CLEANUP_KERNEL
 } from '../actions/constants';
@@ -9,7 +9,7 @@ import {
 const initialState = fromJS({});
 
 export default () => createReducer({
-  [NEW_KERNEL]: (state, { channels, connectionFile, spawn }) => state.merge({
+  [ADD_KERNEL]: (state, { channels, connectionFile, spawn }) => state.merge({
     channels,
     connectionFile,
     spawn
