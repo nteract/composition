@@ -1,13 +1,15 @@
-import createReducer from '../utils/createReducer';
+import { createReducer } from 'redux-immutablejs';
 import uuid from 'uuid';
 import {
   updateExecutionCount,
   removeCell,
   insertCellAt,
   updateSource,
-  updateOutputs
+  updateOutputs,
+  emptyMarkdownCell,
+  emptyCodeCell
 } from 'commutable';
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 
 import {
   START_SAVING, DONE_SAVING,
@@ -27,7 +29,9 @@ const initialState = fromJS({
   selected: []
 });
 
-export default (launchData) => createReducer({
+export default (launchData) => createReducer(initialState.merge({
+  filename: launchData.filename
+}), {
   [START_SAVING]: (state) => state.set('isSaving', true),
   [DONE_SAVING]: (state) => state.set('isSaving', false),
   [CHANGE_FILENAME]: (state, { filename }) => (
@@ -37,14 +41,15 @@ export default (launchData) => createReducer({
     'current',
     data
   ),
-  [SET_SELECTED_CELLS]: (state, action) => {
-    const method = action.additive ? 'concat' : 'set';
-
-    state[method]('selected', action.ids);
+  [SET_SELECTED_CELLS]: (state, { additive, ids }) => {
+    const method = additive ? 'concat' : 'set';
+    return additive
+      ? state.update('selected', selected => selected[method](List(ids)))
+      : state.set('selected', List(ids));
   },
   [UPDATE_CELL_EXECUTION_COUNT]: (state, { id, count }) => state.update(
     'current',
-    (notebook) => commutable.updateExecutionCount(notebook, id, count)
+    (notebook) => updateExecutionCount(notebook, id, count)
   ),
   [MOVE_CELL]: (state, action) => state.updateIn(
     ['current', 'cellOrder'],
@@ -61,15 +66,15 @@ export default (launchData) => createReducer({
   ),
   [REMOVE_CELL]: (state, { id }) => state.update(
     'current',
-    (notebook) => commutable.removeCell(notebook, id)
+    (notebook) => removeCell(notebook, id)
   ),
   [NEW_CELL_AFTER]: (state, { cellType, id }) => state.update(
     'current',
     (notebook) => {
       // Draft API
       const { cellType, id } = action;
-      const cell = cellType === 'markdown' ? commutable.emptyMarkdownCell :
-                                             commutable.emptyCodeCell;
+      const cell = cellType === 'markdown' ? emptyMarkdownCell :
+                                             emptyCodeCell;
       const index = state.notebook.get('cellOrder').indexOf(id) + 1;
       const cellID = uuid.v4();
 
@@ -84,6 +89,4 @@ export default (launchData) => createReducer({
     'current',
     (notebook) => updateOutputs(notebook, id, outputs)
   )
-}, initialState.merge({
-  filename: launchData.filename
-}));
+});

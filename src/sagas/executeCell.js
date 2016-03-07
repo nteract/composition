@@ -1,3 +1,11 @@
+/**
+ * Converting Observable's push nature to Saga's pull nature is more involved
+ * than I thought it would be, but very possible. The file below is not finished,
+ * but this Github issue should offer you several solutions: https://github.com/yelouafi/redux-saga/issues/172
+ *
+ * My apologies for leaving the file in this state.
+ */
+
 import {
   take,
   put,
@@ -10,10 +18,22 @@ import {
   ERROR_KERNEL_NOT_CONNECTED
 } from '../actions/constants';
 
+import { updateCellOutputs } from '../actions';
+
 import {
   createExecuteRequest,
   msgSpecToNotebookFormat,
 } from '../api/messaging';
+
+const proxyIoPub = (messages) => new Promise((resolve, reject) => {
+  messages
+    .ofMessageType(['execute_input'])
+    .pluck('content', 'execution_count')
+    .first()
+    .subscribe(ct => {
+      resolve(ct)
+    });
+});
 
 export default function* executeCell (getState) {
   while (true) {
@@ -34,33 +54,31 @@ export default function* executeCell (getState) {
 
       shell.subscribe(() => {});
 
-      yield put(updateCellOutputs(id, List()));
-
       const childMessages = iopub.childOf(executeRequest).share();
 
-      childMessages
-        .ofMessageType(['execute_input'])
-        .pluck('content', 'execution_count')
-        .first()
-        .subscribe(function* (ct) {
-          // console.log(ct);
-          yield put(updateCellExecutionCount(id, ct));
-        });
+      const ct = yield fork(
+        call(
+          proxyIoPub,
+          childMessages
+        )
+      );
 
-      childMessages
-        .ofMessageType(nbFormattableTypes)
-        .map(msgSpecToNotebookFormat)
-        // Iteratively reduce on the outputs
-        .scan((outputs, output) => {
-          if(output.output_type === 'clear_output') {
-            return List();
-          }
-          return outputs.push(fromJS(output));
-        }, List())
-        // Update the outputs with each change
-        .subscribe(function* (outputs) {
-          yield put(updateCellOutputs(id, outputs));
-        });
+      yield forkput(updateCellOutputs(id, ct));
+
+      // TODO: implement
+
+      // childMessages
+      //   .ofMessageType(nbFormattableTypes)
+      //   .map(msgSpecToNotebookFormat)
+      //   // Iteratively reduce on the outputs
+      //   .scan((outputs, output) => {
+      //     if(output.output_type === 'clear_output') {
+      //       return List();
+      //     }
+      //     return outputs.push(fromJS(output));
+      //   }, List())
+      //   // Update the outputs with each change
+      //   .subscribe(update)
 
       shell.next(executeRequest);
     }

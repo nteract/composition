@@ -1,31 +1,35 @@
 import React from 'react';
-
-import Inputs from './inputs';
-
-import Editor from './editor';
-import Display from 'react-jupyter-display-area';
-
 import Immutable from 'immutable';
+import Display from 'react-jupyter-display-area';
+import { connect } from 'react-redux';
+
+import PropTypes from '../../utils/PropTypes';
+import Inputs from './inputs';
+import Editor from './editor';
+
 
 import {
   executeCell,
 } from '../../actions';
 
-export default class CodeCell extends React.Component {
+const mapDispatchToProps = {
+  executeCell
+};
+
+export class CodeCell extends React.Component {
   static displayName = 'CodeCell';
 
   static propTypes = {
-    cell: React.PropTypes.any,
-    displayOrder: React.PropTypes.instanceOf(Immutable.List),
-    id: React.PropTypes.string,
-    language: React.PropTypes.string,
-    theme: React.PropTypes.string,
-    transforms: React.PropTypes.instanceOf(Immutable.Map),
+    cell: PropTypes.any,
+    displayOrder: PropTypes.list,
+    id: PropTypes.string,
+    language: PropTypes.string,
+    theme: PropTypes.string,
+    transforms: PropTypes.map
   };
 
   static contextTypes = {
-    channels: React.PropTypes.object,
-    dispatch: React.PropTypes.func,
+    channels: React.PropTypes.object
   };
 
   keyDown(e) {
@@ -34,9 +38,7 @@ export default class CodeCell extends React.Component {
     }
 
     const shiftXORctrl = (e.shiftKey || e.ctrlKey) && !(e.shiftKey && e.ctrlKey);
-    if(!shiftXORctrl) {
-      return;
-    }
+    if (!shiftXORctrl) return;
 
     if (e.shiftKey) {
       // TODO: Remove this, as it should be created if at the end of document only
@@ -46,27 +48,36 @@ export default class CodeCell extends React.Component {
       // this.context.dispatch(nextCell(this.props.id));
     }
 
-    this.context.dispatch(executeCell(this.props.id,
-                                      this.props.cell.get('source')));
+    this.props.executeCell(this.props.id, this.props.cell.get('source'));
   }
 
   render() {
+    const {
+      cell,
+      id,
+      language,
+      displayOrder,
+      transforms
+    } = this.props;
+
     return (
       <div className='code_cell'>
         <div className='input_area' onKeyDown={this.keyDown.bind(this)}>
-          <Inputs executionCount={this.props.cell.get('execution_count')}/>
+          <Inputs executionCount={cell.get('execution_count')}/>
           <Editor
-            id={this.props.id}
-            input={this.props.cell.get('source')}
-            language={this.props.language}
+            id={id}
+            input={cell.get('source')}
+            language={language}
           />
         </div>
         <Display className='cell_display'
-                 outputs={this.props.cell.get('outputs')}
-                 displayOrder={this.props.displayOrder}
-                 transforms={this.props.transforms}
+         outputs={cell.get('outputs')}
+         displayOrder={displayOrder}
+         transforms={transforms}
         />
       </div>
     );
   }
 }
+
+export default connect(null, mapDispatchToProps)(CodeCell);

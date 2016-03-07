@@ -1,4 +1,4 @@
-import createReducer from '../utils/createReducer';
+import { createReducer } from 'redux-immutablejs';
 import { fromJS } from 'immutable';
 import {
   ADD_KERNEL,
@@ -13,7 +13,7 @@ const cleanupKernels = (state) => state
   .remove('connectionFile')
   .remove('spawn');
 
-export default () => createReducer({
+export default () => createReducer(initialState, {
   [ADD_KERNEL]: (state, { channels, connectionFile, spawn }) => state.merge({
     channels,
     connectionFile,
@@ -25,4 +25,4 @@ export default () => createReducer({
   ),
   [CLEANUP_KERNEL]: cleanupKernels,
   [KILL_KERNEL]: cleanupKernels
-}, initialState);
+});

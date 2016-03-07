@@ -1,18 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { executeCell, removeCell } from '../../actions';
 
-class Toolbar extends React.Component {
+const mapDispatchToProps = {
+  executeCell,
+  removeCell
+}
+
+export class Toolbar extends React.Component {
   static displayName = 'Toolbar';
 
   static propTypes = {
     cell: React.PropTypes.any,
     id: React.PropTypes.string,
     isSelected: React.PropTypes.bool,
-  };
-
-  static contextTypes = {
-    dispatch: React.PropTypes.func,
   };
 
   constructor(props) {
@@ -22,12 +24,11 @@ class Toolbar extends React.Component {
   }
 
   removeCell() {
-    this.context.dispatch(removeCell(this.props.id));
+    this.props.removeCell(this.props.id);
   }
 
   executeCell() {
-    this.context.dispatch(executeCell(this.props.id,
-                                      this.props.cell.get('source')));
+    this.props.executeCell(this.props.id, this.props.cell.get('source'));
   }
 
   render() {
@@ -46,4 +47,4 @@ class Toolbar extends React.Component {
   }
 }
 
-export default Toolbar;
+export default connect(null, mapDispatchToProps)(Toolbar);

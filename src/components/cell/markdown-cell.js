@@ -1,20 +1,21 @@
 import React from 'react';
-
 import ReactMarkdown from 'react-markdown';
+import { connect } from 'react-redux';
 
 import Editor from './editor';
+
 import { updateCellSource } from '../../actions';
 
-export default class MarkdownCell extends React.Component {
+const mapDispatchToProps = {
+  updateCellSource
+};
+
+export class MarkdownCell extends React.Component {
   static displayName = 'MarkdownCell';
 
   static propTypes = {
     cell: React.PropTypes.any,
     id: React.PropTypes.string,
-  };
-
-  static contextTypes = {
-    dispatch: React.PropTypes.func,
   };
 
   constructor(props) {
@@ -56,10 +57,12 @@ export default class MarkdownCell extends React.Component {
                         this.setState({
                           source: text,
                         });
-                        this.context.dispatch(updateCellSource(this.props.id, text));
+                        this.props.updateCellSource(this.props.id, text);
                       }
                     }/>
           </div>
     );
   }
 }
+
+export default connect(null, mapDispatchToProps)(MarkdownCell);

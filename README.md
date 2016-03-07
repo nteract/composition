@@ -96,7 +96,8 @@ Core tech behind the scenes:
 
 * [Observables](http://cycle.js.org/observables.html) through [RxJS](https://github.com/ReactiveX/RxJS)
 * [React](https://facebook.github.io/react/)
-* [Redux](http://redux.js.org/) (Note: architecture basis, common communication - we're not using Redux itself)
+* [Redux](http://redux.js.org/)
+* [Redux-Saga](http://yelouafi.github.io/redux-saga/)
 * [Jupyter Messaging](http://jupyter-client.readthedocs.org/en/latest/messaging.html)
 * [ZeroMQ](http://zguide.zeromq.org/page:all)
 

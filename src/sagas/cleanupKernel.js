@@ -7,7 +7,8 @@ import { CLEANUP_KERNEL, KILL_KERNEL } from '../actions/constants';
 
 export default function* cleanupKernel (getState) {
   while (true) {
-    yield take([KILL_KERNEL, CLEANUP_KERNEL]);
+    // Wait until we're being told to kill a kernel
+    yield take(KILL_KERNEL);
 
     // Get everything we need from state tree
     const state = getState();
@@ -15,10 +16,14 @@ export default function* cleanupKernel (getState) {
     const spawn = state.getIn(['kernel', 'spawn']);
     const connectionFile = state.getIn(['kernel', 'connectionFile']);
 
-    // Shut everything down. Removing this stuff from actual state tree
-    // is handled in the reducer for CLEANUP_KERNEL.
-    if (channels) ['shell', 'iopub', 'stdin'].forEach(channel => channels[channel].complete());
+    // Shut everything down.
+    if (channels) ['shell', 'iopub', 'stdin'].forEach(subject => channels[subject].complete());
     if (spawn) spawn.kill();
     if (connectionFile) unlink(connectionFile);
+
+    // Tell reducer to cleanup references to kernel in state:
+    yield put({
+      type: CLEANUP_KERNEL
+    });
   }
 }
