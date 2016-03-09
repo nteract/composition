@@ -22,6 +22,13 @@ spawnteract.launch('python3').then(kernel => {
 })
 ```
 
-You'll need to close `kernel.spawn` yourself as well as delete `kernel.connectionFile` from disk when finished.
+You'll need to close `kernel.spawn` yourself as well as delete `kernel.connectionFile` from disk when finished:
+
+```js
+function cleanup(kernel) {
+  kernel.spawn.kill();
+  fs.unlink(kernel.connectionFile);
+}
+```
 
 You will probably end up wanting to use this with [enchannel-zmq-backend](https://github.com/nteract/enchannel-zmq-backend).
