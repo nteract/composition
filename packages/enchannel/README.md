@@ -33,7 +33,7 @@ const {
 } = channelsObject;  
 ```
 
-*[For more information see the Jupyter client docks.](http://jupyter-client.readthedocs.org/en/latest/messaging.html)*
+*[For more information see the Jupyter client docs.](http://jupyter-client.readthedocs.org/en/latest/messaging.html)*
 
 Relying on RxJS's implementation of subjects means the streams can be handled like so:
 
