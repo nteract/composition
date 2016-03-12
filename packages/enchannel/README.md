@@ -70,6 +70,108 @@ Messages observed from these Subjects are all immutable, not by convention but t
 
 Note that [heartbeat](http://jupyter-client.readthedocs.org/en/latest/messaging.html#heartbeat-for-kernels) is not included above, primarily because it's being thought of as something that may end up being deprecated.
 
+## What's in this repo?
+
+In addition to the spec doc itself (the text above) this repo contains convenience functions for enchannel implementations and consumers.  To use these functions install this package with npm
+
+    npm install enchannel
+
+The utility functions included are described below
+
+#### isChildMessage
+Checks to see if one message is child to another.  Accepts two arguments, parent and child, both of which are [Jupyter message objects](https://ipython.org/ipython-doc/3/development/messaging.html#general-message-format).  To use as a conditional:
+
+```js
+const enchannel = require('enchannel');
+if (enchannel.isChildMessage(parent, child)) {
+  console.log('is child');
+}
+```
+
+It will probably make more sense to use it as an observable filter.  In the example below, `parent` is a [Jupyter message object](https://ipython.org/ipython-doc/3/development/messaging.html#general-message-format) and `channels.iopub` is an RxJS observable:
+
+```js
+const enchannel = require('enchannel');
+const isChildMessage = enchannel.isChildMessage.bind(null, parent);
+const childMessages = channels.iopub.filter(isChildMessage);
+```
+
+#### createMessage
+Creates a [Jupyter message object](https://ipython.org/ipython-doc/3/development/messaging.html#general-message-format).  Accepts 3 arguments:
+
+ - username, string  
+ - session, string,  guid unique to the current session  
+ - msg_type: string, type of the message getting sent  
+
+The following is a full example that shows how connection may happen, how you'd setup the session and username, and then create and send a shutdown request:
+
+```js
+// The method to connect is specific to the enchannel backend implementation
+enchannelBackend.connect().then(channels => {
+
+  // Created once with the channels
+  const uuid = require('node-uuid');
+  const session = uuid.v4();
+  const username = process.env.LOGNAME || process.env.USER ||
+    process.env.LNAME || process.env.USERNAME;
+
+  // Create the shutdown request method
+  const enchannel = require('enchannel');
+  const shutdownRequest = enchannel.createMessage(username, session, 'shutdown_request');
+  shutdownRequest.content = { restart: false };
+
+  // Send it
+  // Before sending, don't forget to subscribe to the channel you are sending on!  In practice
+  // there is more code involved here, because you'd want to filter the messages your subscribing
+  // to for messages that are child to the one that you send.
+  channels.shell.subscribe(content => { /* ... */ });
+  channels.shell.next(shutdownRequest);
+});
+```
+
+#### shutdownRequest
+Sends a [shutdown request Jupyter message](https://ipython.org/ipython-doc/3/development/messaging.html#kernel-shutdown) to the kernel and completes the observables.  Accepts 3 arguments:
+
+ - username, string  
+ - session, string,  guid unique to the current session  
+ - channels: object, enchannel channels object
+ - restart: optional boolean, whether the shutdown request is actually a restart request
+
+The following full example shows how this method would be used:
+
+```js
+// The method to connect is specific to the enchannel backend implementation
+enchannelBackend.connect().then(channels => {
+
+  // Created once with the channels
+  const uuid = require('node-uuid');
+  const session = uuid.v4();
+  const username = process.env.LOGNAME || process.env.USER ||
+    process.env.LNAME || process.env.USERNAME;
+
+  // Create the shutdown request method
+  const enchannel = require('enchannel');
+  const restart = false;
+  const shutdownRequest = enchannel.shutdownRequest.bind(null, username, session, channels, restart);
+
+  // Send it
+  console.log('begin shutdown');
+  shutdownRequest().then(() => {
+    console.log('finished shutting down');
+  });
+});
+```
+
+## Development
+
+To contribute to the spec or utility functions, clone this repo and install it by running the following from the repo root:
+
+    npm install
+
+Before contributing any changes to the utility functions, make sure the unit tests pass locally by running:
+
+    npm test
+
 ## Implementations
 
 * [enchannel-zmq-backend](https://github.com/nteract/enchannel-zmq-backend)
