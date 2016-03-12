@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/nteract/enchannel/issues"
   },
-  "homepage": "https://github.com/nteract/enchannel#readme"
+  "homepage": "https://github.com/nteract/enchannel#readme",
+  "dependencies": {
+    "node-uuid": "^1.4.7"
+  }
 }
