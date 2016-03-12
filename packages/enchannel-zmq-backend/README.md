@@ -1,6 +1,6 @@
 # enchannel-zmq-backend
 
-![https://img.shields.io/badge/enchannel-1.1-brightgreen.svg](enchannel version)
+![https://img.shields.io/badge/enchannel-1.1-ff69b4.svg](enchannel version)
 
 The ZeroMQ backend for [`enchannel`](https://github.com/nteract/enchannel). The classic edition, since Jupyter relies on ZeroMQ first and foremost.
 
