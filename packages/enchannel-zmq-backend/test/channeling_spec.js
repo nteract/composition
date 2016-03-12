@@ -16,7 +16,10 @@ describe('createChannels', () => {
       key: '5ca1ab1e-c0da-aced-cafe-c0ffeefacade',
       ip: '127.0.0.1',
       transport: 'tcp',
-      iopub_port: 19009,
+      shell_port: 19009,
+      stdin_port: 19010,
+      control_port: 19011,
+      iopub_port: 19012,
     };
     const s = createChannels(uuid.v4(), config);
 
