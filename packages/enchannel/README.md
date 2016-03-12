@@ -140,25 +140,10 @@ Sends a [shutdown request Jupyter message](https://ipython.org/ipython-doc/3/dev
 The following full example shows how this method would be used:
 
 ```js
-// The method to connect is specific to the enchannel backend implementation
-enchannelBackend.connect().then(channels => {
-
-  // Created once with the channels
-  const uuid = require('node-uuid');
-  const session = uuid.v4();
-  const username = process.env.LOGNAME || process.env.USER ||
-    process.env.LNAME || process.env.USERNAME;
-
-  // Create the shutdown request method
-  const enchannel = require('enchannel');
-  const restart = false;
-  const shutdownRequest = enchannel.shutdownRequest.bind(null, username, session, channels, restart);
-
-  // Send it
-  console.log('begin shutdown');
-  shutdownRequest().then(() => {
-    console.log('finished shutting down');
-  });
+const enchannel = require('enchannel');
+console.log('begin shutdown');
+enchannel.shutdownRequest(username, session, channels, restart).then(() => {
+  console.log('finished shutting down');
 });
 ```
 
