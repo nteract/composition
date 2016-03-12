@@ -96,7 +96,7 @@ import {
 } from 'enchannel-zmq-backend';
 ```
 
-Creating a subject for a specific channel
+Creating a subject for the `shell` channel:
 
 ```javascript
 const shell = createShellSubject(identity, runtimeConfig)
