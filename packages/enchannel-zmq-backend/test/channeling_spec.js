@@ -4,9 +4,34 @@ import * as uuid from 'uuid';
 import { expect } from 'chai';
 
 import {
+  createChannels,
   createChannelSubject,
   createIOPubSubject,
 } from '../src';
+
+describe('createChannels', () => {
+  it('creates the channels per enchannel spec', () => {
+    const config = {
+      signature_scheme: 'hmac-sha256',
+      key: '5ca1ab1e-c0da-aced-cafe-c0ffeefacade',
+      ip: '127.0.0.1',
+      transport: 'tcp',
+      iopub_port: 19009,
+    };
+    const s = createChannels(uuid.v4(), config);
+
+    expect(s).to.be.an('object');
+    expect(s.shell).to.be.an('object');
+    expect(s.stdin).to.be.an('object');
+    expect(s.control).to.be.an('object');
+    expect(s.iopub).to.be.an('object');
+
+    s.shell.complete();
+    s.stdin.complete();
+    s.control.complete();
+    s.iopub.complete();
+  });
+});
 
 describe('createChannelSubject', () => {
   it('creates a subject for the channel', () => {
