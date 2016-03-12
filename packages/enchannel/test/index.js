@@ -18,7 +18,7 @@ describe('isChildMessage', function() {
   it('handle malformed parent', function() {
     const parent = 'oops';
     const child = { parent_header: { msg_id: 'b'} };
-    expect(enchannel.isChildMessage(null, parent, child)).to.be.false;
+    expect(enchannel.isChildMessage(parent, child)).to.be.false;
   });
 
   it('handle malformed child', function() {
