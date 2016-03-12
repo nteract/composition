@@ -59,7 +59,7 @@ function spoofChannels() {
 describe('shutdownRequest', function() {
   it('shutdowns channels', function() {
     const channels = spoofChannels();
-    enchannel.shutdownRequest('a', 'b', channels);
+    enchannel.shutdownRequest(channels, 'a', 'b');
     expect(channels.shell.complete.called).to.be.true;
     expect(channels.iopub.complete.called).to.be.true;
     expect(channels.stdin.complete.called).to.be.true;
@@ -69,7 +69,7 @@ describe('shutdownRequest', function() {
   it('handles missing heartbeat', function() {
     const channels = spoofChannels();
     channels.heartbeat = undefined;
-    enchannel.shutdownRequest('a', 'b', channels);
+    enchannel.shutdownRequest(channels, 'a', 'b');
     expect(channels.shell.complete.called).to.be.true;
     expect(channels.iopub.complete.called).to.be.true;
     expect(channels.stdin.complete.called).to.be.true;

@@ -40,14 +40,14 @@ function createMessage(username, session, msg_type) {
  * Send a shutdown request message
  *
  * Can also be used to restart
+ * @param  {object} channels       object containing channels
  * @param  {string} username
  * @param  {string} session        guid for the session
- * @param  {object} channels       object containing channels
  * @param  {boolean} restart=false should the shutdown request actually restart
  *                                 the kernel
  * @return {Promise}
  */
-function shutdownRequest(username, session, channels, restart) {
+function shutdownRequest(channels, username, session, restart) {
   const shutDownRequest = createMessage(username, session, 'shutdown_request');
   shutDownRequest.content = { restart };
 

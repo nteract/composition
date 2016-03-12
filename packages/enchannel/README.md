@@ -132,9 +132,9 @@ enchannelBackend.connect().then(channels => {
 #### shutdownRequest
 Sends a [shutdown request Jupyter message](https://ipython.org/ipython-doc/3/development/messaging.html#kernel-shutdown) to the kernel and completes the observables.  Accepts 3 arguments:
 
+ - channels: object, enchannel channels object
  - username, string  
  - session, string,  guid unique to the current session  
- - channels: object, enchannel channels object
  - restart: optional boolean, whether the shutdown request is actually a restart request
 
 The following full example shows how this method would be used:
@@ -142,7 +142,7 @@ The following full example shows how this method would be used:
 ```js
 const enchannel = require('enchannel');
 console.log('begin shutdown');
-enchannel.shutdownRequest(username, session, channels, restart).then(() => {
+enchannel.shutdownRequest(channels, username, session, restart).then(() => {
   console.log('finished shutting down');
 });
 ```
