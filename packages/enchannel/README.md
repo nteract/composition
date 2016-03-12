@@ -103,30 +103,28 @@ Creates a [Jupyter message object](https://ipython.org/ipython-doc/3/development
  - session, string,  guid unique to the current session  
  - msg_type: string, type of the message getting sent  
 
-The following is a full example that shows how connection may happen, how you'd setup the session and username, and then create and send a shutdown request:
+The following is a full example that shows how you'd setup the session and username, and then create and send a shutdown request:
 
 ```js
-// The method to connect is specific to the enchannel backend implementation
-enchannelBackend.connect().then(channels => {
+channels = ...connected using an enchannel backend...
 
-  // Created once with the channels
-  const uuid = require('node-uuid');
-  const session = uuid.v4();
-  const username = process.env.LOGNAME || process.env.USER ||
-    process.env.LNAME || process.env.USERNAME;
+// Created once with the channels
+const uuid = require('node-uuid');
+const session = uuid.v4();
+const username = process.env.LOGNAME || process.env.USER ||
+  process.env.LNAME || process.env.USERNAME;
 
-  // Create the shutdown request method
-  const enchannel = require('enchannel');
-  const shutdownRequest = enchannel.createMessage(username, session, 'shutdown_request');
-  shutdownRequest.content = { restart: false };
+// Create the shutdown request method
+const enchannel = require('enchannel');
+const shutdownRequest = enchannel.createMessage(username, session, 'shutdown_request');
+shutdownRequest.content = { restart: false };
 
-  // Send it
-  // Before sending, don't forget to subscribe to the channel you are sending on!  In practice
-  // there is more code involved here, because you'd want to filter the messages your subscribing
-  // to for messages that are child to the one that you send.
-  channels.shell.subscribe(content => { /* ... */ });
-  channels.shell.next(shutdownRequest);
-});
+// Send it
+// Before sending, don't forget to subscribe to the channel you are sending on!  In practice
+// there is more code involved here, because you'd want to filter the messages your subscribing
+// to for messages that are child to the one that you send.
+channels.shell.subscribe(content => { /* ... */ });
+channels.shell.next(shutdownRequest);
 ```
 
 #### shutdownRequest
@@ -137,7 +135,7 @@ Sends a [shutdown request Jupyter message](https://ipython.org/ipython-doc/3/dev
  - session, string,  guid unique to the current session  
  - restart: optional boolean, whether the shutdown request is actually a restart request
 
-The following full example shows how this method would be used:
+The following example shows how this method would be used:
 
 ```js
 const enchannel = require('enchannel');
