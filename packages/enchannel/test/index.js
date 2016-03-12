@@ -6,7 +6,10 @@ describe('isChildMessage', function() {
   it('knows child', function() {
     const parent = { header: { msg_id: 'a'} };
     const child = { parent_header: { msg_id: 'a'} };
-    expect(enchannel.isChildMessage.call(parent, child)).to.be.true;
+
+    const isChildMessage = enchannel.isChildMessage.bind(null, parent);
+
+    expect(isChildMessage(child)).to.be.true;
   });
 
   it('knows non-child', function() {

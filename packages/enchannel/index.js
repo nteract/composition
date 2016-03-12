@@ -1,13 +1,16 @@
 const uuid = require('node-uuid');
 
 /**
- * Filter for response messages
- * @param  {object}  msg - message to check
+ * Filter for finding out if message is a child of parentMessage
+ * @param  {Object}  parentMessage the expected parent
+ * @param  {Object}  message - message to evaluate lineage
  * @return {Boolean}
  */
-function isChildMessage(msg) {
-  return Boolean(this && this.header && msg && msg.parent_header &&
-    this.header.msg_id === msg.parent_header.msg_id);
+function isChildMessage(parentMessage, message) {
+  return Boolean(
+    parentMessage && parentMessage.header &&
+    message && message.parent_header &&
+    parentMessage.header.msg_id === message.parent_header.msg_id);
 }
 
 /**
