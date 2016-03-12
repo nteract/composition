@@ -6,28 +6,25 @@ describe('isChildMessage', function() {
   it('knows child', function() {
     const parent = { header: { msg_id: 'a'} };
     const child = { parent_header: { msg_id: 'a'} };
-
-    const isChildMessage = enchannel.isChildMessage.bind(null, parent);
-
-    expect(isChildMessage(child)).to.be.true;
+    expect(enchannel.isChildMessage(parent, child)).to.be.true;
   });
 
   it('knows non-child', function() {
     const parent = { header: { msg_id: 'a'} };
     const child = { parent_header: { msg_id: 'b'} };
-    expect(enchannel.isChildMessage.call(parent, child)).to.be.false;
+    expect(enchannel.isChildMessage(parent, child)).to.be.false;
   });
 
   it('handle malformed parent', function() {
     const parent = 'oops';
     const child = { parent_header: { msg_id: 'b'} };
-    expect(enchannel.isChildMessage.call(parent, child)).to.be.false;
+    expect(enchannel.isChildMessage(null, parent, child)).to.be.false;
   });
 
   it('handle malformed child', function() {
     const parent = { header: { msg_id: 'a'} };
     const child = 'oops';
-    expect(enchannel.isChildMessage.call(parent, child)).to.be.false;
+    expect(enchannel.isChildMessage(parent, child)).to.be.false;
   });
 });
 
