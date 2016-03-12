@@ -6,7 +6,8 @@ const uuid = require('node-uuid');
  * @return {Boolean}
  */
 function isChildMessage(msg) {
-  return this.header.msg_id === msg.parent_header.msg_id;
+  return Boolean(this && this.header && msg && msg.parent_header &&
+    this.header.msg_id === msg.parent_header.msg_id);
 }
 
 /**
@@ -43,7 +44,7 @@ function createMessage(username, session, msg_type) {
  *                                 the kernel
  * @return {Promise}
  */
-function shutdownRequest(username, session, channels, restart=false) {
+function shutdownRequest(username, session, channels, restart) {
   const shutDownRequest = createMessage(username, session, 'shutdown_request');
   shutDownRequest.content = { restart };
 
@@ -58,6 +59,8 @@ function shutdownRequest(username, session, channels, restart=false) {
         channels.shell.complete();
         channels.iopub.complete();
         channels.stdin.complete();
+        channels.control.complete();
+        if (channels.heartbeat) channels.heartbeat.complete();
       }
       resolve();
     });
