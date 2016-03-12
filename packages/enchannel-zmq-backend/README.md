@@ -1,5 +1,7 @@
 # enchannel-zmq-backend
 
+![https://img.shields.io/badge/enchannel-1.1-brightgreen.svg](enchannel version)
+
 The ZeroMQ backend for [`enchannel`](https://github.com/nteract/enchannel). The classic edition, since Jupyter relies on ZeroMQ first and foremost.
 
 ## Installation
@@ -46,18 +48,13 @@ Provides functions to create [RxJS](https://github.com/ReactiveX/RxJS) subjects 
 
 ## Usage
 
-`enchannel-zmq-backend` exports four functions to create channels
+`enchannel-zmq-backend` exports a `createChannels` method for creating a channels object per [enchannel spec](https://github.com/nteract/enchannel).
 
 ```javascript
-import {
-  createControlSubject,
-  createStdinSubject,
-  createIOPubSubject,
-  createShellSubject,
-} from 'enchannel-zmq-backend'
+import { createChannels } from 'enchannel-zmq-backend'
 ```
 
-Each of those functions accepts an identity and a kernel runtime object
+The `createChannels` function accepts an identity and a kernel runtime object
 (this matches the on-disk JSON):
 
 ```javascript
@@ -81,7 +78,25 @@ const uuid = require('uuid');
 const identity = uuid.v4();
 ```
 
-Creating a subject
+To create the channels object:
+
+```javascript
+const channels = createChannels(identity, runtimeConfig)
+const { shell, iopub, stdin, control } = channels;
+```
+
+`enchannel-zmq-backend` also exports four convenience functions to create specific channels
+
+```javascript
+import {
+  createControlSubject,
+  createStdinSubject,
+  createIOPubSubject,
+  createShellSubject,
+} from 'enchannel-zmq-backend';
+```
+
+Creating a subject for a specific channel
 
 ```javascript
 const shell = createShellSubject(identity, runtimeConfig)
