@@ -41,14 +41,11 @@ flexible transport, are the multi-valued promise we've all been waiting for:
 | Pull/Synchronous/Interactive | Object              | Iterables (Array, Set, Map, Object) |
 | Push/Asynchronous/Reactive   | Promise             | Observable                             |
 
-The enchannel spec uses RxJS's observables implementation.
+Note: The enchannel spec uses RxJS's observables implementation.
 
 ---
 
 ## **enchannel** your data
-
-*Promise* delivered when you need it.
-*Observable* by you and others.
 
 ### The spec
 Kernel communications are described by a single object containing
@@ -199,11 +196,16 @@ enchannel.shutdownRequest(channels, username, session, restart).then(() => {
  To contribute to the spec or convenience functions, clone this repo and
 install it by running the following from the repo root:
 
-    npm install
+```
+npm install
+```
 
 Before contributing changes to the utility functions, be kind to your peers
 and check if the unit tests pass locally by running: 
-    npm test
+
+```
+npm test
+```
 
 ## Implementations
 
