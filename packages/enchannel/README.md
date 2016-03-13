@@ -48,13 +48,12 @@ The enchannel spec uses RxJS's observables implementation.
 ## **enchannel** your data
 
 *Promise* delivered when you need it.
-
 *Observable* by you and others.
 
-### The Spec - Kernel communications
-Communications are described by a single object containing
-[subjects](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/subjects.md)
-corresponding to each communication channel of a kernel instance.  There will
+### The spec
+Kernel communications are described by a single object containing
+[subjects](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/subjects.md),
+each corresponding to a communication channel of the kernel instance.  There will
 be between 4 and 5 channels:
 
 ```js
@@ -114,7 +113,7 @@ approach.
 ## What's in this repo? Convenience.
 
 In addition to the spec doc itself (the text above) this repo contains
-convenience functions for enchannel implementations and consumers. To use
+**convenience functions** for enchannel implementations and consumers. To use
 these functions install this package with npm:
 
     npm install enchannel
@@ -146,13 +145,13 @@ const childMessages = channels.iopub.filter(isChildMessage);
 ```
 
 #### createMessage
-Creates a [Jupyter message object](https://ipython.org/ipython-doc/3/development/messaging.html#general-message-format)that accepts 3 arguments:
+Creates a [Jupyter message object](https://ipython.org/ipython-doc/3/development/messaging.html#general-message-format) that accepts three arguments:
 
- - username, string  
- - session, string, `guid` unique to the current session  
- - msg_type: string, type of the message getting sent  
+ - username: string  
+ - session: string, `guid` unique to the current session  
+ - msg_type: string, type of message being sent  
 
-The following is a full example that shows how you'd setup the session and
+This full example shows how you'd setup the session and
 username, and then create and send a shutdown request:
 
 ```js
@@ -202,7 +201,7 @@ install it by running the following from the repo root:
 
     npm install
 
-Before contributing any changes to the utility functions, make sure the unit
+Before contributing changes to the utility functions, be kind to your peers and check if the unit
 tests pass locally by running:
 
     npm test
