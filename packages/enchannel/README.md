@@ -1,23 +1,56 @@
 # enchannel
 
-Enchannel is a light spec for communications between a frontend, like the [notebook](https://github.com/jupyter/notebook) or [jupyter-sidecar](https://github.com/nteract/jupyter-sidecar), and a backend kernel (the runtime, like Python, Julia, or R).  Enchannel does not specify how the communications are constructed or destructed.
+Enchannel is a lightweight spec for flexible communications between a frontend, like
+the [notebook](https://github.com/jupyter/notebook) or
+[jupyter-sidecar](https://github.com/nteract/jupyter-sidecar), and a backend
+kernel (the runtime, like Python, Julia, or R).  Enchannel does not specify
+the implementation or how the communications are constructed or destructed.
 
 [![enchannel](https://cloud.githubusercontent.com/assets/836375/12282043/b19bb16e-b960-11e5-8661-ce2111ec0417.png)](https://cloud.githubusercontent.com/assets/836375/12282043/b19bb16e-b960-11e5-8661-ce2111ec0417.png)
 
 ## Motivation
 
-The core functionality of the notebook is to send messages from a frontend to a backend, and from a backend to a frontend ([or many frontends](https://github.com/nteract/jupyter-sidecar)). In the case of the Jupyter/IPython notebook, it communicates over websockets (which in turn reach out to ØMQ on the backend).
+### Background on notebook messages and communication 
+The core functionality of the notebook is to send messages from a frontend to
+a backend, and from a backend to a frontend ([or many
+frontends](https://github.com/nteract/jupyter-sidecar)). In the case of the
+Jupyter/IPython notebook, it communicates over websockets (which in turn reach
+out to ØMQ on the backend).
 
-What if you want to serve the same HTML and Javascript for the notebook application itself while being able to work in a native ØMQ environment? What if websockets are fairly restricted in your working \*ahem\* *corporate* environment and you need to send data via `POST` and receive streaming updates using server-sent events?
+### What if...?
+What if you want to serve the same HTML and Javascript for the notebook
+application itself while being able to work in a native ØMQ environment? What
+if websockets are fairly restricted in your working \*ahem\* *corporate*
+environment and you need to send data via `POST` and receive streaming updates
+using server-sent events?
 
-We'd need a nice clean way to abstract the transport layer. Since [Jupyter is messages all the way down](http://jupyter-client.readthedocs.org/en/latest/messaging.html), one way is to hook up a series of event emitters all with the same interface. That's [definitely do-able](https://github.com/nteract/jupyter-transport-wrapper). Instead, let's rely on Observables: asynchronous data streams, [*from the future*](https://zenparsing.github.io/es-observable/). Observables are the multi-valued promise we've all been waiting for:
+### The solution
+Well, we'd need a nice, clean way to abstract the transport layer. As [Jupyter is
+messages all the way
+down](http://jupyter-client.readthedocs.org/en/latest/messaging.html), one option
+is to hook up a series of event emitters all with the same interface. That's
+[definitely do-able](https://github.com/nteract/jupyter-transport-wrapper).
 
+Instead, let's rely on **Observables**: asynchronous data streams, [*from the
+future*](https://zenparsing.github.io/es-observable/). Observables, as
+flexible transport, are the multi-valued promise we've all been waiting for:
+ 
 |                              | Single return value | Mutiple return values                  |
 | ---------------------------- | ------------------- | -------------------------------------- |
-| Pull/Synchronous/Interactive | Object              | Iterables (Array | Set | Map | Object) |
+| Pull/Synchronous/Interactive | Object              | Iterables (Array, Set, Map, Object) |
 | Push/Asynchronous/Reactive   | Promise             | Observable                             |
 
 The enchannel spec uses RxJS's observables implementation.
+
+---
+
+### **enchannel** your data
+
+*Promise* delivered when you need it.
+
+*Observable* by you and others.
+
+---
 
 ## Kernel communications
 
