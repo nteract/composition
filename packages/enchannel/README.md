@@ -54,7 +54,7 @@ The enchannel spec uses RxJS's observables implementation.
 Kernel communications are described by a single object containing
 [subjects](https://github.com/Reactive-Extensions/RxJS/blob/master/doc/gettingstarted/subjects.md),
 each corresponding to a communication channel of the kernel instance.  There will
-be between 4 and 5 channels:
+be between four and five channels:
 
 ```js
 const {
@@ -177,7 +177,7 @@ channels.shell.next(shutdownRequest);
 ```
 
 #### shutdownRequest
-Sends a [shutdown request Jupyter message](https://ipython.org/ipython-doc/3/development/messaging.html#kernel-shutdown) to the kernel and completes the observables.  Accepts 3 arguments:
+Sends a [shutdown request Jupyter message](https://ipython.org/ipython-doc/3/development/messaging.html#kernel-shutdown) to the kernel and completes the observables.  Accepts three arguments:
 
  - channels: object, enchannel channels object
  - username, string  
@@ -201,9 +201,8 @@ install it by running the following from the repo root:
 
     npm install
 
-Before contributing changes to the utility functions, be kind to your peers and check if the unit
-tests pass locally by running:
-
+Before contributing changes to the utility functions, be kind to your peers
+and check if the unit tests pass locally by running: 
     npm test
 
 ## Implementations
