@@ -49,10 +49,10 @@ function createMessage(username, session, msg_type) {
  */
 function shutdownRequest(channels, username, session, restart) {
   const shutDownRequest = createMessage(username, session, 'shutdown_request');
-  shutDownRequest.content = { restart };
+  shutDownRequest.content = { restart: Boolean(restart) };
 
   const shutDownReply = channels.shell
-    .filter(isChildMessage.bind(shutDownRequest))
+    .filter(isChildMessage.bind(null, shutDownRequest))
     .filter(msg => msg.header.msg_type === 'shutdown_reply')
     .map(msg => msg.content);
 
