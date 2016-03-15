@@ -68,7 +68,7 @@ function shutdownRequest(channels, username, session, restart) {
       resolve();
     });
 
-    shell.next(shutDownRequest);
+    channels.shell.next(shutDownRequest);
   });
 }
 
