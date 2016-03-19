@@ -1,4 +1,4 @@
-import React from 'react';
+const React = require('react');
 
 const ansiToJSON = require('ansi-to-json');
 
@@ -21,18 +21,14 @@ function ansiToInlineStyle(text) {
 }
 
 function inlineBundleToReact(bundle, key) {
-  return (
-    <span style={bundle.style} key={key}>{bundle.content}</span>
-  );
+  return React.createElement('span', {
+    style: bundle.style,
+    key,
+  }, bundle.content);
 }
 
 function Ansi(props) {
-  const { text } = props;
-  return (
-    <code>
-      {ansiToInlineStyle(text).map(inlineBundleToReact)}
-    </code>
-  );
+  return React.createElement('code', {}, ansiToInlineStyle(props.text).map(inlineBundleToReact));
 }
 
 Ansi.propTypes = {
