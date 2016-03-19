@@ -13,8 +13,6 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "ansi-parser": "^3.2.0",
-    "ansi-to-html": "^0.3.0",
-    "entities": "^1.1.1"
+    "ansi-to-json": "^1.0.0"
   }
 }
