@@ -26,7 +26,7 @@ function inlineBundleToReact(bundle, key) {
   );
 }
 
-export default function Ansi(props) {
+function Ansi(props) {
   const { text } = props;
   return (
     <code>
@@ -38,3 +38,5 @@ export default function Ansi(props) {
 Ansi.propTypes = {
   text: React.PropTypes.string,
 };
+
+module.exports = Ansi;
