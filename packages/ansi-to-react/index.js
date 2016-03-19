@@ -28,11 +28,14 @@ function inlineBundleToReact(bundle, key) {
 }
 
 function Ansi(props) {
-  return React.createElement('code', {}, ansiToInlineStyle(props.text).map(inlineBundleToReact));
+  return React.createElement(
+    'code',
+    {},
+    ansiToInlineStyle(props.children).map(inlineBundleToReact));
 }
 
 Ansi.propTypes = {
-  text: React.PropTypes.string,
+  children: React.PropTypes.string,
 };
 
 module.exports = Ansi;
