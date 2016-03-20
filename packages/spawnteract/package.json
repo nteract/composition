@@ -8,6 +8,10 @@
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/spawnteract.git"
+  },
   "dependencies": {
     "jsonfile": "^2.2.3",
     "jupyter-paths": "^1.0.0",
