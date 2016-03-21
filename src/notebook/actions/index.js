@@ -178,3 +178,10 @@ export function executeCell(channels, id, source) {
     });
   };
 }
+
+export function setSelected(id) {
+  return {
+    type: constants.SET_SELECTED,
+    id,
+  };
+}

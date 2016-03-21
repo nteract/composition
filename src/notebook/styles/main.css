@@ -17,6 +17,10 @@ pre
     word-wrap: break-word;
 }
 
+.selected {
+  border: 2px solid red;
+}
+
 body
 {
     font-family: 'Source Sans Pro';

@@ -11,6 +11,7 @@ export const KILL_KERNEL = Symbol('KILL_KERNEL');
 export const EXIT = Symbol('EXIT');
 
 export const SET_NOTEBOOK = Symbol('SET_NOTEBOOK');
+export const SET_SELECTED = Symbol('SET_SELECTED');
 
 export const MOVE_CELL = Symbol('MOVE_CELL');
 export const REMOVE_CELL = Symbol('REMOVE_CELL');

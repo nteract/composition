@@ -17,6 +17,7 @@ function cleanupKernel(state) {
 
   const cleanState = {
     ...state,
+    selected: null,
     channels: null,
     spawn: null,
     connectionFile: null,
@@ -52,6 +53,10 @@ export default {
   },
   [constants.DONE_SAVING]: function doneSaving(state) {
     return { ...state, isSaving: false };
+  },
+  [constants.SET_SELECTED]: function setSelected(state, action) {
+    const { id } = action;
+    return { ...state, selected: id };
   },
   [constants.CHANGE_FILENAME]: function changeFilename(state, action) {
     const { filename } = action;

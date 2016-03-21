@@ -22,6 +22,7 @@ const Rx = require('@reactivex/rxjs');
 ipc.on('main:load', (e, launchData) => {
   const { store, dispatch } = createStore({
     notebook: null,
+    selected: null,
     filename: launchData.filename,
     executionState: 'not connected',
   }, reducers);
@@ -66,6 +67,7 @@ ipc.on('main:load', (e, launchData) => {
             {
               this.state.notebook &&
               <Notebook
+                selected={this.state.selected}
                 notebook={this.state.notebook}
                 channels={this.state.channels}
               />

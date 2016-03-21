@@ -4,7 +4,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import DraggableCell from './cell/draggable-cell';
 import CellCreator from './cell/cell-creator';
-import { moveCell } from '../actions';
+import { moveCell, setSelected } from '../actions';
 
 import Immutable from 'immutable';
 
@@ -14,6 +14,7 @@ class Notebook extends React.Component {
     displayOrder: React.PropTypes.instanceOf(Immutable.List),
     notebook: React.PropTypes.any,
     onCellChange: React.PropTypes.func,
+    selected: React.PropTypes.string,
     transforms: React.PropTypes.instanceOf(Immutable.Map),
   };
 
@@ -53,6 +54,24 @@ class Notebook extends React.Component {
     // Assume markdown should be required
   }
 
+  componentDidMount() {
+    const cellOrder = this.props.notebook.get('cellOrder');
+    const firstCell = cellOrder.get(0);
+    if (firstCell) {
+      this.context.dispatch(setSelected(firstCell));
+      location.hash = firstCell;
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    location.hash = "";
+    location.hash = nextProps.selected;
+  }
+
+  setSelected(id) {
+    this.context.dispatch(setSelected(id));
+  }
+
   moveCell(sourceId, destinationId, above) {
     this.context.dispatch(moveCell(sourceId, destinationId, above));
   }
@@ -61,7 +80,12 @@ class Notebook extends React.Component {
     const cellMap = this.props.notebook.get('cellMap');
 
     return (
-      <div key={`cell-container-${id}`}>
+      <div
+        key={`cell-container-${id}`}
+        id={id}
+        onClick={this.setSelected.bind(this, id)}
+        className={this.props.selected === id ? 'selected' : ''}
+      >
         <DraggableCell cell={cellMap.get(id)}
           language={this.props.notebook.getIn(['metadata', 'language_info', 'name'])}
           id={id}
