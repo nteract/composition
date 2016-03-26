@@ -73,7 +73,7 @@ function writeConnectionFile(options) {
 
   return new Promise((resolve, reject) => {
     getPorts(5, options, (err, ports) => {
-      if(err) {
+      if (err) {
         reject(err);
       } else {
         // Make sure the kernel runtime dir exists before trying to write the
@@ -85,7 +85,7 @@ function writeConnectionFile(options) {
         const config = _createConnectionConfig(ports);
         const connectionFile = path.join(jp.runtimeDir(), `kernel-${uuid.v4()}.json`);
         jsonfile.writeFile(connectionFile, config, (jsonErr) => {
-          if(jsonErr) {
+          if (jsonErr) {
             reject(jsonErr);
           } else {
             resolve({
@@ -142,11 +142,11 @@ function launchSpec(kernelSpec, options) {
  */
 function launch(kernelName, specs) {
   // Let them pass in a cached specs file
-  if(!specs) {
+  if (!specs) {
     return kernelspecs.findAll()
                       .then((sp) => launch(kernelName, sp));
   }
-  if(!specs[kernelName]) {
+  if (!specs[kernelName]) {
     return Promise.reject(new Error(`No spec available for ${kernelName}`));
   }
   const spec = specs[kernelName].spec;
