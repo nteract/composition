@@ -106,9 +106,10 @@ function writeConnectionFile(portFinderOptions) {
  * @param  {object}       kernelSpec      describes a specific
  *                                        kernel, see the npm
  *                                        package `kernelspecs`
- * @param  {object}       [options]       connection options
- * @param  {number}       [options.port]
- * @param  {string}       [options.host]
+ * @param  {object} [portFinderOptions]           connection options
+ *                                                see {@link https://github.com/indexzero/node-portfinder/blob/master/lib/portfinder.js }
+ * @param  {number} [portFinderOptions.port]
+ * @param  {string} [portFinderOptions.host]
  * @param  {object}       [spawnOptions]  options for [child_process.spawn]{@link https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options}
  * @return {object}       spawnResults
  * @return {ChildProcess} spawnResults.spawn           spawned process
@@ -116,8 +117,8 @@ function writeConnectionFile(portFinderOptions) {
  * @return {object}       spawnResults.config          connectionConfig
  *
  */
-function launchSpec(kernelSpec, options, spawnOptions) {
-  return writeConnectionFile(options).then((c) => {
+function launchSpec(kernelSpec, portFinderOptions, spawnOptions) {
+  return writeConnectionFile(portFinderOptions).then((c) => {
     const connectionFile = c.connectionFile;
     const config = c.config;
     const argv = kernelSpec.argv.map(x => x === '{connection_file}' ? connectionFile : x);
