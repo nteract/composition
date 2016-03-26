@@ -59,9 +59,10 @@ function _createConnectionConfig(ports) {
 /**
  * Write a connection file
  * @public
- * @param  {object} [options]                     connection options
- * @param  {number} [options.port]
- * @param  {string} [options.host]
+ * @param  {object} [portFinderOptions]           connection options
+ *                                                see {@link https://github.com/indexzero/node-portfinder/blob/master/lib/portfinder.js }
+ * @param  {number} [portFinderOptions.port]
+ * @param  {string} [portFinderOptions.host]
  * @return {object} configResults
  * @return {object} configResults.config          connectionConfig
  * @return {string} configResults.connectionFile  path to the config file
@@ -153,7 +154,7 @@ function launch(kernelName, specs, spawnOptions) {
     return Promise.reject(new Error(`No spec available for ${kernelName}`));
   }
   const spec = specs[kernelName].spec;
-  return launchSpec(spec, spawnOptions);
+  return launchSpec(spec, {}, spawnOptions);
 }
 
 module.exports = {
