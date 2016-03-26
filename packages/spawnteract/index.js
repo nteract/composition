@@ -66,8 +66,8 @@ function _createConnectionConfig(ports) {
  * @return {object} configResults.config          connectionConfig
  * @return {string} configResults.connectionFile  path to the config file
  */
-function writeConnectionFile(options) {
-  options = options || {};
+function writeConnectionFile(portFinderOptions) {
+  const options = Object.assign({}, portFinderOptions);
   options.port = options.port || 9000;
   options.host = options.host || '127.0.0.1';
 
