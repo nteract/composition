@@ -102,23 +102,25 @@ function writeConnectionFile(options) {
 /**
  * Launch a kernel for a given kernelSpec
  * @public
- * @param  {object}       kernelSpec                   describes a specific
- *                                                     kernel, see the npm
- *                                                     package `kernelspecs`
- * @param  {object}       [options]                    connection options
+ * @param  {object}       kernelSpec      describes a specific
+ *                                        kernel, see the npm
+ *                                        package `kernelspecs`
+ * @param  {object}       [options]       connection options
  * @param  {number}       [options.port]
  * @param  {string}       [options.host]
+ * @param  {object}       [spawnOptions]  options for [child_process.spawn]{@link https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options}
  * @return {object}       spawnResults
  * @return {ChildProcess} spawnResults.spawn           spawned process
  * @return {string}       spawnResults.connectionFile  connection file path
  * @return {object}       spawnResults.config          connectionConfig
+ *
  */
-function launchSpec(kernelSpec, options) {
+function launchSpec(kernelSpec, options, spawnOptions) {
   return writeConnectionFile(options).then((c) => {
     const connectionFile = c.connectionFile;
     const config = c.config;
     const argv = kernelSpec.argv.map(x => x === '{connection_file}' ? connectionFile : x);
-    const runningKernel = child_process.spawn(argv[0], argv.slice(1));
+    const runningKernel = child_process.spawn(argv[0], argv.slice(1), spawnOptions);
     return {
       spawn: runningKernel,
       connectionFile,
@@ -135,22 +137,23 @@ function launchSpec(kernelSpec, options) {
  *                                                     objects to look through.
  *                                                     See the npm package
  *                                                     `kernelspecs`
+ * @param  {object}       [spawnOptions]  options for [child_process.spawn]{@link https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options}
  * @return {object}       spawnResults
  * @return {ChildProcess} spawnResults.spawn           spawned process
  * @return {string}       spawnResults.connectionFile  connection file path
  * @return {object}       spawnResults.config          connectionConfig
  */
-function launch(kernelName, specs) {
+function launch(kernelName, specs, spawnOptions) {
   // Let them pass in a cached specs file
   if (!specs) {
     return kernelspecs.findAll()
-                      .then((sp) => launch(kernelName, sp));
+                      .then((sp) => launch(kernelName, sp, spawnOptions));
   }
   if (!specs[kernelName]) {
     return Promise.reject(new Error(`No spec available for ${kernelName}`));
   }
   const spec = specs[kernelName].spec;
-  return launchSpec(spec);
+  return launchSpec(spec, spawnOptions);
 }
 
 module.exports = {
