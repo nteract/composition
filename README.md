@@ -4,9 +4,9 @@
 
 ## Overview
 
-:notebook: It's an Electron-based Notebook! :notebook:
+Native :notebook: notebook app for your desktop!
 
-![nteract demo](https://cloud.githubusercontent.com/assets/836375/14068164/6ebbc6ea-f42f-11e5-98bc-eb149d0b0730.gif)
+![nteract demo](https://cloud.githubusercontent.com/assets/836375/14068321/0b46e68a-f434-11e5-9ff7-0c2649e52182.gif)
 
 Note: this isn't feature complete yet. There will be :bug:s and we're currently
 lacking a lot of core features like [tab completion](https://github.com/nteract/nteract/issues/134), introspection, and closing down kernels properly.
