@@ -7,7 +7,7 @@ import DraggableCell from './cell/draggable-cell';
 import CellCreator from './cell/cell-creator';
 import { executeCell, focusNextCell, moveCell } from '../actions';
 import { HTMLDisplay } from './html';
-import { IFrame } from './iframe';
+import { Javascript } from './javascript';
 
 import Immutable from 'immutable';
 
@@ -145,15 +145,18 @@ class Notebook extends React.Component {
   createCellElement(id) {
     const cellMap = this.props.notebook.get('cellMap');
     const customTransforms = transforms
+      .merge(this.props.transforms || new Immutable.Map())
       .set('application/javascript', () => (<div />))
-      .set('text/html', HTMLDisplay)
-      .merge(this.props.transforms || new Immutable.Map());
-    console.log('customTransforms', customTransforms);
+      .set('text/html', HTMLDisplay);
     return (
       <div
         key={`cell-container-${id}`}
         ref="container"
       >
+        <Javascript
+          notebook={this.props.notebook}
+          displayOrder={this.props.displayOrder}
+        />
         <DraggableCell
           cell={cellMap.get(id)}
           language={this.props.notebook.getIn(['metadata', 'language_info', 'name'])}

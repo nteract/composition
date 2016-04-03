@@ -1,21 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export default class HTMLDisplay extends React.Component {
+export class HTMLDisplay extends React.Component {
   static propTypes = {
     data: React.PropTypes.string,
   }
 
   componentDidMount() {
     // Remove the script tags from the HTML repr.  Script tags should be handled
-    // by the page level IFrame.
+    // by the page level IFrame.  Content must be wrapped in a div in order to
+    // parse correctly.
     const parser = new DOMParser();
-    const el = parser.parseFromString(this.props.data, 'text/xml');
-    Array.prototype.forEach.call(el.querySelectorAll('script'), scriptEl => {
+    const doc = parser.parseFromString(`<div>${this.props.data}</div>`, 'text/xml');
+    Array.prototype.forEach.call(doc.querySelectorAll('script'), scriptEl => {
       scriptEl.remove();
     });
-    console.log('inserting...', el);
-    ReactDOM.findDOMNode(this.refs.here).appendChild(el);
+
+    const container = ReactDOM.findDOMNode(this.refs.here);
+    Array.prototype.forEach.call(doc.children, child => {
+      container.appendChild(child);
+    });
   }
 
   render() {
