@@ -6,6 +6,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import DraggableCell from './cell/draggable-cell';
 import CellCreator from './cell/cell-creator';
 import { executeCell, focusNextCell, moveCell } from '../actions';
+import { HTMLDisplay } from './html';
+import { IFrame } from './iframe';
 
 import Immutable from 'immutable';
 
@@ -142,7 +144,11 @@ class Notebook extends React.Component {
 
   createCellElement(id) {
     const cellMap = this.props.notebook.get('cellMap');
-
+    const customTransforms = transforms
+      .set('application/javascript', () => (<div />))
+      .set('text/html', HTMLDisplay)
+      .merge(this.props.transforms || new Immutable.Map());
+    console.log('customTransforms', customTransforms);
     return (
       <div
         key={`cell-container-${id}`}
@@ -155,7 +161,7 @@ class Notebook extends React.Component {
           key={id}
           ref={id}
           displayOrder={this.props.displayOrder}
-          transforms={this.props.transforms}
+          transforms={customTransforms}
           moveCell={this.moveCell}
           pagers={this.props.cellPagers.get(id)}
           focusedCell={this.props.focusedCell}
