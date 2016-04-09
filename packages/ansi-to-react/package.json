@@ -14,5 +14,8 @@
   "license": "MPL-2.0",
   "dependencies": {
     "ansi-to-json": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0-0"
   }
 }
