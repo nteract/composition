@@ -153,10 +153,6 @@ class Notebook extends React.Component {
         key={`cell-container-${id}`}
         ref="container"
       >
-        <Javascript
-          notebook={this.props.notebook}
-          displayOrder={this.props.displayOrder}
-        />
         <DraggableCell
           cell={cellMap.get(id)}
           language={this.props.notebook.getIn(['metadata', 'language_info', 'name'])}
@@ -187,6 +183,10 @@ class Notebook extends React.Component {
         paddingRight: '10px',
       }} ref="cells"
       >
+        <Javascript
+          notebook={this.props.notebook}
+          displayOrder={this.props.displayOrder}
+        />
         <CellCreator id={cellOrder.get(0, null)} above />
       {
         cellOrder.map(this.createCellElement)
