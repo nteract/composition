@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export class HTMLDisplay extends React.Component {
+export class HTMLScriptlessDisplay extends React.Component {
   static propTypes = {
     data: React.PropTypes.string,
   }

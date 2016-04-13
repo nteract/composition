@@ -6,8 +6,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import DraggableCell from './cell/draggable-cell';
 import CellCreator from './cell/cell-creator';
 import { executeCell, focusNextCell, moveCell } from '../actions';
-import { HTMLDisplay } from './html';
-import { Javascript } from './javascript';
+import { HTMLScriptlessDisplay } from './html-scriptless';
+import { JavascriptFrame } from './javascript-frame';
 
 import Immutable from 'immutable';
 
@@ -24,8 +24,11 @@ class Notebook extends React.Component {
   };
 
   static defaultProps = {
-    displayOrder,
-    transforms,
+    displayOrder: displayOrder
+      .remove('application/javascript'),
+    transforms: transforms
+      .remove('application/javascript')
+      .set('text/html', HTMLScriptlessDisplay),
   };
 
   static contextTypes = {
@@ -144,10 +147,6 @@ class Notebook extends React.Component {
 
   createCellElement(id) {
     const cellMap = this.props.notebook.get('cellMap');
-    const customTransforms = transforms
-      .merge(this.props.transforms || new Immutable.Map())
-      .set('application/javascript', () => (<div />))
-      .set('text/html', HTMLDisplay);
     return (
       <div
         key={`cell-container-${id}`}
@@ -160,7 +159,7 @@ class Notebook extends React.Component {
           key={id}
           ref={id}
           displayOrder={this.props.displayOrder}
-          transforms={customTransforms}
+          transforms={this.props.transforms}
           moveCell={this.moveCell}
           pagers={this.props.cellPagers.get(id)}
           focusedCell={this.props.focusedCell}
@@ -183,7 +182,7 @@ class Notebook extends React.Component {
         paddingRight: '10px',
       }} ref="cells"
       >
-        <Javascript
+        <JavascriptFrame
           notebook={this.props.notebook}
           displayOrder={this.props.displayOrder}
         />
