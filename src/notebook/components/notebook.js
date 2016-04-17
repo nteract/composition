@@ -6,6 +6,8 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import DraggableCell from './cell/draggable-cell';
 import CellCreator from './cell/cell-creator';
 import { executeCell, focusNextCell, moveCell } from '../actions';
+import { HTMLScriptlessDisplay } from './html-scriptless';
+import { JavascriptFrame } from './javascript-frame';
 
 import Immutable from 'immutable';
 
@@ -22,8 +24,11 @@ class Notebook extends React.Component {
   };
 
   static defaultProps = {
-    displayOrder,
-    transforms,
+    displayOrder: displayOrder
+      .remove('application/javascript'),
+    transforms: transforms
+      .remove('application/javascript')
+      .set('text/html', HTMLScriptlessDisplay),
   };
 
   static contextTypes = {
@@ -142,7 +147,6 @@ class Notebook extends React.Component {
 
   createCellElement(id) {
     const cellMap = this.props.notebook.get('cellMap');
-
     return (
       <div
         key={`cell-container-${id}`}
@@ -178,6 +182,10 @@ class Notebook extends React.Component {
         paddingRight: '10px',
       }} ref="cells"
       >
+        <JavascriptFrame
+          notebook={this.props.notebook}
+          displayOrder={this.props.displayOrder}
+        />
         <CellCreator id={cellOrder.get(0, null)} above />
       {
         cellOrder.map(this.createCellElement)

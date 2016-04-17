@@ -41,6 +41,10 @@ td {
     border: 1px solid #cbcbcb;
 }
 
+div.document-javascript {
+  display: none;
+}
+
 /*
     Codemirror
  */
