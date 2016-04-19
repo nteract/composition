@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
 import * as commutable from 'commutable';
-import * as constants from '../../../es5/notebook/constants';
+import * as constants from '../../../src/notebook/constants';
 
-import { reducers } from '../../../es5/notebook/reducers';
+import { reducers } from '../../../src/notebook/reducers';
 
 const setNotebook = reducers[constants.SET_NOTEBOOK];
 const updateExecutionCount = reducers[constants.UPDATE_CELL_EXECUTION_COUNT];

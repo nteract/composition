@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { reducers } from '../../../es5/notebook/reducers';
+import { reducers } from '../../../src/notebook/reducers';
 
 describe('reducers', () => {
   it('has a function defined for each Symbol prop', () => {
