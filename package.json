@@ -4,6 +4,7 @@
   "description": ":notebook: the nteract notebook",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf build/ dist/ istanbuilt/",
     "lint": "eslint .",
     "test": "npm run test:functional && npm run test:unit",
     "test:unit": "electron-mocha --renderer --compilers js:babel-core/register 'test/renderer/**/*.js'",
