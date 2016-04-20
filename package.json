@@ -6,6 +6,7 @@
   "scripts": {
     "clean": "rimraf build/ dist/ istanbuilt/",
     "lint": "eslint .",
+    "pretest": "npm run coverage:instrument",
     "test": "npm run test:functional && npm run test:unit",
     "test:unit": "electron-mocha --renderer --compilers js:babel-core/register 'test/renderer/**/*.js'",
     "test:functional": "npm run build && electron-mocha --compilers js:babel-core/register 'test/main/**/*.js'",

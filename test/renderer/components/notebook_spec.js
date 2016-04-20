@@ -12,7 +12,7 @@ import {
   dummyCommutable,
 } from '../dummy-nb';
 
-import Notebook from '../../../src/notebook/components/notebook';
+import Notebook from '../../../istanbuilt/notebook/components/notebook';
 
 // Boilerplate test to make sure the testing setup is configured
 describe('Notebook', () => {
