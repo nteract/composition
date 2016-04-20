@@ -10,6 +10,8 @@
     "test:functional": "npm run build && electron-mocha --compilers js:babel-core/register 'test/main/**/*.js'",
     "test:watch": "watch 'npm run test' test/",
     "start": "electron .",
+    "precoverage:instrument": "npm run build",
+    "coverage:instrument": "istanbul instrument build -o istanbuilt",
     "prebuild": "rimraf build",
     "build": "babel src --out-dir build",
     "build:icon": "cd static/icons;iconutil -c icns nteract.iconset; mv nteract.icns ../icon.icns",
@@ -81,6 +83,7 @@
     "eslint": "^2.3.0",
     "eslint-config-airbnb": "^6.0.2",
     "eslint-plugin-react": "^4.3.0",
+    "istanbul": "^0.4.3",
     "react-addons-test-utils": "^15.0.1",
     "rimraf": "^2.5.2",
     "watch": "^0.17.1"
