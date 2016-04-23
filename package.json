@@ -97,6 +97,7 @@
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.1",
     "rimraf": "^2.5.2",
+    "sinon": "^1.17.3",
     "watch": "^0.17.1"
   }
 }
