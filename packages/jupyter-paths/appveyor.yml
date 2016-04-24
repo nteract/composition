@@ -8,6 +8,7 @@ environment:
 
 install:
     - ps: Install-Product node $env:nodejs_version
+    - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - npm install
 
 before_test:
