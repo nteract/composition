@@ -1,7 +1,7 @@
 /**
- * @module ipython-paths
+ * @module jupyter-paths
  *
- * @description Module `ipython-paths` provides path helpers for IPython 3.x
+ * @description Module `jupyter-paths` provides path helpers for IPython 4.x
  */
 
 const path = require('path');
