@@ -1,6 +1,6 @@
 {
   "name": "kernelspecs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Find Jupyter kernelspecs on a system",
   "main": "index.js",
   "scripts": {
