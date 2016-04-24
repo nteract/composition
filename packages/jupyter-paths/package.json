@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "home-dir": "^1.0.0",
-    "sys-prefix-promise": "^1.0.2"
+    "sys-prefix-promise": "^1.0.4"
   }
 }
