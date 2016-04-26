@@ -4,7 +4,7 @@
   "description": "ANSI to React Elements",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha 'test/**/*.js'"
   },
   "keywords": [
     "ansi",
@@ -17,5 +17,13 @@
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "enzyme": "^2.2.0",
+    "mocha": "^2.4.5",
+    "react": "^15.0.1",
+    "react-addons-test-utils": "^15.0.1",
+    "react-dom": "^15.0.1"
   }
 }
