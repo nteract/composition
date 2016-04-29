@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import * as actions from '../../../src/notebook/actions';
+import Rx from '@reactivex/rxjs';
 
+import * as actions from '../../../src/notebook/actions';
+import { __RewireAPI__ as ActionsRewired } from '../../../src/notebook/actions';
 import * as constants from '../../../src/notebook/constants';
 
 import createStore from '../../../src/notebook/store';
-
-const Rx = require('@reactivex/rxjs');
 
 describe('setExecutionState', () => {
   it('creates a SET_EXECUTION_STATE action', () => {
@@ -15,6 +15,77 @@ describe('setExecutionState', () => {
       executionState: 'idle',
     });
   })
+});
+
+describe('newKernel', () => {
+
+  let subject = new Rx.Subject();
+
+  let thunk = actions.newKernel();
+
+  before(() => {
+    ActionsRewired.__Rewire__('launchKernel',
+      () => {
+        return new Promise((resolve, reject) => {
+          resolve({
+            channels: 1,
+            connectionFile: 2,
+            spawn: 3
+          });
+        });
+      }
+    );
+
+    ActionsRewired.__Rewire__('agendas', {
+      acquireKernelInfo: function acquireKernelInfo(channels) {
+        return {
+          subscribe: (cb) => {
+            cb({
+              type: "TEST_ACTION"
+            });
+          }
+        }
+      }
+    });
+  });
+
+  after(() => {
+    ActionsRewired.__ResetDependency__('launchKernel');
+    ActionsRewired.__ResetDependency__('agendas');
+  });
+
+  it('returns a thunk', () => {
+    expect(thunk).to.be.a('function');
+  });
+
+  it('executes acquireKernelInfo and fires and action on the subject', (done) => {
+    subject
+      .first()
+      .subscribe((action) => {
+        expect(action).to.deep.equal({
+          type: 'TEST_ACTION'
+        });
+        done();
+      });
+
+    thunk(subject);
+  });
+
+  it('returns a new kernel from the thunk', (done) => {
+    subject
+      .skip(1)
+      .subscribe((action) => {
+        expect(action).to.deep.equal({
+          type: constants.NEW_KERNEL,
+          channels: 1,
+          connectionFile: 2,
+          spawn: 3
+        });
+        done();
+      });
+      
+    thunk(subject);
+  });
 });
 
 describe('setLanguageInfo', () => {
@@ -78,8 +149,6 @@ describe('updateCellPagers', () => {
     });
   })
 });
-
-
 
 describe('moveCell', () => {
   it('creates a MOVE_CELL action', () => {
