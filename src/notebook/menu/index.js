@@ -96,6 +96,12 @@ export function dispatchRunAll(store, dispatch) {
   });
 }
 
+export function dispatchUndo(store, dispatch) {
+}
+
+export function dispatchRedo(store, dispatch) {
+}
+
 export function dispatchKillKernel(store, dispatch) {
   dispatch(killKernel);
 }
@@ -103,6 +109,8 @@ export function dispatchKillKernel(store, dispatch) {
 export function initMenuHandlers(store, dispatch) {
   ipc.on('menu:new-kernel', dispatchNewkernel.bind(null, store, dispatch));
   ipc.on('menu:run-all', dispatchRunAll.bind(null, store, dispatch));
+  ipc.on('menu:undo', dispatchRedo.bind(null, store, dispatch));
+  ipc.on('menu:redo', dispatchUndo.bind(null, store, dispatch));
   ipc.on('menu:save', dispatchSave.bind(null, store, dispatch));
   ipc.on('menu:save-as', dispatchSaveAs.bind(null, store, dispatch));
   ipc.on('menu:kill-kernel', dispatchKillKernel.bind(null, store, dispatch));
