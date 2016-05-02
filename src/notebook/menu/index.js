@@ -97,9 +97,17 @@ export function dispatchRunAll(store, dispatch) {
 }
 
 export function dispatchUndo(store, dispatch) {
+  const { historyIndex, history} = store.getState();
+  if (historyIndex == 0) {
+    return;
+  }
 }
 
 export function dispatchRedo(store, dispatch) {
+  const { historyIndex, history} = store.getState();
+  if (historyIndex == history.length - 1) {
+    return;
+  }
 }
 
 export function dispatchKillKernel(store, dispatch) {
