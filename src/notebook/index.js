@@ -43,6 +43,8 @@ ipc.on('main:load', (e, launchData) => {
     filename: launchData.filename,
     cellPagers: new Immutable.Map(),
     cellStatuses: new Immutable.Map(),
+    history: new Immutable.List(),
+    historyIndex: 0,
     executionState: 'not connected',
     github,
   }, reducers);
@@ -62,6 +64,8 @@ ipc.on('main:load', (e, launchData) => {
     .subscribe(st => {
       dispatch(setExecutionState(st));
     });
+
+  window.store = store;
 
   initNativeHandlers(store);
   initKeymap(window, dispatch);
