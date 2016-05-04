@@ -1,6 +1,22 @@
 const React = require('react');
+const Anser = require('anser');
 
-const ansiToJSON = require('ansi-to-json');
+/**
+ * ansiToJson
+ * Convert ANSI strings into JSON output.
+ *
+ * @name ansiToJSON
+ * @function
+ * @param {String} input The input string.
+ * @return {Array} The parsed input.
+ */
+function ansiToJSON(input) {
+  return Anser.ansiToJson(input, {
+    json: true,
+    remove_empty: true,
+  });
+}
+
 
 function ansiJSONtoStyleBundle(ansiBundle) {
   const style = {};

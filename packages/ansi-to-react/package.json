@@ -25,6 +25,7 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
+    "anser": "^1.0.1",
     "ansi-to-json": "^1.0.0"
   },
   "peerDependencies": {
