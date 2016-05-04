@@ -1,7 +1,7 @@
-const Ansi = require("../index");
-const React = require("react");
-const expect = require("chai").expect;
-const enzyme = require("enzyme");
+const Ansi = require('../src/index');
+const React = require('react');
+const expect = require('chai').expect;
+const enzyme = require('enzyme');
 
 const GREEN_FG = "\u001b[32m";
 const YELLOW_BG = "\u001b[43m";
