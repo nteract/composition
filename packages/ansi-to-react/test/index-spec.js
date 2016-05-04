@@ -1,4 +1,4 @@
-const Ansi = require('../index');
+const Ansi = require('../src/index');
 const React = require('react');
 const expect = require('chai').expect;
 const enzyme = require('enzyme');
