@@ -1,20 +1,18 @@
-'use strict';
+const React = require('react');
 
-var React = require('react');
-
-var ansiToJSON = require('ansi-to-json');
+const ansiToJSON = require('ansi-to-json');
 
 function ansiJSONtoStyleBundle(ansiBundle) {
-  var style = {};
+  const style = {};
   if (ansiBundle.bg) {
-    style.backgroundColor = 'rgb(' + ansiBundle.bg + ')';
+    style.backgroundColor = `rgb(${ansiBundle.bg})`;
   }
   if (ansiBundle.fg) {
-    style.color = 'rgb(' + ansiBundle.fg + ')';
+    style.color = `rgb(${ansiBundle.fg})`;
   }
   return {
     content: ansiBundle.content,
-    style: style
+    style,
   };
 }
 
@@ -25,7 +23,7 @@ function ansiToInlineStyle(text) {
 function inlineBundleToReact(bundle, key) {
   return React.createElement('span', {
     style: bundle.style,
-    key: key
+    key,
   }, bundle.content);
 }
 
@@ -37,7 +35,7 @@ function Ansi(props) {
 }
 
 Ansi.propTypes = {
-  children: React.PropTypes.string
+  children: React.PropTypes.string,
 };
 
 module.exports = Ansi;

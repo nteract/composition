@@ -16,6 +16,12 @@
     "ansi",
     "react"
   ],
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
