@@ -25,8 +25,6 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "anser": "^1.0.1",
-    "ansi-to-json": "^1.0.0"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0"
@@ -38,7 +36,7 @@
     "babel-preset-react": "^6.5.0",
     "chai": "^3.5.0",
     "enzyme": "^2.2.0",
-    "mkdirp": "^0.5.0",
+    "mkdirp": "0.5.0",
     "mocha": "^2.4.5",
     "react": "^15.0.1",
     "react-addons-test-utils": "^15.0.1",
