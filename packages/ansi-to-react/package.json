@@ -1,6 +1,6 @@
 {
   "name": "ansi-to-react",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "ANSI to React Elements",
   "main": "lib/index.js",
   "scripts": {
@@ -24,8 +24,7 @@
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "MPL-2.0",
-  "dependencies": {
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0"
   },
