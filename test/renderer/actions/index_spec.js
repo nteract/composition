@@ -83,7 +83,7 @@ describe('newKernel', () => {
         });
         done();
       });
-      
+
     thunk(subject);
   });
 });
@@ -108,6 +108,181 @@ describe('setLanguageInfo', () => {
       langInfo: langInfo,
     });
   })
+});
+
+describe('save', () => {
+
+  before(() => {
+    ActionsRewired.__Rewire__('commutable',
+      {
+        toJS: function() {
+          return {};
+        }
+      }
+    );
+  });
+
+  after(() => {
+    ActionsRewired.__ResetDependency__('writeFile');
+    ActionsRewired.__ResetDependency__('commutable');
+  });
+
+  it('throws without a filename', () => {
+    let subject = new Rx.Subject();
+    let thunk = actions.save();
+    expect(thunk.bind(null, subject)).to.throw('save needs a filename');
+  });
+
+  it('emits a start action', (done) => {
+    ActionsRewired.__Rewire__('writeFile',
+      (filename, notebook, cb) => {
+        cb();
+      }
+    );
+    let subject = new Rx.Subject();
+    let thunk = actions.save('test.js');
+    subject
+    .first()
+    .subscribe((action) => {
+      expect(action).to.deep.equal({
+        type: constants.START_SAVING
+      });
+      done();
+    });
+    thunk(subject);
+  });
+
+  it('emits a done action', (done) => {
+    ActionsRewired.__Rewire__('writeFile',
+      (filename, notebook, cb) => {
+        cb();
+      }
+    );
+    let subject = new Rx.Subject();
+    let thunk = actions.save('test.js');
+    subject
+    .skip(1)
+    .subscribe((action) => {
+      expect(action).to.deep.equal({
+        type: constants.DONE_SAVING
+      });
+      done();
+    });
+    thunk(subject);
+  });
+
+  it('throws on error', () => {
+    ActionsRewired.__Rewire__('writeFile',
+      (filename, notebook, cb) => {
+        cb("error");
+      }
+    );
+    let subject = new Rx.Subject();
+    let thunk = actions.save('test.js');
+    expect(thunk.bind(null, subject)).to.throw('error');
+  });
+
+});
+
+describe('saveAs', () => {
+
+  before(() => {
+    ActionsRewired.__Rewire__('writeFile',
+      (filename, notebook, cb) => {
+        cb();
+      }
+    );
+    ActionsRewired.__Rewire__('commutable',
+      {
+        toJS: function() {
+          return {};
+        }
+      }
+    );
+  });
+
+  after(() => {
+    ActionsRewired.__ResetDependency__('writeFile');
+    ActionsRewired.__ResetDependency__('commutable');
+  });
+
+  it('emits a change action', (done) => {
+    let subject = new Rx.Subject();
+    let thunk = actions.saveAs('test.js', {});
+    subject
+    .first()
+    .subscribe((action) => {
+      expect(action).to.deep.equal({
+        type: constants.CHANGE_FILENAME,
+        filename: 'test.js'
+      });
+      done();
+    });
+    thunk(subject, () => {});
+  });
+
+  it('dispatches save', (done) => {
+    let subject = new Rx.Subject();
+    let thunk = actions.saveAs('test.js', {});
+    thunk(subject, (action) => {
+      expect(typeof action).to.equal("function");
+      done();
+    });
+  });
+
+});
+
+describe('setNotebook', () => {
+
+  let mock = {
+    getIn: function() {
+      return {};
+    }
+  };
+
+  before(() => {
+    ActionsRewired.__Rewire__('path', {
+      dirname: function() {},
+      resolve: function() {}
+    });
+    ActionsRewired.__Rewire__('Immutable', {
+      fromJS: function(data) {
+        return mock;
+      }
+    });
+  });
+
+  after(() => {
+    ActionsRewired.__ResetDependency__('path');
+    ActionsRewired.__ResetDependency__('Immutable');
+  });
+
+  it('emits a SET_NOTEBOOK action', (done) => {
+    let subject = new Rx.Subject();
+    let thunk = actions.setNotebook({}, 'test.js');
+    subject
+    .first()
+    .subscribe((action) => {
+      console.log(action)
+      expect(action).to.deep.equal({
+        type: constants.SET_NOTEBOOK,
+        data: mock
+      });
+      done();
+    });
+    thunk(subject, () => {});
+  });
+
+  it('dispatches newKernel', (done) => {
+    let subject = new Rx.Subject();
+    let thunk = actions.setNotebook({}, 'test.js');
+    let dispatch = (action) => {
+      expect(typeof action).to.equal('function');
+      done();
+    };
+    thunk(subject, dispatch);
+  });
+
 });
 
 describe('updateCellSource', () => {
@@ -292,5 +467,14 @@ describe('executeCell', () => {
     );
 
     actions.executeCell(channels, id, source)(subject);
+  });
+});
+
+describe('setNotificationSystem', () => {
+  it('creates a SET_NOTIFICATION_SYSTEM action', () => {
+    expect(actions.setNotificationSystem('test')).to.deep.equal({
+      type: constants.SET_NOTIFICATION_SYSTEM,
+      notificationSystem: 'test'
+    });
   });
 });
