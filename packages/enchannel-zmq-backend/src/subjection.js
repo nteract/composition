@@ -71,7 +71,6 @@ export function createObservable(socket) {
                      // Conform to same message format as notebook websockets
                      // See https://github.com/n-riesco/jmp/issues/10
                      delete msg.idents;
-                     delete msg.signatureOK;
                      delete msg.blobs;
                      // Deep freeze the message
                      deepFreeze(msg);
