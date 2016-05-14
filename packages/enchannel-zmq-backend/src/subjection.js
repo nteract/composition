@@ -1,4 +1,4 @@
-import { Subscriber, Observable, Subject } from '@reactivex/rxjs';
+import { Subscriber, Observable, Subject } from 'rxjs/rx';
 import * as jmp from 'jmp';
 
 import {
