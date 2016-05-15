@@ -1,4 +1,4 @@
-const uuid = require('node-uuid');
+const uuid = require('uuid');
 
 /**
  * Filter for finding out if message is a child of parentMessage

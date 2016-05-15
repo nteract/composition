@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/nteract/enchannel#readme",
   "dependencies": {
-    "node-uuid": "^1.4.7"
+    "uuid": "^2.0.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
