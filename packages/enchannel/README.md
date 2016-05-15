@@ -155,7 +155,7 @@ username, and then create and send a shutdown request:
 channels = ...connected using an enchannel backend...
 
 // Created once with the channels
-const uuid = require('node-uuid');
+const uuid = require('uuid');
 const session = uuid.v4();
 const username = process.env.LOGNAME || process.env.USER ||
   process.env.LNAME || process.env.USERNAME;
