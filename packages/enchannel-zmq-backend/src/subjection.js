@@ -1,4 +1,4 @@
-import { Subscriber, Observable, Subject } from 'rxjs/rx';
+import { Subscriber, Observable, Subject } from 'rxjs/Rx';
 import * as jmp from 'jmp';
 
 import {
