@@ -10,7 +10,7 @@ addons:
     - libssl-dev
 language: node_js
 node_js:
-- '5'
+- '6'
 env:
   global:
   - ZMQ="3.2.5"
