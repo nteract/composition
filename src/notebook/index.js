@@ -42,8 +42,9 @@ ipc.on('main:load', (e, launchData) => {
     filename: launchData.filename,
     cellPagers: new Immutable.Map(),
     cellStatuses: new Immutable.Map(),
-    history: new Immutable.List(),
-    historyIndex: 0,
+    past: new Immutable.List(),
+    current: null,
+    future: new Immutable.List(),
     executionState: 'not connected',
     github,
   }, reducers);
