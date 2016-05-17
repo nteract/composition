@@ -1,7 +1,10 @@
 import * as path from 'path';
 
-import remote from 'remote';
-const dialog = remote.require('dialog');
+const electron = require('electron');
+const { remote } = electron;
+
+const remoteElectron = remote.require('electron');
+const dialog = remoteElectron.dialog;
 
 export function showSaveAsDialog(defaultPath) {
   return new Promise((resolve) => {

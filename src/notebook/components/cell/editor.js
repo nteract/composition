@@ -1,8 +1,9 @@
 import React from 'react';
 
 import CodeMirror from 'react-codemirror';
+import CM from 'codemirror';
 
-const Rx = require('@reactivex/rxjs');
+const Rx = require('rxjs/Rx');
 
 import { updateCellSource } from '../../actions';
 
@@ -11,6 +12,33 @@ import 'codemirror/addon/hint/anyword-hint';
 
 // Hint picker
 const pick = (cm, handle) => handle.pick();
+
+function goLineUpOrEmit(editor) {
+  const cursor = editor.getCursor();
+  if (cursor.line === 0 && cursor.ch === 0 && !editor.somethingSelected()) {
+    CM.signal(editor, 'topBoundary');
+  } else {
+    editor.execCommand('goLineUp');
+  }
+}
+
+function goLineDownOrEmit(editor) {
+  const cursor = editor.getCursor();
+  const lastLineNumber = editor.lastLine();
+  const lastLine = editor.getLine(lastLineNumber);
+  if (cursor.line === lastLineNumber &&
+      cursor.ch === lastLine.length &&
+      !editor.somethingSelected()) {
+    CM.signal(editor, 'bottomBoundary');
+  } else {
+    editor.execCommand('goLineDown');
+  }
+}
+
+CM.keyMap.basic.Up = 'goLineUpOrEmit';
+CM.keyMap.basic.Down = 'goLineDownOrEmit';
+CM.commands.goLineUpOrEmit = goLineUpOrEmit;
+CM.commands.goLineDownOrEmit = goLineDownOrEmit;
 
 export default class Editor extends React.Component {
   static propTypes = {
@@ -22,7 +50,10 @@ export default class Editor extends React.Component {
     lineWrapping: React.PropTypes.bool,
     onChange: React.PropTypes.func,
     theme: React.PropTypes.string,
+    cmtheme: React.PropTypes.string,
     focused: React.PropTypes.bool,
+    focusAbove: React.PropTypes.func,
+    focusBelow: React.PropTypes.func,
   };
 
   static contextTypes = {
@@ -32,7 +63,7 @@ export default class Editor extends React.Component {
   static defaultProps = {
     language: 'python',
     lineNumbers: false,
-    theme: 'composition',
+    cmtheme: 'composition',
     focused: false,
   };
 
@@ -45,6 +76,10 @@ export default class Editor extends React.Component {
 
     this.hint = this.completions.bind(this);
     this.hint.async = true;
+
+    // Remember the name of the theme that's applied so that when it changes we
+    // can force codemirror to remeasure.
+    this.theme = null;
   }
 
   componentDidMount() {
@@ -60,7 +95,11 @@ export default class Editor extends React.Component {
       };
     }
 
-    const inputEvents = Rx.Observable.fromEvent(this.refs.codemirror.getCodeMirror(),
+    const cm = this.refs.codemirror.getCodeMirror();
+    cm.on('topBoundary', this.props.focusAbove);
+    cm.on('bottomBoundary', this.props.focusBelow);
+
+    const inputEvents = Rx.Observable.fromEvent(cm,
       'change', formChangeObject)
       .filter(x => x.change.origin === '+input');
 
@@ -100,6 +139,11 @@ export default class Editor extends React.Component {
       const cm = this.refs.codemirror.getCodeMirror();
       cm.getInputField().blur();
     }
+
+    if (this.theme !== this.props.theme) {
+      this.theme = this.props.theme;
+      this.refs.codemirror.getCodeMirror().refresh();
+    }
   }
 
   onChange(text) {
@@ -115,17 +159,19 @@ export default class Editor extends React.Component {
 
   completions(editor, callback) {
     const cursor = editor.getCursor();
-    this.props.getCompletions(editor.getValue(), cursor.ch).then(results => callback({
-      list: results.matches,
-      from: {
-        line: cursor.line,
-        ch: results.cursor_start,
-      },
-      to: {
-        line: cursor.line,
-        ch: results.cursor_end,
-      },
-    }));
+    if (this.props.getCompletions) {
+      this.props.getCompletions(editor.getValue(), cursor.ch).then(results => callback({
+        list: results.matches,
+        from: {
+          line: cursor.line,
+          ch: results.cursor_start,
+        },
+        to: {
+          line: cursor.line,
+          ch: results.cursor_end,
+        },
+      }));
+    }
   }
 
   render() {
@@ -133,7 +179,7 @@ export default class Editor extends React.Component {
       mode: this.props.language,
       lineNumbers: this.props.lineNumbers,
       lineWrapping: this.props.lineWrapping,
-      theme: this.props.theme,
+      theme: this.props.cmtheme,
       autofocus: false,
       hintOptions: {
         hint: this.hint,
@@ -147,7 +193,7 @@ export default class Editor extends React.Component {
       },
     };
     return (
-      <div className="cell_editor">
+      <div className="input">
         <CodeMirror
           value={this.state.source}
           ref="codemirror"

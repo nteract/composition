@@ -1,7 +1,6 @@
-import BrowserWindow from 'browser-window';
 import path from 'path';
 
-import { shell } from 'electron';
+import { shell, BrowserWindow } from 'electron';
 
 import { emptyNotebook, emptyCodeCell, appendCell, fromJS } from 'commutable';
 import * as immutable from 'immutable';

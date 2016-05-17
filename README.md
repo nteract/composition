@@ -1,4 +1,4 @@
-# nteract
+![nteract animated logo](https://cloud.githubusercontent.com/assets/836375/15271096/98e4c102-19fe-11e6-999a-a74ffe6e2000.gif)
 
 [![codecov.io](https://codecov.io/github/nteract/nteract/coverage.svg?branch=master)](https://codecov.io/github/nteract/nteract?branch=master)
 [![Build Status](https://travis-ci.org/nteract/nteract.svg)](https://travis-ci.org/nteract/nteract) [![slack in](http://slack.nteract.in/badge.svg)](http://slack.nteract.in)
@@ -151,7 +151,8 @@ paying for additional work by seasoned designers and engineers.
 #### Made possible by
 
 The nteract project was made possible with the support of
-[Carina by Rackspace](https://getcarina.com).
+
+[![Carina by Rackspace](https://657cea1304d5d92ee105-33ee89321dddef28209b83f19f06774f.ssl.cf1.rackcdn.com/carina-logo-69ecb9689d028f8d8f0db1caad4b95472040cb3af32104bbc98716fe2088dca4.svg)](https://getcarina.com).
 
 If your employer allows you to work on nteract during the day and would like
 recognition, feel free to add them to the "Made possible by" list.

@@ -16,7 +16,6 @@ import {
   setExecutionState,
 } from './actions';
 
-import { initKeymap } from './keys/keymap';
 import { ipcRenderer as ipc } from 'electron';
 import storage from 'electron-json-storage';
 
@@ -26,7 +25,7 @@ import { initGlobalHandlers } from './global-events';
 
 const Github = require('github4');
 
-const Rx = require('@reactivex/rxjs');
+const Rx = require('rxjs/Rx');
 
 const github = new Github();
 
@@ -68,7 +67,6 @@ ipc.on('main:load', (e, launchData) => {
   window.store = store;
 
   initNativeHandlers(store);
-  initKeymap(window, dispatch);
   initMenuHandlers(store, dispatch);
   initGlobalHandlers(store, dispatch);
 
@@ -117,8 +115,8 @@ ipc.on('main:load', (e, launchData) => {
                 />
             }
             <NotificationSystem ref="notificationSystem" />
-            <link rel="stylesheet" href={`../static/styles/theme-${this.state.theme}.css`} />
             <link rel="stylesheet" href="../static/styles/main.css" />
+            <link rel="stylesheet" href={`../static/styles/theme-${this.state.theme}.css`} />
           </div>
         </Provider>
       );

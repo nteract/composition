@@ -11,7 +11,7 @@ import {
   saveAs,
   killKernel,
 } from '../actions';
-import { ipcRenderer as ipc } from 'electron';
+import { ipcRenderer as ipc, webFrame } from 'electron';
 
 import {
   publish,
@@ -88,12 +88,11 @@ export function dispatchPublishGist(store, dispatch) {
 }
 
 export function dispatchRunAll(store, dispatch) {
-  const { notebook, channels} = store.getState();
+  const { notebook, channels } = store.getState();
   const cells = notebook.get('cellMap');
-  notebook.get('cellOrder').map((value, key) => {
-    var cell = cells.get(value);
-    dispatch(executeCell(channels, value, cell.get("source")));
-  });
+  notebook.get('cellOrder').map((value) => dispatch(
+    executeCell(channels, value, cells.getIn([value, 'source'])))
+  );
 }
 
 export function dispatchUndo(store, dispatch) {
@@ -114,6 +113,14 @@ export function dispatchKillKernel(store, dispatch) {
   dispatch(killKernel);
 }
 
+export function dispatchZoomIn() {
+  webFrame.setZoomLevel(webFrame.getZoomLevel() + 1);
+}
+
+export function dispatchZoomOut() {
+  webFrame.setZoomLevel(webFrame.getZoomLevel() - 1);
+}
+
 export function initMenuHandlers(store, dispatch) {
   ipc.on('menu:new-kernel', dispatchNewkernel.bind(null, store, dispatch));
   ipc.on('menu:run-all', dispatchRunAll.bind(null, store, dispatch));
@@ -123,4 +130,6 @@ export function initMenuHandlers(store, dispatch) {
   ipc.on('menu:save-as', dispatchSaveAs.bind(null, store, dispatch));
   ipc.on('menu:kill-kernel', dispatchKillKernel.bind(null, store, dispatch));
   ipc.on('menu:publish:gist', dispatchPublishGist.bind(null, store, dispatch));
+  ipc.on('menu:zoom-in', dispatchZoomIn.bind(null, store, dispatch));
+  ipc.on('menu:zoom-out', dispatchZoomOut.bind(null, store, dispatch));
 }

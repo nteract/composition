@@ -1,0 +1,137 @@
+:root {
+  --main-bg-color: white;
+  --main-fg-color: black;
+
+  --primary-border: #ababab;
+
+  --cell-bg: white;
+  --cell-bg-hover: white;
+  --cell-bg-focus: white;
+
+  --toolbar-bg: white;
+  --toolbar-button: #aaa;
+  --toolbar-button-hover: #555;
+
+  --pager-bg: white;
+  --input-color: #3241a0;
+
+  --cm-background: #f7f7f7;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #407e7e;
+  --cm-keyword: #008000;
+  --cm-string: #ba2121;
+  --cm-builtin: #008000;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: #aa22ff;
+  --cm-def: #0000ff;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: #00ff00;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--main-bg-color);
+  --cm-hint-bg-active: #ABD1FF;
+
+  --prompt-width: 112px;
+}
+
+.input {
+  padding: 5px;
+}
+
+.outputs>div {
+  padding-top: 0px
+}
+
+.prompt {
+  text-align: right !important;
+  font-size: 14px !important;
+}
+
+.cell.code .prompt:before {
+  content: "In ";
+}
+
+.cell.code .prompt:after {
+  content: ":";
+}
+
+.cell {
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.cell.text .rendered {
+  padding: 0px 0px 0px calc(var(--prompt-width) + 10px);
+}
+
+.draggable-cell {
+  padding: 0px !important;
+  border-top-width: 1px !important;
+  border-bottom-width: 1px !important;
+  margin-bottom: -1px;
+}
+
+.cell-toolbar-mask {
+  top: -23px;
+  right: 1px;
+}
+
+.cell-toolbar {
+  box-shadow: 0 1px 0.5px 0 rgba(0,0,0,.10);
+  border-radius: 3px;
+}
+
+.cell-creator {
+  box-shadow: 0 1px 0.5px 0 rgba(0,0,0,.10);
+  margin-top: 0px;
+  border-radius: 3px;
+  padding-bottom: 1px;
+}
+
+.creator-hover-region {
+  top: -22px;
+  height: 40px;
+  z-index: 99;
+}
+
+.cm-s-composition span.cm-comment { font-style: italic; }
+.cm-s-composition .CodeMirror-lines {
+  padding: 4px;
+  padding-top: 3px;
+}
+
+.cm-s-composition.CodeMirror {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+}
+
+.cell {
+  padding-left: 5px;
+  border-radius: 2px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.cell:hover
+{
+  box-shadow: none;
+}
+
+.cell.focused {
+  box-shadow: none;
+  padding-left: 6px;
+  border-color: #66bb6a;
+  border-left-width: 0px;
+  background: linear-gradient(to right, #66bb6a -40px, #66bb6a 5px, transparent 5px, transparent 100%);
+}

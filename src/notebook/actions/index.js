@@ -28,9 +28,16 @@ export function newKernel(kernelSpecName, cwd) {
       .then(kc => {
         const { channels, connectionFile, spawn } = kc;
 
+        // Listen to the execution status of the kernel
+        channels.iopub
+          .filter(msg => msg.header.msg_type === 'status')
+          .map(msg => msg.content.execution_state)
+          .subscribe(() => subject.next(setExecutionState('idle')));
+
         agendas.acquireKernelInfo(channels)
               .subscribe(action => {
                 subject.next(action);
+                subject.next(setExecutionState('idle'));
               });
 
         subject.next({
@@ -54,7 +61,7 @@ export function save(filename, notebook) {
     subject.next({
       type: constants.START_SAVING,
     });
-    writeFile(filename, JSON.stringify(commutable.toJS(notebook), null, 2), (err) => {
+    writeFile(filename, JSON.stringify(commutable.toJS(notebook), null, 1), (err) => {
       if (err) {
         console.error(err);
         throw err;
@@ -77,7 +84,7 @@ export function saveAs(filename, notebook) {
 }
 
 export function setNotebook(nbData, filename) {
-  const cwd = (filename && path.dirname(path.resolve(filename))) || process.cwd;
+  const cwd = (filename && path.dirname(path.resolve(filename))) || process.cwd();
   return (subject, dispatch) => {
     const data = Immutable.fromJS(nbData);
     subject.next({
@@ -190,9 +197,17 @@ export function focusCell(id) {
   };
 }
 
-export function focusNextCell(id) {
+export function focusNextCell(id, createCellIfUndefined) {
   return {
     type: constants.FOCUS_NEXT_CELL,
+    id,
+    createCellIfUndefined,
+  };
+}
+
+export function focusPreviousCell(id) {
+  return {
+    type: constants.FOCUS_PREVIOUS_CELL,
     id,
   };
 }

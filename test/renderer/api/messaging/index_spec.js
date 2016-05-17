@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { childOf } from '../../../../src/notebook/api/messaging';
 
-const Rx = require('@reactivex/rxjs');
+const Rx = require('rxjs/Rx');
 
 describe('childOf', () => {
   it('filters messages that have the same parent', () => {

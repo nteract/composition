@@ -32,6 +32,10 @@ export default {
 
     // When at the end, create a new cell
     if (nextIndex >= cellOrder.size) {
+      if (!action.createCellIfUndefined) {
+        return state;
+      }
+
       const cellID = uuid.v4();
       // TODO: condition on state.defaultCellType (markdown vs. code)
       const cell = commutable.emptyCodeCell;
@@ -41,6 +45,18 @@ export default {
         notebook: commutable.insertCellAt(notebook, cell, cellID, nextIndex),
       };
     }
+
+    // When in the middle of the notebook document, move to the next cell
+    return {
+      ...state,
+      focusedCell: cellOrder.get(nextIndex),
+    };
+  },
+  [constants.FOCUS_PREVIOUS_CELL]: function focusPreviousCell(state, action) {
+    const { notebook } = state;
+    const cellOrder = notebook.get('cellOrder');
+    const curIndex = cellOrder.findIndex(id => id === action.id);
+    const nextIndex = Math.max(0, curIndex - 1);
 
     // When in the middle of the notebook document, move to the next cell
     return {

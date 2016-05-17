@@ -9,6 +9,17 @@
   padding-top: 20px;
 }
 
+@keyframes fadeOut {
+    from {opacity: 1.0;}
+    to {opacity: 0.0;}
+}
+
+div#loading {
+  animation-name: fadeOut;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+}
+
 /*
   Globals
  */
@@ -46,6 +57,16 @@ td {
 }
 
 /*
+  Notebook
+ */
+
+.notebook {
+    paddingTop: 10px;
+    paddingLeft: 10px;
+    paddingRight: 10px;
+}
+
+/*
   Cell
  */
 
@@ -63,15 +84,13 @@ td {
     cursor: move;
 }
 
-.cell
-{
+.cell {
     position: relative;
     background: var(--cell-bg);
     transition: all .1s ease-in-out;
 }
 
-.cell:hover
-{
+.cell:hover {
     box-shadow: 1px 1px 3px rgba(0,0,0,.12), -1px -1px 3px rgba(0,0,0,.12);
 }
 
@@ -79,20 +98,20 @@ td {
     box-shadow: 3px 3px 9px rgba(0,0,0,.12), -3px -3px 9px rgba(0,0,0,.12);
 }
 
-.cell:hover .input_area .cell_inputs,
-.cell:active .input_area .cell_inputs
+.cell:hover .prompt,
+.cell:active .prompt
 {
     background-color: var(--cell-bg-hover);
 }
 
 
-.cell:focus .input_area .cell_inputs,
-.cell.focused .input_area .cell_inputs
+.cell:focus .prompt,
+.cell.focused .prompt
 {
     background-color: var(--cell-bg-focus);
 }
 
-.cell_toolbar-mask
+.cell-toolbar-mask
 {
     position: absolute;
     top: -37px;
@@ -106,20 +125,20 @@ td {
     padding: 5px 5px 0px 50px;
 }
 
-.cell_toolbar
+.cell-toolbar
 {
     display: inline-box;
     background: var(--toolbar-bg);
     box-shadow: 0 1px 2px 0 rgba(0,0,0,.50);
 }
 
-.cell_toolbar button
+.cell-toolbar button
 {
     display: inline-block;
 
     width: 22px;
     height: 20px;
-    padding: 2px 4px;
+    padding: 0px 4px;
 
     text-align: center;
 
@@ -128,27 +147,23 @@ td {
     background: none;
 }
 
-.cell_toolbar button i
+.cell-toolbar button span
 {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1;
 
     color: var(--toolbar-button);
 }
 
-.cell_toolbar button i:hover
+.cell-toolbar button span:hover
 {
     color: var(--toolbar-button-hover);
 }
 
-.cell_markdown.rendered
+.cell.text .rendered
 {
     padding: 10px 10px 10px var(--prompt-width);
-}
-
-.cell_markdown.unrendered .CodeMirror-lines
-{
-    padding-left: var(--prompt-width);
+    outline: none;
 }
 
 .pagers
@@ -158,24 +173,24 @@ td {
     word-wrap: break-word;
 }
 
-.cell_display
+.outputs>div
 {
     word-wrap: break-word;
     padding: 10px 10px 10px calc(var(--prompt-width) + 10px);
 }
 
-.cell_display:empty
+.outputs>div:empty
 {
     display:none;
 }
 
-.cell_code .input_area
+.cell .input-container
 {
     display: flex;
     flex-direction: row;
 }
 
-.cell_code .input_area .cell_inputs
+.cell .prompt
 {
     font-family: monospace;
     font-size: 12px;
@@ -191,7 +206,7 @@ td {
     flex: 0 0 auto;
 }
 
-.cell_code .input_area .cell_editor
+.cell .input-container .input
 {
     flex: 1 1 auto;
 }
@@ -215,7 +230,7 @@ td {
   pointer-events: none;
 }
 
-.creator-tool {
+.cell-creator {
   display: inline-block;
   background: var(--main-bg-color);
   box-shadow: 0 1px 2px 0 rgba(0,0,0,.50);
@@ -223,13 +238,13 @@ td {
   pointer-events: all;
 }
 
-.creator-tool button
+.cell-creator button
 {
   display: inline-block;
 
   width: 22px;
   height: 20px;
-  padding: 2px 4px;
+  padding: 0px 4px;
 
   text-align: center;
 
@@ -238,27 +253,17 @@ td {
   background: none;
 }
 
-.creator-tool button i
+.cell-creator button span
 {
-  /* These icons are thin, use a larger font than the cell toolbar */
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1;
 
   color: var(--toolbar-button);
 }
 
-.creator-tool button i:hover
+.cell-creator button span:hover
 {
   color: var(--toolbar-button-hover);
-}
-
-.creator-tool .creator-label {
-  color: var(--toolbar-button);
-  font-size: 12px;
-  text-transform: uppercase;
-  padding: 5px;
-  vertical-align: text-bottom;
-  font-weight: bold;
 }
 
 code {
@@ -347,7 +352,8 @@ code {
 .cm-s-composition span.cm-number, .cm-s-composition span.cm-atom { color: var(--cm-number); }
 .cm-s-composition span.cm-meta { color: var(--cm-meta); }
 .cm-s-composition span.cm-link { color: var(--cm-link); }
-
+.cm-s-composition span.cm-operator { color: var(--cm-operator); }
+.cm-s-composition span.cm-def { color: var(--cm-def); }
 .cm-s-composition .CodeMirror-activeline-background { background: var(--cm-activeline-bg); }
 .cm-s-composition .CodeMirror-matchingbracket { outline:1px solid var(--cm-matchingbracket-outline); color: var(--cm-matchingbracket-color) !important; }
 

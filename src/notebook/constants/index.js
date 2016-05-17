@@ -1,46 +1,47 @@
-export const CHANGE_FILENAME = Symbol('CHANGE_FILENAME');
+export const CHANGE_FILENAME = 'CHANGE_FILENAME';
 
-export const START_SAVING = Symbol('START_SAVING');
-export const DONE_SAVING = Symbol('DONE_SAVING');
+export const START_SAVING = 'START_SAVING';
+export const DONE_SAVING = 'DONE_SAVING';
 
-export const ERROR_KERNEL_NOT_CONNECTED = Symbol('ERROR_KERNEL_NOT_CONNECTED');
+export const ERROR_KERNEL_NOT_CONNECTED = 'ERROR_KERNEL_NOT_CONNECTED';
 
-export const NEW_KERNEL = Symbol('NEW_KERNEL');
-export const KILL_KERNEL = Symbol('KILL_KERNEL');
+export const NEW_KERNEL = 'NEW_KERNEL';
+export const KILL_KERNEL = 'KILL_KERNEL';
 
-export const EXIT = Symbol('EXIT');
+export const EXIT = 'EXIT';
 
-export const SET_NOTEBOOK = Symbol('SET_NOTEBOOK');
+export const SET_NOTEBOOK = 'SET_NOTEBOOK';
 
-export const MOVE_CELL = Symbol('MOVE_CELL');
-export const REMOVE_CELL = Symbol('REMOVE_CELL');
+export const MOVE_CELL = 'MOVE_CELL';
+export const REMOVE_CELL = 'REMOVE_CELL';
 
-export const NEW_NOTEBOOK = Symbol('NEW_NOTEBOOK');
-export const READ_NOTEBOOK = Symbol('READ_NOTEBOOK');
+export const NEW_NOTEBOOK = 'NEW_NOTEBOOK';
+export const READ_NOTEBOOK = 'READ_NOTEBOOK';
 
-export const NEW_CELL_AFTER = Symbol('NEW_CELL_AFTER');
-export const NEW_CELL_BEFORE = Symbol('NEW_CELL_BEFORE');
-export const NEW_CELL_APPEND = Symbol('NEW_CELL_APPEND');
+export const NEW_CELL_AFTER = 'NEW_CELL_AFTER';
+export const NEW_CELL_BEFORE = 'NEW_CELL_BEFORE';
+export const NEW_CELL_APPEND = 'NEW_CELL_APPEND';
 
-export const MERGE_CELL_AFTER = Symbol('MERGE_CELL_AFTER');
+export const MERGE_CELL_AFTER = 'MERGE_CELL_AFTER';
 
-export const UPDATE_CELL_EXECUTION_COUNT = Symbol('UPDATE_CELL_EXECUTION_COUNT');
-export const UPDATE_CELL_OUTPUTS = Symbol('UPDATE_CELL_OUTPUTS');
-export const UPDATE_CELL_SOURCE = Symbol('UPDATE_CELL_SOURCE');
+export const UPDATE_CELL_EXECUTION_COUNT = 'UPDATE_CELL_EXECUTION_COUNT';
+export const UPDATE_CELL_OUTPUTS = 'UPDATE_CELL_OUTPUTS';
+export const UPDATE_CELL_SOURCE = 'UPDATE_CELL_SOURCE';
 
-export const UPDATE_CELL_PAGERS = Symbol('UPDATE_CELL_PAGERS');
+export const UPDATE_CELL_PAGERS = 'UPDATE_CELL_PAGERS';
 
-export const SET_LANGUAGE_INFO = Symbol('SET_LANGUAGE_INFO');
+export const SET_LANGUAGE_INFO = 'SET_LANGUAGE_INFO';
 
-export const SET_EXECUTION_STATE = Symbol('SET_EXECUTION_STATE');
-export const FOCUS_CELL = Symbol('FOCUS_CELL');
-export const FOCUS_NEXT_CELL = Symbol('FOCUS_NEXT_CELL');
+export const SET_EXECUTION_STATE = 'SET_EXECUTION_STATE';
+export const FOCUS_CELL = 'FOCUS_CELL';
+export const FOCUS_NEXT_CELL = 'FOCUS_NEXT_CELL';
+export const FOCUS_PREVIOUS_CELL = 'FOCUS_PREVIOUS_CELL';
 
-export const OVERWRITE_METADATA_FIELD = Symbol('OVERWRITE_METADATA_FIELD');
+export const OVERWRITE_METADATA_FIELD = 'OVERWRITE_METADATA_FIELD';
 
-export const STARTED_UPLOADING = Symbol('STARTED_UPLOADING');
-export const DONE_UPLOADING = Symbol('DONE_UPLOADING');
+export const STARTED_UPLOADING = 'STARTED_UPLOADING';
+export const DONE_UPLOADING = 'DONE_UPLOADING';
 
-export const SET_NOTIFICATION_SYSTEM = Symbol('SET_NOTIFICATION_SYSTEM');
+export const SET_NOTIFICATION_SYSTEM = 'SET_NOTIFICATION_SYSTEM';
 
-export const UPDATE_CELL_STATUS = Symbol('UPDATE_CELL_STATUS');
+export const UPDATE_CELL_STATUS = 'UPDATE_CELL_STATUS';

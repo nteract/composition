@@ -1,11 +1,9 @@
-import app from 'app';
-
 import {
   launchFilename,
   launchNewNotebook,
 } from './launch';
 
-import { Menu } from 'electron';
+import { Menu, app } from 'electron';
 import { defaultMenu, loadFullMenu } from './menu';
 import { resolve } from 'path';
 

@@ -14,13 +14,13 @@ describe('Cell', () => {
       <Cell cell={commutable.emptyMarkdownCell} {...sharedProps}/>
     );
     expect(cell).to.not.be.null;
-    expect(cell.find('div.cell_markdown').length).to.be.greaterThan(0);
+    expect(cell.find('div.cell.text').length).to.be.greaterThan(0);
   });
   it('should be able to render a code cell', () => {
     const cell = mount(
       <Cell cell={commutable.emptyCodeCell} {...sharedProps}/>
     );
     expect(cell).to.not.be.null;
-    expect(cell.find('div.cell_code').length).to.be.greaterThan(0);
+    expect(cell.find('div.code.cell').length).to.be.greaterThan(0);
   });
 });

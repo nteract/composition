@@ -1,4 +1,5 @@
-import * as Rx from '@reactivex/rxjs';
+import * as Rx from 'rxjs/Rx';
+import { mark, measure } from '../performance';
 
 export default function createStore(initialState, reducers) {
   const subject = new Rx.Subject();
@@ -12,7 +13,18 @@ export default function createStore(initialState, reducers) {
         return state; // no reduction
       }
 
-      return reducers[action.type].call(null, state, action);
+      // Do not allow reducers to fail silently!  console.error errors as they
+      // happen.
+      try {
+        mark(`${action.type}:enter`);
+        return reducers[action.type].call(null, state, action);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      } finally {
+        mark(`${action.type}:exit`);
+        measure(action.type, `${action.type}:enter`, `${action.type}:exit`);
+      }
     },
     initialState || {}
   ).share();
@@ -23,6 +35,7 @@ export default function createStore(initialState, reducers) {
   }, (err) => {
     console.error('Error in the store', err);
   });
+  store[stateSymbol] = initialState;
   store.getState = () => store[stateSymbol];
 
   function dispatch(action) {

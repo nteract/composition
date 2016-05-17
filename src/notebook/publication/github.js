@@ -1,4 +1,4 @@
-const Rx = require('@reactivex/rxjs');
+const Rx = require('rxjs/Rx');
 const commutable = require('commutable');
 const path = require('path');
 

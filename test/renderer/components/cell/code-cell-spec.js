@@ -19,6 +19,6 @@ describe('CodeCell', () => {
     const cell = mount(
       <CodeCell cell={commutable.emptyCodeCell} {...sharedProps}/>
     );
-    expect(cell.find('.cell_editor').length).to.be.greaterThan(0);
+    expect(cell.find('.input').length).to.be.greaterThan(0);
   });
 });

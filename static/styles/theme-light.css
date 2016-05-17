@@ -29,6 +29,8 @@
   --cm-number: #3a3;
   --cm-meta: #555;
   --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
 
   --cm-activeline-bg: #e8f2ff;
   --cm-matchingbracket-outline: grey;

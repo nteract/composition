@@ -44,7 +44,6 @@ function cleanupKernel(kernel, closeChannels) {
       console.warn(`Could not cleanup kernel channels, have they already
         been completed?`, kernel.channels);
     }
-    delete kernel.channels;
   }
 
   if (kernel.spawn) {
@@ -57,11 +56,9 @@ function cleanupKernel(kernel, closeChannels) {
       console.warn(`Could not cleanup kernel process stdio, have they already
         been destoryed?`, kernel.spawn);
     }
-    delete kernel.spawn;
   }
   if (kernel.connectionFile) {
     fs.unlinkSync(kernel.connectionFile);
-    delete kernel.connectionFile;
   }
 }
 
@@ -71,6 +68,11 @@ export function forceShutdownKernel(kernel) {
   }
 
   cleanupKernel(kernel, true);
+
+  // TODO: Refactor to either return a new blank kernel "reduction" or how we do this
+  delete kernel.channels; // eslint-disable-line
+  delete kernel.spawn; // eslint-disable-line
+  delete kernel.connectionFile; // eslint-disable-line
 }
 
 export function shutdownKernel(kernel) {

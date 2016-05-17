@@ -1,11 +1,29 @@
-import { getCurrentWindow } from 'remote';
+import { remote } from 'electron';
+const { getCurrentWindow } = remote;
+import home from 'home-dir';
+import path from 'path';
+
+const HOME = home();
+
+/**
+ * Turn a path like /Users/n/mine.ipynb to ~/mine.ipynb
+ * @param  {string} p the full path to a file
+ * @return {string}   tildified path
+ */
+function tildify(p) {
+  if (!p) {
+    return '';
+  }
+  const s = path.normalize(p) + path.sep;
+  return (s.indexOf(HOME) === 0 ? s.replace(HOME + path.sep, `~${path.sep}`) : s).slice(0, -1);
+}
 
 export function initNativeHandlers(store) {
   store
     .map(state => {
       const { executionState, filename } = state;
       return {
-        title: `${filename || 'Untitled'} - ${executionState}`,
+        title: `${tildify(filename) || 'Untitled'} - ${executionState}`,
         path: filename,
       };
     })

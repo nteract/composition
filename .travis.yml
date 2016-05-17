@@ -17,6 +17,8 @@ env:
   matrix:
   - GROUP=unit
   - GROUP=functional
+  - GROUP=performance
+  - GROUP=lint
 
 cache:
   apt: true
@@ -34,4 +36,5 @@ install: env LD_LIBRARY_PATH=$LDHACK/lib LD_RUN_PATH=$LDHACK/lib PKG_CONFIG_PATH
 before_script:
 - export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start
 script: travis_retry npm run test:$GROUP
-after_success: npm run coverage
+after_success:
+  - 'if [[ $GROUP == unit* ]]; then npm run coverage; fi'

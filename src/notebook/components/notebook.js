@@ -25,6 +25,7 @@ class Notebook extends React.Component {
     cellPagers: React.PropTypes.instanceOf(Immutable.Map),
     cellStatuses: React.PropTypes.instanceOf(Immutable.Map),
     focusedCell: React.PropTypes.string,
+    theme: React.PropTypes.string,
   };
 
   static defaultProps = {
@@ -95,7 +96,7 @@ class Notebook extends React.Component {
       // This is the notebook though, so hands off
       // We'll want to check for this existing later
       // and any other validation
-      require(`codemirror/mode/${language}/${language}`);
+      require(`codemirror/mode/${language}/${language}`); // eslint-disable-line global-require
     }
     return language;
   }
@@ -126,7 +127,7 @@ class Notebook extends React.Component {
     const cell = cellMap.get(id);
 
     if (e.shiftKey) {
-      this.context.dispatch(focusNextCell(this.props.focusedCell));
+      this.context.dispatch(focusNextCell(this.props.focusedCell, true));
     }
 
     if (cell.get('cell_type') === 'code') {
@@ -184,6 +185,7 @@ class Notebook extends React.Component {
           pagers={this.props.cellPagers.get(id)}
           focusedCell={this.props.focusedCell}
           running={this.props.cellStatuses.get(id) === 'busy'}
+          theme={this.props.theme}
         />
         <CellCreator key={`creator-${id}`} id={id} above={false} />
       </div>);
@@ -192,19 +194,12 @@ class Notebook extends React.Component {
   render() {
     if (!this.props.notebook) {
       return (
-        <div></div>
+        <div className="notebook"></div>
       );
     }
     const cellOrder = this.props.notebook.get('cellOrder');
     return (
-      <div
-        style={{
-          paddingTop: '10px',
-          paddingLeft: '10px',
-          paddingRight: '10px',
-        }}
-        ref="cells"
-      >
+      <div className="notebook" ref="cells">
         <CellCreator id={cellOrder.get(0, null)} above />
       {
         cellOrder.map(this.createCellElement)

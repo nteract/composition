@@ -29,6 +29,8 @@
   --cm-number: #2ecc71;
   --cm-meta: #95a5a6;
   --cm-link: #2ecc71;
+  --cm-operator: #ecf0f1;
+  --cm-def: #ecf0f1;
 
   --cm-activeline-bg: #e8f2ff;
   --cm-matchingbracket-outline: grey;
