@@ -42,6 +42,12 @@ export function createExecuteRequest(code) {
   return executeRequest;
 }
 
+export function createClearRequest(wait) {
+  const clearRequest = createMessage('clear_output');
+  clearRequest.content = { wait };
+  return clearRequest;
+}
+
 export function msgSpecToNotebookFormat(msg) {
   return Object.assign({}, msg.content, {
     output_type: msg.header.msg_type,
