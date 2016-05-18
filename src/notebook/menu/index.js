@@ -8,6 +8,7 @@ import { tildify } from '../native-window';
 
 import {
   executeCell,
+  clearCell,
   newKernel,
   save,
   saveAs,
@@ -110,6 +111,11 @@ export function dispatchRunAll(store, dispatch) {
   ));
 }
 
+export function dispatchClearAll(store, dispatch) {
+  const { notebook, channels } = store.getState();
+  notebook.get('cellMap').map((value) => dispatch(clearCell(channels, value)));
+}
+
 export function dispatchKillKernel(store, dispatch) {
   dispatch(killKernel);
 }
@@ -144,6 +150,7 @@ export function dispatchZoomOut() {
 export function initMenuHandlers(store, dispatch) {
   ipc.on('menu:new-kernel', dispatchNewkernel.bind(null, store, dispatch));
   ipc.on('menu:run-all', dispatchRunAll.bind(null, store, dispatch));
+  ipc.on('menu:clear-all', dispatchClearAll.bind(null, store, dispatch));
   ipc.on('menu:save', dispatchSave.bind(null, store, dispatch));
   ipc.on('menu:save-as', dispatchSaveAs.bind(null, store, dispatch));
   ipc.on('menu:kill-kernel', dispatchKillKernel.bind(null, store, dispatch));
