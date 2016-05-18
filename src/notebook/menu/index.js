@@ -106,6 +106,20 @@ export function dispatchRunAll(store, dispatch) {
   ));
 }
 
+export function dispatchUndo(store, dispatch) {
+  const { historyIndex, history} = store.getState();
+  if (historyIndex == 0) {
+    return;
+  }
+}
+
+export function dispatchRedo(store, dispatch) {
+  const { historyIndex, history} = store.getState();
+  if (historyIndex == history.length - 1) {
+    return;
+  }
+}
+
 export function dispatchKillKernel(store, dispatch) {
   dispatch(killKernel);
 }
@@ -121,6 +135,8 @@ export function dispatchZoomOut() {
 export function initMenuHandlers(store, dispatch) {
   ipc.on('menu:new-kernel', dispatchNewkernel.bind(null, store, dispatch));
   ipc.on('menu:run-all', dispatchRunAll.bind(null, store, dispatch));
+  ipc.on('menu:undo', dispatchRedo.bind(null, store, dispatch));
+  ipc.on('menu:redo', dispatchUndo.bind(null, store, dispatch));
   ipc.on('menu:save', dispatchSave.bind(null, store, dispatch));
   ipc.on('menu:save-as', dispatchSaveAs.bind(null, store, dispatch));
   ipc.on('menu:kill-kernel', dispatchKillKernel.bind(null, store, dispatch));

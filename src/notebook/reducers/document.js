@@ -223,4 +223,21 @@ export default {
       notificationSystem,
     };
   },
+  [constants.UNDO]: function undo(state) {
+    const { past, current, future } = state;
+    return {
+      ...state,
+      current: past[past.length - 1],
+      past: past.slice(0, past.length - 1),
+    };
+  },
+  [constants.REDO]: function redo(state) {
+    const { past, current, future } = state;
+    return {
+      ...state,
+      past: [...past, present],
+      present: future[0],
+      future: future.slice(1),
+    };
+  },
 };

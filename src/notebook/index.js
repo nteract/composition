@@ -42,6 +42,9 @@ ipc.on('main:load', (e, launchData) => {
     filename: launchData.filename,
     cellPagers: new Immutable.Map(),
     cellStatuses: new Immutable.Map(),
+    past: new Immutable.List(),
+    current: null,
+    future: new Immutable.List(),
     executionState: 'not connected',
     github,
   }, reducers);
@@ -61,6 +64,8 @@ ipc.on('main:load', (e, launchData) => {
     .subscribe(st => {
       dispatch(setExecutionState(st));
     });
+
+  window.store = store;
 
   initNativeHandlers(store);
   initMenuHandlers(store, dispatch);

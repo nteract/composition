@@ -88,12 +88,12 @@ export const edit = {
     {
       label: 'Undo',
       accelerator: 'CmdOrCtrl+Z',
-      role: 'undo',
+      click: createSender('menu:undo'),
     },
     {
       label: 'Redo',
       accelerator: 'Shift+CmdOrCtrl+Z',
-      role: 'redo',
+      click: createSender('menu:redo'),
     },
     {
       type: 'separator',

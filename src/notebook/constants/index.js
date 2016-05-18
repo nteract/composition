@@ -45,3 +45,6 @@ export const DONE_UPLOADING = 'DONE_UPLOADING';
 export const SET_NOTIFICATION_SYSTEM = 'SET_NOTIFICATION_SYSTEM';
 
 export const UPDATE_CELL_STATUS = 'UPDATE_CELL_STATUS';
+
+export const UNDO = 'UNDO';
+export const REDO = 'REDO';
