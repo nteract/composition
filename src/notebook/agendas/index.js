@@ -3,6 +3,7 @@ const Immutable = require('immutable');
 
 import {
   createExecuteRequest,
+  createClearRequest,
   msgSpecToNotebookFormat,
   createMessage,
 } from '../api/messaging';
@@ -158,5 +159,29 @@ export function executeCell(channels, id, code) {
     return function executionDisposed() {
       subscriptions.forEach((sub) => sub.unsubscribe());
     };
+  });
+}
+
+export function clearCell(channels, id) {
+  return Rx.Observable.create((subscriber) => {
+    if (!channels || !channels.iopub) {
+      subscriber.error('kernel not connected');
+      subscriber.complete();
+      return () => {};
+    }
+
+    const { iopub } = channels;
+
+    const clearRequest = createClearRequest(true);
+
+    const iopubChildren = iopub.childOf(clearRequest).share();
+
+    iopubChildren
+      .ofMessageType('clear_output')
+      .scan(reduceOutputs, emptyOutputs)
+      .subscribe(outputs => {
+        console.log(outputs);
+        subscriber.next(updateCellOutputs(id, outputs));
+      });
   });
 }
