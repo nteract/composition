@@ -128,6 +128,10 @@ export const cell = {
       label: 'Run All',
       click: createSender('menu:run-all'),
     },
+    {
+      label: 'Clear All',
+      click: createSender('menu:clear-all'),
+    },
   ],
 };
 const theme_menu = [
