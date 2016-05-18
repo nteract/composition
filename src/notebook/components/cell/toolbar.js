@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { executeCell, removeCell } from '../../actions';
+import { executeCell, removeCell, clearCell } from '../../actions';
 
 class Toolbar extends React.Component {
   static propTypes = {
@@ -22,6 +22,7 @@ class Toolbar extends React.Component {
     super(props);
     this.removeCell = this.removeCell.bind(this);
     this.executeCell = this.executeCell.bind(this);
+    this.clearCell = this.clearCell.bind(this);
     this.setHoverState = this.setHoverState.bind(this);
   }
 
@@ -67,15 +68,25 @@ class Toolbar extends React.Component {
                                       this.context.notificationSystem));
   }
 
+  clearCell() {
+    this.context.dispatch(clearCell(this.context.channels,
+                                    this.props.id));
+  }
+
   render() {
     const showPlay = this.props.type !== 'markdown';
     return (
       <div className="cell-toolbar-mask" ref="mask">
         <div className="cell-toolbar">
           {showPlay &&
-            <button onClick={this.executeCell}>
-              <span className="octicon octicon-triangle-right" />
-            </button>}
+            <span>
+              <button onClick={this.executeCell}>
+                <span className="octicon octicon-triangle-right" />
+              </button>
+              <button onClick={this.clearCell}>
+                <span className="octicon octicon-x" />
+              </button>
+            </span>}
           <button onClick={this.removeCell}>
             <span className="octicon octicon-trashcan" />
           </button>
