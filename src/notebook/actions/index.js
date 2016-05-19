@@ -237,14 +237,14 @@ export function executeCell(channels, id, source, kernelConnected, notificationS
 }
 
 export function clearCell(channels, id) {
-  return (subject, dispatch) => {
+  return (actions, store ) => Rx.Observable.create((subscriber) => {
     const obs = agendas.clearCell(channels, id);
     obs.subscribe(action => {
-      subject.next(action);
+      subscriber.next(action);
     }, (error) => {
-      subject.next({ type: constants.ERROR_KERNEL_NOT_CONNECTED, message: error });
+      subscriber.next({ type: constants.ERROR_KERNEL_NOT_CONNECTED, message: error });
     });
-  };
+  });
 }
 
 export function overwriteMetadata(field, value) {
