@@ -112,8 +112,12 @@ export function dispatchRunAll(store, dispatch) {
 }
 
 export function dispatchClearAll(store, dispatch) {
-  const { notebook, channels } = store.getState();
-  notebook.get('cellMap').map((value) => dispatch(clearCell(channels, value)));
+  const state = store.getState();
+  const { channels } = state.app;
+  const { notebook } = state.document;
+  notebook.get('cellOrder').map((value) => {
+    dispatch(clearCell(channels, value));
+  });
 }
 
 export function dispatchKillKernel(store, dispatch) {
