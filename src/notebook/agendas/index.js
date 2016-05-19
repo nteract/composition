@@ -178,10 +178,17 @@ export function clearCell(channels, id) {
 
     iopubChildren
       .ofMessageType('clear_output')
+      .map(msgSpecToNotebookFormat)
       .scan(reduceOutputs, emptyOutputs)
       .subscribe(outputs => {
-        console.log(outputs);
         subscriber.next(updateCellOutputs(id, outputs));
       });
+
+    iopub.next(clearRequest);
+
+    return () => {
+      iopubChildren.unsubscribe();
+    };
+
   });
 }
