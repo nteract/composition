@@ -4,8 +4,9 @@ import * as uuid from 'uuid';
 import * as commutable from 'commutable';
 
 import * as constants from '../constants';
+import widgets from './widgets';
 
-export default handleActions({
+export default handleActions(Object.assign({
   [constants.SET_NOTEBOOK]: function setNotebook(state, action) {
     const notebook = action.data;
     let cellStatuses = new Immutable.Map();
@@ -239,4 +240,4 @@ export default handleActions({
       .delete(['notebook', 'cellMap', id, 'execution_count'])
       .delete(['notebook', 'cellMap', id, 'outputs']);
   },
-}, {});
+}, widgets), {});

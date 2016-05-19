@@ -11,6 +11,8 @@ import {
   updateCellPagers,
   updateCellStatus,
   associateCellToMsg,
+  // TODO: Don't special case the widgets
+  clearWidgets,
 } from '../actions';
 
 import {
@@ -66,6 +68,10 @@ export function executeCellObservable(channels, id, code, cellMessageAssociation
 
     const executeRequest = createExecuteRequest(code);
     subscriber.next(associateCellToMsg(id, executeRequest.header.msg_id));
+
+    // Clear the widget area on cell execution
+    // TODO: Don't special case the widgets
+    subscriber.next(clearWidgets(id));
 
     const shellChildren = shell.childOf(executeRequest).share();
 

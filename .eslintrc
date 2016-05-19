@@ -17,6 +17,7 @@
       "react/no-find-dom-node": [0]
   },
   "settings": {
-      "import/core-modules": ["electron"]
+      "import/core-modules": ["electron"],
+      "import/no-unresolved": [0]
   }
 }

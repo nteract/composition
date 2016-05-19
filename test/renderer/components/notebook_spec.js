@@ -20,6 +20,8 @@ describe('Notebook', () => {
     const component = shallow(
       <ConnectedNotebook
         notebook={dummyCommutable}
+        widgetManager={null}
+        widgets={new Immutable.Map()}
         cellPagers={new Immutable.Map()}
         cellStatuses={new Immutable.Map()}
         stickyCells={(new Immutable.Map())
@@ -41,6 +43,8 @@ describe('Notebook', () => {
     const component = mount(
       <ConnectedNotebook
         notebook={dummyCommutable}
+        widgetManager={null}
+        widgets={new Immutable.Map()}
         cellPagers={new Immutable.Map()}
         cellStatuses={cellStatuses}
         stickyCells={new Immutable.Map()}

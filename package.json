@@ -65,6 +65,7 @@
     "github": "^2.5.2",
     "home-dir": "^1.0.0",
     "immutable": "^3.7.6",
+    "jupyter-js-widgets": "^1.1.1",
     "kernelspecs": "^1.0.1",
     "mathjax-electron": "^1.0.0",
     "normalize.css": "^4.2.0",
