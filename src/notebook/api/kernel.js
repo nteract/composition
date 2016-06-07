@@ -24,11 +24,24 @@ export function launchKernel(kernelSpecName, spawnOptions) {
           control: createControlSubject(identity, kernelConfig),
           stdin: createStdinSubject(identity, kernelConfig),
         };
-        return {
-          channels,
-          connectionFile,
-          spawn,
-        };
+
+        // Wait for the kernel to launch and send an idle message before
+        // returning the launch results.  The first "idle" message, according
+        // to the spec, is actually "starting".
+        return new Promise(resolve => {
+          const iopubSubscription = channels.iopub
+            .filter(msg => msg.header.msg_type === 'status')
+            .filter(msg => msg.content.execution_state === 'starting')
+            .first()
+            .subscribe(() => {
+              iopubSubscription.unsubscribe();
+              resolve({
+                channels,
+                connectionFile,
+                spawn,
+              });
+            });
+        });
       });
 }
 
