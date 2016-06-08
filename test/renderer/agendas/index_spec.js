@@ -4,8 +4,7 @@ import { updateCellSource, executeCell } from '../../../src/notebook/actions';
 import { liveStore, dispatchQueuePromise, waitForOutputs } from '../../utils';
 
 describe('agendas.executeCell', function() {
-  this.timeout(5000);
-  this.retries(5);
+  this.timeout(10000);
   it('produces the right output', () => {
     return liveStore((kernel, dispatch, store) => {
       const cellId = store.getState().document.getIn(['notebook', 'cellOrder', 0]);
