@@ -70,6 +70,15 @@ export const fileSubMenus = {
     },
     accelerator: 'CmdOrCtrl+Shift+S',
   },
+  publishTo: {
+    label: 'Publish To...',
+    submenu: [
+      {
+        label: 'Gist...',
+        click: createSender('menu:publish:gist'),
+      },
+    ],
+  },
 };
 
 export const file = {
@@ -79,6 +88,7 @@ export const file = {
     fileSubMenus.open,
     fileSubMenus.save,
     fileSubMenus.saveAs,
+    fileSubMenus.publishTo,
   ],
 };
 
@@ -223,17 +233,6 @@ export const view = {
   ],
 };
 
-
-export const publish = {
-  label: 'Publish',
-  submenu: [
-    {
-      label: 'to Gist...',
-      click: createSender('menu:publish:gist'),
-    },
-  ],
-};
-
 const windowDraft = {
   label: 'Window',
   role: 'window',
@@ -332,7 +331,6 @@ export function generateDefaultTemplate() {
   template.push(file);
   template.push(edit);
   template.push(view);
-  template.push(publish);
   template.push(window);
   template.push(help);
 
@@ -400,6 +398,7 @@ export function loadFullMenu() {
         fileSubMenus.open,
         fileSubMenus.save,
         fileSubMenus.saveAs,
+        fileSubMenus.publishTo,
       ],
     };
 
@@ -410,7 +409,6 @@ export function loadFullMenu() {
 
     // Application specific functionality should go before window and help
     template.push(languageMenu);
-    template.push(publish);
     template.push(window);
     template.push(help);
 
