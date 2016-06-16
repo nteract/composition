@@ -70,6 +70,10 @@ export const fileSubMenus = {
     },
     accelerator: 'CmdOrCtrl+Shift+S',
   },
+  publish: {
+    label: 'Publish',
+    click: createSender('menu:publish'),
+  },
   publishTo: {
     label: 'Publish To...',
     submenu: [
