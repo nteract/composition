@@ -26,11 +26,11 @@ cache:
     - zeromq-$ZMQ
 
 before_install:
-  - apt-get install python3
   - source travis_before_install
   - pip install jupyter_console --user
   - pip install ipywidgets --user
   - jupyter kernelspec install-self --user
+  - jupyter kernelspec list
 
 install: env LD_LIBRARY_PATH=$LDHACK/lib LD_RUN_PATH=$LDHACK/lib PKG_CONFIG_PATH=$LDHACK/lib/pkgconfig LDFLAGS=-L$LDHACK/lib CFLAGS=-I$LDHACK/lib/include npm install
 
