@@ -26,7 +26,6 @@ cache:
     - zeromq-$ZMQ
 
 before_install:
-  - apt-get update
   - apt-get install python3
   - source travis_before_install
   - pip install jupyter_console --user
