@@ -65,6 +65,7 @@
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",
     "react-codemirror": "^0.2.6",
+    "react-contextmenu": "^1.6.2",
     "react-dnd": "^2.1.4",
     "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^15.0.1",

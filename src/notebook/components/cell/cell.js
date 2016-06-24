@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { ContextMenuLayer } from 'react-contextmenu';
 
 import Immutable from 'immutable';
 
@@ -95,6 +96,7 @@ class Cell extends React.Component {
         className={`cell ${type === 'markdown' ? 'text' : 'code'} ${focused ? 'focused' : ''}`}
         onClick={this.selectCell}
         ref="cell"
+        onContextMenu={this.contextMenu}
       >
         {
           this.state.hoverCell || this.state.hoverToolbar ? <Toolbar
@@ -134,4 +136,4 @@ class Cell extends React.Component {
   }
 }
 
-export default Cell;
+export default ContextMenuLayer("cell-context-menu")(Cell);
