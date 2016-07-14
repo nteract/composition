@@ -16,7 +16,7 @@ that the initiative is pending completion of the roadmap, grant funding, or othe
 |-----------------------------------------------------------------|------------|
 | [nteract desktop application beta](https://github.com/nteract/nteract/blob/master/ROADMAP.md) | UNDER DEV  |
 | [Remote Kernels](./remote-kernels)                              | PENDING    |
-| [React Components]()                                            | PENDING    |
+| [React Components](./remote-components)                         | PENDING    |
 
 ### Contributing
 
