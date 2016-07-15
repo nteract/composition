@@ -9,6 +9,7 @@
     "prebuild": "mkdirp lib && npm run clean",
     "build": "npm run build:es5",
     "build:es5": "babel src --out-dir lib/ --source-maps",
+    "build:docs": "jsdoc -R README.md -d docs src/*.js",
     "test": "mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm run test -- --watch",
     "clean": "rimraf lib/*"
@@ -40,6 +41,7 @@
     "chai": "^3.4.1",
     "chalk": "^1.1.1",
     "fs-promise": "^0.5.0",
+    "jsdoc": "^3.4.0",
     "jupyter-paths": "^1.0.0",
     "mkdirp": "^0.5.1",
     "mocha": "^3.0.2",

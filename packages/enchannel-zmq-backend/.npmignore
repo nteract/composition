@@ -28,3 +28,6 @@ node_modules
 
 # Local kernel for dev
 kernel.json
+
+# Don't push docs
+docs/
