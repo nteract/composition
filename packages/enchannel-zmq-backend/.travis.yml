@@ -2,21 +2,13 @@ language: node_js
 
 sudo: false
 
-node_js: 
-  - "5.4"
+node_js:
+  - "6"
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
-      - gcc-4.8
-      - uuid-dev
-      - wget
+env:
+  global:
+    - GH_REF: github.com/nteract/enchannel-zmq-backend.git
+    - secure: bmdjmc+k0O4wXj543Lz89iYz3/fyiiLNPHlS2Pq05OfIMs0R4zwsiab0FORmHH+9uZQga33PKpwUWkD41ktft4/ruie6nUrXKBsUYis8PPkRuYtfbZyJLpmEAdwhwb4PvTKy39M3wHhKhaOTZ8WZNoMnX1Nm8gFQr6OidNYrBtQ3BGk+A1uMr0M06q/nv9T8fmCYf6uGQM7AkRRLWax/xS4LVPIVdiHtI7QFcg8BZ3Bcoby3UEQCeCOcIepP0XP+ecjRjFGInbTv4GsNAvp1aISMKbqFvx5S84l23Erz7sINVWC73iTPEvJJ1k0xvQ/nPBlX84ZfWDW3oDvOUuJ2YKXeik2dg7r5Bdasju0zMitUctSVK+f58vS8+ZHdslmq7uWVf2tSIv54phKYDqdjxcKVqlS7VhtW6F7iAe7uAvK7z6cWECsVG8khXfGpz+cANASEJADEsGKDe1d46tqGgRurb8Fb9+GXEwEGVKo9+R5MbXbktqO9YxzqKcHqp5sYEBDU45udkGQDclOcwoszi8IDwwpphfdhHiWGhyGaZaXABRfV7uL0llc5nL7JaJzpeKwFxjt802dBcMmy0IKkFIWPLXouCC3pdMKCDtrnpAyh42KwhogLLtK6/ZuzvGDQE9XOneW6d8YVUMXsWrjTHkcoQMAPD0TlLX2hh1AjJ9g=
 
-cache:
-  apt: true
-  directories:
-    - node_modules
-
+after_success:
+ - bash ./travis_after_success.sh

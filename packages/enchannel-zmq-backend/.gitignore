@@ -30,3 +30,6 @@ lib/
 
 # Local toy file
 kernel.json
+
+# Don't push docs
+docs/
