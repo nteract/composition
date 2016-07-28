@@ -156,4 +156,5 @@ function launch(kernelName, spawnOptions, specs) {
 
 module.exports = {
   launch,
+  launchSpec,
 };
