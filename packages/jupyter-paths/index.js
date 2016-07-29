@@ -4,9 +4,64 @@
  * @description Module `jupyter-paths` provides path helpers for IPython 4.x
  */
 
+const fs = require('fs');
 const path = require('path');
 const home = require('home-dir');
-const sysPrefixPromise = require('sys-prefix-promise')
+const sysPrefixPromise = require('sys-prefix-promise');
+
+var sysPrefixGuess = undefined;
+
+function accessCheck(d) {
+  // check if a directory exists and is listable (X_OK)
+  if (!fs.existsSync(d)) return false;
+  try {
+    fs.accessSync(d, fs.X_OK);
+  } catch (e) {
+    // [WSA]EACCES
+    return false;
+  }
+  return true;
+}
+
+function guessSysPrefix() {
+  // inexpensive guess for sysPrefix based on location of `which jupyter`
+  // based on shutil.which from Python 3.5
+
+  // only run once:
+  if (sysPrefixGuess !== undefined) return sysPrefixGuess;
+
+  var PATH = (process.env.PATH || '').split(path.delimiter);
+  if (PATH.length === 0) {
+    sysPrefixGuess = null;
+    return;
+  }
+
+  var pathext = [''];
+  if (process.platform === 'win32') {
+    pathext = (process.env.PATHEXT || '').split(path.delimiter);
+  }
+
+  PATH.some(bin => {
+    bin = path.resolve(bin);
+    var jupyter = path.join(bin, 'jupyter');
+
+    return pathext.some(ext => {
+      var exe = jupyter + ext;
+      if (accessCheck(exe)) {
+        // PREFIX/bin/jupyter exists, return PREFIX
+        // following symlinks
+        sysPrefixGuess = path.dirname(path.dirname(fs.realpathSync(exe)));
+        return true;
+      }
+    })
+  })
+  if (sysPrefixGuess === undefined) {
+    // store null as nothing found, but don't run again
+    sysPrefixGuess = null;
+  }
+  return sysPrefixGuess;
+}
+
 
 function systemConfigDirs() {
   var paths = [];
@@ -28,16 +83,25 @@ function configDirs(opts) {
   }
 
   paths.push(home('.jupyter'));
+  const systemDirs = systemConfigDirs();
 
   if (opts && opts.withSysPrefix) {
     return sysPrefixPromise()
             .then(sysPrefix => path.join(sysPrefix, 'etc', 'jupyter'))
             .then(sysPathed => {
-              paths.push(sysPathed);
-              return paths.concat(systemConfigDirs());
+              if (systemDirs.indexOf(sysPathed) === -1) {
+                paths.push(sysPathed);
+              }
+              return paths.concat(systemDirs);
             });
   }
-  return paths.concat(systemConfigDirs());
+  // inexpensive guess, based on location of `jupyter` executable
+  var sysPrefix = guessSysPrefix();
+  var sysPathed = path.join(sysPrefix, 'etc', 'jupyter');
+  if (systemDirs.indexOf(sysPathed) === -1) {
+    paths.push(sysPathed);
+  }
+  return paths.concat(systemDirs);
 }
 
 function systemDataDirs() {
@@ -47,8 +111,8 @@ function systemDataDirs() {
     paths.push(path.resolve(
       path.join(process.env.PROGRAMDATA, 'jupyter')));
   } else {
-    paths.push('/usr/share/jupyter');
     paths.push('/usr/local/share/jupyter');
+    paths.push('/usr/share/jupyter');
   }
   return paths;
 }
@@ -87,18 +151,25 @@ function dataDirs(opts) {
 
   paths.push(userDataDir());
 
+  const systemDirs = systemDataDirs();
+
   if (opts && opts.withSysPrefix) {
     return sysPrefixPromise()
             .then(sysPrefix => path.join(sysPrefix, 'share', 'jupyter'))
             .then(sysPathed => {
-              const systemDirs = systemDataDirs();
               if (systemDirs.indexOf(sysPathed) === -1) {
                 paths.push(sysPathed);
               }
               return paths.concat(systemDataDirs());
             });
   }
-  return paths.concat(systemDataDirs());
+  // inexpensive guess, based on location of `jupyter` executable
+  var sysPrefix = guessSysPrefix();
+  var sysPathed = path.join(sysPrefix, 'share', 'jupyter');
+  if (systemDirs.indexOf(sysPathed) === -1) {
+    paths.push(sysPathed);
+  }
+  return paths.concat(systemDirs);
 }
 
 function runtimeDir() {
