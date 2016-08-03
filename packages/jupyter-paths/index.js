@@ -24,7 +24,7 @@ function accessCheck(d) {
 }
 
 function guessSysPrefix() {
-  // inexpensive guess for sysPrefix based on location of `which jupyter`
+  // inexpensive guess for sysPrefix based on location of `which python`
   // based on shutil.which from Python 3.5
 
   // only run once:
@@ -43,10 +43,10 @@ function guessSysPrefix() {
 
   PATH.some(bin => {
     bin = path.resolve(bin);
-    var jupyter = path.join(bin, 'jupyter');
+    var python = path.join(bin, 'python');
 
     return pathext.some(ext => {
-      var exe = jupyter + ext;
+      var exe = python + ext;
       if (accessCheck(exe)) {
         // PREFIX/bin/jupyter exists, return PREFIX
         // following symlinks
