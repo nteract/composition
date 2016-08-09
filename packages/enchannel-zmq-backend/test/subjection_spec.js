@@ -12,7 +12,7 @@ import { EventEmitter } from 'events';
 
 import * as constants from '../src/constants';
 
-import * as jmp from 'jmp';
+import * as jmp from '@captainsafia/jmp-prebuilt';
 
 import {
   deepFreeze,
@@ -96,6 +96,7 @@ describe('createObservable', () => {
         content: {
           success: true,
         },
+        signatureOK: true,
       });
       done();
     });
@@ -147,6 +148,7 @@ describe('createSubject', () => {
         content: {
           success: true,
         },
+        signatureOK: true,
       });
       s.complete();
       expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
