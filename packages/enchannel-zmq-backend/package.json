@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/nteract/enchannel-zmq-backend#readme",
   "dependencies": {
-    "jmp": "^0.4.0",
+    "@captainsafia/jmp-prebuilt": "^0.1.0",
     "rxjs": "^5.0.0-beta.6",
     "uuid": "^2.0.1"
   },
