@@ -21,6 +21,12 @@ env:
  - ZMQ="4.0.5" SODIUM="1.0.5"
  - ZMQ="4.1.3" SODIUM="1.0.5"
 
+cache:
+  apt: true
+  directories:
+    - node_modules
+    - zeromq-$ZMQ
+
 before_install:
  - export CXX=g++-4.8
  - export CC=gcc-4.8
