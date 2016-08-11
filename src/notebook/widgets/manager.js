@@ -92,10 +92,7 @@ export class WidgetManager extends ManagerBase {
   callbacks(view) {
     const callbacks = super.callbacks(view);
     this.lastTouchView = view || this.lastTouchView;
-    return {
-      ...callbacks,
-      cellId: view.options.cellId,
-    };
+    return Object.assign({}, callbacks, { cellId: view.options.cellId });
   }
 }
 
