@@ -118,7 +118,9 @@ function launchSpec(kernelSpec, spawnOptions) {
     const connectionFile = c.connectionFile;
     const config = c.config;
     const argv = kernelSpec.argv.map(x => x === '{connection_file}' ? connectionFile : x);
-    const runningKernel = child_process.spawn(argv[0], argv.slice(1), spawnOptions);
+    const env = Object.assign({}, process.env, kernelSpec.env);
+    const runningKernel = child_process.spawn(argv[0], argv.slice(1),
+      Object.assign({}, { 'env': env}, spawnOptions));
     return {
       spawn: runningKernel,
       connectionFile,
