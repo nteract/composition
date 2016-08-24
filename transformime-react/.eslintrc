@@ -1,0 +1,17 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+      "camelcase": [0],
+      "no-underscore-dangle": [0],
+      "react/no-string-refs": [0],
+      "react/jsx-filename-extension": [0],
+      "import/prefer-default-export": [0],
+      "react/no-find-dom-node": [0]
+  }
+}
