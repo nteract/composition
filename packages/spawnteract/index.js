@@ -125,6 +125,7 @@ function launchSpec(kernelSpec, spawnOptions) {
       spawn: runningKernel,
       connectionFile,
       config,
+      kernelSpec
     };
   });
 }
