@@ -1,5 +1,6 @@
 import Rx from 'rxjs/Rx';
 import difference from 'lodash.difference';
+import { stateObservable } from './utils';
 
 /**
  * Updates widget models based on the redux store state.
@@ -12,14 +13,17 @@ export class ModelUpdater {
    * @param  {widgets.WidgetManager} manager
    * @return {ModelUpdater}
    */
-  constructor(store, manager) {
+  constructor(actions$, store, manager) {
     // Listen for changes to the redux store widgets
     this.widgetSubscriptions = {};
-    Rx.Observable.from(store)
+
+    stateObservable(actions$, store)
       .pluck('document')
-      .map(document => document.getIn(['widgets', 'widgetModels']))
+      .pluck('present')
+      .pluck('widgets')
+      .map(notebook => notebook.get('widgetModels'))
       .distinctUntilChanged((a, b) => !a || a.equals(b))
-      .subscribe(this.reduxStateChange.bind(this, store, manager));
+      .subscribe(this.reduxStateChange.bind(this, actions$, store, manager));
   }
 
   /**
@@ -27,7 +31,7 @@ export class ModelUpdater {
    * @param  {widgets.WidgetManager} manager
    * @param  {object} newState - state of the widgets key
    */
-  reduxStateChange(store, manager, newState) {
+  reduxStateChange(actions$, store, manager, newState) {
     if (!newState) return;
 
     // Delete widgets that no longer exist in the state.
@@ -47,9 +51,11 @@ export class ModelUpdater {
       Object.keys(this.widgetSubscriptions)
     );
     created.forEach(id => {
-      this.widgetSubscriptions[id] = Rx.Observable.from(store)
+      this.widgetSubscriptions[id] = stateObservable(actions$, store)
         .pluck('document')
-        .map(document => document.getIn(['widgets', 'widgetModels', id]))
+        .pluck('present')
+        .pluck('widgets')
+        .map(document => document.getIn(['widgetModels', id]))
         .distinctUntilChanged((a, b) => !a || a.equals(b))
         .subscribe(state => {
           manager.setModelState(id, state.toJS());

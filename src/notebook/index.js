@@ -22,8 +22,10 @@ import { initMenuHandlers } from './menu';
 import { initNativeHandlers } from './native-window';
 import { initGlobalHandlers } from './global-events';
 
-import { AppRecord, DocumentRecord, MetadataRecord } from './records'
-import { WidgetManager } from './widgets/manager';
+import { AppRecord, DocumentRecord, MetadataRecord } from './records';
+import {
+  widgetManager,
+} from './widgets';
 
 const Github = require('github');
 
@@ -59,8 +61,6 @@ ipc.on('main:load', (e, launchData) => {
   initMenuHandlers(store, dispatch);
   initGlobalHandlers(store, dispatch);
 
-  const widgetManager = new WidgetManager(store);
-
   class App extends React.Component {
     constructor(props) {
       super(props);
@@ -94,7 +94,7 @@ ipc.on('main:load', (e, launchData) => {
               this.state.err &&
                 <pre>{this.state.err.toString()}</pre>
             }
-            <Notebook widgetManager={widgetManager} />
+            <Notebook widgetManager={widgetManager()} />
             <NotificationSystem ref="notificationSystem" />
             <link rel="stylesheet" href="../static/styles/main.css" />
             <link rel="stylesheet" href={`../static/styles/theme-${this.state.theme}.css`} />

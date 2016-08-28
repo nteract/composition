@@ -6,7 +6,7 @@ import { associateCellToMsg, setWidgetState } from '../actions';
 import { sendCommMessage } from './comms';
 
 export class WidgetManager extends ManagerBase {
-  constructor(store) {
+  constructor(actions$, store) {
     super();
     this.store = store;
     this.modelPromises = {};
@@ -15,13 +15,14 @@ export class WidgetManager extends ManagerBase {
     // Create the mechanisms for syncing between redux state, backbone state,
     // and the backend.
     this.backendToRedux = new BackendSync(
+      actions$,
       store,
       this.createModel.bind(this),
       this.comm_target_name,
       this.version_comm_target_name,
       () => this.lastTouchView
     );
-    this.reduxToManager = new ModelUpdater(store, this);
+    this.reduxToManager = new ModelUpdater(actions$, store, this);
   }
 
   get versionValidated() {

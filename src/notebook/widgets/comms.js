@@ -1,6 +1,7 @@
+import * as uuid from 'uuid';
 import Rx from 'rxjs/Rx';
 import { createMessage } from '../api/messaging';
-import * as uuid from 'uuid';
+import { stateObservable } from './utils';
 
 /** TODO: Move to more generic location
  * Get an Observable for kernel channels.
@@ -11,7 +12,7 @@ import * as uuid from 'uuid';
  * @param  {Redux.store} store
  * @return {Observable} observable of the kernel channels object
  */
-export function getChannels(store) {
+export function getChannels(actions$, store) {
   // For a proof of concept, see the following JSBin:
   // http://jsbin.com/tujapaciwo/5/edit?js,console
 
@@ -28,7 +29,7 @@ export function getChannels(store) {
   })
 
   // Listen to channel change events.
-  .merge(Rx.Observable.from(store)
+  .merge(stateObservable(actions$, store)
     .pluck('app')
     .pluck('channels')
   )
@@ -48,8 +49,8 @@ export function getChannels(store) {
  * @param  {object} msg - Jupyter message to send
  * @return {Promise} Promise that resolves when the message has been sent
  */
-export function sendMsg(store, channel, msg) {
-  return getChannels(store)
+export function sendMsg(actions$, store, channel, msg) {
+  return getChannels(actions$, store)
     .pluck(channel)
     .first()
     .toPromise()
@@ -65,8 +66,8 @@ export function sendMsg(store, channel, msg) {
  * @param  {Redux.store} store
  * @return {Observable} Observable of comm related messages.
  */
-function commRelatedMessages(store) {
-  return getChannels(store).switchMap(channels => {
+function commRelatedMessages(actions$, store) {
+  return getChannels(actions$, store).switchMap(channels => {
     if (!channels.iopub) {
       return Rx.Observable.empty();
     }
@@ -82,8 +83,8 @@ function commRelatedMessages(store) {
  * @param  {Redux.store} store
  * @return {Observable} Observable of comm open messages.
  */
-export function commOpenMessages(store) {
-  return commRelatedMessages(store)
+export function commOpenMessages(actions$, store) {
+  return commRelatedMessages(actions$, store)
     .filter(msg => msg.header.msg_type === 'comm_open');
 }
 
@@ -92,8 +93,8 @@ export function commOpenMessages(store) {
  * @param  {Redux.store} store
  * @return {Observable} Observable of comm close messages.
  */
-export function commCloseMessages(store) {
-  return commRelatedMessages(store)
+export function commCloseMessages(actions$, store) {
+  return commRelatedMessages(actions$, store)
     .filter(msg => msg.header.msg_type === 'comm_close');
 }
 
@@ -102,8 +103,8 @@ export function commCloseMessages(store) {
  * @param  {Redux.store} store
  * @return {Observable} Observable of comm messages.
  */
-export function commMessages(store) {
-  return commRelatedMessages(store)
+export function commMessages(actions$, store) {
+  return commRelatedMessages(actions$, store)
     .filter(msg => msg.header.msg_type === 'comm_msg');
 }
 
@@ -152,7 +153,7 @@ export function getMessageData(msg) {
  * @return {Promise<{commId, msgId}>} Promise for the new comm's id and the id
  *                                    of the msg sent to open the comm.
  */
-export function openComm(store, commTargetName, data, originalHeader) {
+export function openComm(actions$, store, commTargetName, data, originalHeader) {
   const commId = uuid.v4();
   const openMsg = createMessage('comm_open');
   openMsg.content = {
@@ -162,7 +163,7 @@ export function openComm(store, commTargetName, data, originalHeader) {
   };
   openMsg.parent_header = originalHeader || openMsg.parent_header;
 
-  return sendMsg(store, 'shell', openMsg).then(() => ({
+  return sendMsg(actions$, store, 'shell', openMsg).then(() => ({
     commId,
     msgId: openMsg.header.msg_id,
   }));
@@ -176,7 +177,7 @@ export function openComm(store, commTargetName, data, originalHeader) {
  * @param  {object} [originalHeader] - optional, parent header
  * @return {Promise<string>} Promise for the message id
  */
-export function sendCommMessage(store, commId, data, originalHeader) {
+export function sendCommMessage(actions$, store, commId, data, originalHeader) {
   const msg = createMessage('comm_msg');
   msg.content = {
     comm_id: commId,
@@ -184,5 +185,5 @@ export function sendCommMessage(store, commId, data, originalHeader) {
   };
   msg.parent_header = originalHeader || msg.parent_header;
 
-  return sendMsg(store, 'shell', msg).then(() => msg.header.msg_id);
+  return sendMsg(actions$, store, 'shell', msg).then(() => msg.header.msg_id);
 }

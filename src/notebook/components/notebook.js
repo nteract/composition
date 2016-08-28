@@ -46,7 +46,7 @@ class Notebook extends React.Component {
     transforms: React.PropTypes.instanceOf(Immutable.Map),
     cellPagers: React.PropTypes.instanceOf(Immutable.Map),
     cellStatuses: React.PropTypes.instanceOf(Immutable.Map),
-    widgets: React.PropTypes.instanceOf(Immutable.Map),
+    widgets: React.PropTypes.instanceOf(Immutable.Record),
     widgetManager: React.PropTypes.any,
     stickyCells: React.PropTypes.instanceOf(Immutable.Map),
     focusedCell: React.PropTypes.string,

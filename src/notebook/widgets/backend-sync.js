@@ -43,10 +43,10 @@ export class BackendSync {
    * @param  {() => widgets.WidgetView} lastViewCb - gets the last active widget view
    * @return {BackendSync}
    */
-  constructor(store, createModelCb, commTargetName, versionCommTargetName, lastViewCb) {
-    this.validateWidgetVersion(store, versionCommTargetName);
-    this.makeWidgetObservables(store, commTargetName);
-    this.makeWidgets(store, createModelCb, lastViewCb);
+  constructor(actions$, store, createModelCb, commTargetName, versionCommTargetName, lastViewCb) {
+    this.validateWidgetVersion(actions$, store, versionCommTargetName);
+    this.makeWidgetObservables(actions$, store, commTargetName);
+    this.makeWidgets(actions$, store, createModelCb, lastViewCb);
   }
 
   /**
@@ -60,19 +60,19 @@ export class BackendSync {
    * @param  {Redux.store} store
    * @param  {string} versionCommTargetName - version validation comm target name
    */
-  validateWidgetVersion(store, versionCommTargetName) {
+  validateWidgetVersion(actions$, store, versionCommTargetName) {
     // Validate frontend version on each new kernel, and create a
     // versionValidated Observable that allows third parties to see if the
     // frontend widget framework is compatible with the backend one.
-    this.versionValidated = getChannels(store).switchMap(() => {
+    this.versionValidated = getChannels(actions$, store).switchMap(() => {
       // Create a promise that resolves to true when validation is successful.
-      const validationPromise = openComm(store, versionCommTargetName).then(info => {
+      const validationPromise = openComm(actions$, store, versionCommTargetName).then(info => {
         const { commId } = info;
         return new Promise(resolve => {
-          commMessages(store)
+          commMessages(actions$, store)
             .filter(commIdFilter(commId))
             .subscribe(msg => {
-              sendCommMessage(store, commId, {
+              sendCommMessage(actions$, store, commId, {
                 // TODO: Instead of validating by default, make sure the frontend is
                 // compatible with the version the backend is requesting.
                 validated: true,
@@ -103,23 +103,23 @@ export class BackendSync {
    * @param  {Redux.store} store
    * @param  {string} commTargetName - widget comm target name
    */
-  makeWidgetObservables(store, commTargetName) {
-    this.displayMessages = commMessages(store)
+  makeWidgetObservables(actions$, store, commTargetName) {
+    this.displayMessages = commMessages(actions$, store)
       .filter(methodFilter('display'))
       .publishReplay()
       .refCount();
-    this.customMessages = commMessages(store)
+    this.customMessages = commMessages(actions$, store)
       .filter(methodFilter('custom'))
       .publishReplay()
       .refCount();
-    this.updateMessages = commMessages(store)
+    this.updateMessages = commMessages(actions$, store)
       .filter(methodFilter('update'))
       .publishReplay()
       .refCount();
-    this.deleteWidgets = commCloseMessages(store)
+    this.deleteWidgets = commCloseMessages(actions$, store)
       .publishReplay()
       .refCount();
-    this.newWidgets = commOpenMessages(store)
+    this.newWidgets = commOpenMessages(actions$, store)
       .filter(msg => getCommTargetName(msg) === commTargetName);
 
     // Subscribe to comm close and open messages.  This will cause them to be
@@ -137,7 +137,7 @@ export class BackendSync {
    *                             callback used to create widgets.
    * @param  {() => widgets.WidgetView} lastViewCb - gets the last active widget view
    */
-  makeWidgets(store, createModelCb, lastViewCb) {
+  makeWidgets(actions$, store, createModelCb, lastViewCb) {
     // Use a model instance to set state on widget creation because the
     // widget instantiation logic is complex and we don't want to have to
     // duplicate it.  This is the only point in the lifespan where the widget
@@ -151,7 +151,7 @@ export class BackendSync {
       .mergeAll()
       .subscribe(modelInfo => {
         const { model, stateChanges } = modelInfo;
-        this.makeWidget(store, lastViewCb, model, stateChanges);
+        this.makeWidget(actions$, store, lastViewCb, model, stateChanges);
       });
   }
 
@@ -162,7 +162,7 @@ export class BackendSync {
    * @param  {widgets.WidgetModel} model - instance created by WidgetManager
    * @param  {Observable} stateChanges - observable for the model instance state
    */
-  makeWidget(store, lastViewCb, model, stateChanges) {
+  makeWidget(actions$, store, lastViewCb, model, stateChanges) {
     const thisWidget = commIdFilter(model.id);
 
     // Handle state updates.
@@ -190,7 +190,7 @@ export class BackendSync {
       .concatAll()
       .subscribe(stateChange => {
         // Send state change message to the backend
-        sendCommMessage(store, model.id, {
+        sendCommMessage(actions$, store, model.id, {
           method: 'backbone',
           sync_data: stateChange,
           buffer_keys: [],
