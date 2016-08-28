@@ -201,6 +201,44 @@ export function setNotificationSystem(notificationSystem) {
   };
 }
 
+export function setWidgetState(id, state) {
+  return {
+    type: constants.SET_WIDGET_STATE,
+    id,
+    state,
+  };
+}
+
+export function deleteWidget(id) {
+  return {
+    type: constants.DELETE_WIDGET,
+    id,
+  };
+}
+
+export function displayWidget(id, parentMsgId) {
+  return {
+    type: constants.DISPLAY_WIDGET,
+    id,
+    parentMsgId,
+  };
+}
+
+export function clearWidgets(id) {
+  return {
+    type: constants.CLEAR_WIDGETS,
+    id,
+  };
+}
+
+export function associateCellToMsg(cellId, msgId) {
+  return {
+    type: constants.ASSOCIATE_CELL_TO_MSG,
+    cellId,
+    msgId,
+  };
+}
+
 export function associateCellToMsg(cellId, msgId) {
   return {
     type: constants.ASSOCIATE_CELL_TO_MSG,

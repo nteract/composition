@@ -14,6 +14,10 @@ import {
   executeCellEpic,
 } from './execute';
 
+import {
+  createWidgetManagerEpic,
+} from '../widgets';
+
 const epics = [
   saveEpic,
   saveAsEpic,
@@ -22,6 +26,7 @@ const epics = [
   acquireKernelInfoEpic,
   watchExecutionStateEpic,
   newNotebookKernelEpic,
+  createWidgetManagerEpic,
 ];
 
 export default epics;

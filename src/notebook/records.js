@@ -1,5 +1,10 @@
 import Immutable from 'immutable';
 
+export const WidgetsRecord = new Immutable.Record({
+  widgetViews: new Immutable.Map(),
+  widgetModels: new Immutable.Map(),
+});
+
 export const AppRecord = new Immutable.Record({
   executionState: 'not connected',
   github: null,
@@ -22,6 +27,7 @@ export const DocumentRecord = new Immutable.Record({
   cellMsgAssociations: new Immutable.Map(),
   msgCellAssociations: new Immutable.Map(),
   copied: new Immutable.Map(),
+  widgets: new WidgetsRecord(),
 });
 
 export const MetadataRecord = new Immutable.Record({

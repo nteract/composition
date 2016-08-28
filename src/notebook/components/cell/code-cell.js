@@ -7,6 +7,7 @@ import Inputs from './inputs';
 
 import Editor from './editor';
 import LatexRenderer from '../latex';
+import WidgetArea from './widget-area';
 
 import Pager from './pager';
 
@@ -25,6 +26,8 @@ class CodeCell extends React.Component {
     running: React.PropTypes.bool,
     focusAbove: React.PropTypes.func,
     focusBelow: React.PropTypes.func,
+    widgets: React.PropTypes.instanceOf(Immutable.List),
+    widgetManager: React.PropTypes.any,
   };
 
   static defaultProps = {
@@ -81,6 +84,14 @@ class CodeCell extends React.Component {
             )
           }
           </div> : null
+      }
+      {
+        this.props.widgets && !this.props.widgets.isEmpty() ?
+          <WidgetArea
+            id={this.props.id}
+            widgets={this.props.widgets}
+            widgetManager={this.props.widgetManager}
+          /> : null
       }
       <LatexRenderer>
         <div className="outputs">

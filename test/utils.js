@@ -12,6 +12,7 @@ import * as actions from '../src/notebook/actions';
 import createStore from '../src/notebook/store';
 import { reducers } from '../src/notebook/reducers';
 import { acquireKernelInfo } from '../src/notebook/epics/kernelLaunch';
+import { WidgetManager } from '../src/notebook/widgets/manager';
 
 import { AppRecord, DocumentRecord, MetadataRecord } from '../src/notebook/records';
 
@@ -165,6 +166,10 @@ export function liveStore(cb, kernelName='python2') {
       cellPagers: new Immutable.Map(),
       cellStatuses: new Immutable.Map(),
       stickyCells: new Immutable.Map(),
+      widgets: new Immutable.Map({
+        widgetViews: new Immutable.Map(),
+        widgetModels: new Immutable.Map(),
+      }),
       cellMsgAssociations: new Immutable.Map(),
       msgCellAssociations: new Immutable.Map(),
       outputStatuses: new Immutable.Map(),
@@ -175,6 +180,7 @@ export function liveStore(cb, kernelName='python2') {
     })
   }, reducers);
 
+  const widgetManager = new WidgetManager(store);
   const kernel = {};
   return launchKernel(store, notebook)
     .then(() => {
