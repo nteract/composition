@@ -35,6 +35,7 @@ export class DumbToolbar extends React.Component {
     this.clearCellOutput = this.clearCellOutput.bind(this);
     this.toggleStickyCell = this.toggleStickyCell.bind(this);
     this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
+    this.callContextMenu = this.callContextMenu.bind(this);
   }
 
   shouldComponentUpdate() {
@@ -62,6 +63,19 @@ export class DumbToolbar extends React.Component {
   changeOutputVisibility() {
     this.context.store.dispatch(changeOutputVisibility(this.props.id));
   }
+  // Simulate control click to get react context menu to drop down
+  callContextMenu() {
+    console.log('Pressing button!');
+    const evt = document.createEvent('MouseEvents');
+    evt.initMouseEvent(
+      'click' /* type */, true /* canBubble */, true /* cancelable */,
+      window /* view */, 0 /* detail */, 0 /* screenX */,
+      0/* screenY */, 80 /* clientX */, 20 /* clientY */, true /* ctrlkey */,
+      false /* altkey */, false /* shift */, false /* metakey */, 0 /* button*/,
+      null /* target */);
+    console.log(evt);
+    document.body.dispatchEvent(evt);
+  }
 
   render() {
     const showPlay = this.props.type !== 'markdown';
@@ -79,6 +93,9 @@ export class DumbToolbar extends React.Component {
           </button>
           <button onClick={this.toggleStickyCell}>
             <span className="octicon octicon-pin" />
+          </button>
+          <button onClick={this.callContextMenu}>
+            <span className="octicon octicon-chevron-down" />
           </button>
         </div>
       </div>
