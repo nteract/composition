@@ -3,6 +3,15 @@ import { List } from 'immutable';
 import * as constants from './constants';
 import { setModified } from './actions';
 
+export const errorLogger = store => next => action => {
+  if (action.error) {
+    const state = store.getState();
+    console.warn('state', state);
+    console.error(action);
+  }
+  return next(action);
+};
+
 export const triggerModified = store => next => action => {
   const ignore = new List([
     constants.CHANGE_FILENAME,
