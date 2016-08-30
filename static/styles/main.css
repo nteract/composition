@@ -130,6 +130,7 @@ td {
 {
     display: inline-box;
     background: var(--toolbar-bg);
+    opacity: .5;
 }
 
 .cell-toolbar button
@@ -413,4 +414,18 @@ code {
 li.CodeMirror-hint-active {
   background: var(--cm-hint-bg-active);
   color: var(--cm-hint-color-active);
+}
+
+/* Dropdown menu styling */
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown__content {
+    display: none;
+    position: absolute;
+}
+
+.dropdown--active .dropdown__content {
+    display: block;
 }

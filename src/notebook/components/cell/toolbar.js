@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-
+import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
 import { executeCell } from '../../epics/execute';
-
 import {
   removeCell,
   toggleStickyCell,
@@ -27,6 +26,7 @@ export class DumbToolbar extends React.Component {
     store: React.PropTypes.object,
   };
 
+
   constructor(props) {
     super(props);
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
@@ -35,7 +35,10 @@ export class DumbToolbar extends React.Component {
     this.clearCellOutput = this.clearCellOutput.bind(this);
     this.toggleStickyCell = this.toggleStickyCell.bind(this);
     this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
-    this.callContextMenu = this.callContextMenu.bind(this);
+    this.clearCellOutput = this.clearCellOutput.bind(this);
+    this.changeCellType = this.changeCellType.bind(this);
+    this.changeInputVisibility = this.changeInputVisibility.bind(this);
+    this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
   }
 
   shouldComponentUpdate() {
@@ -63,18 +66,14 @@ export class DumbToolbar extends React.Component {
   changeOutputVisibility() {
     this.context.store.dispatch(changeOutputVisibility(this.props.id));
   }
-  // Simulate control click to get react context menu to drop down
-  callContextMenu() {
-    console.log('Pressing button!');
-    const evt = document.createEvent('MouseEvents');
-    evt.initMouseEvent(
-      'click' /* type */, true /* canBubble */, true /* cancelable */,
-      window /* view */, 0 /* detail */, 0 /* screenX */,
-      0/* screenY */, 80 /* clientX */, 20 /* clientY */, true /* ctrlkey */,
-      false /* altkey */, false /* shift */, false /* metakey */, 0 /* button*/,
-      null /* target */);
-    console.log(evt);
-    document.body.dispatchEvent(evt);
+
+  changeCellType() {
+    const to = props.type === 'markdown' ? 'code' : 'markdown';
+    this.context.store.dispatch(changeCellType(props.id, to));
+  }
+
+  changeInputVisibility() {
+    this.context.store.dispatch(changeInputVisibility(props.id));
   }
 
   render() {
@@ -94,9 +93,18 @@ export class DumbToolbar extends React.Component {
           <button onClick={this.toggleStickyCell}>
             <span className="octicon octicon-pin" />
           </button>
-          <button onClick={this.callContextMenu}>
-            <span className="octicon octicon-chevron-down" />
-          </button>
+          <Dropdown>
+            <DropdownTrigger>
+              <span className="octicon octicon-chevron-down" />
+            </DropdownTrigger>
+            <DropdownContent>
+              <ul>
+                <li onClick={this.clearCellOutput}>
+                  Clear Cell Output
+                </li>
+              </ul>
+            </DropdownContent>
+          </Dropdown>
         </div>
       </div>
     );
