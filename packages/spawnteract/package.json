@@ -4,7 +4,8 @@
   "description": "Proving out an API for spawning Jupyter kernels",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "docs": "jsdoc -R README.md -d docs index.js"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
+    "jsdoc": "^3.4.0",
     "mocha": "^3.0.2"
   }
 }
