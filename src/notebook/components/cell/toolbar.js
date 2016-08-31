@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
+import SimpleIconMenu from './icon-menu';
 import { executeCell } from '../../epics/execute';
 import {
   removeCell,
@@ -93,18 +93,9 @@ export class DumbToolbar extends React.Component {
           <button onClick={this.toggleStickyCell}>
             <span className="octicon octicon-pin" />
           </button>
-          <Dropdown>
-            <DropdownTrigger>
-              <span className="octicon octicon-chevron-down" />
-            </DropdownTrigger>
-            <DropdownContent>
-              <ul>
-                <li onClick={this.clearCellOutput}>
-                  Clear Cell Output
-                </li>
-              </ul>
-            </DropdownContent>
-          </Dropdown>
+          <button>
+            <SimpleIconMenu />
+          </button>
         </div>
       </div>
     );
