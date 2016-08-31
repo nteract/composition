@@ -17,11 +17,11 @@
     "jupyter-paths": "^1.0.0",
     "kernelspecs": "^1.0.0",
     "mkdirp": "^0.5.1",
-    "portfinder": "^0.4.0",
+    "portfinder": "^1.0.7",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "mocha": "^3.0.2"
   }
 }
