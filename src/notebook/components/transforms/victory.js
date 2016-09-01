@@ -21,15 +21,21 @@ import * as V from 'victory';
 
 const MIMETYPE = 'application/json+victory.v1';
 
-const VictoryTransform = (props) => {
-  // Victory likes vanilla JS
-  const payload = props.data.toJS();
-  const VictoryComponent = V[payload.name];
+export class VictoryTransform extends React.Component {
+  shouldComponentUpdate() {
+    return false;
+  }
 
-  return (
-    <VictoryComponent {...payload} />
-  );
-};
+  render() {
+    // Victory likes vanilla JS
+    const payload = this.props.data.toJS();
+    const VictoryComponent = V[payload.name];
+
+    return (
+      <VictoryComponent {...payload} />
+    );
+  }
+}
 
 VictoryTransform.propTypes = {
   data: React.PropTypes.any,
