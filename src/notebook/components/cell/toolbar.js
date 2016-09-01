@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-
+import SimpleIconMenu from './icon-menu';
 import { executeCell } from '../../epics/execute';
-
 import {
   removeCell,
   toggleStickyCell,
@@ -27,6 +26,7 @@ export class DumbToolbar extends React.Component {
     store: React.PropTypes.object,
   };
 
+
   constructor(props) {
     super(props);
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
@@ -34,6 +34,10 @@ export class DumbToolbar extends React.Component {
     this.executeCell = this.executeCell.bind(this);
     this.clearCellOutput = this.clearCellOutput.bind(this);
     this.toggleStickyCell = this.toggleStickyCell.bind(this);
+    this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
+    this.clearCellOutput = this.clearCellOutput.bind(this);
+    this.changeCellType = this.changeCellType.bind(this);
+    this.changeInputVisibility = this.changeInputVisibility.bind(this);
     this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
   }
 
@@ -63,6 +67,15 @@ export class DumbToolbar extends React.Component {
     this.context.store.dispatch(changeOutputVisibility(this.props.id));
   }
 
+  changeCellType() {
+    const to = props.type === 'markdown' ? 'code' : 'markdown';
+    this.context.store.dispatch(changeCellType(props.id, to));
+  }
+
+  changeInputVisibility() {
+    this.context.store.dispatch(changeInputVisibility(props.id));
+  }
+
   render() {
     const showPlay = this.props.type !== 'markdown';
     return (
@@ -79,6 +92,9 @@ export class DumbToolbar extends React.Component {
           </button>
           <button onClick={this.toggleStickyCell}>
             <span className="octicon octicon-pin" />
+          </button>
+          <button>
+            <SimpleIconMenu />
           </button>
         </div>
       </div>

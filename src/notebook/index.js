@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
 
 import { Provider } from 'react-redux';
 
@@ -24,6 +26,7 @@ import { initGlobalHandlers } from './global-events';
 
 import { AppRecord, DocumentRecord, MetadataRecord } from './records';
 
+injectTapEventPlugin();
 const Github = require('github');
 
 const github = new Github();
