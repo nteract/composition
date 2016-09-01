@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive",
-    "docs": "jsdoc -R README.md -d docs index.js"
+    "build:docs": "jsdoc -R README.md -d docs index.js"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
