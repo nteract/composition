@@ -1,23 +1,14 @@
 import React from 'react';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import IconMenuTheme from './icon-menu-theme';
 
-const muiTheme = getMuiTheme({
-  palette: {
-    textColor: cyan500,
-  },
-  appBar: {
-    height: 50,
-  },
-});
 
 
 const SimpleIconMenu = () => (
-  <MuiThemeProvider muiTheme={muiTheme}>
+  <MuiThemeProvider muiTheme={getMuiTheme(IconMenuTheme)}>
     <div>
       <IconMenu
         iconButtonElement={<span className="octicon octicon-chevron-down" />}
