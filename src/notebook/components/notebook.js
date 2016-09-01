@@ -7,7 +7,10 @@ import { connect } from 'react-redux';
 
 import Immutable from 'immutable';
 
-import { displayOrder, transforms } from 'transformime-react';
+import {
+  defaultDisplayOrder as displayOrder,
+  defaultTransforms as transforms,
+} from './transforms';
 
 import Cell from './cell/cell';
 import DraggableCell from './cell/draggable-cell';
