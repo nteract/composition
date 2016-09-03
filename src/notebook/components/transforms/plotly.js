@@ -2,11 +2,11 @@ import React from 'react';
 
 const Plotly = require('plotly.js/dist/plotly');
 
-const MIMETYPE = 'application/json+plotly.v1';
+const MIMETYPE = 'application/vnd.plotly.v1+json';
 
-export class PlotlyTransform extends React.Component {
+class PlotlyTransform extends React.Component {
   componentDidMount() {
-    const payload = this.props.data.toJS();
+    const payload = this.props.data;
     Plotly.newPlot(this.el, payload.data, payload.layout);
   }
 
@@ -15,7 +15,7 @@ export class PlotlyTransform extends React.Component {
   }
 
   render() {
-    const { layout } = this.props.data.toJS();
+    const { layout } = this.props.data;
     const style = {};
     if (layout && layout.height && !layout.autosize) {
       style.height = layout.height;
@@ -26,10 +26,15 @@ export class PlotlyTransform extends React.Component {
   }
 }
 
-PlotlyTransform.propTypes = {
+function MapPlotlyTransform(props) {
+  const data = JSON.parse(props.data);
+  return <PlotlyTransform data={data} />;
+}
+
+MapPlotlyTransform.propTypes = PlotlyTransform.propTypes = {
   data: React.PropTypes.any,
 };
 
-PlotlyTransform.MIMETYPE = MIMETYPE;
+MapPlotlyTransform.MIMETYPE = PlotlyTransform.MIMETYPE = MIMETYPE;
 
-export default PlotlyTransform;
+export default MapPlotlyTransform;
