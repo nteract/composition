@@ -4,6 +4,9 @@ import { expect } from 'chai';
 
 import { shallow, mount } from 'enzyme';
 
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+
 import Immutable from 'immutable';
 
 import { displayOrder, transforms } from 'transformime-react';
@@ -14,8 +17,14 @@ import {
 
 import { ConnectedNotebook } from '../../../src/notebook/components/notebook';
 
+let cellStatuses = new Immutable.Map();
+dummyCommutable.get('cellOrder').map((cellID) => {
+  cellStatuses = cellStatuses.setIn([cellID, 'outputHidden'], false)
+                            .setIn([cellID, 'inputHidden'], false);
+});
+
 // Boilerplate test to make sure the testing setup is configured
-describe('Notebook', () => {
+describe('ConnectedNotebook', () => {
   it('accepts an Immutable.List of cells', () => {
     const component = shallow(
       <ConnectedNotebook
@@ -58,5 +67,20 @@ describe('Notebook', () => {
     expect(component.find('.notebook .cell.code .input-container .prompt').length).to.be.above(0, '.notebook .cell.code .input-container .prompt');
     expect(component.find('.notebook .cell.code .input-container .input').length).to.be.above(0, '.notebook .cell.code .input-container .input');
     expect(component.find('.notebook .cell.code .outputs').length).to.be.above(0, '.notebook .cell.code .outputs');
+  });
+  it.only('properly detects keypress', () => {
+    const component = mount(
+      <ConnectedNotebook
+        notebook={dummyCommutable}
+        cellPagers={new Immutable.Map()}
+        cellStatuses={cellStatuses}
+        stickyCells={new Immutable.Map()}
+        displayOrder={displayOrder.delete('text/html')}
+        transforms={transforms.delete('text/html')}
+      />
+    );
+
+    component.simulate("keydown", { keyCode: 65 });
+    expect(component.keyDown.called).to.be.true;
   });
 });
