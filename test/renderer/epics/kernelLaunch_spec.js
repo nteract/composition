@@ -11,6 +11,7 @@ import * as constants from '../../../src/notebook/constants';
 import {
   setLanguageInfo,
   acquireKernelInfo,
+  newKernelObservable,
   watchExecutionStateEpic,
 } from '../../../src/notebook/epics/kernelLaunch';
 
@@ -79,13 +80,26 @@ describe('acquireKernelInfo', () => {
         type: 'SET_LANGUAGE_INFO'
       })
       done();
-    })
-  })
-})
+    });
+  });
+});
+
+describe.only('newKernelObservable', () => {
+  it('returns an Observable with a subscribe', () => {
+    const obs = newKernelObservable('python2', '~');
+    expect(obs).to.have.property('subscribe');
+  });
+  it('finishes a subscription cycle', (done) => {
+    const obs = newKernelObservable('python2', '~');
+    const noop = () => {};
+    obs.subscribe(noop, noop, done);
+  });
+});
 
 describe('watchExecutionStateEpic', () => {
   it('returns an Observable with an initial state of idle', () => {
     const action$ = new ActionsObservable();
     const obs = watchExecutionStateEpic(action$);
+    expect(obs).to.have.property('subscribe');
   })
 })
