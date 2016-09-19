@@ -203,7 +203,7 @@ td {
 {
     word-wrap: break-word;
     padding: 10px 10px 10px calc(var(--prompt-width) + 10px);
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 .outputs>div:empty
