@@ -96,13 +96,11 @@ describe('createObservable', () => {
         content: {
           success: true,
         },
-        signatureOK: true,
+        blobs: [],
       });
       done();
     });
     const msg = {
-      idents: [],
-      signatureOK: true,
       blobs: [],
       content: {
         success: true,
@@ -121,7 +119,6 @@ describe('createObservable', () => {
     });
     const msg = {
       idents: [],
-      signatureOK: true,
       blobs: [],
       content: {
         success: true,
@@ -148,7 +145,7 @@ describe('createSubject', () => {
         content: {
           success: true,
         },
-        signatureOK: true,
+        blobs: [],
       });
       s.complete();
       expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
@@ -157,7 +154,6 @@ describe('createSubject', () => {
     });
     const msg = {
       idents: [],
-      signatureOK: true,
       blobs: [],
       content: {
         success: true,
