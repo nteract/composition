@@ -1,4 +1,4 @@
-import { dialog, app, shell, Menu } from 'electron';
+import { dialog, app, shell, Menu, ipcRenderer as ipc, remote} from 'electron';
 import * as path from 'path';
 
 import { launch, launchNewNotebook } from './launch';
@@ -18,6 +18,7 @@ function createSender(eventName, obj) {
     send(focusedWindow, eventName, obj);
   };
 }
+
 
 export const fileSubMenus = {
   new: {
@@ -72,6 +73,10 @@ export const fileSubMenus = {
   publish: {
     label: '&Publish',
     submenu: [
+      {
+        label: '&Authenticate',
+        click: createSender('menu:publish:auth'),
+      },
       {
         label: '&To Gist',
         click: createSender('menu:publish:gist'),
@@ -348,6 +353,7 @@ export function generateDefaultTemplate() {
 }
 
 export const defaultMenu = Menu.buildFromTemplate(generateDefaultTemplate());
+
 
 export function loadFullMenu() {
   return kernelspecs.findAll().then((kernelSpecs) => {

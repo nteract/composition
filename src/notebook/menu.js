@@ -6,8 +6,6 @@ import {
 
 import * as path from 'path';
 
-import home from 'home-dir';
-
 import { tildify } from './native-window';
 
 import { executeCell } from './epics/execute';
@@ -17,6 +15,7 @@ import {
 } from './epics/theming';
 
 import {
+  GITHUB_AUTH,
   PUBLISH_GIST,
 } from './epics/github-publish';
 
@@ -41,7 +40,7 @@ import {
   saveAs,
 } from './epics/saving';
 
-const BrowserWindow = remote.BrowserWindow;
+const BrowserWindow = remote.BrowserWindow
 
 export function dispatchSaveAs(store, evt, filename) {
   const state = store.getState();
@@ -77,48 +76,9 @@ export function triggerWindowRefresh(store, filename) {
   store.dispatch(saveAs(filename, notebook));
 }
 
-export function dispatchRestartKernel(store) {
-  const state = store.getState();
-  const notificationSystem = state.app.get('notificationSystem');
-  const spawnOptions = {};
-  if (state && state.document && state.metadata.get('filename')) {
-    spawnOptions.cwd = path.dirname(path.resolve(state.metadata.filename));
-  }
-
-  store.dispatch(killKernel);
-  store.dispatch(newKernel(state.app.kernelSpecName, spawnOptions));
-
-  notificationSystem.addNotification({
-    title: 'Kernel Restarted',
-    message: `Kernel ${state.app.kernelSpecName} has been restarted.`,
-    dismissible: true,
-    position: 'tr',
-    level: 'success',
-  });
-}
-
-export function triggerKernelRefresh(store) {
-  dialog.showMessageBox({
-    type: 'question',
-    buttons: ['Launch New Kernel', 'Don\'t Launch New Kernel'],
-    title: 'New Kernel Needs to Be Launched',
-    message: 'It looks like you\'ve saved your notebook file to a new location.',
-    detail: 'The kernel executing your code thinks your notbook is still in the ' +
-      'old location. Would you like to launch a new kernel to match it with the ' +
-      'new location of the notebook?',
-  }, (index) => {
-    if (index === 0) {
-      dispatchRestartKernel(store);
-    }
-  });
-}
-
 export function triggerSaveAs(store) {
-  showSaveAsDialog(remote.app.getPath('home'))
-    .then(filename => {
-      triggerWindowRefresh(store, filename);
-      triggerKernelRefresh(store);
-    });
+  showSaveAsDialog()
+    .then(filename => triggerWindowRefresh(store, filename));
 }
 
 export function dispatchSave(store) {
@@ -154,6 +114,34 @@ export function dispatchNewKernel(store, evt, name) {
   }
   store.dispatch(newKernel(name, spawnOptions));
 }
+/* Handle app authorization with Github OAuth API
+ * The path for authentication is:
+ *
+ */
+
+
+
+export function dispatchGithubAuth() {
+
+  const win = new BrowserWindow({show: false});
+  win.webContents.on('dom-ready', () => {
+    win.webContents.executeJavaScript(`
+      require('electron').ipcRenderer.send('auth', document.body.innerHTML);
+    `);
+  });
+
+  remote.ipcMain.on('auth', (event, auth) => {
+
+    console.log(auth);
+    auth = auth.match(/"\w+"/g)[1].match(/[^"]/g).join('')
+    console.log(auth);
+    process.env.GITHUB_TOKEN = auth
+  })
+
+  win.loadURL('http://localhost:3010/login');
+}
+
+
 
 export function dispatchPublishGist(store) {
   store.dispatch({ type: PUBLISH_GIST });
@@ -195,6 +183,26 @@ export function dispatchInterruptKernel(store) {
   } else {
     store.dispatch(interruptKernel);
   }
+}
+
+export function dispatchRestartKernel(store) {
+  const state = store.getState();
+  const notificationSystem = state.app.get('notificationSystem');
+  const spawnOptions = {};
+  if (state && state.document && state.metadata.get('filename')) {
+    spawnOptions.cwd = path.dirname(path.resolve(state.metadata.filename));
+  }
+
+  store.dispatch(killKernel);
+  store.dispatch(newKernel(state.app.kernelSpecName, spawnOptions));
+
+  notificationSystem.addNotification({
+    title: 'Kernel Restarted',
+    message: `Kernel ${state.app.kernelSpecName} has been restarted.`,
+    dismissible: true,
+    position: 'tr',
+    level: 'success',
+  });
 }
 
 export function dispatchRestartClearAll(store) {
@@ -241,7 +249,7 @@ export function dispatchLoad(store, event, filename) {
 }
 
 export function dispatchNewNotebook(store, event, kernelSpecName) {
-  store.dispatch(newNotebook(kernelSpecName, home()));
+  store.dispatch(newNotebook(kernelSpecName));
 }
 
 export function initMenuHandlers(store) {
@@ -258,11 +266,11 @@ export function initMenuHandlers(store) {
   ipc.on('menu:interrupt-kernel', dispatchInterruptKernel.bind(null, store));
   ipc.on('menu:restart-kernel', dispatchRestartKernel.bind(null, store));
   ipc.on('menu:restart-and-clear-all', dispatchRestartClearAll.bind(null, store));
+  ipc.on('menu:publish:auth', dispatchGithubAuth.bind(null, store));
   ipc.on('menu:publish:gist', dispatchPublishGist.bind(null, store));
   ipc.on('menu:zoom-in', dispatchZoomIn.bind(null, store));
   ipc.on('menu:zoom-out', dispatchZoomOut.bind(null, store));
   ipc.on('menu:theme', dispatchSetTheme.bind(null, store));
-
   // OCD: This is more like the registration of main -> renderer thread
   ipc.on('main:load', dispatchLoad.bind(null, store));
   ipc.on('main:new', dispatchNewNotebook.bind(null, store));
