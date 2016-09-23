@@ -121,25 +121,6 @@ export function dispatchNewKernel(store, evt, name) {
 
 
 
-export function dispatchGithubAuth() {
-
-  const win = new BrowserWindow({show: false});
-  win.webContents.on('dom-ready', () => {
-    win.webContents.executeJavaScript(`
-      require('electron').ipcRenderer.send('auth', document.body.innerHTML);
-    `);
-  });
-
-  remote.ipcMain.on('auth', (event, auth) => {
-
-    console.log(auth);
-    auth = auth.match(/"\w+"/g)[1].match(/[^"]/g).join('')
-    console.log(auth);
-    process.env.GITHUB_TOKEN = auth
-  })
-
-  win.loadURL('http://localhost:3010/login');
-}
 
 
 
@@ -266,7 +247,6 @@ export function initMenuHandlers(store) {
   ipc.on('menu:interrupt-kernel', dispatchInterruptKernel.bind(null, store));
   ipc.on('menu:restart-kernel', dispatchRestartKernel.bind(null, store));
   ipc.on('menu:restart-and-clear-all', dispatchRestartClearAll.bind(null, store));
-  ipc.on('menu:publish:auth', dispatchGithubAuth.bind(null, store));
   ipc.on('menu:publish:gist', dispatchPublishGist.bind(null, store));
   ipc.on('menu:zoom-in', dispatchZoomIn.bind(null, store));
   ipc.on('menu:zoom-out', dispatchZoomOut.bind(null, store));

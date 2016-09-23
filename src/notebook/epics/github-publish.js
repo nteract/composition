@@ -1,4 +1,4 @@
-import { shell } from 'electron';
+import { shell, ipcRenderer as ipc } from 'electron';
 
 import {
   overwriteMetadata,
@@ -34,8 +34,12 @@ const Github = require('github');
 export const githubAuthObservable = () =>
   Observable.create(observer => {
     const github = new Github();
-    if (process.env.GITHUB_TOKEN) {
-      github.authenticate({ type: 'oauth', token: process.env.GITHUB_TOKEN });
+    let auth = false
+    ipc.on('github:token', (event, token) => {
+      auth = token
+    });
+    if (auth) {
+      github.authenticate({ type: 'oauth', token: auth });
     }
     observer.next(github);
     observer.complete();
