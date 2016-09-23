@@ -1,4 +1,5 @@
-import { dialog, app, shell, Menu } from 'electron';
+import { dialog, app, shell, Menu, ipcMain as ipc,
+  BrowserWindow} from 'electron';
 import * as path from 'path';
 
 import { launch, launchNewNotebook } from './launch';
@@ -18,6 +19,31 @@ function createSender(eventName, obj) {
     send(focusedWindow, eventName, obj);
   };
 }
+
+export function githubAuth() {
+  const win = new BrowserWindow({show: false, webPreferences: {zoomFactor: .75}});
+  win.webContents.on('dom-ready', () => {
+    if( win.getURL().match('authorize') ) {
+      win.show();
+      win.on('page-title-updated', () => {
+        win.close()
+        return githubAuth();
+      });
+    }
+    else {
+      win.webContents.executeJavaScript(`
+        require('electron').ipcRenderer.send('auth', document.body.innerHTML);
+        `);
+      ipc.on('auth', (event, auth) => {
+      // hacky parse of JSON
+        auth = auth.match(/"\w+"/g)[1].match(/[^"]/g).join('')
+        console.log(auth);
+      });
+    }
+  });
+  win.loadURL('http://localhost:3010/login');
+}
+
 
 export const fileSubMenus = {
   new: {
@@ -72,6 +98,10 @@ export const fileSubMenus = {
   publish: {
     label: '&Publish',
     submenu: [
+      {
+        label: '&Authenticate',
+        click: () => githubAuth(),
+      },
       {
         label: '&To Gist',
         click: createSender('menu:publish:gist'),
@@ -348,6 +378,7 @@ export function generateDefaultTemplate() {
 }
 
 export const defaultMenu = Menu.buildFromTemplate(generateDefaultTemplate());
+
 
 export function loadFullMenu() {
   return kernelspecs.findAll().then((kernelSpecs) => {
