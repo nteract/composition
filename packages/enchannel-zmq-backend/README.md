@@ -1,6 +1,10 @@
 # enchannel-zmq-backend
 
-![enchannel version](https://img.shields.io/badge/enchannel-1.1-ff69b4.svg)
+[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000?style=plastic)](https://github.com/nteract/enchannel-zmq-backend/releases)
+
+[**Installation**](#installation) | [**Usage**](#usage) | 
+[**Contributors and developers**](#contributors-and-developers) | 
+[**Learn more about nteract**](#learn-more-about-nteract)
 
 **enchannel-zmq-backend** offers the ZeroMQ backend implementation for 
 [`enchannel`](https://github.com/nteract/enchannel).
