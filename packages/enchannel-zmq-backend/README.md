@@ -74,6 +74,8 @@ The `createChannels` function accepts two things:
     ```
 
 - a runtime object, such as a kernel (which matches the on-disk JSON).
+  Using [`spawnteract`](https://github.com/nteract/spawnteract) with
+  this project helps streamline spawning a kernel. 
 
     ```javascript
     const runtimeConfig = {
