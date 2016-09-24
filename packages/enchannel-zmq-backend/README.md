@@ -1,6 +1,6 @@
 # enchannel-zmq-backend
 
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg?maxAge=2592000?style=plastic)](https://github.com/nteract/enchannel-zmq-backend/releases)
+[![GitHub release](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/nteract/enchannel-zmq-backend/releases)
 
 [**Installation**](#installation) | [**Usage**](#usage) | 
 [**Contributors and developers**](#contributors-and-developers) | 
