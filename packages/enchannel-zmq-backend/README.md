@@ -1,6 +1,7 @@
 # enchannel-zmq-backend
 
-[![GitHub release](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/nteract/enchannel-zmq-backend/releases)
+[![GitHub release](https://img.shields.io/badge/enchannel-zmq-backend-latest-blue.svg)](https://github.com/nteract/enchannel-zmq-backend/releases)
+[![enchannel spec version](https://img.shields.io/badge/enchannel%20spec-version%201.1-ff69b4.svg)](https://github.com/nteract/enchannel/releases)
 
 [**Installation**](#installation) | [**Usage**](#usage) | 
 [**Contributors and developers**](#contributors-and-developers) | 
@@ -11,7 +12,7 @@
 
 ## Technical overview
 
-As a refresher for the reader, *enchannel* details nteract's
+As a refresher for the reader, [*enchannel*][] details nteract's
 lightweight, implementation-flexible specification for communication
 between a user frontend and a backend, such as a language kernel. The 
 *enchannel* specification offers a simple description of "what" 
@@ -32,8 +33,10 @@ specification.
 to and from a backend.
 
 We provide functions to create [RxJS](https://github.com/ReactiveX/RxJS) 
-subjects (`Observable` and `Subscriber` subjects) for four of the
-channels described in the [Jupyter messaging specification][]:
+[Subjects](http://reactivex.io/documentation/subject.html) (two way 
+[Observables](http://reactivex.io/documentation/observable.html) for 
+four of the channels described in the
+[Jupyter messaging specification][]:
 
 * `shell`
 * `control`
@@ -192,43 +195,32 @@ before you can send on a channel.
      payload: [] } }
 ```
 
-## Contributors and developers
+## Contributors and developers 
 
 ### ZeroMQ Dependency
 
 If you plan to contribute to this project or extend it, you will need
-to have ZeroMQ installed on your system.
+to have [ZeroMQ](http://zeromq.org/intro:get-the-software) installed on
+your system. The easiest way to do this is to install nteract's
+`zmq-prebuilt`[] binary for your operating system.
 
-For all systems, you'll need:
+### Install a local development environment
+
+To set up a development environment, you'll need to install:
 
 - [`npm`](https://docs.npmjs.com/getting-started/installing-node)
-- [ZeroMQ](http://zeromq.org/intro:get-the-software)
-- Python 2 (required for building the ZeroMQ dependency; you can still
-  run Python 3 and Python 2 kernels and use both in the nteract notebook)
+- [`zmq-prebuilt`][]
 
-More detailed instructions for specific operating systems follow.
+Then, fork and clone this repo:
 
-#### OS X using Homebrew
+```bash
+git clone https://github.com/nteract/enchannel-zmq-backend.git
+cd enchannel-zmq-backend
+npm install
+```
 
-- [`pkg-config`](http://www.freedesktop.org/wiki/Software/pkg-config/): `brew install pkg-config`
-- [ZeroMQ](http://zeromq.org/intro:get-the-software): `brew install zeromq`
+Develop! We welcome new and first time contributors.
 
-#### Windows
-
-- You'll need a compiler! [Visual Studio 2013 Community Edition](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx) is required to build zmq.node.
-- Python (tread on your own or install [Anaconda](http://continuum.io/downloads))
-
-After these are installed, you'll likely need to restart your machine
-(especially after installing Visual Studio).
-
-#### Linux
-
-Using your system's package manager, install the following packages
-for your Linux flavor:
-
-- For Debian/Ubuntu based variants: `libzmq3-dev` (preferred) or 
-  alternatively `libzmq-dev`.
-- For RedHat/CentOS/Fedora based variants: `zeromq` and `zeromq-devel`.
 
 ## Learn more about nteract
 
@@ -243,3 +235,5 @@ for your Linux flavor:
 
 [Jupyter messaging specification]: http://jupyter-client.readthedocs.io/en/latest/messaging.html
 [`execute_request` to the `shell` channel]: http://jupyter-client.readthedocs.org/en/latest/messaging.html#execute
+[*enchannel*]: https://github.com/nteract/enchannel/blob/master/README.md
+[`zmq-prebuilt`]: https://github.com/nteract/zmq-prebuilt
