@@ -113,8 +113,10 @@ describe('createObservable', () => {
     const obs = createObservable(emitter);
 
     obs.subscribe(msg => {
-      expect(Object.isFrozen(msg)).to.be.true;
       expect(Object.isFrozen(msg.content)).to.be.true;
+      expect(Object.isFrozen(msg.metadata)).to.be.true;
+      expect(Object.isFrozen(msg.parent_header)).to.be.true;
+      expect(Object.isFrozen(msg.header)).to.be.true;
       done();
     });
     const msg = {
