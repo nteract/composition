@@ -7,4 +7,15 @@ export default handleActions({
   [constants.REGISTER_COMM_TARGET]: function registerCommTarget(state, action) {
     return state.setIn(['targets', action.name], action.handler);
   },
+  [constants.MODEL_CREATE]: function createModel(state, action) {
+    const { id, targetName, targetModule } = action;
+    return state.setIn(['models', id, 'reducer'],
+            state.getIn(['modelReducers'], target));
+  },
+  [constants.MODEL_UPDATE]: function updateModel(state, action) {
+    const id = action.modelID;
+    const model = state.getIn(['models', id]);
+    return state.setIn(['models', id, 'state'],
+      model.reducer(model.state, action.update, models));
+  },
 }, {});
