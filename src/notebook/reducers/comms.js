@@ -3,9 +3,9 @@ import Immutable from 'immutable';
 
 import * as constants from '../constants';
 
-
 import {
-  targetModules
+  targetModules,
+  targetModulesInit,
 } from '../comm-targets/pure-model';
 
 export default handleActions({
@@ -23,13 +23,15 @@ export default handleActions({
       data,
     } = action;
 
+    const model = target_module in targetModulesInit ? targetModulesInit(data) : data;
+
     // Using a top-level Map here, not fromJS, since we don't
     // know if the underlying target/handler is using Immutable
     const comm = new Immutable.Map({
       target_name,
       target_module,
       metadata,
-      data,
+      data: model,
       buffers,
     });
 

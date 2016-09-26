@@ -14,6 +14,15 @@ const modelReducers = {
   'lodash-merge': (model, change) => _.merge({}, model, change),
 };
 
+const justInit = (data) => data;
+const modelInit = {
+  stream: justInit,
+  direct: justInit,
+  'object-assign': justInit,
+  'immutable-merge': (data) => Immutable.fromJS(data),
+  'lodash-merge': justInit,
+};
+
 const fallback = {
   get: (target, name) =>
     // NOTE: We could throw a specialized error
@@ -26,3 +35,4 @@ const reducers = new Proxy(modelReducers, fallback);
 
 export const targetName = 'pure-model';
 export const targetModules = reducers;
+export const targetModulesInit = modelInit;
