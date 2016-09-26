@@ -33,4 +33,5 @@ export const MetadataRecord = new Immutable.Record({
 
 export const CommsRecord = new Immutable.Record({
   targets: new Immutable.Map(),
+  comms: new Immutable.Map(),
 });

@@ -1,3 +1,6 @@
+import Immutable from 'immutable';
+
+const _ = require('lodash');
 
 // Fallback model reducer that returns pure change objects
 const justChanges = (model, change) => change;

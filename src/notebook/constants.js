@@ -74,3 +74,6 @@ export const SET_THEME = 'SET_THEME';
 export const SET_GITHUB = 'SET_GITHUB';
 
 export const REGISTER_COMM_TARGET = 'REGISTER_COMM_TARGET';
+
+export const COMM_OPEN = 'COMM_OPEN';
+export const COMM_MESSAGE = 'COMM_MESSAGE';

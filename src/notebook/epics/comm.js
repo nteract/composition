@@ -4,6 +4,12 @@ import {
   createMessage,
 } from '../kernel/messaging';
 
+import {
+  COMM_OPEN,
+  COMM_MESSAGE,
+  NEW_KERNEL,
+} from '../constants';
+
 /**
  * creates a comm open message
  * @param  {string} comm_id       uuid
@@ -31,7 +37,7 @@ export function createCommCloseMessage(parent_header, comm_id, data = {}) {
 
 export const createCommErrorAction = (error) =>
   Rx.Observable.of({
-    type: 'COMM_ERROR',
+    type: COMM_ERROR,
     payload: error,
     error: true,
   });
@@ -39,7 +45,7 @@ export const createCommErrorAction = (error) =>
 function commOpenAction(message) {
   // invariant: expects a comm_open message
   return {
-    type: 'COMM_OPEN',
+    type: COMM_OPEN,
     data: message.content.data,
     metadata: message.content.metadata,
     comm_id: message.content.comm_id,
@@ -55,7 +61,7 @@ function commOpenAction(message) {
 
 function commMessageAction(message) {
   return {
-    type: 'COMM_MESSAGE',
+    type: COMM_MESSAGE,
     comm_id: message.content.comm_id,
     data: message.content.data,
     // Pass through the buffers
@@ -68,7 +74,7 @@ function commMessageAction(message) {
 
 
 export const commListenEpic = (action$, store) =>
-  action$.ofType('NEW_KERNEL')
+  action$.ofType(NEW_KERNEL)
     // We have a new channel
     .switchMap(action => {
       const commOpenAction$ = action.channels.iopub

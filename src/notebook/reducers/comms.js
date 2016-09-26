@@ -1,6 +1,8 @@
 import { handleActions } from 'redux-actions';
+import Immutable from 'immutable';
 
 import * as constants from '../constants';
+
 
 import {
   targetModules
@@ -43,13 +45,13 @@ export default handleActions({
     } = action;
 
     const target_name = state.getIn(['comms', comm_id, 'target_name']);
-    const target_module = state.getin(['comms', comm_id, 'target_module']);
+    const target_module = state.getIn(['comms', comm_id, 'target_module']);
 
     // Reduce the model state
     if (target_name === 'pure-model') {
       const reducer = targetModules[target_module];
       return state.updateIn(['comms', comm_id, 'data'], (model) =>
-        reducer(model, change)
+        reducer(model, data)
       );
     }
 
