@@ -21,5 +21,5 @@ const fallback = {
 // We return all our reducers + a fallback
 const reducers = new Proxy(modelReducers, fallback);
 
-export const targetName = 'nteract-models';
+export const targetName = 'pure-model';
 export const targetModules = reducers;
