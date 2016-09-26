@@ -1,5 +1,5 @@
 const React = require('react');
-const Anser = require('./anser');
+const Anser = require('anser');
 
 /**
  * ansiToJson
