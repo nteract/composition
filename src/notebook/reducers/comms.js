@@ -49,7 +49,6 @@ export default handleActions({
     const target_name = state.getIn(['comms', comm_id, 'target_name']);
     const target_module = state.getIn(['comms', comm_id, 'target_module']);
 
-    // TODO: Handle errors, wrap with try catch or find a way to handle in Redux
     // Reduce the model state
     if (target_name === 'pure-model') {
       const reducer = targetModules[target_module];
@@ -57,6 +56,8 @@ export default handleActions({
         reducer(model, data)
       );
     }
+
+    // TODO: Handle errors, wrap with try catch or find a way to handle in Redux
 
     return state;
   },
