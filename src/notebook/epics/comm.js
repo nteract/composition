@@ -7,6 +7,7 @@ import {
 import {
   COMM_OPEN,
   COMM_MESSAGE,
+  COMM_ERROR,
   NEW_KERNEL,
 } from '../constants';
 

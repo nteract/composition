@@ -77,3 +77,4 @@ export const REGISTER_COMM_TARGET = 'REGISTER_COMM_TARGET';
 
 export const COMM_OPEN = 'COMM_OPEN';
 export const COMM_MESSAGE = 'COMM_MESSAGE';
+export const COMM_ERROR = 'COMM_ERROR';
