@@ -28,6 +28,7 @@ export default function Output(props) {
           displayOrder={props.displayOrder}
           transforms={props.transforms}
           theme={props.theme}
+          comms={props.comms}
         />);
     }
     case 'stream': {
@@ -57,6 +58,7 @@ Output.propTypes = {
   output: React.PropTypes.any,
   transforms: React.PropTypes.instanceOf(Immutable.Map),
   theme: React.PropTypes.string,
+  comms: React.PropTypes.any,
 };
 
 Output.defaultProps = {

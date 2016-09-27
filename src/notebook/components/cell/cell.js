@@ -25,6 +25,7 @@ export class Cell extends React.Component {
     theme: React.PropTypes.string,
     pagers: React.PropTypes.instanceOf(Immutable.List),
     transforms: React.PropTypes.instanceOf(Immutable.Map),
+    comms: React.PropTypes.any,
   };
 
   static contextTypes = {
@@ -121,6 +122,7 @@ export class Cell extends React.Component {
             transforms={this.props.transforms}
             pagers={this.props.pagers}
             running={this.props.running}
+            comms={this.props.comms}
           />
         }
       </div>

@@ -68,6 +68,7 @@ class DraggableCell extends React.Component {
     running: React.PropTypes.bool,
     theme: React.PropTypes.string,
     pagers: React.PropTypes.instanceOf(Immutable.List),
+    comms: React.PropTypes.any,
   };
 
   static contextTypes = {
@@ -148,6 +149,7 @@ class DraggableCell extends React.Component {
             theme={this.props.theme}
             pagers={this.props.pagers}
             transforms={this.props.transforms}
+            comms={this.props.comms}
           />
         </div>
       </div>

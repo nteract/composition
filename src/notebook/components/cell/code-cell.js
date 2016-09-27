@@ -23,6 +23,7 @@ class CodeCell extends React.Component {
     running: React.PropTypes.bool,
     focusAbove: React.PropTypes.func,
     focusBelow: React.PropTypes.func,
+    comms: React.PropTypes.any,
   };
 
   static defaultProps = {
@@ -90,6 +91,7 @@ class CodeCell extends React.Component {
             displayOrder={this.props.displayOrder}
             transforms={this.props.transforms}
             theme={this.props.theme}
+            comms={this.props.comms}
           />
         </div>
       </LatexRenderer>

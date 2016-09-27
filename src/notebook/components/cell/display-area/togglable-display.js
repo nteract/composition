@@ -13,6 +13,7 @@ export default function TogglableDisplay(props) {
         displayOrder={props.displayOrder}
         transforms={props.transforms}
         theme={props.theme}
+        comms={props.comms}
       />
     );
   }
@@ -25,6 +26,7 @@ TogglableDisplay.propTypes = {
   transforms: React.PropTypes.instanceOf(Immutable.Map),
   isHidden: React.PropTypes.bool,
   theme: React.PropTypes.string,
+  comms: React.PropTypes.any,
 };
 
 TogglableDisplay.defaultProps = {

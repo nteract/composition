@@ -19,6 +19,7 @@ export default function Display(props) {
             displayOrder={order}
             transforms={tf}
             theme={props.theme}
+            comms={props.comms}
           />
         )
       }
@@ -30,7 +31,8 @@ Display.propTypes = {
   displayOrder: React.PropTypes.instanceOf(Immutable.List),
   outputs: React.PropTypes.instanceOf(Immutable.List),
   transforms: React.PropTypes.instanceOf(Immutable.Map),
-  theme: React.PropTypes.string,
+  theme: React.PropTypes.string, // eslint-disable-line
+  comms: React.PropTypes.any,
 };
 
 Display.defaultProps = {

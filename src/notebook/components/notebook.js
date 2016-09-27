@@ -34,6 +34,7 @@ const mapStateToProps = (state) => ({
   focusedCell: state.document.get('focusedCell'),
   stickyCells: state.document.get('stickyCells'),
   executionState: state.app.get('executionState'),
+  comms: state.comms.get('comms'),
 });
 
 export class Notebook extends React.Component {
@@ -49,6 +50,7 @@ export class Notebook extends React.Component {
     kernelSpecName: React.PropTypes.string,
     CellComponent: React.PropTypes.any,
     executionState: React.PropTypes.string,
+    comms: React.PropTypes.instanceOf(Immutable.Map),
   };
 
   static defaultProps = {
@@ -204,6 +206,7 @@ export class Notebook extends React.Component {
       // Theme is passed through to let the Editor component know when to
       // tell CodeMirror to remeasure
       theme: this.props.theme,
+      comms: this.props.comms,
     };
   }
 
@@ -235,6 +238,7 @@ export class Notebook extends React.Component {
   }
 
   render() {
+    console.warn('comms', this.props.comms);
     if (!this.props.notebook) {
       return (
         <div className="notebook" />

@@ -23,7 +23,9 @@ export default handleActions({
       data,
     } = action;
 
-    const model = target_module in targetModulesInit ? targetModulesInit(data) : data;
+    const targetModuleInit = targetModulesInit[target_module] || ((x) => x);
+
+    const model = targetModuleInit(data);
 
     // Using a top-level Map here, not fromJS, since we don't
     // know if the underlying target/handler is using Immutable
