@@ -66,5 +66,5 @@ export function condaKernelsEpic(action$, store) {
   return action$.ofType('GET_CONDA_KERNELS')
     .switchMap(action => condaEnvsObservable(condaInfoObservable()))
     .map(createKernelSpecsFromEnvs)
-    .map(condaInfo => ({ type: 'CONDA_ENVS', payload: condaInfo }));
+    .map(kernelSpecs => ({ type: 'CONDA_KERNELSPECS', payload: kernelSpecs }));
 }
