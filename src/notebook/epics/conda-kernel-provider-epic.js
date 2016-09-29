@@ -6,21 +6,33 @@ import {
 
 const path = require('path');
 
+// TODO: Check for sys.prefix/share/jupyter/kernels/*/kernel.json
+export function ipyKernelTryObservable(env) {
+  const executable = path.join(env.prefix, 'bin', 'python');
+  return spawn(executable, ['-m', 'ipykernel', '--version'], { split: true })
+    .filter(x => x.source && x.source === 'stdout')
+    .mapTo(env)
+    .catch(err => Rx.Observable.empty());
+}
+
 export function condaInfoObservable() {
   return spawn('conda', ['info', '--json'])
     .map(info => JSON.parse(info));
 }
+
+// var condak = require('./src/notebook/epics/conda-kernel-provider-epic');
+// var envy = condak.condaEnvsObservable(condak.condaInfoObservable());
 
 export function condaEnvsObservable(condaInfo$) {
   return condaInfo$.map(info => {
     const envs = info.envs.map(env => ({ name: path.basename(env), prefix: env }));
     envs.push({ name: 'root', prefix: info.root_prefix });
     return envs;
-  });
-}
-
-export function condaKernelSpecsObservable(condaPrefix$) {
-  return condaPrefix$;
+  })
+  .map(envs => envs.map(ipyKernelTryObservable))
+  .mergeAll()
+  .mergeAll()
+  .toArray();
 }
 
 export function createKernelSpecsFromEnvs(envs) {
@@ -33,13 +45,9 @@ export function createKernelSpecsFromEnvs(envs) {
 
   const langEnvs = {};
 
-  // Check for existence
   for (const env of envs) {
     const base = env.prefix;
     const exePath = path.join(base, languageExe);
-    // TODO: if exists(path.join(base, jupyter)) and exists(exePath)
-    //       --> will need to write the observable logic for that...
-    // TODO: Alternatively: `bin/Python -m ipykernel --version`
     const envName = env.name;
     const name = `conda-env-${envName}-${languageKey}`;
     langEnvs[name] = {
