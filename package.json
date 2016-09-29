@@ -73,7 +73,7 @@
     "home-dir": "^1.0.0",
     "immutable": "^3.7.6",
     "kernelspecs": "^1.0.1",
-    "leaflet": "^0.7.7",
+    "leaflet": "^1.0.0",
     "mathjax-electron": "^1.1.1",
     "moment": "^2.15.0",
     "normalize.css": "^4.2.0",
