@@ -17,7 +17,8 @@ Object.keys(document.defaultView).forEach((property) => {
 global.Image = global.window.Image;
 
 global.navigator = {
-  userAgent: 'node.js'
+  userAgent: 'node.js',
+  platform: 'MacIntel',
 };
 
 // HACK: Polyfil that allows codemirror to render in a JSDOM env.
