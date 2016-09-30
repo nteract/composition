@@ -21,7 +21,8 @@ export class GeoJSONTransform extends React.Component {
     }).addTo(this.map);
     const geoJSON = this.props.data.toJS();
     const geoJSONLayer = L.geoJson(geoJSON).addTo(this.map);
-    this.map.fitBounds(geoJSONLayer.getBounds());
+    const bounds = geoJSONLayer.getBounds();
+    this.map.fitBounds(bounds);
   }
 
   shouldComponentUpdate(nextProps) {
