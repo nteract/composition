@@ -48,7 +48,7 @@ export function createExecuteRequest(code) {
     silent: false,
     store_history: true,
     user_expressions: {},
-    allow_stdin: false,
+    allow_stdin: true,
     stop_on_error: false,
   };
   return executeRequest;
@@ -198,13 +198,42 @@ export function handleFormattableMessages(id, cellMessages) {
  * a stream of events that need to happen after a cell has been executed.
  */
 export function executeCellObservable(channels, id, code) {
-  if (!channels || !channels.iopub || !channels.shell) {
+  if (!channels || !channels.iopub || !channels.shell || !channels.stdin) {
     return Rx.Observable.throw(new Error('kernel not connected'));
   }
 
   const executeRequest = createExecuteRequest(code);
 
-  const { iopub, shell } = channels;
+  const { iopub, shell, stdin } = channels;
+
+  const inputRequests = stdin.childOf(executeRequest)
+    .ofMessageType('input_request');
+
+  const promptUser = inputRequests
+    .map(request => {
+      // If we wanted to cheat, we'd do this:
+      // const reply = prompt(request.content.prompt);
+      // but Electron purposefully doesn't allow prompt (this is a good thing)
+      // In reality, we need to have this done internally
+
+      const {
+        prompt, // the text to show at the prompt
+        password, // Is the request for a password? If so, don't echo input.
+      } = request;
+
+      const reply = 'pretend';
+      const inputReply = createMessage('input_reply', {
+        content: { value: reply },
+        parent_header: request.header,
+      });
+      stdin.next(inputReply); // Technically a side-effect, but it's what we have to do
+      return reply;
+    })
+    // We want this stdin stream to be merged in with the stdout/stderr stream
+    // which means adapting the cellMessages below.
+    // That's simple enough, but what's not clear to me is the UI piece.
+    // What would be a good way for us to prompt internally
+    .map(value => ({ type: 'STDIN_NOT_QUITE_IMPLEMENTED', value }));
 
   // Payload streams in general
   const payloadStream = shell.childOf(executeRequest)
@@ -225,6 +254,7 @@ export function executeCellObservable(channels, id, code) {
 
   const cellAction$ = Rx.Observable.merge(
     Rx.Observable.of(updateCellStatus(id, 'busy')),
+    promptUser,
     // Inline %load
     createSourceUpdateAction(id, setInputStream),
     // %load for the cell _after_
