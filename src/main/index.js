@@ -44,7 +44,10 @@ ipc.on('open-notebook', (event, filename) => {
 });
 
 const electronReady$ = Rx.Observable.fromEvent(app, 'ready');
-
+const webContentsReady$ = Rx.Observable.fromEvent(
+  app,
+  'web-contents-created',
+  (event, webContents) => ({ event, webContents }));
 
 const fullAppReady$ = Rx.Observable.zip(
   electronReady$,
@@ -199,5 +202,28 @@ fullAppReady$
           app.quit();
         }
       });
+    });
+  });
+
+webContentsReady$
+  .subscribe((event, webContents) => {
+    console.log('in webcontents ready');
+    console.log(webContents);
+    dialog.showMessageBox({
+    type: 'question',
+    buttons: ['It\'s OK to Track Me', 'Please Don\'t Track Me'],
+    title: 'Allow Tracking?',
+    message: 'Would you like to enable Google Analytics?',
+    detail: 'We\'d like to enable tracking in this session of nteract. Why are ' +
+      'we doing this? Tracking usage helps us get statistics for grant funding, ' +
+      'the developement of localization features, and more. To read more about ' +
+      'how we use this information, please visit ' +
+      'https://github.com/nteract/nteract/blob/master/TRACKING.md.',
+    }, (index) => {
+      if (index === 0) {
+        const analytics = path.join(__dirname, '..', '..', 'static', 'scripts', 'analytics.js');
+        webContents.executeJavaScript(`require(${analytics})`);
+      }
+      return;
     });
   });
