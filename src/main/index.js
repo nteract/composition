@@ -47,7 +47,7 @@ const electronReady$ = Rx.Observable.fromEvent(app, 'ready');
 const browserWindowReady$ = Rx.Observable.fromEvent(
   app,
   'browser-window-created',
-  (event, win) => ({ event, win}));
+  (event, win) => win);
 
 const fullAppReady$ = Rx.Observable.zip(
   electronReady$,
@@ -207,8 +207,7 @@ fullAppReady$
 
 browserWindowReady$
   .skip(1)
-  .subscribe((event, win) => {
-    console.log(win);
+  .subscribe((win) => {
     dialog.showMessageBox({
       type: 'question',
       buttons: ['It\'s OK to Track Me', 'Please Don\'t Track Me'],
@@ -222,8 +221,7 @@ browserWindowReady$
     }, (index) => {
       if (index === 0) {
         const analytics = path.join(__dirname, '..', '..', 'static', 'scripts', 'analytics.js');
-        win.webContents.executeJavaScript(`require(${analytics})`);
+        win.webContents.executeJavaScript(`require('${analytics}');`);
       }
-      return;
     });
   });
