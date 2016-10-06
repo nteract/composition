@@ -1,18 +1,39 @@
 // @flow
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 import Editor from './editor';
 import LatexRenderer from '../latex';
+import CommonMark from 'commonmark';
+import MarkdownRenderer from 'commonmark-react-renderer';
 
-const CommonMark = require('commonmark');
-const MarkdownRenderer = require('commonmark-react-renderer');
+type Props = {
+  cell: any,
+  id: string,
+  theme: string,
+  focusAbove: Function,
+  focusBelow: Function,
+  focused: boolean,
+};
+
+type State = {
+  view: boolean,
+  source: string,
+};
+
+type MDRender = (input: string) => string
 
 const parser = new CommonMark.Parser();
 const renderer = new MarkdownRenderer();
 
-const mdRender = input => renderer.render(parser.parse(input));
+const mdRender: MDRender = input => renderer.render(parser.parse(input));
 
 export default class MarkdownCell extends React.Component {
+  state: State;
+  openEditor: () => void;
+  editorKeyDown: (e: Object) => void;
+  renderedKeyDown: (e: Object) => boolean;
+  shouldComponentUpdate: (p: Props, s: State) => boolean;
+
   static contextTypes = {
     store: React.PropTypes.object,
   };
@@ -21,9 +42,9 @@ export default class MarkdownCell extends React.Component {
     focused: false,
   };
 
-  constructor(props) {
+  constructor(props: Props): void {
     super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.state = {
       view: true,
       // HACK: We'll need to handle props and state change better here
@@ -34,30 +55,21 @@ export default class MarkdownCell extends React.Component {
     this.renderedKeyDown = this.renderedKeyDown.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount(): void {
     this.updateRenderedElement();
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props): void {
     this.setState({
       source: nextProps.cell.get('source'),
     });
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     this.updateRenderedElement();
   }
 
-  props: {
-    cell: any,
-    id: string,
-    theme: string,
-    focusAbove: Function,
-    focusBelow: Function,
-    focused: boolean,
-  };
-
-  updateRenderedElement() {
+  updateRenderedElement(): void {
     // On first load, if focused, focus rendered view
     if (this.state && this.state.view && this.props.focused) {
       this.refs.rendered.focus();
@@ -67,7 +79,7 @@ export default class MarkdownCell extends React.Component {
   /**
    * Handles when a keydown event occurs on the unrendered MD cell
    */
-  editorKeyDown(e) {
+  editorKeyDown(e: Object): void {
     const shift = e.shiftKey;
     const ctrl = e.ctrlKey;
     if ((shift || ctrl) && e.key === 'Enter') {
@@ -75,14 +87,14 @@ export default class MarkdownCell extends React.Component {
     }
   }
 
-  openEditor() {
+  openEditor(): void {
     this.setState({ view: false });
   }
 
   /**
    * Handles when a keydown event occurs on the rendered MD cell
    */
-  renderedKeyDown(e) {
+  renderedKeyDown(e: Object): boolean {
     const shift = e.shiftKey;
     const ctrl = e.ctrlKey;
     if ((shift || ctrl) && e.key === 'Enter') {
@@ -106,7 +118,7 @@ export default class MarkdownCell extends React.Component {
     return true;
   }
 
-  render() {
+  render(): ?React.Element<any> {
     return (
        (this.state && this.state.view) ?
          <div

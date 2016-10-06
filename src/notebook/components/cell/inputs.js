@@ -1,6 +1,6 @@
 // @flow
-import React, { PropTypes } from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
+import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 
 type Props = {
   executionCount: any,
@@ -8,14 +8,15 @@ type Props = {
 };
 
 export default class Inputs extends React.Component {
-  props: Props;
+  props: Props
+  shouldComponentUpdate: (p: Props, s: void) => boolean;
 
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  constructor(): void {
+    super(...arguments);
+    this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
   }
 
-  render() {
+  render(): ?React.Element<any> {
     const { executionCount, running } = this.props;
     const count = !executionCount ? ' ' : executionCount;
     const input = running ? '*' : count;

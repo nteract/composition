@@ -1,8 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-
+import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
 import CodeCell from './code-cell';
@@ -27,16 +26,26 @@ type Props = {
   transforms: ImmutableMap<any>,
 };
 
+type State = {
+  hoverCell: boolean,
+}
+
 export class Cell extends React.Component {
   props: Props;
+  state: State;
+  shouldComponentUpdate: (p: Props, s: State) => boolean;
+  selectCell: () => void;
+  focusAboveCell: () => void;
+  focusBelowCell: () => void;
+  setCellHoverState: (mouseEvent: Object) => void;
 
   static contextTypes = {
     store: React.PropTypes.object,
   };
 
-  constructor() {
-    super();
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  constructor(): void {
+    super(...arguments);
+    this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.selectCell = this.selectCell.bind(this);
     this.focusAboveCell = this.focusAboveCell.bind(this);
     this.focusBelowCell = this.focusBelowCell.bind(this);
@@ -47,7 +56,7 @@ export class Cell extends React.Component {
     hoverCell: false,
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     // Listen to the page level mouse move event and manually check for
     // intersection because we don't want the hover region to actually capture
     // any mouse events.  The hover region is an invisible element that
@@ -55,11 +64,11 @@ export class Cell extends React.Component {
     document.addEventListener('mousemove', this.setCellHoverState, false);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     document.removeEventListener('mousemove', this.setCellHoverState);
   }
 
-  setCellHoverState(mouseEvent) {
+  setCellHoverState(mouseEvent: Object): void {
     if (this.refs.cell) {
       const cell = ReactDOM.findDOMNode(this.refs.cell);
       if (cell) {
@@ -73,19 +82,19 @@ export class Cell extends React.Component {
     }
   }
 
-  selectCell() {
+  selectCell(): void {
     this.context.store.dispatch(focusCell(this.props.id));
   }
 
-  focusAboveCell() {
+  focusAboveCell(): void {
     this.context.store.dispatch(focusPreviousCell(this.props.id));
   }
 
-  focusBelowCell() {
+  focusBelowCell(): void {
     this.context.store.dispatch(focusNextCell(this.props.id, true));
   }
 
-  render() {
+  render(): ?React.Element<any> {
     const cell = this.props.cell;
     const type = cell.get('cell_type');
     const focused = this.props.focusedCell === this.props.id;
