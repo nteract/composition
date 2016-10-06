@@ -1,3 +1,4 @@
+/* eslint-disable no-return-assign */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -112,9 +113,8 @@ export class Notebook extends React.Component {
   componentDidUpdate() {
     // Make sure the document is vertically shifted so the top non-stickied
     // cell is always visible.
-    const placeholder = ReactDOM.findDOMNode(this.refs['sticky-cells-placeholder']);
-    const container = ReactDOM.findDOMNode(this.refs['sticky-cell-container']);
-    placeholder.style.height = `${container.clientHeight}px`;
+    this.stickyCellsPlaceholder.style.height =
+      `${this.stickyCellContainer.clientHeight}px`;
   }
 
   componentWillUnmount() {
@@ -163,7 +163,7 @@ export class Notebook extends React.Component {
     const viewportHeight = window.innerHeight;
     const viewportOffset = document.body.scrollTop;
 
-    const focusedCell = ReactDOM.findDOMNode(this.refs[id]);
+    const focusedCell = this.refs[id];
 
     if (focusedCell) {
       const cellTop = focusedCell.offsetTop;
@@ -243,8 +243,14 @@ export class Notebook extends React.Component {
     return (
       <div>
         <div className="notebook" ref="cells">
-          <div className="sticky-cells-placeholder" ref="sticky-cells-placeholder" />
-          <div className="sticky-cell-container" ref="sticky-cell-container">
+          <div
+            className="sticky-cells-placeholder"
+            ref={(ref) => this.stickyCellsPlaceholder = ref}
+          />
+          <div
+            className="sticky-cell-container"
+            ref={(ref) => this.stickyCellContainer = ref}
+          >
             {cellOrder
               .filter(id => this.props.stickyCells.get(id))
               .map(this.createStickyCellElement)}
