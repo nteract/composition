@@ -1,7 +1,7 @@
 /* eslint class-methods-use-this: 0 */
 // @flow
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 import { connect } from 'react-redux';
 
 import {
@@ -18,25 +18,30 @@ type Props = {
 
 export class CellCreatorButtons extends React.Component {
   props: Props;
+  shouldComponentUpdate: (p: Props, s: any) => boolean;
+  createCodeCell: (type: string) => void;
+  createTextCell: (type: string) => void;
+  createCell: (type: string) => void;
+  mergeCell: () => void;
 
   static contextTypes = {
     store: React.PropTypes.object,
   };
 
-  constructor() {
-    super();
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  constructor(): void {
+    super(...arguments);
+    this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.createCodeCell = this.createCell.bind(this, 'code');
     this.createTextCell = this.createCell.bind(this, 'markdown');
     this.createCell = this.createCell.bind(this);
     this.mergeCell = this.mergeCell.bind(this);
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(p: Props, s: any): boolean {
     return false;
   }
 
-  createCell(type) {
+  createCell(type: string): void {
     if (!this.props.id) {
       this.context.store.dispatch(createCellAppend(type));
       return;
@@ -49,11 +54,11 @@ export class CellCreatorButtons extends React.Component {
     }
   }
 
-  mergeCell() {
+  mergeCell(): void {
     this.context.store.dispatch(mergeCellAfter(this.props.id));
   }
 
-  render() {
+  render(): ?React.Element<any> {
     const mergeButton = (
       <button onClick={this.mergeCell} title="merge cells">
         <span className="octicon octicon-arrow-up" />

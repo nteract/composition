@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 
 import CellCreatorButtons from './cell-creator-buttons';
 
@@ -9,12 +9,21 @@ type Props = {
     id: string,
 };
 
+type State = {
+    show: boolean,
+};
+
 export default class CellCreator extends React.Component {
   props: Props;
+  state: State;
+  shouldComponentUpdate: (p: Props, s: State) => boolean;
+  setHoverElement: (el: Object) => void;
+  updateVisibility: (mouseEvent: Object) => void;
+  hoverElement: Object;
 
-  constructor() {
-    super();
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+  constructor(): void {
+    super(...arguments);
+    this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.setHoverElement = this.setHoverElement.bind(this);
     this.updateVisibility = this.updateVisibility.bind(this);
   }
@@ -23,7 +32,7 @@ export default class CellCreator extends React.Component {
     show: false,
   };
 
-  componentDidMount() {
+  componentDidMount(): void {
     // Listen to the page level mouse move event and manually check for
     // intersection because we don't want the hover region to actually capture
     // any mouse events.  The hover region is an invisible element that
@@ -31,15 +40,15 @@ export default class CellCreator extends React.Component {
     document.addEventListener('mousemove', this.updateVisibility, false);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     document.removeEventListener('mousemove', this.updateVisibility);
   }
 
-  setHoverElement(el) {
+  setHoverElement(el: Object): void {
     this.hoverElement = el;
   }
 
-  updateVisibility(mouseEvent) {
+  updateVisibility(mouseEvent: Object): void {
     if (this.hoverElement) {
       const x = mouseEvent.clientX;
       const y = mouseEvent.clientY;
@@ -51,7 +60,7 @@ export default class CellCreator extends React.Component {
   }
 
 
-  render() {
+  render(): ?React.Element<any> {
     return (
       <div className="creator-hover-mask">
         <div className="creator-hover-region" ref={this.setHoverElement}>
