@@ -12,7 +12,7 @@ import { EventEmitter } from 'events';
 
 import * as constants from '../src/constants';
 
-import * as jmp from '@captainsafia/jmp-prebuilt';
+import * as jmp from 'jmp-prebuilt';
 
 import {
   deepFreeze,
