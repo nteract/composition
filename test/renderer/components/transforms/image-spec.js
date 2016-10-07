@@ -25,7 +25,7 @@ describe('ImageDisplay', () => {
 });
 
 describe('ImageDisplay', () => {
-  it.only('accepts metadata for the size', () => {
+  it('accepts metadata for the size', () => {
     const component = shallow(
       <ImageDisplay data={imageData} mimetype="image/png" metadata={{ width: '200' }} />
     );
