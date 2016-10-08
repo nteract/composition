@@ -32,8 +32,13 @@ import {
   saveConfigOnChangeEpic,
 } from './config';
 
+import {
+  condaKernelsEpic,
+} from './conda-kernel-provider-epic';
+
 const epics = [
   commListenEpic,
+  condaKernelsEpic,
   publishEpic,
   saveEpic,
   saveAsEpic,
