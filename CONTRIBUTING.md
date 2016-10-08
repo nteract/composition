@@ -56,6 +56,7 @@ You can use the following verbs as part of your commit messages/PR titles.
 a script in package.json or changing your code based on feedback from the linter.
 * docs: For when you've added documentation.
 * refactor: For when you've refactored a portion of the application.
+* ⬆️: For when you've bumped the version on a dependency
 
 In addition to the active verb, you'll also need to include the affected component
 in the commit message or PR title. The structure for this is as follows.
