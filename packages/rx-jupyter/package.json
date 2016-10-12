@@ -2,9 +2,10 @@
   "name": "rx-jupyter",
   "version": "1.0.0",
   "description": "RxJS5 bindings for the Jupyter Notebook API",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src --out-dir lib/ --source-maps",
+    "test": "npm run build && mocha --compilers js:babel-core/register --recursive"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,20 @@
   "bugs": {
     "url": "https://github.com/nteract/rx-jupyter/issues"
   },
-  "homepage": "https://github.com/nteract/rx-jupyter#readme"
+  "homepage": "https://github.com/nteract/rx-jupyter#readme",
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.17.0",
+    "babel-preset-es2015": "^6.16.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "dependencies": {
+    "rxjs": "^5.0.0-rc.1"
+  }
 }
