@@ -7,7 +7,7 @@
     "build": "babel src --out-dir lib/ --source-maps",
     "test": "npm run build && mocha --compilers js:babel-core/register --recursive",
     "precoverage": "mkdirp coverage && nyc npm run test",
-    "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info"
+    "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info && codecov"
   },
   "repository": {
     "type": "git",
