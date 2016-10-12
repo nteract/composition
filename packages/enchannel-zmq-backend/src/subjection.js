@@ -1,5 +1,5 @@
 import { Subscriber, Observable, Subject } from 'rxjs/Rx';
-import * as jmp from 'jmp-prebuilt';
+import * as jmp from 'jmp';
 
 import {
   ZMQType,
