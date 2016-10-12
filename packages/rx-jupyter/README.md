@@ -1,5 +1,8 @@
 # rx-jupyter
 
+[![Build Status](https://travis-ci.org/nteract/rx-jupyter.svg?branch=master)](https://travis-ci.org/nteract/rx-jupyter)
+[![codecov](https://codecov.io/gh/nteract/rx-jupyter/branch/master/graph/badge.svg)](https://codecov.io/gh/nteract/rx-jupyter)
+
 rx-jupyter is a Reactive wrapper around the Jupyter Services API. What is this
 library useful for? It can help you query the services API on local and remote
 instances of Jupyter and integrate it seamlessly with RxJS's functional tooling.
