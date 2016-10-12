@@ -38,3 +38,6 @@ jspm_packages
 
 # Ignore build directory
 lib
+
+# Ignore coverage file
+coverage.lcov
