@@ -77,7 +77,7 @@
     "immutable": "^3.7.6",
     "jupyter-paths": "^1.0.2",
     "kernelspecs": "^1.0.1",
-    "leaflet": "^0.7.7",
+    "leaflet": "^1.0.1",
     "mathjax-electron": "^1.1.1",
     "moment": "^2.15.0",
     "normalize.css": "^5.0.0",
