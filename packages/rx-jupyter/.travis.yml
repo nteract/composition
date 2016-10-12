@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+    - '6'
+sudo: false
+    - npm test
+
+after_success:
+    - npm run coverage
+    - bash <(curl -s https://codecov.io/bash)
