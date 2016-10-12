@@ -7,3 +7,4 @@ sudo: false
 after_success:
     - npm run coverage
     - bash <(curl -s https://codecov.io/bash)
+    - npm run build:docs
