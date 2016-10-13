@@ -8,3 +8,6 @@ coverage:
         project:
             default:
                 target: auto
+
+fixes:
+  - "^lib/::src/"
