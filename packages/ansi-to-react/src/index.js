@@ -1,5 +1,6 @@
 const React = require('react');
 const Anser = require('anser');
+const escapeCarriageReturn = require('escape-carriage');
 
 /**
  * ansiToJson
@@ -11,12 +12,12 @@ const Anser = require('anser');
  * @return {Array} The parsed input.
  */
 function ansiToJSON(input) {
+  input = escapeCarriageReturn(input);
   return Anser.ansiToJson(input, {
     json: true,
     remove_empty: true,
   });
 }
-
 
 function ansiJSONtoStyleBundle(ansiBundle) {
   const style = {};
