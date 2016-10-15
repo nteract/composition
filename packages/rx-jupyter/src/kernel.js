@@ -1,8 +1,6 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
 import 'rxjs/add/operator/map';
 
-import * as constants from './constants';
-
 /**
  * Creates the configuration needed to send a /kernelspecs request to the
  * services API.
