@@ -9,7 +9,7 @@ instances of Jupyter and integrate it seamlessly with RxJS's functional tooling.
 
 ## Roadmap
 
-Complete coverage of the Jupyter Server API:
+Complete coverage of the [Jupyter Server API](http://jupyter-api.surge.sh/):
 
 * [ ] Contents
   * [ ] Checkpoints
