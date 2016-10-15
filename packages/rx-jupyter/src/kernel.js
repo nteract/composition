@@ -31,8 +31,7 @@ export function createAllKernel(endpoint, crossDomain) {
 }
 
 export function getAllKernel$(endpoint, crossDomain) {
-  return ajax(createAllKernel(endpoint, crossDomain))
-          .map(data => data.response);
+  return ajax(createAllKernel(endpoint, crossDomain));
 }
 
 export function createKernel(endpoint, crossDomain, id) {
@@ -45,8 +44,7 @@ export function createKernel(endpoint, crossDomain, id) {
 }
 
 export function getKernel$(endpoint, crossDomain, id) {
-  return ajax(createKernel(endpoint, crossDomain))
-  .map(data =>  data.response);
+  return ajax(createKernel(endpoint, crossDomain));
 }
 
 export function createLaunchKernel(endpoint, crossDomain, name, path) {
