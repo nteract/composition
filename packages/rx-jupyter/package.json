@@ -1,7 +1,7 @@
 {
   "name": "rx-jupyter",
   "version": "1.0.0",
-  "description": "RxJS5 bindings for the Jupyter Notebook API",
+  "description": "RxJS 5 bindings for the Jupyter Notebook API",
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src --out-dir lib/ --source-maps",

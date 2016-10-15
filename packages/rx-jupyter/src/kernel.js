@@ -68,6 +68,6 @@ export function createLaunchKernel(name, path) {
   };
 }
 
-export function launcKernel$(name, path) {
+export function launchKernel$(name, path) {
   return ajax(createLaunchKernel(name, path));
 }
