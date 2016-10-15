@@ -5,16 +5,16 @@ const JupyterAPI = function(endpoint, crossDomain) {
   this.crossDomain = crossDomain;
 }
 
-JupyterAPI.prototype.getAllKernelSpec$ = () => {
+JupyterAPI.prototype.getAllKernelSpec$ = function() {
   return kernels.getAllKernelSpec$.bind(null, this.endpoint, this.crossDomain);
 }
-JupyterAPI.prototype.getAllKernel$ = () => {
+JupyterAPI.prototype.getAllKernel$ = function() {
   return kernels.getAllKernel$.bind(null, this.endpoint, this.crossDomain);
 }
-JupyterAPI.prototype.getKernel$ = () => {
+JupyterAPI.prototype.getKernel$ = function() {
   return kernels.getKernel$.bind(null, this.endpoint, this.crossDomain);
 }
-JupyterAPI.prototype.launchKernel$ = () => {
+JupyterAPI.prototype.launchKernel$ = function() {
   return kernels.launchKernel$.bind(null, this.endpoint, this.crossDomain);
 }
 
