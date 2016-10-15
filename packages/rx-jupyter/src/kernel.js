@@ -9,53 +9,53 @@ import * as constants from './constants';
  *
  * @returns {Object}  The configuration for a /kernelspecs request
  */
-export function createAllKernelSpec() {
-  const url = constants.ENDPOINT + '/kernelspecs';
+export function createAllKernelSpec(endpoint, crossDomain) {
+  const url = endpoint + '/kernelspecs';
   return {
     url,
-    crossDomain: true,
+    crossDomain,
     responseType: 'json',
   };
 }
 
-export function getAllKernelSepc$() {
-  return ajax(createAllKernelSpec())
+export function getAllKernelSpec$(endpoint, crossDomain) {
+  return ajax(createAllKernelSpec(endpoint, crossDomain))
           .map(data => data.response.kernelspecs);
 }
 
-export function createAllKernel() {
-  const url = constants.ENDPOINT + '/kernels';
+export function createAllKernel(endpoint, crossDomain) {
+  const url = endpoint + '/kernels';
   return {
     url,
-    crossDomain: true,
+    crossDomain,
     responseType: 'json',
   };
 }
 
-export function getAllKernel$() {
-  return ajax(createAllKernel())
+export function getAllKernel$(endpoint, crossDomain) {
+  return ajax(createAllKernel(endpoint, crossDomain))
           .map(data => data.response);
 }
 
-export function createKernel(id) {
-  const url = constants.ENDPOINT + '/kernels/' + id;
+export function createKernel(endpoint, crossDomain, id) {
+  const url = endpoint + '/kernels/' + id;
   return {
     url,
-    crossDomain: true,
+    crossDomain,
     responseType: 'json',
   };
 }
 
-export function getKernel$(id) {
-  return ajax(createKernel)
+export function getKernel$(endpoint, crossDomain, id) {
+  return ajax(createKernel(endpoint, crossDomain))
   .map(data =>  data.response);
 }
 
-export function createLaunchKernel(name, path) {
-  const url = constants.ENDPOINT + '/kernels';
+export function createLaunchKernel(endpoint, crossDomain, name, path) {
+  const url = endpoint + '/kernels';
   return {
     url,
-    crossDomain: true,
+    crossDomain,
     responseType: 'json',
     headers: {
       'Content-Type': 'application/json',
@@ -68,6 +68,6 @@ export function createLaunchKernel(name, path) {
   };
 }
 
-export function launchKernel$(name, path) {
-  return ajax(createLaunchKernel(name, path));
+export function launchKernel$(endpoint, crossDomain, name, path) {
+  return ajax(createLaunchKernel(endpoint, crossDomain, name, path));
 }
