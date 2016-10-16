@@ -15,3 +15,12 @@ describe('createSettingsForList', () => {
     });
   });
 });
+
+describe('list', () => {
+  it('creates an AjaxObservable configured for listing', () => {
+    const kernelSpec$ = kernelspecs.list(endpoint, crossDomain);
+    const request = kernelSpec$.request;
+    expect(request.url).to.equal(`${endpoint}/api/kernelspecs`);
+    expect(request.method).to.equal("GET");
+  })
+})
