@@ -6,7 +6,8 @@
   "scripts": {
     "build": "babel src --out-dir lib/ --source-maps",
     "build:docs": "jsdoc src --recurse -d docs",
-    "test": "npm run build && mocha --compilers js:babel-core/register --recursive",
+    "pretest": "npm run build",
+    "test": "mocha --compilers js:babel-core/register --recursive",
     "precoverage": "nyc npm run test",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },

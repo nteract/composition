@@ -1,24 +1,12 @@
-import * as kernel from '../lib/kernel';
+import * as kernels from '../src/kernels';
 import { expect } from 'chai';
 
 const endpoint = 'http://localhost:8888';
 const crossDomain = true;
 
-describe('createAllKernelSpec', () => {
-  it('creates a payload for a kernelspec request', () => {
-    const request = kernel.createAllKernelSpec(endpoint, crossDomain);
-
-    expect(request).to.deep.equal({
-      url: 'http://localhost:8888/api/kernelspecs',
-      crossDomain: true,
-      responseType: 'json',
-    });
-  });
-});
-
 describe('createAllKernel', () => {
   it('creates a payload for a kernels request', () => {
-    const request = kernel.createAllKernel(endpoint, crossDomain);
+    const request = kernels.createSettingsForList(endpoint, crossDomain);
 
     expect(request).to.deep.equal({
       url: 'http://localhost:8888/api/kernels',
@@ -30,7 +18,7 @@ describe('createAllKernel', () => {
 
 describe('createKernel', () => {
   it('creates a payload for a single kernel request', () => {
-    const request = kernel.createKernel(endpoint, crossDomain, 'test-id');
+    const request = kernels.createSettingsForGet(endpoint, crossDomain, 'test-id');
 
     expect(request).to.deep.equal({
       url: 'http://localhost:8888/api/kernels/test-id',
@@ -42,7 +30,7 @@ describe('createKernel', () => {
 
 describe('createLaunchKernel', () => {
   it('creates a payload for a launch kernel request', () => {
-    const request = kernel.createLaunchKernel(endpoint, crossDomain, 'python3', '~');
+    const request = kernels.createSettingsForStart(endpoint, crossDomain, 'python3', '~');
 
     expect(request).to.deep.equal({
       url: 'http://localhost:8888/api/kernels',
