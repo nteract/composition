@@ -4,15 +4,15 @@ import 'rxjs/add/operator/map';
 /**
  * AJAX settings creators
  */
-export function createSettingsForList(endpoint, crossDomain) {
-  const url = endpoint + '/api/kernelspecs';
+export function createSettingsForList(serverConfig) {
+  const url = serverConfig.endpoint + '/api/kernelspecs';
   return {
     url,
-    crossDomain,
+    crossDomain: serverConfig.crossDomain,
     responseType: 'json',
   };
 }
 
-export function list(endpoint, crossDomain) {
-  return ajax(createSettingsForList(endpoint, crossDomain));
+export function list(serverConfig) {
+  return ajax(createSettingsForList(serverConfig));
 }

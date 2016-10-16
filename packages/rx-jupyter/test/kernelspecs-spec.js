@@ -1,13 +1,15 @@
 import * as kernelspecs from '../src/kernelspecs';
 import { expect } from 'chai';
 
-const endpoint = 'http://localhost:8888';
-const crossDomain = true;
+const serverConfig = {
+  endpoint: 'http://localhost:8888',
+  crossDomain: true,
+};
 
 describe('kernelspecs', () => {
   describe('createSettingsForList', () => {
     it('creates the AJAX settings for listing kernelspecs', () => {
-      const request = kernelspecs.createSettingsForList(endpoint, crossDomain);
+      const request = kernelspecs.createSettingsForList(serverConfig);
 
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/kernelspecs',
@@ -19,9 +21,9 @@ describe('kernelspecs', () => {
 
   describe('list', () => {
     it('creates an AjaxObservable configured for listing', () => {
-      const kernelSpec$ = kernelspecs.list(endpoint, crossDomain);
+      const kernelSpec$ = kernelspecs.list(serverConfig);
       const request = kernelSpec$.request;
-      expect(request.url).to.equal(`${endpoint}/api/kernelspecs`);
+      expect(request.url).to.equal(`http://localhost:8888/api/kernelspecs`);
       expect(request.method).to.equal("GET");
     })
   })

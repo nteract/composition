@@ -1,29 +1,29 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
 import 'rxjs/add/operator/map';
 
-export function createSettingsForList(endpoint, crossDomain) {
-  const url = endpoint + '/api/kernels';
+export function createSettingsForList(serverConfig) {
+  const url = serverConfig.endpoint + '/api/kernels';
   return {
     url,
-    crossDomain,
+    crossDomain: serverConfig.crossDomain,
     responseType: 'json',
   };
 }
 
-export function createSettingsForGet(endpoint, crossDomain, id) {
-  const url = endpoint + '/api/kernels/' + id;
+export function createSettingsForGet(serverConfig, id) {
+  const url = serverConfig.endpoint + '/api/kernels/' + id;
   return {
     url,
-    crossDomain,
+    crossDomain: serverConfig.crossDomain,
     responseType: 'json',
   };
 }
 
-export function createSettingsForStart(endpoint, crossDomain, name, path) {
-  const url = endpoint + '/api/kernels';
+export function createSettingsForStart(serverConfig, name, path) {
+  const url = serverConfig.endpoint + '/api/kernels';
   return {
     url,
-    crossDomain,
+    crossDomain: serverConfig.crossDomain,
     responseType: 'json',
     headers: {
       'Content-Type': 'application/json',
@@ -36,14 +36,14 @@ export function createSettingsForStart(endpoint, crossDomain, name, path) {
   }
 }
 
-export function list(endpoint, crossDomain) {
-  return ajax(createSettingsForList(endpoint, crossDomain));
+export function list(serverConfig) {
+  return ajax(createSettingsForList(serverConfig));
 }
 
-export function get(endpoint, crossDomain, id) {
-  return ajax(createSettingsForGet(endpoint, crossDomain, id));
+export function get(serverConfig, id) {
+  return ajax(createSettingsForGet(serverConfig, id));
 }
 
-export function start(endpoint, crossDomain, name, path) {
-  return ajax(createSettingsForStart(endpoint, crossDomain, name, path));
+export function start(serverConfig, name, path) {
+  return ajax(createSettingsForStart(serverConfig, name, path));
 }
