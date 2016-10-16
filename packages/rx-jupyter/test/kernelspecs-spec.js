@@ -4,8 +4,8 @@ import { expect } from 'chai';
 const endpoint = 'http://localhost:8888';
 const crossDomain = true;
 
-describe('createAllKernelSpec', () => {
-  it('creates a payload for a kernelspec request', () => {
+describe('createSettingsForList', () => {
+  it('creates the AJAX settings for listing kernelspecs', () => {
     const request = kernelspecs.createSettingsForList(endpoint, crossDomain);
 
     expect(request).to.deep.equal({
