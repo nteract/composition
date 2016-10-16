@@ -1,7 +1,7 @@
 import * as kernel from '../lib/kernel';
 import { expect } from 'chai';
 
-const endpoint = 'http://localhost:8888/api';
+const endpoint = 'http://localhost:8888';
 const crossDomain = true;
 
 describe('createAllKernelSpec', () => {

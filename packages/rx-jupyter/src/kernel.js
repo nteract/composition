@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
  * @returns {Object}  The configuration for a /kernelspecs request
  */
 export function createAllKernelSpec(endpoint, crossDomain) {
-  const url = endpoint + '/kernelspecs';
+  const url = endpoint + '/api/kernelspecs';
   return {
     url,
     crossDomain,
@@ -21,7 +21,7 @@ export function getAllKernelSpec$(endpoint, crossDomain) {
 }
 
 export function createAllKernel(endpoint, crossDomain) {
-  const url = endpoint + '/kernels';
+  const url = endpoint + '/api/kernels';
   return {
     url,
     crossDomain,
@@ -34,7 +34,7 @@ export function getAllKernel$(endpoint, crossDomain) {
 }
 
 export function createKernel(endpoint, crossDomain, id) {
-  const url = endpoint + '/kernels/' + id;
+  const url = endpoint + '/api/kernels/' + id;
   return {
     url,
     crossDomain,
@@ -47,7 +47,7 @@ export function getKernel$(endpoint, crossDomain, id) {
 }
 
 export function createLaunchKernel(endpoint, crossDomain, name, path) {
-  const url = endpoint + '/kernels';
+  const url = endpoint + '/api/kernels';
   return {
     url,
     crossDomain,
