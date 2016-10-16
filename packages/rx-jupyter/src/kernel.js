@@ -17,8 +17,7 @@ export function createAllKernelSpec(endpoint, crossDomain) {
 }
 
 export function getAllKernelSpec$(endpoint, crossDomain) {
-  return ajax(createAllKernelSpec(endpoint, crossDomain))
-          .map(data => data.response.kernelspecs);
+  return ajax(createAllKernelSpec(endpoint, crossDomain));
 }
 
 export function createAllKernel(endpoint, crossDomain) {
