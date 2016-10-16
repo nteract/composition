@@ -1,10 +1,11 @@
-import * as kernels from '../src/kernels';
 import { expect } from 'chai';
+
+import * as kernels from '../src/kernels';
 
 const serverConfig = {
   endpoint: 'http://localhost:8888',
   crossDomain: true,
-}
+};
 
 describe('kernels', () => {
   describe('createSettingsForList', () => {
@@ -46,7 +47,7 @@ describe('kernels', () => {
         body: {
           path: '~',
           kernel_name: 'python3',
-        }
+        },
       });
     });
   });
@@ -57,28 +58,27 @@ describe('kernels', () => {
       const kernel$ = kernels.get(serverConfig, id);
       const request = kernel$.request;
       expect(request.url).to.equal(`http://localhost:8888/api/kernels/${id}`);
-      expect(request.method).to.equal("GET");
-    })
-  })
+      expect(request.method).to.equal('GET');
+    });
+  });
 
   describe('list', () => {
     it('creates an AjaxObservable configured for listing kernels', () => {
       const kernel$ = kernels.list(serverConfig);
       const request = kernel$.request;
-      expect(request.url).to.equal(`http://localhost:8888/api/kernels`);
-      expect(request.method).to.equal("GET");
-    })
-  })
+      expect(request.url).to.equal('http://localhost:8888/api/kernels');
+      expect(request.method).to.equal('GET');
+    });
+  });
 
   describe('start', () => {
     it('creates an AjaxObservable configured for starting a kernel', () => {
       const kernel$ = kernels.start(serverConfig, 'python3000', '/tmp');
       const request = kernel$.request;
-      expect(request.url).to.equal(`http://localhost:8888/api/kernels`);
-      expect(request.method).to.equal("POST");
+      expect(request.url).to.equal('http://localhost:8888/api/kernels');
+      expect(request.method).to.equal('POST');
       expect(request.body.path).to.equal('/tmp');
       expect(request.body.kernel_name).to.equal('python3000');
-    })
-  })
-
+    });
+  });
 });

@@ -1,5 +1,6 @@
-import * as kernelspecs from '../src/kernelspecs';
 import { expect } from 'chai';
+
+import * as kernelspecs from '../src/kernelspecs';
 
 const serverConfig = {
   endpoint: 'http://localhost:8888',
@@ -23,8 +24,8 @@ describe('kernelspecs', () => {
     it('creates an AjaxObservable configured for listing', () => {
       const kernelSpec$ = kernelspecs.list(serverConfig);
       const request = kernelSpec$.request;
-      expect(request.url).to.equal(`http://localhost:8888/api/kernelspecs`);
-      expect(request.method).to.equal("GET");
-    })
-  })
-})
+      expect(request.url).to.equal('http://localhost:8888/api/kernelspecs');
+      expect(request.method).to.equal('GET');
+    });
+  });
+});
