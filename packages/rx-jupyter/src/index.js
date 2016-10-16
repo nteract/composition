@@ -6,25 +6,18 @@ export function JupyterAPI(endpoint, crossDomain) {
   this.crossDomain = crossDomain;
 }
 
-JupyterAPI.prototype.getConfig = function() {
-  return {
-    endpoint: this.endpoint,
-    crossDomain: this.crossDomain,
-  };
-}
-
 JupyterAPI.prototype.listKernelspecs = function() {
-  return kernelspecs.list(this.getConfig());
+  return kernelspecs.list(this);
 }
 
 JupyterAPI.prototype.listKernels = function() {
-  return kernels.list(this.getConfig());
+  return kernels.list(this);
 }
 
 JupyterAPI.prototype.getKernel = function(id) {
-  return kernels.get(this.getConfig(), id);
+  return kernels.get(this, id);
 }
 
 JupyterAPI.prototype.startKernel = function(name, path) {
-  return kernels.start(this.getConfig(), name, path);
+  return kernels.start(this, name, path);
 }
