@@ -1,7 +1,7 @@
 import * as kernels from './kernels';
 import * as kernelspecs from './kernelspecs';
 
-function JupyterAPI(endpoint, crossDomain) {
+export function JupyterAPI(endpoint, crossDomain) {
   this.endpoint = endpoint;
   this.crossDomain = crossDomain;
 }
