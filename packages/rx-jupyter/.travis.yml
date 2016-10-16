@@ -2,7 +2,10 @@ language: node_js
 node_js:
     - '6'
 sudo: false
-    - npm test
+
+script:
+    - npm t
+    - npm run coverage
 
 after_success:
     - npm run coverage

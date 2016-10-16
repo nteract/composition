@@ -10,7 +10,7 @@
     "test": "npm run test:unit && npm run test:lint",
     "test:unit": "mocha --compilers js:babel-core/register --recursive",
     "test:lint": "eslint .",
-    "precoverage": "nyc npm run test",
+    "precoverage": "nyc npm run test:unit",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "repository": {
