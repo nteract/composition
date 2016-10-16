@@ -60,7 +60,7 @@ describe('kernels', () => {
   })
 
   describe('list', () => {
-    it('creates an AjaxObservable configured for listing', () => {
+    it('creates an AjaxObservable configured for listing kernels', () => {
       const kernel$ = kernels.list(endpoint, crossDomain);
       const request = kernel$.request;
       expect(request.url).to.equal(`${endpoint}/api/kernels`);
@@ -68,6 +68,15 @@ describe('kernels', () => {
     })
   })
 
-
+  describe('start', () => {
+    it('creates an AjaxObservable configured for starting a kernel', () => {
+      const kernel$ = kernels.start(endpoint, crossDomain, 'python3000', '/tmp');
+      const request = kernel$.request;
+      expect(request.url).to.equal(`${endpoint}/api/kernels`);
+      expect(request.method).to.equal("POST");
+      expect(request.body.path).to.equal('/tmp');
+      expect(request.body.kernel_name).to.equal('python3000');
+    })
+  })
 
 });
