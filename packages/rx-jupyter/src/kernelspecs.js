@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
  * AJAX settings creators
  */
 export function createSettingsForList(serverConfig) {
-  const url = serverConfig.endpoint + '/api/kernelspecs';
+  const url = `${serverConfig.endpoint}/api/kernelspecs`;
   return {
     url,
     crossDomain: serverConfig.crossDomain,

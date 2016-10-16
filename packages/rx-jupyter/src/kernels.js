@@ -2,7 +2,7 @@ import { ajax } from 'rxjs/observable/dom/ajax';
 import 'rxjs/add/operator/map';
 
 export function createSettingsForList(serverConfig) {
-  const url = serverConfig.endpoint + '/api/kernels';
+  const url = `${serverConfig.endpoint}/api/kernels`;
   return {
     url,
     crossDomain: serverConfig.crossDomain,
@@ -11,7 +11,7 @@ export function createSettingsForList(serverConfig) {
 }
 
 export function createSettingsForGet(serverConfig, id) {
-  const url = serverConfig.endpoint + '/api/kernels/' + id;
+  const url = `${serverConfig.endpoint}/api/kernels/${id}`;
   return {
     url,
     crossDomain: serverConfig.crossDomain,
@@ -20,7 +20,7 @@ export function createSettingsForGet(serverConfig, id) {
 }
 
 export function createSettingsForStart(serverConfig, name, path) {
-  const url = serverConfig.endpoint + '/api/kernels';
+  const url = `${serverConfig.endpoint}/api/kernels`;
   return {
     url,
     crossDomain: serverConfig.crossDomain,
@@ -32,8 +32,8 @@ export function createSettingsForStart(serverConfig, name, path) {
     body: {
       path,
       kernel_name: name,
-    }
-  }
+    },
+  };
 }
 
 export function list(serverConfig) {
