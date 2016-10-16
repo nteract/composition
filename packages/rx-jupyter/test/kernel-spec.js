@@ -49,6 +49,16 @@ describe('kernels', () => {
     });
   });
 
+  describe('get', () => {
+    it('creates an AjaxObservable configured for getting a kernel by id', () => {
+      const id = '0000-1111-2222-3333';
+      const kernel$ = kernels.get(endpoint, crossDomain, id);
+      const request = kernel$.request;
+      expect(request.url).to.equal(`${endpoint}/api/kernels/${id}`);
+      expect(request.method).to.equal("GET");
+    })
+  })
+
   describe('list', () => {
     it('creates an AjaxObservable configured for listing', () => {
       const kernel$ = kernels.list(endpoint, crossDomain);
@@ -57,4 +67,7 @@ describe('kernels', () => {
       expect(request.method).to.equal("GET");
     })
   })
+
+
+
 });
