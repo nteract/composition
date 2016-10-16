@@ -7,7 +7,9 @@
     "build": "babel src --out-dir lib/ --source-maps",
     "build:docs": "jsdoc src --recurse -d docs",
     "pretest": "npm run build",
-    "test": "mocha --compilers js:babel-core/register --recursive",
+    "test": "npm run test:unit && npm run test:lint",
+    "test:unit": "mocha --compilers js:babel-core/register --recursive",
+    "test:lint": "eslint .",
     "precoverage": "nyc npm run test",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
