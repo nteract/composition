@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import * as jupyter from '..';
+import * as jupyter from '../src';
 
 // Mostly a dummy "have we exported all the things" test
 describe('rx-jupyter', () => {
