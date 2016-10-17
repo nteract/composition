@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: kernels.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: kernels.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { ajax } from 'rxjs/observable/dom/ajax';
+import 'rxjs/add/operator/map';
+
+/**
+ * Creates the AJAX settings for a call to the kernels API.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ *
+ * @return  {Object}  The settings to be passed to the AJAX request
+ */
+export function createSettingsForList(serverConfig) {
+  const url = `${serverConfig.endpoint}/api/kernels`;
+  return {
+    url,
+    crossDomain: serverConfig.crossDomain,
+    responseType: 'json',
+  };
+}
+
+/**
+ * Creates the AJAX settings for a call to get details for a single kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ *
+ * @return  {Object}  The settings to be passed to the AJAX request
+ */
+export function createSettingsForGet(serverConfig, id) {
+  const url = `${serverConfig.endpoint}/api/kernels/${id}`;
+  return {
+    url,
+    crossDomain: serverConfig.crossDomain,
+    responseType: 'json',
+  };
+}
+
+/**
+ * Creates the AJAX settings for a cell to start a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  name  - The name of the kernel to start
+ * @param {string}  path  - The path the new kernel should start in
+ *
+ * @return  {Object}  The settings to be passed to the AJAX request
+ */
+export function createSettingsForStart(serverConfig, name, path) {
+  const url = `${serverConfig.endpoint}/api/kernels`;
+  return {
+    url,
+    crossDomain: serverConfig.crossDomain,
+    responseType: 'json',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: {
+      path,
+      kernel_name: name,
+    },
+  };
+}
+
+/**
+ * Creates the AJAX settings for a call to kill a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  id  - The id of the kernel to kill
+ *
+ * @return  {Object}  The settings to be passed to the AJAX request
+ */
+export function createSettingsForKill(serverConfig, id) {
+  const url = `${serverConfig.endpoint}/api/kernels/${id}`;
+  return {
+    url,
+    crossDomain: serverConfig.crossDomain,
+    responseType: 'json',
+    method: 'DELETE',
+  };
+}
+
+/**
+ * Creates the AJAX settings for a call to interrupt a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  id  - The id of the kernel to interrupt
+ *
+ * @return  {Object}  The settings to be passed to the AJAX request
+ */
+export function createSettingsForInterrupt(serverConfig, id) {
+  const url = `${serverConfig.endpoint}/api/kernels/${id}/interrupt`;
+  return {
+    url,
+    crossDomain: serverConfig.crossDomain,
+    responseType: 'json',
+    method: 'POST',
+  };
+}
+
+/**
+ * Creates the AJAX settings for a call to restart a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  id  - The id of the kernel to restart
+ *
+ * @return  {Object}  The settings to be passed to the AJAX request
+ */
+export function createSettingsForRestart(serverConfig, id) {
+  const url = `${serverConfig.endpoint}/api/kernels/${id}/restart`;
+  return {
+    url,
+    crossDomain: serverConfig.crossDomain,
+    responseType: 'json',
+    method: 'POST',
+  };
+}
+
+/**
+ * Creates an AjaxObservable for listing running kernels.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ *
+ * @return  {AjaxObservable}  An Observable with the request response
+ */
+export function list(serverConfig) {
+  return ajax(createSettingsForList(serverConfig));
+}
+
+/**
+ * Creates an AjaxObservable for getting info about a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  id  - The id of the kernel to fetch
+ *
+ * @return  {AjaxObservable}  An Observable with the request response
+ */
+export function get(serverConfig, id) {
+  return ajax(createSettingsForGet(serverConfig, id));
+}
+
+/**
+ * Creates an AjaxObservable for starting a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  name  - The name of the kernel to start
+ * @param {string}  path  - The path to start the kernel in
+ *
+ * @return  {AjaxObserbable}  An Observable with the request response
+ */
+export function start(serverConfig, name, path) {
+  return ajax(createSettingsForStart(serverConfig, name, path));
+}
+
+/**
+ * Creates an AjaxObservable for killing a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  id  - The id of the kernel to kill
+ *
+ * @return  {AjaxObservable}  An Observable with the request response
+ */
+export function kill(serverConfig, id) {
+  return ajax(createSettingsForKill(serverConfig, id));
+}
+
+/**
+ * Creates an AjaxObservable for interrupting a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  id  - The id of the kernel to interupt
+ *
+ * @return  {AjaxObservable}  An Observable with the request response
+ */
+export function interrupt(serverConfig, id) {
+  return ajax(createSettingsForInterrupt(serverConfig, id));
+}
+
+/**
+ * Creates an AjaxObservable for restarting a kernel.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ * @param {string}  id  - The id of the kernel to restart
+ *
+ * @return  {AjaxObservable}  An Observable with the request response
+ */
+export function restart(serverConfig, id) {
+  return ajax(createSettingsForRestart(serverConfig, id));
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#createSettingsForGet">createSettingsForGet</a></li><li><a href="global.html#createSettingsForInterrupt">createSettingsForInterrupt</a></li><li><a href="global.html#createSettingsForKill">createSettingsForKill</a></li><li><a href="global.html#createSettingsForList">createSettingsForList</a></li><li><a href="global.html#createSettingsForRestart">createSettingsForRestart</a></li><li><a href="global.html#createSettingsForStart">createSettingsForStart</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#interrupt">interrupt</a></li><li><a href="global.html#kill">kill</a></li><li><a href="global.html#list">list</a></li><li><a href="global.html#restart">restart</a></li><li><a href="global.html#start">start</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.2</a> on Sun Oct 16 2016 22:23:59 GMT-0500 (CDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
