@@ -13,8 +13,8 @@ Complete coverage of the [Jupyter Server API](http://jupyter-api.surge.sh/):
 
 * [ ] Contents
   * [ ] Checkpoints
-* [ ] Kernels
-* [ ] Kernelspecs
+* [X] Kernels
+* [X] Kernelspecs
 * [ ] Sessions
 
 ### Development Install
