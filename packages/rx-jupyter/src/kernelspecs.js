@@ -2,7 +2,11 @@ import { ajax } from 'rxjs/observable/dom/ajax';
 import 'rxjs/add/operator/map';
 
 /**
- * AJAX settings creators
+ * Creates the AJAX settings for a call to the kernelspecs API.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ *
+ * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForList(serverConfig) {
   const url = `${serverConfig.endpoint}/api/kernelspecs`;
@@ -13,6 +17,13 @@ export function createSettingsForList(serverConfig) {
   };
 }
 
+/**
+ * Creates an AjaxObservable for listing avaialble kernelspecs.
+ *
+ * @param {Object}  serverConfig  - The server configuration
+ *
+ * @return  {Object}  An Observable with the request response
+ */
 export function list(serverConfig) {
   return ajax(createSettingsForList(serverConfig));
 }
