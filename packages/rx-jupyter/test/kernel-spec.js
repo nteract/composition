@@ -52,6 +52,48 @@ describe('kernels', () => {
     });
   });
 
+  describe('createSettingsForKill', () => {
+    it('creates AJAX settings for killing a kernel', () => {
+      const id = '0000-1111-2222-3333';
+      const request = kernels.createSettingsForKill(serverConfig, id);
+
+      expect(request).to.deep.equal({
+        url: `http://localhost:8888/api/kernels/${id}`,
+        crossDomain: true,
+        method: 'DELETE',
+        responseType: 'json',
+      });
+    });
+  });
+
+  describe('createSettingsForInterrupt', () => {
+    it('creates AJAX settings for interrupting a kernel', () => {
+      const id = '0000-1111-2222-3333';
+      const request = kernels.createSettingsForInterrupt(serverConfig, id);
+
+      expect(request).to.deep.equal({
+        url: `http://localhost:8888/api/kernels/${id}/interrupt`,
+        crossDomain: true,
+        method: 'POST',
+        responseType: 'json',
+      });
+    });
+  });
+
+  describe('createSettingsForRestart', () => {
+    it('creates AJAX settings for restarting a kernel', () => {
+      const id = '0000-1111-2222-3333';
+      const request = kernels.createSettingsForRestart(serverConfig, id);
+
+      expect(request).to.deep.equal({
+        url: `http://localhost:8888/api/kernels/${id}/restart`,
+        crossDomain: true,
+        method: 'POST',
+        responseType: 'json',
+      });
+    });
+  });
+
   describe('get', () => {
     it('creates an AjaxObservable configured for getting a kernel by id', () => {
       const id = '0000-1111-2222-3333';
