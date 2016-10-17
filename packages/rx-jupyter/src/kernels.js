@@ -188,10 +188,8 @@ export function restart(serverConfig, id) {
 }
 
 export function formWebSocketURL(serverConfig, id) {
-  const url = new URL(`${serverConfig.endpoint}/api/kernels/${id}/channels`);
-  // Change protocol to ws on http and wss on https
-  url.protocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
-  return url.toString();
+  const url = `${serverConfig.endpoint}/api/kernels/${id}/channels`;
+  return url.replace(/^http(s)?/, 'ws$1');
 }
 
 export function connect(serverConfig, id) {
