@@ -17,6 +17,15 @@ export function createSettingsForList(serverConfig) {
   };
 }
 
+export function createSettingsForGet(serverConfig, name) {
+  const url = `${serverConfig.endpoint}/api/kernelspecs/${name}`;
+  return {
+    url,
+    crossDomain: serverConfig.crossDomain,
+    responseType: 'json',
+  };
+}
+
 /**
  * Creates an AjaxObservable for listing avaialble kernelspecs.
  *
@@ -26,4 +35,8 @@ export function createSettingsForList(serverConfig) {
  */
 export function list(serverConfig) {
   return ajax(createSettingsForList(serverConfig));
+}
+
+export function get(serverConfig, name) {
+  return ajax(createSettingsForGet(serverConfig, name));
 }
