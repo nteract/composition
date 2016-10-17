@@ -123,4 +123,34 @@ describe('kernels', () => {
       expect(request.body.kernel_name).to.equal('python3000');
     });
   });
+
+  describe('kill', () => {
+    it('creates an AjaxObservable configured for killing a kernel', () => {
+      const id = '0000-1111-2222-3333';
+      const kernel$ = kernels.kill(serverConfig, id);
+      const request = kernel$.request;
+      expect(request.url).to.equal(`http://localhost:8888/api/kernels/${id}`);
+      expect(request.method).to.equal('DELETE');
+    });
+  });
+
+  describe('interrupt', () => {
+    it('creates an AjaxObservable configured for interrupting a kernel', () => {
+      const id = '0000-1111-2222-3333';
+      const kernel$ = kernels.interrupt(serverConfig, id);
+      const request = kernel$.request;
+      expect(request.url).to.equal(`http://localhost:8888/api/kernels/${id}/interrupt`);
+      expect(request.method).to.equal('POST');
+    });
+  });
+
+  describe('restart', () => {
+    it('creates an AjaxObservable configured for restarting a kernel', () => {
+      const id = '0000-1111-2222-3333';
+      const kernel$ = kernels.restart(serverConfig, id);
+      const request = kernel$.request;
+      expect(request.url).to.equal(`http://localhost:8888/api/kernels/${id}/restart`);
+      expect(request.method).to.equal('POST');
+    });
+  });
 });
