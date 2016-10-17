@@ -153,4 +153,16 @@ describe('kernels', () => {
       expect(request.method).to.equal('POST');
     });
   });
+
+  describe('formWebSocketURL', () => {
+    it('creates websocket URLs that match the originating scheme', () => {
+      const serverConfig = {
+        endpoint: 'https://tmp58.tmpnb.org/user/TOTefPUbkgOu',
+      };
+      const wsURL = kernels.formWebSocketURL(serverConfig, '0000-1111');
+      expect(wsURL).to.equal(
+        'wss://tmp58.tmpnb.org/user/TOTefPUbkgOu/api/kernels/0000-1111/channels'
+      );
+    });
+  });
 });
