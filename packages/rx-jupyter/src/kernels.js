@@ -1,5 +1,4 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
-import 'rxjs/add/operator/map';
 
 import { webSocket } from 'rxjs/observable/dom/webSocket';
 

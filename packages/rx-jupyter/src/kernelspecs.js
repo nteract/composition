@@ -1,5 +1,4 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
-import 'rxjs/add/operator/map';
 
 /**
  * Creates the AJAX settings for a call to the kernelspecs API.
