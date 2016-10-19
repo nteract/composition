@@ -158,12 +158,12 @@ export function destroy(serverConfig, sessionID) {
  *
  * @param {String} sessionID - Universally unique identifier for session to be requested.
  *
- * @param {String} sessionName - New name for session with param sessionID.
+ * @param {String} payload - New name and/or path for session with param sessionID.
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function rename(serverConfig, sessionID, newSessionName) {
-  return ajax(createSettingsForRename(serverConfig, sessionID, newSessionName));
+export function rename(serverConfig, sessionID, { path, new_session_name }) {
+  return ajax(createSettingsForRename(serverConfig, sessionID, { path, new_session_name }));
 }
 
 /**
