@@ -5,10 +5,9 @@ import * as sessions from '../src/sessions';
 const serverConfig = {
   endpoint: 'http://localhost:8888',
   crossDomain: true,
-}
+};
 
 describe('sessions', () => {
-
   describe('createSettingsForList', () => {
     it('creates the AJAX settings for listing sessions', () => {
       const request = sessions.createSettingsForList(serverConfig);
@@ -24,7 +23,7 @@ describe('sessions', () => {
     it('creates an AjaxObservable for listing the sessions', () => {
       const session$ = sessions.list(serverConfig);
       const request = session$.request;
-      expect(request.url).to.equal('http://localhost:8888/api/sessions')
+      expect(request.url).to.equal('http://localhost:8888/api/sessions');
       expect(request.method).to.equal('GET');
     });
   });
@@ -40,14 +39,14 @@ describe('sessions', () => {
           'Content-Type': 'application/json',
         },
       });
-    })
+    });
   });
 
   describe('get', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
       const session$ = sessions.get(serverConfig, 'uuid');
       const request = session$.request;
-      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid')
+      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid');
       expect(request.method).to.equal('GET');
     });
   });
@@ -61,14 +60,14 @@ describe('sessions', () => {
         responseType: 'json',
         method: 'DELETE',
       });
-    })
+    });
   });
 
   describe('destroy', () => {
     it('creates an AjaxObservable for destroying a session', () => {
       const session$ = sessions.destroy(serverConfig, 'uuid');
       const request = session$.request;
-      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid')
+      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid');
       expect(request.method).to.equal('DELETE');
     });
   });
@@ -89,21 +88,21 @@ describe('sessions', () => {
           session_name: 'newSession',
         },
       });
-    })
+    });
   });
 
   describe('rename', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
       const session$ = sessions.rename(serverConfig, 'uuid');
       const request = session$.request;
-      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid')
+      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid');
       expect(request.method).to.equal('PATCH');
     });
   });
 
   describe('createSettingsForCreate', () => {
     it('creates the AJAX setings for creating a session', () => {
-      const request = sessions.createSettingsForCreate(serverConfig, {notebookName: 'myNotebook', path: '~', kernelName: 'python3'});
+      const request = sessions.createSettingsForCreate(serverConfig, { notebook_name: 'myNotebook', path: '~', kernel_name: 'python3' });
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions',
         crossDomain: serverConfig.crossDomain,
@@ -117,16 +116,16 @@ describe('sessions', () => {
           notebook_name: 'myNotebook',
           path: '~',
           kernel_name: 'python3',
-        }
+        },
       });
-    })
+    });
   });
 
   describe('create', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
-      const session$ = sessions.create(serverConfig, 'uuid');
+      const session$ = sessions.create(serverConfig, { notebook_name: 'myNotebook', path: '~', kernel_name: 'python3' });
       const request = session$.request;
-      expect(request.url).to.equal('http://localhost:8888/api/sessions')
+      expect(request.url).to.equal('http://localhost:8888/api/sessions');
       expect(request.method).to.equal('POST');
     });
   });

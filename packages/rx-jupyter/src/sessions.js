@@ -7,7 +7,7 @@ export function createSettingsForList(serverConfig) {
     url,
     crossDomain: serverConfig.crossDomain,
     responseType: 'json',
-  }
+  };
 }
 
 export function createSettingsForGet(serverConfig, sessionID) {
@@ -19,7 +19,7 @@ export function createSettingsForGet(serverConfig, sessionID) {
     headers: {
       'Content-Type': 'application/json',
     },
-  }
+  };
 }
 
 export function createSettingsForDestroy(serverConfig, sessionID) {
@@ -29,7 +29,7 @@ export function createSettingsForDestroy(serverConfig, sessionID) {
     crossDomain: serverConfig.crossDomain,
     responseType: 'json',
     method: 'DELETE',
-  }
+  };
 }
 
 export function createSettingsForRename(serverConfig, sessionID, newSessionName) {
@@ -46,10 +46,10 @@ export function createSettingsForRename(serverConfig, sessionID, newSessionName)
       path: '~',
       session_name: newSessionName,
     },
-  }
+  };
 }
 
-export function createSettingsForCreate(serverConfig,  { notebookName, path, kernelName }) {
+export function createSettingsForCreate(serverConfig, { notebook_name, path, kernel_name }) {
   const url = `${serverConfig.endpoint}/api/sessions`;
   return {
     url,
@@ -61,11 +61,11 @@ export function createSettingsForCreate(serverConfig,  { notebookName, path, ker
     method: 'POST',
     body: {
       session_name: '',
-      notebook_name: notebookName,
-      path: path,
-      kernel_name: kernelName,
+      notebook_name,
+      path,
+      kernel_name,
     },
-  }
+  };
 }
 
 export function list(serverConfig, sessionID) {
@@ -84,6 +84,6 @@ export function rename(serverConfig, sessionID, newSessionName) {
   return ajax(createSettingsForRename(serverConfig, sessionID, newSessionName));
 }
 
-export function create(serverConfig, { notebookName, path, kernelName }) {
-  return ajax(createSettingsForCreate(serverConfig, { notebookName, path, kernelName}))
+export function create(serverConfig, { notebook_name, path, kernel_name }) {
+  return ajax(createSettingsForCreate(serverConfig, { notebook_name, path, kernel_name }));
 }
