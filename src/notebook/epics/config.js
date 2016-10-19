@@ -31,9 +31,11 @@ export const loadConfigEpic = actions =>
       readFileObservable(CONFIG_FILE_PATH)
         .map(JSON.parse)
         .map(configLoaded)
-        .catch((err) =>
-          Observable.of({ type: 'ERROR', payload: err, error: true })
-        )
+        .catch((err) => {
+          if (!err.message.includes('ENOENT')) {
+            Observable.of({ type: 'ERROR', payload: err, error: true });
+          }
+        })
     );
 
 export const saveConfigOnChangeEpic = actions =>
