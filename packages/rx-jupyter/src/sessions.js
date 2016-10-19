@@ -63,11 +63,11 @@ export function createSettingsForDestroy(serverConfig, sessionID) {
  *
  * @param {String} sessionID - Universally unique identifier for session to be requested.
  *
- * @param {String} newSessionName - New name for session with param sessionID.
+ * @param {String} payload - New name and/or path for session with param sessionID.
  *
  * @return  {Object} - The settings to be passed to the AJAX request
  */
-export function createSettingsForRename(serverConfig, sessionID, newSessionName) {
+export function createSettingsForRename(serverConfig, sessionID, { path, new_session_name }) {
   const url = `${serverConfig.endpoint}/api/sessions/${sessionID}`;
   return {
     url,
@@ -78,8 +78,8 @@ export function createSettingsForRename(serverConfig, sessionID, newSessionName)
     },
     method: 'PATCH',
     body: {
-      path: '~',
-      session_name: newSessionName,
+      path,
+      new_session_name,
     },
   };
 }
