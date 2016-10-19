@@ -8,6 +8,7 @@ const serverConfig = {
 }
 
 describe('sessions', () => {
+
   describe('createSettingsForList', () => {
     it('creates the AJAX settings for listing sessions', () => {
       const request = sessions.createSettingsForList(serverConfig);
@@ -35,6 +36,9 @@ describe('sessions', () => {
         url: 'http://localhost:8888/api/sessions/uuid',
         crossDomain: serverConfig.crossDomain,
         responseType: 'json',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
     })
   });
@@ -49,31 +53,41 @@ describe('sessions', () => {
   });
 
   describe('createSettingsForDestroy', () => {
-    it('creates the AJAX setings for closing a session', () => {
+    it('creates the AJAX setings for destroying a session', () => {
       const request = sessions.createSettingsForDestroy(serverConfig, 'uuid');
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions/uuid',
         crossDomain: serverConfig.crossDomain,
         responseType: 'json',
+        method: 'DELETE',
       });
     })
   });
 
   describe('destroy', () => {
-    it('creates an AjaxObservable for getting particular session info', () => {
+    it('creates an AjaxObservable for destroying a session', () => {
       const session$ = sessions.destroy(serverConfig, 'uuid');
-      expect(request.url).to.equal('http://localhost:8888/api/sessions')
+      const request = session$.request;
+      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid')
       expect(request.method).to.equal('DELETE');
     });
   });
 
   describe('createSettingsForRename', () => {
     it('creates the AJAX setings for renaming a session', () => {
-      const request = sessions.createSettingsForRename(serverConfig, 'uuid');
+      const request = sessions.createSettingsForRename(serverConfig, 'uuid', 'newSession');
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions/uuid',
         crossDomain: serverConfig.crossDomain,
         responseType: 'json',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'PATCH',
+        body: {
+          path: '~',
+          session_name: 'newSession',
+        },
       });
     })
   });
@@ -81,18 +95,29 @@ describe('sessions', () => {
   describe('rename', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
       const session$ = sessions.rename(serverConfig, 'uuid');
-      expect(request.url).to.equal('http://localhost:8888/api/sessions')
-      expect(request.method).to.equal('GET');
+      const request = session$.request;
+      expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid')
+      expect(request.method).to.equal('PATCH');
     });
   });
 
   describe('createSettingsForCreate', () => {
     it('creates the AJAX setings for creating a session', () => {
-      const request = sessions.createSettingsForCreate(serverConfig, 'uuid');
+      const request = sessions.createSettingsForCreate(serverConfig, {notebookName: 'myNotebook', path: '~', kernelName: 'python3'});
       expect(request).to.deep.equal({
-        url: 'http://localhost:8888/api/sessions/uuid',
+        url: 'http://localhost:8888/api/sessions',
         crossDomain: serverConfig.crossDomain,
         responseType: 'json',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: {
+          session_name: '',
+          notebook_name: 'myNotebook',
+          path: '~',
+          kernel_name: 'python3',
+        }
       });
     })
   });
@@ -102,7 +127,7 @@ describe('sessions', () => {
       const session$ = sessions.create(serverConfig, 'uuid');
       const request = session$.request;
       expect(request.url).to.equal('http://localhost:8888/api/sessions')
-      expect(request.method).to.equal('DELETE');
+      expect(request.method).to.equal('POST');
     });
   });
 });

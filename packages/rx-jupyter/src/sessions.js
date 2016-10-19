@@ -11,11 +11,14 @@ export function createSettingsForList(serverConfig) {
 }
 
 export function createSettingsForGet(serverConfig, sessionID) {
-  const url = `${serverConfig.endpoint}/api/sessions/` + sessionID;
+  const url = `${serverConfig.endpoint}/api/sessions/${sessionID}`;
   return {
     url,
     crossDomain: serverConfig.crossDomain,
     responseType: 'json',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   }
 }
 
@@ -25,6 +28,7 @@ export function createSettingsForDestroy(serverConfig, sessionID) {
     url,
     crossDomain: serverConfig.crossDomain,
     responseType: 'json',
+    method: 'DELETE',
   }
 }
 
@@ -34,15 +38,33 @@ export function createSettingsForRename(serverConfig, sessionID, newSessionName)
     url,
     crossDomain: serverConfig.crossDomain,
     responseType: 'json',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PATCH',
+    body: {
+      path: '~',
+      session_name: newSessionName,
+    },
   }
 }
 
 export function createSettingsForCreate(serverConfig,  { notebookName, path, kernelName }) {
-  const url = `${serverConfig.endpoint}/api/sessions/`;
+  const url = `${serverConfig.endpoint}/api/sessions`;
   return {
     url,
     crossDomain: serverConfig.crossDomain,
     responseType: 'json',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: {
+      session_name: '',
+      notebook_name: notebookName,
+      path: path,
+      kernel_name: kernelName,
+    },
   }
 }
 
