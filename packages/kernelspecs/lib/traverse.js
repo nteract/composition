@@ -58,11 +58,11 @@ function findAll() {
   return jp.dataDirs({ withSysPrefix: true }).then(dirs => {
     return Promise.all(dirs
       // get kernel infos for each directory and ignore errors
-      .map(dir => getKernelInfos(path.join(dir, 'kernels')).catch(()=>{}))
+      .map(dir => getKernelInfos(path.join(dir, 'kernels')).catch(() => {}))
     ).then(kernelInfos => Promise.all(kernelInfos
       .filter(a => a) // remove null/undefined kernelInfo
-      .reduce((a, b) => a.concat(b)) // flatten the results into one array
-      .map(a => getKernelResources(a).catch(()=>{})) // convert kernelInfo -> kernelResources and ignore errors
+      .reduce((a, b) => a.concat(b), []) // flatten the results into one array
+      .map(a => getKernelResources(a).catch(() => {})) // convert kernelInfo -> kernelResources and ignore errors
     )).then(kernelResources => kernelResources
       .filter(a => a) // remove null/undefined kernelResources
       .reduce((kernels, kernel) => {
