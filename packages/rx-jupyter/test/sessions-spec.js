@@ -35,9 +35,6 @@ describe('sessions', () => {
         url: 'http://localhost:8888/api/sessions/uuid',
         crossDomain: serverConfig.crossDomain,
         responseType: 'json',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
     });
   });
@@ -102,7 +99,7 @@ describe('sessions', () => {
 
   describe('createSettingsForCreate', () => {
     it('creates the AJAX setings for creating a session', () => {
-      const request = sessions.createSettingsForCreate(serverConfig, { notebook_name: 'myNotebook', path: '~', kernel_name: 'python3' });
+      const request = sessions.createSettingsForCreate(serverConfig, { notebook_name: 'myNotebook', path: '~', type: 'notebook', kernel_name: 'python3' });
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions',
         crossDomain: serverConfig.crossDomain,
@@ -112,9 +109,9 @@ describe('sessions', () => {
         },
         method: 'POST',
         body: {
-          session_name: '',
           notebook_name: 'myNotebook',
           path: '~',
+          type: 'notebook',
           kernel_name: 'python3',
         },
       });

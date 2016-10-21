@@ -31,9 +31,6 @@ export function createSettingsForGet(serverConfig, sessionID) {
     url,
     crossDomain: serverConfig.crossDomain,
     responseType: 'json',
-    headers: {
-      'Content-Type': 'application/json',
-    },
   };
 }
 
@@ -89,11 +86,11 @@ export function createSettingsForRename(serverConfig, sessionID, { path, new_ses
  *
  * @param {Object} serverConfig  - The server configuration
  *
- * @param {Object} payload - Object containing notebook_name, path, and kernel_name for request
+ * @param {Object} payload - Object containing notebook_name, path, type kernel_name for request
  *
  * @return {Object} - The settings to be passed to the AJAX request
  */
-export function createSettingsForCreate(serverConfig, { notebook_name, path, kernel_name }) {
+export function createSettingsForCreate(serverConfig, { notebook_name, path, type, kernel_name }) {
   const url = `${serverConfig.endpoint}/api/sessions`;
   return {
     url,
@@ -104,9 +101,9 @@ export function createSettingsForCreate(serverConfig, { notebook_name, path, ker
     },
     method: 'POST',
     body: {
-      session_name: '',
       notebook_name,
       path,
+      type,
       kernel_name,
     },
   };
