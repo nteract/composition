@@ -60,12 +60,11 @@ export function createSettingsForDestroy(serverConfig, sessionID) {
  *
  * @param {String} sessionID - Universally unique identifier for session to be requested.
  *
- * @param {String} payload - New name and/or path for session with param sessionID.
+ * @param {String} body - New name and/or path for session with param sessionID.
  *
  * @return  {Object} - The settings to be passed to the AJAX request
  */
-export function createSettingsForRename(serverConfig, sessionID,
-                                        { kernel_name, kernel_id, name, path }) {
+export function createSettingsForUpdate(serverConfig, sessionID, body) {
   const url = `${serverConfig.endpoint}/api/sessions/${sessionID}`;
   return {
     url,
@@ -76,10 +75,10 @@ export function createSettingsForRename(serverConfig, sessionID,
     },
     method: 'PATCH',
     body: {
-      kernel: { name: kernel_name, id: kernel_id },
-      path,
-      name,
-      type: 'notebook',
+      kernel: { name: body['kernel_name'], id: body['kernel_id'] },
+      name: body['name'],
+      path: body['path'],
+      type: body['type'],
     },
   };
 }
@@ -89,11 +88,11 @@ export function createSettingsForRename(serverConfig, sessionID,
  *
  * @param {Object} serverConfig  - The server configuration
  *
- * @param {Object} payload - Object containing notebook_name, path, type kernel_name for request
+ * @param {Object} body - Object containing notebook_name, path, type kernel_name for request
  *
  * @return {Object} - The settings to be passed to the AJAX request
  */
-export function createSettingsForCreate(serverConfig, { kernel_name, kernel_id, name, path }) {
+export function createSettingsForCreate(serverConfig, body) {
   const url = `${serverConfig.endpoint}/api/sessions`;
   return {
     url,
@@ -104,10 +103,10 @@ export function createSettingsForCreate(serverConfig, { kernel_name, kernel_id, 
     },
     method: 'POST',
     body: {
-      kernel: { name: kernel_name, id: kernel_id },
-      name,
-      path,
-      type: 'notebook',
+      kernel: { name: body['kernel_name'], id: body['kernel_id'] },
+      name: body['name'],
+      path: body['path'],
+      type: body['type'],
     },
   };
 }
@@ -152,20 +151,19 @@ export function destroy(serverConfig, sessionID) {
 }
 
 /**
- * Creates an AjaxObservable for renaming a session given its sessionID.
+ * Creates an AjaxObservable for updating a session.
  *
  * @param {Object} serverConfig - The server configuration
  *
  * @param {String} sessionID - Universally unique identifier for session to be changed.
  *
- * @param {String} payload - Payload containing new kernel_name, new kernel_id,
+ * @param {String} body - Payload containing new kernel_name, new kernel_id,
  * name of the new session, and the new path.
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function rename(serverConfig, sessionID, { kernel_name, kernel_id, name, path }) {
-  return ajax(createSettingsForRename(serverConfig, sessionID,
-                                      { kernel_name, kernel_id, name, path }));
+export function update(serverConfig, sessionID, body) {
+  return ajax(createSettingsForUpdate(serverConfig, sessionID, body));
 }
 
 /**
@@ -178,6 +176,6 @@ export function rename(serverConfig, sessionID, { kernel_name, kernel_id, name, 
  *
  * @return {Object} - An Observable with the request/response
  */
-export function create(serverConfig, { kernel_name, kernel_id, name, path }) {
-  return ajax(createSettingsForCreate(serverConfig, { kernel_name, kernel_id, name, path }));
+export function create(serverConfig, body) {
+  return ajax(createSettingsForCreate(serverConfig, body));
 }
