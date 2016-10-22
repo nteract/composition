@@ -6,6 +6,7 @@ const nodeModules = {
   zmq: 'commonjs zmq',
   jmp: 'commonjs jmp',
   github: 'commonjs github',
+  'spawn-rx': 'commonjs spawn-rx',
 };
 
 module.exports = {
@@ -32,6 +33,7 @@ module.exports = {
     // Webpack 2
     modules: [
       path.resolve(__dirname, 'app', 'node_modules'),
+      path.resolve(__dirname, 'node_modules'),
     ],
   },
   externals: nodeModules,
