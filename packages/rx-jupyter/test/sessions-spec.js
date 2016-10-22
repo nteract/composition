@@ -72,7 +72,7 @@ describe('sessions', () => {
   describe('createSettingsForUpdate', () => {
     it('creates the AJAX setings for renaming a session', () => {
       const request = sessions.createSettingsForUpdate(serverConfig, 'uuid',
-        { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~', type: 'notebook' });
+        { kernel: { name: 'kernel-name', id: 'kernel-id' }, name: 'session-name', path: '~', type: 'notebook' });
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions/uuid',
         crossDomain: serverConfig.crossDomain,
@@ -93,7 +93,7 @@ describe('sessions', () => {
 
   describe('rename', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
-      const session$ = sessions.update(serverConfig, 'uuid', { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~', type: 'notebook' });
+      const session$ = sessions.update(serverConfig, 'uuid', { kernel: { name: 'kernel-name', id: 'kernel-id' }, name: 'session-name', path: '~', type: 'notebook' });
       const request = session$.request;
       expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid');
       expect(request.method).to.equal('PATCH');
@@ -103,7 +103,7 @@ describe('sessions', () => {
   describe('createSettingsForCreate', () => {
     it('creates the AJAX setings for creating a session', () => {
       const request = sessions.createSettingsForCreate(serverConfig,
-        { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~', type: 'notebook' });
+        { kernel: { name: 'kernel-name', id: 'kernel-id' }, name: 'session-name', path: '~', type: 'notebook' });
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions',
         crossDomain: serverConfig.crossDomain,
@@ -124,7 +124,7 @@ describe('sessions', () => {
 
   describe('create', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
-      const session$ = sessions.create(serverConfig, { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~' });
+      const session$ = sessions.create(serverConfig, { kernel: { name: 'kernel-name', id: 'kernel-id' }, name: 'session-name', path: '~', type: 'notebook' });
       const request = session$.request;
       expect(request.url).to.equal('http://localhost:8888/api/sessions');
       expect(request.method).to.equal('POST');

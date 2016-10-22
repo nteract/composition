@@ -74,12 +74,7 @@ export function createSettingsForUpdate(serverConfig, sessionID, body) {
       'Content-Type': 'application/json',
     },
     method: 'PATCH',
-    body: {
-      kernel: { name: body.kernel_name, id: body.kernel_id },
-      name: body.name,
-      path: body.path,
-      type: body.type,
-    },
+    body,
   };
 }
 
@@ -102,12 +97,7 @@ export function createSettingsForCreate(serverConfig, body) {
       'Content-Type': 'application/json',
     },
     method: 'POST',
-    body: {
-      kernel: { name: body.kernel_name, id: body.kernel_id },
-      name: body.name,
-      path: body.path,
-      type: body.type,
-    },
+    body,
   };
 }
 
