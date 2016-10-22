@@ -71,7 +71,7 @@ describe('sessions', () => {
 
   describe('createSettingsForRename', () => {
     it('creates the AJAX setings for renaming a session', () => {
-      const request = sessions.createSettingsForRename(serverConfig, 'uuid', { path: '~', new_session_name: 'newSession' });
+      const request = sessions.createSettingsForRename(serverConfig, 'uuid', { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~' });
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions/uuid',
         crossDomain: serverConfig.crossDomain,
@@ -81,8 +81,10 @@ describe('sessions', () => {
         },
         method: 'PATCH',
         body: {
+          kernel: { name: 'kernel-name', id: 'kernel-id' },
+          name: 'session-name',
           path: '~',
-          new_session_name: 'newSession',
+          type: 'notebook',
         },
       });
     });
@@ -90,7 +92,7 @@ describe('sessions', () => {
 
   describe('rename', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
-      const session$ = sessions.rename(serverConfig, 'uuid', { path: '~', new_session_name: 'newSession' });
+      const session$ = sessions.rename(serverConfig, 'uuid', { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~' });
       const request = session$.request;
       expect(request.url).to.equal('http://localhost:8888/api/sessions/uuid');
       expect(request.method).to.equal('PATCH');
@@ -99,7 +101,7 @@ describe('sessions', () => {
 
   describe('createSettingsForCreate', () => {
     it('creates the AJAX setings for creating a session', () => {
-      const request = sessions.createSettingsForCreate(serverConfig, { notebook_name: 'myNotebook', path: '~', type: 'notebook', kernel_name: 'python3' });
+      const request = sessions.createSettingsForCreate(serverConfig, { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~' });
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions',
         crossDomain: serverConfig.crossDomain,
@@ -109,10 +111,10 @@ describe('sessions', () => {
         },
         method: 'POST',
         body: {
-          notebook_name: 'myNotebook',
+          kernel: { name: 'kernel-name', id: 'kernel-id' },
+          name: 'session-name',
           path: '~',
           type: 'notebook',
-          kernel_name: 'python3',
         },
       });
     });
@@ -120,7 +122,7 @@ describe('sessions', () => {
 
   describe('create', () => {
     it('creates an AjaxObservable for getting particular session info', () => {
-      const session$ = sessions.create(serverConfig, { notebook_name: 'myNotebook', path: '~', kernel_name: 'python3' });
+      const session$ = sessions.create(serverConfig, { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~' });
       const request = session$.request;
       expect(request.url).to.equal('http://localhost:8888/api/sessions');
       expect(request.method).to.equal('POST');

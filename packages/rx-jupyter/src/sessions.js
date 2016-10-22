@@ -64,7 +64,8 @@ export function createSettingsForDestroy(serverConfig, sessionID) {
  *
  * @return  {Object} - The settings to be passed to the AJAX request
  */
-export function createSettingsForRename(serverConfig, sessionID, { path, new_session_name }) {
+export function createSettingsForRename(serverConfig, sessionID,
+                                        { kernel_name, kernel_id, name, path }) {
   const url = `${serverConfig.endpoint}/api/sessions/${sessionID}`;
   return {
     url,
@@ -75,8 +76,10 @@ export function createSettingsForRename(serverConfig, sessionID, { path, new_ses
     },
     method: 'PATCH',
     body: {
+      kernel: { name: kernel_name, id: kernel_id },
       path,
-      new_session_name,
+      name,
+      type: 'notebook',
     },
   };
 }
@@ -90,7 +93,7 @@ export function createSettingsForRename(serverConfig, sessionID, { path, new_ses
  *
  * @return {Object} - The settings to be passed to the AJAX request
  */
-export function createSettingsForCreate(serverConfig, { notebook_name, path, type, kernel_name }) {
+export function createSettingsForCreate(serverConfig, { kernel_name, kernel_id, name, path }) {
   const url = `${serverConfig.endpoint}/api/sessions`;
   return {
     url,
@@ -101,10 +104,10 @@ export function createSettingsForCreate(serverConfig, { notebook_name, path, typ
     },
     method: 'POST',
     body: {
-      notebook_name,
+      kernel: { name: kernel_name, id: kernel_id },
+      name,
       path,
-      type,
-      kernel_name,
+      type: 'notebook',
     },
   };
 }
@@ -159,8 +162,9 @@ export function destroy(serverConfig, sessionID) {
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function rename(serverConfig, sessionID, { path, new_session_name }) {
-  return ajax(createSettingsForRename(serverConfig, sessionID, { path, new_session_name }));
+export function rename(serverConfig, sessionID, { kernel_name, kernel_id, name, path }) {
+  return ajax(createSettingsForRename(serverConfig, sessionID,
+                                      { kernel_name, kernel_id, name, path }));
 }
 
 /**
@@ -172,6 +176,6 @@ export function rename(serverConfig, sessionID, { path, new_session_name }) {
  *
  * @return {Object} - An Observable with the request/response
  */
-export function create(serverConfig, { notebook_name, path, kernel_name }) {
-  return ajax(createSettingsForCreate(serverConfig, { notebook_name, path, kernel_name }));
+export function create(serverConfig, { kernel_name, kernel_id, name, path }) {
+  return ajax(createSettingsForCreate(serverConfig, { kernel_name, kernel_id, name, path }));
 }
