@@ -43,7 +43,6 @@ type Props = {
   matchBrackets?: boolean,
   theme: string,
   cmtheme?: string,
-  focused: boolean,
   focusAbove: Function,
   focusBelow: Function,
 };

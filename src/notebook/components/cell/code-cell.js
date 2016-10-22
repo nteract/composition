@@ -18,7 +18,6 @@ type Props = {
   language: string,
   theme: string,
   transforms: ImmutableMap<string, any>,
-  outputFocused: boolean,
   pagers: ImmutableList<any>,
   running: boolean,
   focusAbove: Function,
