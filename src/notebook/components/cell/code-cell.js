@@ -18,7 +18,7 @@ type Props = {
   language: string,
   theme: string,
   transforms: ImmutableMap<string, any>,
-  focused: boolean,
+  outputFocused: boolean,
   pagers: ImmutableList<any>,
   running: boolean,
   focusAbove: Function,
@@ -68,7 +68,6 @@ class CodeCell extends React.Component {
               tabSize={this.props.tabSize}
               input={this.props.cell.get('source')}
               language={this.props.language}
-              focused={this.props.focused}
               theme={this.props.theme}
               focusAbove={this.props.focusAbove}
               focusBelow={this.props.focusBelow}

@@ -123,7 +123,7 @@ export class Cell extends React.Component {
             <CodeCell
               focusAbove={this.focusAboveCell}
               focusBelow={this.focusBelowCell}
-              focused={focused}
+              outputFocused={focused}
               cell={cell}
               id={this.props.id}
               theme={this.props.theme}
