@@ -156,9 +156,10 @@ export function destroy(serverConfig, sessionID) {
  *
  * @param {Object} serverConfig - The server configuration
  *
- * @param {String} sessionID - Universally unique identifier for session to be requested.
+ * @param {String} sessionID - Universally unique identifier for session to be changed.
  *
- * @param {String} payload - New name and/or path for session with param sessionID.
+ * @param {String} payload - Payload containing new kernel_name, new kernel_id,
+ * name of the new session, and the new path.
  *
  * @return  {Object}  An Observable with the request/response
  */
@@ -172,7 +173,8 @@ export function rename(serverConfig, sessionID, { kernel_name, kernel_id, name, 
  *
  * @param {Object} serverConfig  - The server configuration
  *
- * @param {Object} payload - Object containing notebook_name, path, and kernel_name for request
+ * @param {Object} payload - Payload containing kernel name, kernel_id, session
+ * name, and path for creation of a new session.
  *
  * @return {Object} - An Observable with the request/response
  */
