@@ -75,10 +75,10 @@ export function createSettingsForUpdate(serverConfig, sessionID, body) {
     },
     method: 'PATCH',
     body: {
-      kernel: { name: body['kernel_name'], id: body['kernel_id'] },
-      name: body['name'],
-      path: body['path'],
-      type: body['type'],
+      kernel: { name: body.kernel_name, id: body.kernel_id },
+      name: body.name,
+      path: body.path,
+      type: body.type,
     },
   };
 }
@@ -103,10 +103,10 @@ export function createSettingsForCreate(serverConfig, body) {
     },
     method: 'POST',
     body: {
-      kernel: { name: body['kernel_name'], id: body['kernel_id'] },
-      name: body['name'],
-      path: body['path'],
-      type: body['type'],
+      kernel: { name: body.kernel_name, id: body.kernel_id },
+      name: body.name,
+      path: body.path,
+      type: body.type,
     },
   };
 }

@@ -103,7 +103,7 @@ describe('sessions', () => {
   describe('createSettingsForCreate', () => {
     it('creates the AJAX setings for creating a session', () => {
       const request = sessions.createSettingsForCreate(serverConfig,
-        { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~', type: 'notebook'});
+        { kernel_name: 'kernel-name', kernel_id: 'kernel-id', name: 'session-name', path: '~', type: 'notebook' });
       expect(request).to.deep.equal({
         url: 'http://localhost:8888/api/sessions',
         crossDomain: serverConfig.crossDomain,
