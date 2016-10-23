@@ -2,18 +2,17 @@ const webpack = require('webpack');
 const path = require('path');
 const fs = require('fs');
 
+// Don't webpack those that cause errors
 const nodeModules = {
-  zmq: 'commonjs zmq',
-  jmp: 'commonjs jmp',
-  github: 'commonjs github',
+  yargs: 'commonjs yargs',
 };
 
 module.exports = {
-  entry: './src/notebook/index.js',
-  target: 'electron-renderer',
+  entry: './src/main/index.js',
+  target: 'electron-main',
   output: {
-    path: path.join(__dirname, 'app', 'build'),
-    filename: 'webpacked-notebook.js'
+    path: path.join(__dirname, 'app', 'build', 'main'),
+    filename: 'webpacked-main.js'
   },
   module: {
     loaders: [
@@ -32,6 +31,7 @@ module.exports = {
     // Webpack 2
     modules: [
       path.resolve(__dirname, 'app', 'node_modules'),
+      path.resolve(__dirname, 'node_modules'),
     ],
   },
   externals: nodeModules,

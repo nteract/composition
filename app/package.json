@@ -2,7 +2,7 @@
   "name": "nteract",
   "version": "0.0.14",
   "description": "Interactive literate coding notebook!",
-  "main": "./build/main/index.js",
+  "main": "./build/main/webpacked-main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/nteract/nteract.git"
