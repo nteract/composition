@@ -8,7 +8,7 @@
 ## Why use rx-jupyter?
 
 **rx-jupyter** can help you query local and remote Jupyter Server instances
-using Jupyter's Services API. Also, **rx-jupyter** integrates responses
+using Jupyter's Services APIs. Also, **rx-jupyter** integrates responses
 seamlessly with [RxJS]'s functional tooling.
 
 ## Roadmap
