@@ -18,6 +18,16 @@ describe('contents', () => {
         responseType: 'json',
       });
     });
+
+    it('accepts query parameters', () => {
+      const settings = contents.createSettingsForGet(serverConfig, '/walla/walla', { type: 'directory' });
+
+      expect(settings).to.deep.equal({
+        url: 'http://localhost:8888/api/contents/walla/walla?type=directory',
+        crossDomain: true,
+        responseType: 'json',
+      });
+    });
   });
 
   describe('get', () => {
