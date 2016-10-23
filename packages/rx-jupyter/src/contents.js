@@ -2,6 +2,8 @@ import { ajax } from 'rxjs/observable/dom/ajax';
 
 import { join as pathJoin } from 'path';
 
+const querystring = require('querystring');
+
 export function formURL(serverConfig, path) {
   const contentPath = pathJoin('/api/contents/', path);
   return `${serverConfig.endpoint}${contentPath}`;
@@ -13,12 +15,23 @@ export function formURL(serverConfig, path) {
  *
  * @param {Object}  serverConfig  - The server configuration
  * @param {string}  path - path to the file or directory
+ * @param {string}  path  - The content to fetch
+ * @param {Object}  params - type, format, content
+ * @param {string}  params.type - file type, one of 'file', 'directory', 'notebook'
+ * @param {string}  params.format - how file content should be returned, e.g. 'text', 'base64'
+ * @param {number}  params.content - return content or not (0 => no content, 1 => content please)
  *
  * @return  {Object}  The settings to be passed to the AJAX request
  */
-export function createSettingsForGet(serverConfig, path) {
+export function createSettingsForGet(serverConfig, path, params) {
   // TODO: Does path need to be normalized?
-  const url = formURL(serverConfig, path);
+  let url = formURL(serverConfig, path);
+  const query = querystring.stringify(params);
+
+  if (query.length > 0) {
+    url = `${url}?${query}`;
+  }
+
   return {
     url,
     crossDomain: serverConfig.crossDomain,
@@ -89,11 +102,15 @@ export function createSettingsForRemove(serverConfig, path) {
  *
  * @param {Object}  serverConfig  - The server configuration
  * @param {string}  path  - The content to fetch
+ * @param {Object}  params - type, format, content
+ * @param {string}  params.type - file type, one of 'file', 'directory', 'notebook'
+ * @param {string}  params.format - how file content should be returned, e.g. 'text', 'base64'
+ * @param {number}  params.content - return content or not (0 => no content, 1 => content please)
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig, path) {
-  return ajax(createSettingsForGet(serverConfig, path));
+export function get(serverConfig, path, params) {
+  return ajax(createSettingsForGet(serverConfig, path, params));
 }
 
 /**
