@@ -18,7 +18,7 @@ export function deferURL(event, url) {
   }
 }
 
-const iconPath = path.join(__dirname, '../../static/icon.png');
+const iconPath = path.join(__dirname, '..', '..', 'static', 'icon.png');
 
 export function launch(filename) {
   let win = new BrowserWindow({
@@ -57,4 +57,3 @@ export function launchNewNotebook(kernelSpecName) {
   });
   return win;
 }
-
