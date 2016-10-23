@@ -42,6 +42,16 @@
   "build": {
     "electronVersion": "1.4.4",
     "appId": "io.nteract.nteract",
+    "files": [
+      "!**/node_modules/*",
+      "**/node_modules/zmq-prebuilt",
+      "**/node_modules/github",
+      "**/node_modules/spawn-rx",
+      "**/node_modules/normalize.css",
+      "**/node_modules/codemirror",
+      "**/node_modules/nteract-assets",
+      "**/node_modules/mathjax-electron"
+    ],
     "fileAssociations": {
       "ext": "ipynb",
       "name": "ipynb"
