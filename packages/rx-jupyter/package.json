@@ -4,6 +4,7 @@
   "description": "RxJS 5 bindings for the Jupyter Notebook API",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "babel src --out-dir lib/ --source-maps",
     "build:docs": "jsdoc src --recurse -d docs",
     "pretest": "npm run build",
