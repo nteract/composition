@@ -5,12 +5,13 @@ import * as kernelspecs from './kernelspecs';
 import * as sessions from './sessions';
 import * as contents from './contents';
 
+import {
+  createAJAXSettings,
+} from './base';
+
 function apiVersion(serverConfig) {
-  return ajax({
-    url: `${serverConfig.endpoint}/api`,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  });
+  const req = createAJAXSettings(serverConfig, '/api');
+  return ajax(req);
 }
 
 export { apiVersion, kernels, kernelspecs, sessions, contents };
