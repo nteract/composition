@@ -2,11 +2,14 @@ export function normalizeBaseURL(url) {
   return url.replace(/\/+$/, '');
 }
 
-export function createAJAXSettings(serverConfig, uri = '/') {
+export function createAJAXSettings(serverConfig, uri = '/', opts = {}) {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}${uri}`;
-  return Object.assign({
+  const settings = Object.assign({
     url,
     responseType: 'json',
-  }, serverConfig);
+  }, serverConfig, opts);
+
+  delete settings.endpoint;
+  return settings;
 }

@@ -2,11 +2,19 @@ import { ajax } from 'rxjs/observable/dom/ajax';
 
 import { join as pathJoin } from 'path';
 
+import {
+  createAJAXSettings,
+} from './base';
+
 const querystring = require('querystring');
 
 export function formURL(serverConfig, path) {
   const contentPath = pathJoin('/api/contents/', path);
   return `${serverConfig.endpoint}${contentPath}`;
+}
+
+export function formURI(path) {
+  return pathJoin('/api/contents/', path);
 }
 
 /**
@@ -25,18 +33,13 @@ export function formURL(serverConfig, path) {
  */
 export function createSettingsForGet(serverConfig, path, params) {
   // TODO: Does path need to be normalized?
-  let url = formURL(serverConfig, path);
+  let uri = formURI(path);
   const query = querystring.stringify(params);
-
   if (query.length > 0) {
-    url = `${url}?${query}`;
+    uri = `${uri}?${query}`;
   }
 
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  };
+  return createAJAXSettings(serverConfig, uri);
 }
 
 /**
@@ -66,17 +69,17 @@ export function createSettingsForGet(serverConfig, path, params) {
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForCreate(serverConfig, path, model) {
-  const url = formURL(serverConfig, path);
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
+  const uri = formURI(path);
+
+  const opts = {
     headers: {
       'Content-Type': 'application/json',
     },
     method: 'POST',
     body: model,
   };
+
+  return createAJAXSettings(serverConfig, uri, opts);
 }
 
 /**
@@ -88,13 +91,13 @@ export function createSettingsForCreate(serverConfig, path, model) {
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForRemove(serverConfig, path) {
-  const url = formURL(serverConfig, path);
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
+  const uri = formURI(path);
+
+  const opts = {
     method: 'DELETE',
   };
+
+  return createAJAXSettings(serverConfig, uri, opts);
 }
 
 /**
