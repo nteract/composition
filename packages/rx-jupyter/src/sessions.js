@@ -1,5 +1,9 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
 
+import {
+  createAJAXSettings,
+} from './base';
+
 /**
  * Creates the AJAX settings for a call to the sessions API.
  *
@@ -8,12 +12,7 @@ import { ajax } from 'rxjs/observable/dom/ajax';
  * @return {Object} settings - The settings to be passed to the AJAX request
  */
 export function createSettingsForList(serverConfig) {
-  const url = `${serverConfig.endpoint}/api/sessions`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  };
+  return createAJAXSettings(serverConfig, '/api/sessions');
 }
 
 /**
@@ -26,12 +25,7 @@ export function createSettingsForList(serverConfig) {
  * @return {Object} - The settings to be passed to the AJAX request
  */
 export function createSettingsForGet(serverConfig, sessionID) {
-  const url = `${serverConfig.endpoint}/api/sessions/${sessionID}`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  };
+  return createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`);
 }
 
 /**
@@ -44,13 +38,7 @@ export function createSettingsForGet(serverConfig, sessionID) {
  * @return {Object} - The settings to be passed to the AJAX request
  */
 export function createSettingsForDestroy(serverConfig, sessionID) {
-  const url = `${serverConfig.endpoint}/api/sessions/${sessionID}`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-    method: 'DELETE',
-  };
+  return createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, { method: 'DELETE' });
 }
 
 /**
@@ -65,17 +53,13 @@ export function createSettingsForDestroy(serverConfig, sessionID) {
  * @return  {Object} - The settings to be passed to the AJAX request
  */
 export function createSettingsForUpdate(serverConfig, sessionID, body) {
-  const url = `${serverConfig.endpoint}/api/sessions/${sessionID}`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
+  return createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'PATCH',
     body,
-  };
+  });
 }
 
 /**
@@ -88,17 +72,13 @@ export function createSettingsForUpdate(serverConfig, sessionID, body) {
  * @return {Object} - The settings to be passed to the AJAX request
  */
 export function createSettingsForCreate(serverConfig, body) {
-  const url = `${serverConfig.endpoint}/api/sessions`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
+  return createAJAXSettings(serverConfig, '/api/sessions', {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'POST',
     body,
-  };
+  });
 }
 
 /**
