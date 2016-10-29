@@ -2,6 +2,10 @@ import { ajax } from 'rxjs/observable/dom/ajax';
 
 import { webSocket } from 'rxjs/observable/dom/webSocket';
 
+import {
+  createAJAXSettings,
+} from './base';
+
 /**
  * Creates the AJAX settings for a call to the kernels API.
  *
@@ -10,12 +14,7 @@ import { webSocket } from 'rxjs/observable/dom/webSocket';
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForList(serverConfig) {
-  const url = `${serverConfig.endpoint}/api/kernels`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  };
+  return createAJAXSettings(serverConfig, '/api/kernels');
 }
 
 /**
@@ -26,12 +25,7 @@ export function createSettingsForList(serverConfig) {
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForGet(serverConfig, id) {
-  const url = `${serverConfig.endpoint}/api/kernels/${id}`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  };
+  return createAJAXSettings(serverConfig, `/api/kernels/${id}`);
 }
 
 /**
@@ -44,11 +38,7 @@ export function createSettingsForGet(serverConfig, id) {
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForStart(serverConfig, name, path) {
-  const url = `${serverConfig.endpoint}/api/kernels`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
+  return createAJAXSettings(serverConfig, '/api/kernels', {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -57,7 +47,7 @@ export function createSettingsForStart(serverConfig, name, path) {
       path,
       kernel_name: name,
     },
-  };
+  });
 }
 
 /**
@@ -69,13 +59,7 @@ export function createSettingsForStart(serverConfig, name, path) {
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForKill(serverConfig, id) {
-  const url = `${serverConfig.endpoint}/api/kernels/${id}`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-    method: 'DELETE',
-  };
+  return createAJAXSettings(serverConfig, `/api/kernels/${id}`, { method: 'DELETE' });
 }
 
 /**
@@ -87,13 +71,7 @@ export function createSettingsForKill(serverConfig, id) {
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForInterrupt(serverConfig, id) {
-  const url = `${serverConfig.endpoint}/api/kernels/${id}/interrupt`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-    method: 'POST',
-  };
+  return createAJAXSettings(serverConfig, `/api/kernels/${id}/interrupt`, { method: 'POST' });
 }
 
 /**
@@ -105,13 +83,7 @@ export function createSettingsForInterrupt(serverConfig, id) {
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForRestart(serverConfig, id) {
-  const url = `${serverConfig.endpoint}/api/kernels/${id}/restart`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-    method: 'POST',
-  };
+  return createAJAXSettings(serverConfig, `/api/kernels/${id}/restart`, { method: 'POST' });
 }
 
 /**
