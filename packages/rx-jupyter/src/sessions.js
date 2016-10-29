@@ -5,83 +5,6 @@ import {
 } from './base';
 
 /**
- * Creates the AJAX settings for a call to the sessions API.
- *
- * @param {Object} serverConfig - The server configuration
- *
- * @return {Object} settings - The settings to be passed to the AJAX request
- */
-export function createSettingsForList(serverConfig) {
-  return createAJAXSettings(serverConfig, '/api/sessions');
-}
-
-/**
- * Creates the AJAX settings for a call to the sessions API.
- *
- * @param {Object} serverConfig - The server configuration
- *
- * @param {String} sessionID - Universally unique identifier for session to be requested.
- *
- * @return {Object} - The settings to be passed to the AJAX request
- */
-export function createSettingsForGet(serverConfig, sessionID) {
-  return createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`);
-}
-
-/**
- * Creates the AJAX settings for a call to the sessions API.
- *
- * @param {Object} serverConfig  - The server configuration
- *
- * @param {String} sessionID - Universally unique identifier for session to be requested.
- *
- * @return {Object} - The settings to be passed to the AJAX request
- */
-export function createSettingsForDestroy(serverConfig, sessionID) {
-  return createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, { method: 'DELETE' });
-}
-
-/**
- * Creates the AJAX settings for a call to the sessions API.
- *
- * @param {Object} serverConfig  - The server configuration
- *
- * @param {String} sessionID - Universally unique identifier for session to be requested.
- *
- * @param {String} body - New name and/or path for session with param sessionID.
- *
- * @return  {Object} - The settings to be passed to the AJAX request
- */
-export function createSettingsForUpdate(serverConfig, sessionID, body) {
-  return createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body,
-  });
-}
-
-/**
- * Creates the AJAX settings for a call to the sessions API.
- *
- * @param {Object} serverConfig  - The server configuration
- *
- * @param {Object} body - Object containing notebook_name, path, type kernel_name for request
- *
- * @return {Object} - The settings to be passed to the AJAX request
- */
-export function createSettingsForCreate(serverConfig, body) {
-  return createAJAXSettings(serverConfig, '/api/sessions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body,
-  });
-}
-
-/**
  * Creates an AjaxObservable for listing available sessions.
  *
  * @param {Object} serverConfig  - The server configuration
@@ -90,8 +13,8 @@ export function createSettingsForCreate(serverConfig, body) {
  *
  * @return  {Object}  An Observable with the request response
  */
-export function list(serverConfig, sessionID) {
-  return ajax(createSettingsForList(serverConfig, sessionID));
+export function list(serverConfig) {
+  return ajax(createAJAXSettings(serverConfig, '/api/sessions'));
 }
 
 /**
@@ -104,7 +27,7 @@ export function list(serverConfig, sessionID) {
  * @return  {Object}  An Observable with the request/response
  */
 export function get(serverConfig, sessionID) {
-  return ajax(createSettingsForGet(serverConfig, sessionID));
+  return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`));
 }
 
 /**
@@ -117,7 +40,7 @@ export function get(serverConfig, sessionID) {
  * @return {Object} - An Observable with the request/response
  */
 export function destroy(serverConfig, sessionID) {
-  return ajax(createSettingsForDestroy(serverConfig, sessionID));
+  return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, { method: 'DELETE' }));
 }
 
 /**
@@ -133,7 +56,13 @@ export function destroy(serverConfig, sessionID) {
  * @return  {Object}  An Observable with the request/response
  */
 export function update(serverConfig, sessionID, body) {
-  return ajax(createSettingsForUpdate(serverConfig, sessionID, body));
+  return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  }));
 }
 
 /**
@@ -147,5 +76,11 @@ export function update(serverConfig, sessionID, body) {
  * @return {Object} - An Observable with the request/response
  */
 export function create(serverConfig, body) {
-  return ajax(createSettingsForCreate(serverConfig, body));
+  return ajax(createAJAXSettings(serverConfig, '/api/sessions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body,
+  }));
 }
