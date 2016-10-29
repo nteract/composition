@@ -8,33 +8,8 @@ import {
 
 const querystring = require('querystring');
 
-export function formURI(path) {
+function formURI(path) {
   return pathJoin('/api/contents/', path);
-}
-
-/**
- * Creates the AJAX settings for a call to get contents of a file or directory
- * Note that a get on path="/" is effectively a listing operation
- *
- * @param {Object}  serverConfig  - The server configuration
- * @param {string}  path - path to the file or directory
- * @param {string}  path  - The content to fetch
- * @param {Object}  params - type, format, content
- * @param {string}  params.type - file type, one of 'file', 'directory', 'notebook'
- * @param {string}  params.format - how file content should be returned, e.g. 'text', 'base64'
- * @param {number}  params.content - return content or not (0 => no content, 1 => content please)
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForGet(serverConfig, path, params) {
-  // TODO: Does path need to be normalized?
-  let uri = formURI(path);
-  const query = querystring.stringify(params);
-  if (query.length > 0) {
-    uri = `${uri}?${query}`;
-  }
-
-  return createAJAXSettings(serverConfig, uri);
 }
 
 /**
@@ -55,47 +30,6 @@ export function createSettingsForGet(serverConfig, path, params) {
  */
 
 /**
- * Creates the AJAX settings for creating a new file/directory
- *
- * @param {Object}  serverConfig  - The server configuration
- * @param {string}  path  - The path to the content
- * @param {Object}  model - ^^^^
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForCreate(serverConfig, path, model) {
-  const uri = formURI(path);
-
-  const opts = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: model,
-  };
-
-  return createAJAXSettings(serverConfig, uri, opts);
-}
-
-/**
- * Creates the AJAX settings for a call to delete content
- *
- * @param {Object}  serverConfig  - The server configuration
- * @param {string}  path  - The path to the content
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForRemove(serverConfig, path) {
-  const uri = formURI(path);
-
-  const opts = {
-    method: 'DELETE',
-  };
-
-  return createAJAXSettings(serverConfig, uri, opts);
-}
-
-/**
  * Creates an AjaxObservable for getting content at a path
  *
  * @param {Object}  serverConfig  - The server configuration
@@ -108,7 +42,12 @@ export function createSettingsForRemove(serverConfig, path) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function get(serverConfig, path, params) {
-  return ajax(createSettingsForGet(serverConfig, path, params));
+  let uri = formURI(path);
+  const query = querystring.stringify(params);
+  if (query.length > 0) {
+    uri = `${uri}?${query}`;
+  }
+  return ajax(createAJAXSettings(serverConfig, uri));
 }
 
 /**
@@ -121,7 +60,15 @@ export function get(serverConfig, path, params) {
  * @return  {AjaxObserbable}  An Observable with the request response
  */
 export function create(serverConfig, path, model) {
-  return ajax(createSettingsForCreate(serverConfig, path, model));
+  const uri = formURI(path);
+  const opts = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: model,
+  };
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
 /**
@@ -133,5 +80,9 @@ export function create(serverConfig, path, model) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function remove(serverConfig, path) {
-  return ajax(createSettingsForRemove(serverConfig, path));
+  const uri = formURI(path);
+  const opts = {
+    method: 'DELETE',
+  };
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
 }

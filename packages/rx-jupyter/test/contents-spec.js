@@ -8,57 +8,22 @@ const serverConfig = {
 };
 
 describe('contents', () => {
-  describe('createSettingsForGet', () => {
-    it('creates the AJAX settings for getting content', () => {
-      const settings = contents.createSettingsForGet(serverConfig, '/walla/walla/bingbang.ipynb');
-
-      expect(settings).to.deep.equal({
-        url: 'http://localhost:8888/api/contents/walla/walla/bingbang.ipynb',
-        crossDomain: true,
-        responseType: 'json',
-      });
-    });
-
-    it('accepts query parameters', () => {
-      const settings = contents.createSettingsForGet(serverConfig, '/walla/walla', { type: 'directory' });
-
-      expect(settings).to.deep.equal({
-        url: 'http://localhost:8888/api/contents/walla/walla?type=directory',
-        crossDomain: true,
-        responseType: 'json',
-      });
-    });
-  });
-
   describe('get', () => {
     it('creates the AjaxObservable for getting content', () => {
       const content$ = contents.get(serverConfig, '/walla/walla/bingbang.ipynb');
       const request = content$.request;
       expect(request.url).to.equal('http://localhost:8888/api/contents/walla/walla/bingbang.ipynb');
       expect(request.method).to.equal('GET');
+      expect(request.crossDomain).to.equal(true);
+      expect(request.responseType).to.equal('json');
     });
-  });
-
-  describe('createSettingsForCreate', () => {
-    it('creates the AJAX setting or creating content', () => {
-      const model = {
-        type: 'notebook',
-        name: 'c.ipynb',
-        writable: true,
-        content: {},
-        format: 'json',
-      };
-      const settings = contents.createSettingsForCreate(serverConfig, '/a/b/c.ipynb', model);
-      expect(settings).to.deep.equal({
-        url: 'http://localhost:8888/api/contents/a/b/c.ipynb',
-        crossDomain: true,
-        responseType: 'json',
-        method: 'POST',
-        body: model,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    it('creates the AjaxObservable for getting content with query parameters', () => {
+      const content$ = contents.get(serverConfig, '/walla/walla', { type: 'directory' });
+      const request = content$.request;
+      expect(request.url).to.equal('http://localhost:8888/api/contents/walla/walla?type=directory');
+      expect(request.method).to.equal('GET');
+      expect(request.crossDomain).to.equal(true);
+      expect(request.responseType).to.equal('json');
     });
   });
 
@@ -75,20 +40,13 @@ describe('contents', () => {
       const request = create$.request;
       expect(request.url).to.equal('http://localhost:8888/api/contents/a/b/c.ipynb');
       expect(request.method).to.equal('POST');
+      expect(request.headers).to.deep.equal({
+        'Content-Type': 'application/json',
+      })
+      expect(request.body).to.deep.equal(model);
     });
   });
 
-  describe('createSettingsForRemove', () => {
-    it('creates the settings for the AJAX request to remove contents', () => {
-      const settings = contents.createSettingsForRemove(serverConfig, '/path.ipynb');
-      expect(settings).to.deep.equal({
-        url: 'http://localhost:8888/api/contents/path.ipynb',
-        crossDomain: true,
-        responseType: 'json',
-        method: 'DELETE',
-      });
-    });
-  });
 
   describe('remove', () => {
     it('creates the AjaxObservable for removing contents', () => {
