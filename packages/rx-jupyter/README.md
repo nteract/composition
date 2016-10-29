@@ -13,13 +13,20 @@ seamlessly with [RxJS]'s functional tooling.
 
 ## Roadmap
 
-Complete coverage of the [Jupyter Server API]:
+Primary coverage of the [Jupyter Server API]:
 
-* [ ] Contents
+* [ ] Contents (mostly finished, a few more endpoints to finalize)
   * [ ] Checkpoints
 * [X] Kernels
 * [X] Kernelspecs
-* [ ] Sessions
+* [X] Sessions
+* [ ] Terminals
+
+Optional coverage:
+
+* [ ] Config
+* [ ] nbconvert
+* [ ] spec.yaml `/api/spec.yaml`
 
 ## Development Install
 
