@@ -1,5 +1,9 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
 
+import {
+  createAJAXSettings,
+} from './base';
+
 /**
  * Creates the AJAX settings for a call to the kernelspecs API.
  *
@@ -8,21 +12,11 @@ import { ajax } from 'rxjs/observable/dom/ajax';
  * @return  {Object}  The settings to be passed to the AJAX request
  */
 export function createSettingsForList(serverConfig) {
-  const url = `${serverConfig.endpoint}/api/kernelspecs`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  };
+  return createAJAXSettings(serverConfig, '/api/kernelspecs');
 }
 
 export function createSettingsForGet(serverConfig, name) {
-  const url = `${serverConfig.endpoint}/api/kernelspecs/${name}`;
-  return {
-    url,
-    crossDomain: serverConfig.crossDomain,
-    responseType: 'json',
-  };
+  return createAJAXSettings(serverConfig, `/api/kernelspecs/${name}`);
 }
 
 /**
