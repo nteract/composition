@@ -7,86 +7,6 @@ import {
 } from './base';
 
 /**
- * Creates the AJAX settings for a call to the kernels API.
- *
- * @param {Object}  serverConfig  - The server configuration
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForList(serverConfig) {
-  return createAJAXSettings(serverConfig, '/api/kernels');
-}
-
-/**
- * Creates the AJAX settings for a call to get details for a single kernel.
- *
- * @param {Object}  serverConfig  - The server configuration
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForGet(serverConfig, id) {
-  return createAJAXSettings(serverConfig, `/api/kernels/${id}`);
-}
-
-/**
- * Creates the AJAX settings for a cell to start a kernel.
- *
- * @param {Object}  serverConfig  - The server configuration
- * @param {string}  name  - The name of the kernel to start
- * @param {string}  path  - The path the new kernel should start in
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForStart(serverConfig, name, path) {
-  return createAJAXSettings(serverConfig, '/api/kernels', {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: {
-      path,
-      kernel_name: name,
-    },
-  });
-}
-
-/**
- * Creates the AJAX settings for a call to kill a kernel.
- *
- * @param {Object}  serverConfig  - The server configuration
- * @param {string}  id  - The id of the kernel to kill
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForKill(serverConfig, id) {
-  return createAJAXSettings(serverConfig, `/api/kernels/${id}`, { method: 'DELETE' });
-}
-
-/**
- * Creates the AJAX settings for a call to interrupt a kernel.
- *
- * @param {Object}  serverConfig  - The server configuration
- * @param {string}  id  - The id of the kernel to interrupt
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForInterrupt(serverConfig, id) {
-  return createAJAXSettings(serverConfig, `/api/kernels/${id}/interrupt`, { method: 'POST' });
-}
-
-/**
- * Creates the AJAX settings for a call to restart a kernel.
- *
- * @param {Object}  serverConfig  - The server configuration
- * @param {string}  id  - The id of the kernel to restart
- *
- * @return  {Object}  The settings to be passed to the AJAX request
- */
-export function createSettingsForRestart(serverConfig, id) {
-  return createAJAXSettings(serverConfig, `/api/kernels/${id}/restart`, { method: 'POST' });
-}
-
-/**
  * Creates an AjaxObservable for listing running kernels.
  *
  * @param {Object}  serverConfig  - The server configuration
@@ -94,7 +14,7 @@ export function createSettingsForRestart(serverConfig, id) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function list(serverConfig) {
-  return ajax(createSettingsForList(serverConfig));
+  return ajax(createAJAXSettings(serverConfig, '/api/kernels'));
 }
 
 /**
@@ -106,7 +26,7 @@ export function list(serverConfig) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function get(serverConfig, id) {
-  return ajax(createSettingsForGet(serverConfig, id));
+  return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}`));
 }
 
 /**
@@ -119,7 +39,17 @@ export function get(serverConfig, id) {
  * @return  {AjaxObserbable}  An Observable with the request response
  */
 export function start(serverConfig, name, path) {
-  return ajax(createSettingsForStart(serverConfig, name, path));
+  const startSettings = createAJAXSettings(serverConfig, '/api/kernels', {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: {
+      path,
+      kernel_name: name,
+    },
+  });
+  return ajax(startSettings);
 }
 
 /**
@@ -131,7 +61,7 @@ export function start(serverConfig, name, path) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function kill(serverConfig, id) {
-  return ajax(createSettingsForKill(serverConfig, id));
+  return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}`, { method: 'DELETE' }));
 }
 
 /**
@@ -143,7 +73,7 @@ export function kill(serverConfig, id) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function interrupt(serverConfig, id) {
-  return ajax(createSettingsForInterrupt(serverConfig, id));
+  return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}/interrupt`, { method: 'POST' }));
 }
 
 /**
@@ -155,7 +85,7 @@ export function interrupt(serverConfig, id) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function restart(serverConfig, id) {
-  return ajax(createSettingsForRestart(serverConfig, id));
+  return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}/restart`, { method: 'POST' }));
 }
 
 export function formWebSocketURL(serverConfig, id) {
