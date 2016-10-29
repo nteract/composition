@@ -40,7 +40,7 @@ describe("Ansi", () => {
     );
   });
 
-  it('can handle carrigage symbol', () => {
+  it('can handle carriage symbol', () => {
     const el = enzyme.shallow(React.createElement(Ansi, null, 'this sentence\rthat\nwill make you pause'));
     expect(el).to.not.be.null;
     expect(el.text()).to.equal('that sentence\nwill make you pause');
