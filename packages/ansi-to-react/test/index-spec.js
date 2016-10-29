@@ -28,7 +28,7 @@ describe('Ansi', () => {
     expect(el.html()).to.equal('<code><span>hello </span><span style="color:rgb(0, 187, 0);">wo</span><span style="background-color:rgb(187, 187, 0);color:rgb(0, 187, 0);">rl</span><span>d</span></code>');
   });
 
-  it('can handle carrigage symbol', () => {
+  it('can handle carriage symbol', () => {
     const el = enzyme.shallow(React.createElement(Ansi, null, 'this sentence\rthat\nwill make you pause'));
     expect(el).to.not.be.null;
     expect(el.text()).to.equal('that sentence\nwill make you pause');
