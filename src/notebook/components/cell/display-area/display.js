@@ -5,6 +5,8 @@ import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
 import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 
+import { connect } from 'react-redux';
+
 import { transforms, displayOrder } from '../../transforms';
 
 import Output from './output';
@@ -20,7 +22,11 @@ type Props = {
 
 const DEFAULT_SCROLL_HEIGHT = 300;
 
-export default class Display extends React.Component {
+const mapStateToProps = (state: Object) => ({
+  expanded: state.config.get('expanded'),
+});
+
+export class Display extends React.Component {
   props: Props;
   shouldComponentUpdate: (p: Props, s: any) => boolean;
   recomputeStyle: () => void;
@@ -30,7 +36,6 @@ export default class Display extends React.Component {
     transforms,
     displayOrder,
     isHidden: false,
-    expanded: false,
   };
 
   constructor() {
@@ -85,3 +90,4 @@ export default class Display extends React.Component {
     return null;
   }
 }
+export default connect(mapStateToProps)(Display);
