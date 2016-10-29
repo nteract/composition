@@ -8,11 +8,6 @@ import {
 
 const querystring = require('querystring');
 
-export function formURL(serverConfig, path) {
-  const contentPath = pathJoin('/api/contents/', path);
-  return `${serverConfig.endpoint}${contentPath}`;
-}
-
 export function formURI(path) {
   return pathJoin('/api/contents/', path);
 }
