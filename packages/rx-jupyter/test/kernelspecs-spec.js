@@ -8,18 +8,6 @@ const serverConfig = {
 };
 
 describe('kernelspecs', () => {
-  describe('createSettingsForList', () => {
-    it('creates the AJAX settings for listing kernelspecs', () => {
-      const request = kernelspecs.createSettingsForList(serverConfig);
-
-      expect(request).to.deep.equal({
-        url: 'http://localhost:8888/api/kernelspecs',
-        crossDomain: true,
-        responseType: 'json',
-      });
-    });
-  });
-
   describe('list', () => {
     it('creates an AjaxObservable for listing the kernelspecs', () => {
       const kernelSpec$ = kernelspecs.list(serverConfig);
