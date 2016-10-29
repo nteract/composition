@@ -42,7 +42,7 @@ describe('contents', () => {
       expect(request.method).to.equal('POST');
       expect(request.headers).to.deep.equal({
         'Content-Type': 'application/json',
-      })
+      });
       expect(request.body).to.deep.equal(model);
     });
   });
