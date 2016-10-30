@@ -1,9 +1,10 @@
 /**
  * @module jupyter-paths
  *
- * @description Module `jupyter-paths` provides path helpers for IPython 4.x
+ * @description Module `jupyter-paths` provides path helpers for Jupyter 4.x
  */
 
+const exec = require('child_process').exec;
 const fs = require('fs');
 const path = require('path');
 const home = require('home-dir');
@@ -68,6 +69,26 @@ function guessSysPrefix() {
   return sysPrefixGuess;
 }
 
+var askJupyterPromise = null;
+
+function askJupyter() {
+  // ask Jupyter where the paths are
+  if (!askJupyterPromise) {
+    askJupyterPromise = new Promise((resolve, reject) => {
+      exec('jupyter --paths --json',
+        (err, stdout) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(JSON.parse(stdout.toString().trim()));
+          }
+        });
+    });
+  }
+  return askJupyterPromise;
+}
+
+
 function systemConfigDirs() {
   var paths = [];
   // System wide for Windows and Unix
@@ -82,6 +103,12 @@ function systemConfigDirs() {
 }
 
 function configDirs(opts) {
+  if (opts && opts.askJupyter) {
+    return askJupyter().then(paths => {
+      return paths.config;
+    });
+  }
+
   var paths = [];
   if (process.env.JUPYTER_CONFIG_DIR) {
     paths.push(process.env.JUPYTER_CONFIG_DIR);
@@ -153,6 +180,12 @@ function userDataDir() {
  * @return {Array} All the Jupyter Data Dirs
  */
 function dataDirs(opts) {
+  if (opts && opts.askJupyter) {
+    return askJupyter().then(paths => {
+      return paths.data;
+    });
+  }
+
   var paths = [];
   if (process.env.JUPYTER_PATH) {
     paths.push(process.env.JUPYTER_PATH);
@@ -161,6 +194,7 @@ function dataDirs(opts) {
   paths.push(userDataDir());
 
   const systemDirs = systemDataDirs();
+
 
   if (opts && opts.withSysPrefix) {
     return sysPrefixPromise()
@@ -185,7 +219,13 @@ function dataDirs(opts) {
   return paths.concat(systemDirs);
 }
 
-function runtimeDir() {
+function runtimeDir(opts) {
+  if (opts && opts.askJupyter) {
+    return askJupyter().then(paths => {
+      return paths.runtime;
+    })
+  }
+
   if (process.env.JUPYTER_RUNTIME_DIR) {
     return process.env.JUPYTER_RUNTIME_DIR;
   }
