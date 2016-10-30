@@ -48,9 +48,15 @@ function guessSysPrefix() {
     return pathext.some(ext => {
       var exe = python + ext;
       if (accessCheck(exe)) {
-        // PREFIX/bin/jupyter exists, return PREFIX
+        // PREFIX/bin/python exists, return PREFIX
         // following symlinks
-        sysPrefixGuess = path.dirname(path.dirname(fs.realpathSync(exe)));
+        if (process.platform === 'win32') {
+          // Windows: Prefix\Python.exe
+          sysPrefixGuess = path.dirname(fs.realpathSync(exe));
+        } else {
+          // Everywhere else: prefix/bin/python
+          sysPrefixGuess = path.dirname(path.dirname(fs.realpathSync(exe)));
+        }
         return true;
       }
     })
