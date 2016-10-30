@@ -3,6 +3,8 @@
 [![NPM](https://nodei.co/npm/jupyter-paths.png)](https://nodei.co/npm/jupyter-paths/)
 
 [![Travis for Jupyter Paths](https://travis-ci.org/nteract/jupyter-paths.svg)](https://travis-ci.org/nteract/jupyter-paths)
+[![Build status](https://ci.appveyor.com/api/projects/status/qkqb19u817f13bbr/branch/master?svg=true)](https://ci.appveyor.com/project/nteract/jupyter-paths/branch/master)
+
 
 Pure JavaScript implementation of `jupyter-paths`.
 
