@@ -36,8 +36,8 @@ describe('dataDirs', () => {
                expect(dirs).to.deep.equal(actual.data)
              })
   })
-  it('returns immediately with a guess when withSysPrefix is false', () => {
-    var dirs = jp.dataDirs({withSysPrefix: false});
+  it('returns immediately with a guess by default', () => {
+    var dirs = jp.dataDirs();
     dirs = dirs.map(dir => { return dir.toLowerCase() });
     expect(dirs).to.be.an('Array');
     dirs.forEach(el => {
@@ -76,8 +76,8 @@ describe('configDirs', () => {
                expect(dirs).to.deep.equal(actual.config)
              })
   })
-  it('returns immediately with a guess when withSysPrefix is false', () => {
-    var dirs = jp.configDirs({withSysPrefix: false});
+  it('returns immediately with a guess by default', () => {
+    var dirs = jp.configDirs();
     dirs = dirs.map(dir => { return dir.toLowerCase() });
     expect(dirs).to.be.an('Array');
     dirs.forEach(el => {

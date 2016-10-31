@@ -27,7 +27,6 @@
     "mocha": "^2.3.4"
   },
   "dependencies": {
-    "home-dir": "^1.0.0",
-    "sys-prefix-promise": "^1.0.4"
+    "home-dir": "^1.0.0"
   }
 }
