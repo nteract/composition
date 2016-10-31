@@ -68,7 +68,6 @@ function guessSysPrefix() {
   return sysPrefixGuess;
 }
 
-
 function systemConfigDirs() {
   var paths = [];
   // System wide for Windows and Unix
@@ -94,14 +93,18 @@ function configDirs(opts) {
   if (opts && opts.withSysPrefix) {
     return sysPrefixPromise()
             .then(sysPrefix => path.join(sysPrefix, 'etc', 'jupyter'))
+            .catch(err => {
+              // catch failure to get sys.prefix
+              console.warn("withSysPrefix requested, but failed with " + err)
+            })
             .then(sysPathed => {
-              if (systemDirs.indexOf(sysPathed) === -1) {
+              if (sysPathed && systemDirs.indexOf(sysPathed) === -1) {
                 paths.push(sysPathed);
               }
               return paths.concat(systemDirs);
             });
   }
-  // inexpensive guess, based on location of `jupyter` executable
+  // inexpensive guess, based on location of `python` executable
   var sysPrefix = guessSysPrefix();
   var sysPathed = path.join(sysPrefix, 'etc', 'jupyter');
   if (systemDirs.indexOf(sysPathed) === -1) {
@@ -162,14 +165,18 @@ function dataDirs(opts) {
   if (opts && opts.withSysPrefix) {
     return sysPrefixPromise()
             .then(sysPrefix => path.join(sysPrefix, 'share', 'jupyter'))
+            .catch(err => {
+              // catch failure to get sys.prefix
+              console.warn("withSysPrefix requested, but failed with " + err)
+            })
             .then(sysPathed => {
-              if (systemDirs.indexOf(sysPathed) === -1) {
+              if (sysPathed && systemDirs.indexOf(sysPathed) === -1) {
                 paths.push(sysPathed);
               }
               return paths.concat(systemDataDirs());
             });
   }
-  // inexpensive guess, based on location of `jupyter` executable
+  // inexpensive guess, based on location of `python` executable
   var sysPrefix = guessSysPrefix();
   var sysPathed = path.join(sysPrefix, 'share', 'jupyter');
   if (systemDirs.indexOf(sysPathed) === -1) {
