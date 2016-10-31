@@ -4,10 +4,9 @@ environment:
         - PYTHON: "C:\\Python35"
         - PYTHON: "C:\\Python27-x64"
         - PYTHON: "C:\\Python35-x64"
-        - nodejs_version: "5"
 
 install:
-    - ps: Install-Product node $env:nodejs_version
+    - ps: Install-Product node 6
     - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
     - npm install
 
