@@ -23,7 +23,7 @@ export function ipyKernelTryObservable(env) {
 /**
   * condaInfoObservable executes the conda indo --json command and maps the
   * result to an observable that parses through the environmental informaiton.
-  * @return {Rx.Observable} observable that emits the JSON parsed info
+  * @return {Observable}  observable that emits the JSON parsed info
   */
 export function condaInfoObservable() {
   return spawn('conda', ['info', '--json'])
@@ -79,9 +79,9 @@ export function createKernelSpecsFromEnvs(envs) {
 }
 
 /**
-  * condaKernelObservable generates an observable containing the supported langauage
+  * condaKernelObservable generates an observable containing the supported language
   * environmental elements.
-  * @return {Observable}  emits supported langauage elements
+  * @return {Observable}  emits supported language elements
   */
 export function condaKernelsObservable() {
   return condaEnvsObservable(condaInfoObservable())
