@@ -43,7 +43,6 @@ type Props = {
   matchBrackets?: boolean,
   theme: string,
   cmtheme?: string,
-  focused: boolean,
   focusAbove: Function,
   focusBelow: Function,
 };
@@ -171,11 +170,6 @@ export default class Editor extends React.Component {
   }
 
   componentDidMount(): void {
-    // On first load, if focused, set codemirror to focus
-    if (this.props.focused) {
-      this.codemirror.focus();
-    }
-
     const cm = this.codemirror.getCodeMirror();
     const store = this.context.store;
 
@@ -207,13 +201,6 @@ export default class Editor extends React.Component {
   }
 
   componentDidUpdate(prevProps: Props): void {
-    if (this.props.focused && prevProps.focused !== this.props.focused) {
-      this.codemirror.focus();
-    } else if (!this.props.focused && prevProps.focused !== this.props.focused) {
-      const cm = this.codemirror.getCodeMirror();
-      cm.getInputField().blur();
-    }
-
     if (this.theme !== this.props.theme) {
       this.theme = this.props.theme;
       this.codemirror.getCodeMirror().refresh();
@@ -273,6 +260,7 @@ export default class Editor extends React.Component {
           className="cell_cm"
           options={options}
           onChange={this.onChange}
+          onClick={this.focus}
         />
       </div>
     );
