@@ -11,12 +11,12 @@ export function getUsername() {
     process.env.USERNAME;
 }
 
-export function createMessage(msg_type, fields) {
+export function createMessage(msg_type, fields, session) {
   const username = getUsername();
   return Object.assign({
     header: {
       username,
-      session: store.getState().app.sessionId,
+      session,
       msg_type,
       msg_id: uuid.v4(),
       date: new Date(),
