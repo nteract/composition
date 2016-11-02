@@ -64,9 +64,8 @@ export function createGistCallback(firstTimePublish, observer, filename, notific
     notifyUser(filename, gistID, notificationSystem);
     if (firstTimePublish) {
       observer.next(overwriteMetadata('gist_id', gistID));
-    } else {
-      observer.next();
     }
+    observer.complete();
   };
 }
 
@@ -131,6 +130,7 @@ export function publishNotebookObservable(github, notebook, filepath,
       github.gists.create(gistRequest,
         createGistCallback(true, observer, filename, notificationSystem));
     }
+
   });
 }
 
