@@ -35,7 +35,7 @@ export function codeCompleteObservable(channels, editor, message) {
   });
 }
 
-export const completionRequest = (code, cursorPos) =>
+export const completionRequest = (code, cursorPos, session) =>
   createMessage(
     'complete_request',
     {
@@ -43,15 +43,16 @@ export const completionRequest = (code, cursorPos) =>
         code,
         cursor_pos: cursorPos,
       }
-    }
+    },
+    session
   );
 
-export function codeComplete(channels, editor) {
+export function codeComplete(channels, editor, session) {
   const cursor = editor.getCursor();
   const cursorPos = editor.indexFromPos(cursor);
   const code = editor.getValue();
 
-  const message = completionRequest(code, cursorPos);
+  const message = completionRequest(code, cursorPos, session);
 
   return codeCompleteObservable(channels, editor, message);
 }

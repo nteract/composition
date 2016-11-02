@@ -18,12 +18,14 @@ export type CellProps = {
   cell: any,
   displayOrder: ImmutableList<any>,
   id: string,
-  focusedCell: string,
+  editorFocused: string,
+  cellFocused: string,
   language: string,
   running: boolean,
   theme: string,
   pagers: ImmutableList<any>,
   transforms: ImmutableMap<string, any>,
+  session: string,
 };
 
 type State = {
@@ -119,6 +121,7 @@ export class Cell extends React.Component {
             cell={cell}
             id={this.props.id}
             theme={this.props.theme}
+            session={this.props.session}
           /> :
             <CodeCell
               focusAbove={this.focusAboveCell}
@@ -132,6 +135,7 @@ export class Cell extends React.Component {
               transforms={this.props.transforms}
               pagers={this.props.pagers}
               running={this.props.running}
+              session={this.props.session}
             />
         }
       </div>
