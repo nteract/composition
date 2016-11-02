@@ -231,13 +231,11 @@ export function createExecuteCellStream(action$, store, source, id) {
       state.app.executionState === 'not connected');
 
   if (!kernelConnected) {
-    // TODO: Switch this to dispatching an error
-    state.app.notificationSystem.addNotification({
-      title: 'Could not execute cell',
-      message: 'The cell could not be executed because the kernel is not connected.',
-      level: 'error',
+    return Rx.Observable.of({
+      type: ERROR_EXECUTING,
+      payload: 'Kernel not connected!',
+      error: true,
     });
-    return Rx.Observable.of(updateCellExecutionCount(id, undefined));
   }
 
   return executeCellStream(channels, id, source)
