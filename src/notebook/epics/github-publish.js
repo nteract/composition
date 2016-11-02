@@ -131,6 +131,7 @@ export function publishNotebookObservable(github, notebook, filepath,
       github.gists.create(gistRequest,
         createGistCallback(true, observer, filename, notificationSystem));
     }
+    observer.complete();
   });
 }
 

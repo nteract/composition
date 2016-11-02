@@ -19,7 +19,7 @@ const Observable = Rx.Observable;
 import { ActionsObservable } from 'redux-observable';
 
 import {
-  PUBLISH_USER_GIST
+  PUBLISH_ANONYMOUS_GIST,
 } from '../../../src/notebook/constants';
 
 import {
@@ -157,3 +157,23 @@ describe('handleGistError', () => {
     });
   });
 });
+
+describe('publishEpic', () => {
+  const store = dummyStore();
+  it('calls handle gist action', (done) => {
+    const input$ = Rx.Observable.of({
+      type: PUBLISH_ANONYMOUS_GIST,
+    });
+    let actionBuffer = [];
+    const action$ = new ActionsObservable(input$);
+    const obs = publishEpic(action$, store);
+    obs.subscribe(
+      (x) => actionBuffer.push(x.type),
+      (err) => { expect.fail()},
+      () => {
+        expect(actionBuffer).to.deep.equal(["OVERWRITE_METADATA_FIELD"]); // ;
+        done();
+      },
+    )
+  })
+})
