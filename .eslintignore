@@ -1,4 +1,4 @@
 dist/*.js
 test/
 scripts/
-bin/win
+bin/

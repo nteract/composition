@@ -48,7 +48,8 @@ rreadlink() ( # execute function in a *subshell* to localize the effect of `cd`,
 
 
 # Determine ultimate script dir. using the helper function.
-source $(dirname -- "$(rreadlink "$BASH_SOURCE")")/nteract-env
+export MAIN_DIR=$(dirname -- "$(rreadlink "$BASH_SOURCE")")
+source $MAIN_DIR/nteract-env
 
 while getopts ":wtfvh-:" opt; do
   case "$opt" in
@@ -77,10 +78,8 @@ fi
 if [ $EXPECT_OUTPUT ]; then
   $NTERACT_EXE $NTERACT_DIR "$@"
 else
-  (
-  nohup $NTERACT_EXE $NTERACT_DIR "$@" > "/tmp/nteract-nohup.out" 2>&1
-  if [ $? -ne 0 ]; then
-    cat "/tmp/nteract-nohup.out"
-  fi
-  ) &
+  export ELECTRON_RUN_AS_NODE=1
+  export NTERACT_EXE=$NTERACT_EXE
+  export NTERACT_DIR=$NTERACT_DIR
+  $NTERACT_EXE $MAIN_DIR/nteract.js "$@"
 fi
