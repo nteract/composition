@@ -21,7 +21,8 @@ export const DocumentRecord = new Immutable.Record({
   cellPagers: new Immutable.Map(),
   outputStatuses: new Immutable.Map(),
   stickyCells: new Immutable.Set(),
-  focusedCell: null,
+  editorFocused: null,
+  cellFocused: null,
   copied: new Immutable.Map(),
 });
 
