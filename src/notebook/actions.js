@@ -152,6 +152,27 @@ export function focusPreviousCell(id) {
   };
 }
 
+export function focusCellEditor(id) {
+  return {
+    type: constants.FOCUS_CELL_EDITOR,
+    id,
+  };
+}
+
+export function focusNextCellEditor(id) {
+  return {
+    type: constants.FOCUS_NEXT_CELL_EDITOR,
+    id,
+  };
+}
+
+export function focusPreviousCellEditor(id) {
+  return {
+    type: constants.FOCUS_PREVIOUS_CELL_EDITOR,
+    id,
+  };
+}
+
 export function toggleStickyCell(id) {
   return {
     type: constants.TOGGLE_STICKY_CELL,

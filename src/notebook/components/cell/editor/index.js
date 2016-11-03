@@ -43,7 +43,8 @@ type Props = {
   matchBrackets?: boolean,
   theme: string,
   cmtheme?: string,
-  focused: boolean,
+  cellFocused: boolean,
+  editorFocused: boolean,
   focusAbove: Function,
   focusBelow: Function,
 };
@@ -152,7 +153,7 @@ export default class Editor extends React.Component {
     lineNumbers: false,
     matchBrackets: true, // highlights parens that are paired
     cmtheme: 'composition',
-    focused: false,
+    cellFocused: false,
   };
 
   constructor(props: Props): void {
@@ -172,7 +173,7 @@ export default class Editor extends React.Component {
 
   componentDidMount(): void {
     // On first load, if focused, set codemirror to focus
-    if (this.props.focused) {
+    if (this.props.cellFocused) {
       this.codemirror.focus();
     }
 
@@ -207,9 +208,9 @@ export default class Editor extends React.Component {
   }
 
   componentDidUpdate(prevProps: Props): void {
-    if (this.props.focused && prevProps.focused !== this.props.focused) {
+    if (this.props.cellFocused && prevProps.cellFocused !== this.props.cellFocused) {
       this.codemirror.focus();
-    } else if (!this.props.focused && prevProps.focused !== this.props.focused) {
+    } else if (!this.props.cellFocused && prevProps.cellFocused !== this.props.cellFocused) {
       const cm = this.codemirror.getCodeMirror();
       cm.getInputField().blur();
     }

@@ -52,10 +52,10 @@ export default handleActions({
                 .set('status', '')));
 
     return state.set('notebook', notebook)
-      .set('focusedCell', notebook.getIn(['cellOrder', 0]));
+      .set('cellFocused', notebook.getIn(['cellOrder', 0]));
   },
   [constants.FOCUS_CELL]: function focusCell(state, action) {
-    return state.set('focusedCell', action.id);
+    return state.set('cellFocused', action.id);
   },
   [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
     const { id, output } = action;
@@ -77,7 +77,7 @@ export default handleActions({
       const cellID = uuid.v4();
       // TODO: condition on state.defaultCellType (markdown vs. code)
       const cell = commutable.emptyCodeCell;
-      return state.set('focusedCell', cellID)
+      return state.set('cellFocused', cellID)
         .update('notebook',
           (notebook) => commutable.insertCellAt(notebook, cell, cellID, nextIndex))
         .setIn(['notebook', 'cellMap', cellID, 'metadata', 'outputHidden'], false)
@@ -85,14 +85,49 @@ export default handleActions({
     }
 
     // When in the middle of the notebook document, move to the next cell
-    return state.set('focusedCell', cellOrder.get(nextIndex));
+    return state.set('cellFocused', cellOrder.get(nextIndex));
   },
   [constants.FOCUS_PREVIOUS_CELL]: function focusPreviousCell(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);
     const curIndex = cellOrder.findIndex(id => id === action.id);
     const nextIndex = Math.max(0, curIndex - 1);
 
-    return state.set('focusedCell', cellOrder.get(nextIndex));
+    return state.set('cellFocused', cellOrder.get(nextIndex));
+  },
+  [constants.FOCUS_CELL_EDITOR]: function focusCellEditor(state, action) {
+    return state.set('editorFocused', action.id);
+  },
+  [constants.FOCUS_NEXT_CELL_EDITOR]: function focusNextCellEditor(state, action) {
+    const cellOrder = state.getIn(['notebook', 'cellOrder']);
+    const curIndex = cellOrder.findIndex(id => id === action.id);
+
+    const nextIndex = curIndex + 1;
+
+    // When at the end, create a new cell
+    if (nextIndex >= cellOrder.size) {
+      if (!action.createCellIfUndefined) {
+        return state;
+      }
+
+      const cellID = uuid.v4();
+      // TODO: condition on state.defaultCellType (markdown vs. code)
+      const cell = commutable.emptyCodeCell;
+      return state.set('editorFocused', cellID)
+        .update('notebook',
+          (notebook) => commutable.insertCellAt(notebook, cell, cellID, nextIndex))
+        .setIn(['notebook', 'cellMap', cellID, 'outputHidden'], false)
+        .setIn(['notebook', 'cellMap', cellID, 'inputHidden'], false);
+    }
+
+    // When in the middle of the notebook document, move to the next cell
+    return state.set('editorFocused', cellOrder.get(nextIndex));
+  },
+  [constants.FOCUS_PREVIOUS_CELL_EDITOR]: function focusPreviousCellEditor(state, action) {
+    const cellOrder = state.getIn(['notebook', 'cellOrder']);
+    const curIndex = cellOrder.findIndex(id => id === action.id);
+    const nextIndex = Math.max(0, curIndex - 1);
+
+    return state.set('editorFocused', cellOrder.get(nextIndex));
   },
   [constants.TOGGLE_STICKY_CELL]: function toggleStickyCell(state, action) {
     const { id } = action;

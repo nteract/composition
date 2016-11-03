@@ -19,7 +19,8 @@ type Props = {
   id: string,
   isDragging: boolean,
   isOver: boolean,
-  focusedCell: string,
+  cellFocused: string,
+  editorFocused: string,
   transforms: ImmutableMap<string, any>,
   language: string,
   running: boolean,
@@ -161,7 +162,8 @@ class DraggableCell extends React.Component {
             cell={this.props.cell}
             displayOrder={this.props.displayOrder}
             id={this.props.id}
-            focusedCell={this.props.focusedCell}
+            cellFocused={this.props.cellFocused}
+            editorFocused={this.props.editorFocused}
             language={this.props.language}
             running={this.props.running}
             theme={this.props.theme}

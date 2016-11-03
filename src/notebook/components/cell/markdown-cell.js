@@ -13,7 +13,8 @@ type Props = {
   theme: string,
   focusAbove: Function,
   focusBelow: Function,
-  focused: boolean,
+  cellFocused: boolean,
+  editorFocused: boolean,
 };
 
 type State = {
@@ -41,7 +42,7 @@ export default class MarkdownCell extends React.Component {
   };
 
   static defaultProps = {
-    focused: false,
+    cellFocused: false,
   };
 
   constructor(props: Props): void {
@@ -72,7 +73,7 @@ export default class MarkdownCell extends React.Component {
   }
 
   updateFocus(): void {
-    if (this.state && this.state.view && this.props.focused) {
+    if (this.state && this.state.view && this.props.cellFocused) {
       this.rendered.focus();
     }
   }
@@ -138,25 +139,26 @@ export default class MarkdownCell extends React.Component {
              }
            </LatexRenderer>
          </div> :
-         <div onKeyDown={this.editorKeyDown}>
-           <div className="input-container">
-             <div className="prompt" />
-             <Editor
-               language="markdown"
-               id={this.props.id}
-               lineWrapping
-               input={this.state.source}
-               theme={this.props.theme}
-               focusAbove={this.props.focusAbove}
-               focusBelow={this.props.focusBelow}
-               focused={this.props.focused}
-             />
-           </div>
-           <div className="outputs">
-             <LatexRenderer>
-               { mdRender(this.state.source) }
-             </LatexRenderer>
-           </div>
+           <div onKeyDown={this.editorKeyDown}>
+             <div className="input-container">
+               <div className="prompt" />
+               <Editor
+                 language="markdown"
+                 id={this.props.id}
+                 lineWrapping
+                 input={this.state.source}
+                 theme={this.props.theme}
+                 focusAbove={this.props.focusAbove}
+                 focusBelow={this.props.focusBelow}
+                 cellFocused={this.props.cellFocused}
+                 editorFocused={this.props.editorFocused}
+               />
+             </div>
+             <div className="outputs">
+               <LatexRenderer>
+                 { mdRender(this.state.source) }
+               </LatexRenderer>
+             </div>
          </div>
     );
   }

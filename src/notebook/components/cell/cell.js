@@ -18,7 +18,8 @@ export type CellProps = {
   cell: any,
   displayOrder: ImmutableList<any>,
   id: string,
-  focusedCell: string,
+  cellFocused: string,
+  editorFocused: string,
   language: string,
   running: boolean,
   theme: string,
@@ -96,15 +97,16 @@ export class Cell extends React.Component {
   render(): ?React.Element<any> {
     const cell = this.props.cell;
     const type = cell.get('cell_type');
-    const focused = this.props.focusedCell === this.props.id;
+    const cellFocused = this.props.cellFocused === this.props.id;
+    const editorFocused = this.props.editorFocused === this.props.id;
     return (
       <div
-        className={`cell ${type === 'markdown' ? 'text' : 'code'} ${focused ? 'focused' : ''}`}
+        className={`cell ${type === 'markdown' ? 'text' : 'code'} ${cellFocused ? 'focused' : ''}`}
         onClick={this.selectCell}
         ref={(el) => { this.cellDiv = el; }}
       >
         {
-          focused ? <Toolbar
+          cellFocused ? <Toolbar
             type={type}
             cell={cell}
             id={this.props.id}
@@ -115,24 +117,26 @@ export class Cell extends React.Component {
           <MarkdownCell
             focusAbove={this.focusAboveCell}
             focusBelow={this.focusBelowCell}
-            focused={focused}
+            cellFocused={cellFocused}
+            editorFocused={editorFocused}
             cell={cell}
             id={this.props.id}
             theme={this.props.theme}
           /> :
-          <CodeCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            focused={focused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-            language={this.props.language}
-            displayOrder={this.props.displayOrder}
-            transforms={this.props.transforms}
-            pagers={this.props.pagers}
-            running={this.props.running}
-          />
+            <CodeCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+              language={this.props.language}
+              displayOrder={this.props.displayOrder}
+              transforms={this.props.transforms}
+              pagers={this.props.pagers}
+              running={this.props.running}
+            />
         }
       </div>
     );
