@@ -223,21 +223,23 @@ describe('createSourceUpdateAction', () => {
     });
   });
 });
+
 describe('createExecuteCellObservable', () => {
-  let store = { getState: function() { return this.state; },
-            state: {
-              app: {
-                executionState: 'starting',
-                channels: 'channelInfo',
-                notificationSystem: {
-                  addNotification: sinon.spy(),
-                },
-              }
-            },
-          };
   const action$ = new ActionsObservable();
   it('notifies the user if kernel is not connected', () => {
-    const testFunction = createExecuteCellStream(action$, store, 'source', 'id');
+    const store = {
+      getState: function() { return this.state; },
+      state: {
+        app: {
+          executionState: 'starting',
+          channels: 'channelInfo',
+          notificationSystem: {
+            addNotification: sinon.spy(),
+          },
+        }
+      },
+    };
+    const testFunction = createExecuteCellObservable(action$, store, 'source', 'id');
     const notification = store.getState().app.notificationSystem.addNotification;
     expect(notification).to.be.calledWith({
       title: 'Could not execute cell',
@@ -247,9 +249,20 @@ describe('createExecuteCellObservable', () => {
     expect(testFunction.subscribe).to.not.be.null;
   });
   it('emits returns an observable when kernel connected', () => {
-    store.state.app.executionState = 'started'
-    const executeCellStream = createExecuteCellStream(action$, store, 'source', 'id');
-    expect(executeCellStream.subscribe).to.not.be.null;
+    const store = {
+      getState: function() { return this.state; },
+      state: {
+        app: {
+          executionState: 'started',
+          channels: 'channelInfo',
+          notificationSystem: {
+            addNotification: sinon.spy(),
+          },
+        }
+      },
+    };
+    const executeCellObservable = createExecuteCellObservable(action$, store, 'source', 'id');
+    expect(executeCellObservable.subscribe).to.not.be.null;
   });
 })
 
@@ -266,7 +279,20 @@ describe('executeCellEpic', () => {
               }
             },
           };
-  it('Errors on a bad action', (done) => {
+  it('errors on a bad action', (done) => {
+    const store = {
+      getState: function() { return this.state; },
+      state: {
+          app: {
+            executionState: 'starting',
+            channels: 'channelInfo',
+            notificationSystem: {
+              addNotification: sinon.spy(),
+            },
+            token: 'blah'
+          }
+        },
+      };
     const badInput$ = Observable.of({ type: EXECUTE_CELL });
     const badAction$ = new ActionsObservable(badInput$);
     const actionBuffer = [];
@@ -282,7 +308,7 @@ describe('executeCellEpic', () => {
       },
     );
   });
-  it('Errors on an action where source not a string', (done) => {
+  it('errors on an action where source not a string', (done) => {
     const badInput$ = Observable.of(executeCell('id', 2));
     const badAction$ = new ActionsObservable(badInput$);
     const actionBuffer = [];
@@ -298,7 +324,7 @@ describe('executeCellEpic', () => {
       },
     );
   });
-  it('Runs an epic with the approriate flow with good action', (done) => {
+  it('runs an epic with the approriate flow with good action', (done) => {
     const input$ = Observable.of(executeCell('id', 'source'));
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
