@@ -57,6 +57,7 @@ type Props = {
   kernelSpecName: string,
   CellComponent: any,
   executionState: string,
+  expanded: boolean,
 };
 
 export function getLanguageMode(notebook: any): string {
@@ -102,6 +103,7 @@ export function scrollToElement(el: HTMLElement): number {
 
 const mapStateToProps = (state: Object) => ({
   theme: state.config.get('theme'),
+  expanded: state.config.get('expanded'),
   lastSaved: state.app.get('lastSaved'),
   kernelSpecName: state.app.get('kernelSpecName'),
   notebook: state.document.get('notebook'),
@@ -226,6 +228,7 @@ export class Notebook extends React.Component {
       // Theme is passed through to let the Editor component know when to
       // tell CodeMirror to remeasure
       theme: this.props.theme,
+      expanded: this.props.expanded,
     };
   }
 

@@ -81,7 +81,7 @@ const prepJupyterObservable = prepareEnv
         if (err.code === 'ENOENT') {
           return writeFileObservable(nteractConfigFilename, JSON.stringify({
             theme: 'light',
-            expanded: true,
+            expanded: false,
           }));
         }
         throw err;

@@ -22,11 +22,13 @@ type Props = {
 
 const DEFAULT_SCROLL_HEIGHT = 300;
 
-const mapStateToProps = (state: Object) => ({
-  expanded: state.config.get('expanded'),
-});
+// const exp = this.props.get('expanded');
 
-export class Display extends React.Component {
+// const mapStateToProps = (state: Object) => ({
+//   expanded: state.config.get('expanded'),
+// });
+
+export default class Display extends React.Component {
   props: Props;
   shouldComponentUpdate: (p: Props, s: any) => boolean;
   recomputeStyle: () => void;
@@ -81,6 +83,7 @@ export class Display extends React.Component {
                 displayOrder={order}
                 transforms={tf}
                 theme={this.props.theme}
+                expanded={this.props.expanded}
               />
             )
           }
@@ -90,4 +93,4 @@ export class Display extends React.Component {
     return null;
   }
 }
-export default connect(mapStateToProps)(Display);
+// export default connect(mapStateToProps)(Display);
