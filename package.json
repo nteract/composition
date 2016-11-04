@@ -27,7 +27,7 @@
     "test:functional": "npm run test:functional:launch && npm run test:functional:launchNewNotebook",
     "test:coverage": "npm run coverage",
     "test:unit": "cross-env NODE_PATH=app/node_modules/ mocha -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
-    "test:debug":"cross-env NODE_PATH=app/node_modules/ mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
+    "test:debug": "cross-env NODE_PATH=app/node_modules/ mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
     "test:unit:individual": "cross-env NODE_PATH=app/node_modules/ mocha -r test/setup.js --compilers js:babel-core/register ",
     "test:watch": "watch 'npm run test' test/",
     "test:lint": "npm run lint",
@@ -52,7 +52,10 @@
     "win": {
       "target": "nsis"
     },
-    "extraResources": ["bin", "example-notebooks"]
+    "extraResources": [
+      "bin",
+      "example-notebooks"
+    ]
   },
   "greenkeeper": {
     "ignore": [
@@ -74,14 +77,14 @@
     "colors": "^1.1.2",
     "command-exists": "^1.0.2",
     "cross-env": "^3.1.3",
-    "electron": "1.4.5",
-    "electron-builder": "^7.18.0",
+    "electron": "^1.4.5",
+    "electron-builder": "^7.20.0",
     "electron-mocha": "^3.0.6",
     "enzyme": "^2.2.0",
     "esdoc": "^0.4.8",
     "eslint": "^3.8.0",
     "eslint-config-airbnb": "^12.0.0",
-    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-import": "^2.1.0",
     "eslint-plugin-jsx-a11y": "^2.2.0",
     "eslint-plugin-react": "^6.3.0",
     "flow-bin": "^0.34.0",
