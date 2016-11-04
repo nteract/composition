@@ -14,6 +14,7 @@ type Props = {
   focusAbove: Function,
   focusBelow: Function,
   focused: boolean,
+  session: string,
 };
 
 type State = {
@@ -150,6 +151,7 @@ export default class MarkdownCell extends React.Component {
                  focusAbove={this.props.focusAbove}
                  focusBelow={this.props.focusBelow}
                  focused={this.props.focused}
+                 session={this.props.session}
                />
              </div>
              <div className="outputs">

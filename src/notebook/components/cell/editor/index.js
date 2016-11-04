@@ -33,6 +33,7 @@ import { updateCellSource } from '../../../actions';
 type Props = {
   autoCloseBrackets?: boolean,
   id: string,
+  session: string,
   input: any,
   completion?: boolean,
   language: string,
@@ -239,7 +240,7 @@ export default class Editor extends React.Component {
     const state = this.context.store.getState();
     const channels = state.app.channels;
 
-    codeComplete(channels, editor)
+    codeComplete(channels, editor, this.props.session)
       .subscribe(callback);
   }
 

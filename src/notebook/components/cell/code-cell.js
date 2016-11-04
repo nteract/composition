@@ -24,6 +24,7 @@ type Props = {
   focusAbove: Function,
   focusBelow: Function,
   tabSize: number,
+  session: string,
 };
 
 class CodeCell extends React.Component {
@@ -72,6 +73,7 @@ class CodeCell extends React.Component {
               theme={this.props.theme}
               focusAbove={this.props.focusAbove}
               focusBelow={this.props.focusBelow}
+              session={this.props.session}
             />
           </div> : <div className="input-container invisible" />
       }

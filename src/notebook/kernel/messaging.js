@@ -6,14 +6,12 @@ import Rx from 'rxjs/Rx';
 
 const Observable = Rx.Observable;
 
-export const session = uuid.v4();
-
 export function getUsername() {
   return process.env.LOGNAME || process.env.USER || process.env.LNAME ||
     process.env.USERNAME;
 }
 
-export function createMessage(msg_type, fields) {
+export function createMessage(msg_type, fields, session) {
   const username = getUsername();
   return Object.assign({
     header: {

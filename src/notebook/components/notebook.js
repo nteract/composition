@@ -56,6 +56,7 @@ type Props = {
   kernelSpecName: string,
   CellComponent: any,
   executionState: string,
+  session: string,
 };
 
 export function getLanguageMode(notebook: any): string {
@@ -108,6 +109,7 @@ const mapStateToProps = (state: Object) => ({
   focusedCell: state.document.get('focusedCell'),
   stickyCells: state.document.get('stickyCells'),
   executionState: state.app.get('executionState'),
+  session: state.app.get('sessionId'),
 });
 
 export class Notebook extends React.Component {
@@ -225,6 +227,7 @@ export class Notebook extends React.Component {
       // Theme is passed through to let the Editor component know when to
       // tell CodeMirror to remeasure
       theme: this.props.theme,
+      session: this.props.session,
     };
   }
 
