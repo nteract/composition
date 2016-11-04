@@ -12,6 +12,7 @@ type Props = {
   output: any,
   transforms: ImmutableMap<string, any>,
   theme: string,
+  expanded: boolean,
 }
 
 export default function Output(props: Props): ?React.Element<any>|null {
@@ -35,6 +36,7 @@ export default function Output(props: Props): ?React.Element<any>|null {
           displayOrder={props.displayOrder}
           transforms={props.transforms}
           theme={props.theme}
+          expanded={props.expanded}
         />);
     }
     case 'stream': {

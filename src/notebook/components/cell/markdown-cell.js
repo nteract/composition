@@ -11,6 +11,7 @@ type Props = {
   cell: any,
   id: string,
   theme: string,
+  expanded: boolean,
   focusAbove: Function,
   focusBelow: Function,
   focused: boolean,
@@ -147,6 +148,7 @@ export default class MarkdownCell extends React.Component {
                  lineWrapping
                  input={this.state.source}
                  theme={this.props.theme}
+                 expanded={this.props.expanded}
                  focusAbove={this.props.focusAbove}
                  focusBelow={this.props.focusBelow}
                  focused={this.props.focused}

@@ -17,6 +17,7 @@ type Props = {
   id: string,
   language: string,
   theme: string,
+  expanded: boolean,
   transforms: ImmutableMap<string, any>,
   focused: boolean,
   pagers: ImmutableList<any>,
@@ -70,6 +71,7 @@ class CodeCell extends React.Component {
               language={this.props.language}
               focused={this.props.focused}
               theme={this.props.theme}
+              expanded={this.props.expanded}
               focusAbove={this.props.focusAbove}
               focusBelow={this.props.focusBelow}
             />
@@ -86,6 +88,7 @@ class CodeCell extends React.Component {
                 transforms={this.props.transforms}
                 bundle={pager.get('data')}
                 theme={this.props.theme}
+                expanded={this.props.expanded}
                 key={key}
               />
             )
@@ -100,7 +103,7 @@ class CodeCell extends React.Component {
             displayOrder={this.props.displayOrder}
             transforms={this.props.transforms}
             theme={this.props.theme}
-            expanded={this.isOutputExpanded()}
+            expanded={this.props.expanded}
             isHidden={this.isOutputHidden()}
           />
         </div>
