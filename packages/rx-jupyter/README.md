@@ -15,12 +15,12 @@ seamlessly with [RxJS]'s functional tooling.
 
 Primary coverage of the [Jupyter Server API]:
 
-* [ ] Contents (mostly finished, a few more endpoints to finalize)
-  * [ ] Checkpoints
+* [X] Contents
+  * [X] Checkpoints
 * [X] Kernels
 * [X] Kernelspecs
 * [X] Sessions
-* [ ] Terminals
+* [X] Terminals
 
 Optional coverage:
 
