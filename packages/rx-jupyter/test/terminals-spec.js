@@ -10,7 +10,7 @@ const serverConfig = {
 describe('list', () => {
   it('creates an AjaxObservable for listing available terminals', () => {
     const list$ = terminals.list(serverConfig);
-    const request = list$.response;
+    const request = list$.request;
     expect(request.url).to.equal('http://localhost:8888/api/terminals/');
     expect(request.method).to.equal('GET');
   });
@@ -19,7 +19,7 @@ describe('list', () => {
 describe('create', () => {
   it('creates an AjaxObservable for creating a terminal', () => {
     const create$ = terminals.create(serverConfig);
-    const request = create$.response;
+    const request = create$.request;
     expect(request.url).to.equal('http://localhost:8888/api/terminals/');
     expect(request.method).to.equal('POST');
   });
@@ -28,7 +28,7 @@ describe('create', () => {
 describe('get', () => {
   it('creates an AjaxObservable for getting a terminal session', () => {
     const get$ = terminals.get(serverConfig, '1');
-    const request = get$.response;
+    const request = get$.request;
     expect(request.url).to.equal('http://localhost:8888/api/terminals/1');
     expect(request.method).to.equal('GET');
   });
@@ -37,7 +37,7 @@ describe('get', () => {
 describe('destroy', () => {
   it('creates an AjaxObservable for deleting a terminal session', () => {
     const destroy$ = terminals.destroy(serverConfig, '1');
-    const request = destroy$.response;
+    const request = destroy$.request;
     expect(request.url).to.equal('http://localhost:8888/api/terminals/1');
     expect(request.method).to.equal('DELETE');
   });

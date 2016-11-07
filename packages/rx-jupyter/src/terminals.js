@@ -28,7 +28,7 @@ export function list(serverConfig) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function create(serverConfig) {
-  const uri = 'api/terminals';
+  const uri = '/api/terminals/';
   const opts = {
     method: 'POST',
   };
@@ -71,5 +71,9 @@ export function destroy(serverConfig, id) {
  */
 export function webSocket(basePath, name) {
   const uri = `ws://${basePath}/terminals/webSocket/${name}`;
+  const opts = {
+    method: 'GET',
+  };
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
   // TODO for @rgbkrk ;)
 }
