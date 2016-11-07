@@ -15,11 +15,11 @@ function formURI(path) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function list(serverConfig) {
-  const uri = formURI('');
+  const uri = '/api/terminals/';
   const opts = {
     method: 'GET',
   };
-  return ajax(createAJAXSettings(uri, opts));
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
 /**
@@ -28,11 +28,11 @@ export function list(serverConfig) {
  * @return  {AjaxObservable}  An Observable with the request response
  */
 export function create(serverConfig) {
-  const uri = formURI('');
+  const uri = 'api/terminals';
   const opts = {
     method: 'POST',
   };
-  return ajax(createAJAXSettings(uri, opts));
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
 /**
@@ -46,7 +46,7 @@ export function get(serverConfig, id) {
   const opts = {
     method: 'GET',
   };
-  return ajax(createAJAXSettings(uri, opts));
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
 /**
@@ -60,7 +60,7 @@ export function destroy(serverConfig, id) {
   const opts = {
     method: 'DELETE',
   };
-  return ajax(createAJAXSettings(uri, opts));
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
 /**
@@ -70,6 +70,6 @@ export function destroy(serverConfig, id) {
  * @return {[type]}          [description]
  */
 export function webSocket(basePath, name) {
-  const uri = `ws://${basePath}/terminals/webSocket/${name}`
+  const uri = `ws://${basePath}/terminals/webSocket/${name}`;
   // TODO for @rgbkrk ;)
 }
