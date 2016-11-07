@@ -79,8 +79,8 @@ const displayOrder = standardDisplayOrder
  */
 
 function richestMimetype(bundle: ImmutableMap<string, any>,
-                        order: ImmutableList<string> = displayOrder,
-                        tf: ImmutableMap<string, any> = transforms): string {
+  order: ImmutableList<string> = displayOrder,
+  tf: ImmutableMap<string, any> = transforms): string {
   return bundle.keySeq()
     // we can only use those we have a transform for
     .filter((mimetype) => tf.has(mimetype) && order.includes(mimetype))

@@ -45,7 +45,7 @@ export function createKernelSpecsFromEnvs(envs) {
 
   const langEnvs = {};
 
-  for (const env of envs) {
+  Object.keys(envs).forEach((env) => {
     const base = env.prefix;
     const exePath = path.join(base, languageExe);
     const envName = env.name;
@@ -55,7 +55,7 @@ export function createKernelSpecsFromEnvs(envs) {
       argv: [exePath, '-m', 'ipykernel', '-f', '{connection_file}'],
       language: 'python',
     };
-  }
+  });
   return langEnvs;
 }
 

@@ -81,7 +81,7 @@ export function createGistCallback(firstTimePublish, observer, filename, notific
  * notification of the user that the gist has been published.
  */
 export function publishNotebookObservable(github, notebook, filepath,
-                                          notificationSystem, publishAsUser) {
+  notificationSystem, publishAsUser) {
   return Rx.Observable.create((observer) => {
     const notebookString = JSON.stringify(
       commutable.toJS(notebook.update('cellMap', cells =>
@@ -168,7 +168,6 @@ export function handleGistError(store, err) {
       message: 'Failure to parse error message',
       level: 'error',
     });
-    return;
   }
 }
 
