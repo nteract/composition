@@ -6,9 +6,7 @@ const serverConfig = {
   endpoint: 'http://localhost:8888',
   crossDomain: true,
 };
-
 describe('contents', () => {
-
   describe('remove', () => {
     it('creates the AjaxObservable for removing contents', () => {
       const remove$ = contents.remove(serverConfig, '/path.ipynb');
@@ -17,7 +15,6 @@ describe('contents', () => {
       expect(request.method).to.equal('DELETE');
     });
   });
-
   describe('get', () => {
     it('creates the AjaxObservable for getting content', () => {
       const content$ = contents.get(serverConfig, '/walla/walla/bingbang.ipynb');
@@ -74,7 +71,7 @@ describe('contents', () => {
     it('creates the AjaxObservable for saving a file', () => {
       const model = {
         path: 'save/to/this/path',
-      }
+      };
       const create$ = contents.save(serverConfig, '/path/to/content', model);
       const request = create$.request;
       expect(request.url).to.equal('http://localhost:8888/api/contents/path/to/content');
@@ -82,9 +79,8 @@ describe('contents', () => {
       expect(request.body).to.deep.equal(model);
       expect(request.crossDomain).to.equal(true);
       expect(request.responseType).to.equal('json');
-    })
-  })
-
+    });
+  });
   describe('listCheckpoints', () => {
     it('creates the AjaxObservable for listing checkpoints of a file', () => {
       const create$ = contents.listCheckpoints(serverConfig, '/path/to/content');
@@ -95,7 +91,6 @@ describe('contents', () => {
       expect(request.responseType).to.equal('json');
     });
   });
-
   describe('createCheckpoint', () => {
     it('creates the AjaxObservable for', () => {
       const create$ = contents.createCheckpoint(serverConfig, '/path/to/content');
@@ -106,7 +101,6 @@ describe('contents', () => {
       expect(request.responseType).to.equal('json');
     });
   });
-
   describe('deleteCheckpoint', () => {
     it('creates the AjaxObservable for', () => {
       const create$ = contents.deleteCheckpoint(serverConfig, '/path/to/content', 'id');
@@ -117,7 +111,6 @@ describe('contents', () => {
       expect(request.responseType).to.equal('json');
     });
   });
-
   describe('restoreFromCheckpoint', () => {
     it('creates the AjaxObservable for', () => {
       const create$ = contents.restoreFromCheckpoint(serverConfig, '/path/to/content', 'id');
@@ -128,5 +121,4 @@ describe('contents', () => {
       expect(request.responseType).to.equal('json');
     });
   });
-
 });

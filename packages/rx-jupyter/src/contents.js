@@ -43,11 +43,11 @@ function formCheckpointURI(path, checkpointID) {
   * @return  {AjaxObservable}  An Observable with the request response
   */
 export function remove(serverConfig, path) {
- const uri = formURI(path);
- const opts = {
-   method: 'DELETE',
- };
- return ajax(createAJAXSettings(serverConfig, uri, opts));
+  const uri = formURI(path);
+  const opts = {
+    method: 'DELETE',
+  };
+  return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
 /**
@@ -87,7 +87,7 @@ export function rename(serverConfig, path, model) {
     },
     method: 'PATCH',
     body: model,
-  }
+  };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
@@ -113,7 +113,8 @@ export function create(serverConfig, path, model) {
 }
 
 /**
- * Creates an AjaxObservable for saving the file in the location specified by name and path in the model.
+ * Creates an AjaxObservable for saving the file in the location specified by
+ * name and path in the model.
  * @param  {[type]} serverConfig [description]
  * @param  {[type]} path         [description]
  * @param  {[type]} model        [description]
@@ -127,7 +128,7 @@ export function save(serverConfig, path, model) {
     },
     method: 'PUT',
     body: model,
-  }
+  };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
@@ -140,8 +141,8 @@ export function save(serverConfig, path, model) {
 export function listCheckpoints(serverConfig, path) {
   const uri = formCheckpointURI(path, '');
   const opts = {
-    method: 'GET'
-  }
+    method: 'GET',
+  };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
@@ -157,8 +158,8 @@ export function listCheckpoints(serverConfig, path) {
 export function createCheckpoint(serverConfig, path) {
   const uri = formCheckpointURI(path, '');
   const opts = {
-    method: 'POST'
-  }
+    method: 'POST',
+  };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
@@ -169,11 +170,11 @@ export function createCheckpoint(serverConfig, path) {
  * @param  {[type]} checkpoint_id [description]
  * @return {[type]}               [description]
  */
-export function deleteCheckpoint(serverConfig, path, checkpoint_id) {
-  const uri = formCheckpointURI(path, checkpoint_id);
+export function deleteCheckpoint(serverConfig, path, checkpointID) {
+  const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: 'DELETE',
-  }
+  };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
@@ -184,10 +185,10 @@ export function deleteCheckpoint(serverConfig, path, checkpoint_id) {
  * @param  {[type]} checkpoint_id [description]
  * @return {[type]}               [description]
  */
-export function restoreFromCheckpoint(serverConfig, path, checkpoint_id) {
-  const uri = formCheckpointURI(path, checkpoint_id);
+export function restoreFromCheckpoint(serverConfig, path, checkpointID) {
+  const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: 'POST',
-  }
+  };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
