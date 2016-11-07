@@ -27,7 +27,7 @@
     "test:functional": "npm run test:functional:launch && npm run test:functional:launchNewNotebook",
     "test:coverage": "npm run coverage",
     "test:unit": "cross-env NODE_PATH=app/node_modules/ mocha -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
-    "test:debug":"cross-env NODE_PATH=app/node_modules/ mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
+    "test:debug": "cross-env NODE_PATH=app/node_modules/ mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
     "test:unit:individual": "cross-env NODE_PATH=app/node_modules/ mocha -r test/setup.js --compilers js:babel-core/register ",
     "test:watch": "watch 'npm run test' test/",
     "test:lint": "npm run lint",
@@ -52,7 +52,10 @@
     "win": {
       "target": "nsis"
     },
-    "extraResources": ["bin", "example-notebooks"]
+    "extraResources": [
+      "bin",
+      "example-notebooks"
+    ]
   },
   "greenkeeper": {
     "ignore": [
@@ -82,7 +85,7 @@
     "eslint": "^3.8.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.0.1",
-    "eslint-plugin-jsx-a11y": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.6.0",
     "flow-bin": "^0.34.0",
     "jsdom": "^9.4.2",
