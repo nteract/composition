@@ -1,8 +1,10 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
+import { webSocket } from 'rxjs/observable/dom/webSocket';
 import { join as pathJoin } from 'path';
 
 import {
   createAJAXSettings,
+  normalizeBaseURL,
 } from './base';
 
 function formURI(path) {
@@ -63,17 +65,18 @@ export function destroy(serverConfig, id) {
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
+
+export function formWebSocketURL(serverConfig, id) {
+  const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url)
+  const url = `${baseURL}/terminals/websocket/${id}`;
+  return url.replace(/^http(s)?/, 'ws$1');
+}
 /**
- * [webSocket description]
- * @param  {[type]} basePath [description]
- * @param  {[type]} name     [description]
- * @return {[type]}          [description]
+ * Return an rxjs websocket for a given id.
+ * @param {Object} serverConfig  - The server configuration.
+ * @param  {string} id - ID of the terminal to have a new websocket created.
+ * @return {webSocket} Websocket for the terminal to with specified id.
  */
-export function webSocket(basePath, name) {
-  const uri = `ws://${basePath}/terminals/webSocket/${name}`;
-  const opts = {
-    method: 'GET',
-  };
-  return ajax(createAJAXSettings(serverConfig, uri, opts));
-  // TODO for @rgbkrk ;)
+export function webSocket(serverConfig, id) {
+  return webSocket(formWebSocketURL(serverConfig, id));
 }
