@@ -119,7 +119,7 @@ export function create(serverConfig, path, model) {
  * @param  {[type]} model        [description]
  * @return {[type]}              [description]
  */
-export function saveOrUpload(serverConfig, path, model) {
+export function save(serverConfig, path, model) {
   const uri = formURI(path);
   const opts = {
     headers: {
