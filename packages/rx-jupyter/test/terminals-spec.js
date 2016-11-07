@@ -43,9 +43,9 @@ describe('destroy', () => {
   });
 });
 
-describe('connect', () => {
-  it('returns a WebSocketSubject attached to the terminal', () => {
-    const subject = terminals.connect(serverConfig, '777');
-    expect(subject.url).to.equal('ws://localhost:8888/terminals/websocket/777');
+describe('formWebSocketURL', () => {
+  it('returns a WebSocketURL for connecting to the terminal', () => {
+    const url = terminals.formWebSocketURL(serverConfig, '777');
+    expect(url).to.equal('ws://localhost:8888/terminals/websocket/777');
   });
 });

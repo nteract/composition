@@ -1,5 +1,4 @@
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { webSocket } from 'rxjs/observable/dom/webSocket';
 import { join as pathJoin } from 'path';
 
 import {
@@ -70,13 +69,4 @@ export function formWebSocketURL(serverConfig, id) {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}/terminals/websocket/${id}`;
   return url.replace(/^http(s)?/, 'ws$1');
-}
-/**
- * Return an rxjs websocket for a given id.
- * @param {Object} serverConfig  - The server configuration.
- * @param  {string} id - ID of the terminal to have a new websocket created.
- * @return {webSocket} Websocket for the terminal to with specified id.
- */
-export function connect(serverConfig, id) {
-  return webSocket(formWebSocketURL(serverConfig, id));
 }
