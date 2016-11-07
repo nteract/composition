@@ -4,6 +4,7 @@ import * as kernels from './kernels';
 import * as kernelspecs from './kernelspecs';
 import * as sessions from './sessions';
 import * as contents from './contents';
+import * as terminals from './terminals';
 
 import {
   createAJAXSettings,
@@ -14,4 +15,4 @@ function apiVersion(serverConfig) {
   return ajax(req);
 }
 
-export { apiVersion, kernels, kernelspecs, sessions, contents };
+export { apiVersion, kernels, kernelspecs, sessions, contents, terminals };
