@@ -42,3 +42,10 @@ describe('destroy', () => {
     expect(request.method).to.equal('DELETE');
   });
 });
+
+describe('connect', () => {
+  it('returns a WebSocketSubject attached to the terminal', () => {
+    const subject = terminals.connect(serverConfig, '777');
+    expect(subject.url).to.equal('ws://localhost:8888/terminals/websocket/777');
+  });
+});

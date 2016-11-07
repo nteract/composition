@@ -67,7 +67,7 @@ export function destroy(serverConfig, id) {
 
 
 export function formWebSocketURL(serverConfig, id) {
-  const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url)
+  const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}/terminals/websocket/${id}`;
   return url.replace(/^http(s)?/, 'ws$1');
 }
@@ -77,6 +77,6 @@ export function formWebSocketURL(serverConfig, id) {
  * @param  {string} id - ID of the terminal to have a new websocket created.
  * @return {webSocket} Websocket for the terminal to with specified id.
  */
-export function webSocket(serverConfig, id) {
+export function connect(serverConfig, id) {
   return webSocket(formWebSocketURL(serverConfig, id));
 }
