@@ -73,7 +73,7 @@ describe('contents', () => {
   describe('save', () => {
     it('creates the AjaxObservable for saving a file', () => {
       const model = {
-        path: 'save/to/this/path';
+        path: 'save/to/this/path',
       }
       const create$ = contents.save(serverConfig, '/path/to/content', model);
       const request = create$.request;
@@ -120,9 +120,9 @@ describe('contents', () => {
 
   describe('restoreFromCheckpoint', () => {
     it('creates the AjaxObservable for', () => {
-      const create$ = contents.listCheckpoints(serverConfig, '/path/to/content', 'id');
+      const create$ = contents.restoreFromCheckpoint(serverConfig, '/path/to/content', 'id');
       const request = create$.request;
-      expect(request.url).to.equal('http://localhost:8888/api/contents/path/to/content/checkpoints', 'id');
+      expect(request.url).to.equal('http://localhost:8888/api/contents/path/to/content/checkpoints/id');
       expect(request.method).to.equal('POST');
       expect(request.crossDomain).to.equal(true);
       expect(request.responseType).to.equal('json');
