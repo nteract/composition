@@ -79,7 +79,7 @@ export function get(serverConfig, path, params) {
  * @param  {Object} model -  ^^TODO
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function rename(serverConfig, path, model) {
+export function update(serverConfig, path, model) {
   const uri = formURI(path);
   const opts = {
     headers: {

@@ -34,10 +34,10 @@ describe('contents', () => {
     });
   });
 
-  describe('rename', () => {
+  describe('update', () => {
     it('creates the AjaxObservable for renaming a file', () => {
       const model = { path: 'renamed/path' };
-      const content$ = contents.rename(serverConfig, '/path/to/rename', model);
+      const content$ = contents.update(serverConfig, '/path/to/rename', model);
       const request = content$.request;
       expect(request.url).to.equal('http://localhost:8888/api/contents/path/to/rename');
       expect(request.method).to.equal('PATCH');
