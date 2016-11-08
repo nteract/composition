@@ -25,7 +25,7 @@ function hideCells(notebook) {
   return notebook
     .update('cellMap', (cells) => notebook
       .get('cellOrder')
-      .reduce((acc, id) => acc.setIn([id, 'inputHidden'], true), cells));
+      .reduce((acc, id) => acc.setIn([id, 'metadata', 'inputHidden'], true), cells));
 }
 
 export function dummyStore(config) {
