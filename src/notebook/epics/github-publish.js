@@ -172,9 +172,8 @@ export function handleGistAction(action, store) {
  * Epic to capture the end to end action of publishing and receiving the
  * response from the Github API.
  */
-export const publishEpic = (action$, store) => {
-  return action$.ofType(PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST)
+export const publishEpic = (action$, store) =>
+  action$.ofType(PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST)
     .mergeMap((action) => handleGistAction(action, store))
-    .catch((err) => Observable.of({ type: 'ERROR',
-                                    payload: err, error: true }));
-};
+    .catch((err) => Observable.of({
+      type: 'ERROR', payload: err, error: true }));
