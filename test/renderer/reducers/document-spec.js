@@ -460,15 +460,10 @@ describe('splitCell', () => {
 
 describe('changeOutputVisibility', () => {
   it('changes the visibility on a single cell', () => {
-    let cellStatuses = new Map();
-    monocellDocument.getIn(['notebook', 'cellOrder']).map((cellID) => {
-      cellStatuses = cellStatuses.setIn([cellID, 'isHidden'], false);
-      return cellStatuses;
-    });
-    const docWithOutputStatuses = monocellDocument.set('cellStatuses', cellStatuses);
-
     const originalState = {
-      document: docWithOutputStatuses,
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => {
+        return cells.map((value) => value.setIn(['metadata', 'outputHidden'], false));
+      }),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
@@ -479,22 +474,16 @@ describe('changeOutputVisibility', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['notebook', 'cellMap', id, 'outputHidden'])).to.be.true;
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'metadata', 'outputHidden'])).to.be.true;
   });
 });
 
 describe('changeInputVisibility', () => {
   it('changes the input visibility on a single cell', () => {
-    let cellStatuses = new Map();
-    monocellDocument.getIn(['notebook', 'cellOrder']).map((cellID) => {
-      cellStatuses = cellStatuses.setIn([cellID, 'outputHidden'], false)
-                                .setIn([cellID, 'inputHidden'], false);
-      return cellStatuses;
-    });
-    const docWithStatuses = monocellDocument.set('cellStatuses', cellStatuses);
-
     const originalState = {
-      document: docWithStatuses,
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => {
+        return cells.map((value) => value.setIn(['metadata', 'inputHidden'], false));
+      }),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
@@ -505,7 +494,7 @@ describe('changeInputVisibility', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['notebook', 'cellMap', id, 'inputHidden'])).to.be.true;
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'metadata', 'inputHidden'])).to.be.true;
   });
 });
 
@@ -706,16 +695,10 @@ describe('changeCellType', () => {
 
 describe('toggleOutputExpansion', () => {
   it('changes outputExpanded set', () => {
-    let cellStatuses = new Map();
-    monocellDocument.getIn(['notebook', 'cellOrder']).map((cellID) => {
-      cellStatuses = cellStatuses.setIn([cellID, 'outputExpanded'], false)
-      return cellStatuses;
-    });
-
-    const docWithStatuses = monocellDocument.set('cellStatuses', cellStatuses);
-
     const originalState = {
-      document: docWithStatuses,
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => {
+        return cells.map((value) => value.setIn(['metadata', 'outputExpanded'], false));
+      }),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
@@ -726,6 +709,6 @@ describe('toggleOutputExpansion', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['notebook', 'cellMap', id, 'outputExpanded'])).to.be.true;
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'metadata',  'outputExpanded'])).to.be.true;
   });
 });
