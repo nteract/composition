@@ -199,7 +199,7 @@ export function dispatchUnhideAll(store) {
   const notebook = state.document.get('notebook');
   const cells = notebook.get('cellMap');
   notebook.get('cellOrder')
-    .filter((cellID) => cells.getIn([cellID, 'inputHidden']))
+    .filter((cellID) => cells.getIn([cellID, 'metadata', 'inputHidden']))
     .map((cellID) => store.dispatch(changeInputVisibility(cellID)));
 }
 
