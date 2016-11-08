@@ -140,38 +140,10 @@ export function publishNotebookObservable(github, notebook, filepath,
 /**
  * Handle gist errors for the publish epic.
  * @param  {String} error - Error response to be parsed and handled.
- * @param  {Immutable.Record} store - Redux store containing current state.
  *
  */
-export function handleGistError(store, err) {
-  const state = store.getState();
-  const notificationSystem = state.app.get('notificationSystem');
-  try {
-    const error = JSON.parse(err);
-    if (error.message) {
-      if (error.message === 'Bad credentials') {
-        notificationSystem.addNotification({
-          title: 'Bad credentials',
-          message: 'Unable to authenticate with your credentials.\n' +
-          'Please try again.',
-          level: 'error',
-        });
-        return;
-      }
-      notificationSystem.addNotification({
-        title: 'Publication Error',
-        message: error.message,
-        level: 'error',
-      });
-      return;
-    }
-  } catch (e) {
-    notificationSystem.addNotification({
-      title: 'Unknown Publication Error',
-      message: 'Failure to parse error message',
-      level: 'error',
-    });
-  }
+export function handleGistError(err) {
+  return Observable.of({ type: 'ERROR', payload: err, err: true });
 }
 
 /**
@@ -201,8 +173,8 @@ export function handleGistAction(action, store) {
  * response from the Github API.
  */
 export const publishEpic = (action$, store) => {
-  const boundHandleGistError = handleGistError.bind(null, store);
   return action$.ofType(PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST)
     .mergeMap((action) => handleGistAction(action, store))
-    .catch(boundHandleGistError);
+    .catch((err) => Observable.of({ type: 'ERROR',
+                                    payload: err, error: true }));
 };
