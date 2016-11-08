@@ -42,15 +42,15 @@ class CodeCell extends React.Component {
   }
 
   isOutputHidden(): any {
-    return this.props.cell.get('outputHidden');
+    return this.props.cell.getIn(['metadata', 'outputHidden']);
   }
 
   isInputHidden(): any {
-    return this.props.cell.get('inputHidden');
+    return this.props.cell.getIn(['metadata', 'inputHidden']);
   }
 
   isOutputExpanded() {
-    return this.props.cell.get('outputExpanded');
+    return this.props.cell.getIn(['metadata', 'outputExpanded']);
   }
 
   render(): ?React.Element<any> {
