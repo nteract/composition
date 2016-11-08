@@ -199,7 +199,7 @@ export function handleFormattableMessages(id, cellMessages) {
  * @return {Observable<Action>} updatedOutputs - It returns an observable with
  * a stream of events that need to happen after a cell has been executed.
  */
-export function executeCellObservable(channels, id, code) {
+export function executeCellStream(channels, id, code) {
   if (!channels || !channels.iopub || !channels.shell) {
     return Rx.Observable.throw(new Error('kernel not connected'));
   }
@@ -250,7 +250,7 @@ export function executeCellObservable(channels, id, code) {
   });
 }
 
-export function createExecuteCellObservable(action$, store, source, id) {
+export function createExecuteCellStream(action$, store, source, id) {
   const state = store.getState();
   const channels = state.app.channels;
 
@@ -268,7 +268,7 @@ export function createExecuteCellObservable(action$, store, source, id) {
     return Rx.Observable.of(updateCellExecutionCount(id, undefined));
   }
 
-  return executeCellObservable(channels, id, source)
+  return executeCellStream(channels, id, source)
     .takeUntil(action$.filter(laterAction => laterAction.id === id)
                       .ofType(ABORT_EXECUTION, REMOVE_CELL));
 }
@@ -278,7 +278,6 @@ export function createExecuteCellObservable(action$, store, source, id) {
  * inner observable streams of the running execution responses
  */
 export function executeCellEpic(action$, store) {
-  const boundCreateExecuteCellObservable = createExecuteCellObservable.bind(null, action$, store);
   return action$.ofType('EXECUTE_CELL')
     .do(action => {
       if (!action.id) {
@@ -291,11 +290,11 @@ export function executeCellEpic(action$, store) {
     // Split stream by cell IDs
     .groupBy(action => action.id)
     // Work on each cell's stream
-    .map(cellActionObservable =>
-      cellActionObservable
+    .map(cellActionStream =>
+      cellActionStream
         // When a new EXECUTE_CELL comes in with the current ID, we create a
-        // a new observable and unsubscribe from the old one.
-        .switchMap(({ source, id }) => boundCreateExecuteCellObservable(source, id))
+        // a new stream and unsubscribe from the old one.
+        .switchMap(({ source, id }) => createExecuteCellStream(action$, store, source, id))
     )
     // Bring back all the inner Observables into one stream
     .mergeAll()
