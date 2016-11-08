@@ -86,7 +86,10 @@ export function publishNotebookObservable(github, notebook, filepath,
     const notebookString = JSON.stringify(
       commutable.toJS(notebook.update('cellMap', cells =>
         cells.map(value =>
-          value.delete('inputHidden').delete('outputHidden').delete('status')))),
+          value
+            .deleteIn(['metadata', 'inputHidden'])
+            .deleteIn(['metadata', 'outputHidden'])
+            .delete(['metadata', 'status'])))),
       undefined,
       1);
 
