@@ -7,6 +7,8 @@ import { DocumentRecord, MetadataRecord } from '../../../src/notebook/records';
 
 import reducers from '../../../src/notebook/reducers';
 
+import { reduceOutputs } from '../../../src/notebook/reducers/document';
+
 import {
   dummyJSON,
   dummyCommutable,
@@ -22,9 +24,54 @@ import {
   Set,
 } from 'immutable';
 
+const Immutable = require('immutable');
+
 const initialDocument = new Map();
 const monocellDocument = initialDocument
   .set('notebook', commutable.appendCell(dummyCommutable, commutable.emptyCodeCell));
+
+describe('reduceOutputs', () => {
+  it('empties outputs when clear_output passed', () => {
+    const outputs = Immutable.List([1,2,3]);
+    const newOutputs = reduceOutputs(outputs, {output_type: 'clear_output'});
+    expect(newOutputs.size).to.equal(0);
+  })
+
+  it('puts new outputs at the end by default', () => {
+    const outputs = Immutable.List([1,2]);
+    const newOutputs = reduceOutputs(outputs, 3)
+
+    expect(newOutputs).to.equal(Immutable.List([1, 2, 3]));
+  })
+
+  it('merges streams of text', () => {
+    const outputs = Immutable.fromJS([{name: 'stdout', text: 'hello', output_type: 'stream'}])
+    const newOutputs = reduceOutputs(outputs, {name: 'stdout', text: ' world', output_type: 'stream' });
+
+    expect(newOutputs).to.equal(Immutable.fromJS([{name: 'stdout', text: 'hello world', output_type: 'stream'}]));
+  })
+
+  it('keeps respective streams together', () => {
+    const outputs = Immutable.fromJS([
+      {name: 'stdout', text: 'hello', output_type: 'stream'},
+      {name: 'stderr', text: 'errors are', output_type: 'stream'},
+    ])
+    const newOutputs = reduceOutputs(outputs, {name: 'stdout', text: ' world', output_type: 'stream' });
+
+    expect(newOutputs).to.equal(Immutable.fromJS([
+      {name: 'stdout', text: 'hello world', output_type: 'stream'},
+      {name: 'stderr', text: 'errors are', output_type: 'stream'},
+    ]));
+
+    const evenNewerOutputs = reduceOutputs(newOutputs, {name: 'stderr', text: ' informative', output_type: 'stream' });
+    expect(evenNewerOutputs).to.equal(Immutable.fromJS([
+      {name: 'stdout', text: 'hello world', output_type: 'stream'},
+      {name: 'stderr', text: 'errors are informative', output_type: 'stream'},
+    ]));
+
+  })
+})
+
 
 describe('setNotebook', () => {
   it('converts a JSON notebook to our commutable notebook and puts in state', () => {

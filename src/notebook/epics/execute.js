@@ -22,8 +22,6 @@ import {
 const Rx = require('rxjs/Rx');
 const Immutable = require('immutable');
 
-const emptyOutputs = new Immutable.List();
-
 /**
  * Create an object that adheres to the jupyter notebook specification.
  * http://jupyter-client.readthedocs.io/en/latest/messaging.html
@@ -54,42 +52,6 @@ export function createExecuteRequest(code) {
     stop_on_error: false,
   };
   return executeRequest;
-}
-
-/**
- * An output can be a stream of data that does not arrive at a single time. This
- * function handles the different types of outputs and accumulates the data
- * into a reduced output.
- *
- * @param {Object} outputs - Kernel output messages
- * @param {Object} output - Outputted to be reduced into list of outputs
- * @return {Immutable.List<Object>} updated-outputs - Outputs + Output
- */
-export function reduceOutputs(outputs, output) {
-  if (output.output_type === 'clear_output') {
-    return emptyOutputs;
-  }
-
-  // Naive implementation of kernel stream buffering
-  // This should be broken out into a nice testable function
-  if (outputs.size > 0 &&
-      output.output_type === 'stream' &&
-      typeof output.name !== 'undefined' &&
-      outputs.last().get('output_type') === 'stream'
-    ) {
-    // Invariant: size > 0, outputs.last() exists
-    if (outputs.last().get('name') === output.name) {
-      return outputs.updateIn([outputs.size - 1, 'text'], text => text + output.text);
-    }
-    const nextToLast = outputs.butLast().last();
-    if (nextToLast &&
-        nextToLast.get('output_type') === 'stream' &&
-        nextToLast.get('name') === output.name) {
-      return outputs.updateIn([outputs.size - 2, 'text'], text => text + output.text);
-    }
-  }
-
-  return outputs.push(Immutable.fromJS(output));
 }
 
 /**
@@ -171,22 +133,18 @@ export function updateCellNumberingAction(id, cellMessages) {
 }
 
 /**
- * If a message is formattable, give it the notebook format specification and
- * reduce outputs.
+ * Creates a stream of APPEND_OUTPUT actions from notebook formatable messages.
  *
  * @param {String} id - Universally Unique Identifier of cell receiving
  * messages.
- * @param {Observable<Action>} cellMessages - Set of sent cell messages.
- * @return {Observable<Action>} cellMessages - Set of updated cell messages.
+ * @param {Observable} cellMessages - Set of sent cell messages.
+ * @return {Observable<Action>} actions - Stream of APPEND_OUTPUT actions.
  */
 export function handleFormattableMessages(id, cellMessages) {
   return cellMessages
     .ofMessageType(['execute_result', 'display_data', 'stream', 'error', 'clear_output'])
     .map(msgSpecToNotebookFormat)
-    // Iteratively reduce on the outputs
-    .scan(reduceOutputs, emptyOutputs)
-    // Update the outputs with each change
-    .map(outputs => updateCellOutputs(id, outputs));
+    .map((output) => ({ type: 'APPEND_OUTPUT', id, output }));
 }
 
 /**
