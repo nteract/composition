@@ -203,7 +203,8 @@ export default handleActions({
   },
   [constants.CHANGE_OUTPUT_VISIBILITY]: function changeOutputVisibility(state, action) {
     const { id } = action;
-    return state.setIn(['notebook', 'cellMap', id, 'metadata', 'outputHidden'], !state.getIn(['notebook', 'cellMap', id, 'metadata', 'ouputHidden']));
+    return state.setIn(['notebook', 'cellMap', id, 'metadata', 'outputHidden'],
+      !state.getIn(['notebook', 'cellMap', id, 'metadata', 'ouputHidden']));
   },
   [constants.CHANGE_INPUT_VISIBILITY]: function changeInputVisibility(state, action) {
     const { id } = action;
@@ -282,7 +283,8 @@ export default handleActions({
   },
   [constants.TOGGLE_OUTPUT_EXPANSION]: function toggleOutputExpansion(state, action) {
     const { id } = action;
-    return state.updateIn(['notebook', 'cellMap'], (cells) => cells.setIn([id, 'metadata', 'outputExpanded'],
-      !cells.getIn([id, 'metadata', 'outputExpanded'])));
+    return state.updateIn(['notebook', 'cellMap'], (cells) =>
+      cells.setIn([id, 'metadata', 'outputExpanded'],
+        !cells.getIn([id, 'metadata', 'outputExpanded'])));
   },
 }, {});
