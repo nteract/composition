@@ -204,7 +204,7 @@ export default handleActions({
   [constants.CHANGE_OUTPUT_VISIBILITY]: function changeOutputVisibility(state, action) {
     const { id } = action;
     return state.setIn(['notebook', 'cellMap', id, 'metadata', 'outputHidden'],
-      !state.getIn(['notebook', 'cellMap', id, 'metadata', 'ouputHidden']));
+      !state.getIn(['notebook', 'cellMap', id, 'metadata', 'outputHidden']));
   },
   [constants.CHANGE_INPUT_VISIBILITY]: function changeInputVisibility(state, action) {
     const { id } = action;
