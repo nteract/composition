@@ -5,6 +5,8 @@ import * as commutable from 'commutable';
 
 import * as constants from '../constants';
 
+const _ = require('lodash');
+
 /**
  * An output can be a stream of data that does not arrive at a single time. This
  * function handles the different types of outputs and accumulates the data
@@ -59,8 +61,32 @@ export default handleActions({
   },
   [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
     const { id, output } = action;
-    return state.updateIn(['notebook', 'cellMap', id, 'outputs'],
-      (outputs) => reduceOutputs(outputs, output));
+
+    if (output.output_type !== 'display_data' || !(_.has(output, 'content.transient.display_id'))) {
+      return state.updateIn(['notebook', 'cellMap', id, 'outputs'],
+        (outputs) => reduceOutputs(outputs, output));
+    }
+
+    // We now have a display to track
+    const displayID = output.content.transient.display_id;
+
+    // Every time we see a display id we're going to capture the keypath
+    // to the output
+    const index = state.getIn(['notebook', 'cellMap', id, 'outputs']).count();
+
+    const keyPath = ['notebook', 'cellMap', id, 'outputs', index];
+
+    const keyPaths = state
+      // If we don't have keypaths setup, create a new list
+      .getIn(
+        ['transient', 'keyPathsForDisplays', displayID], new Immutable.List()
+      )
+      // Append our current display as a keyPath
+      .push(keyPath);
+
+    // We'll reduce the overall state based on each keypath, updating output
+    // TODO: Cleanup for when cells are deleted, since some keyPaths may no longer exist
+    return keyPaths.reduce((currState, kp) => currState.setIn(kp, output), state);
   },
   [constants.FOCUS_NEXT_CELL]: function focusNextCell(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);
