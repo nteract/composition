@@ -13,6 +13,7 @@ import {
 } from '../actions';
 
 import {
+  NEW_KERNEL,
   REMOVE_CELL,
   ABORT_EXECUTION,
   ERROR_EXECUTING,
