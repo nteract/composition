@@ -60,10 +60,11 @@ export default handleActions({
     return state.set('cellFocused', action.id);
   },
   [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
-    const { id, output } = action;
+    const output = action.output;
+    const cellID = action.id;
 
     if (output.output_type !== 'display_data' || !(_.has(output, 'content.transient.display_id'))) {
-      return state.updateIn(['notebook', 'cellMap', id, 'outputs'],
+      return state.updateIn(['notebook', 'cellMap', cellID, 'outputs'],
         (outputs) => reduceOutputs(outputs, output));
     }
 
@@ -72,9 +73,9 @@ export default handleActions({
 
     // Every time we see a display id we're going to capture the keypath
     // to the output
-    const index = state.getIn(['notebook', 'cellMap', id, 'outputs']).count();
+    const outputIndex = state.getIn(['notebook', 'cellMap', cellID, 'outputs']).count();
 
-    const keyPath = ['notebook', 'cellMap', id, 'outputs', index];
+    const keyPath = ['notebook', 'cellMap', cellID, 'outputs', outputIndex];
 
     const keyPaths = state
       // If we don't have keypaths setup, create a new list
@@ -86,6 +87,14 @@ export default handleActions({
 
     // We'll reduce the overall state based on each keypath, updating output
     // TODO: Cleanup for when cells are deleted, since some keyPaths may no longer exist
+    return keyPaths.reduce((currState, kp) => currState.setIn(kp, output), state);
+  },
+  [constants.UPDATE_DISPLAY]: function updateDisplay(state, action) {
+    const output = action.output;
+    const displayID = output.content.transient.display_id;
+    const keyPaths = state
+      .getIn(
+        ['transient', 'keyPathsForDisplays', displayID], new Immutable.List());
     return keyPaths.reduce((currState, kp) => currState.setIn(kp, output), state);
   },
   [constants.FOCUS_NEXT_CELL]: function focusNextCell(state, action) {

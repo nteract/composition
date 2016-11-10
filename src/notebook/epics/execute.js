@@ -264,3 +264,20 @@ export function executeCellEpic(action$, store) {
       })
     );
 }
+
+
+export const updateDisplayEpic = action$ =>
+  // Global message watcher so we need to set up a feed for each new kernel
+  action$.ofType(NEW_KERNEL)
+    .switchMap(({ channels }) =>
+      channels.iopub.ofMessageType('update_display_data')
+        .map(msgSpecToNotebookFormat)
+        .map(output => ({ type: 'UPDATE_DISPLAY', output }))
+        .catch(error =>
+          Rx.Observable.of({
+            type: ERROR_UPDATE_DISPLAY,
+            payload: error,
+            error: true,
+          })
+        )
+    );
