@@ -273,6 +273,8 @@ export const updateDisplayEpic = action$ =>
     .switchMap(({ channels }) =>
       channels.iopub.ofMessageType('update_display_data')
         .map(msgSpecToNotebookFormat)
+        // Convert 'update_display_data' to 'display_data'
+        .map((output) => Object.assign({}, output, { output_type: 'display_data' }))
         .map(output => ({ type: 'UPDATE_DISPLAY', output }))
         .catch(error =>
           Rx.Observable.of({
