@@ -93,8 +93,8 @@ export default handleActions({
       .setIn(['transient', 'keyPathsForDisplays', displayID], keyPaths);
   },
   [constants.UPDATE_DISPLAY]: function updateDisplay(state, action) {
-    const output = action.output;
-    const displayID = output.transient.display_id;
+    const output = Immutable.fromJS(action.output);
+    const displayID = output.getIn(['transient', 'display_id']);
     const keyPaths = state
       .getIn(
         ['transient', 'keyPathsForDisplays', displayID], new Immutable.List());
