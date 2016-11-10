@@ -26,10 +26,10 @@ export default class HTMLDisplay extends React.Component {
     this.el.appendChild(createElement(this.props.data));
   }
 
-  shouldComponentUpdate(prevProps: Props): boolean {
-    return prevProps.data !== this.props.data;
+  shouldComponentUpdate(nextProps: Props): boolean {
+    return nextProps.data !== this.props.data;
   }
-  componentDidUpdate(prevProps: Props): void {
+  componentDidUpdate(): void {
     // clear out all DOM element children
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
