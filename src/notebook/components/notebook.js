@@ -23,8 +23,6 @@ import StatusBar from './status-bar';
 import {
   focusNextCell,
   focusNextCellEditor,
-  focusPreviousCellEditor,
-  focusCellEditor,
   moveCell,
   executeCell,
 } from '../actions';
@@ -174,6 +172,7 @@ export class Notebook extends React.Component {
   }
 
   keyDown(e: KeyboardEvent): void {
+    // If enter is not pressed, do nothing
     if (e.keyCode !== 13) {
       return;
     }
@@ -195,6 +194,7 @@ export class Notebook extends React.Component {
 
     if (e.shiftKey) {
       this.context.store.dispatch(focusNextCell(this.props.cellFocused, true));
+      this.context.store.dispatch(focusNextCellEditor(this.props.editorFocused));
     }
 
     if (cell.get('cell_type') === 'code') {
