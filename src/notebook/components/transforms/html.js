@@ -6,14 +6,14 @@ type Props = {
   data: string,
 }
 
-function createElement(html: string): HTMLElement {
+function createElement(html: string): Node {
   // Create a range to ensure that scripts are invoked from within the HTML
   if (document.createRange && Range && Range.prototype.createContextualFragment) {
     const range = document.createRange();
     const fragment = range.createContextualFragment(html);
     return fragment;
   }
-  d = document.createElement('div');
+  const d = document.createElement('div');
   d.innerHTML = html;
   return d;
 }
