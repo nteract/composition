@@ -6,15 +6,16 @@ type Props = {
   data: string,
 }
 
-function replaceHTML(el, html) {
+function createElement(html: string): HTMLElement {
   // Create a range to ensure that scripts are invoked from within the HTML
   if (document.createRange && Range && Range.prototype.createContextualFragment) {
     const range = document.createRange();
     const fragment = range.createContextualFragment(html);
-    el.appendChild(fragment);
-  } else {
-    el.innerHTML = html;
+    return fragment;
   }
+  d = document.createElement('div');
+  d.innerHTML = html;
+  return d;
 }
 
 export default class HTMLDisplay extends React.Component {
@@ -22,7 +23,7 @@ export default class HTMLDisplay extends React.Component {
   el: HTMLElement;
 
   componentDidMount(): void {
-    replaceHTML(this.el, this.props.data);
+    this.el.appendChild(createElement(this.props.data));
   }
 
   shouldComponentUpdate(old): boolean {
@@ -33,7 +34,7 @@ export default class HTMLDisplay extends React.Component {
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
     }
-    replaceHTML(this.el, this.props.data);
+    this.el.appendChild(createElement(this.props.data));
   }
 
   render(): ?React.Element<any> {
