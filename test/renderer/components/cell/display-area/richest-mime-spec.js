@@ -24,7 +24,7 @@ describe('RichestMime', () => {
       />
     );
 
-    expect(rm.instance().shouldComponentUpdate()).to.be.false;
+    expect(rm.instance().shouldComponentUpdate()).to.be.true;
     expect(rm.first().props()).to.deep.equal({data: 'THE DATA', theme: 'light', metadata: 'alright'});
   })
   it('does not render unknown mimetypes', () => {
