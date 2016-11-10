@@ -22,6 +22,9 @@ import CellCreator from './cell/cell-creator';
 import StatusBar from './status-bar';
 import {
   focusNextCell,
+  focusNextCellEditor,
+  focusPreviousCellEditor,
+  focusCellEditor,
   moveCell,
   executeCell,
 } from '../actions';

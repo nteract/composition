@@ -100,26 +100,8 @@ export default handleActions({
   [constants.FOCUS_NEXT_CELL_EDITOR]: function focusNextCellEditor(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);
     const curIndex = cellOrder.findIndex(id => id === action.id);
-
     const nextIndex = curIndex + 1;
 
-    // When at the end, create a new cell
-    if (nextIndex >= cellOrder.size) {
-      if (!action.createCellIfUndefined) {
-        return state;
-      }
-
-      const cellID = uuid.v4();
-      // TODO: condition on state.defaultCellType (markdown vs. code)
-      const cell = commutable.emptyCodeCell;
-      return state.set('editorFocused', cellID)
-        .update('notebook',
-          (notebook) => commutable.insertCellAt(notebook, cell, cellID, nextIndex))
-        .setIn(['notebook', 'cellMap', cellID, 'outputHidden'], false)
-        .setIn(['notebook', 'cellMap', cellID, 'inputHidden'], false);
-    }
-
-    // When in the middle of the notebook document, move to the next cell
     return state.set('editorFocused', cellOrder.get(nextIndex));
   },
   [constants.FOCUS_PREVIOUS_CELL_EDITOR]: function focusPreviousCellEditor(state, action) {

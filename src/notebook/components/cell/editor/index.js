@@ -173,7 +173,8 @@ export default class Editor extends React.Component {
 
   componentDidMount(): void {
     // On first load, if focused, set codemirror to focus
-    if (this.props.cellFocused) {
+
+    if (this.props.editorFocused) {
       this.codemirror.focus();
     }
 
@@ -208,9 +209,9 @@ export default class Editor extends React.Component {
   }
 
   componentDidUpdate(prevProps: Props): void {
-    if (this.props.cellFocused && prevProps.cellFocused !== this.props.cellFocused) {
+    if (this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
       this.codemirror.focus();
-    } else if (!this.props.cellFocused && prevProps.cellFocused !== this.props.cellFocused) {
+    } else if (!this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
       const cm = this.codemirror.getCodeMirror();
       cm.getInputField().blur();
     }

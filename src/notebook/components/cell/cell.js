@@ -12,6 +12,9 @@ import {
   focusCell,
   focusPreviousCell,
   focusNextCell,
+  focusCellEditor,
+  focusPreviousCellEditor,
+  focusNextCellEditor,
 } from '../../actions';
 
 export type CellProps = {
@@ -84,14 +87,21 @@ export class Cell extends React.Component {
 
   selectCell(): void {
     this.context.store.dispatch(focusCell(this.props.id));
+    this.context.store.dispatch(focusCellEditor(this.props.id));
+
+    /**
+     state.setIn(['notebook', 'cellOrder'], 0)
+    */
   }
 
   focusAboveCell(): void {
     this.context.store.dispatch(focusPreviousCell(this.props.id));
+    this.context.store.dispatch(focusPreviousCellEditor(this.props.id));
   }
 
   focusBelowCell(): void {
     this.context.store.dispatch(focusNextCell(this.props.id, true));
+    this.context.store.dispatch(focusNextCellEditor(this.props.id));
   }
 
   render(): ?React.Element<any> {
