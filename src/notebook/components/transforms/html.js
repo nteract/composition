@@ -22,7 +22,7 @@ export default class HTMLDisplay extends React.Component {
   }
 
   shouldComponentUpdate(): boolean {
-    return false;
+    return true;
   }
 
   render(): ?React.Element<any> {

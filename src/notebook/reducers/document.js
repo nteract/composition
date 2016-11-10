@@ -63,13 +63,13 @@ export default handleActions({
     const output = action.output;
     const cellID = action.id;
 
-    if (output.output_type !== 'display_data' || !(_.has(output, 'content.transient.display_id'))) {
+    if (output.output_type !== 'display_data' || !(_.has(output, 'transient.display_id'))) {
       return state.updateIn(['notebook', 'cellMap', cellID, 'outputs'],
         (outputs) => reduceOutputs(outputs, output));
     }
 
     // We now have a display to track
-    const displayID = output.content.transient.display_id;
+    const displayID = output.transient.display_id;
 
     // Every time we see a display id we're going to capture the keypath
     // to the output
@@ -85,13 +85,16 @@ export default handleActions({
       // Append our current display as a keyPath
       .push(keyPath);
 
+    const immutableOutput = Immutable.fromJS(output);
+
     // We'll reduce the overall state based on each keypath, updating output
     // TODO: Cleanup for when cells are deleted, since some keyPaths may no longer exist
-    return keyPaths.reduce((currState, kp) => currState.setIn(kp, output), state);
+    return keyPaths.reduce((currState, kp) => currState.setIn(kp, immutableOutput), state)
+      .setIn(['transient', 'keyPathsForDisplays', displayID], keyPaths);
   },
   [constants.UPDATE_DISPLAY]: function updateDisplay(state, action) {
     const output = action.output;
-    const displayID = output.content.transient.display_id;
+    const displayID = output.transient.display_id;
     const keyPaths = state
       .getIn(
         ['transient', 'keyPathsForDisplays', displayID], new Immutable.List());
