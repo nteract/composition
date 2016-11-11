@@ -10,6 +10,7 @@ import {
   updateCellPagers,
   updateCellStatus,
   executeCell,
+  clearOutputs,
 } from '../actions';
 
 import {
@@ -183,7 +184,7 @@ export function executeCellStream(channels, id, code) {
 
   const cellAction$ = Rx.Observable.merge(
     // Clear cell outputs
-    Rx.Observable.of(updateCellOutputs(id, new Immutable.List())),
+    Rx.Observable.of(clearOutputs(id)),
     Rx.Observable.of(updateCellStatus(id, 'busy')),
     // Inline %load
     createSourceUpdateAction(id, setInputStream),

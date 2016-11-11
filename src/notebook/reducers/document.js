@@ -59,6 +59,11 @@ export default handleActions({
   [constants.FOCUS_CELL]: function focusCell(state, action) {
     return state.set('cellFocused', action.id);
   },
+  [constants.CLEAR_OUTPUTS]: function clearOutputs(state, action) {
+    const { id } = action;
+
+    return state.setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List());
+  },
   [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
     const output = action.output;
     const cellID = action.id;
