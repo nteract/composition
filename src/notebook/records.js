@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import * as uuid from 'uuid';
 
 const Github = require('github');
 
@@ -14,6 +15,7 @@ export const AppRecord = new Immutable.Record({
   lastSaved: null,
   configLastSaved: null,
   error: null,
+  sessionId: uuid.v4(),
 });
 
 export const DocumentRecord = new Immutable.Record({
