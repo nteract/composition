@@ -144,7 +144,7 @@ export function updateCellNumberingAction(id, cellMessages) {
  */
 export function handleFormattableMessages(id, cellMessages) {
   return cellMessages
-    .ofMessageType(['execute_result', 'display_data', 'stream', 'error', 'clear_output'])
+    .ofMessageType(['execute_result', 'display_data', 'stream', 'error'])
     .map(msgSpecToNotebookFormat)
     .map((output) => ({ type: 'APPEND_OUTPUT', id, output }));
 }
@@ -186,6 +186,8 @@ export function executeCellStream(channels, id, code) {
     // Clear cell outputs
     Rx.Observable.of(clearOutputs(id)),
     Rx.Observable.of(updateCellStatus(id, 'busy')),
+    // clear_output display message
+    cellMessages.ofMessageType(['clear_output']).mapTo(clearOutputs(id)),
     // Inline %load
     createSourceUpdateAction(id, setInputStream),
     // %load for the cell _after_

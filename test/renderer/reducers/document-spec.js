@@ -31,12 +31,6 @@ const monocellDocument = initialDocument
   .set('notebook', commutable.appendCell(dummyCommutable, commutable.emptyCodeCell));
 
 describe('reduceOutputs', () => {
-  it('empties outputs when clear_output passed', () => {
-    const outputs = Immutable.List([1,2,3]);
-    const newOutputs = reduceOutputs(outputs, {output_type: 'clear_output'});
-    expect(newOutputs.size).to.equal(0);
-  })
-
   it('puts new outputs at the end by default', () => {
     const outputs = Immutable.List([1,2]);
     const newOutputs = reduceOutputs(outputs, 3)

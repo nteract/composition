@@ -17,10 +17,6 @@ const _ = require('lodash');
  * @return {Immutable.List<Object>} updated-outputs - Outputs + Output
  */
 export function reduceOutputs(outputs, output) {
-  if (output.output_type === 'clear_output') {
-    return new Immutable.List();
-  }
-
   // Naive implementation of kernel stream buffering
   // This should be broken out into a nice testable function
   if (outputs.size > 0 &&
