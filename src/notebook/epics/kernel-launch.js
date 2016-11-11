@@ -67,7 +67,7 @@ export function acquireKernelInfo(channels) {
   * @param  {String}  kernelSpecName  The name of the kernel to launch
   * @param  {String}  cwd The working directory to launch the kernel in
   */
-export function newKernelObservable(kernelSpecName, cwd) {
+export function newKernelObservable(kernelSpecName, cwd, sessionId) {
   return Rx.Observable.create((observer) => {
     launch(kernelSpecName, { cwd })
       .then(c => {
@@ -82,6 +82,7 @@ export function newKernelObservable(kernelSpecName, cwd) {
           iopub: createIOPubSubject(identity, config),
           control: createControlSubject(identity, config),
           stdin: createStdinSubject(identity, config),
+          sessionId,
         };
         observer.next(setNotebookKernelInfo({
           name: kernelSpecName,
@@ -146,7 +147,7 @@ export const newKernelEpic = action$ =>
       ipc.send('nteract:ping:kernel', action.kernelSpecName);
     })
     .mergeMap(action =>
-      newKernelObservable(action.kernelSpecName, action.cwd)
+      newKernelObservable(action.kernelSpecName, action.cwd, action.sessionId)
     )
     .catch(error => Rx.Observable.of({
       type: ERROR_KERNEL_LAUNCH_FAILED,
