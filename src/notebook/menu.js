@@ -3,7 +3,6 @@ import {
   webFrame,
   remote,
 } from 'electron';
-
 import * as path from 'path';
 
 import { tildify } from './native-window';
@@ -155,11 +154,12 @@ export function dispatchSave(store) {
 
 export function dispatchNewKernel(store, evt, name) {
   const state = store.getState();
+  const sessionId = state.app.get('sessionId');
   let cwd = cwdKernelFallback();
   if (state && state.document && state.metadata.get('filename')) {
     cwd = path.dirname(path.resolve(state.metadata.get('filename')));
   }
-  store.dispatch(newKernel(name, cwd));
+  store.dispatch(newKernel(name, cwd, sessionId));
 }
 
 export function dispatchPublishAnonGist(store) {
@@ -300,7 +300,9 @@ export function dispatchCreateTextCellAfter(store) {
 }
 
 export function dispatchLoad(store, event, filename) {
-  store.dispatch(load(filename));
+  const state = store.getState();
+  const sessionId = state.app.get('sessionId');
+  store.dispatch(load(filename, sessionId));
 }
 
 export function dispatchNewNotebook(store, event, kernelSpecName) {
