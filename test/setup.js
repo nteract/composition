@@ -101,15 +101,9 @@ mock('electron', {
         throw Error('not mocked');
       }
     },
-    'require': function(module) {
-      if (module === 'electron') {
-        return {
-          'dialog': {
-            'showSaveDialog': function(config) { },
-          }
-        };
-      }
-    },
+    'dialog': {
+      'showSaveDialog': function(config) { },
+    }
     'BrowserWindow': {
       'getFocusedWindow': function() {
         return {

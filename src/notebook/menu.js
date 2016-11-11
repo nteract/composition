@@ -54,8 +54,7 @@ export function dispatchSaveAs(store, evt, filename) {
   store.dispatch(saveAs(filename, notebook));
 }
 
-const remoteElectron = remote.require('electron');
-const dialog = remoteElectron.dialog;
+const dialog = remote.dialog;
 
 export function showSaveAsDialog(defaultPath) {
   return new Promise((resolve) => {
