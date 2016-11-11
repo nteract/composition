@@ -28,7 +28,7 @@ import {
 import { executeCell } from '../../../src/notebook/actions';
 import {
   reduceOutputs,
-  executeCellObservable,
+  executeCellStream,
   executeCellEpic,
   createExecuteRequest,
   msgSpecToNotebookFormat,
@@ -36,7 +36,7 @@ import {
   createSourceUpdateAction,
   createCellAfterAction,
   createCellStatusAction,
-  createExecuteCellObservable,
+  createExecuteCellStream,
   updateCellNumberingAction,
   handleFormattableMessages,
 } from '../../../src/notebook/epics/execute';
@@ -52,50 +52,9 @@ describe('executeCell', () => {
   });
 });
 
-describe('reduceOutputs', () => {
-  it('empties outputs when clear_output passed', () => {
-    const outputs = Immutable.List([1,2,3]);
-    const newOutputs = reduceOutputs(outputs, {output_type: 'clear_output'});
-    expect(newOutputs.size).to.equal(0);
-  })
 
-  it('puts new outputs at the end by default', () => {
-    const outputs = Immutable.List([1,2]);
-    const newOutputs = reduceOutputs(outputs, 3)
-
-    expect(newOutputs).to.equal(Immutable.List([1, 2, 3]));
-  })
-
-  it('merges streams of text', () => {
-    const outputs = Immutable.fromJS([{name: 'stdout', text: 'hello', output_type: 'stream'}])
-    const newOutputs = reduceOutputs(outputs, {name: 'stdout', text: ' world', output_type: 'stream' });
-
-    expect(newOutputs).to.equal(Immutable.fromJS([{name: 'stdout', text: 'hello world', output_type: 'stream'}]));
-  })
-
-  it('keeps respective streams together', () => {
-    const outputs = Immutable.fromJS([
-      {name: 'stdout', text: 'hello', output_type: 'stream'},
-      {name: 'stderr', text: 'errors are', output_type: 'stream'},
-    ])
-    const newOutputs = reduceOutputs(outputs, {name: 'stdout', text: ' world', output_type: 'stream' });
-
-    expect(newOutputs).to.equal(Immutable.fromJS([
-      {name: 'stdout', text: 'hello world', output_type: 'stream'},
-      {name: 'stderr', text: 'errors are', output_type: 'stream'},
-    ]));
-
-    const evenNewerOutputs = reduceOutputs(newOutputs, {name: 'stderr', text: ' informative', output_type: 'stream' });
-    expect(evenNewerOutputs).to.equal(Immutable.fromJS([
-      {name: 'stdout', text: 'hello world', output_type: 'stream'},
-      {name: 'stderr', text: 'errors are informative', output_type: 'stream'},
-    ]));
-
-  })
-})
-
-describe('executeCellObservable', () => {
-  // TODO: Refactor executeCellObservable into separate testable observables
+describe('executeCellStream', () => {
+  // TODO: Refactor executeCelStream into separate testable observables
   it('is entirely too insane for me to test this well right this second', (done) => {
     const frontendToShell = new Rx.Subject();
     const shellToFrontend = new Rx.Subject();
@@ -114,7 +73,7 @@ describe('executeCellObservable', () => {
         expect(msg.content.code).to.equal('import this');
       })
 
-    const action$ = executeCellObservable(channels, '0', 'import this');
+    const action$ = executeCellStream(channels, '0', 'import this');
 
     action$
       .bufferCount(3)
@@ -132,7 +91,7 @@ describe('executeCellObservable', () => {
   })
 
   it('outright rejects a lack of channels.shell and iopub', (done) => {
-    const obs = executeCellObservable({}, '0', 'woo')
+    const obs = executeCellStream({}, '0', 'woo')
     obs.subscribe(null, (err) => {
         expect(err.message).to.equal('kernel not connected');
         done();
@@ -275,7 +234,7 @@ describe('createExecuteCellObservable', () => {
           };
   const action$ = new ActionsObservable();
   it('notifies the user if kernel is not connected', () => {
-    const testFunction = createExecuteCellObservable(action$, store, 'source', 'id');
+    const testFunction = createExecuteCellStream(action$, store, 'source', 'id');
     const notification = store.getState().app.notificationSystem.addNotification;
     expect(notification).to.be.calledWith({
       title: 'Could not execute cell',
@@ -286,8 +245,8 @@ describe('createExecuteCellObservable', () => {
   });
   it('emits returns an observable when kernel connected', () => {
     store.state.app.executionState = 'started'
-    const executeCellObservable = createExecuteCellObservable(action$, store, 'source', 'id');
-    expect(executeCellObservable.subscribe).to.not.be.null;
+    const executeCellStream = createExecuteCellStream(action$, store, 'source', 'id');
+    expect(executeCellStream.subscribe).to.not.be.null;
   });
 })
 

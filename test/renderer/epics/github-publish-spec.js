@@ -123,37 +123,3 @@ describe('notifyUser', () => {
     }))
   })
 })
-
-describe('handleGistError', () => {
-  it('handles bad credentials', () => {
-    const store = dummyStore();
-    const notification = store.getState().app.notificationSystem.addNotification;
-    handleGistError(store, JSON.stringify({message: 'Bad credentials'}));
-    expect(notification).to.be.calledWith({
-      title: 'Bad credentials',
-      message: 'Unable to authenticate with your credentials.\n' +
-               'Please try again.',
-      level: 'error',
-    });
-  });
-  it('handles other errors', () => {
-    const store = dummyStore();
-    const notification = store.getState().app.notificationSystem.addNotification;
-    handleGistError(store, JSON.stringify({message: 'this'}));
-    expect(notification).to.be.calledWith({
-      title: 'Publication Error',
-      message: 'this',
-      level: 'error',
-    });
-  })
-  it('handles bad errors', () => {
-    const store = dummyStore();
-    const notification = store.getState().app.notificationSystem.addNotification;
-    handleGistError(store, '');
-    expect(notification).to.be.calledWith({
-      title: 'Unknown Publication Error',
-      message: 'Failure to parse error message',
-      level: 'error',
-    });
-  });
-});

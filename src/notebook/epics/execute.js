@@ -22,8 +22,6 @@ import {
 const Rx = require('rxjs/Rx');
 const Immutable = require('immutable');
 
-const emptyOutputs = new Immutable.List();
-
 /**
  * Create an object that adheres to the jupyter notebook specification.
  * http://jupyter-client.readthedocs.io/en/latest/messaging.html
@@ -54,42 +52,6 @@ export function createExecuteRequest(code) {
     stop_on_error: false,
   };
   return executeRequest;
-}
-
-/**
- * An output can be a stream of data that does not arrive at a single time. This
- * function handles the different types of outputs and accumulates the data
- * into a reduced output.
- *
- * @param {Object} outputs - Kernel output messages
- * @param {Object} output - Outputted to be reduced into list of outputs
- * @return {Immutable.List<Object>} updated-outputs - Outputs + Output
- */
-export function reduceOutputs(outputs, output) {
-  if (output.output_type === 'clear_output') {
-    return emptyOutputs;
-  }
-
-  // Naive implementation of kernel stream buffering
-  // This should be broken out into a nice testable function
-  if (outputs.size > 0 &&
-      output.output_type === 'stream' &&
-      typeof output.name !== 'undefined' &&
-      outputs.last().get('output_type') === 'stream'
-    ) {
-    // Invariant: size > 0, outputs.last() exists
-    if (outputs.last().get('name') === output.name) {
-      return outputs.updateIn([outputs.size - 1, 'text'], text => text + output.text);
-    }
-    const nextToLast = outputs.butLast().last();
-    if (nextToLast &&
-        nextToLast.get('output_type') === 'stream' &&
-        nextToLast.get('name') === output.name) {
-      return outputs.updateIn([outputs.size - 2, 'text'], text => text + output.text);
-    }
-  }
-
-  return outputs.push(Immutable.fromJS(output));
 }
 
 /**
@@ -171,22 +133,18 @@ export function updateCellNumberingAction(id, cellMessages) {
 }
 
 /**
- * If a message is formattable, give it the notebook format specification and
- * reduce outputs.
+ * Creates a stream of APPEND_OUTPUT actions from notebook formatable messages.
  *
  * @param {String} id - Universally Unique Identifier of cell receiving
  * messages.
- * @param {Observable<Action>} cellMessages - Set of sent cell messages.
- * @return {Observable<Action>} cellMessages - Set of updated cell messages.
+ * @param {Observable} cellMessages - Set of sent cell messages.
+ * @return {Observable<Action>} actions - Stream of APPEND_OUTPUT actions.
  */
 export function handleFormattableMessages(id, cellMessages) {
   return cellMessages
     .ofMessageType(['execute_result', 'display_data', 'stream', 'error', 'clear_output'])
     .map(msgSpecToNotebookFormat)
-    // Iteratively reduce on the outputs
-    .scan(reduceOutputs, emptyOutputs)
-    // Update the outputs with each change
-    .map(outputs => updateCellOutputs(id, outputs));
+    .map((output) => ({ type: 'APPEND_OUTPUT', id, output }));
 }
 
 /**
@@ -199,7 +157,7 @@ export function handleFormattableMessages(id, cellMessages) {
  * @return {Observable<Action>} updatedOutputs - It returns an observable with
  * a stream of events that need to happen after a cell has been executed.
  */
-export function executeCellObservable(channels, id, code) {
+export function executeCellStream(channels, id, code) {
   if (!channels || !channels.iopub || !channels.shell) {
     return Rx.Observable.throw(new Error('kernel not connected'));
   }
@@ -250,7 +208,7 @@ export function executeCellObservable(channels, id, code) {
   });
 }
 
-export function createExecuteCellObservable(action$, store, source, id) {
+export function createExecuteCellStream(action$, store, source, id) {
   const state = store.getState();
   const channels = state.app.channels;
 
@@ -268,7 +226,7 @@ export function createExecuteCellObservable(action$, store, source, id) {
     return Rx.Observable.of(updateCellExecutionCount(id, undefined));
   }
 
-  return executeCellObservable(channels, id, source)
+  return executeCellStream(channels, id, source)
     .takeUntil(action$.filter(laterAction => laterAction.id === id)
                       .ofType(ABORT_EXECUTION, REMOVE_CELL));
 }
@@ -278,7 +236,6 @@ export function createExecuteCellObservable(action$, store, source, id) {
  * inner observable streams of the running execution responses
  */
 export function executeCellEpic(action$, store) {
-  const boundCreateExecuteCellObservable = createExecuteCellObservable.bind(null, action$, store);
   return action$.ofType('EXECUTE_CELL')
     .do(action => {
       if (!action.id) {
@@ -291,11 +248,11 @@ export function executeCellEpic(action$, store) {
     // Split stream by cell IDs
     .groupBy(action => action.id)
     // Work on each cell's stream
-    .map(cellActionObservable =>
-      cellActionObservable
+    .map(cellActionStream =>
+      cellActionStream
         // When a new EXECUTE_CELL comes in with the current ID, we create a
-        // a new observable and unsubscribe from the old one.
-        .switchMap(({ source, id }) => boundCreateExecuteCellObservable(source, id))
+        // a new stream and unsubscribe from the old one.
+        .switchMap(({ source, id }) => createExecuteCellStream(action$, store, source, id))
     )
     // Bring back all the inner Observables into one stream
     .mergeAll()

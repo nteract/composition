@@ -54,8 +54,7 @@ export function dispatchSaveAs(store, evt, filename) {
   store.dispatch(saveAs(filename, notebook));
 }
 
-const remoteElectron = remote.require('electron');
-const dialog = remoteElectron.dialog;
+const dialog = remote.dialog;
 
 export function showSaveAsDialog(defaultPath) {
   return new Promise((resolve) => {
@@ -199,7 +198,7 @@ export function dispatchUnhideAll(store) {
   const notebook = state.document.get('notebook');
   const cells = notebook.get('cellMap');
   notebook.get('cellOrder')
-    .filter((cellID) => cells.getIn([cellID, 'inputHidden']))
+    .filter((cellID) => cells.getIn([cellID, 'metadata', 'inputHidden']))
     .map((cellID) => store.dispatch(changeInputVisibility(cellID)));
 }
 

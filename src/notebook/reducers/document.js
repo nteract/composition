@@ -5,6 +5,42 @@ import * as commutable from 'commutable';
 
 import * as constants from '../constants';
 
+/**
+ * An output can be a stream of data that does not arrive at a single time. This
+ * function handles the different types of outputs and accumulates the data
+ * into a reduced output.
+ *
+ * @param {Object} outputs - Kernel output messages
+ * @param {Object} output - Outputted to be reduced into list of outputs
+ * @return {Immutable.List<Object>} updated-outputs - Outputs + Output
+ */
+export function reduceOutputs(outputs, output) {
+  if (output.output_type === 'clear_output') {
+    return new Immutable.List();
+  }
+
+  // Naive implementation of kernel stream buffering
+  // This should be broken out into a nice testable function
+  if (outputs.size > 0 &&
+      output.output_type === 'stream' &&
+      typeof output.name !== 'undefined' &&
+      outputs.last().get('output_type') === 'stream'
+    ) {
+    // Invariant: size > 0, outputs.last() exists
+    if (outputs.last().get('name') === output.name) {
+      return outputs.updateIn([outputs.size - 1, 'text'], text => text + output.text);
+    }
+    const nextToLast = outputs.butLast().last();
+    if (nextToLast &&
+        nextToLast.get('output_type') === 'stream' &&
+        nextToLast.get('name') === output.name) {
+      return outputs.updateIn([outputs.size - 2, 'text'], text => text + output.text);
+    }
+  }
+
+  return outputs.push(Immutable.fromJS(output));
+}
+
 export default handleActions({
   [constants.SET_NOTEBOOK]: function setNotebook(state, action) {
     const notebook = action.notebook
@@ -20,6 +56,11 @@ export default handleActions({
   },
   [constants.FOCUS_CELL]: function focusCell(state, action) {
     return state.set('focusedCell', action.id);
+  },
+  [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
+    const { id, output } = action;
+    return state.updateIn(['notebook', 'cellMap', id, 'outputs'],
+      (outputs) => reduceOutputs(outputs, output));
   },
   [constants.FOCUS_NEXT_CELL]: function focusNextCell(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);
@@ -162,13 +203,13 @@ export default handleActions({
   },
   [constants.CHANGE_OUTPUT_VISIBILITY]: function changeOutputVisibility(state, action) {
     const { id } = action;
-    return state.updateIn(['notebook', 'cellMap'], (cells) => cells.setIn([id, 'outputHidden'],
-          !cells.getIn([id, 'outputHidden'])));
+    return state.setIn(['notebook', 'cellMap', id, 'metadata', 'outputHidden'],
+      !state.getIn(['notebook', 'cellMap', id, 'metadata', 'outputHidden']));
   },
   [constants.CHANGE_INPUT_VISIBILITY]: function changeInputVisibility(state, action) {
     const { id } = action;
-    return state.updateIn(['notebook', 'cellMap'], (cells) => cells.setIn([id, 'metadata', 'inputHidden'],
-          !cells.getIn([id, 'metadata', 'inputHidden'])));
+    return state.setIn(['notebook', 'cellMap', id, 'metadata', 'inputHidden'],
+      !state.getIn(['notebook', 'cellMap', id, 'metadata', 'inputHidden']));
   },
   [constants.UPDATE_CELL_OUTPUTS]: function updateOutputs(state, action) {
     const { id, outputs } = action;
@@ -242,8 +283,8 @@ export default handleActions({
   },
   [constants.TOGGLE_OUTPUT_EXPANSION]: function toggleOutputExpansion(state, action) {
     const { id } = action;
-
-    return state.updateIn(['notebook', 'cellMap'], (cells) => cells.setIn([id, 'outputExpanded'],
-      !cells.getIn([id, 'outputExpanded'])));
+    return state.updateIn(['notebook', 'cellMap'], (cells) =>
+      cells.setIn([id, 'metadata', 'outputExpanded'],
+        !cells.getIn([id, 'metadata', 'outputExpanded'])));
   },
 }, {});

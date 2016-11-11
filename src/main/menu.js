@@ -42,7 +42,6 @@ export function authAndPublish(item, focusedWindow) {
         send(focusedWindow, 'menu:github:auth', JSON.parse(auth).access_token);
         process.env.AUTHENTICATED = true;
         win.close();
-        return;
       });
     } else {
       win.show();

@@ -33,7 +33,9 @@ export function saveEpic(action$) {
           commutable.toJS(
             action.notebook.update('cellMap', (cells) =>
               cells.map((value) =>
-                value.delete('inputHidden').delete('outputHidden').delete('status')))),
+                value.deleteIn(['metadata', 'inputHidden'])
+                  .deleteIn(['metadata', 'outputHidden'])
+                  .deleteIn(['metadata', 'status'])))),
           null,
           1))
         .catch(error => {

@@ -4,7 +4,7 @@ const createLogger = require('redux-logger');
 
 module.exports = function clogger() {
   const logger = createLogger({
-    predicate: (getState, action) => action.type.includes('COMM'),
+    // predicate: (getState, action) => action.type.includes('COMM'),
     stateTransformer: (state) =>
       Object.keys(state).reduce((prev, key) =>
         Object.assign(

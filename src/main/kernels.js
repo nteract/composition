@@ -7,9 +7,9 @@ import {
 const path = require('path');
 
 /**
- * ipyKernelTryObservable check for existence of ipykernel in an env
- * @param  {Object} env [description]
- * @return {[type]}     [description]
+ * ipyKernelTryObservable checks for the existence of ipykernel in the environment.
+ * @param  {Object} env - Current environment
+ * @returns {Observable}  Source environment
  */
 export function ipyKernelTryObservable(env) {
   const executable = path.join(env.prefix, 'bin', 'python');
@@ -19,11 +19,22 @@ export function ipyKernelTryObservable(env) {
     .catch(err => Rx.Observable.empty());
 }
 
+/**
+  * condaInfoObservable executes the conda info --json command and maps the
+  * result to an observable that parses through the environmental informaiton.
+  * @returns {Observable}  JSON parsed information
+  */
 export function condaInfoObservable() {
   return spawn('conda', ['info', '--json'])
     .map(info => JSON.parse(info));
 }
 
+/**
+  * condaEnvsObservable will return an observable that emits the environmental
+  * paths of the passed in observable.
+  * @param {Observable} condaInfo$ - Environmental information
+  * @returns {Observable}  List of envionmental variables
+  */
 export function condaEnvsObservable(condaInfo$) {
   return condaInfo$.map(info => {
     const envs = info.envs.map(env => ({ name: path.basename(env), prefix: env }));
@@ -36,6 +47,12 @@ export function condaEnvsObservable(condaInfo$) {
   .toArray();
 }
 
+/**
+  * createKernelSpecsFromEnvs generates a dictionary with the supported langauge
+  * paths.
+  * @param {Observable} envs - Environmental elements
+  * @returns {Object}   Dictionary containing supported langauges paths.
+  */
 export function createKernelSpecsFromEnvs(envs) {
   const displayPrefix = 'Python'; // Or R
   const languageKey = 'py'; // or r
@@ -45,7 +62,7 @@ export function createKernelSpecsFromEnvs(envs) {
 
   const langEnvs = {};
 
-  for (const env of envs) {
+  Object.keys(envs).forEach((env) => {
     const base = env.prefix;
     const exePath = path.join(base, languageExe);
     const envName = env.name;
@@ -55,10 +72,15 @@ export function createKernelSpecsFromEnvs(envs) {
       argv: [exePath, '-m', 'ipykernel', '-f', '{connection_file}'],
       language: 'python',
     };
-  }
+  });
   return langEnvs;
 }
 
+/**
+  * condaKernelObservable generates an observable containing the supported languages
+  * environmental elements.
+  * @returns {Observable}  Supported language elements
+  */
 export function condaKernelsObservable() {
   return condaEnvsObservable(condaInfoObservable())
     .map(createKernelSpecsFromEnvs);
