@@ -80,9 +80,9 @@ describe('executeCellStream', () => {
       .subscribe(messages => {
         expect(messages).to.deep.equal([
           // TODO: Order doesn't actually matter here
+          { type: 'CLEAR_OUTPUTS', id: '0' },
           { type: 'UPDATE_CELL_STATUS', id: '0', status: 'busy' },
           { type: 'UPDATE_CELL_PAGERS', id: '0', pagers: Immutable.List() },
-          { type: 'UPDATE_CELL_OUTPUTS', id: '0', outputs: Immutable.List() },
         ]);
         done(); // TODO: Make sure message check above is called
       })

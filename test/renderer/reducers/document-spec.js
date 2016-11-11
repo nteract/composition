@@ -498,8 +498,8 @@ describe('changeInputVisibility', () => {
   });
 });
 
-describe('updateCellOutputs', () => {
-  it('updates cell output', () => {
+describe('clearOutputs', () => {
+  it('clears out cell outputs', () => {
     const originalState = {
       document: monocellDocument,
     };
@@ -507,13 +507,12 @@ describe('updateCellOutputs', () => {
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
 
     const action = {
-      type: constants.UPDATE_CELL_OUTPUTS,
+      type: constants.CLEAR_OUTPUTS,
       id: id,
-      outputs: [{data: "This is a test"}],
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['notebook', 'cellMap', id, 'outputs']).length).to.equal(1);
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'outputs']).count()).to.equal(0);
   });
 });
 

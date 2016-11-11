@@ -280,10 +280,6 @@ export default handleActions({
     return state.updateIn(['notebook', 'cellMap'], (cells) => cells.setIn([id, 'metadata', 'inputHidden'],
           !cells.getIn([id, 'metadata', 'inputHidden'])));
   },
-  [constants.UPDATE_CELL_OUTPUTS]: function updateOutputs(state, action) {
-    const { id, outputs } = action;
-    return state.setIn(['notebook', 'cellMap', id, 'outputs'], outputs);
-  },
   [constants.UPDATE_CELL_PAGERS]: function updateCellPagers(state, action) {
     const { id, pagers } = action;
     return state.setIn(['cellPagers', id], pagers);
