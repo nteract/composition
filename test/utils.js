@@ -83,6 +83,7 @@ export function dummyStore(config) {
       },
       token: 'TOKEN',
       channels: 'channelInfo',
+      sessionId: 'sessionId',
     }),
     metadata: MetadataRecord({
       filename: (config && config.noFilename) ? null : 'dummy-store-nb.ipynb',
