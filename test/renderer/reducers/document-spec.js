@@ -291,7 +291,7 @@ describe('removeCell', () => {
   });
 });
 
-describe('clearCellOutput', () => {
+describe('clearOutputs', () => {
   it('should clear outputs list', () => {
     const originalState = {
       document: initialDocument.set('notebook',
@@ -303,7 +303,7 @@ describe('clearCellOutput', () => {
     const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
 
     const action = {
-      type: constants.CLEAR_CELL_OUTPUT,
+      type: constants.CLEAR_OUTPUTS,
       id,
     };
 

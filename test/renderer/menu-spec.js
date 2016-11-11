@@ -144,7 +144,7 @@ describe('menu', () => {
   });
 
   describe('dispatchRestartClearAll', () => {
-    it('dispatches KILL_KERNEL and CLEAR_CELL_OUTPUT actions', () => {
+    it('dispatches KILL_KERNEL and CLEAR_OUTPUTS actions', () => {
       const store = dummyStore();
       store.dispatch = sinon.spy();
 
@@ -198,7 +198,7 @@ describe('menu', () => {
     menu.dispatchClearAll(store);
 
     expect(store.dispatch.firstCall).to.be.calledWith({
-      type: constants.CLEAR_CELL_OUTPUT,
+      type: constants.CLEAR_OUTPUTS,
       id: store.getState().document.getIn(['notebook', 'cellOrder']).first()
     });
   });

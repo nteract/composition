@@ -92,13 +92,6 @@ export function updateCellExecutionCount(id, count) {
   };
 }
 
-export function clearCellOutput(id) {
-  return {
-    type: constants.CLEAR_CELL_OUTPUT,
-    id,
-  };
-}
-
 export function changeOutputVisibility(id) {
   return {
     type: constants.CHANGE_OUTPUT_VISIBILITY,

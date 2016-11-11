@@ -256,10 +256,6 @@ export default handleActions({
     const { id, source } = action;
     return state.update('notebook', (notebook) => commutable.updateSource(notebook, id, source));
   },
-  [constants.CLEAR_CELL_OUTPUT]: function clearCellOutput(state, action) {
-    const { id } = action;
-    return state.update('notebook', (notebook) => commutable.clearCellOutput(notebook, id));
-  },
   [constants.SPLIT_CELL]: function splitCell(state, action) {
     const { id, position } = action;
     const index = state.getIn(['notebook', 'cellOrder']).indexOf(id);

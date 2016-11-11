@@ -24,7 +24,7 @@ import {
 
 import {
   executeCell,
-  clearCellOutput,
+  clearOutputs,
   newKernel,
   killKernel,
   interruptKernel,
@@ -190,7 +190,7 @@ export function dispatchRunAll(store) {
 export function dispatchClearAll(store) {
   const state = store.getState();
   const notebook = state.document.get('notebook');
-  notebook.get('cellOrder').map((value) => store.dispatch(clearCellOutput(value)));
+  notebook.get('cellOrder').map((value) => store.dispatch(clearOutputs(value)));
 }
 
 export function dispatchUnhideAll(store) {
