@@ -29,10 +29,11 @@ describe('setExecutionState', () => {
 
 describe('newKernel', () => {
   it('creates a LAUNCH_KERNEL action', () => {
-    expect(actions.newKernel('python2', '.')).to.deep.equal({
+    expect(actions.newKernel('python2', '.', 'session-id')).to.deep.equal({
       type: constants.LAUNCH_KERNEL,
       kernelSpecName: 'python2',
       cwd: '.',
+      sessionId: 'session-id',
     })
   });
 });
