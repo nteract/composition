@@ -103,7 +103,7 @@ mock('electron', {
     },
     'dialog': {
       'showSaveDialog': function(config) { },
-    }
+    },
     'BrowserWindow': {
       'getFocusedWindow': function() {
         return {
