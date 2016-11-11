@@ -68,27 +68,36 @@ export default handleActions({
         (outputs) => reduceOutputs(outputs, output));
     }
 
+    // We now have a display_data that includes a transient display_id
+    // output: {
+    //   data: { 'text/html': '<b>woo</b>' }
+    //   metadata: {}
+    //   transient: { display_id: '12312' }
+    // }
+
     // We now have a display to track
     const displayID = output.transient.display_id;
 
     // Every time we see a display id we're going to capture the keypath
     // to the output
+
+    // Determine the next output index
     const outputIndex = state.getIn(['notebook', 'cellMap', cellID, 'outputs']).count();
 
+    // Construct the path to the output for updating later
     const keyPath = ['notebook', 'cellMap', cellID, 'outputs', outputIndex];
 
     const keyPaths = state
-      // If we don't have keypaths setup, create a new list
+      // Extract the current list of keypaths for this displayID
       .getIn(
         ['transient', 'keyPathsForDisplays', displayID], new Immutable.List()
       )
-      // Append our current display as a keyPath
+      // Append our current output's keyPath
       .push(keyPath);
 
     const immutableOutput = Immutable.fromJS(output);
 
     // We'll reduce the overall state based on each keypath, updating output
-    // TODO: Cleanup for when cells are deleted, since some keyPaths may no longer exist
     return keyPaths.reduce((currState, kp) => currState.setIn(kp, immutableOutput), state)
       .setIn(['transient', 'keyPathsForDisplays', displayID], keyPaths);
   },
@@ -268,7 +277,7 @@ export default handleActions({
   },
   [constants.UPDATE_CELL_OUTPUTS]: function updateOutputs(state, action) {
     const { id, outputs } = action;
-    return state.update('notebook', (notebook) => commutable.updateOutputs(notebook, id, outputs));
+    return state.setIn(['notebook', 'cellMap', id, 'outputs'], outputs);
   },
   [constants.UPDATE_CELL_PAGERS]: function updateCellPagers(state, action) {
     const { id, pagers } = action;

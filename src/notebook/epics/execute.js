@@ -182,6 +182,8 @@ export function executeCellStream(channels, id, code) {
   const cellMessages = iopub.childOf(executeRequest);
 
   const cellAction$ = Rx.Observable.merge(
+    // Clear cell outputs
+    Rx.Observable.of(updateCellOutputs(id, new Immutable.List())),
     Rx.Observable.of(updateCellStatus(id, 'busy')),
     // Inline %load
     createSourceUpdateAction(id, setInputStream),
@@ -195,8 +197,6 @@ export function executeCellStream(channels, id, code) {
     createCellStatusAction(id, cellMessages),
     // Update the input numbering: `[ ]`
     updateCellNumberingAction(id, cellMessages),
-    // Clear cell outputs
-    Rx.Observable.of(updateCellOutputs(id, new Immutable.List())),
     // Handle all nbformattable messages
     handleFormattableMessages(id, cellMessages),
   );
@@ -271,7 +271,7 @@ export const updateDisplayEpic = action$ =>
   // Global message watcher so we need to set up a feed for each new kernel
   action$.ofType(NEW_KERNEL)
     .switchMap(({ channels }) =>
-      channels.iopub.ofMessageType('update_display_data')
+      channels.iopub.ofMessageType(['update_display_data'])
         .map(msgSpecToNotebookFormat)
         // Convert 'update_display_data' to 'display_data'
         .map((output) => Object.assign({}, output, { output_type: 'display_data' }))
