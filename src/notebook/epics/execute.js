@@ -168,7 +168,7 @@ export function executeCellStream(channels, id, code) {
 
   // Payload streams in general
   const payloadStream = shell.childOf(executeRequest)
-    .ofMessageType('execute_reply')
+    .ofMessageType(['execute_reply'])
     .pluck('content', 'payload')
     .filter(Boolean)
     .flatMap(payloads => Rx.Observable.from(payloads));
