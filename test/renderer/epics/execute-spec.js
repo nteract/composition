@@ -30,6 +30,7 @@ import {
   reduceOutputs,
   executeCellStream,
   executeCellEpic,
+  updateDisplayEpic,
   createExecuteRequest,
   msgSpecToNotebookFormat,
   createPagerActions,
@@ -309,4 +310,71 @@ describe('executeCellEpic', () => {
       },
     );
   });
+})
+
+describe('updateDisplayEpic', () => {
+  it('creates an epic that handles update_display_data messages', (done) => {
+    const messages = [
+      // Should be processed
+      { header: { msg_type: 'update_display_data' },
+        content: {
+          data: { 'text/html': '<marquee>wee</marquee>' },
+          transient: { display_id: '1234' },
+        },
+      },
+      // Should not be processed
+      { header: { msg_type: 'display_data' },
+        content: {
+          data: { 'text/html': '<marquee>wee</marquee>' },
+          transient: { display_id: '5555' },
+        },
+      },
+      { header: { msg_type: 'ignored' },
+        content: {
+          data: { 'text/html': '<marquee>wee</marquee>' },
+        },
+      },
+      // Should be processed
+      { header: { msg_type: 'update_display_data' },
+        content: {
+          data: { 'text/plain': 'i am text' },
+          transient: { display_id: 'here' },
+        },
+      },
+    ];
+
+    const channels = {
+      iopub: Observable.from(messages),
+    };
+    const kernel$ = Observable.of({ type: 'NEW_KERNEL', channels });
+    const action$ = new ActionsObservable(kernel$);
+
+    const epic = updateDisplayEpic(action$);
+
+    const responseActions = [];
+    epic.subscribe(
+      (action) => responseActions.push(action),
+      (err) => { throw err; },
+      () => {
+        expect(responseActions).to.deep.equal([
+          { type: 'UPDATE_DISPLAY',
+            output: {
+              output_type: 'display_data',
+              data: { 'text/html': '<marquee>wee</marquee>' },
+              transient: { display_id: '1234' },
+            }
+          },
+          { type: 'UPDATE_DISPLAY',
+            output: {
+              output_type: 'display_data',
+              data: { 'text/plain': 'i am text' },
+              transient: { display_id: 'here' },
+            }
+          },
+        ])
+        done();
+      }
+    )
+
+  })
 })
