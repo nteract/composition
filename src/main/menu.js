@@ -6,9 +6,14 @@ import { installShellCommand } from './cli';
 
 const kernelspecs = require('kernelspecs');
 
-const exampleNotebooksDirectory = path.resolve(
-  path.join(__dirname, '..', '..', '..', 'example-notebooks')
-);
+function getExampleNotebooksDir() {
+  if (process.env.NODE_ENV === 'development') {
+    return path.resolve(path.join(__dirname, '..', '..', 'example-notebooks'));
+  }
+  return path.join(process.resourcesPath, 'example-notebooks');
+}
+
+const exampleNotebooksDirectory = getExampleNotebooksDir();
 
 function send(focusedWindow, eventName, obj) {
   if (!focusedWindow) {

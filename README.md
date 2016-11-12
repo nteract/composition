@@ -96,7 +96,7 @@ Use your distribution's package manager to install.
 
 As you make changes, close the entire app (cmd-q on OS X, or ctrl-c at the terminal) then run `npm run start` again.
 
-##### Progressive Webpack build for the notebook 
+##### Progressive Webpack build for the notebook
 
 In separate terminals run:
 
@@ -108,7 +108,7 @@ npm run build:renderer:watch
 and
 
 ```
-NODE_ENV=development ./node_modules/electron/cli.js ./app/
+npm run start
 ```
 
 The webpack build will keep occurring as you modify source. When you open a new notebook, you'll get the freshest copy of the notebook app.
@@ -133,11 +133,10 @@ And then opening `docs/index.html` in your favorite browser.
 ### Bump the version
 
 ```
-cd app
 npm version {major|minor|patch}
-cd ..
 git push
 git push --tags
+npm publish
 ```
 
 ### Create the package

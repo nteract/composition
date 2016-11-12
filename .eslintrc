@@ -48,10 +48,5 @@
   },
   "settings": {
     "import/core-modules": ["electron"],
-    "import/resolver": {
-       "node": {
-         "moduleDirectory": ["app/node_modules"]
-      }
-    }
   }
 }

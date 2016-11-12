@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { launch } from '../../app/build/main/launch';
+import { launch } from '../../lib/main/launch';
 
 const ipc = require('electron').ipcMain;
 

@@ -20,7 +20,7 @@ const getStartCommand = () => {
   } else if (fs.existsSync(electronPath)) {
     // Developer install
     const rootDir = dir.split('node_modules')[0];
-    return [electronPath, join(rootDir, 'app'), join(rootDir, 'bin', win)];
+    return [electronPath, rootDir, join(rootDir, 'bin', win)];
   }
   return [null, null, null];
 };

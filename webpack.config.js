@@ -13,7 +13,7 @@ module.exports = {
   entry: './src/notebook/index.js',
   target: 'electron-renderer',
   output: {
-    path: path.join(__dirname, 'app', 'build'),
+    path: path.join(__dirname, 'lib'),
     filename: 'webpacked-notebook.js'
   },
   module: {
@@ -24,15 +24,14 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    root: path.join(__dirname, 'app'),
+    root: __dirname,
     // Webpack 1
     modulesDirectories: [
-      path.resolve(__dirname, 'app', 'node_modules'),
       path.resolve(__dirname, 'node_modules'),
     ],
     // Webpack 2
     modules: [
-      path.resolve(__dirname, 'app', 'node_modules'),
+      path.resolve(__dirname, 'node_modules'),
     ],
   },
   externals: nodeModules,
