@@ -6,16 +6,13 @@ type Props = {
   data: string,
 }
 
-function createElement(html: string): Node {
+// Note: createRange and Range must be polyfilled on older browsers with
+//       https://github.com/timdown/rangy
+export function createFragment(html: string): Node {
   // Create a range to ensure that scripts are invoked from within the HTML
-  if (document.createRange && Range && Range.prototype.createContextualFragment) {
-    const range = document.createRange();
-    const fragment = range.createContextualFragment(html);
-    return fragment;
-  }
-  const d = document.createElement('div');
-  d.innerHTML = html;
-  return d;
+  const range = document.createRange();
+  const fragment = range.createContextualFragment(html);
+  return fragment;
 }
 
 export default class HTMLDisplay extends React.Component {
@@ -23,7 +20,7 @@ export default class HTMLDisplay extends React.Component {
   el: HTMLElement;
 
   componentDidMount(): void {
-    this.el.appendChild(createElement(this.props.data));
+    this.el.appendChild(createFragment(this.props.data));
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -34,7 +31,7 @@ export default class HTMLDisplay extends React.Component {
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
     }
-    this.el.appendChild(createElement(this.props.data));
+    this.el.appendChild(createFragment(this.props.data));
   }
 
   render(): ?React.Element<any> {
