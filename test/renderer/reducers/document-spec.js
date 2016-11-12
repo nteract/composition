@@ -707,3 +707,35 @@ describe('toggleOutputExpansion', () => {
     expect(state.document.getIn(['notebook', 'cellMap', id, 'metadata',  'outputExpanded'])).to.be.true;
   });
 });
+
+describe('appendOutput', () => {
+  it('appends outputs', () => {
+    const originalState = {
+      document: monocellDocument,
+    };
+
+    const id = originalState.document.getIn(['notebook', 'cellOrder', 2]);
+
+    const action = {
+      type: constants.APPEND_OUTPUT,
+      id: id,
+      output: {
+        output_type: 'display_data',
+        data: { 'text/html': '<marquee>wee</marquee>' },
+        transient: { display_id: '1234' },
+      }
+    };
+
+    const state = reducers(originalState, action);
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'outputs']))
+      .to.deep.equal(Immutable.fromJS([{
+        output_type: 'display_data',
+        data: { 'text/html': '<marquee>wee</marquee>' },
+        transient: { display_id: '1234' },
+      }]));
+    expect(state.document.getIn(['transient', 'keyPathsForDisplays', '1234']))
+      .to.deep.equal(Immutable.fromJS([
+        ['notebook', 'cellMap', id, 'outputs', 0]
+      ]))
+  });
+})
