@@ -23,6 +23,7 @@ import {
   EXECUTE_CELL,
   UPDATE_CELL_EXECUTION_COUNT,
   ERROR_EXECUTING,
+  ERROR_UPDATE_DISPLAY,
  } from '../../../src/notebook/constants';
 
 import { executeCell } from '../../../src/notebook/actions';
@@ -40,6 +41,7 @@ import {
   createExecuteCellStream,
   updateCellNumberingAction,
   handleFormattableMessages,
+  createErrorActionObservable,
 } from '../../../src/notebook/epics/execute';
 
 describe('executeCell', () => {
@@ -375,6 +377,24 @@ describe('updateDisplayEpic', () => {
         done();
       }
     )
+
+  })
+})
+
+describe('createErrorActionObservable', () => {
+  it('returns a function that creates an observable', (done) => {
+    const func = createErrorActionObservable('TEST_IT')
+    const err = new Error('HEY');
+    const obs = func(err);
+
+    obs.subscribe(x => {
+      expect(x.type).to.equal('TEST_IT');
+      expect(x.payload).to.equal(err);
+      expect(x.error).to.equal(true);
+    }, (err) => { throw err; },
+    () => {
+      done();
+    });
 
   })
 })

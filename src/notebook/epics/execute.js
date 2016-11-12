@@ -19,10 +19,20 @@ import {
   ABORT_EXECUTION,
   ERROR_EXECUTING,
   EXECUTE_CELL,
+  ERROR_UPDATE_DISPLAY,
 } from '../constants';
+
 
 const Rx = require('rxjs/Rx');
 const Immutable = require('immutable');
+
+export const createErrorActionObservable = (type) =>
+  (error) =>
+    Rx.Observable.of({
+      type,
+      payload: error,
+      error: true,
+    });
 
 /**
  * Create an object that adheres to the jupyter notebook specification.
@@ -260,13 +270,7 @@ export function executeCellEpic(action$, store) {
     )
     // Bring back all the inner Observables into one stream
     .mergeAll()
-    .catch(error =>
-      Rx.Observable.of({
-        type: ERROR_EXECUTING,
-        payload: error,
-        error: true,
-      })
-    );
+    .catch(createErrorActionObservable(ERROR_EXECUTING));
 }
 
 
@@ -279,11 +283,5 @@ export const updateDisplayEpic = action$ =>
         // Convert 'update_display_data' to 'display_data'
         .map((output) => Object.assign({}, output, { output_type: 'display_data' }))
         .map(output => ({ type: 'UPDATE_DISPLAY', output }))
-        .catch(error =>
-          Rx.Observable.of({
-            type: ERROR_UPDATE_DISPLAY,
-            payload: error,
-            error: true,
-          })
-        )
+        .catch(createErrorActionObservable(ERROR_UPDATE_DISPLAY))
     );
