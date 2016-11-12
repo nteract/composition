@@ -722,6 +722,31 @@ describe('appendOutput', () => {
       output: {
         output_type: 'display_data',
         data: { 'text/html': '<marquee>wee</marquee>' },
+      }
+    };
+
+    const state = reducers(originalState, action);
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'outputs']))
+      .to.deep.equal(Immutable.fromJS([{
+        output_type: 'display_data',
+        data: { 'text/html': '<marquee>wee</marquee>' },
+      }]));
+    expect(state.document.getIn(['transient', 'keyPathsForDisplays']))
+      .to.deep.equal(Immutable.Map())
+  });
+  it('appends output and tracks display IDs', () => {
+    const originalState = {
+      document: monocellDocument,
+    };
+
+    const id = originalState.document.getIn(['notebook', 'cellOrder', 2]);
+
+    const action = {
+      type: constants.APPEND_OUTPUT,
+      id: id,
+      output: {
+        output_type: 'display_data',
+        data: { 'text/html': '<marquee>wee</marquee>' },
         transient: { display_id: '1234' },
       }
     };
