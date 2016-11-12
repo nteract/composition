@@ -58,7 +58,13 @@ export default handleActions({
   [constants.CLEAR_OUTPUTS]: function clearOutputs(state, action) {
     const { id } = action;
 
-    return state.setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List());
+    return state.setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List())
+      // Clear out key paths that should no longer be referenced
+      .updateIn(['transient', 'keyPathsForDisplays'], (kpfd) =>
+        kpfd.map(keyPaths =>
+          keyPaths.filter(keyPath => keyPath.get(2) !== id)
+        )
+      );
   },
   [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
     const output = action.output;
@@ -86,7 +92,7 @@ export default handleActions({
     const outputIndex = state.getIn(['notebook', 'cellMap', cellID, 'outputs']).count();
 
     // Construct the path to the output for updating later
-    const keyPath = ['notebook', 'cellMap', cellID, 'outputs', outputIndex];
+    const keyPath = Immutable.List(['notebook', 'cellMap', cellID, 'outputs', outputIndex]);
 
     const keyPaths = state
       // Extract the current list of keypaths for this displayID
