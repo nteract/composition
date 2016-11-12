@@ -39,6 +39,15 @@ export function reduceOutputs(outputs, output) {
   return outputs.push(Immutable.fromJS(output));
 }
 
+function cleanCellTransient(state) {
+  // Clear out key paths that should no longer be referenced
+  return state.updateIn(['transient', 'keyPathsForDisplays'], (kpfd) =>
+    kpfd.map(keyPaths =>
+      keyPaths.filter(keyPath => keyPath.get(2) !== id)
+    )
+  );
+}
+
 export default handleActions({
   [constants.SET_NOTEBOOK]: function setNotebook(state, action) {
     const notebook = action.notebook
@@ -58,13 +67,8 @@ export default handleActions({
   [constants.CLEAR_OUTPUTS]: function clearOutputs(state, action) {
     const { id } = action;
 
-    return state.setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List())
-      // Clear out key paths that should no longer be referenced
-      .updateIn(['transient', 'keyPathsForDisplays'], (kpfd) =>
-        kpfd.map(keyPaths =>
-          keyPaths.filter(keyPath => keyPath.get(2) !== id)
-        )
-      );
+    return cleanCellTransient(
+      state.setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List()));
   },
   [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
     const output = action.output;
@@ -195,8 +199,10 @@ export default handleActions({
   },
   [constants.REMOVE_CELL]: function removeCell(state, action) {
     const { id } = action;
-    return state.update('notebook',
-      (notebook) => commutable.removeCell(notebook, id)
+    return cleanCellTransient(
+      state.update('notebook',
+        (notebook) => commutable.removeCell(notebook, id)
+      )
     );
   },
   [constants.NEW_CELL_AFTER]: function newCellAfter(state, action) {
