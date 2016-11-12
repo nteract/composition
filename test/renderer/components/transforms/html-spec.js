@@ -22,4 +22,13 @@ describe('HTMLDisplay', () => {
     expect(component.shouldComponentUpdate({data: "<b>woo</b>"})).to.equal(false);
     expect(component.shouldComponentUpdate({data: "<b>womp</b>"})).to.equal(true);
   });
+  it('updates the underlying HTML when data changes', () => {
+    const wrapper = mount(
+      <HTMLDisplay data={'<b>woo</b>'} />
+    );
+
+    wrapper.setProps({ data: "<b>womp</b>" });
+
+    expect(wrapper.html()).to.equal('<div><b>womp</b></div>');
+  });
 });
