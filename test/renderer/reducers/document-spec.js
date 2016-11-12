@@ -28,7 +28,8 @@ const Immutable = require('immutable');
 
 const initialDocument = new Map();
 const monocellDocument = initialDocument
-  .set('notebook', commutable.appendCell(dummyCommutable, commutable.emptyCodeCell));
+  .set('notebook', commutable.appendCell(dummyCommutable, commutable.emptyCodeCell))
+  .set('transient', new Immutable.Map({ keyPathsForDisplays: new Immutable.Map() }));
 
 describe('reduceOutputs', () => {
   it('puts new outputs at the end by default', () => {
@@ -291,7 +292,8 @@ describe('clearOutputs', () => {
       document: initialDocument.set('notebook',
         commutable.appendCell(dummyCommutable,
           commutable.emptyCodeCell.set('outputs', ['dummy outputs']))
-        ),
+        )
+        .set('transient', new Immutable.Map({ keyPathsForDisplays: new Immutable.Map() })),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
