@@ -22,4 +22,19 @@ describe('HTMLDisplay', () => {
     expect(component.shouldComponentUpdate({data: "<b>woo</b>"})).to.equal(false);
     expect(component.shouldComponentUpdate({data: "<b>womp</b>"})).to.equal(true);
   });
+
+  it('has a fallback when range is not available', () => {
+    const originalCreateRange = document.createRange;
+    document.createRange = false;
+
+    const wrapper = mount(
+      <HTMLDisplay data={'<b>woo</b>'} />
+    );
+
+    const component = wrapper.instance() ;
+    expect(component.shouldComponentUpdate({data: "<b>woo</b>"})).to.equal(false);
+    expect(component.shouldComponentUpdate({data: "<b>womp</b>"})).to.equal(true);
+
+    document.createRange = originalCreateRange;
+  });
 });

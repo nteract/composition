@@ -46,10 +46,6 @@ describe('saveAs', () => {
         notebook: dummyCommutable,
     });
   });
-  it.skip('creates a CHANGE_FILENAME action', () => {
-    // We need to test that the epic triggers a CHANGE_FILENAME
-    expect.fail();
-  });
 });
 
 describe('saveEpic', () => {
