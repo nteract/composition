@@ -108,7 +108,7 @@ npm run build:renderer:watch
 and
 
 ```
-npm run start
+npm run spawn
 ```
 
 The webpack build will keep occurring as you modify source. When you open a new notebook, you'll get the freshest copy of the notebook app.
