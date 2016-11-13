@@ -765,7 +765,7 @@ describe('appendOutput', () => {
   });
 })
 
-describe.only('updateDisplay', () => {
+describe('updateDisplay', () => {
   it('updates all displays which use the keypath', () => {
     const originalState = {
       document: monocellDocument,
