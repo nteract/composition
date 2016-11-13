@@ -7,7 +7,7 @@ import { DocumentRecord, MetadataRecord } from '../../../src/notebook/records';
 
 import reducers from '../../../src/notebook/reducers';
 
-import { reduceOutputs } from '../../../src/notebook/reducers/document';
+import { reduceOutputs, cleanCellTransient } from '../../../src/notebook/reducers/document';
 
 import {
   dummyJSON,
@@ -804,5 +804,49 @@ describe('updateDisplay', () => {
       ]
     ))
 
+  })
+})
+
+describe('cleanCellTransient', () => {
+  it('cleans out keyPaths that reference a particular cell ID', () => {
+    const keyPathsForDisplays = Immutable.fromJS({
+      '1234': [
+        ['notebook', 'cellMap', '0000', 'outputs', 0],
+        ['notebook', 'cellMap', 'XYZA', 'outputs', 0],
+        ['notebook', 'cellMap', '0000', 'outputs', 1],
+      ],
+      '5678': [
+        ['notebook', 'cellMap', 'XYZA', 'outputs', 1],
+      ]
+    });
+    const state = new Immutable.Map({
+      transient: new Immutable.Map({
+        keyPathsForDisplays,
+      })
+    })
+
+    expect(
+      cleanCellTransient(state, '0000')
+        .getIn(['transient', 'keyPathsForDisplays'])
+    ).to.deep.equal(Immutable.fromJS({
+      '1234': [
+        ['notebook', 'cellMap', 'XYZA', 'outputs', 0],
+      ],
+      '5678': [
+        ['notebook', 'cellMap', 'XYZA', 'outputs', 1],
+      ]
+    }));
+
+    expect(
+      cleanCellTransient(state, 'XYZA')
+        .getIn(['transient', 'keyPathsForDisplays'])
+    ).to.deep.equal(Immutable.fromJS({
+      '1234': [
+        ['notebook', 'cellMap', '0000', 'outputs', 0],
+        ['notebook', 'cellMap', '0000', 'outputs', 1],
+      ],
+      '5678': [
+      ]
+    }));
   })
 })

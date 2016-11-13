@@ -39,7 +39,7 @@ export function reduceOutputs(outputs, output) {
   return outputs.push(Immutable.fromJS(output));
 }
 
-function cleanCellTransient(state, id) {
+export function cleanCellTransient(state, id) {
   // Clear out key paths that should no longer be referenced
   return state.updateIn(['transient', 'keyPathsForDisplays'], (kpfd) =>
     kpfd.map(keyPaths =>
