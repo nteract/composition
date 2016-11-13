@@ -47,8 +47,8 @@ export default handleActions({
       .update('cellMap', (cells) =>
         cells.map((value) =>
           value.setIn(['metadata', 'inputHidden'], false)
-                .set(['metadata', 'outputHidden'], false)
-                .set(['metadata', 'outputExpanded'], false)
+                .setIn(['metadata', 'outputHidden'], false)
+                .setIn(['metadata', 'outputExpanded'], false)
                 .set('status', '')));
 
     return state.set('notebook', notebook)
