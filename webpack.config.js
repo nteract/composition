@@ -24,15 +24,6 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    root: __dirname,
-    // Webpack 1
-    modulesDirectories: [
-      path.resolve(__dirname, 'node_modules'),
-    ],
-    // Webpack 2
-    modules: [
-      path.resolve(__dirname, 'node_modules'),
-    ],
   },
   externals: nodeModules,
   plugins: [
