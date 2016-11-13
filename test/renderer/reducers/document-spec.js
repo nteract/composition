@@ -764,3 +764,45 @@ describe('appendOutput', () => {
       ]))
   });
 })
+
+describe.only('updateDisplay', () => {
+  it('updates all displays which use the keypath', () => {
+    const originalState = {
+      document: monocellDocument,
+    };
+
+    const id = originalState.document.getIn(['notebook', 'cellOrder', 2]);
+
+    const actions = [
+      {
+        type: constants.APPEND_OUTPUT,
+        id: id,
+        output: {
+          output_type: 'display_data',
+          data: { 'text/html': '<marquee>wee</marquee>' },
+          transient: { display_id: '1234' },
+        }
+      },
+      {
+        type: constants.UPDATE_DISPLAY,
+        output: {
+          output_type: 'display_data',
+          data: { 'text/html': '<marquee>WOO</marquee>' },
+          transient: { display_id: '1234' },
+        }
+      },
+    ];
+
+    const state = actions.reduce((s, action) => reducers(s, action), originalState);
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'outputs'])).to.deep.equal(Immutable.fromJS(
+      [
+        {
+          output_type: 'display_data',
+          data: { 'text/html': '<marquee>WOO</marquee>' },
+          transient: { display_id: '1234' },
+        },
+      ]
+    ))
+
+  })
+})
