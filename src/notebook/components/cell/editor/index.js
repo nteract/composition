@@ -143,6 +143,7 @@ export default class Editor extends React.Component {
   hint: (editor: Object, cb: Function) => void;
   theme: string|null;
   codemirror: CodeMirror;
+  focus: () => void;
 
   static contextTypes = {
     store: React.PropTypes.object,
@@ -236,11 +237,12 @@ export default class Editor extends React.Component {
   }
 
   onFocusChange(focused: boolean): void {
-    if (focused) {
+    const { cellFocused } = this.props;
+    if (focused && !cellFocused) {
       this.context.store.dispatch(focusCellEditor(this.props.id));
       this.context.store.dispatch(focusCell(this.props.id));
     } else {
-      this.context.store.dispatch(focusCellEditor(null))
+      this.context.store.dispatch(focusCellEditor(null));
     }
   }
 

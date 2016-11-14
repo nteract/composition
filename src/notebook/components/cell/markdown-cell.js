@@ -139,26 +139,26 @@ export default class MarkdownCell extends React.Component {
              }
            </LatexRenderer>
          </div> :
-           <div onKeyDown={this.editorKeyDown}>
-             <div className="input-container">
-               <div className="prompt" />
-               <Editor
-                 language="markdown"
-                 id={this.props.id}
-                 lineWrapping
-                 input={this.state.source}
-                 theme={this.props.theme}
-                 focusAbove={this.props.focusAbove}
-                 focusBelow={this.props.focusBelow}
-                 cellFocused={this.props.cellFocused}
-                 editorFocused={this.props.editorFocused}
-               />
-             </div>
-             <div className="outputs">
-               <LatexRenderer>
-                 { mdRender(this.state.source) }
-               </LatexRenderer>
-             </div>
+         <div onKeyDown={this.editorKeyDown}>
+           <div className="input-container">
+             <div className="prompt" />
+             <Editor
+               language="markdown"
+               id={this.props.id}
+               lineWrapping
+               input={this.state.source}
+               theme={this.props.theme}
+               focusAbove={this.props.focusAbove}
+               focusBelow={this.props.focusBelow}
+               cellFocused={this.props.cellFocused}
+               editorFocused={this.props.editorFocused}
+             />
+           </div>
+           <div className="outputs">
+             <LatexRenderer>
+               { mdRender(this.state.source) }
+             </LatexRenderer>
+           </div>
          </div>
     );
   }
