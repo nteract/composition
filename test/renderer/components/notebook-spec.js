@@ -100,7 +100,7 @@ describe('Notebook', () => {
           cellStatuses={dummyCellStatuses}
           stickyCells={(new Immutable.Map())}
           CellComponent={Cell}
-          focusedCell={focusedCell}
+          cellFocused={focusedCell}
         />, { context });
 
       const inst = component.instance();
@@ -133,7 +133,7 @@ describe('Notebook', () => {
           cellStatuses={dummyCellStatuses}
           stickyCells={(new Immutable.Map())}
           CellComponent={Cell}
-          focusedCell={focusedCell}
+          cellFocused={focusedCell}
         />, { context });
 
       const inst = component.instance();
@@ -201,6 +201,6 @@ describe('scrollToElement', () => {
     window.innerHeight = 100; //viewportHeight
     document.body.scrollTop = 99; //viewportOffset
     const scrollTop = scrollToElement(el);
-    expect(scrollTop).to.equal(100);  
+    expect(scrollTop).to.equal(100);
   })
 })

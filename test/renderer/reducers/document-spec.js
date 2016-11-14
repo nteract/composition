@@ -107,7 +107,7 @@ describe('setLanguageInfo', () => {
 });
 
 describe('focusCell', () => {
-  it('should set focusedCell to the appropriate cell ID', () => {
+  it('should set cellFocused to the appropriate cell ID', () => {
     const originalState = {
       document: monocellDocument,
     };
@@ -120,7 +120,7 @@ describe('focusCell', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.get('focusedCell')).to.equal(id);
+    expect(state.document.get('cellFocused')).to.equal(id);
   });
 });
 
@@ -139,7 +139,7 @@ describe('focusNextCell', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.get('focusedCell')).to.not.be.null;
+    expect(state.document.get('cellFocused')).to.not.be.null;
   });
   it('should return same state if last cell and createCellIfUndefined is false', () => {
     const originalState = {
@@ -154,7 +154,7 @@ describe('focusNextCell', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.get('focusedCell')).to.not.be.null;
+    expect(state.document.get('cellFocused')).to.not.be.null;
     expect(state.document.getIn(['notebook', 'cellOrder']).size).to.equal(3);
   });
   it('should create and focus a new cell if last cell', () => {
@@ -171,7 +171,7 @@ describe('focusNextCell', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.focusedCell).to.not.be.null;
+    expect(state.document.cellFocused).to.not.be.null;
     expect(state.document.getIn(['notebook', 'cellOrder']).size).to.equal(4);
   });
 });
@@ -191,7 +191,7 @@ describe('focusPreviousCell', () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.get('focusedCell')).to.equal(previousId);
+    expect(state.document.get('cellFocused')).to.equal(previousId);
   });
 });
 
@@ -702,7 +702,7 @@ describe('toggleOutputExpansion', () => {
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
- 
+
     const action = {
       type: constants.TOGGLE_OUTPUT_EXPANSION,
       id: id,
