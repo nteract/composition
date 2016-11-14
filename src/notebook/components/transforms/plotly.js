@@ -28,8 +28,15 @@ export class PlotlyTransform extends React.Component {
     Plotly.newPlot(this.el, figure.data, figure.layout);
   }
 
-  shouldComponentUpdate(): boolean {
-    return false;
+  shouldComponentUpdate(nextProps: Props): boolean {
+    return this.props.data !== nextProps.data;
+  }
+
+  componentDidUpdate() {
+    const figure = this.getFigure();
+    this.el.data = figure.data;
+    this.el.layout = figure.layout;
+    Plotly.redraw(this.el);
   }
 
   getFigure(): Object {
