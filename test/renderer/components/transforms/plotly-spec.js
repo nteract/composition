@@ -38,7 +38,7 @@ describe('PlotlyTransform', () => {
 
     const instance = plotComponent.instance();
 
-    expect(instance.shouldComponentUpdate()).to.be.false;
+    expect(instance.shouldComponentUpdate({ data: '' })).to.be.true;
     expect(newPlot).to.have.been
       .calledWith(
         instance.el,
@@ -68,7 +68,7 @@ describe('PlotlyTransform', () => {
 
     const instance = plotComponent.instance();
 
-    expect(instance.shouldComponentUpdate()).to.be.false;
+    expect(instance.shouldComponentUpdate({ data: '' })).to.be.true;
     expect(newPlot).to.have.been
       .calledWith(
         instance.el,

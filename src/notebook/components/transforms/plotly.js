@@ -6,6 +6,11 @@ type Props = {
   data: string|Object,
 };
 
+declare class PlotlyHTMLElement extends HTMLElement {
+  data: Object,
+  layout: Object,
+}
+
 const Plotly = require('plotly.js/dist/plotly');
 
 const MIMETYPE = 'application/vnd.plotly.v1+json';
@@ -13,7 +18,7 @@ const MIMETYPE = 'application/vnd.plotly.v1+json';
 export class PlotlyTransform extends React.Component {
   props: Props;
   getFigure: () => Object;
-  el: HTMLElement;
+  el: PlotlyHTMLElement;
 
   static MIMETYPE = MIMETYPE;
 
