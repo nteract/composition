@@ -12,6 +12,7 @@ import {
   focusCell,
   focusPreviousCell,
   focusNextCell,
+  focusCellEditor,
   focusPreviousCellEditor,
   focusNextCellEditor,
 } from '../../actions';
@@ -40,6 +41,7 @@ export class Cell extends React.Component {
   selectCell: () => void;
   focusAboveCell: () => void;
   focusBelowCell: () => void;
+  focusCellEditor: () => void;
   setCellHoverState: (mouseEvent: MouseEvent) => void;
   cellDiv: HTMLElement;
 
@@ -51,6 +53,7 @@ export class Cell extends React.Component {
     super();
     this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.selectCell = this.selectCell.bind(this);
+    this.focusCellEditor = this.focusCellEditor.bind(this);
     this.focusAboveCell = this.focusAboveCell.bind(this);
     this.focusBelowCell = this.focusBelowCell.bind(this);
     this.setCellHoverState = this.setCellHoverState.bind(this);
@@ -88,6 +91,10 @@ export class Cell extends React.Component {
     this.context.store.dispatch(focusCell(this.props.id));
   }
 
+  focusCellEditor(): void {
+    this.context.store.dispatch(focusCellEditor(this.props.id));
+  }
+
   focusAboveCell(): void {
     this.context.store.dispatch(focusPreviousCell(this.props.id));
     this.context.store.dispatch(focusPreviousCellEditor(this.props.id));
@@ -121,6 +128,7 @@ export class Cell extends React.Component {
           <MarkdownCell
             focusAbove={this.focusAboveCell}
             focusBelow={this.focusBelowCell}
+            focusEditor={this.focusCellEditor}
             cellFocused={cellFocused}
             editorFocused={editorFocused}
             cell={cell}

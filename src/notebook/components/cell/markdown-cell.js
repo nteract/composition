@@ -13,6 +13,7 @@ type Props = {
   theme: string,
   focusAbove: Function,
   focusBelow: Function,
+  focusEditor: Function,
   cellFocused: boolean,
   editorFocused: boolean,
 };
@@ -91,6 +92,7 @@ export default class MarkdownCell extends React.Component {
 
   openEditor(): void {
     this.setState({ view: false });
+    this.props.focusEditor();
   }
 
   /**
