@@ -238,9 +238,11 @@ export default class Editor extends React.Component {
 
   onFocusChange(focused: boolean): void {
     const { cellFocused } = this.props;
-    if (focused && !cellFocused) {
+    if (focused) {
       this.context.store.dispatch(focusCellEditor(this.props.id));
-      this.context.store.dispatch(focusCell(this.props.id));
+      if (!cellFocused) {
+        this.context.store.dispatch(focusCell(this.props.id));
+      }
     } else {
       this.context.store.dispatch(focusCellEditor(null));
     }
