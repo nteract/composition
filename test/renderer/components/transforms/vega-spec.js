@@ -55,7 +55,7 @@ describe('VegaEmbed', () => {
 
     const element = wrapper.instance();
 
-    expect(element.shouldComponentUpdate()).to.equal(false);
+    expect(element.shouldComponentUpdate({ data: '324' })).to.equal(true);
     expect(spy).to.have.been.called;
   })
 })
