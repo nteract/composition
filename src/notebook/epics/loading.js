@@ -13,7 +13,7 @@ export const LOAD = 'LOAD';
 export const SET_NOTEBOOK = 'SET_NOTEBOOK';
 export const NEW_NOTEBOOK = 'NEW_NOTEBOOK';
 
-export const load = (filename, sessionId) => ({ type: LOAD, filename, sessionId});
+export const load = (filename, sessionId) => ({ type: LOAD, filename, sessionId });
 
 export const newNotebook = (kernelSpecName, cwd) => ({
   type: NEW_NOTEBOOK,
