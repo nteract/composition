@@ -85,4 +85,29 @@ describe('PlotlyTransform', () => {
     // Unwrap spy
     plotly.newPlot.restore();
   });
+
+  it('processes updates', () => {
+    const newPlot = sinon.spy(plotly, 'newPlot');
+    const redraw = sinon.spy(plotly, 'redraw');
+
+    const wrapper = mount(
+      <PlotlyTransform
+        data={immutableFigure}
+      />
+    );
+
+    const instance = wrapper.instance();
+
+    wrapper.setProps({
+      data: immutableFigure.setIn(['data', 0, 'type'], 'bar'),
+    });
+
+    expect(instance.el.data[0].type).to.equal('bar');
+
+    expect(redraw).to.have.been.calledWith(instance.el)
+
+      // Unwrap spy
+      plotly.newPlot.restore();
+      plotly.redraw.restore();
+  })
 });
