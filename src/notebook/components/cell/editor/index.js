@@ -28,7 +28,7 @@ import './codemirror-ipython';
 
 import { codeComplete, pick, formChangeObject } from './complete';
 
-import { focusCellEditor, updateCellSource } from '../../../actions';
+import { focusCell, focusCellEditor, updateCellSource } from '../../../actions';
 
 type Props = {
   autoCloseBrackets?: boolean,
@@ -176,9 +176,9 @@ export default class Editor extends React.Component {
   componentDidMount(): void {
     // On first load, if focused, set codemirror to focus
 
-    // if (this.props.editorFocused) {
-    //   this.codemirror.focus();
-    // }
+    if (this.props.editorFocused) {
+      this.codemirror.focus();
+    }
 
     const cm = this.codemirror.getCodeMirror();
     const store = this.context.store;
@@ -211,12 +211,12 @@ export default class Editor extends React.Component {
   }
 
   componentDidUpdate(prevProps: Props): void {
-    // if (this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
-    //   this.codemirror.focus();
-    // } else if (!this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
-    //   const cm = this.codemirror.getCodeMirror();
-    //   cm.getInputField().blur();
-    // }
+    if (this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
+      this.codemirror.focus();
+    } else if (!this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
+      const cm = this.codemirror.getCodeMirror();
+      cm.getInputField().blur();
+    }
 
     if (this.theme !== this.props.theme) {
       this.theme = this.props.theme;
@@ -237,7 +237,8 @@ export default class Editor extends React.Component {
 
   onFocusChange(focused: boolean): void {
     if (focused) {
-      this.context.store.dispatch(focusCellEditor(this.props.id))
+      this.context.store.dispatch(focusCellEditor(this.props.id));
+      this.context.store.dispatch(focusCell(this.props.id));
     } else {
       this.context.store.dispatch(focusCellEditor(null))
     }
