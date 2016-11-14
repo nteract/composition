@@ -6,29 +6,37 @@ type Props = {
   data: string,
 };
 
+function runCodeHere(el: HTMLElement, code: string) {
+  // Compatibility with Jupyter/notebook JS evaluation.  Set element so
+  // the user has a handle on the context of the current output.
+  const element = el;
+  try {
+    eval(code); // eslint-disable-line no-eval
+  } catch (err) {
+    const pre = document.createElement('pre');
+    if (err.stack) {
+      pre.textContent = err.stack;
+    } else {
+      pre.textContent = err;
+    }
+    element.appendChild(pre);
+  }
+}
+
 export default class JavaScript extends React.Component {
   props: Props;
   el: HTMLElement;
 
   componentDidMount(): void {
-    // Compatibility with Jupyter/notebook JS evaluation.  Set element so
-    // the user has a handle on the context of the current output.
-    const element = this.el;
-    try {
-      eval(this.props.data); // eslint-disable-line no-eval
-    } catch (err) {
-      const pre = document.createElement('pre');
-      if (err.stack) {
-        pre.textContent = err.stack;
-      } else {
-        pre.textContent = err;
-      }
-      element.appendChild(pre);
-    }
+    runCodeHere(this.el, this.props.data);
   }
 
-  shouldComponentUpdate(): boolean {
-    return false;
+  shouldComponentUpdate(nextProps: Props): boolean {
+    return nextProps.data !== this.props.data;
+  }
+
+  componentDidUpdate(): void {
+    runCodeHere(this.el, this.props.data);
   }
 
   render(): ?React.Element<any> {
