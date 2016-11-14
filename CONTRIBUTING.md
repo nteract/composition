@@ -40,16 +40,17 @@ https://github.com/github-username/repository-name.git`.
 4. Create a new branch for your fix using `git checkout -b branch-name-here`.
 5. Make the appropriate changes for the issue you are trying to address or the
 feature that you want to add.
-6. Add and commit the changed files using `git add` and `git commit`.
-7. Push the changes to the remote repository using `git push origin
+6. Confirm that unit tests and linting still pass successfully with `npm run test`. If tests fail, don't hesitate to ask for help.
+7. Add and commit the changed files using `git add` and `git commit`.
+8. Push the changes to the remote repository using `git push origin
 branch-name-here`.
-8. Submit a pull request to the upstream repository.
-9. Title the pull request per the requirements outlined in the section below.
-10. Set the description of the pull request with a brief description of what you
+9. Submit a pull request to the upstream repository.
+10. Title the pull request per the requirements outlined in the section below.
+11. Set the description of the pull request with a brief description of what you
 did and any questions you might have about what you did.
-11. Wait for the pull request to be reviewed by a maintainer.
-12. Make changes to the pull request if the reviewing maintainer recommends them.
-13. Celebrate your success after your pull request is merged! :tada:
+12. Wait for the pull request to be reviewed by a maintainer.
+13. Make changes to the pull request if the reviewing maintainer recommends them.
+14. Celebrate your success after your pull request is merged! :tada:
 
 ## How should I write my commit messages and PR titles?
 

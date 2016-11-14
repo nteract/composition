@@ -17,7 +17,7 @@ export function formChangeObject(cm, change) {
 export function codeCompleteObservable(channels, editor, message) {
   const completion$ = channels.shell
     .childOf(message)
-    .ofMessageType('complete_reply')
+    .ofMessageType(['complete_reply'])
     .pluck('content')
     .first()
     .map(results => ({
