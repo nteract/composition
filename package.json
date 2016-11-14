@@ -36,7 +36,7 @@
     "build:main": "babel src/main --out-dir ./lib/main && babel src/utils --out-dir ./lib/utils",
     "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",
-    "test": "npm run test:unit",
+    "test": "npm run test:unit && npm run test:lint",
     "pretest:functional": "npm run build",
     "sublaunch": "electron-mocha --compilers js:babel-core/register",
     "test:functional:launch": "npm run sublaunch -- test/main/launch.js",
