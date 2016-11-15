@@ -6,12 +6,12 @@ type Props = {
   data: string,
 };
 
-function runCodeHere(el: HTMLElement, code: string) {
+export function runCodeHere(el: HTMLElement, code: string): any {
   // Compatibility with Jupyter/notebook JS evaluation.  Set element so
   // the user has a handle on the context of the current output.
   const element = el;
   try {
-    eval(code); // eslint-disable-line no-eval
+    return eval(code); // eslint-disable-line no-eval
   } catch (err) {
     const pre = document.createElement('pre');
     if (err.stack) {
@@ -20,6 +20,7 @@ function runCodeHere(el: HTMLElement, code: string) {
       pre.textContent = err;
     }
     element.appendChild(pre);
+    return err;
   }
 }
 
