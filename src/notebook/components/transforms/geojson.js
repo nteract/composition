@@ -18,6 +18,8 @@ export class GeoJSONTransform extends React.Component {
   MIMETYPE: string;
   map: Object;
   el: HTMLElement;
+  geoJSONLayer: Object;
+  tileLayer: Object;
 
   static defaultProps = {
     theme: 'light',
@@ -54,7 +56,7 @@ export class GeoJSONTransform extends React.Component {
     return false;
   }
 
-  componentDidUpdate(prevProps): void {
+  componentDidUpdate(prevProps: Props): void {
     if (prevProps.theme !== this.props.theme) {
       const theme = this.props.theme === 'light' ||
                     this.props.theme === 'dark' ? this.props.theme : 'light';
