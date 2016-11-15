@@ -19,6 +19,11 @@ export default class LaTeXDisplay extends React.Component {
     return this.props.data !== nextProps.data;
   }
 
+  componentDidUpdate() {
+    this.el.innerHTML = this.props.data;
+    mathjaxHelper.loadAndTypeset(document, this.el);
+  }
+
   render(): ?React.Element<any> {
     return (
       <div ref={(el) => { this.el = el; }} />

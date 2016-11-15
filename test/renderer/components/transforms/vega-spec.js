@@ -81,9 +81,13 @@ describe('VegaEmbed', () => {
         renderedCallback={spy}
       />
     );
+    wrapper.render();
+    // expect(spy).to.have.been.called;
 
-    wrapper.setProps({ data:
-      Immutable.fromJS({
+    const spy2 = sinon.spy();
+
+    wrapper.setProps({
+      data: Immutable.fromJS({
         "data": {
           "values": cars,
         },
@@ -93,7 +97,9 @@ describe('VegaEmbed', () => {
           "y": {"field": "Miles_per_Gallon", "type": "quantitative"}
         }
       }),
+      renderedCallback: spy2,
     })
+    // expect(spy2).to.have.been.called;
 
   })
 })
