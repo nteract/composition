@@ -49,6 +49,28 @@ describe('GeoJSONTransform', () => {
       data: geojson,
     })).to.be.false;
     expect(geoComponent.find('.leaflet-container')).to.have.length(1);
+  });
+
+  it('updates the map', () => {
+    const geoComponent = mount(
+      <GeoJSONTransform
+        data={geojson}
+      />
+    );
+
+    const instance = geoComponent.instance();
+
+    expect(instance.shouldComponentUpdate({
+      theme: 'light',
+      data: geojson,
+    })).to.be.false;
+
+    expect(geoComponent.find('.leaflet-container')).to.have.length(1);
+
+    geoComponent.setProps({
+      data: geojson.setIn(["features", 0, "properties", "popupContent"], "somewhere"),
+      theme: 'dark',
+    })
 
   });
 });
