@@ -70,14 +70,14 @@ describe('VegaEmbed', () => {
     );
 
     wrapper.setProps({ data:
-      {
+      Immutable.fromJS({
         "data": {"url": "data/cars.json"},
         "mark": "circle",
         "encoding": {
           "x": {"field": "Horsepower", "type": "quantitative"},
           "y": {"field": "Miles_per_Gallon", "type": "quantitative"}
         }
-      }
+      }),
     })
 
   })
