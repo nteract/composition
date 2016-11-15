@@ -17,8 +17,8 @@ const mdRender: MDRender = (input) => renderer.render(parser.parse(input));
 export class MarkdownDisplay extends React.Component {
   props: Props;
 
-  shouldComponentUpdate(): boolean {
-    return false;
+  shouldComponentUpdate(nextProps): boolean {
+    return nextProps.data !== this.props.data;
   }
 
   render(): ?React.Element<any> {
