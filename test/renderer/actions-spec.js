@@ -141,10 +141,37 @@ describe('focusNextCell', () => {
   });
 });
 
-describe('focusNextCell', () => {
+describe('focusPreviousCell', () => {
   it('creates a FOCUS_PREVIOUS_CELL action', () => {
     expect(actions.focusPreviousCell('1234')).to.deep.equal({
       type: constants.FOCUS_PREVIOUS_CELL,
+      id: '1234',
+    });
+  });
+});
+
+describe('focusCellEditor', () => {
+  it('creates a FOCUS_CELL_EDITOR action', () => {
+    expect(actions.focusCellEditor('1234')).to.deep.equal({
+      type: constants.FOCUS_CELL_EDITOR,
+      id: '1234',
+    });
+  });
+});
+
+describe('focusPreviousCellEditor', () => {
+  it('creates a FOCUS_PREVIOUS_CELL_EDITOR action', () => {
+    expect(actions.focusPreviousCellEditor('1234')).to.deep.equal({
+      type: constants.FOCUS_PREVIOUS_CELL_EDITOR,
+      id: '1234',
+    });
+  });
+});
+
+describe('focusNextCellEditor', () => {
+  it('creates a FOCUS_NEXT_CELL_EDITOR action', () => {
+    expect(actions.focusNextCellEditor('1234')).to.deep.equal({
+      type: constants.FOCUS_NEXT_CELL_EDITOR,
       id: '1234',
     });
   });
