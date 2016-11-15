@@ -194,7 +194,7 @@ export class Notebook extends React.Component {
 
     if (e.shiftKey) {
       this.context.store.dispatch(focusNextCell(this.props.cellFocused, true));
-      this.context.store.dispatch(focusNextCellEditor(this.props.editorFocused));
+      this.context.store.dispatch(focusNextCellEditor(id));
     }
 
     if (cell.get('cell_type') === 'code') {

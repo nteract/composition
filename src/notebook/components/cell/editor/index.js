@@ -243,8 +243,6 @@ export default class Editor extends React.Component {
       if (!cellFocused) {
         this.context.store.dispatch(focusCell(this.props.id));
       }
-    } else {
-      this.context.store.dispatch(focusCellEditor(null));
     }
   }
 
