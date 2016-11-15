@@ -24,6 +24,9 @@ import {
   UPDATE_CELL_EXECUTION_COUNT,
   ERROR_EXECUTING,
   ERROR_UPDATE_DISPLAY,
+  UPDATE_CELL_STATUS,
+  UPDATE_CELL_PAGERS,
+  UPDATE_CELL_OUTPUTS,
  } from '../../../src/notebook/constants';
 
 import { executeCell } from '../../../src/notebook/actions';
@@ -224,26 +227,48 @@ describe('createSourceUpdateAction', () => {
   });
 });
 describe('createExecuteCellObservable', () => {
+  const frontendToShell = new Rx.Subject();
+  const shellToFrontend = new Rx.Subject();
+  const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
+  const mockIOPub = new Rx.Subject();
   let store = { getState: function() { return this.state; },
             state: {
               app: {
-                executionState: 'starting',
-                // TODO must mock channels extensively here
-                channels: '',
+                executionState: 'not connected',
+                channels: { iopub: mockIOPub,
+                            shell: mockShell,
+                          },
                 notificationSystem: {
                   addNotification: sinon.spy(),
                 },
               }
             },
           };
-  const action$ = new ActionsObservable();
-  it('notifies the user if kernel is not connected', () => {
-    // test for errors in observable here
+  it('errors if the kernel is not connected in create', (done) => {
+      const action$ = ActionsObservable.of({type: 'EXECUTE_CELL'})
+      const observable = createExecuteCellObservable(action$, store, 'source', 'id');
+      const actionBuffer = [];
+      const subscription = observable.subscribe(
+        (x) => actionBuffer.push(x.payload),
+        (err) => expect.fail(err, null),
+        () => { expect(actionBuffer).to.deep.equal(['Kernel not connected!']);
+                done(); },
+      )
   });
-  it('emits an observable when kernel connected', () => {
-    store.state.app.executionState = 'started'
-    const executeCellObservable = createExecuteCellObservable(action$, store, 'source', 'id');
-    // TODO test for observable getting emitted here
+  it('doesnt complete but does push until abort action', (done) => {
+    Object.assign(store.state.app, { executionState: 'started' });
+    const action$ = ActionsObservable.of([{type: 'EXECUTE_CELL', id: 'id' },
+                                           {type: 'EXECUTE_CELL', id: 'id' },
+                                           {type: 'EXECUTE_CELL', id: 'id' }]);
+    const observable = createExecuteCellObservable(action$, store, 'source', 'id');
+    const actionBuffer = [];
+    const subscription = observable.subscribe(
+      (x) => actionBuffer.push(x.type),
+      (err) => expect.fail(err, null),
+    );
+    expect(actionBuffer).to.deep.equal([ UPDATE_CELL_STATUS, UPDATE_CELL_PAGERS,
+      UPDATE_CELL_OUTPUTS]);
+    done();
   });
 })
 
@@ -298,7 +323,7 @@ describe('executeCellEpic', () => {
     const actionBuffer = [];
     const responseActions = executeCellEpic(action$, store);
     const subscription = responseActions.subscribe(
-      (x) => actionBuffer.push(x.payload.toString());, // Every action that goes through should get stuck on an array
+      (x) => actionBuffer.push(x.payload.toString()), // Every action that goes through should get stuck on an array
       (err) => expect.fail(err, null), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal(['Error: kernel not connected']); // ;
