@@ -18,7 +18,21 @@ import {
   VegaEmbed,
 } from '../../../../src/notebook/components/transforms/vega';
 
-const spec = Immutable.fromJS({});
+const cars = require('vega-lite/data/cars.json');
+
+const spec = Immutable.fromJS({
+  "description": "A scatterplot showing horsepower and miles per gallons.",
+  "data": {
+    "values": cars,
+  },
+  "mark": "point",
+  "encoding": {
+    "x": {"field": "Horsepower", "type": "quantitative"},
+    "y": {"field": "Miles_per_Gallon", "type": "quantitative"},
+    "color": {"field": "Origin", "type": "nominal"},
+    "shape": {"field": "Origin", "type": "nominal"}
+  }
+});
 
 describe('Vega', () => {
   it('renders VegaEmbed with embedMode vega', () => {
@@ -56,7 +70,6 @@ describe('VegaEmbed', () => {
     const element = wrapper.instance();
 
     expect(element.shouldComponentUpdate({ data: '324' })).to.equal(true);
-    expect(spy).to.have.been.called;
   })
 
   it('embeds vega and handles updates', () => {
@@ -71,7 +84,9 @@ describe('VegaEmbed', () => {
 
     wrapper.setProps({ data:
       Immutable.fromJS({
-        "data": {"url": "data/cars.json"},
+        "data": {
+          "values": cars,
+        },
         "mark": "circle",
         "encoding": {
           "x": {"field": "Horsepower", "type": "quantitative"},
