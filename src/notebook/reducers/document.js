@@ -124,7 +124,11 @@ export default handleActions({
     const keyPaths = state
       .getIn(
         ['transient', 'keyPathsForDisplays', displayID], new Immutable.List());
-    return keyPaths.reduce((currState, kp) => currState.setIn(kp, output), state);
+    return keyPaths.reduce(
+      (currState, kp) => currState.updateIn(kp,
+        oldOutput =>
+          output.set('output_type', oldOutput.get('output_type'))
+    ), state);
   },
   [constants.FOCUS_NEXT_CELL]: function focusNextCell(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);
