@@ -76,7 +76,11 @@ export default handleActions({
     const output = action.output;
     const cellID = action.id;
 
-    if (output.output_type !== 'display_data' || !(_.has(output, 'transient.display_id'))) {
+    if ((output.output_type === 'display_data' || output.output_type === 'execute_result')
+        && _.has(output, 'transient.display_id')
+      ) {
+        // continue
+    } else {
       return state.updateIn(['notebook', 'cellMap', cellID, 'outputs'],
         (outputs) => reduceOutputs(outputs, output));
     }
