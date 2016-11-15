@@ -58,4 +58,27 @@ describe('VegaEmbed', () => {
     expect(element.shouldComponentUpdate({ data: '324' })).to.equal(true);
     expect(spy).to.have.been.called;
   })
+
+  it('embeds vega and handles updates', () => {
+    const spy = sinon.spy();
+    const wrapper = mount(
+      <VegaEmbed
+        data={spec}
+        embedMode="vega-lite"
+        renderedCallback={spy}
+      />
+    );
+
+    wrapper.setProps({ data:
+      {
+        "data": {"url": "data/cars.json"},
+        "mark": "circle",
+        "encoding": {
+          "x": {"field": "Horsepower", "type": "quantitative"},
+          "y": {"field": "Miles_per_Gallon", "type": "quantitative"}
+        }
+      }
+    })
+
+  })
 })
