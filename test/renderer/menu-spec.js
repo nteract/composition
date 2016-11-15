@@ -203,6 +203,26 @@ describe('menu', () => {
     });
   });
 
+  describe('dispatchRunAllBelow', () => {
+    it('runs all code cells below the focused cell', () => {
+      const store = dummyStore({codeCellCount: 4, markdownCellCount: 4});
+      const markdownCells = store.getState().document.getIn(['notebook', 'cellMap'])
+                                                     .filter(cell => cell.get('cell_type') === 'markdown');
+      store.dispatch = sinon.spy();
+      
+      menu.dispatchRunAllBelow(store);
+
+      expect(store.dispatch.calledThrice).to.equal(true);    
+      for (let cellId of markdownCells.keys()) {
+          expect(store.dispatch.neverCalledWith({
+            type: 'EXECUTE_CELL',
+            id: cellId,
+            source: '',
+          })).to.equal(true);
+      }
+    });    
+  });
+
   describe('dispatchRunAll', () => {
     const store = dummyStore();
     store.dispatch = sinon.spy();

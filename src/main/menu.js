@@ -326,6 +326,10 @@ export const cell = {
       click: createSender('menu:run-all'),
     },
     {
+      label: 'Run All Below',
+      click: createSender('menu:run-all-below'),
+    },
+    {
       label: 'Clear All',
       click: createSender('menu:clear-all'),
     },
