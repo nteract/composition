@@ -27,12 +27,12 @@ function embed(el: HTMLElement, spec: Object, mode: string, cb: (err: any, resul
   };
 
   if (mode === 'vega-lite') {
-    embedSpec.config = _.merge({
+    embedSpec.spec.config = _.merge({
       cell: {
         width: DEFAULT_WIDTH,
         height: DEFAULT_HEIGHT,
       }
-    }, embedSpec.config);
+    }, embedSpec.spec.config);
   }
 
   vegaEmbed(el, embedSpec, cb);
