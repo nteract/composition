@@ -104,35 +104,36 @@ export class Cell extends React.Component {
         ref={(el) => { this.cellDiv = el; }}
       >
         {
-          focused ? <Toolbar
-            type={type}
-            cell={cell}
-            id={this.props.id}
-          /> : null
+          focused ?
+            <Toolbar
+              type={type}
+              cell={cell}
+              id={this.props.id}
+            /> : null
         }
         {
-        type === 'markdown' ?
-          <MarkdownCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            focused={focused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-          /> :
-          <CodeCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            focused={focused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-            language={this.props.language}
-            displayOrder={this.props.displayOrder}
-            transforms={this.props.transforms}
-            pagers={this.props.pagers}
-            running={this.props.running}
-          />
+          type === 'markdown' ?
+            <MarkdownCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              focused={focused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+            /> :
+              <CodeCell
+                focusAbove={this.focusAboveCell}
+                focusBelow={this.focusBelowCell}
+                focused={focused}
+                cell={cell}
+                id={this.props.id}
+                theme={this.props.theme}
+                language={this.props.language}
+                displayOrder={this.props.displayOrder}
+                transforms={this.props.transforms}
+                pagers={this.props.pagers}
+                running={this.props.running}
+              />
         }
       </div>
     );
