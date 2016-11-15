@@ -190,6 +190,61 @@ describe('focusPreviousCell', () => {
   });
 });
 
+describe('focusCellEditor', () => {
+  it('should set editorFocused to the appropriate cell ID', () => {
+    const originalState = {
+      document: monocellDocument,
+    };
+
+    const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
+
+    const action = {
+      type: constants.FOCUS_CELL_EDITOR,
+      id,
+    };
+
+    const state = reducers(originalState, action);
+    expect(state.document.get('editorFocused')).to.equal(id);
+  });
+});
+
+describe('focusNextCellEditor', () => {
+  it('should focus the editor of the next cell', () => {
+    const originalState = {
+      document: monocellDocument,
+    };
+
+    const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
+
+    const action = {
+      type: constants.FOCUS_NEXT_CELL_EDITOR,
+      id,
+    };
+
+    const state = reducers(originalState, action);
+    expect(state.document.get('editorFocused')).to.not.be.null;
+  });
+});
+
+describe('focusPreviousCellEditor', () => {
+  it('should focus the editor of the previous cell', () => {
+    const originalState = {
+      document: initialDocument.set('notebook', dummyCommutable),
+    };
+
+    const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
+    const previousId = originalState.document.getIn(['notebook', 'cellOrder']).first();
+
+    const action = {
+      type: constants.FOCUS_PREVIOUS_CELL_EDITOR,
+      id,
+    };
+
+    const state = reducers(originalState, action);
+    expect(state.document.get('editorFocused')).to.equal(previousId);
+  });
+});
+
 describe('toggleStickyCell', () => {
   it('should stick the cell given its ID', () => {
     const doc = initialDocument.set('notebook', dummyCommutable)
