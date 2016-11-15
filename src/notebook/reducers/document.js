@@ -5,6 +5,8 @@ import * as commutable from 'commutable';
 
 import * as constants from '../constants';
 
+const _ = require('lodash');
+
 /**
  * An output can be a stream of data that does not arrive at a single time. This
  * function handles the different types of outputs and accumulates the data
@@ -15,10 +17,6 @@ import * as constants from '../constants';
  * @return {Immutable.List<Object>} updated-outputs - Outputs + Output
  */
 export function reduceOutputs(outputs, output) {
-  if (output.output_type === 'clear_output') {
-    return new Immutable.List();
-  }
-
   // Naive implementation of kernel stream buffering
   // This should be broken out into a nice testable function
   if (outputs.size > 0 &&
@@ -41,6 +39,15 @@ export function reduceOutputs(outputs, output) {
   return outputs.push(Immutable.fromJS(output));
 }
 
+export function cleanCellTransient(state, id) {
+  // Clear out key paths that should no longer be referenced
+  return state.updateIn(['transient', 'keyPathsForDisplays'], (kpfd) =>
+    kpfd.map(keyPaths =>
+      keyPaths.filter(keyPath => keyPath.get(2) !== id)
+    )
+  );
+}
+
 export default handleActions({
   [constants.SET_NOTEBOOK]: function setNotebook(state, action) {
     const notebook = action.notebook
@@ -52,15 +59,68 @@ export default handleActions({
                 .set('status', '')));
 
     return state.set('notebook', notebook)
-      .set('focusedCell', notebook.getIn(['cellOrder', 0]));
+      .set('cellFocused', notebook.getIn(['cellOrder', 0]));
   },
   [constants.FOCUS_CELL]: function focusCell(state, action) {
-    return state.set('focusedCell', action.id);
+    return state.set('cellFocused', action.id);
+  },
+  [constants.CLEAR_OUTPUTS]: function clearOutputs(state, action) {
+    const { id } = action;
+
+    return cleanCellTransient(
+      state.setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List()),
+      id
+    );
   },
   [constants.APPEND_OUTPUT]: function appendOutput(state, action) {
-    const { id, output } = action;
-    return state.updateIn(['notebook', 'cellMap', id, 'outputs'],
-      (outputs) => reduceOutputs(outputs, output));
+    const output = action.output;
+    const cellID = action.id;
+
+    if (output.output_type !== 'display_data' || !(_.has(output, 'transient.display_id'))) {
+      return state.updateIn(['notebook', 'cellMap', cellID, 'outputs'],
+        (outputs) => reduceOutputs(outputs, output));
+    }
+
+    // We now have a display_data that includes a transient display_id
+    // output: {
+    //   data: { 'text/html': '<b>woo</b>' }
+    //   metadata: {}
+    //   transient: { display_id: '12312' }
+    // }
+
+    // We now have a display to track
+    const displayID = output.transient.display_id;
+
+    // Every time we see a display id we're going to capture the keypath
+    // to the output
+
+    // Determine the next output index
+    const outputIndex = state.getIn(['notebook', 'cellMap', cellID, 'outputs']).count();
+
+    // Construct the path to the output for updating later
+    const keyPath = Immutable.List(['notebook', 'cellMap', cellID, 'outputs', outputIndex]);
+
+    const keyPaths = state
+      // Extract the current list of keypaths for this displayID
+      .getIn(
+        ['transient', 'keyPathsForDisplays', displayID], new Immutable.List()
+      )
+      // Append our current output's keyPath
+      .push(keyPath);
+
+    const immutableOutput = Immutable.fromJS(output);
+
+    // We'll reduce the overall state based on each keypath, updating output
+    return keyPaths.reduce((currState, kp) => currState.setIn(kp, immutableOutput), state)
+      .setIn(['transient', 'keyPathsForDisplays', displayID], keyPaths);
+  },
+  [constants.UPDATE_DISPLAY]: function updateDisplay(state, action) {
+    const output = Immutable.fromJS(action.output);
+    const displayID = output.getIn(['transient', 'display_id']);
+    const keyPaths = state
+      .getIn(
+        ['transient', 'keyPathsForDisplays', displayID], new Immutable.List());
+    return keyPaths.reduce((currState, kp) => currState.setIn(kp, output), state);
   },
   [constants.FOCUS_NEXT_CELL]: function focusNextCell(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);
@@ -77,7 +137,7 @@ export default handleActions({
       const cellID = uuid.v4();
       // TODO: condition on state.defaultCellType (markdown vs. code)
       const cell = commutable.emptyCodeCell;
-      return state.set('focusedCell', cellID)
+      return state.set('cellFocused', cellID)
         .update('notebook',
           (notebook) => commutable.insertCellAt(notebook, cell, cellID, nextIndex))
         .setIn(['notebook', 'cellMap', cellID, 'metadata', 'outputHidden'], false)
@@ -85,14 +145,31 @@ export default handleActions({
     }
 
     // When in the middle of the notebook document, move to the next cell
-    return state.set('focusedCell', cellOrder.get(nextIndex));
+    return state.set('cellFocused', cellOrder.get(nextIndex));
   },
   [constants.FOCUS_PREVIOUS_CELL]: function focusPreviousCell(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);
     const curIndex = cellOrder.findIndex(id => id === action.id);
     const nextIndex = Math.max(0, curIndex - 1);
 
-    return state.set('focusedCell', cellOrder.get(nextIndex));
+    return state.set('cellFocused', cellOrder.get(nextIndex));
+  },
+  [constants.FOCUS_CELL_EDITOR]: function focusCellEditor(state, action) {
+    return state.set('editorFocused', action.id);
+  },
+  [constants.FOCUS_NEXT_CELL_EDITOR]: function focusNextCellEditor(state, action) {
+    const cellOrder = state.getIn(['notebook', 'cellOrder']);
+    const curIndex = cellOrder.findIndex(id => id === action.id);
+    const nextIndex = curIndex + 1;
+
+    return state.set('editorFocused', cellOrder.get(nextIndex));
+  },
+  [constants.FOCUS_PREVIOUS_CELL_EDITOR]: function focusPreviousCellEditor(state, action) {
+    const cellOrder = state.getIn(['notebook', 'cellOrder']);
+    const curIndex = cellOrder.findIndex(id => id === action.id);
+    const nextIndex = Math.max(0, curIndex - 1);
+
+    return state.set('editorFocused', cellOrder.get(nextIndex));
   },
   [constants.TOGGLE_STICKY_CELL]: function toggleStickyCell(state, action) {
     const { id } = action;
@@ -124,8 +201,11 @@ export default handleActions({
   },
   [constants.REMOVE_CELL]: function removeCell(state, action) {
     const { id } = action;
-    return state.update('notebook',
-      (notebook) => commutable.removeCell(notebook, id)
+    return cleanCellTransient(
+      state.update('notebook',
+        (notebook) => commutable.removeCell(notebook, id)
+      ),
+      id
     );
   },
   [constants.NEW_CELL_AFTER]: function newCellAfter(state, action) {
@@ -187,10 +267,6 @@ export default handleActions({
     const { id, source } = action;
     return state.update('notebook', (notebook) => commutable.updateSource(notebook, id, source));
   },
-  [constants.CLEAR_CELL_OUTPUT]: function clearCellOutput(state, action) {
-    const { id } = action;
-    return state.update('notebook', (notebook) => commutable.clearCellOutput(notebook, id));
-  },
   [constants.SPLIT_CELL]: function splitCell(state, action) {
     const { id, position } = action;
     const index = state.getIn(['notebook', 'cellOrder']).indexOf(id);
@@ -210,10 +286,6 @@ export default handleActions({
     const { id } = action;
     return state.setIn(['notebook', 'cellMap', id, 'metadata', 'inputHidden'],
       !state.getIn(['notebook', 'cellMap', id, 'metadata', 'inputHidden']));
-  },
-  [constants.UPDATE_CELL_OUTPUTS]: function updateOutputs(state, action) {
-    const { id, outputs } = action;
-    return state.update('notebook', (notebook) => commutable.updateOutputs(notebook, id, outputs));
   },
   [constants.UPDATE_CELL_PAGERS]: function updateCellPagers(state, action) {
     const { id, pagers } = action;
@@ -277,9 +349,10 @@ export default handleActions({
         .setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List());
     }
 
-    return state.setIn(['notebook', 'cellMap', id, 'cell_type'], to)
+    return cleanCellTransient(state.setIn(['notebook', 'cellMap', id, 'cell_type'], to)
       .delete(['notebook', 'cellMap', id, 'execution_count'])
-      .delete(['notebook', 'cellMap', id, 'outputs']);
+      .delete(['notebook', 'cellMap', id, 'outputs']),
+      id);
   },
   [constants.TOGGLE_OUTPUT_EXPANSION]: function toggleOutputExpansion(state, action) {
     const { id } = action;

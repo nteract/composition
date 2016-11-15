@@ -6,6 +6,11 @@ type Props = {
   data: string|Object,
 };
 
+declare class PlotlyHTMLElement extends HTMLElement {
+  data: Object,
+  layout: Object,
+}
+
 const Plotly = require('plotly.js/dist/plotly');
 
 const MIMETYPE = 'application/vnd.plotly.v1+json';
@@ -13,7 +18,7 @@ const MIMETYPE = 'application/vnd.plotly.v1+json';
 export class PlotlyTransform extends React.Component {
   props: Props;
   getFigure: () => Object;
-  el: HTMLElement;
+  el: PlotlyHTMLElement;
 
   static MIMETYPE = MIMETYPE;
 
@@ -28,8 +33,15 @@ export class PlotlyTransform extends React.Component {
     Plotly.newPlot(this.el, figure.data, figure.layout);
   }
 
-  shouldComponentUpdate(): boolean {
-    return false;
+  shouldComponentUpdate(nextProps: Props): boolean {
+    return this.props.data !== nextProps.data;
+  }
+
+  componentDidUpdate() {
+    const figure = this.getFigure();
+    this.el.data = figure.data;
+    this.el.layout = figure.layout;
+    Plotly.redraw(this.el);
   }
 
   getFigure(): Object {

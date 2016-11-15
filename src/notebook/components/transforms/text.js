@@ -11,7 +11,7 @@ export default class TextDisplay extends React.Component {
   props: Props;
 
   shouldComponentUpdate(): boolean {
-    return false;
+    return true;
   }
 
   render(): ?React.Element<any> {

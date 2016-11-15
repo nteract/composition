@@ -18,7 +18,21 @@ import {
   VegaEmbed,
 } from '../../../../src/notebook/components/transforms/vega';
 
-const spec = Immutable.fromJS({});
+const cars = require('vega-lite/data/cars.json');
+
+const spec = Immutable.fromJS({
+  "description": "A scatterplot showing horsepower and miles per gallons.",
+  "data": {
+    "values": cars,
+  },
+  "mark": "point",
+  "encoding": {
+    "x": {"field": "Horsepower", "type": "quantitative"},
+    "y": {"field": "Miles_per_Gallon", "type": "quantitative"},
+    "color": {"field": "Origin", "type": "nominal"},
+    "shape": {"field": "Origin", "type": "nominal"}
+  }
+});
 
 describe('Vega', () => {
   it('renders VegaEmbed with embedMode vega', () => {
@@ -55,7 +69,37 @@ describe('VegaEmbed', () => {
 
     const element = wrapper.instance();
 
-    expect(element.shouldComponentUpdate()).to.equal(false);
-    expect(spy).to.have.been.called;
+    expect(element.shouldComponentUpdate({ data: '324' })).to.equal(true);
+  })
+
+  it('embeds vega and handles updates', () => {
+    const spy = sinon.spy();
+    const wrapper = mount(
+      <VegaEmbed
+        data={spec}
+        embedMode="vega-lite"
+        renderedCallback={spy}
+      />
+    );
+    wrapper.render();
+    // expect(spy).to.have.been.called;
+
+    const spy2 = sinon.spy();
+
+    wrapper.setProps({
+      data: Immutable.fromJS({
+        "data": {
+          "values": cars,
+        },
+        "mark": "circle",
+        "encoding": {
+          "x": {"field": "Horsepower", "type": "quantitative"},
+          "y": {"field": "Miles_per_Gallon", "type": "quantitative"}
+        }
+      }),
+      renderedCallback: spy2,
+    })
+    // expect(spy2).to.have.been.called;
+
   })
 })

@@ -15,8 +15,13 @@ export default class LaTeXDisplay extends React.Component {
     mathjaxHelper.loadAndTypeset(document, this.el);
   }
 
-  shouldComponentUpdate(): boolean {
-    return false;
+  shouldComponentUpdate(nextProps: Props): boolean {
+    return this.props.data !== nextProps.data;
+  }
+
+  componentDidUpdate() {
+    this.el.innerHTML = this.props.data;
+    mathjaxHelper.loadAndTypeset(document, this.el);
   }
 
   render(): ?React.Element<any> {

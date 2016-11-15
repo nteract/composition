@@ -16,6 +16,7 @@ import {
 
 import {
   executeCellEpic,
+  updateDisplayEpic,
 } from './execute';
 
 import {
@@ -40,6 +41,7 @@ const epics = [
   loadEpic,
   newNotebookEpic,
   executeCellEpic,
+  updateDisplayEpic,
   newKernelEpic,
   acquireKernelInfoEpic,
   watchExecutionStateEpic,

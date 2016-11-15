@@ -62,12 +62,20 @@ describe('Cell', () => {
       type: 'FOCUS_PREVIOUS_CELL',
       id: undefined,
     });
+    expect(store.dispatch.thirdCall).to.have.been.calledWith({
+      type: 'FOCUS_PREVIOUS_CELL_EDITOR',
+      id: undefined,
+    });
 
     inst.focusBelowCell();
-    expect(store.dispatch.thirdCall).to.have.been.calledWith({
+    expect(store.dispatch).to.have.been.calledWith({
       type: 'FOCUS_NEXT_CELL',
       id: undefined,
       createCellIfUndefined: true,
+    });
+    expect(store.dispatch.lastCall).to.have.been.calledWith({
+      type: 'FOCUS_NEXT_CELL_EDITOR',
+      id: undefined,
     });
   });
 });

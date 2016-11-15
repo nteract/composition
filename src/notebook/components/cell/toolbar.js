@@ -8,7 +8,7 @@ import {
   executeCell,
   removeCell,
   toggleStickyCell,
-  clearCellOutput,
+  clearOutputs,
   changeOutputVisibility,
   changeInputVisibility,
   changeCellType,
@@ -25,7 +25,7 @@ export default class Toolbar extends React.Component {
   shouldComponentUpdate: (p: Props, s: any) => boolean;
   removeCell: () => void;
   executeCell: () => void;
-  clearCellOutput: () => void;
+  clearOutputs: () => void;
   toggleStickyCell: () => void;
   changeInputVisibility: () => void;
   changeOutputVisibility: () => void;
@@ -42,7 +42,7 @@ export default class Toolbar extends React.Component {
     this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.removeCell = this.removeCell.bind(this);
     this.executeCell = this.executeCell.bind(this);
-    this.clearCellOutput = this.clearCellOutput.bind(this);
+    this.clearOutputs = this.clearOutputs.bind(this);
     this.toggleStickyCell = this.toggleStickyCell.bind(this);
     this.changeInputVisibility = this.changeInputVisibility.bind(this);
     this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
@@ -68,9 +68,9 @@ export default class Toolbar extends React.Component {
                                       this.props.cell.get('source')));
   }
 
-  clearCellOutput(): void {
+  clearOutputs(): void {
     this.dropdown.hide();
-    this.context.store.dispatch(clearCellOutput(this.props.id));
+    this.context.store.dispatch(clearOutputs(this.props.id));
   }
 
   changeInputVisibility(): void {
@@ -120,7 +120,7 @@ export default class Toolbar extends React.Component {
               {
               (this.props.type === 'code') ?
                 <ul>
-                  <li onClick={this.clearCellOutput} className="clearOutput" >
+                  <li onClick={this.clearOutputs} className="clearOutput" >
                     <a>Clear Cell Output</a>
                   </li>
                   <li onClick={this.changeInputVisibility} className="inputVisibility" >

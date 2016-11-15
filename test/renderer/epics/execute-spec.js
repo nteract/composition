@@ -23,6 +23,7 @@ import {
   EXECUTE_CELL,
   UPDATE_CELL_EXECUTION_COUNT,
   ERROR_EXECUTING,
+  ERROR_UPDATE_DISPLAY,
  } from '../../../src/notebook/constants';
 
 import { executeCell } from '../../../src/notebook/actions';
@@ -30,6 +31,7 @@ import {
   reduceOutputs,
   executeCellStream,
   executeCellEpic,
+  updateDisplayEpic,
   createExecuteRequest,
   msgSpecToNotebookFormat,
   createPagerActions,
@@ -39,6 +41,7 @@ import {
   createExecuteCellStream,
   updateCellNumberingAction,
   handleFormattableMessages,
+  createErrorActionObservable,
 } from '../../../src/notebook/epics/execute';
 
 describe('executeCell', () => {
@@ -80,9 +83,9 @@ describe('executeCellStream', () => {
       .subscribe(messages => {
         expect(messages).to.deep.equal([
           // TODO: Order doesn't actually matter here
+          { type: 'CLEAR_OUTPUTS', id: '0' },
           { type: 'UPDATE_CELL_STATUS', id: '0', status: 'busy' },
           { type: 'UPDATE_CELL_PAGERS', id: '0', pagers: Immutable.List() },
-          { type: 'UPDATE_CELL_OUTPUTS', id: '0', outputs: Immutable.List() },
         ]);
         done(); // TODO: Make sure message check above is called
       })
@@ -309,4 +312,89 @@ describe('executeCellEpic', () => {
       },
     );
   });
+})
+
+describe('updateDisplayEpic', () => {
+  it('creates an epic that handles update_display_data messages', (done) => {
+    const messages = [
+      // Should be processed
+      { header: { msg_type: 'update_display_data' },
+        content: {
+          data: { 'text/html': '<marquee>wee</marquee>' },
+          transient: { display_id: '1234' },
+        },
+      },
+      // Should not be processed
+      { header: { msg_type: 'display_data' },
+        content: {
+          data: { 'text/html': '<marquee>wee</marquee>' },
+          transient: { display_id: '5555' },
+        },
+      },
+      { header: { msg_type: 'ignored' },
+        content: {
+          data: { 'text/html': '<marquee>wee</marquee>' },
+        },
+      },
+      // Should be processed
+      { header: { msg_type: 'update_display_data' },
+        content: {
+          data: { 'text/plain': 'i am text' },
+          transient: { display_id: 'here' },
+        },
+      },
+    ];
+
+    const channels = {
+      iopub: Observable.from(messages),
+    };
+    const kernel$ = Observable.of({ type: 'NEW_KERNEL', channels });
+    const action$ = new ActionsObservable(kernel$);
+
+    const epic = updateDisplayEpic(action$);
+
+    const responseActions = [];
+    epic.subscribe(
+      (action) => responseActions.push(action),
+      (err) => { throw err; },
+      () => {
+        expect(responseActions).to.deep.equal([
+          { type: 'UPDATE_DISPLAY',
+            output: {
+              output_type: 'display_data',
+              data: { 'text/html': '<marquee>wee</marquee>' },
+              transient: { display_id: '1234' },
+            }
+          },
+          { type: 'UPDATE_DISPLAY',
+            output: {
+              output_type: 'display_data',
+              data: { 'text/plain': 'i am text' },
+              transient: { display_id: 'here' },
+            }
+          },
+        ])
+        done();
+      }
+    )
+
+  })
+})
+
+describe('createErrorActionObservable', () => {
+  it('returns a function that creates an observable', (done) => {
+    const func = createErrorActionObservable('TEST_IT')
+    const err = new Error('HEY');
+    const obs = func(err);
+
+    obs.subscribe(x => {
+      expect(x.type).to.equal('TEST_IT');
+      expect(x.payload).to.equal(err);
+      expect(x.error).to.equal(true);
+    }, (err) => { throw err; },
+    () => {
+      done();
+    });
+
+  })
 })

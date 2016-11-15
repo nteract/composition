@@ -10,17 +10,29 @@ import {
   updateCellPagers,
   updateCellStatus,
   executeCell,
+  clearOutputs,
 } from '../actions';
 
 import {
+  NEW_KERNEL,
   REMOVE_CELL,
   ABORT_EXECUTION,
   ERROR_EXECUTING,
   EXECUTE_CELL,
+  ERROR_UPDATE_DISPLAY,
 } from '../constants';
+
 
 const Rx = require('rxjs/Rx');
 const Immutable = require('immutable');
+
+export const createErrorActionObservable = (type) =>
+  (error) =>
+    Rx.Observable.of({
+      type,
+      payload: error,
+      error: true,
+    });
 
 /**
  * Create an object that adheres to the jupyter notebook specification.
@@ -142,7 +154,7 @@ export function updateCellNumberingAction(id, cellMessages) {
  */
 export function handleFormattableMessages(id, cellMessages) {
   return cellMessages
-    .ofMessageType(['execute_result', 'display_data', 'stream', 'error', 'clear_output'])
+    .ofMessageType(['execute_result', 'display_data', 'stream', 'error'])
     .map(msgSpecToNotebookFormat)
     .map((output) => ({ type: 'APPEND_OUTPUT', id, output }));
 }
@@ -181,7 +193,11 @@ export function executeCellStream(channels, id, code) {
   const cellMessages = iopub.childOf(executeRequest);
 
   const cellAction$ = Rx.Observable.merge(
+    // Clear cell outputs
+    Rx.Observable.of(clearOutputs(id)),
     Rx.Observable.of(updateCellStatus(id, 'busy')),
+    // clear_output display message
+    cellMessages.ofMessageType(['clear_output']).mapTo(clearOutputs(id)),
     // Inline %load
     createSourceUpdateAction(id, setInputStream),
     // %load for the cell _after_
@@ -194,8 +210,6 @@ export function executeCellStream(channels, id, code) {
     createCellStatusAction(id, cellMessages),
     // Update the input numbering: `[ ]`
     updateCellNumberingAction(id, cellMessages),
-    // Clear cell outputs
-    Rx.Observable.of(updateCellOutputs(id, new Immutable.List())),
     // Handle all nbformattable messages
     handleFormattableMessages(id, cellMessages),
   );
@@ -256,11 +270,18 @@ export function executeCellEpic(action$, store) {
     )
     // Bring back all the inner Observables into one stream
     .mergeAll()
-    .catch(error =>
-      Rx.Observable.of({
-        type: ERROR_EXECUTING,
-        payload: error,
-        error: true,
-      })
-    );
+    .catch(createErrorActionObservable(ERROR_EXECUTING));
 }
+
+
+export const updateDisplayEpic = action$ =>
+  // Global message watcher so we need to set up a feed for each new kernel
+  action$.ofType(NEW_KERNEL)
+    .switchMap(({ channels }) =>
+      channels.iopub.ofMessageType(['update_display_data'])
+        .map(msgSpecToNotebookFormat)
+        // Convert 'update_display_data' to 'display_data'
+        .map((output) => Object.assign({}, output, { output_type: 'display_data' }))
+        .map(output => ({ type: 'UPDATE_DISPLAY', output }))
+        .catch(createErrorActionObservable(ERROR_UPDATE_DISPLAY))
+    );

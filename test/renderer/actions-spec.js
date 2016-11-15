@@ -59,15 +59,11 @@ describe('updateCellSource', () => {
   })
 });
 
-describe('updateCellOutputs', () => {
-  it('creates a UPDATE_CELL_OUTPUTS action', () => {
-    expect(actions.updateCellOutputs('1234', {'data': 'woo'})).to.deep.equal({
-      type: constants.UPDATE_CELL_OUTPUTS,
-      id: '1234',
-      outputs: {'data': 'woo'},
-    });
+describe('clearOutputs', () => {
+  it('creates a CLEAR_OUTPUTS action', () => {
+    expect(actions.clearOutputs('woo')).to.deep.equal({ type: 'CLEAR_OUTPUTS', id: 'woo' })
   })
-});
+})
 
 describe('updateCellExecutionCount', () => {
   it('creates a UPDATE_CELL_EXECUTION_COUNT action', () => {

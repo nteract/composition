@@ -71,6 +71,7 @@ mock('electron-json-storage', {
 
 mock('plotly.js/dist/plotly', {
   'newPlot': function(data, layout, config) {},
+  'redraw': function(el) {},
 })
 
 mock('enchannel-zmq-backend', {

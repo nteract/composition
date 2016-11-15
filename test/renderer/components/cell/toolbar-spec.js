@@ -24,11 +24,11 @@ describe('Toolbar', () => {
     expect(toolbar).to.not.be.null;
     expect(toolbar.find('div.cell-toolbar').length).to.be.greaterThan(0);
   });
-  it('clearCellOutput does not throw error', () => {
+  it('clearOutputs does not throw error', () => {
     const toolbar = mount(
       <Toolbar />, { context: { store: dummyStore() }}
     );
-    expect(() => {toolbar.instance().clearCellOutput()}).to.not.throw(Error);
+    expect(() => {toolbar.instance().clearOutputs()}).to.not.throw(Error);
   });
 });
 
@@ -102,8 +102,8 @@ describe('Toolbar.toggleStickyCell', () => {
   });
 });
 
-describe('Toolbar.clearCellOutput', () => {
-  it('dispatches CLEAR_CELL_OUTPUT action', () => {
+describe('Toolbar.clearOutputs', () => {
+  it('dispatches CLEAR_OUTPUTS action', () => {
     const cell = commutable.emptyCodeCell;
     const store = dummyStore();
     store.dispatch = sinon.spy();
@@ -119,7 +119,7 @@ describe('Toolbar.clearCellOutput', () => {
     button.simulate('click');
 
     expect(store.dispatch.firstCall).to.be.calledWith({
-      type: 'CLEAR_CELL_OUTPUT',
+      type: 'CLEAR_OUTPUTS',
       id: '0-1-2-3',
     });
   });

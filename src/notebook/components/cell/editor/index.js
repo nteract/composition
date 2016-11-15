@@ -28,7 +28,7 @@ import './codemirror-ipython';
 
 import { codeComplete, pick, formChangeObject } from './complete';
 
-import { updateCellSource } from '../../../actions';
+import { focusCell, focusCellEditor, updateCellSource } from '../../../actions';
 
 type Props = {
   autoCloseBrackets?: boolean,
@@ -43,7 +43,8 @@ type Props = {
   matchBrackets?: boolean,
   theme: string,
   cmtheme?: string,
-  focused: boolean,
+  cellFocused: boolean,
+  editorFocused: boolean,
   focusAbove: Function,
   focusBelow: Function,
 };
@@ -138,9 +139,11 @@ export default class Editor extends React.Component {
   state: State;
   shouldComponentUpdate: (p: Props, s: State) => boolean;
   onChange: (text: string) => void;
+  onFocusChange: (focused: boolean) => void;
   hint: (editor: Object, cb: Function) => void;
   theme: string|null;
   codemirror: CodeMirror;
+  focus: () => void;
 
   static contextTypes = {
     store: React.PropTypes.object,
@@ -152,7 +155,7 @@ export default class Editor extends React.Component {
     lineNumbers: false,
     matchBrackets: true, // highlights parens that are paired
     cmtheme: 'composition',
-    focused: false,
+    cellFocused: false,
   };
 
   constructor(props: Props): void {
@@ -161,6 +164,7 @@ export default class Editor extends React.Component {
       source: this.props.input,
     };
     this.onChange = this.onChange.bind(this);
+    this.onFocusChange = this.onFocusChange.bind(this);
     this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.hint = this.completions.bind(this);
     this.hint.async = true;
@@ -172,7 +176,8 @@ export default class Editor extends React.Component {
 
   componentDidMount(): void {
     // On first load, if focused, set codemirror to focus
-    if (this.props.focused) {
+
+    if (this.props.editorFocused) {
       this.codemirror.focus();
     }
 
@@ -207,9 +212,9 @@ export default class Editor extends React.Component {
   }
 
   componentDidUpdate(prevProps: Props): void {
-    if (this.props.focused && prevProps.focused !== this.props.focused) {
+    if (this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
       this.codemirror.focus();
-    } else if (!this.props.focused && prevProps.focused !== this.props.focused) {
+    } else if (!this.props.editorFocused && prevProps.editorFocused !== this.props.editorFocused) {
       const cm = this.codemirror.getCodeMirror();
       cm.getInputField().blur();
     }
@@ -228,6 +233,16 @@ export default class Editor extends React.Component {
         source: text,
       });
       this.context.store.dispatch(updateCellSource(this.props.id, text));
+    }
+  }
+
+  onFocusChange(focused: boolean): void {
+    const { cellFocused } = this.props;
+    if (focused) {
+      this.context.store.dispatch(focusCellEditor(this.props.id));
+      if (!cellFocused) {
+        this.context.store.dispatch(focusCell(this.props.id));
+      }
     }
   }
 
@@ -273,6 +288,8 @@ export default class Editor extends React.Component {
           className="cell_cm"
           options={options}
           onChange={this.onChange}
+          onFocusChange={this.onFocusChange}
+          onClick={() => this.focus()}
         />
       </div>
     );

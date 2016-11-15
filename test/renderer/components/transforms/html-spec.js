@@ -13,17 +13,22 @@ describe('HTMLDisplay', () => {
 
     expect(component.html()).to.equal('<div><b>woo</b></div>');
   });
-  // We can't test this since we need to use Range
-  it.skip('executes embedded <script> tags', (done) => {
-    const originalCreateRange = global.document.createRange;
-    global.document.createRange = () => {
-      done(); // fake spy
-      return originalCreateRange();
-    }
-
-    const component = mount(
-      <HTMLDisplay data={'<script>window.x = 2</script>'} />
+  it('correctly chooses to update with data changing', () => {
+    const wrapper = mount(
+      <HTMLDisplay data={'<b>woo</b>'} />
     );
 
+    const component = wrapper.instance() ;
+    expect(component.shouldComponentUpdate({data: "<b>woo</b>"})).to.equal(false);
+    expect(component.shouldComponentUpdate({data: "<b>womp</b>"})).to.equal(true);
+  });
+  it('updates the underlying HTML when data changes', () => {
+    const wrapper = mount(
+      <HTMLDisplay data={'<b>woo</b>'} />
+    );
+
+    wrapper.setProps({ data: "<b>womp</b>" });
+
+    expect(wrapper.html()).to.equal('<div><b>womp</b></div>');
   });
 });

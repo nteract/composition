@@ -30,11 +30,10 @@ export function updateCellSource(id, source) {
   };
 }
 
-export function updateCellOutputs(id, outputs) {
+export function clearOutputs(id) {
   return {
-    type: constants.UPDATE_CELL_OUTPUTS,
+    type: constants.CLEAR_OUTPUTS,
     id,
-    outputs,
   };
 }
 
@@ -93,13 +92,6 @@ export function updateCellExecutionCount(id, count) {
   };
 }
 
-export function clearCellOutput(id) {
-  return {
-    type: constants.CLEAR_CELL_OUTPUT,
-    id,
-  };
-}
-
 export function changeOutputVisibility(id) {
   return {
     type: constants.CHANGE_OUTPUT_VISIBILITY,
@@ -148,6 +140,27 @@ export function focusNextCell(id, createCellIfUndefined) {
 export function focusPreviousCell(id) {
   return {
     type: constants.FOCUS_PREVIOUS_CELL,
+    id,
+  };
+}
+
+export function focusCellEditor(id) {
+  return {
+    type: constants.FOCUS_CELL_EDITOR,
+    id,
+  };
+}
+
+export function focusNextCellEditor(id) {
+  return {
+    type: constants.FOCUS_NEXT_CELL_EDITOR,
+    id,
+  };
+}
+
+export function focusPreviousCellEditor(id) {
+  return {
+    type: constants.FOCUS_PREVIOUS_CELL_EDITOR,
     id,
   };
 }

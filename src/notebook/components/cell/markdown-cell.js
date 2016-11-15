@@ -13,7 +13,9 @@ type Props = {
   theme: string,
   focusAbove: Function,
   focusBelow: Function,
-  focused: boolean,
+  focusEditor: Function,
+  cellFocused: boolean,
+  editorFocused: boolean,
 };
 
 type State = {
@@ -41,7 +43,7 @@ export default class MarkdownCell extends React.Component {
   };
 
   static defaultProps = {
-    focused: false,
+    cellFocused: false,
   };
 
   constructor(props: Props): void {
@@ -72,7 +74,7 @@ export default class MarkdownCell extends React.Component {
   }
 
   updateFocus(): void {
-    if (this.state && this.state.view && this.props.focused) {
+    if (this.state && this.state.view && this.props.cellFocused) {
       this.rendered.focus();
     }
   }
@@ -90,6 +92,7 @@ export default class MarkdownCell extends React.Component {
 
   openEditor(): void {
     this.setState({ view: false });
+    this.props.focusEditor();
   }
 
   /**
@@ -149,7 +152,8 @@ export default class MarkdownCell extends React.Component {
                theme={this.props.theme}
                focusAbove={this.props.focusAbove}
                focusBelow={this.props.focusBelow}
-               focused={this.props.focused}
+               cellFocused={this.props.cellFocused}
+               editorFocused={this.props.editorFocused}
              />
            </div>
            <div className="outputs">

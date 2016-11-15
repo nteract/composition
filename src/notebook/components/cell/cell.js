@@ -12,13 +12,17 @@ import {
   focusCell,
   focusPreviousCell,
   focusNextCell,
+  focusCellEditor,
+  focusPreviousCellEditor,
+  focusNextCellEditor,
 } from '../../actions';
 
 export type CellProps = {
   cell: any,
   displayOrder: ImmutableList<any>,
   id: string,
-  focusedCell: string,
+  cellFocused: string,
+  editorFocused: string,
   language: string,
   running: boolean,
   theme: string,
@@ -37,6 +41,7 @@ export class Cell extends React.Component {
   selectCell: () => void;
   focusAboveCell: () => void;
   focusBelowCell: () => void;
+  focusCellEditor: () => void;
   setCellHoverState: (mouseEvent: MouseEvent) => void;
   cellDiv: HTMLElement;
 
@@ -48,6 +53,7 @@ export class Cell extends React.Component {
     super();
     this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
     this.selectCell = this.selectCell.bind(this);
+    this.focusCellEditor = this.focusCellEditor.bind(this);
     this.focusAboveCell = this.focusAboveCell.bind(this);
     this.focusBelowCell = this.focusBelowCell.bind(this);
     this.setCellHoverState = this.setCellHoverState.bind(this);
@@ -85,26 +91,33 @@ export class Cell extends React.Component {
     this.context.store.dispatch(focusCell(this.props.id));
   }
 
+  focusCellEditor(): void {
+    this.context.store.dispatch(focusCellEditor(this.props.id));
+  }
+
   focusAboveCell(): void {
     this.context.store.dispatch(focusPreviousCell(this.props.id));
+    this.context.store.dispatch(focusPreviousCellEditor(this.props.id));
   }
 
   focusBelowCell(): void {
     this.context.store.dispatch(focusNextCell(this.props.id, true));
+    this.context.store.dispatch(focusNextCellEditor(this.props.id));
   }
 
   render(): ?React.Element<any> {
     const cell = this.props.cell;
     const type = cell.get('cell_type');
-    const focused = this.props.focusedCell === this.props.id;
+    const cellFocused = this.props.cellFocused === this.props.id;
+    const editorFocused = this.props.editorFocused === this.props.id;
     return (
       <div
-        className={`cell ${type === 'markdown' ? 'text' : 'code'} ${focused ? 'focused' : ''}`}
+        className={`cell ${type === 'markdown' ? 'text' : 'code'} ${cellFocused ? 'focused' : ''}`}
         onClick={this.selectCell}
         ref={(el) => { this.cellDiv = el; }}
       >
         {
-          focused ? <Toolbar
+          cellFocused ? <Toolbar
             type={type}
             cell={cell}
             id={this.props.id}
@@ -115,24 +128,27 @@ export class Cell extends React.Component {
           <MarkdownCell
             focusAbove={this.focusAboveCell}
             focusBelow={this.focusBelowCell}
-            focused={focused}
+            focusEditor={this.focusCellEditor}
+            cellFocused={cellFocused}
+            editorFocused={editorFocused}
             cell={cell}
             id={this.props.id}
             theme={this.props.theme}
           /> :
-          <CodeCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            focused={focused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-            language={this.props.language}
-            displayOrder={this.props.displayOrder}
-            transforms={this.props.transforms}
-            pagers={this.props.pagers}
-            running={this.props.running}
-          />
+            <CodeCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+              language={this.props.language}
+              displayOrder={this.props.displayOrder}
+              transforms={this.props.transforms}
+              pagers={this.props.pagers}
+              running={this.props.running}
+            />
         }
       </div>
     );

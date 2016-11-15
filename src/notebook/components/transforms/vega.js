@@ -20,6 +20,24 @@ type EmbedProps = {
 
 const defaultCallback = (err: any, result: any): any => {};
 
+function embed(el: HTMLElement, spec: Object, mode: string, cb: (err: any, result: any) => any) {
+  const embedSpec = {
+    mode,
+    spec,
+  };
+
+  if (mode === 'vega-lite') {
+    embedSpec.spec.config = _.merge({
+      cell: {
+        width: DEFAULT_WIDTH,
+        height: DEFAULT_HEIGHT,
+      }
+    }, embedSpec.spec.config);
+  }
+
+  vegaEmbed(el, embedSpec, cb);
+}
+
 export class VegaEmbed extends React.Component {
   props: EmbedProps;
   el: HTMLElement;
@@ -30,27 +48,15 @@ export class VegaEmbed extends React.Component {
   }
 
   componentDidMount(): void {
-    const spec = this.props.data.toJS();
-
-    const embedSpec = {
-      mode: this.props.embedMode,
-      spec,
-    };
-
-    if (this.props.embedMode === 'vega-lite') {
-      spec.config = _.merge({
-        cell: {
-          width: DEFAULT_WIDTH,
-          height: DEFAULT_HEIGHT,
-        }
-      }, spec.config);
-    }
-
-    vegaEmbed(this.el, embedSpec, this.props.renderedCallback);
+    embed(this.el, this.props.data.toJS(), this.props.embedMode, this.props.renderedCallback);
   }
 
-  shouldComponentUpdate(): boolean {
-    return false;
+  shouldComponentUpdate(nextProps: EmbedProps): boolean {
+    return this.props.data !== nextProps.data;
+  }
+
+  componentDidUpdate(): void {
+    embed(this.el, this.props.data.toJS(), this.props.embedMode, this.props.renderedCallback);
   }
 
   render(): ?React.Element<any> {

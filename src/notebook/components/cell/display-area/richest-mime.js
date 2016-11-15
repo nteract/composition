@@ -27,7 +27,8 @@ export default class RichestMime extends React.Component {
     if (nextProps && nextProps.theme && this.props && nextProps.theme !== this.props.theme) {
       return true;
     }
-    return false;
+    // return false;
+    return true;
   }
 
   render(): ?React.Element<any>|null {

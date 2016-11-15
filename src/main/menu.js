@@ -178,6 +178,21 @@ export const fileSubMenus = {
         },
       },
       {
+        label: '&Named display updates',
+        click: () => {
+          const opts = {
+            title: 'Open a notebook',
+            filters: [
+              { name: 'Notebooks', extensions: ['ipynb'] },
+            ],
+            properties: [
+              'openFile',
+            ],
+          };
+          launch(path.join(exampleNotebooksDirectory, 'display-updates.ipynb'));
+        },
+      },
+      {
         label: '&Analyze nteract download metrics',
         click: () => {
           const opts = {
@@ -309,6 +324,10 @@ export const cell = {
     {
       label: 'Run All',
       click: createSender('menu:run-all'),
+    },
+    {
+      label: 'Run All Below',
+      click: createSender('menu:run-all-below'),
     },
     {
       label: 'Clear All',

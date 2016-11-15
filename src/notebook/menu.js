@@ -24,7 +24,7 @@ import {
 
 import {
   executeCell,
-  clearCellOutput,
+  clearOutputs,
   newKernel,
   killKernel,
   interruptKernel,
@@ -172,6 +172,31 @@ export function dispatchPublishUserGist(store, event, githubToken) {
   store.dispatch({ type: 'PUBLISH_USER_GIST' });
 }
 
+/**
+ * Redux dispatch function to run the focused cell and all cells below it.
+ * It obtains the focused cell cell id and all code cell cell ids below.
+ * It dispatches the {@link executeCell} action on all of those retrieved cells.
+ *
+ * @exports
+ * @param {Object} store - The Redux store
+ */
+export function dispatchRunAllBelow(store) {
+  const state = store.getState();
+  const focusedCellId = state.document.get('cellFocused');
+  const notebook = state.document.get('notebook');
+  const indexOfFocusedCell = notebook.get('cellOrder').indexOf(focusedCellId);
+  const cellsBelowFocusedId = notebook.get('cellOrder').skip(indexOfFocusedCell);
+  const cells = notebook.get('cellMap');
+
+  cellsBelowFocusedId.filter((cellID) =>
+    cells.getIn([cellID, 'cell_type']) === 'code')
+      .map((cellID) => store.dispatch(
+        executeCell(
+          cellID,
+          cells.getIn([cellID, 'source'])
+        )
+  ));
+}
 
 export function dispatchRunAll(store) {
   const state = store.getState();
@@ -190,7 +215,7 @@ export function dispatchRunAll(store) {
 export function dispatchClearAll(store) {
   const state = store.getState();
   const notebook = state.document.get('notebook');
-  notebook.get('cellOrder').map((value) => store.dispatch(clearCellOutput(value)));
+  notebook.get('cellOrder').map((value) => store.dispatch(clearOutputs(value)));
 }
 
 export function dispatchUnhideAll(store) {
@@ -243,13 +268,13 @@ export function dispatchSetTheme(store, evt, theme) {
 
 export function dispatchCopyCell(store) {
   const state = store.getState();
-  const focused = state.document.get('focusedCell');
+  const focused = state.document.get('cellFocused');
   store.dispatch(copyCell(focused));
 }
 
 export function dispatchCutCell(store) {
   const state = store.getState();
-  const focused = state.document.get('focusedCell');
+  const focused = state.document.get('cellFocused');
   store.dispatch(cutCell(focused));
 }
 
@@ -259,13 +284,13 @@ export function dispatchPasteCell(store) {
 
 export function dispatchCreateCellAfter(store) {
   const state = store.getState();
-  const focused = state.document.get('focusedCell');
+  const focused = state.document.get('cellFocused');
   store.dispatch(createCellAfter('code', focused));
 }
 
 export function dispatchCreateTextCellAfter(store) {
   const state = store.getState();
-  const focused = state.document.get('focusedCell');
+  const focused = state.document.get('cellFocused');
   store.dispatch(createCellAfter('markdown', focused));
 }
 
@@ -285,6 +310,7 @@ export function dispatchLoadConfig(store) {
 export function initMenuHandlers(store) {
   ipc.on('menu:new-kernel', dispatchNewKernel.bind(null, store));
   ipc.on('menu:run-all', dispatchRunAll.bind(null, store));
+  ipc.on('menu:run-all-below', dispatchRunAllBelow.bind(null, store));
   ipc.on('menu:clear-all', dispatchClearAll.bind(null, store));
   ipc.on('menu:unhide-all', dispatchUnhideAll.bind(null, store));
   ipc.on('menu:save', dispatchSave.bind(null, store));

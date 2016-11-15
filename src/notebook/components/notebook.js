@@ -22,6 +22,7 @@ import CellCreator from './cell/cell-creator';
 import StatusBar from './status-bar';
 import {
   focusNextCell,
+  focusNextCellEditor,
   moveCell,
   executeCell,
 } from '../actions';
@@ -50,7 +51,8 @@ type Props = {
   transforms: ImmutableMap<string, any>,
   cellPagers: ImmutableMap<string, any>,
   stickyCells: ImmutableMap<string, any>,
-  focusedCell: string,
+  cellFocused: string,
+  editorFocused: string,
   theme: string,
   lastSaved: Date,
   kernelSpecName: string,
@@ -105,7 +107,8 @@ const mapStateToProps = (state: Object) => ({
   kernelSpecName: state.app.get('kernelSpecName'),
   notebook: state.document.get('notebook'),
   cellPagers: state.document.get('cellPagers'),
-  focusedCell: state.document.get('focusedCell'),
+  cellFocused: state.document.get('cellFocused'),
+  editorFocused: state.document.get('editorFocused'),
   stickyCells: state.document.get('stickyCells'),
   executionState: state.app.get('executionState'),
 });
@@ -146,8 +149,8 @@ export class Notebook extends React.Component {
   }
 
   componentWillReceiveProps(nextProps: Props): void {
-    if (nextProps.focusedCell !== this.props.focusedCell) {
-      this.resolveScrollPosition(nextProps.focusedCell);
+    if (nextProps.cellFocused !== this.props.cellFocused) {
+      this.resolveScrollPosition(nextProps.cellFocused);
     }
   }
 
@@ -169,6 +172,7 @@ export class Notebook extends React.Component {
   }
 
   keyDown(e: KeyboardEvent): void {
+    // If enter is not pressed, do nothing
     if (e.keyCode !== 13) {
       return;
     }
@@ -178,18 +182,19 @@ export class Notebook extends React.Component {
       return;
     }
 
-    if (!this.props.focusedCell) {
+    if (!this.props.cellFocused) {
       return;
     }
 
     e.preventDefault();
 
     const cellMap = this.props.notebook.get('cellMap');
-    const id = this.props.focusedCell;
+    const id = this.props.cellFocused;
     const cell = cellMap.get(id);
 
     if (e.shiftKey) {
-      this.context.store.dispatch(focusNextCell(this.props.focusedCell, true));
+      this.context.store.dispatch(focusNextCell(this.props.cellFocused, true));
+      this.context.store.dispatch(focusNextCellEditor(id));
     }
 
     if (cell.get('cell_type') === 'code') {
@@ -203,9 +208,9 @@ export class Notebook extends React.Component {
   }
 
   resolveScrollPosition(id: string): void {
-    const focusedCell = this.cellElements.get(id);
-    if (focusedCell) {
-      document.body.scrollTop = scrollToElement(focusedCell);
+    const cellFocused = this.cellElements.get(id);
+    if (cellFocused) {
+      document.body.scrollTop = scrollToElement(cellFocused);
     }
   }
 
@@ -220,7 +225,8 @@ export class Notebook extends React.Component {
       transforms: this.props.transforms,
       moveCell: this.moveCell,
       pagers: this.props.cellPagers.get(id),
-      focusedCell: this.props.focusedCell,
+      cellFocused: this.props.cellFocused,
+      editorFocused: this.props.editorFocused,
       running: cell.get('status') === 'busy',
       // Theme is passed through to let the Editor component know when to
       // tell CodeMirror to remeasure
