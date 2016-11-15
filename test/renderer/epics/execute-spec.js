@@ -224,7 +224,7 @@ describe('createSourceUpdateAction', () => {
   });
 });
 
-describe('createExecuteCellObservable', () => {
+describe('createExecuteCellStream', () => {
   const action$ = new ActionsObservable();
   it('notifies the user if kernel is not connected', () => {
     const store = {
@@ -239,14 +239,8 @@ describe('createExecuteCellObservable', () => {
         }
       },
     };
-    const testFunction = createExecuteCellObservable(action$, store, 'source', 'id');
-    const notification = store.getState().app.notificationSystem.addNotification;
-    expect(notification).to.be.calledWith({
-      title: 'Could not execute cell',
-      message: 'The cell could not be executed because the kernel is not connected.',
-      level: 'error',
-    });
-    expect(testFunction.subscribe).to.not.be.null;
+    const testFunction = createExecuteCellStream(action$, store, 'source', 'id');
+    expect(testFunction.value.type).to.equal('ERROR_EXECUTING');
   });
   it('emits returns an observable when kernel connected', () => {
     const store = {
@@ -261,7 +255,7 @@ describe('createExecuteCellObservable', () => {
         }
       },
     };
-    const executeCellObservable = createExecuteCellObservable(action$, store, 'source', 'id');
+    const executeCellObservable = createExecuteCellStream(action$, store, 'source', 'id');
     expect(executeCellObservable.subscribe).to.not.be.null;
   });
 })
