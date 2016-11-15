@@ -349,9 +349,10 @@ export default handleActions({
         .setIn(['notebook', 'cellMap', id, 'outputs'], new Immutable.List());
     }
 
-    return state.setIn(['notebook', 'cellMap', id, 'cell_type'], to)
+    return cleanCellTransient(state.setIn(['notebook', 'cellMap', id, 'cell_type'], to)
       .delete(['notebook', 'cellMap', id, 'execution_count'])
-      .delete(['notebook', 'cellMap', id, 'outputs']);
+      .delete(['notebook', 'cellMap', id, 'outputs']),
+      id);
   },
   [constants.TOGGLE_OUTPUT_EXPANSION]: function toggleOutputExpansion(state, action) {
     const { id } = action;
