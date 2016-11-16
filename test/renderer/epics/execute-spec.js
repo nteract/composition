@@ -226,7 +226,7 @@ describe('createSourceUpdateAction', () => {
     });
   });
 });
-describe('createExecuteCellObservable', () => {
+describe('createExecuteCellStream', () => {
   const frontendToShell = new Rx.Subject();
   const shellToFrontend = new Rx.Subject();
   const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
@@ -245,8 +245,8 @@ describe('createExecuteCellObservable', () => {
             },
           };
   it('errors if the kernel is not connected in create', (done) => {
-      const action$ = ActionsObservable.of({type: 'EXECUTE_CELL'})
-      const observable = createExecuteCellObservable(action$, store, 'source', 'id');
+      const action$ = ActionsObservable.of({type: 'EXECUTE_CELL'});
+      const observable = createExecuteCellStream(action$, store, 'source', 'id');
       const actionBuffer = [];
       const subscription = observable.subscribe(
         (x) => actionBuffer.push(x.payload),
@@ -257,10 +257,13 @@ describe('createExecuteCellObservable', () => {
   });
   it('doesnt complete but does push until abort action', (done) => {
     Object.assign(store.state.app, { executionState: 'started' });
-    const action$ = ActionsObservable.of([{type: 'EXECUTE_CELL', id: 'id' },
-                                           {type: 'EXECUTE_CELL', id: 'id' },
-                                           {type: 'EXECUTE_CELL', id: 'id' }]);
-    const observable = createExecuteCellObservable(action$, store, 'source', 'id');
+    const input$ = Rx.Observable.of([{type: 'EXECUTE_CELL', id: 'id' },
+                                  {type: 'EXECUTE_CELL', id: 'id_2' },
+                                  {type: 'ABORT_EXECUTION', id: 'id' },
+                                  {type: 'EXECUTE_CELL', id: 'id' }]);
+    const action$ = new ActionsObservable(input$);
+
+    const observable = createExecuteCellStream(action$, store, 'source', 'id');
     const actionBuffer = [];
     const subscription = observable.subscribe(
       (x) => actionBuffer.push(x.type),
