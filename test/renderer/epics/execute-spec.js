@@ -24,6 +24,7 @@ import {
   UPDATE_CELL_EXECUTION_COUNT,
   ERROR_EXECUTING,
   ERROR_UPDATE_DISPLAY,
+  CLEAR_OUTPUTS,
   UPDATE_CELL_STATUS,
   UPDATE_CELL_PAGERS,
   UPDATE_CELL_OUTPUTS,
@@ -257,20 +258,17 @@ describe('createExecuteCellStream', () => {
   });
   it('doesnt complete but does push until abort action', (done) => {
     Object.assign(store.state.app, { executionState: 'started' });
-    const input$ = Rx.Observable.of([{type: 'EXECUTE_CELL', id: 'id' },
-                                  {type: 'EXECUTE_CELL', id: 'id_2' },
-                                  {type: 'ABORT_EXECUTION', id: 'id' },
-                                  {type: 'EXECUTE_CELL', id: 'id' }]);
-    const action$ = new ActionsObservable(input$);
-
+    const action$ = ActionsObservable.of({type: 'EXECUTE_CELL', id: 'id' },
+                                         {type: 'EXECUTE_CELL', id: 'id_2' },
+                                         {type: 'ABORT_EXECUTION', id: 'id_2' },
+                                         {type: 'EXECUTE_CELL', id: 'id' });
     const observable = createExecuteCellStream(action$, store, 'source', 'id');
     const actionBuffer = [];
     const subscription = observable.subscribe(
       (x) => actionBuffer.push(x.type),
       (err) => expect.fail(err, null),
     );
-    expect(actionBuffer).to.deep.equal([ UPDATE_CELL_STATUS, UPDATE_CELL_PAGERS,
-      UPDATE_CELL_OUTPUTS]);
+    expect(actionBuffer).to.deep.equal([ CLEAR_OUTPUTS, UPDATE_CELL_STATUS, UPDATE_CELL_PAGERS ]);
     done();
   });
 })
