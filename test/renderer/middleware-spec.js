@@ -9,7 +9,7 @@ chai.use(sinonChai);
 describe('The error middleware', () => {
 
   it('errors with a payload message when given', () => {
-    const store = { getState: function() { return this.state; },
+    let store = { getState: function() { return this.state; },
               dispatch: function(action) { return this.reducer(store, action); },
               state: {
                 app: {
@@ -25,16 +25,16 @@ describe('The error middleware', () => {
             };
     const next = action => store.dispatch(action);
     const action = {type: 'ERROR', payload: 'This is a payload', err: true};
+    const notification = store.getState().app.notificationSystem.addNotification;
     errorMiddleware(store)(next)(action);
-    const notification = store.getState().app.notificationSystem.addNotification
-    const truth = notification.calledWith({
+    expect(notification).to.be.calledWith({
       title: 'ERROR',
-      message: 'This is a payload',
+      message: JSON.stringify('This is a payload', 2, 2),
       dismissible: true,
-      postion: 'tr',
+      position: 'tr',
       level: 'error',
     });
-    debugger;
+
     expect(store.reducer).to.be.called;
   });
   it('errors with action as message when no payload', () => {
@@ -54,13 +54,13 @@ describe('The error middleware', () => {
             };
     const next = action => store.dispatch(action);
     const action= { type: 'ERROR', payloa: 'typo', err: true};
-    errorMiddleware(store)(next)(action);
     const notification = store.getState().app.notificationSystem.addNotification
-    expect(notification).calledWith({
+    errorMiddleware(store)(next)(action);
+    expect(notification).to.be.calledWith({
       title: 'ERROR',
-      message: action,
+      message: JSON.stringify(action, 2, 2),
       dismissible: true,
-      postion: 'tr',
+      position: 'tr',
       level: 'error',
     });
     expect(store.reducer).to.be.called;
