@@ -36,7 +36,7 @@ export function createTitleFeed(state$) {
   const modified$ = state$
     .map(state => state.document.get('notebook'))
     .scan((prev, notebook) => ({
-      modified: prev.notebook === notebook,
+      modified: prev.notebook !== notebook,
       notebook,
     }), {})
     .pluck('modified');
