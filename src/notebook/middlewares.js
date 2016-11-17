@@ -7,7 +7,7 @@ import * as constants from './constants';
 
 const rootEpic = combineEpics(...epics);
 
-const errorMiddleware = store => next => action => {
+export const errorMiddleware = store => next => action => {
   if (!action.type.includes('ERROR')) {
     return next(action);
   }
