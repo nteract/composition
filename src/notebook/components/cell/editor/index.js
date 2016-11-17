@@ -229,12 +229,12 @@ export default class Editor extends React.Component {
       this.cursorBlinkRate = this.props.cursorBlinkRate;
       const cm = this.codemirror.getCodeMirror();
       cm.setOption('cursorBlinkRate', this.cursorBlinkRate);
-      if (this.props.editorFocused)  {
+      if (this.props.editorFocused) {
         // code mirror doesn't change the blink rate immediately, we have to
         // move the cursor, or unfocus and refocus the editor to get the blink
         // rate to update - so here we do that (unfocus and refocus)
         cm.getInputField().blur();
-        cm.focus()
+        cm.focus();
       }
     }
   }

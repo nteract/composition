@@ -102,6 +102,20 @@ describe('menu', () => {
       });
     });
   });
+  describe('dispatchSetCursorBlink', () => {
+    it('dispatches a SET_CONFIG_KEY action', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
+
+      menu.dispatchSetCursorBlink(store, {}, 42);
+
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: constants.SET_CONFIG_KEY,
+        key: 'cursorBlinkRate',
+        value: 42,
+      });
+    });
+  });
 
   describe('dispatchLoadConfig', () => {
     it('dispatches a LOAD_CONFIG action', () => {
@@ -366,6 +380,7 @@ describe('menu', () => {
         'menu:zoom-in',
         'menu:zoom-out',
         'menu:theme',
+        'menu:set-blink-rate',
         'main:load',
         'main:new',
       ].forEach(name => {
