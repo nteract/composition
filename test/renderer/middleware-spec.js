@@ -8,7 +8,7 @@ chai.use(sinonChai);
 
 describe('The error middleware', () => {
 
-  it('errors with a payload message when given', () => {
+  it('errors with a payload message when given one', () => {
     let store = { getState: function() { return this.state; },
               dispatch: function(action) { return this.reducer(store, action); },
               state: {
