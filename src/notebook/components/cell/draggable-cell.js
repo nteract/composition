@@ -25,6 +25,7 @@ type Props = {
   language: string,
   running: boolean,
   theme: string,
+  cursorBlinkRate: number,
   pagers: ImmutableList<any>,
   moveCell: (source: string, dest: string, above: boolean) => Object,
 };
@@ -167,6 +168,7 @@ class DraggableCell extends React.Component {
             language={this.props.language}
             running={this.props.running}
             theme={this.props.theme}
+            cursorBlinkRate={this.props.cursorBlinkRate}
             pagers={this.props.pagers}
             transforms={this.props.transforms}
           />

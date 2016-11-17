@@ -265,6 +265,10 @@ export function setTheme(theme) {
   return setConfigKey('theme', theme);
 }
 
+export function setCursorBlink(value) {
+  return setConfigKey('cursorBlinkRate', value);
+}
+
 export function toggleOutputExpansion(id) {
   return {
     type: constants.TOGGLE_OUTPUT_EXPANSION,

@@ -434,6 +434,14 @@ export const view = {
       label: 'Theme',
       submenu: theme_menu,
     },
+    {
+      label: 'No Blink Editor Cursor',
+      click: createSender('menu:set-blink-rate', 0),
+    },
+    {
+      label: 'Blink Editor Cursor',
+      click: createSender('menu:set-blink-rate', 100),
+    },
   ],
 };
 
