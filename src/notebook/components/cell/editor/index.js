@@ -162,7 +162,6 @@ export default class Editor extends React.Component {
 
   constructor(props: Props): void {
     super(props);
-
     this.state = {
       source: this.props.input,
     };
