@@ -34,11 +34,15 @@ export function setTitleFromAttributes(attributes) {
 
 export function createTitleFeed(state$) {
   const modified$ = state$
-    .map(state => state.document.get('notebook'))
-    .scan((prev, notebook) => ({
-      modified: prev.notebook !== notebook,
-      notebook,
-    }), {})
+    .map(state => ({
+      // Assume not modified to start
+      modified: false,
+      notebook: state.document.get('notebook'),
+    }))
+    .scan((last, current) => ({
+      modified: last.notebook !== current.notebook,
+      notebook: current.notebook,
+    }))
     .pluck('modified');
 
   const fullpath$ = state$
