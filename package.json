@@ -81,8 +81,10 @@
   },
   "greenkeeper": {
     "ignore": [
-      "commonmark",
-      "redux-observable"
+      "eslint-plugin-jsx-a11y",
+      "eslint-plugin-import",
+      "eslint-plugin-jsx-a11y",
+      "eslint-plugin-react"
     ]
   },
   "dependencies": {
@@ -122,7 +124,7 @@
     "redux-logger": "^2.7.4",
     "redux-observable": "^0.12.0",
     "rxjs": "^5.0.0-rc.1",
-    "shell-env": "^0.2.0",
+    "shell-env": "^0.3.0",
     "source-map-support": "^0.4.5",
     "spawn-rx": "^2.0.3",
     "spawnteract": "^2.2.0",
@@ -151,11 +153,11 @@
     "electron-mocha": "^3.0.6",
     "enzyme": "^2.2.0",
     "esdoc": "^0.4.8",
-    "eslint": "^3.8.0",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-plugin-import": "^2.0.1",
-    "eslint-plugin-jsx-a11y": "^2.2.3",
-    "eslint-plugin-react": "^6.6.0",
+    "eslint": "3.8.0",
+    "eslint-config-airbnb": "13.0.0",
+    "eslint-plugin-import": "2.0.1",
+    "eslint-plugin-jsx-a11y": "2.2.3",
+    "eslint-plugin-react": "6.6.0",
     "flow-bin": "^0.35.0",
     "jsdom": "^9.4.2",
     "json-loader": "^0.5.4",
@@ -163,7 +165,7 @@
     "mkdirp": "^0.5.1",
     "mocha": "^3.0.2",
     "mock-require": "^2.0.0",
-    "nyc": "^8.3.0",
+    "nyc": "^9.0.1",
     "react-addons-test-utils": "^15.3.2",
     "react-dnd-test-backend": "^1.0.2",
     "rimraf": "^2.5.2",
