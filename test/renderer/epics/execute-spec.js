@@ -228,24 +228,24 @@ describe('createSourceUpdateAction', () => {
   });
 });
 describe('createExecuteCellStream', () => {
-  const frontendToShell = new Rx.Subject();
-  const shellToFrontend = new Rx.Subject();
-  const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
-  const mockIOPub = new Rx.Subject();
-  let store = { getState: function() { return this.state; },
-            state: {
-              app: {
-                executionState: 'not connected',
-                channels: { iopub: mockIOPub,
-                            shell: mockShell,
-                          },
-                notificationSystem: {
-                  addNotification: sinon.spy(),
-                },
-              }
-            },
-          };
   it('errors if the kernel is not connected in create', (done) => {
+      const frontendToShell = new Rx.Subject();
+      const shellToFrontend = new Rx.Subject();
+      const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
+      const mockIOPub = new Rx.Subject();
+      const store = { getState: function() { return this.state; },
+                state: {
+                  app: {
+                    executionState: 'not connected',
+                    channels: { iopub: mockIOPub,
+                                shell: mockShell,
+                              },
+                    notificationSystem: {
+                      addNotification: sinon.spy(),
+                    },
+                  }
+                },
+              };
       const action$ = ActionsObservable.of({type: 'EXECUTE_CELL'});
       const observable = createExecuteCellStream(action$, store, 'source', 'id');
       const actionBuffer = [];
@@ -257,7 +257,23 @@ describe('createExecuteCellStream', () => {
       )
   });
   it('doesnt complete but does push until abort action', (done) => {
-    Object.assign(store.state.app, { executionState: 'started' });
+      const frontendToShell = new Rx.Subject();
+      const shellToFrontend = new Rx.Subject();
+      const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
+      const mockIOPub = new Rx.Subject();
+      const store = { getState: function() { return this.state; },
+                state: {
+                  app: {
+                    executionState: 'connected',
+                    channels: { iopub: mockIOPub,
+                                shell: mockShell,
+                              },
+                    notificationSystem: {
+                      addNotification: sinon.spy(),
+                    },
+                  }
+                },
+              };
     const action$ = ActionsObservable.of({type: 'EXECUTE_CELL', id: 'id' },
                                          {type: 'EXECUTE_CELL', id: 'id_2' },
                                          {type: 'ABORT_EXECUTION', id: 'id_2' },
@@ -318,7 +334,7 @@ describe('executeCellEpic', () => {
       },
     );
   });
-  it('Runs an epic with the approriate flow with good action', (done) => {
+  it('Runs an epic with the appropriate flow with good action', (done) => {
     const input$ = Observable.of(executeCell('id', 'source'));
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
