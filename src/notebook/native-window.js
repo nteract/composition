@@ -39,11 +39,18 @@ export function createTitleFeed(state$) {
       modified: false,
       notebook: state.document.get('notebook'),
     }))
+    .distinctUntilChanged(last => last.notebook)
     .scan((last, current) => ({
+      // We're missing logic for saved...
+      // All we know is if it was modified from last time
+      // The logic should be
+      //    modified: saved.notebook !== current.notebook
+      //        we don't have saved.notebook here
       modified: last.notebook !== current.notebook,
       notebook: current.notebook,
     }))
     .pluck('modified');
+
 
   const fullpath$ = state$
     .map(state => state.metadata.get('filename') || 'Untitled');
