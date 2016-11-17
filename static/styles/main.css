@@ -415,7 +415,7 @@ code {
 .cm-s-composition span.cm-operator { color: var(--cm-operator); }
 .cm-s-composition span.cm-def { color: var(--cm-def); }
 .cm-s-composition .CodeMirror-activeline-background { background: var(--cm-activeline-bg); }
-.cm-s-composition .CodeMirror-matchingbracket { outline:1px solid var(--cm-matchingbracket-outline); color: var(--cm-matchingbracket-color) !important; }
+.cm-s-composition .CodeMirror-matchingbracket { border-bottom: 1px solid var(--cm-matchingbracket-outline); color: var(--cm-matchingbracket-color) !important; }
 
 /* Overwrite some of the hint Styling */
 
