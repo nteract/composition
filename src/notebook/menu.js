@@ -37,6 +37,7 @@ import {
   setGithubToken,
   changeInputVisibility,
   setTheme,
+  setCursorBlink,
   save,
   saveAs,
 } from './actions';
@@ -266,6 +267,10 @@ export function dispatchSetTheme(store, evt, theme) {
   store.dispatch(setTheme(theme));
 }
 
+export function dispatchSetCursorBlink(store, evt, value) {
+  store.dispatch(setCursorBlink(value));
+}
+
 export function dispatchCopyCell(store) {
   const state = store.getState();
   const focused = state.document.get('cellFocused');
@@ -329,6 +334,7 @@ export function initMenuHandlers(store) {
   ipc.on('menu:zoom-out', dispatchZoomOut.bind(null, store));
   ipc.on('menu:zoom-reset', dispatchZoomReset.bind(null, store));
   ipc.on('menu:theme', dispatchSetTheme.bind(null, store));
+  ipc.on('menu:set-blink-rate', dispatchSetCursorBlink.bind(null, store));
   ipc.on('menu:github:auth', dispatchPublishUserGist.bind(null, store));
   // OCD: This is more like the registration of main -> renderer thread
   ipc.on('main:load', dispatchLoad.bind(null, store));

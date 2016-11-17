@@ -11,6 +11,7 @@ type Props = {
   cell: any,
   id: string,
   theme: string,
+  cursorBlinkRate: number,
   focusAbove: Function,
   focusBelow: Function,
   focusEditor: Function,
@@ -150,6 +151,7 @@ export default class MarkdownCell extends React.Component {
                lineWrapping
                input={this.state.source}
                theme={this.props.theme}
+               cursorBlinkRate={this.props.cursorBlinkRate}
                focusAbove={this.props.focusAbove}
                focusBelow={this.props.focusBelow}
                cellFocused={this.props.cellFocused}

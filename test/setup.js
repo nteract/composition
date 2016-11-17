@@ -2,7 +2,6 @@
 
 var jsdom = require('jsdom').jsdom;
 var sinon = require('sinon');
-
 var exposedProperties = ['window', 'navigator', 'document'];
 
 global.document = jsdom('<html><body><div id="app"></div></html>');

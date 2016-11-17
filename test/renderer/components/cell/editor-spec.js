@@ -99,6 +99,18 @@ describe('Editor', () => {
     expect(completer).to.have.not.been.called;
     completer.restore();
   });
+  it('handles cursor blinkery changes', () => {
+	const editorWrapper = mount(
+	  <Editor
+	  cursorBlinkRate={530}
+		/>,
+	);
+	const instance = editorWrapper.instance();
+	const cm = instance.codemirror.getCodeMirror()
+	expect(cm.options.cursorBlinkRate).to.equal(530);
+	editorWrapper.setProps({cursorBlinkRate: 0})
+	expect(cm.options.cursorBlinkRate).to.equal(0);
+  });
 });
 
 describe('complete', () => {

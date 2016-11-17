@@ -7,7 +7,6 @@ const GitHub = require('github');
 const fromJS = Immutable.fromJS;
 import { dummyCommutable } from '../dummy-nb';
 import { dummyStore } from '../../utils';
-
 import NotificationSystem from 'react-notification-system';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
@@ -108,18 +107,12 @@ describe('notifyUser', () => {
     const notification = store.getState().app.notificationSystem.addNotification;
     const notificationSystem = store.getState().app.notificationSystem;
     const notifyUserCall = notifyUser('filename', 'gistID', notificationSystem)
-    expect(notification.calledWith({
+    expect(notification).to.be.calledWithMatch({
       title: 'Gist uploaded',
       message: `filename is ready`,
       dismissible: true,
       position: 'tr',
       level: 'success',
-      action: {
-        label: 'Open Gist',
-        callback: function openGist() {
-          shell.openExternal(`https://nbviewer.jupyter.org/gistID`);
-        },
-      },
-    }))
+    });
   })
 })

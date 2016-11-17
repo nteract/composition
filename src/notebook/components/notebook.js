@@ -54,6 +54,7 @@ type Props = {
   cellFocused: string,
   editorFocused: string,
   theme: string,
+  cursorBlinkRate: number,
   lastSaved: Date,
   kernelSpecName: string,
   CellComponent: any,
@@ -103,6 +104,7 @@ export function scrollToElement(el: HTMLElement): number {
 
 const mapStateToProps = (state: Object) => ({
   theme: state.config.get('theme'),
+  cursorBlinkRate: state.config.get('cursorBlinkRate'),
   lastSaved: state.app.get('lastSaved'),
   kernelSpecName: state.app.get('kernelSpecName'),
   notebook: state.document.get('notebook'),
@@ -231,6 +233,7 @@ export class Notebook extends React.Component {
       // Theme is passed through to let the Editor component know when to
       // tell CodeMirror to remeasure
       theme: this.props.theme,
+      cursorBlinkRate: this.props.cursorBlinkRate,
     };
   }
 

@@ -47,6 +47,7 @@ type Props = {
   editorFocused: boolean,
   focusAbove: Function,
   focusBelow: Function,
+  cursorBlinkRate: number,
 };
 
 type State = {
@@ -142,6 +143,7 @@ export default class Editor extends React.Component {
   onFocusChange: (focused: boolean) => void;
   hint: (editor: Object, cb: Function) => void;
   theme: string|null;
+  cursorBlinkRate: number;
   codemirror: CodeMirror;
   focus: () => void;
 
@@ -223,6 +225,18 @@ export default class Editor extends React.Component {
       this.theme = this.props.theme;
       this.codemirror.getCodeMirror().refresh();
     }
+    if (this.cursorBlinkRate !== this.props.cursorBlinkRate) {
+      this.cursorBlinkRate = this.props.cursorBlinkRate;
+      const cm = this.codemirror.getCodeMirror();
+      cm.setOption('cursorBlinkRate', this.cursorBlinkRate);
+      if (this.props.editorFocused) {
+        // code mirror doesn't change the blink rate immediately, we have to
+        // move the cursor, or unfocus and refocus the editor to get the blink
+        // rate to update - so here we do that (unfocus and refocus)
+        cm.getInputField().blur();
+        cm.focus();
+      }
+    }
   }
 
   onChange(text: string): void {
@@ -266,6 +280,7 @@ export default class Editor extends React.Component {
       lineWrapping: this.props.lineWrapping,
       matchBrackets: this.props.matchBrackets,
       theme: this.props.cmtheme,
+      cursorBlinkRate: this.props.cursorBlinkRate,
       autofocus: false,
       hintOptions: {
         hint: this.hint,

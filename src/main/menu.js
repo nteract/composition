@@ -357,6 +357,18 @@ const theme_menu = [
     click: createSender('menu:theme', 'nteract'),
   },
 ];
+const blink_menu = [
+  // TODO: replace the with one `type: 'checkbox'` item once we have state to
+  // know which way it should be set initially.
+  {
+    label: 'Do Not Blink Editor Cursor',
+    click: createSender('menu:set-blink-rate', 0),
+  },
+  {
+    label: 'Blink Editor Cursor',
+    click: createSender('menu:set-blink-rate', 530),
+  },
+];
 
 const today = new Date();
 const day = today.getDate();
@@ -433,6 +445,11 @@ export const view = {
     {
       label: 'Theme',
       submenu: theme_menu,
+    },
+
+    {
+      label: 'Editor options',
+      submenu: blink_menu,
     },
   ],
 };

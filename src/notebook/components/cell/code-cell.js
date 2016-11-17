@@ -17,6 +17,7 @@ type Props = {
   id: string,
   language: string,
   theme: string,
+  cursorBlinkRate: number,
   transforms: ImmutableMap<string, any>,
   cellFocused: boolean,
   editorFocused: boolean,
@@ -72,6 +73,7 @@ class CodeCell extends React.Component {
               cellFocused={this.props.cellFocused}
               editorFocused={this.props.editorFocused}
               theme={this.props.theme}
+              cursorBlinkRate={this.props.cursorBlinkRate}
               focusAbove={this.props.focusAbove}
               focusBelow={this.props.focusBelow}
             />
