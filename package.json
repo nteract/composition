@@ -128,7 +128,7 @@
     "source-map-support": "^0.4.5",
     "spawn-rx": "^2.0.3",
     "spawnteract": "^2.2.0",
-    "uuid": "^2.0.3",
+    "uuid": "^3.0.0",
     "vega": "^2.6.3",
     "vega-embed": "^2.2.0",
     "vega-lite": "^1.3.1",
