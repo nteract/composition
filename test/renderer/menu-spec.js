@@ -171,49 +171,57 @@ describe('menu', () => {
   });
 
   describe('dispatchRestartKernel', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches KILL_KERNEL and NEW_KERNEL actions', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchRestartKernel(store);
+      menu.dispatchRestartKernel(store);
 
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: constants.KILL_KERNEL,
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: constants.KILL_KERNEL,
+      });
     });
   });
 
   describe('dispatchInterruptKernel', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches INTERRUPT_KERNEL actions', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchInterruptKernel(store);
+      menu.dispatchInterruptKernel(store);
 
-    if (process.platform !== 'win32') {
-      expect(store.dispatch.firstCall).to.be.calledWith({
-        type: constants.INTERRUPT_KERNEL,
-      });
-    }
+      if (process.platform !== 'win32') {
+        expect(store.dispatch.firstCall).to.be.calledWith({
+          type: constants.INTERRUPT_KERNEL,
+        });
+      }
+    });
   });
 
   describe('dispatchKillKernel', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches KILL_KERNEL actions', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchKillKernel(store);
+      menu.dispatchKillKernel(store);
 
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: constants.KILL_KERNEL,
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: constants.KILL_KERNEL,
+      });
     });
   });
 
   describe('dispatchClearAll', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches CLEAR_OUTPUTS actions', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchClearAll(store);
+      menu.dispatchClearAll(store);
 
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: constants.CLEAR_OUTPUTS,
-      id: store.getState().document.getIn(['notebook', 'cellOrder']).first()
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: constants.CLEAR_OUTPUTS,
+        id: store.getState().document.getIn(['notebook', 'cellOrder']).first()
+      });
     });
   });
 
@@ -223,10 +231,10 @@ describe('menu', () => {
       const markdownCells = store.getState().document.getIn(['notebook', 'cellMap'])
                                                      .filter(cell => cell.get('cell_type') === 'markdown');
       store.dispatch = sinon.spy();
-      
+
       menu.dispatchRunAllBelow(store);
 
-      expect(store.dispatch.calledThrice).to.equal(true);    
+      expect(store.dispatch.calledThrice).to.equal(true);
       for (let cellId of markdownCells.keys()) {
           expect(store.dispatch.neverCalledWith({
             type: 'EXECUTE_CELL',
@@ -234,20 +242,22 @@ describe('menu', () => {
             source: '',
           })).to.equal(true);
       }
-    });    
+    });
   });
 
   describe('dispatchRunAll', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches EXECUTE_CELL for all cells action', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchRunAll(store);
+      menu.dispatchRunAll(store);
 
-    const first = store.getState().document.getIn(['notebook', 'cellOrder']).first();
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: 'EXECUTE_CELL',
-      id: first,
-      source: store.getState().document.getIn(['notebook', 'cellMap', first, 'source']),
+      const first = store.getState().document.getIn(['notebook', 'cellOrder']).first();
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: 'EXECUTE_CELL',
+        id: first,
+        source: store.getState().document.getIn(['notebook', 'cellMap', first, 'source']),
+      });
     });
   });
 
@@ -265,11 +275,13 @@ describe('menu', () => {
   });
 
   describe('dispatchPublishAnonGist', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
-    menu.dispatchPublishAnonGist(store);
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: 'PUBLISH_ANONYMOUS_GIST',
+    it('dispatches PUBLISH_ANONYMOUS_GIST action', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
+      menu.dispatchPublishAnonGist(store);
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: 'PUBLISH_ANONYMOUS_GIST',
+      });
     });
   });
 
@@ -291,15 +303,17 @@ describe('menu', () => {
   });
 
   describe('dispatchNewKernel', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches LAUNCH_KERNEL action', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchNewKernel(store, {}, 'python2');
+      menu.dispatchNewKernel(store, {}, 'python2');
 
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: constants.LAUNCH_KERNEL,
-      kernelSpecName: 'python2',
-      cwd: process.cwd(),
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: constants.LAUNCH_KERNEL,
+        kernelSpecName: 'python2',
+        cwd: process.cwd(),
+      });
     });
   });
 
@@ -319,25 +333,29 @@ describe('menu', () => {
   });
 
   describe('dispatchSaveAs', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches SAVE_AS action', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchSaveAs(store, {}, 'test-ipynb.ipynb');
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: 'SAVE_AS',
-      filename: 'test-ipynb.ipynb',
-      notebook: store.getState().document.get('notebook'),
+      menu.dispatchSaveAs(store, {}, 'test-ipynb.ipynb');
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: 'SAVE_AS',
+        filename: 'test-ipynb.ipynb',
+        notebook: store.getState().document.get('notebook'),
+      });
     });
   });
 
   describe('dispatchLoad', () => {
-    const store = dummyStore();
-    store.dispatch = sinon.spy();
+    it('dispatches LOAD action', () => {
+      const store = dummyStore();
+      store.dispatch = sinon.spy();
 
-    menu.dispatchLoad(store, {}, 'test-ipynb.ipynb');
-    expect(store.dispatch.firstCall).to.be.calledWith({
-      type: 'LOAD',
-      filename: 'test-ipynb.ipynb',
+      menu.dispatchLoad(store, {}, 'test-ipynb.ipynb');
+      expect(store.dispatch.firstCall).to.be.calledWith({
+        type: 'LOAD',
+        filename: 'test-ipynb.ipynb',
+      });
     });
   });
 
