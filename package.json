@@ -108,7 +108,7 @@
     "moment": "^2.15.2",
     "normalize.css": "^5.0.0",
     "nteract-assets": "^2.1.0",
-    "plotly.js": "^1.19.2",
+    "plotly.js": "^1.20.2",
     "react": "^15.3.2",
     "react-addons-pure-render-mixin": "^15.3.2",
     "react-codemirror": "^0.2.6",
