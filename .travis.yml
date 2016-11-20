@@ -17,6 +17,7 @@ env:
   - GROUP=coverage
   - GROUP=lint
   - GROUP=flow
+  - GROUP=conformance
 
 cache:
   apt: true
