@@ -45,7 +45,7 @@ export function cleanCellTransient(state, id) {
     kpfd.map(keyPaths =>
       keyPaths.filter(keyPath => keyPath.get(2) !== id)
     )
-  );
+  ).setIn(['transient', 'cellMap'], new Immutable.Map());
 }
 
 export default handleActions({
@@ -55,11 +55,11 @@ export default handleActions({
         cells.map((value) =>
           value.setIn(['metadata', 'inputHidden'], false)
                 .setIn(['metadata', 'outputHidden'], false)
-                .setIn(['metadata', 'outputExpanded'], false)
-                .set('status', '')));
+                .setIn(['metadata', 'outputExpanded'], false)));
 
     return state.set('notebook', notebook)
-      .set('cellFocused', notebook.getIn(['cellOrder', 0]));
+      .set('cellFocused', notebook.getIn(['cellOrder', 0]))
+      .setIn(['transient', 'cellMap'], new Immutable.Map());
   },
   [constants.FOCUS_CELL]: function focusCell(state, action) {
     return state.set('cellFocused', action.id);
@@ -293,7 +293,7 @@ export default handleActions({
   },
   [constants.UPDATE_CELL_STATUS]: function updateCellStatus(state, action) {
     const { id, status } = action;
-    return state.setIn(['notebook', 'cellMap', id, 'status'], status);
+    return state.setIn(['transient', 'cellMap', id, 'status'], status);
   },
   [constants.SET_LANGUAGE_INFO]: function setLanguageInfo(state, action) {
     const langInfo = Immutable.fromJS(action.langInfo);

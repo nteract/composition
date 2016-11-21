@@ -51,6 +51,7 @@ type Props = {
   transforms: ImmutableMap<string, any>,
   cellPagers: ImmutableMap<string, any>,
   stickyCells: ImmutableMap<string, any>,
+  transient: ImmutableMap<string, any>,
   cellFocused: string,
   editorFocused: string,
   theme: string,
@@ -108,6 +109,7 @@ const mapStateToProps = (state: Object) => ({
   lastSaved: state.app.get('lastSaved'),
   kernelSpecName: state.app.get('kernelSpecName'),
   notebook: state.document.get('notebook'),
+  transient: state.document.get('transient'),
   cellPagers: state.document.get('cellPagers'),
   cellFocused: state.document.get('cellFocused'),
   editorFocused: state.document.get('editorFocused'),
@@ -216,7 +218,7 @@ export class Notebook extends React.Component {
     }
   }
 
-  createCellProps(id: string, cell: any): CellProps {
+  createCellProps(id: string, cell: any, transient: any): CellProps {
     return {
       id,
       cell,
@@ -229,7 +231,7 @@ export class Notebook extends React.Component {
       pagers: this.props.cellPagers.get(id),
       cellFocused: this.props.cellFocused,
       editorFocused: this.props.editorFocused,
-      running: cell.get('status') === 'busy',
+      running: transient.get('status') === 'busy',
       // Theme is passed through to let the Editor component know when to
       // tell CodeMirror to remeasure
       theme: this.props.theme,
@@ -240,6 +242,7 @@ export class Notebook extends React.Component {
   createCellElement(id: string): ?React.Element<any> {
     const cellMap = this.props.notebook.get('cellMap');
     const cell = cellMap.get(id);
+    const transient = this.props.transient.getIn(['cellMap', id], new ImmutableMap());
     const isStickied = this.props.stickyCells.get(id);
 
     const CellComponent = this.props.CellComponent;
@@ -250,17 +253,18 @@ export class Notebook extends React.Component {
           <div className="cell-placeholder">
             <span className="octicon octicon-link-external" />
           </div> :
-          <CellComponent {...this.createCellProps(id, cell)} />}
+          <CellComponent {...this.createCellProps(id, cell, transient)} />}
         <CellCreator key={`creator-${id}`} id={id} above={false} />
       </div>);
   }
 
   createStickyCellElement(id: string): ?React.Element<any> {
     const cellMap = this.props.notebook.get('cellMap');
+    const transient = this.props.transient.getIn(['cellMap', id], new ImmutableMap());
     const cell = cellMap.get(id);
     return (
       <div key={`cell-container-${id}`}>
-        <Cell {...this.createCellProps(id, cell)} />
+        <Cell {...this.createCellProps(id, cell, transient)} />
       </div>);
   }
 
