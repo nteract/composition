@@ -350,8 +350,8 @@ export default handleActions({
     }
 
     return cleanCellTransient(state.setIn(['notebook', 'cellMap', id, 'cell_type'], to)
-      .delete(['notebook', 'cellMap', id, 'execution_count'])
-      .delete(['notebook', 'cellMap', id, 'outputs']),
+      .deleteIn(['notebook', 'cellMap', id, 'execution_count'])
+      .deleteIn(['notebook', 'cellMap', id, 'outputs']),
       id);
   },
   [constants.TOGGLE_OUTPUT_EXPANSION]: function toggleOutputExpansion(state, action) {
