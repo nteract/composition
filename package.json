@@ -165,7 +165,7 @@
     "jsonschema": "^1.1.0",
     "jsx-chai": "^4.0.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.0.2",
+    "mocha": "^3.2.0",
     "mock-require": "^2.0.0",
     "nbschema": "0.0.2",
     "nyc": "^10.0.0",
