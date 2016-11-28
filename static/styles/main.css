@@ -356,8 +356,8 @@ code {
 
 .CodeMirror-scroll
 {
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
 }
 
 .CodeMirror-lines

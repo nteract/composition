@@ -37,6 +37,7 @@ describe('Notebook', () => {
     const component = shallow(
       <Notebook
         notebook={dummyCommutable}
+        transient={new Immutable.Map({cellMap: new Immutable.Map()})}
         cellPagers={new Immutable.Map()}
         cellStatuses={new Immutable.Map()}
         stickyCells={(new Immutable.Map())
@@ -53,6 +54,7 @@ describe('Notebook', () => {
     const component = mount(
       <Notebook
         notebook={dummyCommutable}
+        transient={new Immutable.Map({cellMap: new Immutable.Map()})}
         cellPagers={new Immutable.Map()}
         cellStatuses={dummyCellStatuses}
         stickyCells={new Immutable.Map()}
@@ -96,6 +98,7 @@ describe('Notebook', () => {
       const component = shallow(
         <Notebook
           notebook={dummyCommutable}
+          transient={new Immutable.Map({cellMap: new Immutable.Map()})}
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
           stickyCells={(new Immutable.Map())}
@@ -129,6 +132,7 @@ describe('Notebook', () => {
       const component = shallow(
         <Notebook
           notebook={dummyCommutable}
+          transient={new Immutable.Map({cellMap: new Immutable.Map()})}
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
           stickyCells={(new Immutable.Map())}
@@ -160,6 +164,7 @@ describe('Notebook DnD', () => {
     const component = mount(
       <TestNotebook
         notebook={dummyCommutable}
+        transient={new Immutable.Map({cellMap: new Immutable.Map()})}
         cellPagers={new Immutable.Map()}
         cellStatuses={dummyCellStatuses}
         stickyCells={(new Immutable.Map())}
