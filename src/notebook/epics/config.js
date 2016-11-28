@@ -31,6 +31,12 @@ const HOME = remote.app.getPath('home');
 
 export const CONFIG_FILE_PATH = path.join(HOME, '.jupyter', 'nteract.json');
 
+/**
+  * An epic that loads the configuration.
+  *
+  * @param  {ActionObservable}  actions ActionObservable containing type
+  * @return {ActionObservable}  ActionObservable with MERGE_CONFIG type
+  */
 export const loadConfigEpic = actions =>
   actions.ofType(LOAD_CONFIG)
     .switchMap(action =>
@@ -42,10 +48,22 @@ export const loadConfigEpic = actions =>
         )
     );
 
+/**
+  * An epic that saves the configuration if it has been changed.
+  *
+  * @param  {ActionObservable}  actions ActionObservable containing type
+  * @return {ActionObservable}  ActionObservable with SAVE_CONFIG type
+  */
 export const saveConfigOnChangeEpic = actions =>
   actions.ofType(SET_CONFIG_KEY)
     .mapTo({ type: SAVE_CONFIG });
 
+/**
+  * An epic that saves the configuration.
+  *
+  * @param  {ActionObservable}  actions ActionObservable containing type
+  * @return {ActionObservable}  ActionObservable containing DONE_SAVING type
+  */
 export const saveConfigEpic = actions =>
   actions.ofType(SAVE_CONFIG)
     .mergeMap(action =>
