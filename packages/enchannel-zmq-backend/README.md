@@ -69,8 +69,8 @@ The `createChannels` function accepts two things:
     You'll want to set up your identity, relying on the node `uuid` package:
 
     ```javascript
-    const uuid = require('uuid/v4');
-    const identity = uuid();
+    const uuidv4 = require('uuid/v4');
+    const identity = uuidv4();
     ```
 
 - a runtime object, such as a kernel (which matches the on-disk JSON).

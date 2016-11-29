@@ -1,5 +1,5 @@
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
-import v4 from 'uuid/v4';
+import uuidv4 from 'uuid/v4';
 
 import { expect } from 'chai';
 
@@ -21,7 +21,7 @@ describe('createChannels', () => {
       control_port: 19011,
       iopub_port: 19012,
     };
-    const s = createChannels(v4(), config);
+    const s = createChannels(uuidv4(), config);
 
     expect(s).to.be.an('object');
     expect(s.shell).to.be.an('object');
@@ -45,7 +45,7 @@ describe('createChannelSubject', () => {
       transport: 'tcp',
       iopub_port: 19009,
     };
-    const s = createChannelSubject('iopub', v4(), config);
+    const s = createChannelSubject('iopub', uuidv4(), config);
     expect(s.next).to.be.a('function');
     expect(s.complete).to.be.a('function');
     expect(s.subscribe).to.be.a('function');
@@ -62,7 +62,7 @@ describe('createIOPubSubject', () => {
       transport: 'tcp',
       iopub_port: 19011,
     };
-    const s = createIOPubSubject(v4(), config);
+    const s = createIOPubSubject(uuidv4(), config);
     s.complete();
   });
 });
