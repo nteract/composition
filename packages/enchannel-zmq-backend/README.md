@@ -3,28 +3,28 @@
 [![GitHub release](https://img.shields.io/badge/enchannel--zmq--backend-version--latest-blue.svg)](https://github.com/nteract/enchannel-zmq-backend/releases)
 [![enchannel spec version](https://img.shields.io/badge/enchannel%20spec-version%201.1-ff69b4.svg)](https://github.com/nteract/enchannel/releases)
 
-[**Installation**](#installation) | [**Usage**](#usage) | 
-[**Contributors and developers**](#contributors-and-developers) | 
+[**Installation**](#installation) | [**Usage**](#usage) |
+[**Contributors and developers**](#contributors-and-developers) |
 [**Learn more about nteract**](#learn-more-about-nteract)
 
-**enchannel-zmq-backend** offers the ZeroMQ backend implementation for 
+**enchannel-zmq-backend** offers the ZeroMQ backend implementation for
 [`enchannel`](https://github.com/nteract/enchannel).
 
 ## Technical overview
 
 As a refresher for the reader, [*enchannel*][] details nteract's
 lightweight, implementation-flexible specification for communication
-between a user frontend and a backend, such as a language kernel. The 
-*enchannel* specification offers a simple description of "what" 
+between a user frontend and a backend, such as a language kernel. The
+*enchannel* specification offers a simple description of "what"
 messages may be passed between frontends and backends, while leaving
 a developer freedom in "how" to achieve message communication.
 
 **enchannel-zmq-backend** takes a classic design approach using ZeroMQ,
 the foundation messaging protocol for the Jupyter project.
 enchannel-zmq-backend implements backend support for the messaging
-channels described in the [Jupyter messaging specification][]. This 
-spec explains how front end clients should communicate with 
-backend language kernels which implement the Jupyter messaging 
+channels described in the [Jupyter messaging specification][]. This
+spec explains how front end clients should communicate with
+backend language kernels which implement the Jupyter messaging
 specification.
 
 ## Our backend
@@ -32,9 +32,9 @@ specification.
 **enchannel-zmq-backend** implements the "how" to communicate messages
 to and from a backend.
 
-We provide functions to create [RxJS](https://github.com/ReactiveX/RxJS) 
-[Subjects](http://reactivex.io/documentation/subject.html) (two way 
-[Observables](http://reactivex.io/documentation/observable.html) for 
+We provide functions to create [RxJS](https://github.com/ReactiveX/RxJS)
+[Subjects](http://reactivex.io/documentation/subject.html) (two way
+[Observables](http://reactivex.io/documentation/observable.html) for
 four of the channels described in the
 [Jupyter messaging specification][]:
 
@@ -62,20 +62,20 @@ To get access to all of the `channels` for messaging (`shell`, `control`,
 import { createChannels } from 'enchannel-zmq-backend'
 ```
 
-The `createChannels` function accepts two things: 
+The `createChannels` function accepts two things:
 
 - an identity
 
     You'll want to set up your identity, relying on the node `uuid` package:
-    
+
     ```javascript
-    const uuid = require('uuid');
-    const identity = uuid.v4();
+    const uuid = require('uuid/v4');
+    const identity = uuid();
     ```
 
 - a runtime object, such as a kernel (which matches the on-disk JSON).
   Using [`spawnteract`](https://github.com/nteract/spawnteract) with
-  this project helps streamline spawning a kernel. 
+  this project helps streamline spawning a kernel.
 
     ```javascript
     const runtimeConfig = {
@@ -98,7 +98,7 @@ const channels = createChannels(identity, runtimeConfig)
 const { shell, iopub, stdin, control } = channels;
 ```
 
-`enchannel-zmq-backend` also offers four convenience functions to 
+`enchannel-zmq-backend` also offers four convenience functions to
 easily create the messaging channels for `control`, `stdin`, `iopub`,
 and `shell` :
 
@@ -197,7 +197,7 @@ before you can send on a channel.
      payload: [] } }
 ```
 
-## Contributors and developers 
+## Contributors and developers
 
 ### ZeroMQ Dependency
 

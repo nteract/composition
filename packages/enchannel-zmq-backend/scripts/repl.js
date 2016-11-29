@@ -4,11 +4,11 @@
 const enchannelZMQ = require('../src');
 const createShellSubject = enchannelZMQ.createShellSubject;
 const createIOPubSubject = enchannelZMQ.createIOPubSubject;
-const uuid = require('uuid');
+const uuid = require('uuid/v4');
 const path = require('path');
 
 const chalk = require('chalk');
-const identity = uuid.v4();
+const identity = uuid();
 
 const fsp = require('fs-promise');
 const runtimeDir = require('jupyter-paths').runtimeDir();
@@ -36,7 +36,7 @@ fsp.readdir(runtimeDir)
 
     global.message = {
       header: {
-        msg_id: `execute_${uuid.v4()}`,
+        msg_id: `execute_${uuid()}`,
         username: '',
         session: '00000000-0000-0000-0000-000000000000',
         msg_type: 'execute_request',
