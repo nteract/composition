@@ -104,7 +104,7 @@ export function newKernelObservable(kernelSpecName, cwd) {
 /**
   * Sets the execution state after a kernel has been launched.
   *
-  * @oaram  {ActionObservable}  action$ The action type
+  * @oaram  {ActionObservable}  action$ ActionObservable for NEW_KERNEL action
   */
 export const watchExecutionStateEpic = action$ =>
   action$.ofType(NEW_KERNEL)
@@ -135,7 +135,7 @@ export const acquireKernelInfoEpic = action$ =>
 /**
   * Launches a new kernel.
   *
-  * @param  {ActionObservable} action$  The action type, kernelSpecName, and cwd
+  * @param  {ActionObservable} action$  ActionObservable for LAUNCH_KERNEL action
   */
 export const newKernelEpic = action$ =>
   action$.ofType(LAUNCH_KERNEL)

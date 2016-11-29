@@ -34,7 +34,7 @@ export const notebookLoaded = (filename, notebook) => ({
   * @param  {String}  filename  The filename of the notebook being loaded
   * @param  {Immutable<Map>}  notebook  The notebook to extract langauge info from
   *
-  * @returns  {ActionObservable}  A NEW_KERNEL action
+  * @returns  {ActionObservable}  ActionObservable for a NEW_KERNEL action
   */
 export const extractNewKernel = (filename, notebook) => {
   const cwd = (filename && path.dirname(path.resolve(filename))) || process.cwd();
@@ -89,7 +89,7 @@ export const loadEpic = actions =>
 /**
   * Sets a new empty notebook.
   *
-  * @param  {ActionObservable}  A NEW_NOTEBOOK action
+  * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
   */
 const starterNotebook = appendCell(emptyNotebook, emptyCodeCell);
 export const newNotebookEpic = action$ =>
