@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai');
 const expect = chai.expect;
 chai.use(sinonChai);
 
-const uuid = require('uuid');
+const uuid = require('uuid/v4');
 
 import { EventEmitter } from 'events';
 
@@ -179,7 +179,7 @@ describe('createSocket', () => {
       transport: 'tcp',
       iopub_port: 9009,
     };
-    const identity = uuid.v4();
+    const identity = uuid();
 
     const socket = createSocket('iopub', identity, config);
     expect(socket).to.not.be.null;
