@@ -38,6 +38,12 @@ export function setLanguageInfo(langInfo) {
   };
 }
 
+/**
+  * Send a kernel_info_request to the kernel.
+  *
+  * @param  {Object}  channels  A object containing the kernel channels
+  * @returns  {Observable}  The reply from the server
+  */
 export function acquireKernelInfo(channels) {
   const message = createMessage('kernel_info_request');
 
@@ -55,6 +61,12 @@ export function acquireKernelInfo(channels) {
   });
 }
 
+/**
+  * Instantiate a connection to a new kernel.
+  *
+  * @param  {String}  kernelSpecName  The name of the kernel to launch
+  * @param  {String}  cwd The working directory to launch the kernel in
+  */
 export function newKernelObservable(kernelSpecName, cwd) {
   return Rx.Observable.create((observer) => {
     launch(kernelSpecName, { cwd })
@@ -89,6 +101,11 @@ export function newKernelObservable(kernelSpecName, cwd) {
   });
 }
 
+/**
+  * Sets the execution state after a kernel has been launched.
+  *
+  * @oaram  {ActionObservable}  action$ The action type
+  */
 export const watchExecutionStateEpic = action$ =>
   action$.ofType(NEW_KERNEL)
     .switchMap(action =>
@@ -100,6 +117,11 @@ export const watchExecutionStateEpic = action$ =>
       )
     );
 
+/**
+  * Gets information about newly launched kernel.
+  *
+  * @param  {ActionObservable}  The action type
+  */
 export const acquireKernelInfoEpic = action$ =>
   action$.ofType(NEW_KERNEL)
     .switchMap(action => {
@@ -110,6 +132,11 @@ export const acquireKernelInfoEpic = action$ =>
       return acquireKernelInfo(action.channels);
     });
 
+/**
+  * Launches a new kernel.
+  *
+  * @param  {ActionObservable} action$  The action type, kernelSpecName, and cwd
+  */
 export const newKernelEpic = action$ =>
   action$.ofType(LAUNCH_KERNEL)
     .do(action => {
