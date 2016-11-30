@@ -61,7 +61,7 @@ export const convertRawNotebook = (filename, data) => ({
 /**
   * Loads a notebook and launches its kernel.
   *
-  * @param  {ActionObservable}  A LOAD action with the notebook filename 
+  * @param  {ActionObservable}  A LOAD action with the notebook filename
   */
 export const loadEpic = actions =>
   actions.ofType(LOAD)
