@@ -28,6 +28,14 @@ export const notebookLoaded = (filename, notebook) => ({
   notebook,
 });
 
+/**
+  * Creates a new kernel based on the language info in the notebook.
+  *
+  * @param  {String}  filename  The filename of the notebook being loaded
+  * @param  {Immutable<Map>}  notebook  The notebook to extract langauge info from
+  *
+  * @returns  {ActionObservable}  ActionObservable for a NEW_KERNEL action
+  */
 export const extractNewKernel = (filename, notebook) => {
   const cwd = (filename && path.dirname(path.resolve(filename))) || process.cwd();
   const kernelName = notebook.getIn(
@@ -37,11 +45,24 @@ export const extractNewKernel = (filename, notebook) => {
   return newKernel(kernelName, cwd);
 };
 
+/**
+  * Converts a notebook from JSON to an Immutable.Map.
+  *
+  * @param  {String}  filename The filename of the notebook to convert
+  * @param  {String}  data  The raw JSON of the notebook
+  *
+  * @returns  {Object}  The filename and notebook in Immutable.Map form
+  */
 export const convertRawNotebook = (filename, data) => ({
   filename,
   notebook: commutable.fromJS(JSON.parse(data)),
 });
 
+/**
+  * Loads a notebook and launches its kernel.
+  *
+  * @param  {ActionObservable}  A LOAD action with the notebook filename
+  */
 export const loadEpic = actions =>
   actions.ofType(LOAD)
     .do(action => {
@@ -65,6 +86,11 @@ export const loadEpic = actions =>
         )
     );
 
+/**
+  * Sets a new empty notebook.
+  *
+  * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
+  */
 const starterNotebook = appendCell(emptyNotebook, emptyCodeCell);
 export const newNotebookEpic = action$ =>
   action$.ofType(NEW_NOTEBOOK)

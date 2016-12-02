@@ -19,6 +19,11 @@ const commutable = require('commutable');
 
 const Observable = Rx.Observable;
 
+/**
+  * Cleans up the notebook document and saves the file.
+  *
+  * @param  {ActionObservable}  action$ The SAVE action with the filename and notebook
+  */
 export function saveEpic(action$) {
   return action$.ofType(SAVE)
     .do(action => {
@@ -53,8 +58,13 @@ export function saveEpic(action$) {
     );
 }
 
-export function saveAsEpic(actions) {
-  return actions.ofType(SAVE_AS)
+/**
+  * Sets the filename for a notebook before saving.
+  *
+  * @param  {ActionObservable}  action$ The SAVE_AS action with the filename and notebook
+  */
+export function saveAsEpic(action$) {
+  return action$.ofType(SAVE_AS)
     .mergeMap(action => [
       changeFilename(action.filename),
       save(action.filename, action.notebook),
