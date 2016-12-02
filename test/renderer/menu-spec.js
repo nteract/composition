@@ -309,11 +309,11 @@ describe('menu', () => {
 
       menu.dispatchNewKernel(store, {}, 'python2');
 
-      expect(store.dispatch.firstCall).to.be.calledWith({
-        type: constants.LAUNCH_KERNEL,
-        kernelSpecName: 'python2',
-        cwd: process.cwd(),
-      });
+    expect(store.dispatch.firstCall).to.be.calledWith({
+      type: constants.LAUNCH_KERNEL,
+      kernelSpecName: 'python2',
+      cwd: process.cwd(),
+      sessionId: 'sessionId',
     });
   });
 
@@ -351,11 +351,11 @@ describe('menu', () => {
       const store = dummyStore();
       store.dispatch = sinon.spy();
 
-      menu.dispatchLoad(store, {}, 'test-ipynb.ipynb');
-      expect(store.dispatch.firstCall).to.be.calledWith({
-        type: 'LOAD',
-        filename: 'test-ipynb.ipynb',
-      });
+    menu.dispatchLoad(store, {}, 'test-ipynb.ipynb');
+    expect(store.dispatch.firstCall).to.be.calledWith({
+      type: 'LOAD',
+      filename: 'test-ipynb.ipynb',
+      sessionId: 'sessionId',
     });
   });
 

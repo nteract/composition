@@ -1,10 +1,11 @@
 import * as constants from './constants';
 
-export function newKernel(kernelSpecName, cwd) {
+export function newKernel(kernelSpecName, cwd, sessionId) {
   return {
     type: constants.LAUNCH_KERNEL,
     kernelSpecName,
     cwd,
+    sessionId,
   };
 }
 

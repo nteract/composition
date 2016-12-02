@@ -25,8 +25,8 @@ const Observable = Rx.Observable;
 
 describe('load', () => {
   it('loads a notebook', () => {
-    expect(load('mytest.ipynb'))
-      .to.deep.equal({ type: 'LOAD', filename: 'mytest.ipynb' })
+    expect(load('mytest.ipynb', 'sessionId'))
+      .to.deep.equal({ type: 'LOAD', filename: 'mytest.ipynb', sessionId: 'sessionId' });
   })
 })
 
@@ -54,10 +54,11 @@ describe('notebookLoaded', () => {
 
 describe('extractNewKernel', () => {
   it('extracts and launches the kernel from a notebook', () => {
-    expect(extractNewKernel('/tmp/test.ipynb', dummyCommutable)).to.deep.equal({
+    expect(extractNewKernel('/tmp/test.ipynb', dummyCommutable, 'sessionId')).to.deep.equal({
       type: 'LAUNCH_KERNEL',
       kernelSpecName: 'python3',
       cwd: path.resolve('/tmp'),
+      sessionId: 'sessionId',
     })
   })
 })
