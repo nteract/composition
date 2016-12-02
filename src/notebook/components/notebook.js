@@ -72,36 +72,6 @@ export function getLanguageMode(notebook: any): string {
     'text')));
   return language;
 }
-/**
- * Provide the appropriate position to scroll to when given cell position and size
- * information.
- * @param  {HTMLElement} el - Element to be compared against window and body for
- * scrollTop value.
- * @return {Integer} - An integer for the new document scrollTop value.
- */
-export function scrollToElement(el: HTMLElement): number {
-  const viewportHeight = window.innerHeight;
-  const viewportOffset = document.body.scrollTop;
-
-  const cellTop = el.offsetTop;
-  const cellHeight = el.offsetHeight;
-
-  const belowFold = (cellTop + cellHeight) > (viewportOffset + viewportHeight);
-  const aboveFold = cellTop < viewportOffset;
-
-  if (aboveFold) {
-    return cellTop;
-  }
-
-  if (belowFold) {
-    if (cellHeight > viewportHeight) {
-      return cellTop;
-    }
-    const offset = viewportHeight - cellHeight;
-    return cellTop - offset;
-  }
-  return document.body.scrollTop;
-}
 
 const mapStateToProps = (state: Object) => ({
   theme: state.config.get('theme'),
@@ -150,12 +120,6 @@ export class Notebook extends React.Component {
 
   componentDidMount(): void {
     document.addEventListener('keydown', this.keyDown);
-  }
-
-  componentWillReceiveProps(nextProps: Props): void {
-    if (nextProps.cellFocused !== this.props.cellFocused) {
-      this.resolveScrollPosition(nextProps.cellFocused);
-    }
   }
 
   componentDidUpdate(): void {
@@ -208,13 +172,6 @@ export class Notebook extends React.Component {
           cell.get('source')
         )
       );
-    }
-  }
-
-  resolveScrollPosition(id: string): void {
-    const cellFocused = this.cellElements.get(id);
-    if (cellFocused) {
-      document.body.scrollTop = scrollToElement(cellFocused);
     }
   }
 
