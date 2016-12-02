@@ -85,7 +85,7 @@ export const fileSubMenus = {
     accelerator: 'CmdOrCtrl+O',
   },
   openExampleNotebooks: {
-    label: '&Open Example Notebooks',
+    label: '&Open Example Notebook',
     submenu: [
       {
         label: '&Intro',
