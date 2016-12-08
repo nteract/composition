@@ -5,7 +5,7 @@ import {
 } from 'electron';
 
 import * as path from 'path';
-
+import * as fs from 'fs';
 import { tildify } from './native-window';
 
 import {
@@ -48,7 +48,8 @@ import {
 } from './path';
 
 const BrowserWindow = remote.BrowserWindow;
-
+console.log(BrowserWindow)
+console.log(BrowserWindow.webContents)
 export function dispatchSaveAs(store, evt, filename) {
   const state = store.getState();
   const notebook = state.document.get('notebook');
@@ -307,8 +308,22 @@ export function dispatchNewNotebook(store, event, kernelSpecName) {
   store.dispatch(newNotebook(kernelSpecName, cwdKernelFallback()));
 }
 
+export function dispatchExportPDF(store) {
+  const state = store.getState();
+  const filename = state.metadata.get('filename')
+  const notificationSystem = state.app.get('notificationSystem');
+  notificationSystem.addNotification({
+    title: 'PDF exporting',
+    message: `FIle ${filename} has been exported to a pdf.`,
+    dismissible: true,
+    position: 'tr',
+    level: 'success',
+  });
+  store.dispatch(exportPDF(filename))
+}
 
 export function dispatchLoadConfig(store) {
+
   store.dispatch(loadConfig());
 }
 
@@ -336,6 +351,7 @@ export function initMenuHandlers(store) {
   ipc.on('menu:theme', dispatchSetTheme.bind(null, store));
   ipc.on('menu:set-blink-rate', dispatchSetCursorBlink.bind(null, store));
   ipc.on('menu:github:auth', dispatchPublishUserGist.bind(null, store));
+  ipc.on('menu:exportPDF', dispatchExportPDF.bind(null, store));
   // OCD: This is more like the registration of main -> renderer thread
   ipc.on('main:load', dispatchLoad.bind(null, store));
   ipc.on('main:load-config', dispatchLoadConfig.bind(null, store));
