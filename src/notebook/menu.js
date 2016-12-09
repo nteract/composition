@@ -311,6 +311,13 @@ export function dispatchExportPDF(store) {
     position: 'tr',
     level: 'success',
   });
+  remote.getCurrentWindow().webContents.printToPDF({ printBackground: true }, (error, data) => {
+      if (error) throw error
+      fs.writeFile('/tmp/print.pdf', data, (error) => {
+        if (error) throw error
+        console.log('Write PDF successfully.')
+      });
+    });
   store.dispatch(exportPDF(filename))
 }
 

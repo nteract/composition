@@ -53,16 +53,6 @@ export function authAndPublish(item, focusedWindow) {
   win.loadURL('https://oauth.nteract.io/github');
 }
 
-function exportPDF() {
-  createSender('menu:exportPDF');
-  BrowserWindow.webContents.printToPDF({ printBackground: true }, (error, data) => {
-    if (error) throw error
-    fs.writeFile('/tmp/print.pdf', data, (error) => {
-      if (error) throw error
-      console.log('Write PDF successfully.')
-    });
-  });
-}
 
 export const fileSubMenus = {
   new: {
@@ -173,7 +163,7 @@ export const fileSubMenus = {
   },
   exportPDF: {
     label: 'Export &PDF',
-    click: exportPDF,
+    click: createSender('menu:exportPDF'),
   },
 };
 export const file = {
