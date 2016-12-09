@@ -11,6 +11,7 @@ function getExampleNotebooksDir() {
   return path.join(process.resourcesPath, 'example-notebooks');
 }
 
+
 const exampleNotebooksDirectory = getExampleNotebooksDir();
 
 function send(focusedWindow, eventName, obj) {

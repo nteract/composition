@@ -2,6 +2,7 @@ import {
   ipcRenderer as ipc,
   webFrame,
   remote,
+  shell,
 } from 'electron';
 
 import * as path from 'path';
@@ -302,23 +303,27 @@ export function dispatchNewNotebook(store, event, kernelSpec) {
 
 export function dispatchExportPDF(store) {
   const state = store.getState();
-  const filename = state.metadata.get('filename')
+  const filename = state.metadata.has('filename') ? state.metadata.get('filename').split('.')[0] : '~/Untitled'
   const notificationSystem = state.app.get('notificationSystem');
-  notificationSystem.addNotification({
-    title: 'PDF exporting',
-    message: `FIle ${filename} has been exported to a pdf.`,
-    dismissible: true,
-    position: 'tr',
-    level: 'success',
-  });
   remote.getCurrentWindow().webContents.printToPDF({ printBackground: true }, (error, data) => {
       if (error) throw error
-      fs.writeFile('/tmp/print.pdf', data, (error) => {
+      fs.writeFile(`${filename}.pdf`, data, (error) => {
         if (error) throw error
-        console.log('Write PDF successfully.')
+        notificationSystem.addNotification({
+          title: 'PDF exported',
+          message: `File ${filename} has been exported to a pdf.`,
+          dismissible: true,
+          position: 'tr',
+          level: 'success',
+          action: {
+            label: 'Open PDF',
+            callback: function openPDF() {
+              shell.openItem(`${filename}.pdf`);
+            },
+          },
+        });
       });
     });
-  store.dispatch(exportPDF(filename))
 }
 
 export function dispatchLoadConfig(store) {
