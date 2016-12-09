@@ -6,6 +6,15 @@
   --cell-placeholder-opacity: 0.3;
 }
 
+@media print {
+  * {
+    box-shadow: none!important;
+  }
+  .status-bar {
+    display: none!important;
+  }
+}
+
 #app {
   padding-top: 20px;
 }

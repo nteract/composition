@@ -48,8 +48,7 @@ import {
 } from './path';
 
 const BrowserWindow = remote.BrowserWindow;
-console.log(BrowserWindow)
-console.log(BrowserWindow.webContents)
+
 export function dispatchSaveAs(store, evt, filename) {
   const state = store.getState();
   const notebook = state.document.get('notebook');
@@ -319,6 +318,13 @@ export function dispatchExportPDF(store) {
     position: 'tr',
     level: 'success',
   });
+  remote.getCurrentWindow().webContents.printToPDF({ printBackground: true }, (error, data) => {
+      if (error) throw error
+      fs.writeFile('/tmp/print.pdf', data, (error) => {
+        if (error) throw error
+        console.log('Write PDF successfully.')
+      });
+    });
   store.dispatch(exportPDF(filename))
 }
 
