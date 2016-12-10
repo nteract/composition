@@ -179,7 +179,7 @@ export const file = {
     fileSubMenus.exportPDF,
   ],
 };
-console.log(file)
+
 export const edit = {
   label: 'Edit',
   submenu: [
@@ -511,7 +511,6 @@ export function loadFullMenu(kernelSpecs) {
       click: () => launchNewNotebook(kernelSpecs[kernelSpecName]),
     }));
 
-<<<<<<< HEAD
   const languageMenu = {
     label: '&Language',
     submenu: [
@@ -538,7 +537,7 @@ export function loadFullMenu(kernelSpecs) {
       ...kernelMenuItems,
     ],
   };
-  
+
   const template = [];
 
   if (process.platform === 'darwin') {
