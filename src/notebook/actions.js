@@ -318,10 +318,3 @@ export function doneSaving() {
     type: constants.DONE_SAVING
   };
 }
-
-export function exportPDF(filename) {
-  return {
-    type: constants.EXPORT_PDF,
-    filename,
-  };
-}
