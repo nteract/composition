@@ -310,31 +310,31 @@ export function dispatchNewNotebook(store, event, kernelSpecName) {
 
 export function exportPDF(store) {
   const state = store.getState();
-  const filename = state.metadata.has('filename') ? state.metadata.get('filename').split('.')[0] : '~/Untitled'
+  const filename = state.metadata.has('filename') ?
+    state.metadata.get('filename').split('.')[0] : '~/Untitled';
   const notificationSystem = state.app.get('notificationSystem');
   remote.getCurrentWindow().webContents.printToPDF({ printBackground: true }, (error, data) => {
-      if (error) throw error
-      fs.writeFile(`${filename}.pdf`, data, (error) => {
-        if (error) throw error
-        notificationSystem.addNotification({
-          title: 'PDF exported',
-          message: `File ${filename} has been exported to a pdf.`,
-          dismissible: true,
-          position: 'tr',
-          level: 'success',
-          action: {
-            label: 'Open PDF',
-            callback: function openPDF() {
-              shell.openItem(`${filename}.pdf`);
-            },
+    if (error) throw error;
+    fs.writeFile(`${filename}.pdf`, data, (error_fs) => {
+      if (error_fs) throw error_fs;
+      notificationSystem.addNotification({
+        title: 'PDF exported',
+        message: `File ${filename} has been exported to a pdf.`,
+        dismissible: true,
+        position: 'tr',
+        level: 'success',
+        action: {
+          label: 'Open PDF',
+          callback: function openPDF() {
+            shell.openItem(`${filename}.pdf`);
           },
-        });
+        },
       });
     });
+  });
 }
 
 export function dispatchLoadConfig(store) {
-
   store.dispatch(loadConfig());
 }
 

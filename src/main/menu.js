@@ -269,7 +269,7 @@ export const file = {
     fileSubMenus.exportPDF,
   ],
 };
-console.log(file)
+
 export const edit = {
   label: 'Edit',
   submenu: [
