@@ -301,7 +301,7 @@ export function dispatchNewNotebook(store, event, kernelSpec) {
   store.dispatch(newNotebook(kernelSpec, cwdKernelFallback()));
 }
 
-export function dispatchExportPDF(store) {
+export function exportPDF(store) {
   const state = store.getState();
   const filename = state.metadata.has('filename') ? state.metadata.get('filename').split('.')[0] : '~/Untitled'
   const notificationSystem = state.app.get('notificationSystem');
@@ -356,7 +356,7 @@ export function initMenuHandlers(store) {
   ipc.on('menu:theme', dispatchSetTheme.bind(null, store));
   ipc.on('menu:set-blink-rate', dispatchSetCursorBlink.bind(null, store));
   ipc.on('menu:github:auth', dispatchPublishUserGist.bind(null, store));
-  ipc.on('menu:exportPDF', dispatchExportPDF.bind(null, store));
+  ipc.on('menu:exportPDF', exportPDF.bind(null, store));
   // OCD: This is more like the registration of main -> renderer thread
   ipc.on('main:load', dispatchLoad.bind(null, store));
   ipc.on('main:load-config', dispatchLoadConfig.bind(null, store));
