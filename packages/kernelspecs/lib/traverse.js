@@ -49,7 +49,11 @@ function getKernelInfos(directory) {
   );
 }
 
-
+/**
+ * find a kernel by name
+ * @param  {string} kernelName the kernel to locate
+ * @return {Object} kernelResource object
+ */
 function find(kernelName) {
   return jp.dataDirs({ withSysPrefix: true }).then(dirs => {
 
@@ -59,7 +63,7 @@ function find(kernelName) {
     }))
 
     return extractKernelResources(kernelInfos);
-  });
+  }).then(kernelResource => kernelResource[kernelName])
 }
 
 function extractKernelResources(kernelInfos) {
@@ -79,7 +83,7 @@ function extractKernelResources(kernelInfos) {
 /**
  * Get an array of kernelResources objects for the host environment
  * This matches the Jupyter notebook API for kernelspecs exactly
- * @return {Promise<Object[]>} Promise for an array of kernelResources objects
+ * @return {Promise<Object<string,kernelResource>} Promise for an array of kernelResources objects
  */
 function findAll() {
   return jp.dataDirs({ withSysPrefix: true }).then(dirs => {
