@@ -49,6 +49,33 @@ function getKernelInfos(directory) {
   );
 }
 
+
+function find(kernelName) {
+  return jp.dataDirs({ withSysPrefix: true }).then(dirs => {
+
+    const kernelInfos = dirs.map(dir => ({
+      name: kernelName,
+      resourceDir: path.join(dir, 'kernels', kernelName),
+    }))
+
+    return extractKernelResources(kernelInfos);
+  });
+}
+
+function extractKernelResources(kernelInfos) {
+  return Promise.all(kernelInfos
+    .filter(a => a) // remove null/undefined kernelInfo
+    .reduce((a, b) => a.concat(b), []) // flatten the results into one array
+    .map(a => getKernelResources(a).catch(() => {})) // convert kernelInfo -> kernelResources and ignore errors
+  ).then(kernelResources => kernelResources
+    .filter(a => a) // remove null/undefined kernelResources
+    .reduce((kernels, kernel) => {
+      kernels[kernel.name] = kernel;
+      return kernels;
+    }, {})
+  )
+}
+
 /**
  * Get an array of kernelResources objects for the host environment
  * This matches the Jupyter notebook API for kernelspecs exactly
@@ -59,21 +86,12 @@ function findAll() {
     return Promise.all(dirs
       // get kernel infos for each directory and ignore errors
       .map(dir => getKernelInfos(path.join(dir, 'kernels')).catch(() => {}))
-    ).then(kernelInfos => Promise.all(kernelInfos
-      .filter(a => a) // remove null/undefined kernelInfo
-      .reduce((a, b) => a.concat(b), []) // flatten the results into one array
-      .map(a => getKernelResources(a).catch(() => {})) // convert kernelInfo -> kernelResources and ignore errors
-    )).then(kernelResources => kernelResources
-      .filter(a => a) // remove null/undefined kernelResources
-      .reduce((kernels, kernel) => {
-        kernels[kernel.name] = kernel;
-        return kernels;
-      }, {})
-    );
+    ).then(extractKernelResources)
   });
 }
 
 module.exports = {
+  find,
   findAll,
   getKernelInfos,
   getKernelResources,
