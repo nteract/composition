@@ -4,9 +4,6 @@ import React, { PropTypes } from 'react';
 
 import { Map as ImmutableMap } from 'immutable';
 
-
-import { Table, Column, Cell } from 'fixed-data-table';
-
 type Props = {
   data: ImmutableMap,
 };
@@ -28,35 +25,30 @@ export class TableTransform extends React.Component {
     return (
       // fixed-data-table/dist/fixed-data-table.min.css
       // node_modules/fixed-data-table/dist/fixed-data-table.min.css
-      <div>
-        <link
-          rel="stylesheet"
-          href={'../node_modules/fixed-data-table/dist/fixed-data-table.min.css'}
-        />
-        <Table
-          rowHeight={50}
-          headerHeight={50}
-          rowsCount={data.length}
-          width={3000}
-          height={2000}
-          {...this.props}
-        >
+      <table border="1" className="dataframe">
+        <thead>
+          <tr style={{ textAlign: 'right' }}>
+            {
+              schema.fields.map((field, idx) => (
+                <th key={idx}>{field.name}</th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody>
           {
-            schema.fields.map((field, idx) =>
-              <Column
-                header={<Cell>{field.name}</Cell>}
-                cell={(props) =>
-                  <Cell>{data[props.rowIndex][field.name]}</Cell>
+            data.map((row, rowIndex) =>
+              <tr key={rowIndex}>
+                {
+                  schema.fields.map((field, idx) => (
+                    <td>{row[field.name]}</td>
+                  ))
                 }
-                width={300}
-                key={idx}
-                fixed={false}
-              />
+              </tr>
             )
           }
-
-        </Table>
-      </div>
+        </tbody>
+      </table>
     );
   }
 
