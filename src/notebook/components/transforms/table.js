@@ -25,7 +25,7 @@ export class TableTransform extends React.Component {
     return (
       // fixed-data-table/dist/fixed-data-table.min.css
       // node_modules/fixed-data-table/dist/fixed-data-table.min.css
-      <table border="1" className="dataframe">
+      <table border="1" className="dataframe" width="100%">
         <thead>
           <tr style={{ textAlign: 'right' }}>
             {
