@@ -128,6 +128,27 @@ export function triggerSaveAs(store) {
       triggerKernelRefresh(store);
     });
 }
+export function triggerSaveAsPromise(store) {
+  showSaveAsDialog()
+    .then(filename => {
+      triggerWindowRefresh(store, filename);
+      return new Promise((resolve) => {
+        resolve(filename);
+      });
+    })
+    .then(filename => {
+      triggerKernelRefresh(store);
+      return new Promise((resolve) => {
+        resolve(filename);
+      })
+    })
+    .then(filename => {
+      const state = store.getState();
+      const notificationSystem = state.app.get('notificationSystem');
+      console.log('lololol')
+      setTimeout(exportPDF, 500, filename, notificationSystem);
+    });
+}
 
 export function dispatchSave(store) {
   const state = store.getState();
@@ -308,15 +329,36 @@ export function dispatchNewNotebook(store, event, kernelSpecName) {
   store.dispatch(newNotebook(kernelSpecName, cwdKernelFallback()));
 }
 
-export function exportPDF(store) {
-  const state = store.getState();
-  const filename = state.metadata.has('filename') ?
-    state.metadata.get('filename').split('.')[0] : '~/Untitled';
+export function storeToPDF(store) {
+  let state = store.getState();
+  let filename = path.basename(state.metadata.get('filename'), '.ipynb');
   const notificationSystem = state.app.get('notificationSystem');
+  if(filename == '') {
+    notificationSystem.addNotification({
+      title: 'File has not been saved!',
+      message: 'Click the button below to save, or it will overwrite `Untitled.pdf.`',
+      dismissible: true,
+      position: 'tr',
+      level: 'warning',
+      action: {
+        label: 'Save As',
+        callback: function cb() {
+          triggerSaveAsPromise(store);
+        },
+      },
+    });
+  }
+  else {
+    exportPDF(filename, notificationSystem);
+  }
+}
+
+
+
+export function exportPDF(filename, notificationSystem) {
   remote.getCurrentWindow().webContents.printToPDF({ printBackground: true }, (error, data) => {
     if (error) throw error;
     fs.writeFile(`${filename}.pdf`, data, (error_fs) => {
-      if (error_fs) throw error_fs;
       notificationSystem.addNotification({
         title: 'PDF exported',
         message: `File ${filename} has been exported to a pdf.`,
@@ -362,7 +404,7 @@ export function initMenuHandlers(store) {
   ipc.on('menu:theme', dispatchSetTheme.bind(null, store));
   ipc.on('menu:set-blink-rate', dispatchSetCursorBlink.bind(null, store));
   ipc.on('menu:github:auth', dispatchPublishUserGist.bind(null, store));
-  ipc.on('menu:exportPDF', exportPDF.bind(null, store));
+  ipc.on('menu:exportPDF', storeToPDF.bind(null, store));
   // OCD: This is more like the registration of main -> renderer thread
   ipc.on('main:load', dispatchLoad.bind(null, store));
   ipc.on('main:load-config', dispatchLoadConfig.bind(null, store));
