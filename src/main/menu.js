@@ -13,6 +13,7 @@ function getExampleNotebooksDir() {
   return path.join(process.resourcesPath, 'example-notebooks');
 }
 
+
 const exampleNotebooksDirectory = getExampleNotebooksDir();
 
 function send(focusedWindow, eventName, obj) {
@@ -54,6 +55,7 @@ export function authAndPublish(item, focusedWindow) {
   });
   win.loadURL('https://oauth.nteract.io/github');
 }
+
 
 export const fileSubMenus = {
   new: {
@@ -250,8 +252,11 @@ export const fileSubMenus = {
       },
     ],
   },
+  exportPDF: {
+    label: 'Export &PDF',
+    click: createSender('menu:exportPDF'),
+  },
 };
-
 export const file = {
   label: '&File',
   submenu: [
@@ -261,6 +266,7 @@ export const file = {
     fileSubMenus.save,
     fileSubMenus.saveAs,
     fileSubMenus.publish,
+    fileSubMenus.exportPDF,
   ],
 };
 
@@ -638,6 +644,7 @@ export function loadFullMenu() {
         fileSubMenus.save,
         fileSubMenus.saveAs,
         fileSubMenus.publish,
+        fileSubMenus.exportPDF,
       ],
     };
 
