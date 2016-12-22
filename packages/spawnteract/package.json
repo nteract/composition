@@ -19,7 +19,7 @@
     "kernelspecs": "^1.0.0",
     "mkdirp": "^0.5.1",
     "portfinder": "^1.0.7",
-    "uuid": "^2.0.1"
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
