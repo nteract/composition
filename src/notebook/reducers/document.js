@@ -75,7 +75,11 @@ export default handleActions({
     const output = action.output;
     const cellID = action.id;
 
-    if (output.output_type !== 'display_data' || !(_.has(output, 'transient.display_id'))) {
+    if ((output.output_type === 'display_data' || output.output_type === 'execute_result')
+        && _.has(output, 'transient.display_id')
+      ) {
+        // continue
+    } else {
       return state.updateIn(['notebook', 'cellMap', cellID, 'outputs'],
         outputs => reduceOutputs(outputs, output));
     }
@@ -119,7 +123,11 @@ export default handleActions({
     const keyPaths = state
       .getIn(
         ['transient', 'keyPathsForDisplays', displayID], new Immutable.List());
-    return keyPaths.reduce((currState, kp) => currState.setIn(kp, output), state);
+    return keyPaths.reduce(
+      (currState, kp) => currState.updateIn(kp,
+        oldOutput =>
+          output.set('output_type', oldOutput.get('output_type'))
+    ), state);
   },
   [constants.FOCUS_NEXT_CELL]: function focusNextCell(state, action) {
     const cellOrder = state.getIn(['notebook', 'cellOrder']);

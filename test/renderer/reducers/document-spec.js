@@ -852,6 +852,15 @@ describe('updateDisplay', () => {
         }
       },
       {
+        type: constants.APPEND_OUTPUT,
+        id: id,
+        output: {
+          output_type: 'execute_result',
+          data: { 'text/plain': 'WOO' },
+          transient: { display_id: '1234' },
+        }
+      },
+      {
         type: constants.UPDATE_DISPLAY,
         output: {
           output_type: 'display_data',
@@ -866,6 +875,11 @@ describe('updateDisplay', () => {
       [
         {
           output_type: 'display_data',
+          data: { 'text/html': '<marquee>WOO</marquee>' },
+          transient: { display_id: '1234' },
+        },
+        {
+          output_type: 'execute_result',
           data: { 'text/html': '<marquee>WOO</marquee>' },
           transient: { display_id: '1234' },
         },
