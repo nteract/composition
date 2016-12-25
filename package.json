@@ -153,7 +153,7 @@
     "electron-builder": "^10.9.2",
     "electron-mocha": "^3.2.0",
     "enzyme": "^2.6.0",
-    "esdoc": "^0.4.8",
+    "esdoc": "^0.5.0",
     "eslint": "3.12.1",
     "eslint-config-airbnb": "13.0.0",
     "eslint-plugin-import": "2.2.0",
