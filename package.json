@@ -184,7 +184,7 @@
     "enzyme": "^2.6.0",
     "esdoc": "^0.5.1",
     "eslint": "3.12.1",
-    "eslint-config-airbnb": "13.0.0",
+    "eslint-config-airbnb": "14.0.0",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.7.1",
