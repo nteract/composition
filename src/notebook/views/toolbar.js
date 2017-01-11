@@ -6,6 +6,7 @@ declare type ToolbarProps = {|
   cell: any,
   id: string,
   type: string,
+  dropdown: Dropdown,
   executeCell: () => void,
   removeCell: () => void,
   toggleStickyCell: () => void,
@@ -18,6 +19,7 @@ declare type ToolbarProps = {|
 
 const renderToolbar = ({
   type,
+  dropdown,
   executeCell,
   removeCell,
   toggleStickyCell,
@@ -26,7 +28,7 @@ const renderToolbar = ({
   changeOutputVisibility,
   toggleOutputExpansion,
   changeCellType
-}) => (
+}: ToolbarProps) => (
   <div className="cell-toolbar-mask">
     <div className="cell-toolbar">
       {type !== 'markdown' &&
