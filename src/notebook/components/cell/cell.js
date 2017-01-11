@@ -4,7 +4,7 @@ import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
 import CodeCell from './code-cell';
 import MarkdownCell from './markdown-cell';
-import Toolbar from './toolbar';
+import Toolbar from '../../providers/toolbar';
 
 import {
   focusCell,
