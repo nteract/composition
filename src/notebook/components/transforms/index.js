@@ -25,6 +25,8 @@ import {
   Vega,
 } from './vega';
 
+import TableTransform from './table';
+
 type StandardTransforms = ImmutableMap<string, any>
 type StandardDisplayOrder = ImmutableList<string>
 
@@ -60,14 +62,16 @@ const transforms = standardTransforms
   .set(PlotlyTransform.MIMETYPE, PlotlyTransform)
   .set(GeoJSONTransform.MIMETYPE, GeoJSONTransform)
   .set(VegaLite.MIMETYPE, VegaLite)
-  .set(Vega.MIMETYPE, Vega);
+  .set(Vega.MIMETYPE, Vega)
+  .set(TableTransform.MIMETYPE, TableTransform);
 
 // Register our custom transforms as the most rich (front of List)
 const displayOrder = standardDisplayOrder
   .insert(0, PlotlyTransform.MIMETYPE)
   .insert(0, VegaLite.MIMETYPE)
   .insert(0, Vega.MIMETYPE)
-  .insert(0, GeoJSONTransform.MIMETYPE);
+  .insert(0, GeoJSONTransform.MIMETYPE)
+  .insert(0, TableTransform.MIMETYPE);
 
 /**
  * Choose the richest mimetype available based on the displayOrder and transforms
