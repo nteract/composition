@@ -15,6 +15,6 @@ IF "%EXPECT_OUTPUT%"=="YES" (
   %NTERACT_EXE% %NTERACT_DIR% %*
 ) ELSE (
   set ELECTRON_RUN_AS_NODE=1
-  call %NTERACT_EXE% "%~dp0\nteract.js" %*
+  call %NTERACT_EXE% "%~dp0\..\nteract.js" %*
 )
 endlocal
