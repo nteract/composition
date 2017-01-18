@@ -1,5 +1,5 @@
-// flow-typed signature: 03c5b5ee76152eaa4c23b61ad9642cbe
-// flow-typed version: b3320b9467/lodash_v4.x.x/flow_>=v0.28.x
+// flow-typed signature: 7484c4dca25cff44e654d2c8d938d4ca
+// flow-typed version: 666888bf86/lodash_v4.x.x/flow_>=v0.28.x
 
 declare module 'lodash' {
   declare type TemplateSettings = {
@@ -41,6 +41,7 @@ declare module 'lodash' {
   
   declare type OIterateeWithResult<V, O, R> = Object|string|((value: V, key: string, object: O) => R);
   declare type OIteratee<O> = OIterateeWithResult<any, O, any>;
+  declare type OFlatMapIteratee<T, U> = OIterateeWithResult<any, T, Array<U>>;
 
   declare type Predicate<T> =
     | ((value: T, index: number, array: Array<T>) => any)
@@ -182,8 +183,11 @@ declare module 'lodash' {
     findLast<T>(array: ?Array<T>, predicate?: Predicate<T>): T;
     findLast<V, A, T: {[id: string]: A}>(object: T, predicate?: OPredicate<A, T>): V;
     flatMap<T, U>(array: ?Array<T>, iteratee?: FlatMapIteratee<T, U>): Array<U>;
+    flatMap<T: Object, U>(object: T, iteratee?: OFlatMapIteratee<T, U>): Array<U>;
     flatMapDeep<T, U>(array: ?Array<T>, iteratee?: FlatMapIteratee<T, U>): Array<U>;
+    flatMapDeep<T: Object, U>(object: T, iteratee?: OFlatMapIteratee<T, U>): Array<U>;
     flatMapDepth<T, U>(array: ?Array<T>, iteratee?: FlatMapIteratee<T, U>, depth?: number): Array<U>;
+    flatMapDepth<T: Object, U>(object: T, iteratee?: OFlatMapIteratee<T, U>, depth?: number): Array<U>;
     forEach<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Array<T>;
     forEach<T: Object>(object: T, iteratee?: OIteratee<T>): T;
     forEachRight<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Array<T>;
