@@ -407,6 +407,10 @@ const helpDraft = {
     {
       label: 'Learn More',
       click: () => { shell.openExternal('http://github.com/nteract/nteract'); }
+    },
+    {
+      label: 'Install Additional Kernels',
+      click: () => { shell.openExternal('https://ipython.readthedocs.io/en/latest/install/kernel_install.html'); }
     }
   ]
 };
