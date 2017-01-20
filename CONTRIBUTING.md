@@ -74,6 +74,7 @@ a script in package.json or changing your code based on feedback from the linter
 * docs: For when you've added documentation.
 * style: For changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc).
 * refactor: For when you've refactored a portion of the application.
+* ux: For when you have changed a part of the user experience not covered by the previous verbs.
 
 In addition to the active verb, you'll also need to include the affected component
 in the commit message or PR title. The structure for this is as follows.
