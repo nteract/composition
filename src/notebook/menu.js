@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, no-use-before-define */
 import {
   ipcRenderer as ipc,
   webFrame,
@@ -8,7 +9,6 @@ import {
 import * as path from 'path';
 
 import * as fs from 'fs';
-import { tildify } from './native-window';
 
 import {
   load,
@@ -41,8 +41,6 @@ import {
   defaultPathFallback,
   cwdKernelFallback,
 } from './path';
-
-const BrowserWindow = remote.BrowserWindow;
 
 export function dispatchSaveAs(store, evt, filename) {
   const state = store.getState();
@@ -99,18 +97,21 @@ export function dispatchRestartKernel(store) {
 }
 
 export function triggerKernelRefresh(store) {
-  dialog.showMessageBox({
-    type: 'question',
-    buttons: ['Launch New Kernel', 'Don\'t Launch New Kernel'],
-    title: 'New Kernel Needs to Be Launched',
-    message: 'It looks like you\'ve saved your notebook file to a new location.',
-    detail: 'The kernel executing your code thinks your notbook is still in the ' +
-      'old location. Would you like to launch a new kernel to match it with the ' +
-      'new location of the notebook?',
-  }, (index) => {
-    if (index === 0) {
-      dispatchRestartKernel(store);
-    }
+  return new Promise((resolve) => {
+    dialog.showMessageBox({
+      type: 'question',
+      buttons: ['Launch New Kernel', 'Don\'t Launch New Kernel'],
+      title: 'New Kernel Needs to Be Launched',
+      message: 'It looks like you\'ve saved your notebook file to a new location.',
+      detail: 'The kernel executing your code thinks your notbook is still in the ' +
+        'old location. Would you like to launch a new kernel to match it with the ' +
+        'new location of the notebook?',
+    }, (index) => {
+      if (index === 0) {
+        dispatchRestartKernel(store);
+      }
+      resolve();
+    });
   });
 }
 
@@ -120,20 +121,6 @@ export function triggerSaveAs(store) {
       triggerWindowRefresh(store, filename);
       triggerKernelRefresh(store);
     });
-}
-
-export function triggerSaveAsPDF(store) {
-  showSaveAsDialog()
-    .then((filename) => {
-      return new Promise((resolve) => {
-        triggerWindowRefresh(store, filename);
-        triggerKernelRefresh(store);
-        resolve(store);
-      });
-    })
-    .then((store) => {
-      storeToPDF(store);
-    })
 }
 
 export function dispatchSave(store) {
@@ -315,31 +302,6 @@ export function dispatchNewNotebook(store, event, kernelSpec) {
   store.dispatch(newNotebook(kernelSpec, cwdKernelFallback()));
 }
 
-export function storeToPDF(store) {
-  let state = store.getState();
-  let filename = path.basename(state.metadata.get('filename'), '.ipynb');
-  const notificationSystem = state.app.get('notificationSystem');
-  if(filename == '') {
-    notificationSystem.addNotification({
-      title: 'File has not been saved!',
-      message: 'Click the button below to save, or it will overwrite `Untitled.pdf.`',
-      dismissible: true,
-      position: 'tr',
-      level: 'warning',
-      action: {
-        label: 'Save As',
-        callback: function cb() {
-          triggerSaveAsPDF(store);
-        },
-      },
-    });
-  }
-  else {
-    exportPDF(filename, notificationSystem);
-  }
-}
-
-
 export function exportPDF(filename, notificationSystem) {
   remote.getCurrentWindow().webContents.printToPDF({ printBackground: true }, (error, data) => {
     if (error) throw error;
@@ -359,6 +321,42 @@ export function exportPDF(filename, notificationSystem) {
       });
     });
   });
+}
+
+export function triggerSaveAsPDF(store) {
+  showSaveAsDialog()
+    .then(filename =>
+      Promise.all(
+        [triggerWindowRefresh(store, filename),
+          triggerKernelRefresh(store)]
+      )
+    )
+    .then(() => storeToPDF(store));
+}
+
+export function storeToPDF(store) {
+  const state = store.getState();
+  let filename = path.basename(state.metadata.get('filename'), '.ipynb');
+  const notificationSystem = state.app.get('notificationSystem');
+  if (filename === '') {
+    notificationSystem.addNotification({
+      title: 'File has not been saved!',
+      message: ['Click the button below to save the notebook such that it can be ',
+        'exported as a PDF.'],
+      dismissible: true,
+      position: 'tr',
+      level: 'warning',
+      action: {
+        label: 'Save As',
+        callback: function cb() {
+          triggerSaveAsPDF(store);
+        },
+      },
+    });
+  } else {
+    filename = path.join(path.dirname(state.metadata.get('filename')), filename);
+    exportPDF(filename, notificationSystem);
+  }
 }
 
 export function dispatchLoadConfig(store) {
