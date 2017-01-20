@@ -1,5 +1,7 @@
 # Spawnteract
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nteract/spawnteract.svg)](https://greenkeeper.io/)
+
 Spawn yourself a Jupyter kernel backend.
 
 ```
