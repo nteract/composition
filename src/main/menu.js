@@ -116,6 +116,10 @@ export const fileSubMenus = {
       {
         label: '&Analyze nteract download metrics',
         click: launch.bind(null, path.join(exampleNotebooksDirectory, 'download-stats.ipynb')),
+      },
+      {
+        label: '&Exploring Custom Revival with JSON.parse',
+        click: launch.bind(null, path.join(exampleNotebooksDirectory, 'immutable-revival.ipynb'))
       }
     ]
   },
