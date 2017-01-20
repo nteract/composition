@@ -1,5 +1,7 @@
 # jupyter-paths
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nteract/jupyter-paths.svg)](https://greenkeeper.io/)
+
 [![NPM](https://nodei.co/npm/jupyter-paths.png)](https://nodei.co/npm/jupyter-paths/)
 
 [![Travis for Jupyter Paths](https://travis-ci.org/nteract/jupyter-paths.svg)](https://travis-ci.org/nteract/jupyter-paths)
