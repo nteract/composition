@@ -38,12 +38,12 @@
     "babel-preset-react": "^6.5.0",
     "chai": "^3.5.0",
     "enzyme": "^2.2.0",
-    "mkdirp": "0.5.0",
-    "mocha": "^2.4.5",
+    "mkdirp": "0.5.1",
+    "mocha": "^3.2.0",
     "react": "^15.0.1",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.1",
     "rimraf": "^2.5.2",
-    "should": "^8.3.1"
+    "should": "^11.1.2"
   }
 }
