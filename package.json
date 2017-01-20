@@ -117,7 +117,8 @@
       "eslint-plugin-jsx-a11y",
       "eslint-plugin-import",
       "eslint-plugin-jsx-a11y",
-      "eslint-plugin-react"
+      "eslint-plugin-react",
+      "flow-bin"
     ]
   },
   "dependencies": {
@@ -191,7 +192,7 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.9.0",
-    "flow-bin": "^0.38.0",
+    "flow-bin": "^0.37.0",
     "jsdom": "^9.8.3",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
