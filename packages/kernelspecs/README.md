@@ -1,5 +1,7 @@
 # kernelspecs
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nteract/kernelspecs.svg)](https://greenkeeper.io/)
+
 Find Juptyer kernelspecs on a system
 
 ```
