@@ -1,5 +1,7 @@
 # nteract <img src="https://cloud.githubusercontent.com/assets/836375/15271096/98e4c102-19fe-11e6-999a-a74ffe6e2000.gif" alt="nteract animated logo" height="80px" align="right" />
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nteract/nteract.svg)](https://greenkeeper.io/)
+
 [![](https://img.shields.io/badge/version-latest-blue.svg)](https://github.com/nteract/nteract)
 [![Build Status](https://travis-ci.org/nteract/nteract.svg?branch=master)](https://travis-ci.org/nteract/nteract) [![Build status](https://ci.appveyor.com/api/projects/status/odxx4hrkcxh1oilx/branch/master?svg=true)](https://ci.appveyor.com/project/nteract/nteract/branch/master)
 [![](https://img.shields.io/badge/version-stable-blue.svg)](https://github.com/nteract/nteract/releases)
