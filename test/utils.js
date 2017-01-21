@@ -23,12 +23,12 @@ const sinon = require('sinon');
 
 /**
  * Creates a dummy notebook for Redux state for testing.
- * 
+ *
  * @param {object} config - Configuration options for notebook
  * config.codeCellCount (number) - Number of empty code cells to be in notebook.
  * config.markdownCellCount (number) - Number of empty markdown cells to be in notebook.
  * config.hideAll (boolean) - Hide all cells in notebook
- * @returns {object} - A notebook for {@link DocumentRecord} for Redux store. 
+ * @returns {object} - A notebook for {@link DocumentRecord} for Redux store.
  * Created using the config object passed in.
  */
 function buildDummyNotebook(config) {
@@ -85,7 +85,7 @@ export function dummyStore(config) {
       channels: 'channelInfo',
     }),
     metadata: MetadataRecord({
-      filename: (config && config.noFilename) ? null : 'dummy-store-nb.ipynb',
+      filename: (config && config.noFilename) ? '' : 'dummy-store-nb.ipynb',
       past: new Immutable.List(),
       future: new Immutable.List(),
     }),

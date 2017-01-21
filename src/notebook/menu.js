@@ -308,7 +308,7 @@ export function exportPDF(filename, notificationSystem) {
     fs.writeFile(`${filename}.pdf`, data, (error_fs) => {
       notificationSystem.addNotification({
         title: 'PDF exported',
-        message: `File ${filename} has been exported to a pdf.`,
+        message: `Notebook ${filename} has been exported as a pdf.`,
         dismissible: true,
         position: 'tr',
         level: 'success',

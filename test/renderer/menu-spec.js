@@ -7,6 +7,7 @@ import {
 } from 'electron';
 
 import { dummyStore } from '../utils';
+import NotificationSystem from 'react-notification-system';
 
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
@@ -434,4 +435,55 @@ describe('menu', () => {
       });
     });
   });
+
+  describe('exportPDF', () => {
+    it('it notifies a user upon successful write', () => {
+      const notificationSystem = NotificationSystem();
+      const addNotification = sinon.spy(notificationSystem, 'addNotification');
+      const filename = 'thisisafilename.ipynb'
+      menu.exportPDF(filename, notificationSystem);
+      expect(addNotification).to.have.been.calledWithMatch({
+        title: 'PDF exported',
+        message: `Notebook ${filename} has been exported as a pdf.`,
+        dismissible: true,
+        position: 'tr',
+        level: 'success',
+      });
+    });
+  });
+  describe('triggerSaveAsPDF', () => {
+    it('does something', () => {
+
+    })
+  });
+  
+  describe('storeToPDF', () => {
+    it('triggers notification when not saved', () => {
+      const config = { noFilename: true }
+      const store = dummyStore(config);
+      const addNotification = store.getState().app.get('notificationSystem').addNotification;
+      menu.storeToPDF(store);
+      expect(addNotification).to.have.been.calledWithMatch({
+        title: 'File has not been saved!',
+        message: ['Click the button below to save the notebook such that it can be ',
+          'exported as a PDF.'],
+        dismissible: true,
+        position: 'tr',
+        level: 'warning',
+      })
+    });
+    it('calls export PDF when filename exists', () => {
+      const exportStub = sinon.spy(menu.exportPDF)
+      const store = dummyStore();
+      const addNotification = store.getState().app.get('notificationSystem').addNotification;
+      menu.storeToPDF(store);
+      expect(addNotification).to.have.been.calledWithMatch({
+        title: 'PDF exported',
+        message: `Notebook dummy-store-nb has been exported as a pdf.`,
+        dismissible: true,
+        position: 'tr',
+        level: 'success',
+      });
+    });
+  })
 });

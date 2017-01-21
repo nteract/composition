@@ -116,6 +116,9 @@ mock('electron', {
         'setTitle': function(){},
         'setDocumentEdited': function(){},
         'setRepresentedFilename': function() {},
+        'webContents': {
+          'printToPDF': function(options, callback) {callback(null, null) }
+        }
       };
     }
   },
@@ -210,4 +213,5 @@ mock('fs', {
   unlinkSync: function(){},
   unlink: function(){},
   existsSync: function(){},
+  writeFile: function(name, data, callback) { callback(null) }
 });
