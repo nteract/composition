@@ -331,7 +331,8 @@ export function triggerSaveAsPDF(store) {
           triggerKernelRefresh(store)]
       )
     )
-    .then(() => storeToPDF(store));
+    .then(() => storeToPDF(store))
+    .catch(e => store.dispatch({ type: 'ERROR', payload: e.message, error: true }));
 }
 
 export function storeToPDF(store) {
