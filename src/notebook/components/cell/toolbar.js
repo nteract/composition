@@ -97,11 +97,11 @@ export default class Toolbar extends React.PureComponent {
               <span className="octicon octicon-triangle-right" />
             </button>
           </span>}
-          <button onClick={this.removeCell} className="deleteButton" >
-            <span className="octicon octicon-trashcan" />
-          </button>
           <button onClick={this.toggleStickyCell} className="stickyButton" >
             <span className="octicon octicon-pin" />
+          </button>
+          <button onClick={this.removeCell} className="deleteButton" >
+            <span className="octicon octicon-trashcan" />
           </button>
           <Dropdown ref={(dropdown) => { this.dropdown = dropdown; }}>
             <DropdownTrigger>
