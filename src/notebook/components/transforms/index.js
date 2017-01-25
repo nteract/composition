@@ -8,6 +8,8 @@ import HTMLDisplay from './html';
 import MarkdownDisplay from './markdown';
 import LaTeXDisplay from './latex';
 
+import SVGDisplay from './svg';
+
 import {
   PNGDisplay,
   JPEGDisplay,
@@ -33,6 +35,7 @@ export const standardTransforms: StandardTransforms = new ImmutableMap({
   'image/png': PNGDisplay,
   'image/jpeg': JPEGDisplay,
   'image/gif': GIFDisplay,
+  'image/svg+xml': SVGDisplay,
   'text/html': HTMLDisplay,
   'text/markdown': MarkdownDisplay,
   'text/latex': LaTeXDisplay,
@@ -44,6 +47,7 @@ export const standardDisplayOrder: StandardDisplayOrder = new ImmutableList([
   'application/json',
   'application/javascript',
   'text/html',
+  'image/svg+xml',
   'text/markdown',
   'text/latex',
   'image/svg+xml',
