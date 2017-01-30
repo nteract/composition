@@ -6,7 +6,7 @@
     "plugins": [
       "lodash",
       "transform-class-properties",
-      "transform-flow-strip-types",
+      "babel-plugin-transform-flow-comments",
       "transform-object-rest-spread"
     ]
   }
