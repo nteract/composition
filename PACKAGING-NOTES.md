@@ -5,6 +5,16 @@ links:
 - [electron-builder documentation](https://github.com/electron-userland/electron-builder/wiki/Options#LinuxBuildOptions)
 - [original pull request](https://github.com/nteract/nteract/pull/1299)
 
+## Readline versions
+
+If your system has `readline` v7 packaging will fail with:
+```
+/home/YourName/.cache/electron-builder/AppImage/AppImage-09-07-16-linux/xorriso: error while loading shared libraries: libreadline.so.6: cannot open shared object file: No such file or directory
+```
+[A workaround](https://github.com/electron-userland/electron-builder/issues/993#issuecomment-269283346) is to install `xorriso` on your system and symlink it into the
+AppImage: `ln -sf `which xorriso` ~/.cache/electron-builder/AppImage/AppImage-09-07-16-linux/xorriso `
+
+
 ## Environment for .deb packaging
 
 This section contains notes made during the initial setup of the `.deb`
