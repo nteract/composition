@@ -10,6 +10,6 @@ describe('epics', () => {
     expect(epics).to.be.an.array;
 
     const action$ = new ActionsObservable();
-    const wired = epics.map(epic => epic(action$))
-  })
-})
+    const wired = epics.map(epic => epic(action$));
+  });
+});

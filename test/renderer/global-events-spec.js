@@ -13,9 +13,9 @@ describe('unload', () => {
   it('should force a kernel shutdown', () => {
     const store = dummyStore();
     const forceShutdownKernel = sinon.spy(kernel, 'forceShutdownKernel');
-   
+
     globalEvents.unload(store);
-    
+
     forceShutdownKernel.restore();
     expect(forceShutdownKernel).to.be.called;
   });

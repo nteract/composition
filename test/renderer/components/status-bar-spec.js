@@ -20,7 +20,7 @@ describe('StatusBar', () => {
         notebook={dummyCommutable}
         lastSaved={lastSaved}
         kernelSpecDisplayName={kernelSpecDisplayName}
-      />
+      />,
     );
 
     expect(component).to.not.be.null;
@@ -35,10 +35,10 @@ describe('StatusBar', () => {
         notebook={dummyCommutable}
         lastSaved={lastSaved}
         kernelSpecDisplayName={kernelSpecDisplayName}
-      />
+      />,
     );
 
-    component.setProps({lastSaved: lastSaved, kernelSpecDisplayName: 'javascript', notebook: dummyCommutable});
+    component.setProps({ lastSaved, kernelSpecDisplayName: 'javascript', notebook: dummyCommutable });
     expect(shouldComponentUpdate).to.have.been.called;
     expect(shouldComponentUpdate).to.have.returned(false);
     shouldComponentUpdate.restore();
@@ -53,10 +53,10 @@ describe('StatusBar', () => {
         notebook={dummyCommutable}
         lastSaved={lastSaved}
         kernelSpecDisplayName={kernelSpecDisplayName}
-      />
+      />,
     );
 
-    component.setProps({lastSaved: new Date(), kernelSpecDisplayName: 'python3', notebook: dummyCommutable});
+    component.setProps({ lastSaved: new Date(), kernelSpecDisplayName: 'python3', notebook: dummyCommutable });
     expect(shouldComponentUpdate).to.have.been.called;
     expect(shouldComponentUpdate).to.have.returned(true);
     shouldComponentUpdate.restore();

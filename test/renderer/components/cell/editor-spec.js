@@ -43,13 +43,13 @@ describe('Editor', () => {
       />,
       {
         context: { store },
-      }
+      },
     );
     expect(editorWrapper).to.not.be.null;
 
     const editor = editorWrapper.instance();
     const cm = {
-      getCursor: () => ({line: 12}),
+      getCursor: () => ({ line: 12 }),
       getValue: () => 'MY VALUE',
       indexFromPos: () => 90001,
     };
@@ -81,13 +81,13 @@ describe('Editor', () => {
       <Editor />,
       {
         context: { store },
-      }
+      },
     );
     expect(editorWrapper).to.not.be.null;
 
     const editor = editorWrapper.instance();
     const cm = {
-      getCursor: () => ({line: 12}),
+      getCursor: () => ({ line: 12 }),
       getValue: () => 'MY VALUE',
       indexFromPos: () => 90001,
     };
@@ -100,16 +100,16 @@ describe('Editor', () => {
     completer.restore();
   });
   it('handles cursor blinkery changes', () => {
-	const editorWrapper = mount(
-	  <Editor
-	  cursorBlinkRate={530}
-		/>,
+    const editorWrapper = mount(
+      <Editor
+        cursorBlinkRate={530}
+      />,
 	);
-	const instance = editorWrapper.instance();
-	const cm = instance.codemirror.getCodeMirror()
-	expect(cm.options.cursorBlinkRate).to.equal(530);
-	editorWrapper.setProps({cursorBlinkRate: 0})
-	expect(cm.options.cursorBlinkRate).to.equal(0);
+    const instance = editorWrapper.instance();
+    const cm = instance.codemirror.getCodeMirror();
+    expect(cm.options.cursorBlinkRate).to.equal(530);
+    editorWrapper.setProps({ cursorBlinkRate: 0 });
+    expect(cm.options.cursorBlinkRate).to.equal(0);
   });
 });
 
@@ -138,20 +138,20 @@ describe('complete', () => {
       matches: ['import this'],
       cursor_start: 9,
       cursor_end: 10, // Likely hokey values
-    }
+    };
     response.parent_header = Object.assign({}, message.header);
 
     // Listen on the Observable
     observable.subscribe(
       msg => {
         expect(msg).to.deep.equal({
-            from: { line: 3, ch: 9 },
-            list: ["import this"],
-            to: { ch: 10, line: 3 },
-          });
+          from: { line: 3, ch: 9 },
+          list: ['import this'],
+          to: { ch: 10, line: 3 },
+        });
       },
-      err => { throw err },
-      done
+      err => { throw err; },
+      done,
     );
     received.next(response);
   });
@@ -165,23 +165,23 @@ describe('completionRequest', () => {
       cursor_pos: 12,
     });
     expect(message.header.msg_type).to.equal('complete_request');
-  })
-})
+  });
+});
 
 describe('formChangeObject', () => {
   it('translates arguments to a nice Object', () => {
-    expect(complete.formChangeObject(1,2)).to.deep.equal({cm: 1, change: 2});
-  })
-})
+    expect(complete.formChangeObject(1, 2)).to.deep.equal({ cm: 1, change: 2 });
+  });
+});
 
 describe('pick', () => {
   it('plucks the codemirror handle', () => {
     // no clue what to call this
     const handle = {
       pick: sinon.spy(),
-    }
+    };
 
     complete.pick(null, handle);
     expect(handle.pick).to.have.been.called;
-  })
-})
+  });
+});

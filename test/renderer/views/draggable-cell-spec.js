@@ -13,24 +13,24 @@ import { displayOrder, transforms } from '../../../src/notebook/components/trans
 
 // Spoof DND manager for tests.
 const dragDropManager = {
-  getMonitor: () => { return {
+  getMonitor: () => ({
     subscribeToStateChange: () => {},
     isDraggingSource: () => {},
-  }; },
+  }),
   getBackend: () => {},
-  getRegistry: () => { return {
+  getRegistry: () => ({
     addSource: () => {},
     removeSource: () => {},
-  }; },
+  }),
 };
 
 const sharedProps = { displayOrder, transforms };
 describe('DraggableCell', () => {
   it('can be rendered', () => {
     const cell = shallow(
-      <DraggableCell cell={emptyMarkdownCell} {...sharedProps}/>
+      <DraggableCell cell={emptyMarkdownCell} {...sharedProps} />
     , {
-      context: { dragDropManager }
+      context: { dragDropManager },
     });
     expect(cell).to.not.be.null;
   });

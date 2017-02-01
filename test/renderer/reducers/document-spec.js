@@ -40,48 +40,47 @@ const monocellDocument = initialDocument
 
 describe('reduceOutputs', () => {
   it('puts new outputs at the end by default', () => {
-    const outputs = Immutable.List([1,2]);
-    const newOutputs = reduceOutputs(outputs, 3)
+    const outputs = Immutable.List([1, 2]);
+    const newOutputs = reduceOutputs(outputs, 3);
 
     expect(newOutputs).to.equal(Immutable.List([1, 2, 3]));
-  })
+  });
   it('handles the case of a single stream output', () => {
-    const outputs = Immutable.fromJS([{name: 'stdout', text: 'hello', output_type: 'stream'}])
-    const newOutputs = reduceOutputs(outputs, {name: 'stdout', text: ' world', output_type: 'stream' });
+    const outputs = Immutable.fromJS([{ name: 'stdout', text: 'hello', output_type: 'stream' }]);
+    const newOutputs = reduceOutputs(outputs, { name: 'stdout', text: ' world', output_type: 'stream' });
 
-    expect(newOutputs).to.equal(Immutable.fromJS([{name: 'stdout', text: 'hello world', output_type: 'stream'}]));
-  })
+    expect(newOutputs).to.equal(Immutable.fromJS([{ name: 'stdout', text: 'hello world', output_type: 'stream' }]));
+  });
 
   it('merges streams of text', () => {
-    var outputs = Immutable.List();
+    let outputs = Immutable.List();
 
-    outputs = reduceOutputs(outputs, {name: 'stdout', text: 'hello', output_type: 'stream'});
-    expect(outputs).to.equal(Immutable.fromJS([{name: 'stdout', text: 'hello', output_type: 'stream'}]));
+    outputs = reduceOutputs(outputs, { name: 'stdout', text: 'hello', output_type: 'stream' });
+    expect(outputs).to.equal(Immutable.fromJS([{ name: 'stdout', text: 'hello', output_type: 'stream' }]));
 
-    outputs = reduceOutputs(outputs, {name: 'stdout', text: ' world', output_type: 'stream' });
-    expect(outputs).to.equal(Immutable.fromJS([{name: 'stdout', text: 'hello world', output_type: 'stream'}]));
-  })
+    outputs = reduceOutputs(outputs, { name: 'stdout', text: ' world', output_type: 'stream' });
+    expect(outputs).to.equal(Immutable.fromJS([{ name: 'stdout', text: 'hello world', output_type: 'stream' }]));
+  });
 
   it('keeps respective streams together', () => {
     const outputs = Immutable.fromJS([
-      {name: 'stdout', text: 'hello', output_type: 'stream'},
-      {name: 'stderr', text: 'errors are', output_type: 'stream'},
-    ])
-    const newOutputs = reduceOutputs(outputs, {name: 'stdout', text: ' world', output_type: 'stream' });
+      { name: 'stdout', text: 'hello', output_type: 'stream' },
+      { name: 'stderr', text: 'errors are', output_type: 'stream' },
+    ]);
+    const newOutputs = reduceOutputs(outputs, { name: 'stdout', text: ' world', output_type: 'stream' });
 
     expect(newOutputs).to.equal(Immutable.fromJS([
-      {name: 'stdout', text: 'hello world', output_type: 'stream'},
-      {name: 'stderr', text: 'errors are', output_type: 'stream'},
+      { name: 'stdout', text: 'hello world', output_type: 'stream' },
+      { name: 'stderr', text: 'errors are', output_type: 'stream' },
     ]));
 
-    const evenNewerOutputs = reduceOutputs(newOutputs, {name: 'stderr', text: ' informative', output_type: 'stream' });
+    const evenNewerOutputs = reduceOutputs(newOutputs, { name: 'stderr', text: ' informative', output_type: 'stream' });
     expect(evenNewerOutputs).to.equal(Immutable.fromJS([
-      {name: 'stdout', text: 'hello world', output_type: 'stream'},
-      {name: 'stderr', text: 'errors are informative', output_type: 'stream'},
+      { name: 'stdout', text: 'hello world', output_type: 'stream' },
+      { name: 'stderr', text: 'errors are informative', output_type: 'stream' },
     ]));
-
-  })
-})
+  });
+});
 
 
 describe('setNotebook', () => {
@@ -107,7 +106,7 @@ describe('setLanguageInfo', () => {
       spec: {
         language: 'french',
         display_name: 'français',
-      }
+      },
     };
     const state = reducers(initialState, { type: constants.SET_KERNEL_INFO, kernelInfo });
     const metadata = state.document.getIn(['notebook', 'metadata']);
@@ -274,7 +273,7 @@ describe('toggleStickyCell', () => {
     const action = {
       type: constants.TOGGLE_STICKY_CELL,
       id,
-    }
+    };
 
     const state = reducers(originalState, action);
     expect(state.document.hasIn(['stickyCells', id])).to.be.true;
@@ -301,7 +300,7 @@ describe('toggleStickyCell', () => {
 describe('updateExecutionCount', () => {
   it('updates the execution count by id', () => {
     const originalState = {
-      document:  monocellDocument,
+      document: monocellDocument,
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
@@ -359,12 +358,12 @@ describe('moveCell', () => {
   });
   it('should move a cell above another when asked', () => {
     const originalState = reducers({
-      document: initialDocument.set('notebook', dummyCommutable)
+      document: initialDocument.set('notebook', dummyCommutable),
     }, {
       type: 'NEW_CELL_AFTER',
       id: dummyCommutable.get('cellOrder').first(),
       cellType: 'markdown',
-      source: '# Woo\n*Yay*'
+      source: '# Woo\n*Yay*',
     });
 
     const cellOrder = originalState.document.getIn(['notebook', 'cellOrder']);
@@ -378,24 +377,24 @@ describe('moveCell', () => {
 
     const state = reducers(originalState, action);
     expect(state.document.getIn(['notebook', 'cellOrder']).toJS()).to.deep.equal([
-        cellOrder.get(1),
-        cellOrder.get(0),
-        cellOrder.get(2),
-    ])
+      cellOrder.get(1),
+      cellOrder.get(0),
+      cellOrder.get(2),
+    ]);
 
     const action2 = {
       type: constants.MOVE_CELL,
       id: cellOrder.get(0),
       destinationId: cellOrder.get(1),
-      above: true
+      above: true,
     };
 
     const state2 = reducers(originalState, action2);
     expect(state2.document.getIn(['notebook', 'cellOrder']).toJS()).to.deep.equal([
-        cellOrder.get(0),
-        cellOrder.get(1),
-        cellOrder.get(2),
-    ])
+      cellOrder.get(0),
+      cellOrder.get(1),
+      cellOrder.get(2),
+    ]);
   });
 });
 
@@ -422,7 +421,7 @@ describe('clearOutputs', () => {
     const originalState = {
       document: initialDocument.set('notebook',
         appendCellToNotebook(dummyCommutable,
-          emptyCodeCell.set('outputs', ['dummy outputs']))
+          emptyCodeCell.set('outputs', ['dummy outputs'])),
         )
         .set('transient', new Immutable.Map({ keyPathsForDisplays: new Immutable.Map() })),
     };
@@ -442,9 +441,9 @@ describe('clearOutputs', () => {
     const originalState = {
       document: initialDocument.set('notebook',
         appendCellToNotebook(dummyCommutable,
-          emptyMarkdownCell
-        )
-      )
+          emptyMarkdownCell,
+        ),
+      ),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
@@ -511,7 +510,7 @@ describe('mergeCellAfter', () => {
     const action = {
       type: constants.MERGE_CELL_AFTER,
       id,
-    }
+    };
 
     const state = reducers(originalState, action);
     expect(state.document.getIn(['notebook', 'cellOrder']).size).to.equal(1);
@@ -559,7 +558,7 @@ describe('updateSource', () => {
 
     const action = {
       type: constants.UPDATE_CELL_SOURCE,
-      id: id,
+      id,
       source: 'This is a test',
     };
 
@@ -577,12 +576,12 @@ describe('overwriteMetadata', () => {
 
     const action = {
       type: constants.OVERWRITE_METADATA_FIELD,
-      field: "name",
-      value: "javascript",
+      field: 'name',
+      value: 'javascript',
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['notebook', 'metadata', 'name'])).to.equal("javascript");
+    expect(state.document.getIn(['notebook', 'metadata', 'name'])).to.equal('javascript');
   });
 });
 
@@ -596,23 +595,21 @@ describe('deleteMetadata', () => {
       field: 'name',
     };
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['notebook','metadata', 'name'])).to.equal(undefined);
-  })
-})
+    expect(state.document.getIn(['notebook', 'metadata', 'name'])).to.equal(undefined);
+  });
+});
 
 describe('changeOutputVisibility', () => {
   it('changes the visibility on a single cell', () => {
     const originalState = {
-      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => {
-        return cells.map((value) => value.setIn(['metadata', 'outputHidden'], false));
-      }),
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => cells.map((value) => value.setIn(['metadata', 'outputHidden'], false))),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
 
     const action = {
       type: constants.CHANGE_OUTPUT_VISIBILITY,
-      id: id,
+      id,
     };
 
     const state = reducers(originalState, action);
@@ -623,16 +620,14 @@ describe('changeOutputVisibility', () => {
 describe('changeInputVisibility', () => {
   it('changes the input visibility on a single cell', () => {
     const originalState = {
-      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => {
-        return cells.map((value) => value.setIn(['metadata', 'inputHidden'], false));
-      }),
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => cells.map((value) => value.setIn(['metadata', 'inputHidden'], false))),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
 
     const action = {
       type: constants.CHANGE_INPUT_VISIBILITY,
-      id: id,
+      id,
     };
 
     const state = reducers(originalState, action);
@@ -650,7 +645,7 @@ describe('clearOutputs', () => {
 
     const action = {
       type: constants.CLEAR_OUTPUTS,
-      id: id,
+      id,
     };
 
     const state = reducers(originalState, action);
@@ -668,12 +663,12 @@ describe('updateCellPagers', () => {
 
     const action = {
       type: constants.UPDATE_CELL_PAGERS,
-      id: id,
-      pagers: "Test pagers",
+      id,
+      pagers: 'Test pagers',
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['cellPagers', id])).to.equal("Test pagers");
+    expect(state.document.getIn(['cellPagers', id])).to.equal('Test pagers');
   });
 });
 
@@ -687,12 +682,12 @@ describe('updateCellStatus', () => {
 
     const action = {
       type: constants.UPDATE_CELL_STATUS,
-      id: id,
-      status: "test status",
+      id,
+      status: 'test status',
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['transient', 'cellMap', id, 'status'])).to.equal("test status");
+    expect(state.document.getIn(['transient', 'cellMap', id, 'status'])).to.equal('test status');
   });
 });
 
@@ -704,12 +699,12 @@ describe('setLanguageInfo', () => {
 
     const action = {
       type: constants.SET_LANGUAGE_INFO,
-      langInfo: "test",
+      langInfo: 'test',
     };
 
     const state = reducers(originalState, action);
     expect(state.document.getIn(['notebook', 'metadata', 'language_info']))
-      .to.equal("test");
+      .to.equal('test');
   });
 });
 
@@ -724,7 +719,7 @@ describe('copyCell', () => {
 
     const action = {
       type: constants.COPY_CELL,
-      id: id,
+      id,
     };
 
     const state = reducers(originalState, action);
@@ -744,7 +739,7 @@ describe('cutCell', () => {
 
     const action = {
       type: constants.CUT_CELL,
-      id: id,
+      id,
     };
 
     const state = reducers(originalState, action);
@@ -760,7 +755,7 @@ describe('pasteCell', () => {
     const cell = monocellDocument.getIn(['notebook', 'cellMap', id]);
 
     const originalState = {
-      document: monocellDocument.set('copied', new Map({cell, id})),
+      document: monocellDocument.set('copied', new Map({ cell, id })),
     };
 
     const action = {
@@ -787,7 +782,7 @@ describe('changeCellType', () => {
 
     const action = {
       type: constants.CHANGE_CELL_TYPE,
-      id: id,
+      id,
       to: 'markdown',
     };
 
@@ -805,7 +800,7 @@ describe('changeCellType', () => {
 
     const action = {
       type: constants.CHANGE_CELL_TYPE,
-      id: id,
+      id,
       to: 'code',
     };
 
@@ -825,7 +820,7 @@ describe('changeCellType', () => {
 
     const action = {
       type: constants.CHANGE_CELL_TYPE,
-      id: id,
+      id,
       to: 'markdown',
     };
 
@@ -837,20 +832,18 @@ describe('changeCellType', () => {
 describe('toggleOutputExpansion', () => {
   it('changes outputExpanded set', () => {
     const originalState = {
-      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => {
-        return cells.map((value) => value.setIn(['metadata', 'outputExpanded'], false));
-      }),
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => cells.map((value) => value.setIn(['metadata', 'outputExpanded'], false))),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
 
     const action = {
       type: constants.TOGGLE_OUTPUT_EXPANSION,
-      id: id,
+      id,
     };
 
     const state = reducers(originalState, action);
-    expect(state.document.getIn(['notebook', 'cellMap', id, 'metadata',  'outputExpanded'])).to.be.true;
+    expect(state.document.getIn(['notebook', 'cellMap', id, 'metadata', 'outputExpanded'])).to.be.true;
   });
 });
 describe('appendOutput', () => {
@@ -863,11 +856,11 @@ describe('appendOutput', () => {
 
     const action = {
       type: constants.APPEND_OUTPUT,
-      id: id,
+      id,
       output: {
         output_type: 'display_data',
         data: { 'text/html': '<marquee>wee</marquee>' },
-      }
+      },
     };
 
     const state = reducers(originalState, action);
@@ -877,7 +870,7 @@ describe('appendOutput', () => {
         data: { 'text/html': '<marquee>wee</marquee>' },
       }]));
     expect(state.document.getIn(['transient', 'keyPathsForDisplays']))
-      .to.deep.equal(Immutable.Map())
+      .to.deep.equal(Immutable.Map());
   });
   it('appends output and tracks display IDs', () => {
     const originalState = {
@@ -888,12 +881,12 @@ describe('appendOutput', () => {
 
     const action = {
       type: constants.APPEND_OUTPUT,
-      id: id,
+      id,
       output: {
         output_type: 'display_data',
         data: { 'text/html': '<marquee>wee</marquee>' },
         transient: { display_id: '1234' },
-      }
+      },
     };
 
     const state = reducers(originalState, action);
@@ -905,10 +898,10 @@ describe('appendOutput', () => {
       }]));
     expect(state.document.getIn(['transient', 'keyPathsForDisplays', '1234']))
       .to.deep.equal(Immutable.fromJS([
-        ['notebook', 'cellMap', id, 'outputs', 0]
-      ]))
+        ['notebook', 'cellMap', id, 'outputs', 0],
+      ]));
   });
-})
+});
 
 describe('updateDisplay', () => {
   it('updates all displays which use the keypath', () => {
@@ -921,12 +914,12 @@ describe('updateDisplay', () => {
     const actions = [
       {
         type: constants.APPEND_OUTPUT,
-        id: id,
+        id,
         output: {
           output_type: 'display_data',
           data: { 'text/html': '<marquee>wee</marquee>' },
           transient: { display_id: '1234' },
-        }
+        },
       },
       {
         type: constants.UPDATE_DISPLAY,
@@ -934,7 +927,7 @@ describe('updateDisplay', () => {
           output_type: 'display_data',
           data: { 'text/html': '<marquee>WOO</marquee>' },
           transient: { display_id: '1234' },
-        }
+        },
       },
     ];
 
@@ -946,52 +939,51 @@ describe('updateDisplay', () => {
           data: { 'text/html': '<marquee>WOO</marquee>' },
           transient: { display_id: '1234' },
         },
-      ]
-    ))
-
-  })
-})
+      ],
+    ));
+  });
+});
 
 describe('cleanCellTransient', () => {
   it('cleans out keyPaths that reference a particular cell ID', () => {
     const keyPathsForDisplays = Immutable.fromJS({
-      '1234': [
+      1234: [
         ['notebook', 'cellMap', '0000', 'outputs', 0],
         ['notebook', 'cellMap', 'XYZA', 'outputs', 0],
         ['notebook', 'cellMap', '0000', 'outputs', 1],
       ],
-      '5678': [
+      5678: [
         ['notebook', 'cellMap', 'XYZA', 'outputs', 1],
-      ]
+      ],
     });
     const state = new Immutable.Map({
       transient: new Immutable.Map({
         keyPathsForDisplays,
-      })
-    })
+      }),
+    });
 
     expect(
       cleanCellTransient(state, '0000')
-        .getIn(['transient', 'keyPathsForDisplays'])
+        .getIn(['transient', 'keyPathsForDisplays']),
     ).to.deep.equal(Immutable.fromJS({
-      '1234': [
+      1234: [
         ['notebook', 'cellMap', 'XYZA', 'outputs', 0],
       ],
-      '5678': [
+      5678: [
         ['notebook', 'cellMap', 'XYZA', 'outputs', 1],
-      ]
+      ],
     }));
 
     expect(
       cleanCellTransient(state, 'XYZA')
-        .getIn(['transient', 'keyPathsForDisplays'])
+        .getIn(['transient', 'keyPathsForDisplays']),
     ).to.deep.equal(Immutable.fromJS({
-      '1234': [
+      1234: [
         ['notebook', 'cellMap', '0000', 'outputs', 0],
         ['notebook', 'cellMap', '0000', 'outputs', 1],
       ],
-      '5678': [
-      ]
+      5678: [
+      ],
     }));
-  })
-})
+  });
+});

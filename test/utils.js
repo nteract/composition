@@ -41,21 +41,20 @@ function buildDummyNotebook(config) {
   ], 'python2');
 
   if (config) {
-
     if (config.codeCellCount) {
-      for (let i=1; i < config.codeCellCount; i++) {
+      for (let i = 1; i < config.codeCellCount; i++) {
         notebook = appendCellToNotebook(notebook, emptyCodeCell);
       }
     }
 
-    if (config.markdownCellCount){
-      for (let i=0; i < config.markdownCellCount; i++) {
+    if (config.markdownCellCount) {
+      for (let i = 0; i < config.markdownCellCount; i++) {
         notebook = appendCellToNotebook(notebook, emptyCodeCell.set('cell_type', 'markdown'));
       }
     }
 
     if (config.hideAll) {
-      notebook = hideCells(notebook)
+      notebook = hideCells(notebook);
     }
   }
 
@@ -95,6 +94,6 @@ export function dummyStore(config) {
     }),
     config: new Immutable.Map({
       theme: 'light',
-    })
+    }),
   }, reducers);
 }

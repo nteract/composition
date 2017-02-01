@@ -28,7 +28,7 @@ describe('changeFilename', () => {
     const originalState = {
       metadata: new MetadataRecord({
         filename: 'original.ipynb',
-      })
+      }),
     };
 
     const action = {
@@ -42,7 +42,7 @@ describe('changeFilename', () => {
     const originalState = {
       metadata: new MetadataRecord({
         filename: 'original.ipynb',
-      })
+      }),
     };
 
     const action = {

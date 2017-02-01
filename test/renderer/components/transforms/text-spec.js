@@ -8,7 +8,7 @@ import Text from '../../../../src/notebook/components/transforms/text';
 describe('Text', () => {
   it('renders plain text', () => {
     const wrapper = mount(
-      <Text data={'hey'} />
+      <Text data={'hey'} />,
     );
 
     expect(wrapper.html()).to.equal('<code><span>hey</span></code>');

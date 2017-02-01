@@ -51,13 +51,13 @@ describe('setTitleFromAttributes', () => {
     const remote = sinon.stub(electron.remote, 'getCurrentWindow', () => win);
 
 
-    const titleObject = { fullpath: "/tmp/test.ipynb", executionState: 'busy', modified: true };
+    const titleObject = { fullpath: '/tmp/test.ipynb', executionState: 'busy', modified: true };
     nativeWindow.setTitleFromAttributes(titleObject);
 
     // TODO: stub doesn't seem to get setup
     // expect(win.setTitle).to.have.been.called;
-  })
-})
+  });
+});
 
 describe('createTitleFeed', () => {
   it('creates an observable that updates title attributes', (done) => {
@@ -71,12 +71,12 @@ describe('createTitleFeed', () => {
       }),
       metadata: MetadataRecord({
         filename: 'titled.ipynb',
-      })
+      }),
     };
 
     const state$ = Rx.Observable.from([
       state,
-    ])
+    ]);
 
     const allAttributes = [];
     nativeWindow.createTitleFeed(state$)
@@ -85,10 +85,9 @@ describe('createTitleFeed', () => {
       }, null,
     () => {
       expect(allAttributes).to.deep.equal([
-        { modified: false, fullpath: 'titled.ipynb', executionState: 'not connected' }
+        { modified: false, fullpath: 'titled.ipynb', executionState: 'not connected' },
       ]);
       done();
-    })
-
-  })
-})
+    });
+  });
+});

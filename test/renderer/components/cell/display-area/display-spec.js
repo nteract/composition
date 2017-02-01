@@ -13,12 +13,12 @@ describe('Display', () => {
       output_type: 'display_data',
       data: {
         'text/html': 'Test content',
-      }
+      },
     }]);
     const component = shallow(<Display
       outputs={outputs}
-      isHidden={true}
-      theme={"light"}
+      isHidden
+      theme={'light'}
       displayOrder={displayOrder}
       transforms={transforms}
     />);
@@ -29,12 +29,12 @@ describe('Display', () => {
       output_type: 'display_data',
       data: {
         'text/html': 'Test content',
-      }
+      },
     }]);
     const component = shallow(<Display
       outputs={outputs}
       isHidden={false}
-      theme={"light"}
+      theme={'light'}
       displayOrder={displayOrder}
       transforms={transforms}
     />);

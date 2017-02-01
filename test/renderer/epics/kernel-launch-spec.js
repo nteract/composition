@@ -24,21 +24,21 @@ import {
 describe('setLanguageInfo', () => {
   it('creates a SET_LANGUAGE_INFO action', () => {
     const langInfo = {
-      "codemirror_mode": {
-        "name": "ipython",
-        "version": 3
+      codemirror_mode: {
+        name: 'ipython',
+        version: 3,
       },
-      "file_extension": ".py",
-      "mimetype": "text/x-python",
-      "name":"python",
-      "nbconvert_exporter":"python",
-      "pygments_lexer":"ipython3",
-      "version":"3.5.1",
+      file_extension: '.py',
+      mimetype: 'text/x-python',
+      name: 'python',
+      nbconvert_exporter: 'python',
+      pygments_lexer: 'ipython3',
+      version: '3.5.1',
     };
 
     expect(setLanguageInfo(langInfo)).to.deep.equal({
       type: constants.SET_LANGUAGE_INFO,
-      langInfo: langInfo,
+      langInfo,
     });
   });
 });
@@ -52,7 +52,7 @@ describe('acquireKernelInfo', () => {
       header: {
         msg_id: '1',
       },
-    }
+    };
 
     const sent = new Rx.Subject();
     const received = new Rx.Subject();
@@ -66,20 +66,20 @@ describe('acquireKernelInfo', () => {
       response.parent_header = msg.header;
       response.content = {
         language_info: {
-          'language': 'python',
-        }
-      }
+          language: 'python',
+        },
+      };
 
       // TODO: Get the Rx handling proper here
       setTimeout(() => received.next(response), 100);
     });
 
-    const obs = acquireKernelInfo({shell: mockSocket});
+    const obs = acquireKernelInfo({ shell: mockSocket });
 
     obs.subscribe((langAction) => {
       expect(langAction).to.deep.equal({
-        'langInfo': {'language': 'python'},
-        type: 'SET_LANGUAGE_INFO'
+        langInfo: { language: 'python' },
+        type: 'SET_LANGUAGE_INFO',
       });
       done();
     });
@@ -87,7 +87,6 @@ describe('acquireKernelInfo', () => {
 });
 
 describe('watchExecutionStateEpic', () => {
-
   it('returns an Observable with an initial state of idle', (done) => {
     const input$ = Rx.Observable.of({
       type: constants.NEW_KERNEL,
@@ -98,7 +97,7 @@ describe('watchExecutionStateEpic', () => {
         }),
       },
     });
-    let actionBuffer = [];
+    const actionBuffer = [];
     const action$ = new ActionsObservable(input$);
     const obs = watchExecutionStateEpic(action$);
     obs.subscribe(
@@ -124,7 +123,7 @@ describe('newKernelEpic', () => {
     const input$ = Rx.Observable.of({
       type: constants.LAUNCH_KERNEL,
     });
-    let actionBuffer = [];
+    const actionBuffer = [];
     const action$ = new ActionsObservable(input$);
     const obs = newKernelEpic(action$);
     obs.subscribe(
@@ -134,15 +133,15 @@ describe('newKernelEpic', () => {
         expect(actionBuffer).to.deep.equal([constants.ERROR_KERNEL_LAUNCH_FAILED]); // ;
         done();
       },
-    )
-  })
+    );
+  });
   it('calls newKernelObservable if given the correct action', (done) => {
     const input$ = Rx.Observable.of({
       type: constants.LAUNCH_KERNEL,
       kernelSpec: { spec: 'hokey' },
       cwd: '~',
     });
-    let actionBuffer = [];
+    const actionBuffer = [];
     const action$ = new ActionsObservable(input$);
     const obs = newKernelEpic(action$);
     obs.subscribe(
@@ -152,9 +151,9 @@ describe('newKernelEpic', () => {
         expect(actionBuffer).to.deep.equal([constants.SET_KERNEL_INFO, constants.NEW_KERNEL]); // ;
         done();
       },
-    )
-  })
-})
+    );
+  });
+});
 
 describe('newKernelByNameEpic', () => {
   it('creates a LAUNCH_KERNEL action in response to a LAUNCH_KERNEL_BY_NAME action', (done) => {
@@ -163,7 +162,7 @@ describe('newKernelByNameEpic', () => {
       kernelSpecName: 'python3',
       cwd: '~',
     });
-    let actionBuffer = [];
+    const actionBuffer = [];
     const action$ = new ActionsObservable(input$);
     const obs = newKernelByNameEpic(action$);
     obs.subscribe(
@@ -173,6 +172,6 @@ describe('newKernelByNameEpic', () => {
         expect(actionBuffer).to.deep.equal([constants.LAUNCH_KERNEL]); // ;
         done();
       },
-    )
-  })
-})
+    );
+  });
+});

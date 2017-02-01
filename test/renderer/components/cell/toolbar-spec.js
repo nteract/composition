@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 const chai = require('chai');
 const sinon = require('sinon');
-const sinonChai = require("sinon-chai");
+const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 const expect = chai.expect;
@@ -23,32 +23,32 @@ import { setNotificationSystem } from '../../../../src/notebook/actions';
 describe('Toolbar', () => {
   it('should be able to render a toolbar', () => {
     const toolbar = mount(
-      <Toolbar />
+      <Toolbar />,
     );
     expect(toolbar).to.not.be.null;
     expect(toolbar.find('div.cell-toolbar').length).to.be.greaterThan(0);
   });
   it('clearOutputs does not throw error', () => {
     const toolbar = mount(
-      <Toolbar />, { context: { store: dummyStore() }}
+      <Toolbar />, { context: { store: dummyStore() } },
     );
-    expect(() => {toolbar.instance().clearOutputs()}).to.not.throw(Error);
+    expect(() => { toolbar.instance().clearOutputs(); }).to.not.throw(Error);
   });
   it('shows "convert to code cell" menu entry for markdown type', () => {
     const toolbar = mount(
-      <Toolbar type={'markdown'} />
+      <Toolbar type={'markdown'} />,
     );
     expect(toolbar.text()).to.contain('Convert to Code Cell');
   });
   it('shows "convert to markdown cell" menu entry for code type', () => {
     const toolbar = mount(
-      <Toolbar type={'code'} />
+      <Toolbar type={'code'} />,
     );
     expect(toolbar.text()).to.contain('Convert to Markdown Cell');
   });
   it('changes "Convert to ..." menu entry on type change', () => {
     const toolbar = mount(
-      <Toolbar type={'code'} />
+      <Toolbar type={'code'} />,
     );
     expect(toolbar.text()).to.contain('Convert to Markdown Cell');
     toolbar.setProps({ type: 'markdown' });
@@ -58,13 +58,13 @@ describe('Toolbar', () => {
 
 describe('Toolbar.executeCell', () => {
   it('dispatches an executeCell action', () => {
-    const cell = emptyCodeCell.set('source', 'print("sup")')
+    const cell = emptyCodeCell.set('source', 'print("sup")');
     const store = dummyStore();
     store.dispatch = sinon.spy();
 
     const toolbar = mount(
       <Toolbar id={'0-1-2-3'} cell={cell} />,
-      { context: { store: store } }
+      { context: { store } },
     );
 
     const button = toolbar
@@ -88,7 +88,7 @@ describe('Toolbar.removeCell', () => {
 
     const toolbar = mount(
       <Toolbar id={'0-1-2-3'} cell={cell} />,
-      { context: { store } }
+      { context: { store } },
     );
 
     const button = toolbar
@@ -111,7 +111,7 @@ describe('Toolbar.toggleStickyCell', () => {
 
     const toolbar = mount(
       <Toolbar id={'0-1-2-3'} cell={cell} />,
-      { context: { store } }
+      { context: { store } },
     );
 
     const button = toolbar
@@ -133,8 +133,8 @@ describe('Toolbar.clearOutputs', () => {
     store.dispatch = sinon.spy();
 
     const toolbar = mount(
-      <Toolbar id={'0-1-2-3'} cell={cell} type={'code'}/>,
-      { context: { store } }
+      <Toolbar id={'0-1-2-3'} cell={cell} type={'code'} />,
+      { context: { store } },
     );
 
     const button = toolbar
@@ -157,7 +157,7 @@ describe('Toolbar.changeInputVisibility', () => {
 
     const toolbar = mount(
       <Toolbar id={'0-1-2-3'} cell={cell} type={'code'} />,
-      { context: { store } }
+      { context: { store } },
     );
 
     const button = toolbar
@@ -179,8 +179,8 @@ describe('Toolbar.changeOutputVisibility', () => {
     store.dispatch = sinon.spy();
 
     const toolbar = mount(
-      <Toolbar id={'0-1-2-3'} cell={cell} type={'code'}/>,
-      { context: { store } }
+      <Toolbar id={'0-1-2-3'} cell={cell} type={'code'} />,
+      { context: { store } },
     );
 
     const button = toolbar
@@ -203,7 +203,7 @@ describe('Toolbar.changeCellType', () => {
 
     const toolbar = mount(
       <Toolbar id={'0-1-2-3'} cell={cell} />,
-      { context: { store } }
+      { context: { store } },
     );
 
     const button = toolbar
@@ -227,7 +227,7 @@ describe('Toolbar.toggleOutputExpansion', () => {
 
     const toolbar = mount(
       <Toolbar id={'0-1-2-3'} cell={cell} type={'code'} />,
-      { context: { store } }
+      { context: { store } },
     );
 
     const button = toolbar

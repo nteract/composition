@@ -19,17 +19,17 @@ import {
 
 describe('loadConfigEpic', () => {
   it('errors on a bad read', (done) => {
-    const input$ = Observable.of({type: LOAD_CONFIG})
-    const action$ = new ActionsObservable(input$)
+    const input$ = Observable.of({ type: LOAD_CONFIG });
+    const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
-    const responseActions = loadConfigEpic(action$)
+    const responseActions = loadConfigEpic(action$);
     responseActions.subscribe(
       (x) => actionBuffer.push(x.type),
       (err) => expect.fail(),
       () => {
         expect(actionBuffer).to.deep.equal(['ERROR']);
         done();
-      }
+      },
     );
   });
 });
@@ -37,9 +37,9 @@ describe('loadConfigEpic', () => {
 describe('saveConfigOnChangeEpic', () => {
   it('changes SET_CONFIG_KEY to SAVE_CONFIG', (done) => {
     const input$ = Observable.of({ type: SET_CONFIG_KEY });
-    const action$ = new ActionsObservable(input$)
+    const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
-    const responseActions = saveConfigOnChangeEpic(action$)
+    const responseActions = saveConfigOnChangeEpic(action$);
     expect(responseActions.operator.value.type).to.equal('SAVE_CONFIG');
     responseActions.subscribe(
       (x) => actionBuffer.push(x),
@@ -49,14 +49,14 @@ describe('saveConfigOnChangeEpic', () => {
       },
     );
   });
-})
+});
 
 describe('saveConfigEpic', () => {
   it('errors on a bad writeFileObservable', (done) => {
     const input$ = Observable.of({ type: SAVE_CONFIG });
-    const action$ = new ActionsObservable(input$)
+    const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
-    const responseActions = saveConfigEpic(action$)
+    const responseActions = saveConfigEpic(action$);
     responseActions.subscribe(
       (x) => actionBuffer.push(x.type),
       (err) => expect.fail(),
@@ -65,5 +65,5 @@ describe('saveConfigEpic', () => {
         done();
       },
     );
-  })
-})
+  });
+});

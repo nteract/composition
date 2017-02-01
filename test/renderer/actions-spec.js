@@ -9,11 +9,11 @@ import { dummyStore } from '../utils';
 
 import {
   dummyJSON,
-  dummyCommutable
+  dummyCommutable,
 } from './dummy-nb';
 
 import {
-  fromJS
+  fromJS,
 } from 'immutable';
 
 const Rx = require('rxjs/Rx');
@@ -24,7 +24,7 @@ describe('setExecutionState', () => {
       type: constants.SET_EXECUTION_STATE,
       executionState: 'idle',
     });
-  })
+  });
 });
 
 describe('newKernel', () => {
@@ -33,7 +33,7 @@ describe('newKernel', () => {
       type: constants.LAUNCH_KERNEL,
       kernelSpec: { spec: 'hokey' },
       cwd: '.',
-    })
+    });
   });
 });
 
@@ -43,21 +43,21 @@ describe('newKernelByName', () => {
       type: constants.LAUNCH_KERNEL_BY_NAME,
       kernelSpecName: 'python2',
       cwd: '.',
-    })
+    });
   });
 });
 
 describe('setNotebookKernelInfo', () => {
   it('creates a SET_KERNEL_INFO action', () => {
-    const kernelInfo = {name: 'japanese'};
+    const kernelInfo = { name: 'japanese' };
     expect(actions.setNotebookKernelInfo(kernelInfo)).to.deep.equal({
       type: constants.SET_KERNEL_INFO,
       kernelInfo: {
         name: 'japanese',
-      }
-    })
-  })
-})
+      },
+    });
+  });
+});
 
 describe('updateCellSource', () => {
   it('creates a UPDATE_CELL_SOURCE action', () => {
@@ -66,14 +66,14 @@ describe('updateCellSource', () => {
       id: '1234',
       source: '# test',
     });
-  })
+  });
 });
 
 describe('clearOutputs', () => {
   it('creates a CLEAR_OUTPUTS action', () => {
-    expect(actions.clearOutputs('woo')).to.deep.equal({ type: 'CLEAR_OUTPUTS', id: 'woo' })
-  })
-})
+    expect(actions.clearOutputs('woo')).to.deep.equal({ type: 'CLEAR_OUTPUTS', id: 'woo' });
+  });
+});
 
 describe('updateCellExecutionCount', () => {
   it('creates a UPDATE_CELL_EXECUTION_COUNT action', () => {
@@ -82,17 +82,17 @@ describe('updateCellExecutionCount', () => {
       id: '1234',
       count: 3,
     });
-  })
+  });
 });
 
 describe('updateCellPagers', () => {
   it('creates a UPDATE_CELL_PAGERS action', () => {
-    expect(actions.updateCellPagers('1234', {'data': 'woo'})).to.deep.equal({
+    expect(actions.updateCellPagers('1234', { data: 'woo' })).to.deep.equal({
       type: constants.UPDATE_CELL_PAGERS,
       id: '1234',
-      pagers: {'data': 'woo'},
+      pagers: { data: 'woo' },
     });
-  })
+  });
 });
 
 describe('updateCellStatus', () => {
@@ -113,7 +113,7 @@ describe('moveCell', () => {
       destinationId: '5678',
       above: true,
     });
-  })
+  });
 });
 
 describe('removeCell', () => {
@@ -254,10 +254,10 @@ describe('setNotificationSystem', () => {
 
 describe('overwriteMetadata', () => {
   it('creates an OVERWRITE_METADATA_FIELD', () => {
-    expect(actions.overwriteMetadata('foo', {bar: 3})).to.deep.equal({
+    expect(actions.overwriteMetadata('foo', { bar: 3 })).to.deep.equal({
       type: constants.OVERWRITE_METADATA_FIELD,
       field: 'foo',
-      value: {bar: 3}
+      value: { bar: 3 },
     });
   });
 });
@@ -320,7 +320,7 @@ describe('changeInputVisibility', () => {
 describe('pasteCell', () => {
   it('creates a PASTE_CELL action', () => {
     expect(actions.pasteCell()).to.deep.equal({
-      type:constants.PASTE_CELL,
+      type: constants.PASTE_CELL,
     });
   });
 });

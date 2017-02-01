@@ -1,15 +1,15 @@
 import chai, { expect } from 'chai';
 
-var mock = require('mock-require');
+const mock = require('mock-require');
 const sinon = require('sinon');
-const sinonChai = require("sinon-chai");
+const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 
 import {
   shutdownKernel,
   forceShutdownKernel,
   cleanupKernel,
-  filesystem
+  filesystem,
 } from '../../../src/notebook/kernel/shutdown';
 
 import reducers from '../../../src/notebook/reducers';
@@ -29,33 +29,33 @@ const emptyKernel = Object.freeze({
     stderr: {},
   },
   connectionFile: '/tmp/connection.json',
-})
+});
 
 function setupMockKernel(sandbox) {
   const kernel = Object.assign({}, emptyKernel);
-  kernel.channels.shell.complete = sandbox.spy()
-  kernel.channels.iopub.complete = sandbox.spy()
-  kernel.channels.control.complete = sandbox.spy()
-  kernel.channels.stdin.complete = sandbox.spy()
+  kernel.channels.shell.complete = sandbox.spy();
+  kernel.channels.iopub.complete = sandbox.spy();
+  kernel.channels.control.complete = sandbox.spy();
+  kernel.channels.stdin.complete = sandbox.spy();
 
-  kernel.spawn.stdin.destroy = sandbox.spy()
-  kernel.spawn.stdout.destroy = sandbox.spy()
-  kernel.spawn.stderr.destroy = sandbox.spy()
+  kernel.spawn.stdin.destroy = sandbox.spy();
+  kernel.spawn.stdout.destroy = sandbox.spy();
+  kernel.spawn.stderr.destroy = sandbox.spy();
 
-  kernel.spawn.kill = sandbox.spy()
+  kernel.spawn.kill = sandbox.spy();
   return kernel;
 }
 
 describe('forceShutdownKernel', () => {
-  var sandbox;
-  beforeEach(function() {
+  let sandbox;
+  beforeEach(() => {
     sandbox = sinon.sandbox.create();
   });
-  afterEach(function() {
+  afterEach(() => {
     sandbox.restore();
   });
   it('fully cleans up the kernel and uses SIGKILL', () => {
-    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', (path) => { return true; });
+    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', (path) => true);
     const kernel = setupMockKernel(sandbox);
     forceShutdownKernel(kernel);
 
@@ -72,19 +72,19 @@ describe('forceShutdownKernel', () => {
 
     // TODO: expect kernel.connectionFile to have called out to fs
     expect(unlinkSync).to.have.been.calledWith(kernel.connectionFile);
-  })
-})
+  });
+});
 
 describe('cleanupKernel', () => {
-  var sandbox;
+  let sandbox;
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
   });
-  afterEach(function() {
+  afterEach(() => {
     sandbox.restore();
   });
   it('cleans out artifacts from the kernel object', () => {
-    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', (path) => { return true; });
+    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', (path) => true);
     const kernel = setupMockKernel(sandbox);
     cleanupKernel(kernel, true);
 
@@ -101,8 +101,8 @@ describe('cleanupKernel', () => {
 
     // TODO: expect kernel.connectionFile to have called out to fs
     expect(unlinkSync).to.have.been.calledWith(kernel.connectionFile);
-  })
-})
+  });
+});
 
 describe('shutdownKernel', () => {
-})
+});

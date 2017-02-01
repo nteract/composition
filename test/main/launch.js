@@ -5,7 +5,7 @@ import { launch } from '../../lib/main/launch';
 const ipc = require('electron').ipcMain;
 
 describe('launch', () => {
-  it('launches a notebook', function(done) {
+  it('launches a notebook', function (done) {
     // Note that we can't use => functions because we need `this` to be mocha's
     this.timeout(10000);
 
@@ -22,6 +22,6 @@ describe('launch', () => {
     setTimeout(() => {
       expect.fail('nteract:ping:kernel', null, 'Expected nteract:ping:kernel to be sent from frontend');
       done();
-    }, 8000)
-  })
-})
+    }, 8000);
+  });
+});

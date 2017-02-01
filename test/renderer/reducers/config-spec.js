@@ -16,7 +16,7 @@ describe('setKey', () => {
     const state = reducers(initialState, {
       type: constants.SET_CONFIG_KEY,
       key: 'theme',
-      value: 'light'
+      value: 'light',
     });
     expect(state.config.get('theme')).to.equal('light');
   });
@@ -25,7 +25,7 @@ describe('setKey', () => {
 describe('mergeConfig', () => {
   it('sets the config', () => {
     const initialState = {
-      config: new Map(), 
+      config: new Map(),
     };
 
     const config = { theme: 'dark' };

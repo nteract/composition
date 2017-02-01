@@ -221,14 +221,14 @@ describe('menu', () => {
 
       expect(store.dispatch.firstCall).to.be.calledWith({
         type: constants.CLEAR_OUTPUTS,
-        id: store.getState().document.getIn(['notebook', 'cellOrder']).first()
+        id: store.getState().document.getIn(['notebook', 'cellOrder']).first(),
       });
     });
   });
 
   describe('dispatchRunAllBelow', () => {
     it('runs all code cells below the focused cell', () => {
-      const store = dummyStore({codeCellCount: 4, markdownCellCount: 4});
+      const store = dummyStore({ codeCellCount: 4, markdownCellCount: 4 });
       const markdownCells = store.getState().document.getIn(['notebook', 'cellMap'])
                                                      .filter(cell => cell.get('cell_type') === 'markdown');
       store.dispatch = sinon.spy();
@@ -236,12 +236,12 @@ describe('menu', () => {
       menu.dispatchRunAllBelow(store);
 
       expect(store.dispatch.calledThrice).to.equal(true);
-      for (let cellId of markdownCells.keys()) {
-          expect(store.dispatch.neverCalledWith({
-            type: 'EXECUTE_CELL',
-            id: cellId,
-            source: '',
-          })).to.equal(true);
+      for (const cellId of markdownCells.keys()) {
+        expect(store.dispatch.neverCalledWith({
+          type: 'EXECUTE_CELL',
+          id: cellId,
+          source: '',
+        })).to.equal(true);
       }
     });
   });
@@ -300,7 +300,7 @@ describe('menu', () => {
       menu.dispatchPublishUserGist(store, {});
       const expectedSecondAction = { type: 'PUBLISH_USER_GIST' };
       expect(store.dispatch).to.have.been.calledWith(expectedSecondAction);
-      });
+    });
   });
 
   describe('dispatchNewKernel', () => {
@@ -371,7 +371,7 @@ describe('menu', () => {
         kernelSpec: { spec: 'hokey' },
         cwd: process.cwd(),
       });
-    })
+    });
   });
 
   describe('initMenuHandlers', () => {
@@ -431,7 +431,7 @@ describe('menu', () => {
       expect(store.dispatch.firstCall).to.be.calledWith({
         type: 'SAVE_AS',
         notebook: store.getState().document.get('notebook'),
-        filename: filename,
+        filename,
       });
     });
   });
@@ -440,7 +440,7 @@ describe('menu', () => {
     it('it notifies a user upon successful write', () => {
       const notificationSystem = NotificationSystem();
       const addNotification = sinon.spy(notificationSystem, 'addNotification');
-      const filename = 'thisisafilename.ipynb'
+      const filename = 'thisisafilename.ipynb';
       menu.exportPDF(filename, notificationSystem);
       expect(addNotification).to.have.been.calledWithMatch({
         title: 'PDF exported',
@@ -454,12 +454,12 @@ describe('menu', () => {
   describe('triggerSaveAsPDF', () => {
     it('does something', () => {
 
-    })
+    });
   });
-  
+
   describe('storeToPDF', () => {
     it('triggers notification when not saved', () => {
-      const config = { noFilename: true }
+      const config = { noFilename: true };
       const store = dummyStore(config);
       const addNotification = store.getState().app.get('notificationSystem').addNotification;
       menu.storeToPDF(store);
@@ -470,20 +470,20 @@ describe('menu', () => {
         dismissible: true,
         position: 'tr',
         level: 'warning',
-      })
+      });
     });
     it('calls export PDF when filename exists', () => {
-      const exportStub = sinon.spy(menu.exportPDF)
+      const exportStub = sinon.spy(menu.exportPDF);
       const store = dummyStore();
       const addNotification = store.getState().app.get('notificationSystem').addNotification;
       menu.storeToPDF(store);
       expect(addNotification).to.have.been.calledWithMatch({
         title: 'PDF exported',
-        message: `Notebook dummy-store-nb has been exported as a pdf.`,
+        message: 'Notebook dummy-store-nb has been exported as a pdf.',
         dismissible: true,
         position: 'tr',
         level: 'success',
       });
     });
-  })
+  });
 });

@@ -4,7 +4,7 @@ import chai, { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import Immutable from 'immutable';
 
-import Output from '../../../../../src/notebook/components/cell/display-area/output'
+import Output from '../../../../../src/notebook/components/cell/display-area/output';
 import RichestMime from '../../../../../src/notebook/components/cell/display-area/richest-mime';
 
 const Ansi = require('ansi-to-react');
@@ -14,8 +14,8 @@ describe('Output', () => {
     const output = Immutable.fromJS({
       output_type: 'display_data',
       data:
-          { 'text/html': '<h1>Multiple</h1>',
-            'text/plain': '<IPython.core.display.HTML object>' },
+      { 'text/html': '<h1>Multiple</h1>',
+        'text/plain': '<IPython.core.display.HTML object>' },
       metadata: {},
     });
 
