@@ -32,11 +32,23 @@ const monocellDocument = initialDocument
 
 describe('reduceOutputs', () => {
   it('puts new outputs at the end by default', () => {
-    const outputs = Immutable.List([1, 2]);
-    const newOutputs = reduceOutputs(outputs, 3);
+    const outputs = Immutable.List([
+      Immutable.Map({ output_type: 'stream', name: 'stdout', text: 'Woo' }),
+      Immutable.Map({ output_type: 'error', ename: 'well', evalue: 'actually', traceback: Immutable.List() }),
+    ]);
+    const newOutputs = reduceOutputs(outputs, {
+      output_type: 'display_data',
+      data: {},
+      metadata: {},
+    });
 
-    expect(newOutputs).to.equal(Immutable.List([1, 2, 3]));
+    expect(newOutputs).to.deep.equal(Immutable.List([
+      Immutable.Map({ output_type: 'stream', name: 'stdout', text: 'Woo' }),
+      Immutable.Map({ output_type: 'error', ename: 'well', evalue: 'actually', traceback: Immutable.List() }),
+      Immutable.Map({ output_type: 'display_data', data: Immutable.Map(), metadata: Immutable.Map() }),
+    ]));
   });
+
   it('handles the case of a single stream output', () => {
     const outputs = Immutable.fromJS([{ name: 'stdout', text: 'hello', output_type: 'stream' }]);
     const newOutputs = reduceOutputs(outputs, { name: 'stdout', text: ' world', output_type: 'stream' });
@@ -886,7 +898,6 @@ describe('appendOutput', () => {
       .to.deep.equal(Immutable.fromJS([{
         output_type: 'display_data',
         data: { 'text/html': '<marquee>wee</marquee>' },
-        transient: { display_id: '1234' },
       }]));
     expect(state.document.getIn(['transient', 'keyPathsForDisplays', '1234']))
       .to.deep.equal(Immutable.fromJS([
@@ -929,7 +940,6 @@ describe('updateDisplay', () => {
         {
           output_type: 'display_data',
           data: { 'text/html': '<marquee>WOO</marquee>' },
-          transient: { display_id: '1234' },
         },
       ],
     ));

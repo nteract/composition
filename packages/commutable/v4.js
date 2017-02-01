@@ -178,22 +178,27 @@ export function createImmutableMimeBundle(mimeBundle: MimeBundle): ImmutableMime
       .reduce(cleanMimeAtKey.bind(null, mimeBundle), Immutable.Map());
 }
 
+function sanitize(o: ExecuteResult | DisplayData) {
+  if (o.metadata) {
+    return { metadata: Immutable.fromJS(o.metadata) };
+  }
+  return {};
+}
 
-function createImmutableOutput(output: Output): ImmutableOutput {
+
+export function createImmutableOutput(output: Output): ImmutableOutput {
   switch (output.output_type) {
     case 'execute_result':
-      return Immutable.Map({
+      return Immutable.Map(Object.assign({}, {
         output_type: output.output_type,
         execution_count: output.execution_count,
         data: createImmutableMimeBundle(output.data),
-        metadata: Immutable.fromJS(output.metadata),
-      });
+      }, sanitize(output)));
     case 'display_data':
-      return Immutable.Map({
+      return Immutable.Map(Object.assign({}, {
         output_type: output.output_type,
         data: createImmutableMimeBundle(output.data),
-        metadata: Immutable.fromJS(output.metadata),
-      });
+      }, sanitize(output)));
     case 'stream':
       return Immutable.Map({
         output_type: output.output_type,
@@ -201,9 +206,14 @@ function createImmutableOutput(output: Output): ImmutableOutput {
         text: demultiline(output.text),
       });
     case 'error':
-      // Note: this is one of the cases where the Array of strings (for traceback)
-      // is part of the format, not a multiline string
-      return Immutable.fromJS(output);
+      return Immutable.Map({
+        output_type: 'error',
+        ename: output.ename,
+        evalue: output.evalue,
+        // Note: this is one of the cases where the Array of strings (for traceback)
+        // is part of the format, not a multiline string
+        traceback: Immutable.List(output.traceback),
+      });
     default:
       throw new TypeError(`Output type ${output.output_type} not recognized`);
   }

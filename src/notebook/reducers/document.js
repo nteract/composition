@@ -34,6 +34,10 @@ import type {
   MimeBundle,
 } from '../../../packages/commutable/types';
 
+import {
+  createImmutableOutput,
+} from '../../../packages/commutable/v4';
+
 import type {
   Output,
   StreamOutput,
@@ -43,11 +47,6 @@ type Pager = {
   source: 'page',
   data: MimeBundle,
   start: number
-}
-
-// TODO: Bring this into commutable... I assume
-function createOutput(output: Output): ImmutableOutput {
-  return Immutable.fromJS(output);
 }
 
 // Note: number is only allowed when indexing into a List
@@ -73,7 +72,7 @@ export function reduceOutputs(outputs: ImmutableOutputs = Immutable.List(), outp
   if (output.output_type !== 'stream' ||
      (outputs.size > 0 && outputs.last().get('output_type') !== 'stream')) {
     // If it's not a stream type, we just fold in the output
-    return outputs.push(createOutput(output));
+    return outputs.push(createImmutableOutput(output));
   }
 
   const streamOutput : StreamOutput = output;
@@ -101,7 +100,7 @@ export function reduceOutputs(outputs: ImmutableOutputs = Immutable.List(), outp
     }
   }
 
-  return outputs.push(createOutput(streamOutput));
+  return outputs.push(createImmutableOutput(streamOutput));
 }
 
 export function cleanCellTransient(state: DocumentState, id: string) {
@@ -186,7 +185,7 @@ function appendOutput(state: DocumentState, action: AppendOutputAction) {
     // Append our current output's keyPath
     .push(keyPath);
 
-  const immutableOutput = createOutput(output);
+  const immutableOutput = createImmutableOutput(output);
 
   // We'll reduce the overall state based on each keypath, updating output
   return keyPaths.reduce(
@@ -198,13 +197,18 @@ function appendOutput(state: DocumentState, action: AppendOutputAction) {
 
 type UpdateDisplayAction = { type: 'UPDATE_DISPLAY', output: Output };
 function updateDisplay(state: DocumentState, action: UpdateDisplayAction) {
-  const output: ImmutableOutput = createOutput(action.output);
-  const displayID = output.getIn(['transient', 'display_id']);
+  const { output } = action;
+  if (!(output && output.transient && output.transient.display_id)) {
+    return state;
+  }
+  const displayID = output.transient.display_id;
+  const immOutput: ImmutableOutput = createImmutableOutput(output);
+
   const keyPaths: KeyPaths = state
     .getIn(
       ['transient', 'keyPathsForDisplays', displayID], new Immutable.List());
   return keyPaths.reduce((currState: DocumentState, kp: KeyPath) =>
-    currState.setIn(kp, output), state);
+    currState.setIn(kp, immOutput), state);
 }
 
 type FocusNextCellAction = { type: 'FOCUS_NEXT_CELL', id: CellID, createCellIfUndefined: boolean }
