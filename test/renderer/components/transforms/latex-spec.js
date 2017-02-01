@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import { mount } from 'enzyme';
 
 import LaTeXDisplay from '../../../../src/notebook/components/transforms/latex';

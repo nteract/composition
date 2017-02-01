@@ -1,9 +1,5 @@
 import React from 'react';
-
-import {
-  createRenderer,
-} from 'react-addons-test-utils';
-
+import { createRenderer } from 'react-addons-test-utils';
 import { List, Map } from 'immutable';
 import { expect } from 'chai';
 

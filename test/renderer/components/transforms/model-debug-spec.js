@@ -3,13 +3,11 @@ import Immutable from 'immutable';
 
 import { mount } from 'enzyme';
 import chai, { expect } from 'chai';
-
-import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-chai.use(sinonChai);
-
 import ModelDebug from '../../../../src/notebook/components/transforms/model-debug';
+
+chai.use(sinonChai);
 
 describe('ModelDebug', () => {
   it('renders all models when no modelID set', () => {

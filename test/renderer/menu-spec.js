@@ -1,17 +1,17 @@
-import * as menu from '../../src/notebook/menu';
-import * as constants from '../../src/notebook/constants';
-
 import {
   webFrame,
   ipcRenderer as ipc,
 } from 'electron';
 
-import { dummyStore } from '../utils';
 import NotificationSystem from 'react-notification-system';
 
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
+
+import { dummyStore } from '../utils';
+import * as menu from '../../src/notebook/menu';
+import * as constants from '../../src/notebook/constants';
 
 chai.use(sinonChai);
 
@@ -236,13 +236,13 @@ describe('menu', () => {
       menu.dispatchRunAllBelow(store);
 
       expect(store.dispatch.calledThrice).to.equal(true);
-      for (const cellId of markdownCells.keys()) {
+      markdownCells.forEach((cellId) => {
         expect(store.dispatch.neverCalledWith({
           type: 'EXECUTE_CELL',
           id: cellId,
           source: '',
         })).to.equal(true);
-      }
+      });
     });
   });
 
@@ -473,7 +473,7 @@ describe('menu', () => {
       });
     });
     it('calls export PDF when filename exists', () => {
-      const exportStub = sinon.spy(menu.exportPDF);
+      // const exportStub = sinon.spy(menu.exportPDF);
       const store = dummyStore();
       const addNotification = store.getState().app.get('notificationSystem').addNotification;
       menu.storeToPDF(store);

@@ -1,8 +1,9 @@
+/* eslint-disable arrow-body-style */
 // From https://github.com/airbnb/enzyme/blob/master/docs/guides/jsdom.md
 
-var jsdom = require('jsdom').jsdom;
-var sinon = require('sinon');
-var exposedProperties = ['window', 'navigator', 'document'];
+const jsdom = require('jsdom').jsdom;
+
+const exposedProperties = ['window', 'navigator', 'document'];
 
 global.document = jsdom('<html><body><div id="app"></div></html>');
 global.window = document.defaultView;
@@ -25,8 +26,7 @@ global.navigator = {
   platform: 'MacIntel',
 };
 
-global.Range = function Range() {
-}
+global.Range = function Range() {};
 
 const createContextualFragment = (html) => {
   const div = document.createElement('div');
@@ -34,9 +34,7 @@ const createContextualFragment = (html) => {
   return div.children[0]; // so hokey it's not even funny
 };
 
-Range.prototype.createContextualFragment = function createContextualFragment(html) {
-  createContextualFragment(html);
-}
+Range.prototype.createContextualFragment = (html) => createContextualFragment(html);
 
 // HACK: Polyfil that allows codemirror to render in a JSDOM env.
 global.window.document.createRange = function createRange() {
@@ -46,138 +44,129 @@ global.window.document.createRange = function createRange() {
     getBoundingClientRect: () => {
       return { right: 0 };
     },
-    getClientRects: () => {
-      return []
-    },
+    getClientRects: () => [],
     createContextualFragment,
-  }
+  };
 };
 
 // Mocks for tests
-var mock = require('mock-require');
+const mock = require('mock-require');
+
 mock('electron-json-storage', {
-  'get': function(key, callback){
+  get: (key, callback) => {
     callback(null, { theme: 'light' });
   },
-  'set': function(key, json, callback) {
+  set: (key, json, callback) => {
     if (!json && !key) {
       callback(new Error('Must provide JSON and key'));
     }
 
     callback(null);
   },
-})
+});
 
 mock('plotly.js/dist/plotly', {
-  'newPlot': function(data, layout, config) {},
-  'redraw': function(el) {},
-})
+  newPlot: () => {},
+  redraw: () => {},
+});
 
 mock('enchannel-zmq-backend', {
-  'createControlSubject': function(config, identity) {
-    return;
-  },
-  'createStdinSubject': function(config, identity) {
-    return;
-  },
-  createIOPubSubject: function(config, identity) {
-    return;
-  },
-  createShellSubject: function(config, identity) {
-    return;
-  },
-})
+  createControlSubject: () => {},
+  createStdinSubject: () => {},
+  createIOPubSubject: () => {},
+  createShellSubject: () => {},
+});
 
 mock('electron', {
-  'shell': {
-    'openExternal': function(url) { },
+  shell: {
+    openExternal: () => {},
   },
-  'remote': {
-    'app': {
-      getPath: function(key) {
-        if(key === 'home') {
+  remote: {
+    app: {
+      getPath: (key) => {
+        if (key === 'home') {
           return '/home/home/on/the/range';
         }
         throw Error('not mocked');
-      }
+      },
     },
-    'dialog': {
-      'showSaveDialog': function(config) { },
+    dialog: {
+      showSaveDialog: () => {},
     },
-    'BrowserWindow': {
-      'getFocusedWindow': function() {
+    BrowserWindow: {
+      getFocusedWindow: () => {
         return {
-          'setTitle': function() {},
+          setTitle: () => {},
         };
-      }
+      },
     },
-    'getCurrentWindow': function() {
+    getCurrentWindow: () => {
       return {
-        'setTitle': function(){},
-        'setDocumentEdited': function(){},
-        'setRepresentedFilename': function() {},
-        'webContents': {
-          'printToPDF': function(options, callback) {callback(null, null) }
-        }
+        setTitle: () => {},
+        setDocumentEdited: () => {},
+        setRepresentedFilename: () => {},
+        webContents: {
+          printToPDF: (options, callback) => callback(null, null),
+        },
       };
-    }
+    },
   },
-  'webFrame': {
-    'setZoomLevel': function(zoom) { },
-    'getZoomLevel': function() { return 1; },
+  webFrame: {
+    setZoomLevel: () => {},
+    getZoomLevel: () => { return 1; },
   },
-  'ipcRenderer': {
-    'on': function(message, callback) {
+  ipcRenderer: {
+    on: (message, callback) => {
       if (message === 'kernel_specs_reply') {
         const specs = {
           python3: {
             name: 'python3',
-            spec: { argv: {}, display_name: 'Python 3', language: 'python' }
+            spec: { argv: {}, display_name: 'Python 3', language: 'python' },
           },
         };
         callback(null, specs);
       }
     },
-    'send': function(message, action) {}
+    send: () => {},
   },
 });
 
-mock('github', function () {
+/* eslint-disable prefer-arrow-callback */
+mock('github', function github() {
   return {
-    authenticate: function(config) { },
+    authenticate: () => {},
     gists: {
-        edit: function(request, callback) { callback(null, { id: 123, html_url: 'foo' }) },
-        create: function(request, callback) { callback(null, { id: 123, html_url: 'foo' }) },
+      edit: (request, callback) => { callback(null, { id: 123, html_url: 'foo' }); },
+      create: (request, callback) => { callback(null, { id: 123, html_url: 'foo' }); },
     },
     users: {
-      get: function(request, callback) { callback(null, { login: 'jdetle' }) }
-    }
+      get: (request, callback) => callback(null, { login: 'jdetle' }),
+    },
   };
 });
+/* eslint-enable prefer-arrow-callback */
 
-mock('react-notification-system', function () {
+mock('react-notification-system', () => {
   return {
-    'addNotification': function(config) { },
-    'render': function() {return null;},
+    addNotification: () => {},
+    render: () => null,
   };
 });
 
 mock('kernelspecs', {
-  'find': function(kernelName) {
-    return Promise.resolve({ name: kernelName });
-  }
-})
+  find: (kernelName) => Promise.resolve({ name: kernelName }),
+});
 
 mock('spawnteract', {
-  'launchSpec': function(kernelSpec, config) {
-    function writeConnectionFile(config) { return new Promise((resolve, reject) => {
+  launchSpec: (kernelSpec) => {
+    function writeConnectionFile(config) {
+      return new Promise((resolve, reject) => {
         try {
-         resolve({config, connectionFile: 'connectionFile'});
-        }
-        catch (err) {
+          resolve({ config, connectionFile: 'connectionFile' });
+        } catch (err) {
           reject(err);
         }
-      })
+      });
     }
     return writeConnectionFile('config').then((c) => {
       return {
@@ -188,15 +177,15 @@ mock('spawnteract', {
       };
     });
   },
-  'launch': function(kernelSpecName, config) {
-    function writeConnectionFile(config) { return new Promise((resolve, reject) => {
+  launch: (kernelSpecName) => {
+    function writeConnectionFile(config) {
+      return new Promise((resolve, reject) => {
         try {
-         resolve({config, connectionFile: 'connectionFile'});
-        }
-        catch (err) {
+          resolve({ config, connectionFile: 'connectionFile' });
+        } catch (err) {
           reject(err);
         }
-      })
+      });
     }
     return writeConnectionFile('config').then((c) => {
       return {
@@ -210,8 +199,8 @@ mock('spawnteract', {
 });
 
 mock('fs', {
-  unlinkSync: function(){},
-  unlink: function(){},
-  existsSync: function(){},
-  writeFile: function(name, data, callback) { callback(null) }
+  unlinkSync: () => {},
+  unlink: () => {},
+  existsSync: () => {},
+  writeFile: (name, data, callback) => callback(null),
 });

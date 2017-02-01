@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { expect, assert } from 'chai';
+import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import CellCreator from '../../../src/notebook/views/cell-creator';
@@ -11,8 +11,8 @@ describe('CellCreatorView', () => {
 
   const setup = (id) => shallow(
     <CellCreator
-      createCell={createCell.bind(this)}
-      mergeCell={mergeCell.bind(this)}
+      createCell={createCell}
+      mergeCell={mergeCell}
       above={false}
       id={id}
     />,

@@ -1,19 +1,17 @@
 import React from 'react';
-import Immutable from 'immutable';
+import _ from 'lodash';
 
 import { mount } from 'enzyme';
 import chai, { expect } from 'chai';
-
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import _ from 'lodash';
+
+import PlotlyTransform from '../../../../src/notebook/components/transforms/plotly';
 
 chai.use(sinonChai);
 
 const plotly = require('plotly.js/dist/plotly');
-
-import PlotlyTransform from '../../../../src/notebook/components/transforms/plotly';
 
 function deepFreeze(obj) {
   // Retrieve the property names defined on obj
@@ -105,7 +103,6 @@ describe('PlotlyTransform', () => {
   });
 
   it('processes updates', () => {
-    const newPlot = sinon.spy(plotly, 'newPlot');
     const redraw = sinon.spy(plotly, 'redraw');
 
     const wrapper = mount(
@@ -125,7 +122,6 @@ describe('PlotlyTransform', () => {
     expect(redraw).to.have.been.calledWith(instance.el);
 
       // Unwrap spy
-    plotly.newPlot.restore();
     plotly.redraw.restore();
   });
 });

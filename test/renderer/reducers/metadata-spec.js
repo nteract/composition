@@ -1,27 +1,19 @@
 import { expect } from 'chai';
 
 import * as constants from '../../../src/notebook/constants';
-
 import { MetadataRecord } from '../../../src/notebook/records';
-
-import {
-  emptyCodeCell,
-  emptyMarkdownCell,
-  fromJS,
-} from '../../../packages/commutable';
+import { emptyCodeCell } from '../../../packages/commutable';
 
 import {
   appendCellToNotebook,
 } from '../../../packages/commutable/structures';
 
 import { dummyCommutable } from '../dummy-nb';
-import { List } from 'immutable';
 
 import reducers from '../../../src/notebook/reducers';
 
 const initialDocument = new Map();
-const monocellDocument = initialDocument.set('notebook',
-    appendCellToNotebook(dummyCommutable, emptyCodeCell));
+initialDocument.set('notebook', appendCellToNotebook(dummyCommutable, emptyCodeCell));
 
 describe('changeFilename', () => {
   it('returns the same originalState if filename is undefined', () => {

@@ -1,9 +1,11 @@
-const chai = require('chai');
-const expect = chai.expect;
-import { errorMiddleware } from '../../src/notebook/middlewares';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
+import { errorMiddleware } from '../../src/notebook/middlewares';
+
+const chai = require('chai');
+
+const expect = chai.expect;
 chai.use(sinonChai);
 
 describe('The error middleware', () => {
@@ -12,7 +14,7 @@ describe('The error middleware', () => {
       dispatch(action) { return this.reducer(store, action); },
       state: {
         app: {
-          get(key) {
+          get() {
             return this.notificationSystem;
           },
           notificationSystem: {
@@ -41,7 +43,7 @@ describe('The error middleware', () => {
       dispatch(action) { return this.reducer(store, action); },
       state: {
         app: {
-          get(key) {
+          get() {
             return this.notificationSystem;
           },
           notificationSystem: {

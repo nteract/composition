@@ -3,14 +3,12 @@ import Immutable from 'immutable';
 
 import { shallow } from 'enzyme';
 import chai, { expect } from 'chai';
-
-import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
-
-chai.use(sinonChai);
 
 import RichestMime from '../../../../../src/notebook/components/cell/display-area/richest-mime';
 import { displayOrder, transforms } from '../../../../../src/notebook/components/transforms';
+
+chai.use(sinonChai);
 
 describe('RichestMime', () => {
   it('renders a mimebundle', () => {

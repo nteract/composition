@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { shallow, mount } from 'enzyme';
-import chai, { expect } from 'chai';
+import { shallow } from 'enzyme';
+import { expect } from 'chai';
 import Immutable from 'immutable';
 
 import Display from '../../../../../src/notebook/components/cell/display-area';

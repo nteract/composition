@@ -1,13 +1,3 @@
-const chai = require('chai');
-
-const expect = chai.expect;
-
-import { dummyStore } from '../../utils';
-
-const Immutable = require('immutable');
-
-const Rx = require('rxjs/Rx');
-
 import {
   createCommMessage,
   createCommCloseMessage,
@@ -17,6 +7,11 @@ import {
   commMessageAction,
   commActionObservable,
 } from '../../../src/notebook/epics/comm';
+
+const chai = require('chai');
+const Rx = require('rxjs/Rx');
+
+const expect = chai.expect;
 
 describe('createCommMessage', () => {
   it('creates a comm_msg', () => {
@@ -157,7 +152,7 @@ describe('commActionObservable', () => {
     };
 
     const actionBuffer = [];
-    const commActions = commActionObservable(newKernelAction)
+    commActionObservable(newKernelAction)
       .subscribe((action) => {
         actionBuffer.push(action);
       },

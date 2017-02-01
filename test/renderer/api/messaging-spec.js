@@ -1,7 +1,4 @@
 import { expect } from 'chai';
-import {
-  childOf,
-} from '../../../src/notebook/kernel/messaging';
 
 const Rx = require('rxjs/Rx');
 
@@ -26,9 +23,8 @@ describe('childOf', () => {
       { parent_header: { msg_id_invalid: '300' } },
   ])
     .childOf({ header: { msg_id: '100' } })
-    .subscribe((val) => {
+    .subscribe(() => {
       throw new Error('Subscription was unexpectedly fulfilled.');
-      done();
     }, (error) => {
       expect(error).to.not.be.null;
       done();
@@ -37,7 +33,7 @@ describe('childOf', () => {
 
 describe('ofMessageType', () => {
   it('filters messages of type requested', () => {
-    const requested = Rx.Observable.from([
+    Rx.Observable.from([
       { header: { msg_type: 'a' } },
       { header: { msg_type: 'd' } },
       { header: { msg_type: 'b' } },
@@ -62,9 +58,8 @@ describe('ofMessageType', () => {
       { header: { msg_type: 'a' } },
   ])
     .ofMessageType(['a', 'd'])
-    .subscribe((val) => {
+    .subscribe(() => {
       throw new Error('Subscription was unexpectedly fulfilled.');
-      done();
     }, (error) => {
       expect(error).to.not.be.null;
       done();

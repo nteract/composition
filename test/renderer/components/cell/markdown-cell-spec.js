@@ -5,8 +5,6 @@ import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-chai.use(sinonChai);
-
 import MarkdownCell from '../../../../src/notebook/components/cell/markdown-cell';
 import {
   focusCellEditor,
@@ -14,14 +12,11 @@ import {
   focusNextCell,
 } from '../../../../src/notebook/actions';
 
-import {
-  emptyCodeCell,
-  emptyMarkdownCell,
-} from '../../../../packages/commutable';
-
+import { emptyMarkdownCell } from '../../../../packages/commutable';
 import { displayOrder, transforms } from '../../../../src/notebook/components/transforms';
-
 import { dummyStore } from '../../../utils';
+
+chai.use(sinonChai);
 
 describe('MarkdownCell', () => {
   it('can be rendered', () => {

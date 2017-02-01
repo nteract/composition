@@ -1,21 +1,18 @@
 import { expect } from 'chai';
 import { ActionsObservable } from 'redux-observable';
-const Rx = require('rxjs/Rx');
-const Observable = Rx.Observable;
 
 import {
   LOAD_CONFIG,
   SAVE_CONFIG,
-  MERGE_CONFIG,
   SET_CONFIG_KEY,
-  loadConfig,
-  saveConfig,
-  doneSavingConfig,
-  configLoaded,
   loadConfigEpic,
   saveConfigOnChangeEpic,
   saveConfigEpic,
 } from '../../../src/notebook/epics/config';
+
+const Rx = require('rxjs/Rx');
+
+const Observable = Rx.Observable;
 
 describe('loadConfigEpic', () => {
   it('errors on a bad read', (done) => {
@@ -25,7 +22,7 @@ describe('loadConfigEpic', () => {
     const responseActions = loadConfigEpic(action$);
     responseActions.subscribe(
       (x) => actionBuffer.push(x.type),
-      (err) => expect.fail(),
+      () => expect.fail(),
       () => {
         expect(actionBuffer).to.deep.equal(['ERROR']);
         done();
@@ -43,7 +40,7 @@ describe('saveConfigOnChangeEpic', () => {
     expect(responseActions.operator.value.type).to.equal('SAVE_CONFIG');
     responseActions.subscribe(
       (x) => actionBuffer.push(x),
-      (err) => expect.fail(),
+      () => expect.fail(),
       () => {
         done();
       },
@@ -59,7 +56,7 @@ describe('saveConfigEpic', () => {
     const responseActions = saveConfigEpic(action$);
     responseActions.subscribe(
       (x) => actionBuffer.push(x.type),
-      (err) => expect.fail(),
+      () => expect.fail(),
       () => {
         expect(actionBuffer).to.deep.equal(['ERROR']);
         done();

@@ -1,13 +1,11 @@
 import React from 'react';
-import Immutable from 'immutable';
+import _ from 'lodash';
 
 import { mount } from 'enzyme';
 import chai, { expect } from 'chai';
-
-import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import _ from 'lodash';
+import GeoJSONTransform, { getTheme } from '../../../../src/notebook/components/transforms/geojson';
 
 chai.use(sinonChai);
 
@@ -26,8 +24,6 @@ function deepFreeze(obj) {
   // Freeze self (no-op if already frozen)
   return Object.freeze(obj);
 }
-
-import GeoJSONTransform, { getTheme } from '../../../../src/notebook/components/transforms/geojson';
 
 const geojson = deepFreeze({
   type: 'FeatureCollection',

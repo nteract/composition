@@ -1,21 +1,15 @@
 import React from 'react';
+import Rx from 'rxjs/Rx';
 
 import { mount } from 'enzyme';
 import chai, { expect } from 'chai';
-
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import Rx from 'rxjs/Rx';
-
 import { createMessage } from '../../../../src/notebook/kernel/messaging';
-
-import { dummyStore } from '../../../utils';
-
 import Editor from '../../../../src/notebook/components/cell/editor';
 
 chai.use(sinonChai);
-
 
 const complete = require('../../../../src/notebook/components/cell/editor/complete');
 
@@ -104,7 +98,7 @@ describe('Editor', () => {
       <Editor
         cursorBlinkRate={530}
       />,
-	);
+  );
     const instance = editorWrapper.instance();
     const cm = instance.codemirror.getCodeMirror();
     expect(cm.options.cursorBlinkRate).to.equal(530);

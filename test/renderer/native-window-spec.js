@@ -1,26 +1,17 @@
 import Immutable from 'immutable';
-
-import * as nativeWindow from '../../src/notebook/native-window';
+import Rx from 'rxjs/Rx';
+import { remote } from 'electron';
 
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-import Rx from 'rxjs/Rx';
-
+import * as nativeWindow from '../../src/notebook/native-window';
 import { AppRecord, DocumentRecord, MetadataRecord } from '../../src/notebook/records';
 
 chai.use(sinonChai);
 
 const path = require('path');
-
-import {
-  remote,
-} from 'electron';
-
-import { dummyStore } from '../utils';
-
-import { dummyCommutable } from '../utils';
 
 const electron = require('electron');
 
@@ -48,7 +39,7 @@ describe('setTitleFromAttributes', () => {
       setTitle: sinon.spy(),
     };
 
-    const remote = sinon.stub(electron.remote, 'getCurrentWindow', () => win);
+    sinon.stub(electron.remote, 'getCurrentWindow', () => win);
 
 
     const titleObject = { fullpath: '/tmp/test.ipynb', executionState: 'busy', modified: true };

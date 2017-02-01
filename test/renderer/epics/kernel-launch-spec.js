@@ -1,9 +1,4 @@
 import { expect } from 'chai';
-
-const Rx = require('rxjs/Rx');
-
-const EventEmitter = require('events');
-
 import { ActionsObservable } from 'redux-observable';
 
 import * as constants from '../../../src/notebook/constants';
@@ -20,6 +15,8 @@ import {
 import {
   createMessage,
 } from '../../../src/notebook/kernel/messaging';
+
+const Rx = require('rxjs/Rx');
 
 describe('setLanguageInfo', () => {
   it('creates a SET_LANGUAGE_INFO action', () => {
@@ -45,15 +42,6 @@ describe('setLanguageInfo', () => {
 
 describe('acquireKernelInfo', () => {
   it('sends a kernel_info_request and processes kernel_info_reply', (done) => {
-    const fakeMessage = {
-      parent_header: {
-        msg_id: '0',
-      },
-      header: {
-        msg_id: '1',
-      },
-    };
-
     const sent = new Rx.Subject();
     const received = new Rx.Subject();
 
@@ -101,10 +89,13 @@ describe('watchExecutionStateEpic', () => {
     const action$ = new ActionsObservable(input$);
     const obs = watchExecutionStateEpic(action$);
     obs.subscribe(
-      (x) => actionBuffer.push(x.type), // Every action that goes through should get stuck on an array
-      (err) => expect.fail(), // It should not error in the stream
+      // Every action that goes through should get stuck on an array
+      (x) => actionBuffer.push(x.type),
+      () => expect.fail(), // It should not error in the stream
       () => {
-        expect(actionBuffer).to.deep.equal([constants.SET_EXECUTION_STATE, constants.SET_EXECUTION_STATE]); // ;
+        expect(actionBuffer).to.deep.equal(
+          [constants.SET_EXECUTION_STATE, constants.SET_EXECUTION_STATE],
+        );
         done();
       },
     );
@@ -130,7 +121,7 @@ describe('newKernelEpic', () => {
       (x) => actionBuffer.push(x.type),
       (err) => expect.fail(err, null),
       () => {
-        expect(actionBuffer).to.deep.equal([constants.ERROR_KERNEL_LAUNCH_FAILED]); // ;
+        expect(actionBuffer).to.deep.equal([constants.ERROR_KERNEL_LAUNCH_FAILED]);
         done();
       },
     );
@@ -148,7 +139,7 @@ describe('newKernelEpic', () => {
       (x) => actionBuffer.push(x.type),
       (err) => expect.fail(err, null),
       () => {
-        expect(actionBuffer).to.deep.equal([constants.SET_KERNEL_INFO, constants.NEW_KERNEL]); // ;
+        expect(actionBuffer).to.deep.equal([constants.SET_KERNEL_INFO, constants.NEW_KERNEL]);
         done();
       },
     );
@@ -169,7 +160,7 @@ describe('newKernelByNameEpic', () => {
       (x) => actionBuffer.push(x.type),
       (err) => expect.fail(err, null),
       () => {
-        expect(actionBuffer).to.deep.equal([constants.LAUNCH_KERNEL]); // ;
+        expect(actionBuffer).to.deep.equal([constants.LAUNCH_KERNEL]);
         done();
       },
     );

@@ -1,14 +1,15 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { Provider } from 'react-redux';
-import { shallow, mount, render } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 
 import { displayOrder, transforms } from '../../../src/notebook/components/transforms';
-
-const TestBackend = require('react-dnd-test-backend');
-import { DragDropContext } from 'react-dnd';
-
 import Cell from '../../../src/notebook/components/cell/cell';
+import { Notebook, getLanguageMode } from '../../../src/notebook/components/notebook';
+
+
+import { dummyStore } from '../../utils';
+import { dummyCommutable } from '../dummy-nb';
 
 const chai = require('chai');
 const sinon = require('sinon');
@@ -16,19 +17,10 @@ const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 const expect = chai.expect;
-
-import { dummyStore } from '../../utils';
-
-import {
-  dummyCommutable,
-} from '../dummy-nb';
-
 const dummyCellStatuses = dummyCommutable.get('cellOrder')
       .reduce((statuses, cellID) =>
         statuses.set(cellID, Immutable.fromJS({ outputHidden: false, inputHidden: false })),
       new Immutable.Map());
-
-import { Notebook, ConnectedNotebook, getLanguageMode, scrollToElement } from '../../../src/notebook/components/notebook';
 
 // Boilerplate test to make sure the testing setup is configured
 describe('Notebook', () => {

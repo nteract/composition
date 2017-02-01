@@ -1,7 +1,12 @@
+import {
+  List,
+  Map,
+  Set,
+} from 'immutable';
+
 import { expect } from 'chai';
 
 import * as constants from '../../../src/notebook/constants';
-
 
 import {
   emptyCodeCell,
@@ -9,27 +14,14 @@ import {
   fromJS,
 } from '../../../packages/commutable';
 
-import {
-  appendCellToNotebook,
-} from '../../../packages/commutable/structures';
-
-
-import { DocumentRecord, MetadataRecord } from '../../../src/notebook/records';
-
+import { appendCellToNotebook } from '../../../packages/commutable/structures';
 import reducers from '../../../src/notebook/reducers';
-
 import { reduceOutputs, cleanCellTransient } from '../../../src/notebook/reducers/document';
 
 import {
   dummyJSON,
   dummyCommutable,
 } from '../dummy-nb';
-
-import {
-  List,
-  Map,
-  Set,
-} from 'immutable';
 
 const Immutable = require('immutable');
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-
 import { mount } from 'enzyme';
 
 import JavascriptDisplay, { runCodeHere } from '../../../../src/notebook/components/transforms/javascript';
@@ -13,7 +12,7 @@ describe('JavascriptDisplay', () => {
     expect(component.html()).to.equal('<div></div>');
   });
   it('executes the Javascript', () => {
-    const component = mount(
+    mount(
       <JavascriptDisplay data={'window._test_variable = 5;'} />,
     );
     expect(window._test_variable).to.equal(5);
@@ -43,7 +42,7 @@ describe('JavascriptDisplay', () => {
       <JavascriptDisplay data={'x = 1'} />,
     );
     component.setProps({ data: 'x = x + 1' });
-    expect(x).to.equal(2);
+    expect(global.x).to.equal(2);
     delete global.x;
   });
 });

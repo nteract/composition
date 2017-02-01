@@ -5,7 +5,7 @@ import { launch } from '../../lib/main/launch';
 const ipc = require('electron').ipcMain;
 
 describe('launch', () => {
-  it('launches a notebook', function (done) {
+  it('launches a notebook', (done) => {
     // Note that we can't use => functions because we need `this` to be mocha's
     this.timeout(10000);
 

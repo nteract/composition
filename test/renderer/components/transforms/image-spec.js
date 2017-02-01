@@ -1,8 +1,5 @@
 import React from 'react';
 import { expect } from 'chai';
-
-const imageData = 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-
 import { shallow } from 'enzyme';
 
 import ImageDisplay, {
@@ -10,6 +7,8 @@ import ImageDisplay, {
   GIFDisplay,
   JPEGDisplay,
 } from '../../../../src/notebook/components/transforms/image';
+
+const imageData = 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
 describe('ImageDisplay', () => {
   it('creates an image based on data and mimetype', () => {

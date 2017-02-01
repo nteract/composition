@@ -1,22 +1,9 @@
 import { expect } from 'chai';
-import path from 'path';
 
 import * as actions from '../../src/notebook/actions';
-
 import * as constants from '../../src/notebook/constants';
 
-import { dummyStore } from '../utils';
-
-import {
-  dummyJSON,
-  dummyCommutable,
-} from './dummy-nb';
-
-import {
-  fromJS,
-} from 'immutable';
-
-const Rx = require('rxjs/Rx');
+import { dummyCommutable } from './dummy-nb';
 
 describe('setExecutionState', () => {
   it('creates a SET_EXECUTION_STATE action', () => {

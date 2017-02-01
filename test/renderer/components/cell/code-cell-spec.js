@@ -5,12 +5,7 @@ import Immutable from 'immutable';
 import { expect } from 'chai';
 
 import CodeCell from '../../../../src/notebook/components/cell/code-cell';
-
-import {
-  emptyCodeCell,
-  emptyMarkdownCell,
-} from '../../../../packages/commutable';
-
+import { emptyCodeCell } from '../../../../packages/commutable';
 import { displayOrder, transforms } from '../../../../src/notebook/components/transforms';
 
 const sharedProps = { displayOrder, transforms };

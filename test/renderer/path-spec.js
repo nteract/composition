@@ -1,9 +1,6 @@
 import { expect } from 'chai';
-import { remote } from 'electron';
-import {
-  defaultPathFallback,
-  cwdKernelFallback,
-} from '../../src/notebook/path';
+
+import { defaultPathFallback } from '../../src/notebook/path';
 
 describe('defaultPathFallback', () => {
   it('returns a object with the defaultPath', () => {

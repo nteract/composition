@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { dummyCommutable } from '../dummy-nb';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import chai, { expect } from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-chai.use(sinonChai);
-
 import StatusBar from '../../../src/notebook/components/status-bar';
+import { dummyCommutable } from '../dummy-nb';
+
+chai.use(sinonChai);
 
 describe('StatusBar', () => {
   it('can render on a dummyNotebook', () => {

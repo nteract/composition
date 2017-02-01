@@ -1,38 +1,14 @@
-const chai = require('chai');
-const chaiImmutable = require('chai-immutable');
-
-chai.use(chaiImmutable);
-
-
-import { dummyStore } from '../../utils';
-
 import { ActionsObservable } from 'redux-observable';
-
-const Immutable = require('immutable');
-
-const fromJS = Immutable.fromJS;
-
-const expect = chai.expect;
-
-const sinon = require('sinon');
-
-const Rx = require('rxjs/Rx');
-
-const Observable = Rx.Observable;
 import {
   EXECUTE_CELL,
-  UPDATE_CELL_EXECUTION_COUNT,
   ERROR_EXECUTING,
-  ERROR_UPDATE_DISPLAY,
   CLEAR_OUTPUTS,
   UPDATE_CELL_STATUS,
   UPDATE_CELL_PAGERS,
-  UPDATE_CELL_OUTPUTS,
  } from '../../../src/notebook/constants';
 
 import { executeCell } from '../../../src/notebook/actions';
 import {
-  reduceOutputs,
   executeCellStream,
   executeCellEpic,
   updateDisplayEpic,
@@ -44,9 +20,20 @@ import {
   createCellStatusAction,
   createExecuteCellStream,
   updateCellNumberingAction,
-  handleFormattableMessages,
   createErrorActionObservable,
 } from '../../../src/notebook/epics/execute';
+
+const Immutable = require('immutable');
+const Rx = require('rxjs/Rx');
+
+const sinon = require('sinon');
+const chai = require('chai');
+const chaiImmutable = require('chai-immutable');
+
+const expect = chai.expect;
+chai.use(chaiImmutable);
+
+const Observable = Rx.Observable;
 
 describe('executeCell', () => {
   it('returns an executeCell action', () => {
@@ -246,7 +233,7 @@ describe('createExecuteCellStream', () => {
     const action$ = ActionsObservable.of({ type: 'EXECUTE_CELL' });
     const observable = createExecuteCellStream(action$, store, 'source', 'id');
     const actionBuffer = [];
-    const subscription = observable.subscribe(
+    observable.subscribe(
         (x) => actionBuffer.push(x.payload),
         (err) => expect.fail(err, null),
         () => {
@@ -279,7 +266,7 @@ describe('createExecuteCellStream', () => {
                                          { type: 'EXECUTE_CELL', id: 'id' });
     const observable = createExecuteCellStream(action$, store, 'source', 'id');
     const actionBuffer = [];
-    const subscription = observable.subscribe(
+    observable.subscribe(
       (x) => actionBuffer.push(x.type),
       (err) => expect.fail(err, null),
     );
@@ -308,8 +295,9 @@ describe('executeCellEpic', () => {
     const responseActions = executeCellEpic(badAction$, store).catch(error => {
       expect(error.message).to.equal('execute cell needs an id');
     });
-    const subscription = responseActions.subscribe(
-      (x) => actionBuffer.push(x.type), // Every action that goes through should get stuck on an array
+    responseActions.subscribe(
+      // Every action that goes through should get stuck on an array
+      (x) => actionBuffer.push(x.type),
       (err) => expect.fail(err, null), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal([ERROR_EXECUTING]);
@@ -324,8 +312,9 @@ describe('executeCellEpic', () => {
     const responseActions = executeCellEpic(badAction$, store).catch(error => {
       expect(error.message).to.equal('execute cell needs source string');
     });
-    const subscription = responseActions.subscribe(
-      (x) => actionBuffer.push(x.type), // Every action that goes through should get stuck on an array
+    responseActions.subscribe(
+      // Every action that goes through should get stuck on an array
+      (x) => actionBuffer.push(x.type),
       (err) => expect.fail(err, null), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal([ERROR_EXECUTING]);
@@ -338,11 +327,12 @@ describe('executeCellEpic', () => {
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
     const responseActions = executeCellEpic(action$, store);
-    const subscription = responseActions.subscribe(
-      (x) => actionBuffer.push(x.payload.toString()), // Every action that goes through should get stuck on an array
+    responseActions.subscribe(
+      // Every action that goes through should get stuck on an array
+      (x) => actionBuffer.push(x.payload.toString()),
       (err) => expect.fail(err, null), // It should not error in the stream
       () => {
-        expect(actionBuffer).to.deep.equal(['Error: kernel not connected']); // ;
+        expect(actionBuffer).to.deep.equal(['Error: kernel not connected']);
         done();
       },
     );
@@ -425,7 +415,7 @@ describe('createErrorActionObservable', () => {
       expect(x.type).to.equal('TEST_IT');
       expect(x.payload).to.equal(err);
       expect(x.error).to.equal(true);
-    }, (err) => { throw err; },
+    }, (e) => { throw e; },
     () => {
       done();
     });

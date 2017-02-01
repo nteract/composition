@@ -1,12 +1,11 @@
 import React from 'react';
 import Immutable from 'immutable';
+import JSONTree from 'react-json-tree';
 
 import { expect } from 'chai';
-
 import { shallow } from 'enzyme';
 
 import JsonDisplay from '../../../../src/notebook/components/transforms/json';
-import JSONTree from 'react-json-tree';
 
 const baseData = Immutable.fromJS({ name: 'Octocat' });
 

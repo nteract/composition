@@ -1,35 +1,25 @@
-const chai = require('chai');
-const chaiImmutable = require('chai-immutable');
-const expect = chai.expect;
-
-const Immutable = require('immutable');
-const GitHub = require('github');
-const fromJS = Immutable.fromJS;
-import { dummyCommutable } from '../dummy-nb';
-import { dummyStore } from '../../utils';
+import { ActionsObservable } from 'redux-observable';
 import NotificationSystem from 'react-notification-system';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
-chai.use(sinonChai);
+import { dummyCommutable } from '../dummy-nb';
+import { dummyStore } from '../../utils';
 
-const Rx = require('rxjs/Rx');
-const Observable = Rx.Observable;
-import { ActionsObservable } from 'redux-observable';
-
-import {
-  PUBLISH_USER_GIST,
-} from '../../../src/notebook/constants';
-
+import { PUBLISH_USER_GIST } from '../../../src/notebook/constants';
 import {
   publishNotebookObservable,
   createGistCallback,
   handleGistAction,
-  handleGistError,
   notifyUser,
   publishEpic,
 } from '../../../src/notebook/epics/github-publish';
 
+const chai = require('chai');
+const GitHub = require('github');
+
+const expect = chai.expect;
+chai.use(sinonChai);
 
 describe('handleGistAction', () => {
   it('returns an observable from User Action', () => {
@@ -62,8 +52,8 @@ describe('publishNotebookObservable', () => {
         dummyCommutable, './test.ipynb', notificationSystem, false, store);
     const addNotification = sinon.spy(notificationSystem, 'addNotification');
     publishNotebookObs.subscribe(
-        (x) => { },
-        (err) => { expect.fail(); },
+        () => { },
+        () => { expect.fail(); },
         () => {
           expect(addNotification).to.be.called;
           done();
@@ -78,8 +68,8 @@ describe('publishNotebookObservable', () => {
         dummyCommutable, './test.ipynb', notificationSystem, false, store);
     const create = sinon.spy(github.gists, 'create');
     publishNotebookObs.subscribe(
-        (x) => { },
-        (err) => { expect.fail(); },
+        () => { },
+        () => { expect.fail(); },
         () => {
           expect(create).to.be.called;
           done();
@@ -93,10 +83,9 @@ describe('publishNotebookObservable', () => {
     const publishNotebookObs = publishNotebookObservable(github,
         notebook, './test.ipynb', notificationSystem, false, store);
     const edit = sinon.spy(github.gists, 'edit');
-    const actionBuffer = [];
     publishNotebookObs.subscribe(
         (x) => { expect(x.type).to.equal('OVERWRITE_METADATA_FIELD'); },
-        (err) => { expect.fail(); },
+        () => { expect.fail(); },
         () => {
           expect(edit).to.be.called;
           done();
@@ -122,7 +111,7 @@ describe('notifyUser', () => {
     const store = dummyStore();
     const notification = store.getState().app.notificationSystem.addNotification;
     const notificationSystem = store.getState().app.notificationSystem;
-    const notifyUserCall = notifyUser('filename', 'gistID', notificationSystem);
+    notifyUser('filename', 'gistID', notificationSystem);
     expect(notification).to.be.calledWithMatch({
       title: 'Gist uploaded',
       message: 'filename is ready',

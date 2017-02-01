@@ -1,19 +1,7 @@
 import { expect } from 'chai';
 
 import * as constants from '../../../src/notebook/constants';
-
 import reducers from '../../../src/notebook/reducers';
-
-import sinon from 'sinon';
-
-import { Map, List } from 'immutable';
-
-const setNotebook = reducers[constants.SET_NOTEBOOK];
-const updateExecutionCount = reducers[constants.UPDATE_CELL_EXECUTION_COUNT];
-const newCellAfter = reducers[constants.NEW_CELL_AFTER];
-
-import Immutable from 'immutable';
-
 import { AppRecord } from '../../../src/notebook/records';
 
 const Github = require('github');
@@ -180,7 +168,7 @@ describe('interruptKernel', () => {
       app: new AppRecord({
         channels: false,
         spawn: {
-          kill: (signal) => { },
+          kill: () => { },
         },
         connectionFile: false,
       }),

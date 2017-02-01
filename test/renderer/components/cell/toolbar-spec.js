@@ -2,23 +2,16 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
+import { emptyCodeCell } from '../../../../packages/commutable';
+import { dummyStore } from '../../../utils';
+import Toolbar from '../../../../src/notebook/components/cell/toolbar';
+
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonChai = require('sinon-chai');
 
 chai.use(sinonChai);
 const expect = chai.expect;
-
-import {
-  emptyCodeCell,
-  emptyMarkdownCell,
-} from '../../../../packages/commutable';
-
-import { dummyStore } from '../../../utils';
-
-import Toolbar from '../../../../src/notebook/components/cell/toolbar';
-import { setNotificationSystem } from '../../../../src/notebook/actions';
-
 
 describe('Toolbar', () => {
   it('should be able to render a toolbar', () => {

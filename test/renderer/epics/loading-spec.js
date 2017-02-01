@@ -1,3 +1,5 @@
+import { ActionsObservable } from 'redux-observable';
+
 import { expect } from 'chai';
 
 import {
@@ -16,11 +18,10 @@ import {
   NEW_NOTEBOOK,
   newNotebookEpic,
 } from '../../../src/notebook/epics/loading';
-import { ActionsObservable } from 'redux-observable';
-import Immutable from 'immutable';
 
 const path = require('path');
 const Rx = require('rxjs/Rx');
+
 const Observable = Rx.Observable;
 
 describe('load', () => {
@@ -96,7 +97,7 @@ describe('loadingEpic', () => {
     const responseActions = loadEpic(action$);
     responseActions.subscribe(
       (x) => actionBuffer.push(x.type),
-      (err) => expect.fail(),
+      () => expect.fail(),
       () => {
         expect(actionBuffer).to.deep.equal(['ERROR']);
         done();
@@ -113,7 +114,7 @@ describe('newNotebookEpic', () => {
     const responseActions = newNotebookEpic(action$);
     responseActions.subscribe(
       (x) => actionBuffer.push(x.type),
-      (err) => expect.fail(),
+      () => expect.fail(),
       () => {
         expect(actionBuffer).to.deep.equal(['SET_NOTEBOOK', 'LAUNCH_KERNEL']);
         done();

@@ -1,7 +1,10 @@
 import chai, { expect } from 'chai';
-import { unlinkObservable, createSymlinkObservable, filesystem } from '../../src/utils/fs';
-const sinon = require('sinon');
 import sinonChai from 'sinon-chai';
+
+import { unlinkObservable, createSymlinkObservable, filesystem } from '../../src/utils/fs';
+
+const sinon = require('sinon');
+
 chai.use(sinonChai);
 
 describe('unlinkObservable', () => {
@@ -13,11 +16,10 @@ describe('unlinkObservable', () => {
     sandbox.restore();
   });
   it('it errors on unlink issue', (done) => {
-    const mockError = (err) => { throw err; };
-    const existsSync = sandbox.stub(filesystem, 'existsSync', (path) => true);
-    const unlink = sandbox.stub(filesystem, 'unlink', (path, mockError) => mockError({ message: 'lol' }));
+    const existsSync = sandbox.stub(filesystem, 'existsSync', () => true);
+    const unlink = sandbox.stub(filesystem, 'unlink', (path, error) => error({ message: 'lol' }));
     const nextBuffer = [];
-    const subscription = unlinkObservable('path').subscribe(
+    unlinkObservable('path').subscribe(
       (x) => nextBuffer.push(x),
       (err) => {
         expect(err.message).to.equal('lol');
@@ -32,7 +34,7 @@ describe('unlinkObservable', () => {
     const existsSync = sandbox.stub(filesystem, 'existsSync');
     const unlink = sandbox.stub(filesystem, 'unlink');
     const nextBuffer = [];
-    const subscription = unlinkObservable('path').subscribe(
+    unlinkObservable('path').subscribe(
       (x) => nextBuffer.push(x),
       (err) => expect.fail(err, null),
       () => {

@@ -1,20 +1,15 @@
 import chai, { expect } from 'chai';
 
-const mock = require('mock-require');
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
-chai.use(sinonChai);
-
 import {
-  shutdownKernel,
   forceShutdownKernel,
   cleanupKernel,
   filesystem,
 } from '../../../src/notebook/kernel/shutdown';
 
-import reducers from '../../../src/notebook/reducers';
-import * as constants from '../../../src/notebook/constants';
-import { AppRecord } from '../../../src/notebook/records';
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
+
+chai.use(sinonChai);
 
 const emptyKernel = Object.freeze({
   channels: {
@@ -55,7 +50,7 @@ describe('forceShutdownKernel', () => {
     sandbox.restore();
   });
   it('fully cleans up the kernel and uses SIGKILL', () => {
-    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', (path) => true);
+    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', () => true);
     const kernel = setupMockKernel(sandbox);
     forceShutdownKernel(kernel);
 
@@ -84,7 +79,7 @@ describe('cleanupKernel', () => {
     sandbox.restore();
   });
   it('cleans out artifacts from the kernel object', () => {
-    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', (path) => true);
+    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', () => true);
     const kernel = setupMockKernel(sandbox);
     cleanupKernel(kernel, true);
 

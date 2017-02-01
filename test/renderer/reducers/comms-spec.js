@@ -1,13 +1,12 @@
+import commsReducer from '../../../src/notebook/reducers/comms';
+import { CommsRecord } from '../../../src/notebook/records';
+
 const chai = require('chai');
 const chaiImmutable = require('chai-immutable');
+
 chai.use(chaiImmutable);
 
 const expect = chai.expect;
-
-import Immutable from 'immutable';
-
-import commsReducer from '../../../src/notebook/reducers/comms';
-import { CommsRecord } from '../../../src/notebook/records';
 
 describe('registerCommTarget', () => {
   it('sets comm targets', () => {

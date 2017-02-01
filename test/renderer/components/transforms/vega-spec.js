@@ -1,16 +1,7 @@
 import React from 'react';
-
-import { shallow, mount } from 'enzyme';
-
 import Immutable from 'immutable';
 
-const chai = require('chai');
-const sinonChai = require('sinon-chai');
-chai.use(sinonChai);
-
-const expect = chai.expect;
-
-const sinon = require('sinon');
+import { shallow, mount } from 'enzyme';
 
 import {
   Vega,
@@ -18,7 +9,14 @@ import {
   VegaEmbed,
 } from '../../../../src/notebook/components/transforms/vega';
 
+const chai = require('chai');
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
 const cars = require('vega-lite/data/cars.json');
+
+chai.use(sinonChai);
+
+const expect = chai.expect;
 
 const spec = Immutable.fromJS({
   description: 'A scatterplot showing horsepower and miles per gallons.',

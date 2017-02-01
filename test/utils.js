@@ -1,4 +1,5 @@
-import { expect } from 'chai';
+/* eslint-disable no-plusplus */
+
 import Immutable from 'immutable';
 
 import {
@@ -10,20 +11,19 @@ import {
   appendCellToNotebook,
 } from '../packages/commutable/structures';
 
-import { shutdownKernel } from '../src/notebook/kernel/shutdown';
-import * as actions from '../src/notebook/actions';
 import createStore from '../src/notebook/store';
 import { reducers } from '../src/notebook/reducers';
-import { acquireKernelInfo } from '../src/notebook/epics/kernel-launch';
 
-import { AppRecord, DocumentRecord, MetadataRecord, ConfigRecord } from '../src/notebook/records';
-
-import {
-  createExecuteRequest,
-  msgSpecToNotebookFormat,
-} from '../src/notebook/kernel/messaging';
+import { AppRecord, DocumentRecord, MetadataRecord } from '../src/notebook/records';
 
 const sinon = require('sinon');
+
+function hideCells(notebook) {
+  return notebook
+    .update('cellMap', (cells) => notebook
+      .get('cellOrder')
+      .reduce((acc, id) => acc.setIn([id, 'metadata', 'inputHidden'], true), cells));
+}
 
 /**
  * Creates a dummy notebook for Redux state for testing.
@@ -59,13 +59,6 @@ function buildDummyNotebook(config) {
   }
 
   return notebook;
-}
-
-function hideCells(notebook) {
-  return notebook
-    .update('cellMap', (cells) => notebook
-      .get('cellOrder')
-      .reduce((acc, id) => acc.setIn([id, 'metadata', 'inputHidden'], true), cells));
 }
 
 export function dummyStore(config) {

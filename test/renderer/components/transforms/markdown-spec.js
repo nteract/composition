@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { expect } from 'chai';
-
 import { shallow } from 'enzyme';
 
 import MarkdownDisplay from '../../../../src/notebook/components/transforms/markdown';
