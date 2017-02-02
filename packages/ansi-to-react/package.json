@@ -12,6 +12,10 @@
     "build:es5": "babel src --out-dir lib/ --source-maps",
     "clean": "rimraf lib/*"
   },
+   "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/ansi-to-react.git"
+  },
   "keywords": [
     "ansi",
     "react"
