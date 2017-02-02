@@ -22,6 +22,7 @@ import 'codemirror/mode/css/css';
 import 'codemirror/mode/julia/julia';
 import 'codemirror/mode/r/r';
 import 'codemirror/mode/markdown/markdown';
+import 'codemirror/addon/comment/comment.js';
 
 import './codemirror-ipython';
 
@@ -300,6 +301,8 @@ export default class Editor extends React.PureComponent {
       extraKeys: {
         'Ctrl-Space': 'autocomplete',
         Tab: this.tabToSpaces,
+        'Cmd-/': 'toggleComment',
+        'Ctrl-/': 'toggleComment',
       },
       indentUnit: this.props.tabSize,
       tabSize: this.props.tabSize,
