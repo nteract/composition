@@ -1,0 +1,24 @@
+{
+  "name": "@nteract/transforms",
+  "version": "1.0.0",
+  "description": "Transforms from nteract",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/nteract.git"
+  },
+  "keywords": [
+    "nteract",
+    "transforms",
+    "notebook"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
+  "homepage": "https://github.com/nteract/nteract#readme"
+}
