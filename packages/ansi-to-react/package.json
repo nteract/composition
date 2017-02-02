@@ -1,6 +1,6 @@
 {
   "name": "ansi-to-react",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "ANSI to React Elements",
   "main": "lib/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "build:es5": "babel src --out-dir lib/ --source-maps",
     "clean": "rimraf lib/*"
   },
-   "repository": {
+  "repository": {
     "type": "git",
     "url": "git+https://github.com/nteract/ansi-to-react.git"
   },
