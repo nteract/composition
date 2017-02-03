@@ -265,7 +265,12 @@ export function executeCellEpic(action$, store) {
     )
     // Bring back all the inner Observables into one stream
     .mergeAll()
-    .catch(createErrorActionObservable(ERROR_EXECUTING));
+    .catch((err, source) =>
+      Rx.Observable.merge(
+        createErrorActionObservable(ERROR_EXECUTING)(err),
+        source
+      )
+    );
 }
 
 

@@ -188,8 +188,11 @@ export const newKernelEpic = (action$: ActionsObservable) =>
     .mergeMap(action =>
       newKernelObservable(action.kernelSpec, action.cwd)
     )
-    .catch(error => Rx.Observable.of({
-      type: ERROR_KERNEL_LAUNCH_FAILED,
-      payload: error,
-      error: true,
-    }));
+    .catch((error, source) => Rx.Observable.merge(
+        Rx.Observable.of({
+          type: ERROR_KERNEL_LAUNCH_FAILED,
+          payload: error,
+          error: true,
+        }),
+        source,
+    ));
