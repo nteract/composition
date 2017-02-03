@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
-import './cell/editor/codemirror-ipython';
-
 import {
   displayOrder,
   transforms,
@@ -26,23 +24,6 @@ import {
 } from '../actions';
 import type { CellProps } from './cell/cell';
 
-// Always set up the markdown modes
-require('codemirror/mode/markdown/markdown');
-require('codemirror/mode/gfm/gfm');
-
-// Common languages
-require('codemirror/mode/python/python');
-require('codemirror/mode/ruby/ruby');
-require('codemirror/mode/javascript/javascript');
-require('codemirror/mode/r/r');
-require('codemirror/mode/julia/julia');
-
-// Scala
-require('codemirror/mode/clike/clike');
-
-require('codemirror/mode/shell/shell');
-require('codemirror/mode/sql/sql');
-
 type Props = {
   displayOrder: ImmutableList<any>,
   notebook: any,
@@ -53,7 +34,6 @@ type Props = {
   cellFocused: string,
   editorFocused: string,
   theme: string,
-  cursorBlinkRate: number,
   lastSaved: Date,
   kernelSpecDisplayName: string,
   CellComponent: any,
@@ -74,7 +54,6 @@ export function getLanguageMode(notebook: any): string {
 
 const mapStateToProps = (state: Object) => ({
   theme: state.config.get('theme'),
-  cursorBlinkRate: state.config.get('cursorBlinkRate'),
   lastSaved: state.app.get('lastSaved'),
   kernelSpecDisplayName: state.app.get('kernelSpecDisplayName'),
   notebook: state.document.get('notebook'),
@@ -190,8 +169,7 @@ export class Notebook extends React.PureComponent {
       // Theme is passed through to let the Editor component know when to
       // tell CodeMirror to remeasure
       theme: this.props.theme,
-      cursorBlinkRate: this.props.cursorBlinkRate,
-      models: this.props.models,
+      models: this.props.models
     };
   }
 

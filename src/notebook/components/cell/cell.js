@@ -24,7 +24,6 @@ export type CellProps = {
   language: string,
   running: boolean,
   theme: string,
-  cursorBlinkRate: number,
   pagers: ImmutableList<any>,
   transforms: ImmutableMap<string, any>,
   models: ImmutableMap<string, any>,
@@ -132,7 +131,6 @@ export class Cell extends React.PureComponent {
             cell={cell}
             id={this.props.id}
             theme={this.props.theme}
-            cursorBlinkRate={this.props.cursorBlinkRate}
           /> :
           <CodeCell
             focusAbove={this.focusAboveCell}
@@ -142,7 +140,6 @@ export class Cell extends React.PureComponent {
             cell={cell}
             id={this.props.id}
             theme={this.props.theme}
-            cursorBlinkRate={this.props.cursorBlinkRate}
             language={this.props.language}
             displayOrder={this.props.displayOrder}
             transforms={this.props.transforms}

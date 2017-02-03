@@ -5,7 +5,7 @@ import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 import Inputs from './inputs';
 import Display from './display-area';
 
-import Editor from './editor';
+import Editor from '../../providers/editor';
 import LatexRenderer from '../latex';
 
 import Pager from './pager';
@@ -16,15 +16,13 @@ type Props = {
   id: string,
   language: string,
   theme: string,
-  cursorBlinkRate: number,
   transforms: ImmutableMap<string, any>,
   cellFocused: boolean,
   editorFocused: boolean,
   pagers: ImmutableList<any>,
   running: boolean,
-  focusAbove: Function,
-  focusBelow: Function,
-  tabSize: number,
+  focusAbove: () => void,
+  focusBelow: () => void,
   models: ImmutableMap<string, any>,
 };
 
@@ -61,13 +59,11 @@ class CodeCell extends React.PureComponent {
             <Editor
               completion
               id={this.props.id}
-              tabSize={this.props.tabSize}
               input={this.props.cell.get('source')}
               language={this.props.language}
               cellFocused={this.props.cellFocused}
               editorFocused={this.props.editorFocused}
               theme={this.props.theme}
-              cursorBlinkRate={this.props.cursorBlinkRate}
               focusAbove={this.props.focusAbove}
               focusBelow={this.props.focusBelow}
             />

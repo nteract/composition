@@ -3,16 +3,15 @@ import React from 'react';
 import CommonMark from 'commonmark';
 import MarkdownRenderer from 'commonmark-react-renderer';
 
-import Editor from './editor';
+import Editor from '../../providers/editor';
 import LatexRenderer from '../latex';
 
 type Props = {
   cell: any,
   id: string,
   theme: string,
-  cursorBlinkRate: number,
-  focusAbove: Function,
-  focusBelow: Function,
+  focusAbove: () => void,
+  focusBelow: () => void,
   focusEditor: Function,
   cellFocused: boolean,
   editorFocused: boolean,
@@ -145,10 +144,8 @@ export default class MarkdownCell extends React.PureComponent {
              <Editor
                language="markdown"
                id={this.props.id}
-               lineWrapping
                input={this.state.source}
                theme={this.props.theme}
-               cursorBlinkRate={this.props.cursorBlinkRate}
                focusAbove={this.props.focusAbove}
                focusBelow={this.props.focusBelow}
                cellFocused={this.props.cellFocused}
