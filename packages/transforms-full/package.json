@@ -1,5 +1,5 @@
 {
-  "name": "@nteract/transforms",
+  "name": "@nteract/transforms-full",
   "version": "1.0.0",
   "description": "Transforms from nteract",
   "main": "index.js",
@@ -22,11 +22,9 @@
   },
   "homepage": "https://github.com/nteract/nteract#readme",
   "peerDependencies": {
-    "immutable": "^3.7.6",
     "react": "^15.4.2"
   },
   "devDependencies": {
-    "immutable": "^3.7.6",
     "react": "^15.4.2"
   }
 }

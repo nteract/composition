@@ -1,6 +1,8 @@
 /* @flow */
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
+import React from 'react';
+
 import TextDisplay from './text';
 import JsonDisplay from './json';
 import JavaScriptDisplay from './javascript';
@@ -16,23 +18,19 @@ import {
   GIFDisplay,
 } from './image';
 
-/**
- * Thus begins our path for custom mimetypes and future extensions
- */
-import PlotlyTransform from './plotly';
-import GeoJSONTransform from './geojson';
+declare class Transform extends React.Component {
+  MIMETYPE: string,
+}
 
-import ModelDebug from './model-debug';
+type Transforms = ImmutableMap<string, Transform>
+type DisplayOrder = ImmutableList<string>
 
-import {
-  VegaLite,
-  Vega,
-} from './vega';
+export type TransformRegister = {
+  transforms: Transforms,
+  displayOrder: DisplayOrder,
+}
 
-type StandardTransforms = ImmutableMap<string, any>
-type StandardDisplayOrder = ImmutableList<string>
-
-export const standardTransforms: StandardTransforms = new ImmutableMap({
+export const standardTransforms: Transforms = new ImmutableMap({
   'text/plain': TextDisplay,
   'image/png': PNGDisplay,
   'image/jpeg': JPEGDisplay,
@@ -45,7 +43,7 @@ export const standardTransforms: StandardTransforms = new ImmutableMap({
   'application/javascript': JavaScriptDisplay,
 });
 
-export const standardDisplayOrder: StandardDisplayOrder = new ImmutableList([
+export const standardDisplayOrder: DisplayOrder = new ImmutableList([
   'application/json',
   'application/javascript',
   'text/html',
@@ -60,28 +58,16 @@ export const standardDisplayOrder: StandardDisplayOrder = new ImmutableList([
   'text/plain',
 ]);
 
-function registerTransform({ transforms, displayOrder }, transform) {
+
+export function registerTransform(
+  { transforms, displayOrder } : TransformRegister,
+  transform: Transform
+  ) {
   return {
     transforms: transforms.set(transform.MIMETYPE, transform),
     displayOrder: displayOrder.insert(0, transform.MIMETYPE)
   };
 }
-
-const additionalTransforms = [
-  ModelDebug,
-  PlotlyTransform,
-  GeoJSONTransform,
-  VegaLite,
-  Vega,
-];
-
-const {
-  transforms,
-  displayOrder,
-} = additionalTransforms.reduce(registerTransform, {
-  transforms: standardTransforms,
-  displayOrder: standardDisplayOrder,
-});
 
 /**
  * Choose the richest mimetype available based on the displayOrder and transforms
@@ -91,9 +77,9 @@ const {
  * @return {string}          Richest mimetype
  */
 
-function richestMimetype(bundle: ImmutableMap<string, any>,
-  order: ImmutableList<string> = displayOrder,
-  tf: ImmutableMap<string, any> = transforms): string {
+export function richestMimetype(bundle: ImmutableMap<string, any>,
+  order: ImmutableList<string> = standardDisplayOrder,
+  tf: ImmutableMap<string, any> = standardTransforms): string {
   return bundle.keySeq()
     // we can only use those we have a transform for
     .filter(mimetype => tf.has(mimetype) && order.includes(mimetype))
@@ -101,9 +87,3 @@ function richestMimetype(bundle: ImmutableMap<string, any>,
     .sortBy(mimetype => order.indexOf(mimetype))
     .first();
 }
-
-export {
-  displayOrder,
-  transforms,
-  richestMimetype,
-};
