@@ -26,10 +26,6 @@ const HOME = remote.app.getPath('home');
 
 export const CONFIG_FILE_PATH = path.join(HOME, '.jupyter', 'nteract.json');
 
-export function retryAndEmitError(err, source) {
-  return source.startWith({ type: 'ERROR', payload: err, error: true });
-}
-
 /**
   * An epic that loads the configuration.
   *
@@ -42,8 +38,7 @@ export const loadConfigEpic = actions =>
       readFileObservable(CONFIG_FILE_PATH)
         .map(JSON.parse)
         .map(configLoaded)
-    )
-    .catch(retryAndEmitError);
+    );
 
 /**
   * An epic that saves the configuration if it has been changed.
@@ -67,5 +62,4 @@ export const saveConfigEpic = (actions, store) =>
     .mergeMap(() =>
       writeFileObservable(CONFIG_FILE_PATH, JSON.stringify(store.getState().config.toJS()))
       .map(doneSavingConfig)
-    )
-    .catch(retryAndEmitError);
+    );

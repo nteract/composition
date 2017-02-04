@@ -39,9 +39,7 @@ export function retryAndEmitError(err, source) {
 }
 
 export const wrapEpic = epic => (...args) =>
-  epic(...args).catch((error, source) =>
-    source.startWith({ type: 'ERROR', payload: error, error: true })
-  );
+  epic(...args).catch(retryAndEmitError);
 
 const epics = [
   commListenEpic,
