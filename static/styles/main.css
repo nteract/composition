@@ -10,12 +10,19 @@
   * {
     box-shadow: none!important;
   }
-  .status-bar {
+  .status-bar{
     display: none!important;
   }
-  .cell-toolbar {
+  .notifications-wrapper {
     display: none!important;
   }
+  .cell-toolbar{
+    display: none!important;
+  }
+  .cell-creator{
+    display: none!important;
+  }
+
 }
 
 #app {
