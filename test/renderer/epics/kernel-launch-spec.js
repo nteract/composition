@@ -113,16 +113,19 @@ describe('newKernelEpic', () => {
   it('throws an error if given a bad action', (done) => {
     const input$ = Rx.Observable.of({
       type: constants.LAUNCH_KERNEL,
-    });
+    }).share();
     const actionBuffer = [];
     const action$ = new ActionsObservable(input$);
     const obs = newKernelEpic(action$);
     obs.subscribe(
-      (x) => actionBuffer.push(x.type),
+      (x) => {
+        expect(x.type).to.equal(constants.ERROR_KERNEL_LAUNCH_FAILED);
+        actionBuffer.push(x.type);
+        done();
+      },
       (err) => expect.fail(err, null),
       () => {
-        expect(actionBuffer).to.deep.equal([constants.ERROR_KERNEL_LAUNCH_FAILED]);
-        done();
+        expect.fail('Should not complete');
       },
     );
   });
