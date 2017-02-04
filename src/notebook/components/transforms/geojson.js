@@ -40,12 +40,6 @@ export class GeoJSONTransform extends React.Component {
   static MIMETYPE = MIMETYPE;
 
   componentDidMount(): void {
-    // HACK: Work around for testing Leaflet in JSDOM
-    // see: https://github.com/Leaflet/Leaflet/issues/4823
-    if (!this.el.clientWidth && !this.el.clientHeight) {
-      this.el.clientHeight = 600;
-      this.el.clientWidth = 1000;
-    }
     this.map = L.map(this.el);
     this.map.scrollWheelZoom.disable();
 
