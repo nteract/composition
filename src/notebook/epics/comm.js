@@ -118,7 +118,7 @@ export function commActionObservable(newKernelAction) {
   return Rx.Observable.merge(
     commOpenAction$,
     commMessageAction$
-  );
+  ).retry();
 }
 
 /**
@@ -130,5 +130,4 @@ export function commActionObservable(newKernelAction) {
 export const commListenEpic = action$ =>
   action$.ofType(NEW_KERNEL)
     // We have a new channel
-    .switchMap(commActionObservable)
-    .catch(createCommErrorAction);
+    .switchMap(commActionObservable);

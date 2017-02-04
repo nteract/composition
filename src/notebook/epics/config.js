@@ -10,10 +10,6 @@ import { readFileObservable, writeFileObservable } from '../../utils/fs';
 
 const path = require('path');
 
-const Rx = require('rxjs/Rx');
-
-const Observable = Rx.Observable;
-
 export const LOAD_CONFIG = 'LOAD_CONFIG';
 export const loadConfig = () => ({ type: LOAD_CONFIG });
 
@@ -30,6 +26,10 @@ const HOME = remote.app.getPath('home');
 
 export const CONFIG_FILE_PATH = path.join(HOME, '.jupyter', 'nteract.json');
 
+export function retryAndEmitError(err, source) {
+  return source.startWith({ type: 'ERROR', payload: err, error: true });
+}
+
 /**
   * An epic that loads the configuration.
   *
@@ -42,10 +42,8 @@ export const loadConfigEpic = actions =>
       readFileObservable(CONFIG_FILE_PATH)
         .map(JSON.parse)
         .map(configLoaded)
-        .catch(err =>
-          Observable.of({ type: 'ERROR', payload: err, error: true })
-        )
-    );
+    )
+    .catch(retryAndEmitError);
 
 /**
   * An epic that saves the configuration if it has been changed.
@@ -54,7 +52,8 @@ export const loadConfigEpic = actions =>
   * @return {ActionObservable}  ActionObservable with SAVE_CONFIG type
   */
 export const saveConfigOnChangeEpic = actions =>
-  actions.ofType(SET_CONFIG_KEY)
+  actions
+    .ofType(SET_CONFIG_KEY)
     .mapTo({ type: SAVE_CONFIG });
 
 /**
@@ -69,6 +68,4 @@ export const saveConfigEpic = (actions, store) =>
       writeFileObservable(CONFIG_FILE_PATH, JSON.stringify(store.getState().config.toJS()))
       .map(doneSavingConfig)
     )
-    .catch(err =>
-      Observable.of({ type: 'ERROR', payload: err, error: true })
-    );
+    .catch(retryAndEmitError);
