@@ -308,34 +308,35 @@ describe('executeCellEpic', () => {
     );
   });
   it('Errors on an action where source not a string', (done) => {
-    const badInput$ = Observable.of(executeCell('id', 2));
+    const badInput$ = Observable.of(executeCell('id', 2)).share();
     const badAction$ = new ActionsObservable(badInput$);
-    const actionBuffer = [];
     const responseActions = executeCellEpic(badAction$, store).catch(error => {
       expect(error.message).to.equal('execute cell needs source string');
     });
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
-      (x) => actionBuffer.push(x.type),
+      (x) => {
+        expect(x.type).to.equal('ERROR_EXECUTING');
+        done();
+      },
       (err) => expect.fail(err, null), // It should not error in the stream
       () => {
-        expect(actionBuffer).to.deep.equal([ERROR_EXECUTING]);
-        done();
+        expect.fail('The epic should not complete');
       },
     );
   });
-  it('Runs an epic with the appropriate flow with good action', (done) => {
-    const input$ = Observable.of(executeCell('id', 'source'));
+  it('Informs about disconnected kernels, allows reconnection', (done) => {
+    const input$ = Observable.of(executeCell('id', 'source')).share();
     const action$ = new ActionsObservable(input$);
-    const actionBuffer = [];
     const responseActions = executeCellEpic(action$, store);
     responseActions.subscribe(
-      // Every action that goes through should get stuck on an array
-      (x) => actionBuffer.push(x.payload.toString()),
+      (x) => {
+        expect(x.payload.toString()).to.equal('Error: kernel not connected');
+        done();
+      },
       (err) => expect.fail(err, null), // It should not error in the stream
       () => {
-        expect(actionBuffer).to.deep.equal(['Error: kernel not connected']);
-        done();
+        expect.fail('the epic should not complete');
       },
     );
   });
