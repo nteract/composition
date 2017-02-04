@@ -93,19 +93,31 @@ export default class Toolbar extends React.PureComponent {
         <div className="cell-toolbar">
           {showPlay &&
           <span>
-            <button onClick={this.executeCell} className="executeButton" >
+            <button
+              onClick={this.executeCell}
+              title= "execute cell"
+              className="executeButton"
+            >
               <span className="octicon octicon-triangle-right" />
             </button>
           </span>}
-          <button onClick={this.toggleStickyCell} className="stickyButton" >
+          <button
+            onClick={this.toggleStickyCell}
+            title="pin cell"
+            className="stickyButton"
+          >
             <span className="octicon octicon-pin" />
           </button>
-          <button onClick={this.removeCell} className="deleteButton" >
+          <button
+            onClick={this.removeCell}
+            title="delete cell"
+            className="deleteButton"
+          >
             <span className="octicon octicon-trashcan" />
           </button>
           <Dropdown ref={(dropdown) => { this.dropdown = dropdown; }}>
             <DropdownTrigger>
-              <button>
+              <button title="show additional actions">
                 <span className="octicon octicon-chevron-down" />
               </button>
             </DropdownTrigger>
