@@ -193,10 +193,11 @@
     "eslint-plugin-jsx-a11y": "3.0.2",
     "eslint-plugin-react": "6.9.0",
     "flow-bin": "^0.38.0",
-    "jsdom": "^9.8.3",
+    "jsdom": "^9.10.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
     "jsx-chai": "^4.0.0",
+    "lerna": "2.0.0-beta.36",
     "lodash-webpack-plugin": "^0.11.0",
     "mocha": "^3.2.0",
     "mock-require": "^2.0.0",
@@ -208,7 +209,6 @@
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "watch": "^1.0.0",
-    "webpack": "^1.13.3",
-    "lerna": "2.0.0-beta.36"
+    "webpack": "^1.13.3"
   }
 }
