@@ -95,7 +95,7 @@ export default class Toolbar extends React.PureComponent {
           <span>
             <button
               onClick={this.executeCell}
-              title= "execute cell"
+              title="execute cell"
               className="executeButton"
             >
               <span className="octicon octicon-triangle-right" />
