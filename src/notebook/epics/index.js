@@ -34,6 +34,15 @@ import {
   saveConfigOnChangeEpic,
 } from './config';
 
+export function retryAndEmitError(err, source) {
+  return source.startWith({ type: 'ERROR', payload: err, error: true });
+}
+
+export const wrapEpic = epic => (...args) =>
+  epic(...args).catch((error, source) =>
+    source.startWith({ type: 'ERROR', payload: error, error: true })
+  );
+
 const epics = [
   commListenEpic,
   publishEpic,
@@ -50,6 +59,6 @@ const epics = [
   loadConfigEpic,
   saveConfigEpic,
   saveConfigOnChangeEpic,
-];
+].map(wrapEpic);
 
 export default epics;
