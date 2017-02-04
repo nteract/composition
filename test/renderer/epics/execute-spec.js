@@ -289,19 +289,21 @@ describe('executeCellEpic', () => {
     },
   };
   it('Errors on a bad action', (done) => {
-    const badInput$ = Observable.of({ type: EXECUTE_CELL });
+    // Make one hot action
+    const badInput$ = Observable.of({ type: EXECUTE_CELL }).share();
     const badAction$ = new ActionsObservable(badInput$);
-    const actionBuffer = [];
     const responseActions = executeCellEpic(badAction$, store).catch(error => {
       expect(error.message).to.equal('execute cell needs an id');
     });
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
-      (x) => actionBuffer.push(x.type),
+      (x) => {
+        expect(x.type).to.equal(ERROR_EXECUTING);
+        done();
+      },
       (err) => expect.fail(err, null), // It should not error in the stream
       () => {
-        expect(actionBuffer).to.deep.equal([ERROR_EXECUTING]);
-        done();
+        expect.fail('It should not complete');
       },
     );
   });
