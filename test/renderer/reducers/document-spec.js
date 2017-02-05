@@ -171,9 +171,9 @@ describe('focusNextCell', () => {
     expect(state.document.get('cellFocused')).to.not.be.null;
     expect(state.document.getIn(['notebook', 'cellOrder']).size).to.equal(3);
   });
-  it('should create and focus a new cell if last cell', () => {
+  it('should create and focus a new code cell if last cell and last cell is code cell', () => {
     const originalState = {
-      document: monocellDocument,
+      document: monocellDocument.set('notebook', appendCellToNotebook(dummyCommutable, emptyCodeCell)),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
@@ -185,8 +185,33 @@ describe('focusNextCell', () => {
     };
 
     const state = reducers(originalState, action);
+    const newCellId = state.document.getIn(['notebook', 'cellOrder']).last();
+    const newCellType = state.document.getIn(['notebook', 'cellMap', newCellId, 'cell_type']);
+
     expect(state.document.cellFocused).to.not.be.null;
     expect(state.document.getIn(['notebook', 'cellOrder']).size).to.equal(4);
+    expect(newCellType).to.equal('code');
+  });
+  it('should create and focus a new markdown cell if last cell and last cell is markdown cell', () => {
+    const originalState = {
+      document: monocellDocument.set('notebook', appendCellToNotebook(dummyCommutable, emptyMarkdownCell)),
+    };
+
+    const id = originalState.document.getIn(['notebook', 'cellOrder']).last();
+
+    const action = {
+      type: constants.FOCUS_NEXT_CELL,
+      id,
+      createCellIfUndefined: true,
+    };
+
+    const state = reducers(originalState, action);
+    const newCellId = state.document.getIn(['notebook', 'cellOrder']).last();
+    const newCellType = state.document.getIn(['notebook', 'cellMap', newCellId, 'cell_type']);
+
+    expect(state.document.cellFocused).to.not.be.null;
+    expect(state.document.getIn(['notebook', 'cellOrder']).size).to.equal(4);
+    expect(newCellType).to.equal('markdown');
   });
 });
 

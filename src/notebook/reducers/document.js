@@ -215,6 +215,7 @@ type FocusNextCellAction = { type: 'FOCUS_NEXT_CELL', id: CellID, createCellIfUn
 function focusNextCell(state: DocumentState, action: FocusNextCellAction) {
   const cellOrder = state.getIn(['notebook', 'cellOrder'], Immutable.List());
   const curIndex = cellOrder.findIndex((id: CellID) => id === action.id);
+  const curCellType = state.getIn(['notebook', 'cellMap', action.id, 'cell_type']);
 
   const nextIndex = curIndex + 1;
 
@@ -225,7 +226,7 @@ function focusNextCell(state: DocumentState, action: FocusNextCellAction) {
     }
 
     const cellID: string = uuid.v4();
-    const cell = emptyCodeCell;
+    const cell = curCellType === 'code' ? emptyCodeCell : emptyMarkdownCell;
 
     const notebook: ImmutableNotebook = state.get('notebook');
 
