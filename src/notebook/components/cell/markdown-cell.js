@@ -74,6 +74,9 @@ export default class MarkdownCell extends React.PureComponent {
   updateFocus(): void {
     if (this.state && this.state.view && this.props.cellFocused) {
       this.rendered.focus();
+      if (this.props.editorFocused) {
+        this.openEditor();
+      }
     }
   }
 
