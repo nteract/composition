@@ -7,3 +7,5 @@ flow-typed/
 types/
 build/
 example-notebooks/
+packages/**/node_modules
+coverage
