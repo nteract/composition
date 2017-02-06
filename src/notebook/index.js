@@ -57,11 +57,11 @@ class App extends React.PureComponent {
     return (
       <Provider store={store}>
         <div>
+          <link rel="stylesheet" href="../static/styles/main.css" />
           <Notebook />
           <NotificationSystem
             ref={(notificationSystem) => { this.notificationSystem = notificationSystem; }}
           />
-          <link rel="stylesheet" href="../static/styles/main.css" />
         </div>
       </Provider>
     );
