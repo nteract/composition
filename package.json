@@ -28,7 +28,7 @@
     "spawn": "cross-env NODE_ENV=development electron .",
     "spawn:debug": "cross-env DEBUG=true NODE_ENV=development electron .",
     "clean": "rimraf lib dist",
-    "lint": "eslint .",
+    "lint": "eslint src/ test/",
     "lint:fix": "eslint . --fix",
     "prebuild": "rimraf lib",
     "build": "npm run build:renderer && npm run build:main",
