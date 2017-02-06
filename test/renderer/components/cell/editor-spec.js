@@ -7,37 +7,28 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
 import { createMessage } from '../../../../src/notebook/kernel/messaging';
-import Editor from '../../../../src/notebook/components/cell/editor';
+import WrappedEditor from '../../../../src/notebook/views/editor';
 
 chai.use(sinonChai);
 
-const complete = require('../../../../src/notebook/components/cell/editor/complete');
+const complete = require('../../../../src/notebook/components/cell/codemirror/complete');
 
-describe('Editor', () => {
+describe('WrappedEditor', () => {
   it('reaches out for code completion', (done) => {
     const sent = new Rx.Subject();
     const received = new Rx.Subject();
 
     const mockSocket = Rx.Subject.create(sent, received);
 
-    const state = {
-      app: {
-        channels: {
-          shell: mockSocket,
-        },
-      },
-    };
-    const store = {
-      getState: () => state,
+    const channels = {
+      shell: mockSocket,
     };
 
     const editorWrapper = mount(
-      <Editor
+      <WrappedEditor
         completion
+        channels={channels}
       />,
-      {
-        context: { store },
-      },
     );
     expect(editorWrapper).to.not.be.null;
 
@@ -53,29 +44,21 @@ describe('Editor', () => {
     const completer = sinon.spy(complete, 'codeComplete');
     sent.subscribe(msg => {
       expect(msg.content.code).to.equal('MY VALUE');
-      expect(completer).to.have.been.calledWith(state.app.channels, cm);
+      expect(completer).to.have.been.calledWith(channels, cm);
       completer.restore();
       done();
     });
     editor.completions(cm, callback);
   });
   it('doesn\'t try for code completion when not set', () => {
-    const state = {
-      app: {
-        channels: {
-          shell: 'turtle power',
-        },
-      },
-    };
-    const store = {
-      getState: () => state,
+    const channels = {
+      shell: 'turtle power',
     };
 
     const editorWrapper = mount(
-      <Editor />,
-      {
-        context: { store },
-      },
+      <WrappedEditor
+        channels={channels}
+      />,
     );
     expect(editorWrapper).to.not.be.null;
 
@@ -95,10 +78,10 @@ describe('Editor', () => {
   });
   it('handles cursor blinkery changes', () => {
     const editorWrapper = mount(
-      <Editor
+      <WrappedEditor
         cursorBlinkRate={530}
       />,
-  );
+    );
     const instance = editorWrapper.instance();
     const cm = instance.codemirror.getCodeMirror();
     expect(cm.options.cursorBlinkRate).to.equal(530);
