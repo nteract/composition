@@ -61,6 +61,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
     getCodeMirrorOptions: (p: WrapperProps) => Object;
     goLineUpOrEmit: (editor: Object) => void;
     goLineDownOrEmit: (editor: Object) => void;
+    executeTab: (editor: Object) => void;
     hint: (editor: Object, cb: Function) => void;
 
     constructor(): void {
@@ -149,7 +150,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
         },
         extraKeys: {
           'Ctrl-Space': 'autocomplete',
-          Tab: editor => editor.execCommand('insertSoftTab'),
+          Tab: this.executeTab,
           Up: this.goLineUpOrEmit,
           Down: this.goLineDownOrEmit,
           'Cmd-/': 'toggleComment',
@@ -181,6 +182,11 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       } else {
         editor.execCommand('goLineUp');
       }
+    }
+
+    executeTab(editor: Object): void {
+      editor.somethingSelected()
+        ? editor.execCommand('indentMore') : editor.execCommand('insertSoftTab');
     }
 
     render(): React.Element<*> {
