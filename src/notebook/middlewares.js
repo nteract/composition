@@ -1,11 +1,11 @@
-import { createEpicMiddleware, combineEpics } from 'redux-observable';
+import { createEpicMiddleware, combineEpics } from "redux-observable";
 
-import epics from './epics';
+import epics from "./epics";
 
 const rootEpic = combineEpics(...epics);
 
-export const errorMiddleware = store => next => (action) => {
-  if (!action.type.includes('ERROR')) {
+export const errorMiddleware = store => next => action => {
+  if (!action.type.includes("ERROR")) {
     return next(action);
   }
   console.error(action);
@@ -16,22 +16,19 @@ export const errorMiddleware = store => next => (action) => {
     errorText = JSON.stringify(action, 2, 2);
   }
   const state = store.getState();
-  const notificationSystem = state.app.get('notificationSystem');
+  const notificationSystem = state.app.get("notificationSystem");
   if (notificationSystem) {
     notificationSystem.addNotification({
       title: action.type,
       message: errorText,
       dismissible: true,
-      position: 'tr',
-      level: 'error',
+      position: "tr",
+      level: "error"
     });
   }
   return next(action);
 };
 
-const middlewares = [
-  createEpicMiddleware(rootEpic),
-  errorMiddleware,
-];
+const middlewares = [createEpicMiddleware(rootEpic), errorMiddleware];
 
 export default middlewares;

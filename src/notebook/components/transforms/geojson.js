@@ -1,27 +1,27 @@
 /* @flow */
 /* eslint class-methods-use-this: 0 */
-import React from 'react';
+import React from "react";
 
 type Props = {
   data: Object,
-  theme: string,
+  theme: string
 };
 
-const L = require('leaflet');
+const L = require("leaflet");
 
-L.Icon.Default.imagePath = '../node_modules/leaflet/dist/images/';
+L.Icon.Default.imagePath = "../node_modules/leaflet/dist/images/";
 
-const MIMETYPE = 'application/geo+json';
+const MIMETYPE = "application/geo+json";
 
-type TileTheme = 'dark' | 'light';
+type TileTheme = "dark" | "light";
 
-export function getTheme(theme : string = 'light'): TileTheme {
+export function getTheme(theme: string = "light"): TileTheme {
   switch (theme) {
-    case 'light':
-    case 'dark':
+    case "light":
+    case "dark":
       return theme;
     default:
-      return 'light';
+      return "light";
   }
 }
 
@@ -34,7 +34,7 @@ export class GeoJSONTransform extends React.Component {
   tileLayer: Object;
 
   static defaultProps = {
-    theme: 'light',
+    theme: "light"
   };
 
   static MIMETYPE = MIMETYPE;
@@ -45,10 +45,13 @@ export class GeoJSONTransform extends React.Component {
 
     const theme = getTheme(this.props.theme);
 
-    this.tileLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      id: `mapbox.${theme}`,
-    }).addTo(this.map);
+    this.tileLayer = L.tileLayer(
+      "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw",
+      {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        id: `mapbox.${theme}`
+      }
+    ).addTo(this.map);
 
     const geoJSON = this.props.data;
 
@@ -57,8 +60,9 @@ export class GeoJSONTransform extends React.Component {
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
-    if (nextProps.theme !== this.props.theme ||
-        this.props.data !== nextProps.data) {
+    if (
+      nextProps.theme !== this.props.theme || this.props.data !== nextProps.data
+    ) {
       return true;
     }
     return false;
@@ -68,10 +72,13 @@ export class GeoJSONTransform extends React.Component {
     if (prevProps.theme !== this.props.theme) {
       const theme = getTheme(this.props.theme);
       this.map.removeLayer(this.tileLayer);
-      this.tileLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        id: `mapbox.${theme}`,
-      }).addTo(this.map);
+      this.tileLayer = L.tileLayer(
+        "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw",
+        {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          id: `mapbox.${theme}`
+        }
+      ).addTo(this.map);
     }
 
     if (prevProps.data !== this.props.data) {
@@ -86,10 +93,15 @@ export class GeoJSONTransform extends React.Component {
   render(): ?React.Element<any> {
     return (
       <div>
-        <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+        <link
+          rel="stylesheet"
+          href="../node_modules/leaflet/dist/leaflet.css"
+        />
         <div
-          ref={(el) => { this.el = el; }}
-          style={{ height: '600px', width: '100%' }}
+          ref={el => {
+            this.el = el;
+          }}
+          style={{ height: "600px", width: "100%" }}
         />
       </div>
     );

@@ -1,63 +1,56 @@
 /* @flow */
-import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
+import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
-import TextDisplay from './text';
-import JsonDisplay from './json';
-import JavaScriptDisplay from './javascript';
-import HTMLDisplay from './html';
-import MarkdownDisplay from './markdown';
-import LaTeXDisplay from './latex';
+import TextDisplay from "./text";
+import JsonDisplay from "./json";
+import JavaScriptDisplay from "./javascript";
+import HTMLDisplay from "./html";
+import MarkdownDisplay from "./markdown";
+import LaTeXDisplay from "./latex";
 
-import SVGDisplay from './svg';
+import SVGDisplay from "./svg";
 
-import {
-  PNGDisplay,
-  JPEGDisplay,
-  GIFDisplay,
-} from './image';
+import { PNGDisplay, JPEGDisplay, GIFDisplay } from "./image";
 
 /**
  * Thus begins our path for custom mimetypes and future extensions
  */
-import PlotlyTransform from './plotly';
-import GeoJSONTransform from './geojson';
+import PlotlyTransform from "./plotly";
+import GeoJSONTransform from "./geojson";
 
-import ModelDebug from './model-debug';
+import ModelDebug from "./model-debug";
 
-import {
-  VegaLite,
-  Vega,
-} from './vega';
+import { VegaLite, Vega } from "./vega";
 
-type StandardTransforms = ImmutableMap<string, any>
-type StandardDisplayOrder = ImmutableList<string>
+type StandardTransforms = ImmutableMap<string, any>;
+type StandardDisplayOrder = ImmutableList<string>;
 
 export const standardTransforms: StandardTransforms = new ImmutableMap({
-  'text/plain': TextDisplay,
-  'image/png': PNGDisplay,
-  'image/jpeg': JPEGDisplay,
-  'image/gif': GIFDisplay,
-  'image/svg+xml': SVGDisplay,
-  'text/html': HTMLDisplay,
-  'text/markdown': MarkdownDisplay,
-  'text/latex': LaTeXDisplay,
-  'application/json': JsonDisplay,
-  'application/javascript': JavaScriptDisplay,
+  "text/plain": TextDisplay,
+  "image/png": PNGDisplay,
+  "image/jpeg": JPEGDisplay,
+  "image/gif": GIFDisplay,
+  "image/svg+xml": SVGDisplay,
+  "text/html": HTMLDisplay,
+  "text/markdown": MarkdownDisplay,
+  "text/latex": LaTeXDisplay,
+  "application/json": JsonDisplay,
+  "application/javascript": JavaScriptDisplay
 });
 
 export const standardDisplayOrder: StandardDisplayOrder = new ImmutableList([
-  'application/json',
-  'application/javascript',
-  'text/html',
-  'image/svg+xml',
-  'text/markdown',
-  'text/latex',
-  'image/svg+xml',
-  'image/gif',
-  'image/png',
-  'image/jpeg',
-  'application/pdf',
-  'text/plain',
+  "application/json",
+  "application/javascript",
+  "text/html",
+  "image/svg+xml",
+  "text/markdown",
+  "text/latex",
+  "image/svg+xml",
+  "image/gif",
+  "image/png",
+  "image/jpeg",
+  "application/pdf",
+  "text/plain"
 ]);
 
 function registerTransform({ transforms, displayOrder }, transform) {
@@ -72,15 +65,15 @@ const additionalTransforms = [
   PlotlyTransform,
   GeoJSONTransform,
   VegaLite,
-  Vega,
+  Vega
 ];
 
 const {
   transforms,
-  displayOrder,
+  displayOrder
 } = additionalTransforms.reduce(registerTransform, {
   transforms: standardTransforms,
-  displayOrder: standardDisplayOrder,
+  displayOrder: standardDisplayOrder
 });
 
 /**
@@ -91,10 +84,13 @@ const {
  * @return {string}          Richest mimetype
  */
 
-function richestMimetype(bundle: ImmutableMap<string, any>,
+function richestMimetype(
+  bundle: ImmutableMap<string, any>,
   order: ImmutableList<string> = displayOrder,
-  tf: ImmutableMap<string, any> = transforms): string {
-  return bundle.keySeq()
+  tf: ImmutableMap<string, any> = transforms
+): string {
+  return bundle
+    .keySeq()
     // we can only use those we have a transform for
     .filter(mimetype => tf.has(mimetype) && order.includes(mimetype))
     // the richest is based on the order in displayOrder
@@ -102,8 +98,4 @@ function richestMimetype(bundle: ImmutableMap<string, any>,
     .first();
 }
 
-export {
-  displayOrder,
-  transforms,
-  richestMimetype,
-};
+export { displayOrder, transforms, richestMimetype };

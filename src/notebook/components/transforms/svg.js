@@ -1,16 +1,16 @@
 /* @flow */
-import React from 'react';
+import React from "react";
 
 type Props = {
-  data: string,
-}
+  data: string
+};
 
 export default class SVGDisplay extends React.Component {
   props: Props;
   el: HTMLElement;
 
   componentDidMount(): void {
-    this.el.insertAdjacentHTML('beforeend', this.props.data);
+    this.el.insertAdjacentHTML("beforeend", this.props.data);
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -22,12 +22,16 @@ export default class SVGDisplay extends React.Component {
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
     }
-    this.el.insertAdjacentHTML('beforeend', this.props.data);
+    this.el.insertAdjacentHTML("beforeend", this.props.data);
   }
 
   render(): ?React.Element<any> {
     return (
-      <div ref={(el) => { this.el = el; }} />
+      <div
+        ref={el => {
+          this.el = el;
+        }}
+      />
     );
   }
 }

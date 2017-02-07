@@ -1,4 +1,4 @@
 // @flow
-import Display from './display';
+import Display from "./display";
 
 export default Display;

@@ -1,7 +1,10 @@
 /* eslint class-methods-use-this: 0 */
 // @flow
-import React from 'react';
-import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
+import React from "react";
+import Dropdown, {
+  DropdownTrigger,
+  DropdownContent
+} from "react-simple-dropdown";
 
 import {
   executeCell,
@@ -11,14 +14,14 @@ import {
   changeOutputVisibility,
   changeInputVisibility,
   changeCellType,
-  toggleOutputExpansion,
-} from '../../actions';
+  toggleOutputExpansion
+} from "../../actions";
 
 type Props = {
   cell: any,
   id: string,
-  type: string,
-}
+  type: string
+};
 
 export default class Toolbar extends React.PureComponent {
   removeCell: () => void;
@@ -32,7 +35,7 @@ export default class Toolbar extends React.PureComponent {
   toggleOutputExpansion: () => void;
 
   static contextTypes = {
-    store: React.PropTypes.object,
+    store: React.PropTypes.object
   };
 
   constructor(props: Props): void {
@@ -56,9 +59,9 @@ export default class Toolbar extends React.PureComponent {
   }
 
   executeCell(): void {
-    this.context.store.dispatch(executeCell(
-                                      this.props.id,
-                                      this.props.cell.get('source')));
+    this.context.store.dispatch(
+      executeCell(this.props.id, this.props.cell.get("source"))
+    );
   }
 
   clearOutputs(): void {
@@ -78,7 +81,7 @@ export default class Toolbar extends React.PureComponent {
 
   changeCellType(): void {
     this.dropdown.hide();
-    const to = this.props.type === 'markdown' ? 'code' : 'markdown';
+    const to = this.props.type === "markdown" ? "code" : "markdown";
     this.context.store.dispatch(changeCellType(this.props.id, to));
   }
 
@@ -87,20 +90,20 @@ export default class Toolbar extends React.PureComponent {
   }
 
   render(): ?React.Element<any> {
-    const showPlay = this.props.type !== 'markdown';
+    const showPlay = this.props.type !== "markdown";
     return (
       <div className="cell-toolbar-mask">
         <div className="cell-toolbar">
           {showPlay &&
-          <span>
-            <button
-              onClick={this.executeCell}
-              title="execute cell"
-              className="executeButton"
-            >
-              <span className="octicon octicon-triangle-right" />
-            </button>
-          </span>}
+            <span>
+              <button
+                onClick={this.executeCell}
+                title="execute cell"
+                className="executeButton"
+              >
+                <span className="octicon octicon-triangle-right" />
+              </button>
+            </span>}
           <button
             onClick={this.toggleStickyCell}
             title="pin cell"
@@ -115,34 +118,48 @@ export default class Toolbar extends React.PureComponent {
           >
             <span className="octicon octicon-trashcan" />
           </button>
-          <Dropdown ref={(dropdown) => { this.dropdown = dropdown; }}>
+          <Dropdown
+            ref={dropdown => {
+              this.dropdown = dropdown;
+            }}
+          >
             <DropdownTrigger>
               <button title="show additional actions">
                 <span className="octicon octicon-chevron-down" />
               </button>
             </DropdownTrigger>
             <DropdownContent>
-              {
-              (this.props.type === 'code') ?
-                <ul>
-                  <li onClick={this.clearOutputs} className="clearOutput" >
-                    <a>Clear Cell Output</a>
-                  </li>
-                  <li onClick={this.changeInputVisibility} className="inputVisibility" >
-                    <a>Toggle Input Visibility</a>
-                  </li>
-                  <li onClick={this.changeOutputVisibility} className="outputVisibility" >
-                    <a>Toggle Output Visibility</a>
-                  </li>
-                  <li onClick={this.toggleOutputExpansion} className="outputExpanded" >
-                    <a>Toggle Expanded Output</a>
-                  </li>
-                </ul> : null
-              }
+              {this.props.type === "code"
+                ? <ul>
+                    <li onClick={this.clearOutputs} className="clearOutput">
+                      <a>Clear Cell Output</a>
+                    </li>
+                    <li
+                      onClick={this.changeInputVisibility}
+                      className="inputVisibility"
+                    >
+                      <a>Toggle Input Visibility</a>
+                    </li>
+                    <li
+                      onClick={this.changeOutputVisibility}
+                      className="outputVisibility"
+                    >
+                      <a>Toggle Output Visibility</a>
+                    </li>
+                    <li
+                      onClick={this.toggleOutputExpansion}
+                      className="outputExpanded"
+                    >
+                      <a>Toggle Expanded Output</a>
+                    </li>
+                  </ul>
+                : null}
               <ul>
-                <li onClick={this.changeCellType} className="changeType" >
+                <li onClick={this.changeCellType} className="changeType">
                   <a>
-                    Convert to {this.props.type === 'markdown' ? 'Code' : 'Markdown'} Cell
+                    Convert to{" "}
+                    {this.props.type === "markdown" ? "Code" : "Markdown"}
+                    {" "}Cell
                   </a>
                 </li>
               </ul>

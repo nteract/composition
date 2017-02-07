@@ -1,10 +1,8 @@
-import Rx from 'rxjs/Rx';
+import Rx from "rxjs/Rx";
 
-import {
-  spawn,
-} from 'spawn-rx';
+import { spawn } from "spawn-rx";
 
-const path = require('path');
+const path = require("path");
 
 /**
  * ipyKernelTryObservable checks for the existence of ipykernel in the environment.
@@ -12,9 +10,9 @@ const path = require('path');
  * @returns {Observable}  Source environment
  */
 export function ipyKernelTryObservable(env) {
-  const executable = path.join(env.prefix, 'bin', 'python');
-  return spawn(executable, ['-m', 'ipykernel', '--version'], { split: true })
-    .filter(x => x.source && x.source === 'stdout')
+  const executable = path.join(env.prefix, "bin", "python");
+  return spawn(executable, ["-m", "ipykernel", "--version"], { split: true })
+    .filter(x => x.source && x.source === "stdout")
     .mapTo(env)
     .catch(() => Rx.Observable.empty());
 }
@@ -25,8 +23,7 @@ export function ipyKernelTryObservable(env) {
   * @returns {Observable}  JSON parsed information
   */
 export function condaInfoObservable() {
-  return spawn('conda', ['info', '--json'])
-    .map(info => JSON.parse(info));
+  return spawn("conda", ["info", "--json"]).map(info => JSON.parse(info));
 }
 
 /**
@@ -36,15 +33,19 @@ export function condaInfoObservable() {
   * @returns {Observable}  List of envionmental variables
   */
 export function condaEnvsObservable(condaInfo$) {
-  return condaInfo$.map((info) => {
-    const envs = info.envs.map(env => ({ name: path.basename(env), prefix: env }));
-    envs.push({ name: 'root', prefix: info.root_prefix });
-    return envs;
-  })
-  .map(envs => envs.map(ipyKernelTryObservable))
-  .mergeAll()
-  .mergeAll()
-  .toArray();
+  return condaInfo$
+    .map(info => {
+      const envs = info.envs.map(env => ({
+        name: path.basename(env),
+        prefix: env
+      }));
+      envs.push({ name: "root", prefix: info.root_prefix });
+      return envs;
+    })
+    .map(envs => envs.map(ipyKernelTryObservable))
+    .mergeAll()
+    .mergeAll()
+    .toArray();
 }
 
 /**
@@ -54,22 +55,22 @@ export function condaEnvsObservable(condaInfo$) {
   * @returns {Object}   Dictionary containing supported langauges paths.
   */
 export function createKernelSpecsFromEnvs(envs) {
-  const displayPrefix = 'Python'; // Or R
-  const languageKey = 'py'; // or r
+  const displayPrefix = "Python"; // Or R
+  const languageKey = "py"; // or r
 
-  const languageExe = 'bin/python';
+  const languageExe = "bin/python";
 
   const langEnvs = {};
 
-  Object.keys(envs).forEach((env) => {
+  Object.keys(envs).forEach(env => {
     const base = env.prefix;
     const exePath = path.join(base, languageExe);
     const envName = env.name;
     const name = `conda-env-${envName}-${languageKey}`;
     langEnvs[name] = {
       display_name: `${displayPrefix} [conda env:${envName}]`,
-      argv: [exePath, '-m', 'ipykernel', '-f', '{connection_file}'],
-      language: 'python',
+      argv: [exePath, "-m", "ipykernel", "-f", "{connection_file}"],
+      language: "python"
     };
   });
   return langEnvs;
@@ -81,6 +82,7 @@ export function createKernelSpecsFromEnvs(envs) {
   * @returns {Observable}  Supported language elements
   */
 export function condaKernelsObservable() {
-  return condaEnvsObservable(condaInfoObservable())
-    .map(createKernelSpecsFromEnvs);
+  return condaEnvsObservable(condaInfoObservable()).map(
+    createKernelSpecsFromEnvs
+  );
 }

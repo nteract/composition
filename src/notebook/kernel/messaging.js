@@ -1,33 +1,38 @@
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 
-import * as uuid from 'uuid';
+import * as uuid from "uuid";
 
-import Rx from 'rxjs/Rx';
+import Rx from "rxjs/Rx";
 
 const Observable = Rx.Observable;
 
 export const session = uuid.v4();
 
 export function getUsername() {
-  return process.env.LOGNAME || process.env.USER || process.env.LNAME ||
+  return process.env.LOGNAME ||
+    process.env.USER ||
+    process.env.LNAME ||
     process.env.USERNAME;
 }
 
 export function createMessage(msg_type, fields) {
   const username = getUsername();
-  return Object.assign({
-    header: {
-      username,
-      session,
-      msg_type,
-      msg_id: uuid.v4(),
-      date: new Date(),
-      version: '5.0',
+  return Object.assign(
+    {
+      header: {
+        username,
+        session,
+        msg_type,
+        msg_id: uuid.v4(),
+        date: new Date(),
+        version: "5.0"
+      },
+      metadata: {},
+      parent_header: {},
+      content: {}
     },
-    metadata: {},
-    parent_header: {},
-    content: {},
-  }, fields);
+    fields
+  );
 }
 
 /**
@@ -37,23 +42,25 @@ export function createMessage(msg_type, fields) {
  */
 export function childOf(parentMessage) {
   const parentMessageID = parentMessage.header.msg_id;
-  return Observable.create((subscriber) => {
+  return Observable.create(subscriber => {
     // since we're in an arrow function `this` is from the outer scope.
     // save our inner subscription
-    const subscription = this.subscribe((msg) => {
-      if (!msg.parent_header || !msg.parent_header.msg_id) {
-        subscriber.error(new Error('no parent_header.msg_id on message'));
-        return;
-      }
+    const subscription = this.subscribe(
+      msg => {
+        if (!msg.parent_header || !msg.parent_header.msg_id) {
+          subscriber.error(new Error("no parent_header.msg_id on message"));
+          return;
+        }
 
-      if (parentMessageID === msg.parent_header.msg_id) {
-        subscriber.next(msg);
-      }
-    },
-    // be sure to handle errors and completions as appropriate and
-    // send them along
-    err => subscriber.error(err),
-    () => subscriber.complete());
+        if (parentMessageID === msg.parent_header.msg_id) {
+          subscriber.next(msg);
+        }
+      },
+      // be sure to handle errors and completions as appropriate and
+      // send them along
+      err => subscriber.error(err),
+      () => subscriber.complete()
+    );
 
     // to return now
     return subscription;
@@ -67,23 +74,25 @@ export function childOf(parentMessage) {
  * @return {Observable}                 the resulting observable
  */
 export function ofMessageType(messageTypes) {
-  return Observable.create((subscriber) => {
+  return Observable.create(subscriber => {
     // since we're in an arrow function `this` is from the outer scope.
     // save our inner subscription
-    const subscription = this.subscribe((msg) => {
-      if (!msg.header || !msg.header.msg_type) {
-        subscriber.error(new Error('no header.msg_type on message'));
-        return;
-      }
+    const subscription = this.subscribe(
+      msg => {
+        if (!msg.header || !msg.header.msg_type) {
+          subscriber.error(new Error("no header.msg_type on message"));
+          return;
+        }
 
-      if (messageTypes.indexOf(msg.header.msg_type) !== -1) {
-        subscriber.next(msg);
-      }
-    },
-    // be sure to handle errors and completions as appropriate and
-    // send them along
-    err => subscriber.error(err),
-    () => subscriber.complete());
+        if (messageTypes.indexOf(msg.header.msg_type) !== -1) {
+          subscriber.next(msg);
+        }
+      },
+      // be sure to handle errors and completions as appropriate and
+      // send them along
+      err => subscriber.error(err),
+      () => subscriber.complete()
+    );
 
     // to return now
     return subscription;

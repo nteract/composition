@@ -1,16 +1,16 @@
 /* @flow */
-import React from 'react';
+import React from "react";
 
 type TopProps = {
   data: string,
   mimetype: string,
-  metadata: any,
+  metadata: any
 };
 
 type ImageProps = {
   data: string,
-  metadata: string,
-}
+  metadata: string
+};
 
 export default function ImageDisplay(props: TopProps): ?React.Element<any> {
   let size = {};
@@ -21,24 +21,22 @@ export default function ImageDisplay(props: TopProps): ?React.Element<any> {
   }
 
   return (
-    <img role="presentation" src={`data:${props.mimetype};base64,${props.data}`} {...size} />
+    <img
+      role="presentation"
+      src={`data:${props.mimetype};base64,${props.data}`}
+      {...size}
+    />
   );
 }
 
 export function PNGDisplay(props: ImageProps): ?React.Element<any> {
-  return (
-    <ImageDisplay mimetype="image/png" {...props} />
-  );
+  return <ImageDisplay mimetype="image/png" {...props} />;
 }
 
 export function JPEGDisplay(props: ImageProps): ?React.Element<any> {
-  return (
-    <ImageDisplay mimetype="image/jpeg" {...props} />
-  );
+  return <ImageDisplay mimetype="image/jpeg" {...props} />;
 }
 
 export function GIFDisplay(props: ImageProps): ?React.Element<any> {
-  return (
-    <ImageDisplay mimetype="image/gif" {...props} />
-  );
+  return <ImageDisplay mimetype="image/gif" {...props} />;
 }
