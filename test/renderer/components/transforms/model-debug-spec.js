@@ -1,21 +1,22 @@
-import React from 'react';
-import Immutable from 'immutable';
+import React from "react";
+import Immutable from "immutable";
 
-import { mount } from 'enzyme';
-import chai, { expect } from 'chai';
-import sinonChai from 'sinon-chai';
+import { mount } from "enzyme";
+import chai, { expect } from "chai";
+import sinonChai from "sinon-chai";
 
-import ModelDebug from '../../../../src/notebook/components/transforms/model-debug';
+import ModelDebug
+  from "../../../../src/notebook/components/transforms/model-debug";
 
 chai.use(sinonChai);
 
-describe('ModelDebug', () => {
-  it('renders all models when no modelID set', () => {
+describe("ModelDebug", () => {
+  it("renders all models when no modelID set", () => {
     const modelDebugWrapper = mount(
       <ModelDebug
-        data={'hey'}
+        data={"hey"}
         models={Immutable.fromJS({ 1: { fun: true } })}
-      />,
+      />
     );
 
     const instance = modelDebugWrapper.instance();
@@ -23,8 +24,8 @@ describe('ModelDebug', () => {
 
     expect(
       modelDebugWrapper.contains(
-        <pre>{JSON.stringify({ 1: { fun: true } }, null, 2)}</pre>,
-      ),
+        <pre>{JSON.stringify({ 1: { fun: true } }, null, 2)}</pre>
+      )
     ).to.equal(true);
   });
 });

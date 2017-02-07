@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
-import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
+import React from "react";
+import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
-import { richestMimetype, transforms, displayOrder } from '../../transforms';
+import { richestMimetype, transforms, displayOrder } from "../../transforms";
 
 type Props = {
   displayOrder: ImmutableList<string>,
@@ -10,7 +10,7 @@ type Props = {
   bundle: ImmutableMap<string, any>,
   metadata: ImmutableMap<string, any>,
   theme: string,
-  models?: ImmutableMap<string, any>,
+  models?: ImmutableMap<string, any>
 };
 
 export default class RichestMime extends React.Component {
@@ -19,21 +19,27 @@ export default class RichestMime extends React.Component {
   static defaultProps = {
     transforms,
     displayOrder,
-    theme: 'light',
+    theme: "light",
     metadata: new ImmutableMap(),
     bundle: new ImmutableMap(),
-    models: new ImmutableMap(),
+    models: new ImmutableMap()
   };
 
-  shouldComponentUpdate(nextProps: Props): boolean {  // eslint-disable-line class-methods-use-this
-    if (nextProps && nextProps.theme && this.props && nextProps.theme !== this.props.theme) {
+  shouldComponentUpdate(nextProps: Props): boolean {
+    // eslint-disable-line class-methods-use-this
+    if (
+      nextProps &&
+        nextProps.theme &&
+        this.props &&
+        nextProps.theme !== this.props.theme
+    ) {
       return true;
     }
     // return false;
     return true;
   }
 
-  render(): ?React.Element<any>|null {
+  render(): ?React.Element<any> | null {
     const mimetype = richestMimetype(
       this.props.bundle,
       this.props.displayOrder,

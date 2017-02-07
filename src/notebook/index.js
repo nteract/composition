@@ -1,41 +1,42 @@
 // @flow
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
-import { Map as ImmutableMap } from 'immutable';
+import { Map as ImmutableMap } from "immutable";
 
-import NotificationSystem from 'react-notification-system';
+import NotificationSystem from "react-notification-system";
 
-import configureStore from './store';
-import { reducers } from './reducers';
-import Notebook from './components/notebook';
+import configureStore from "./store";
+import { reducers } from "./reducers";
+import Notebook from "./components/notebook";
 
-import {
-  setNotificationSystem,
-} from './actions';
+import { setNotificationSystem } from "./actions";
 
-import { initMenuHandlers } from './menu';
-import { initNativeHandlers } from './native-window';
-import { initGlobalHandlers } from './global-events';
+import { initMenuHandlers } from "./menu";
+import { initNativeHandlers } from "./native-window";
+import { initGlobalHandlers } from "./global-events";
 
 import {
   AppRecord,
   DocumentRecord,
   MetadataRecord,
-  CommsRecord,
-} from './records';
+  CommsRecord
+} from "./records";
 
-const store = configureStore({
-  app: AppRecord(),
-  metadata: MetadataRecord(),
-  document: DocumentRecord(),
-  comms: CommsRecord(),
-  config: ImmutableMap({
-    theme: 'light',
-  }),
-}, reducers);
+const store = configureStore(
+  {
+    app: AppRecord(),
+    metadata: MetadataRecord(),
+    document: DocumentRecord(),
+    comms: CommsRecord(),
+    config: ImmutableMap({
+      theme: "light"
+    })
+  },
+  reducers
+);
 
 // Register for debugging
 window.store = store;
@@ -53,14 +54,17 @@ class App extends React.PureComponent {
     store.dispatch(setNotificationSystem(this.notificationSystem));
   }
 
-  render(): ?React.Element<any> { // eslint-disable-line class-methods-use-this
+  render(): ?React.Element<any> {
+    // eslint-disable-line class-methods-use-this
     return (
       <Provider store={store}>
         <div>
           <link rel="stylesheet" href="../static/styles/main.css" />
           <Notebook />
           <NotificationSystem
-            ref={(notificationSystem) => { this.notificationSystem = notificationSystem; }}
+            ref={notificationSystem => {
+              this.notificationSystem = notificationSystem;
+            }}
           />
         </div>
       </Provider>
@@ -68,7 +72,4 @@ class App extends React.PureComponent {
   }
 }
 
-ReactDOM.render(
-  <App />,
-  document.querySelector('#app')
-);
+ReactDOM.render(<App />, document.querySelector("#app"));

@@ -1,11 +1,13 @@
-import React from 'react';
-import _ from 'lodash';
+import React from "react";
+import _ from "lodash";
 
-import { mount } from 'enzyme';
-import chai, { expect } from 'chai';
-import sinonChai from 'sinon-chai';
+import { mount } from "enzyme";
+import chai, { expect } from "chai";
+import sinonChai from "sinon-chai";
 
-import GeoJSONTransform, { getTheme } from '../../../../src/notebook/components/transforms/geojson';
+import GeoJSONTransform, {
+  getTheme
+} from "../../../../src/notebook/components/transforms/geojson";
 
 chai.use(sinonChai);
 
@@ -14,11 +16,13 @@ function deepFreeze(obj) {
   const propNames = Object.getOwnPropertyNames(obj);
 
   // Freeze properties before freezing self
-  propNames.forEach((name) => {
+  propNames.forEach(name => {
     const prop = obj[name];
 
     // Freeze prop if it is an object
-    if (typeof prop === 'object' && prop !== null) { deepFreeze(prop); }
+    if (typeof prop === "object" && prop !== null) {
+      deepFreeze(prop);
+    }
   });
 
   // Freeze self (no-op if already frozen)
@@ -26,70 +30,71 @@ function deepFreeze(obj) {
 }
 
 const geojson = deepFreeze({
-  type: 'FeatureCollection',
+  type: "FeatureCollection",
   features: [
     {
-      type: 'Feature',
+      type: "Feature",
       properties: {
-        popupContent: '18th & California Light Rail Stop',
+        popupContent: "18th & California Light Rail Stop"
       },
       geometry: {
-        type: 'Point',
-        coordinates: [-104.98999178409576, 39.74683938093904],
-      },
-    }, {
-      type: 'Feature',
-      properties: {
-        popupContent: '20th & Welton Light Rail Stop',
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [-104.98689115047453, 39.747924136466565],
-      },
+        type: "Point",
+        coordinates: [-104.98999178409576, 39.74683938093904]
+      }
     },
-  ],
+    {
+      type: "Feature",
+      properties: {
+        popupContent: "20th & Welton Light Rail Stop"
+      },
+      geometry: {
+        type: "Point",
+        coordinates: [-104.98689115047453, 39.747924136466565]
+      }
+    }
+  ]
 });
 
-describe('GeoJSONTransform', () => {
-  it('renders a map', () => {
-    const geoComponent = mount(
-      <GeoJSONTransform
-        data={geojson}
-      />,
-    );
+describe("GeoJSONTransform", () => {
+  it("renders a map", () => {
+    const geoComponent = mount(<GeoJSONTransform data={geojson} />);
 
-    expect(geoComponent.instance().shouldComponentUpdate({
-      theme: 'light',
-      data: geojson,
-    })).to.be.false;
-    expect(geoComponent.find('.leaflet-container')).to.have.length(1);
+    expect(
+      geoComponent.instance().shouldComponentUpdate({
+        theme: "light",
+        data: geojson
+      })
+    ).to.be.false;
+    expect(geoComponent.find(".leaflet-container")).to.have.length(1);
   });
 
-  it('updates the map', () => {
-    const geoComponent = mount(
-      <GeoJSONTransform
-        data={geojson}
-      />,
-    );
+  it("updates the map", () => {
+    const geoComponent = mount(<GeoJSONTransform data={geojson} />);
 
     const instance = geoComponent.instance();
 
-    expect(instance.shouldComponentUpdate({
-      theme: 'light',
-      data: geojson,
-    })).to.be.false;
+    expect(
+      instance.shouldComponentUpdate({
+        theme: "light",
+        data: geojson
+      })
+    ).to.be.false;
 
-    expect(geoComponent.find('.leaflet-container')).to.have.length(1);
+    expect(geoComponent.find(".leaflet-container")).to.have.length(1);
 
     geoComponent.setProps({
-      data: _.set(_.cloneDeep(geojson), ['features', 0, 'properties', 'popupContent'], 'somewhere'),
-      theme: 'dark',
+      data: _.set(
+        _.cloneDeep(geojson),
+        ["features", 0, "properties", "popupContent"],
+        "somewhere"
+      ),
+      theme: "dark"
     });
   });
-  it('picks an appropriate theme when unknown', () => {
-    expect(getTheme('light')).to.equal('light');
-    expect(getTheme('dark')).to.equal('dark');
-    expect(getTheme('nteract')).to.equal('light');
-    expect(getTheme()).to.equal('light');
+  it("picks an appropriate theme when unknown", () => {
+    expect(getTheme("light")).to.equal("light");
+    expect(getTheme("dark")).to.equal("dark");
+    expect(getTheme("nteract")).to.equal("light");
+    expect(getTheme()).to.equal("light");
   });
 });

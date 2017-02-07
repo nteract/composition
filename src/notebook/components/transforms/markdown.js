@@ -1,10 +1,10 @@
 /* @flow */
-import React from 'react';
-import CommonMark from 'commonmark';
-import MarkdownRenderer from 'commonmark-react-renderer';
+import React from "react";
+import CommonMark from "commonmark";
+import MarkdownRenderer from "commonmark-react-renderer";
 
 type Props = {
-  data: string,
+  data: string
 };
 
 type MDRender = (input: string) => string;

@@ -28,8 +28,8 @@
     "spawn": "cross-env NODE_ENV=development electron .",
     "spawn:debug": "cross-env DEBUG=true NODE_ENV=development electron .",
     "clean": "rimraf lib dist",
-    "lint": "eslint src/ test/",
-    "lint:fix": "eslint . --fix",
+    "lint": "npm run lint:fix",
+    "lint:fix": "prettier 'src/**/*.js' 'test/**/*.js' 'scripts/**/*.js' --write",
     "prebuild": "rimraf lib",
     "build": "npm run build:renderer && npm run build:main",
     "build:renderer": "webpack --progress --colors",
@@ -114,10 +114,6 @@
   },
   "greenkeeper": {
     "ignore": [
-      "eslint-plugin-jsx-a11y",
-      "eslint-plugin-import",
-      "eslint-plugin-jsx-a11y",
-      "eslint-plugin-react",
       "flow-bin"
     ]
   },
