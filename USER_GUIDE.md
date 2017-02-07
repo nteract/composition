@@ -12,8 +12,8 @@ To get started, download the latest [release](https://github.com/nteract/nteract
 A new notebook can be created by accessing the menu,
 ```
   File
-    ⮑  New
-          ⮑  <Language Kernel> (e.g. Python 3, R, Julia etc.)
+    -->  New
+          -->  <Language Kernel> (e.g. Python 3, R, Julia etc.)
 ```
 ### Opening a Notebook
 There are several ways to open a notebook in nteract:
@@ -21,7 +21,7 @@ There are several ways to open a notebook in nteract:
 - From the menu:
 ```
   File
-    ⮑  Open
+    -->  Open
 ```
 
 *Keyboard shortcut ⌘O on macOS and Ctrl-O on Windows/Linux*
