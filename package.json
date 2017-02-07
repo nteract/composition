@@ -204,7 +204,7 @@
     "nbschema": "0.0.2",
     "nyc": "^10.0.0",
     "react-addons-test-utils": "^15.4.0",
-    "react-dnd-test-backend": "^1.0.2",
+    "react-dnd-test-backend": "^2.2.3",
     "rimraf": "^2.5.2",
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
