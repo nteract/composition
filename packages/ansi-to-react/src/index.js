@@ -38,10 +38,34 @@ function ansiToInlineStyle(text) {
 }
 
 function inlineBundleToReact(bundle, key) {
+  const children = bundle.content.split(' ').reduce(
+    (result, word) => {
+      // If word is a URL
+      if (/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/.test(word)) {
+        return [
+          ...result, 
+          React.createElement('a', { 
+            href: word ,
+            target: '_blank'
+          }, `${word} `) 
+        ];
+      }
+      const lastWord = result.pop();
+      if (lastWord) {
+        // If lastWord is a `<a>` element
+        if (lastWord.type) return [...result, lastWord, word];
+        // If not, combine lastWord and word into single string
+        return [...result, [lastWord, word].join(' ')];
+      }
+      // If there is no lastWord because word is the first
+      return [...result, word];
+    }, 
+    []
+  );
   return React.createElement('span', {
     style: bundle.style,
     key,
-  }, bundle.content);
+  }, children);
 }
 
 function Ansi(props) {
