@@ -2,10 +2,7 @@
 /* eslint class-methods-use-this: 0 */
 import React from 'react';
 
-type Props = {
-  data: Object,
-  theme: string,
-};
+type Props = { data: Object, theme: string };
 
 const L = require('leaflet');
 
@@ -13,14 +10,32 @@ L.Icon.Default.imagePath = '../node_modules/leaflet/dist/images/';
 
 const MIMETYPE = 'application/geo+json';
 
-type TileTheme = 'dark' | 'light';
+type TileTheme = "dark" | "light";
 
-export function getTheme(theme : string = 'light'): TileTheme {
+export function getLuma(el: HTMLElement): number {
+  // https://en.wikipedia.org/wiki/Luma_(video)
+  const style = window.getComputedStyle(el);
+  const [r, g, b] = style.backgroundColor
+    .replace(/^(rgb|rgba)\(/, '')
+    .replace(/\)$/, '')
+    .replace(/\s/g, '')
+    .split(',');
+
+  // Digital ITU BT.601
+  // http://www.itu.int/rec/R-REC-BT.601
+  const y = (0.299 * r) + (0.587 * g) + (0.114 * b);
+  return y / 255;
+}
+
+export function getTheme(theme: string = 'light', el: HTMLElement): TileTheme {
   switch (theme) {
     case 'light':
     case 'dark':
       return theme;
     default:
+      if (getLuma(el) < 0.5) {
+        return 'dark';
+      }
       return 'light';
   }
 }
@@ -33,9 +48,7 @@ export class GeoJSONTransform extends React.Component {
   geoJSONLayer: Object;
   tileLayer: Object;
 
-  static defaultProps = {
-    theme: 'light',
-  };
+  static defaultProps = { theme: 'light' };
 
   static MIMETYPE = MIMETYPE;
 
@@ -43,12 +56,17 @@ export class GeoJSONTransform extends React.Component {
     this.map = L.map(this.el);
     this.map.scrollWheelZoom.disable();
 
-    const theme = getTheme(this.props.theme);
+    const theme = getTheme(this.props.theme, this.el);
 
-    this.tileLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      id: `mapbox.${theme}`,
-    }).addTo(this.map);
+    this.tileLayer = L
+      .tileLayer(
+        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
+      {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        id: `mapbox.${theme}`
+      }
+      )
+      .addTo(this.map);
 
     const geoJSON = this.props.data;
 
@@ -57,8 +75,9 @@ export class GeoJSONTransform extends React.Component {
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
-    if (nextProps.theme !== this.props.theme ||
-        this.props.data !== nextProps.data) {
+    if (
+      nextProps.theme !== this.props.theme || this.props.data !== nextProps.data
+    ) {
       return true;
     }
     return false;
@@ -66,12 +85,17 @@ export class GeoJSONTransform extends React.Component {
 
   componentDidUpdate(prevProps: Props): void {
     if (prevProps.theme !== this.props.theme) {
-      const theme = getTheme(this.props.theme);
+      const theme = getTheme(this.props.theme, this.el);
       this.map.removeLayer(this.tileLayer);
-      this.tileLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        id: `mapbox.${theme}`,
-      }).addTo(this.map);
+      this.tileLayer = L
+        .tileLayer(
+          'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
+        {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+          id: `mapbox.${theme}`
+        }
+        )
+        .addTo(this.map);
     }
 
     if (prevProps.data !== this.props.data) {
@@ -86,9 +110,14 @@ export class GeoJSONTransform extends React.Component {
   render(): ?React.Element<any> {
     return (
       <div>
-        <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+        <link
+          rel="stylesheet"
+          href="../node_modules/leaflet/dist/leaflet.css"
+        />
         <div
-          ref={(el) => { this.el = el; }}
+          ref={(el) => {
+            this.el = el;
+          }}
           style={{ height: '600px', width: '100%' }}
         />
       </div>

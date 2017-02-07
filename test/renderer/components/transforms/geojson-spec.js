@@ -89,7 +89,13 @@ describe('GeoJSONTransform', () => {
   it('picks an appropriate theme when unknown', () => {
     expect(getTheme('light')).to.equal('light');
     expect(getTheme('dark')).to.equal('dark');
-    expect(getTheme('nteract')).to.equal('light');
-    expect(getTheme()).to.equal('light');
+
+    const el = document.createElement('div');
+    el.style.backgroundColor = '#FFFFFF';
+    expect(getTheme('classic', el)).to.equal('light');
+
+    const darkEl = document.createElement('div');
+    darkEl.style.backgroundColor = '#000000';
+    expect(getTheme('classic', darkEl)).to.equal('dark');
   });
 });
