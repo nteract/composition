@@ -8,7 +8,7 @@ import TextDisplay from '../../../../packages/transforms/text';
 import {
   richestMimetype,
   transforms,
-} from '../../../../packages/transforms/';
+} from '../../../../packages/transforms-full';
 
 describe('richestMimetype', () => {
   it('picks the richest of the mimetypes from a bundle with defaults', () => {

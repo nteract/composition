@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import { Provider } from 'react-redux';
 import { shallow, mount } from 'enzyme';
 
-import { displayOrder, transforms } from '../../../packages/transforms';
+import { displayOrder, transforms } from '../../../packages/transforms-full';
 import Cell from '../../../src/notebook/components/cell/cell';
 import { Notebook, getLanguageMode } from '../../../src/notebook/components/notebook';
 
