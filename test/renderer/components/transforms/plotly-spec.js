@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 
 
-import PlotlyTransform from '../../../../src/notebook/components/transforms/plotly';
+import PlotlyTransform from '../../../../packages/transform-plotly';
 
 chai.use(sinonChai);
 

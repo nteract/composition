@@ -3,7 +3,7 @@ import React from 'react';
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 import Ansi from 'ansi-to-react';
 
-import { transforms, displayOrder } from '../../transforms';
+import { transforms, displayOrder } from '../../../../../packages/transforms';
 
 import RichestMime from './richest-mime';
 

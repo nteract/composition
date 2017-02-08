@@ -14,7 +14,7 @@ import {
   emptyMarkdownCell,
 } from '../../../../packages/commutable';
 
-import { displayOrder, transforms } from '../../../../src/notebook/components/transforms';
+import { displayOrder, transforms } from '../../../../packages/transforms';
 
 chai.use(sinonChai);
 

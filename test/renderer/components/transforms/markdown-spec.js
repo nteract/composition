@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import MarkdownDisplay from '../../../../src/notebook/components/transforms/markdown';
+import MarkdownDisplay from '../../../../packages/transforms/markdown';
 
 describe('MarkdownDisplay', () => {
   it('renders some markdown', () => {

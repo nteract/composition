@@ -9,7 +9,7 @@ import {
   emptyMarkdownCell,
 } from '../../../packages/commutable';
 
-import { displayOrder, transforms } from '../../../src/notebook/components/transforms';
+import { displayOrder, transforms } from '../../../packages/transforms';
 
 // Spoof DND manager for tests.
 const dragDropManager = {

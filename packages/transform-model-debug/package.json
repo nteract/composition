@@ -1,5 +1,5 @@
 {
-  "name": "@nteract/tranform-model-debugtransform-vega",
+  "name": "@nteract/tranform-model-debug",
   "version": "1.0.0",
   "description": "Transform for debug usage with nteract models",
   "main": "index.js",

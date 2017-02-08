@@ -6,7 +6,7 @@ import chai, { expect } from 'chai';
 import sinonChai from 'sinon-chai';
 
 import RichestMime from '../../../../../src/notebook/components/cell/display-area/richest-mime';
-import { displayOrder, transforms } from '../../../../../src/notebook/components/transforms';
+import { displayOrder, transforms } from '../../../../../packages/transforms';
 
 chai.use(sinonChai);
 

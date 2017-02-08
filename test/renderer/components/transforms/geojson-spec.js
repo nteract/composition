@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import chai, { expect } from 'chai';
 import sinonChai from 'sinon-chai';
 
-import GeoJSONTransform, { getTheme } from '../../../../src/notebook/components/transforms/geojson';
+import GeoJSONTransform, { getTheme } from '../../../../packages/transform-geojson';
 
 chai.use(sinonChai);
 

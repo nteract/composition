@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { mount } from 'enzyme';
 
-import HTMLDisplay from '../../../../src/notebook/components/transforms/html';
+import HTMLDisplay from '../../../../packages/transforms/html';
 
 describe('HTMLDisplay', () => {
   it('renders direct HTML', () => {

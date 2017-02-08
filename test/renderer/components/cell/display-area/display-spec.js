@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import Immutable from 'immutable';
 
 import Display from '../../../../../src/notebook/components/cell/display-area';
-import { displayOrder, transforms } from '../../../../../src/notebook/components/transforms';
+import { displayOrder, transforms } from '../../../../../packages/transforms';
 
 describe('Display', () => {
   it('does not display when status is hidden', () => {

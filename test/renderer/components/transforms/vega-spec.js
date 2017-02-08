@@ -7,7 +7,7 @@ import {
   Vega,
   VegaLite,
   VegaEmbed,
-} from '../../../../src/notebook/components/transforms/vega';
+} from '../../../../packages/transform-vega';
 
 const chai = require('chai');
 const sinon = require('sinon');

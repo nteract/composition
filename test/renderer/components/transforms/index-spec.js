@@ -3,12 +3,12 @@ import { createRenderer } from 'react-addons-test-utils';
 import { List, Map } from 'immutable';
 import { expect } from 'chai';
 
-import TextDisplay from '../../../../src/notebook/components/transforms/text';
+import TextDisplay from '../../../../packages/transforms/text';
 
 import {
   richestMimetype,
   transforms,
-} from '../../../../src/notebook/components/transforms/';
+} from '../../../../packages/transforms/';
 
 describe('richestMimetype', () => {
   it('picks the richest of the mimetypes from a bundle with defaults', () => {

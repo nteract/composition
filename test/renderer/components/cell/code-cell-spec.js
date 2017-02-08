@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import { dummyStore } from '../../../utils';
 import CodeCell from '../../../../src/notebook/components/cell/code-cell';
 import { emptyCodeCell } from '../../../../packages/commutable';
-import { displayOrder, transforms } from '../../../../src/notebook/components/transforms';
+import { displayOrder, transforms } from '../../../../packages/transforms';
 
 const sharedProps = { displayOrder, transforms };
 describe('CodeCell', () => {
