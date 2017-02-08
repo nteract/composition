@@ -38,4 +38,5 @@ export {
   displayOrder,
   transforms,
   richestMimetype,
+  registerTransform,
 };
