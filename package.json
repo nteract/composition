@@ -31,7 +31,7 @@
     "lint": "eslint src/ test/",
     "lint:fix": "eslint . --fix",
     "prebuild": "rimraf lib",
-    "lerna": "lerna bootstrap --hoist immutable",
+    "lerna": "lerna bootstrap  && rimraf packages/commutable/node_modules/immutable",
     "install": "npm run lerna && npm run build",
     "build": "npm run build:renderer && npm run build:main",
     "build:renderer": "webpack --progress --colors",
