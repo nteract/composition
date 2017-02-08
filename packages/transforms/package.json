@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/nteract/nteract#readme",
   "peerDependencies": {
-    "immutable": "^3.7.6",
+    "immutable": "^3.8.1",
     "react": "^15.4.2"
   },
   "devDependencies": {
-    "immutable": "^3.7.6",
+    "immutable": "^3.8.1",
     "react": "^15.4.2"
   }
 }
