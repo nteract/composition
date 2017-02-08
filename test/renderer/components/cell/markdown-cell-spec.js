@@ -13,7 +13,7 @@ import {
 } from '../../../../src/notebook/actions';
 
 import { emptyMarkdownCell } from '../../../../packages/commutable';
-import { displayOrder, transforms } from '../../../../packages/transforms';
+import { displayOrder, transforms } from '../../../../packages/transforms-full';
 import { dummyStore } from '../../../utils';
 
 chai.use(sinonChai);

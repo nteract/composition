@@ -10,7 +10,7 @@ import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 import {
   displayOrder,
   transforms,
-} from '../../../packages/transforms';
+} from '../../../packages/transforms-full';
 
 import Cell from './cell/cell';
 import DraggableCell from '../providers/draggable-cell';
