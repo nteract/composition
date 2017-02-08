@@ -2,6 +2,8 @@
 import React from 'react';
 import CommonMark from 'commonmark';
 import MarkdownRenderer from 'commonmark-react-renderer';
+import path from 'path';
+import url from 'url';
 
 import Editor from '../../providers/editor';
 import LatexRenderer from '../latex';
@@ -21,13 +23,6 @@ type State = {
   view: boolean,
   source: string,
 };
-
-type MDRender = (input: string) => string
-
-const parser = new CommonMark.Parser();
-const renderer = new MarkdownRenderer();
-
-const mdRender: MDRender = input => renderer.render(parser.parse(input));
 
 export default class MarkdownCell extends React.PureComponent {
   state: State;
@@ -123,6 +118,23 @@ export default class MarkdownCell extends React.PureComponent {
   }
 
   render(): ?React.Element<any> {
+    const { filename } = this.context.store.getState().metadata.toJS();
+    const cwd = `${path.dirname(filename)}/`;
+    const parser = new CommonMark.Parser();
+    const renderer = new MarkdownRenderer();
+    const parsed = parser.parse(
+      this.state.source ?
+      this.state.source :
+      '*Empty markdown cell, double click me to add content.*'
+    );
+    const walker = parsed.walker();
+    let event;
+    while ((event = walker.next())) { // eslint-disable-line no-cond-assign
+      const { node } = event;
+      if (event.entering && node.type === 'link') {
+        node.destination = url.resolve(cwd, node.destination);
+      }
+    }
     return (
        (this.state && this.state.view) ?
          <div
@@ -133,12 +145,7 @@ export default class MarkdownCell extends React.PureComponent {
            tabIndex="0"
          >
            <LatexRenderer>
-             {
-              mdRender(
-                this.state.source ?
-                this.state.source :
-                '*Empty markdown cell, double click me to add content.*')
-             }
+             { renderer.render(parsed) }
            </LatexRenderer>
          </div> :
          <div onKeyDown={this.editorKeyDown}>
@@ -157,7 +164,7 @@ export default class MarkdownCell extends React.PureComponent {
            </div>
            <div className="outputs">
              <LatexRenderer>
-               { mdRender(this.state.source) }
+               { parser.parse(this.state.source) }
              </LatexRenderer>
            </div>
          </div>
