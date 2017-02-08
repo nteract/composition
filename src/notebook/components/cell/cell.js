@@ -5,6 +5,7 @@ import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 import CodeCell from './code-cell';
 import MarkdownCell from './markdown-cell';
 import Toolbar from './toolbar';
+import Base from '../base';
 
 import {
   focusCell,
@@ -122,16 +123,18 @@ export class Cell extends React.PureComponent {
         }
         {
         type === 'markdown' ?
-          <MarkdownCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            focusEditor={this.focusCellEditor}
-            cellFocused={cellFocused}
-            editorFocused={editorFocused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-          /> :
+          <Base>
+            <MarkdownCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              focusEditor={this.focusCellEditor}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+            />
+          </Base> :
           <CodeCell
             focusAbove={this.focusAboveCell}
             focusBelow={this.focusBelowCell}

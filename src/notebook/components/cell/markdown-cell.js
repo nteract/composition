@@ -17,6 +17,7 @@ type Props = {
   focusEditor: Function,
   cellFocused: boolean,
   editorFocused: boolean,
+  cwd: string
 };
 
 type State = {
@@ -118,8 +119,6 @@ export default class MarkdownCell extends React.PureComponent {
   }
 
   render(): ?React.Element<any> {
-    const { filename } = this.context.store.getState().metadata.toJS();
-    const cwd = `${path.dirname(filename)}/`;
     const parser = new CommonMark.Parser();
     const renderer = new MarkdownRenderer();
     const parsed = parser.parse(
@@ -132,7 +131,7 @@ export default class MarkdownCell extends React.PureComponent {
     while ((event = walker.next())) { // eslint-disable-line no-cond-assign
       const { node } = event;
       if (event.entering && node.type === 'link') {
-        node.destination = url.resolve(cwd, node.destination);
+        node.destination = url.resolve(this.props.cwd, node.destination);
       }
     }
     return (
