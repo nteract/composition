@@ -151,6 +151,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
         extraKeys: {
           'Ctrl-Space': 'autocomplete',
           Tab: this.executeTab,
+          'Shift-Tab': editor => editor.execCommand('indentLess'),
           Up: this.goLineUpOrEmit,
           Down: this.goLineDownOrEmit,
           'Cmd-/': 'toggleComment',
