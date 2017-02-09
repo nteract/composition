@@ -139,11 +139,16 @@ describe('newKernelEpic', () => {
     const action$ = new ActionsObservable(input$);
     const obs = newKernelEpic(action$);
     obs.subscribe(
-      (x) => actionBuffer.push(x.type),
+      (x) => {
+        actionBuffer.push(x.type);
+        if (actionBuffer.length === 2) {
+          expect(actionBuffer).to.deep.equal([constants.SET_KERNEL_INFO, constants.NEW_KERNEL]);
+          done();
+        }
+      },
       (err) => expect.fail(err, null),
       () => {
-        expect(actionBuffer).to.deep.equal([constants.SET_KERNEL_INFO, constants.NEW_KERNEL]);
-        done();
+        expect.fail();
       },
     );
   });

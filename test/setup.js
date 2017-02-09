@@ -170,7 +170,7 @@ mock('spawnteract', {
     }
     return writeConnectionFile('config').then((c) => {
       return {
-        spawn: 'runningKernel',
+        spawn: { on: () => {} },
         connectionFile: c.connectionFile,
         config: c.config,
         kernelSpec: kernelSpec.name,

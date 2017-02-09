@@ -83,37 +83,37 @@ export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
   const spec = kernelSpec.spec;
 
   return Rx.Observable.create((observer) => {
-      launchSpec(spec, { cwd })
-        .then((c) => {
-          const { config, spawn, connectionFile } = c;
-          const kernelSpecName = kernelSpec.name;
+    launchSpec(spec, { cwd })
+      .then((c) => {
+        const { config, spawn, connectionFile } = c;
+        const kernelSpecName = kernelSpec.name;
 
-          const identity = uuid.v4();
-          // TODO: I'm realizing that we could trigger on when the underlying sockets
-          //       are ready with these subjects to let us know when the kernels
-          //       are *really* ready
-          const channels = {
-            shell: createShellSubject(identity, config),
-            iopub: createIOPubSubject(identity, config),
-            control: createControlSubject(identity, config),
-            stdin: createStdinSubject(identity, config),
-          };
-          observer.next(setNotebookKernelInfo(kernelSpec));
+        const identity = uuid.v4();
+        // TODO: I'm realizing that we could trigger on when the underlying sockets
+        //       are ready with these subjects to let us know when the kernels
+        //       are *really* ready
+        const channels = {
+          shell: createShellSubject(identity, config),
+          iopub: createIOPubSubject(identity, config),
+          control: createControlSubject(identity, config),
+          stdin: createStdinSubject(identity, config),
+        };
+        observer.next(setNotebookKernelInfo(kernelSpec));
 
-          observer.next({
-            type: NEW_KERNEL,
-            channels,
-            connectionFile,
-            spawn,
-            kernelSpecName,
-            kernelSpec,
-          });
-
-          spawn.on('error', (error) => {
-            observer.error({ type: 'ERROR', payload: error, err: true })
-            observer.complete();
-          })
+        observer.next({
+          type: NEW_KERNEL,
+          channels,
+          connectionFile,
+          spawn,
+          kernelSpecName,
+          kernelSpec,
         });
+
+        spawn.on('error', (error) => {
+          observer.error({ type: 'ERROR', payload: error, err: true });
+          observer.complete();
+        });
+      });
   });
 }
 
@@ -130,7 +130,7 @@ export const watchExecutionStateEpic = (action$: ActionsObservable) =>
           .filter(msg => msg.header.msg_type === 'status')
           .map(msg => setExecutionState(msg.content.execution_state)),
         Rx.Observable.of(setExecutionState('idle'))
-      );
+      )
   );
 /**
   * Get kernel specs from main process
