@@ -1,7 +1,7 @@
 {
   "name": "@nteract/transforms",
   "version": "1.0.1",
-  "description": "Transforms from nteract",
+  "description": "Common transforms for Jupyter",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,6 +21,9 @@
     "url": "https://github.com/nteract/nteract/issues"
   },
   "homepage": "https://github.com/nteract/nteract#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "immutable": "^3.8.1",
     "react": "^15.4.2"
