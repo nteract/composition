@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transforms",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Common transforms for Jupyter",
   "main": "index.js",
   "scripts": {
