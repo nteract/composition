@@ -113,6 +113,12 @@ export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
           observer.error({ type: 'ERROR', payload: error, err: true });
           observer.complete();
         });
+        spawn.on('exit', () => {
+          observer.complete();
+        });
+        spawn.on('disconnect', () => {
+          observer.complete();
+        });
       });
   });
 }
