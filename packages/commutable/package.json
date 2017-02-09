@@ -1,6 +1,6 @@
 {
   "name": "@nteract/commutable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Testing out how to use lerna in a complex Electron app",
   "main": "index.js",
   "scripts": {

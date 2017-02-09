@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transform-model-debug",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transform for debug usage with nteract models",
   "main": "index.js",
   "scripts": {
