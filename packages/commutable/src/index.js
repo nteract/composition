@@ -1,15 +1,6 @@
 /* @flow */
-import * as v4 from './v4';
 
 import type { Notebook as v4Notebook } from './v4';
-
-import {
-  emptyNotebook,
-  emptyCodeCell,
-  emptyMarkdownCell,
-  appendCell,
-  monocellNotebook,
-} from './structures';
 
 import type {
   ImmutableNotebook,
@@ -21,6 +12,16 @@ type PlaceholderNotebook = {
   nbformat_minor: number,
 };
 
+const v4 = require('./v4');
+
+const {
+  emptyNotebook,
+  emptyCodeCell,
+  emptyMarkdownCell,
+  appendCell,
+  monocellNotebook,
+} = require('./structures');
+
 export type Notebook = PlaceholderNotebook & v4Notebook;
 
 function freezeReviver(k: string, v: JSONType): JSONType {
@@ -30,11 +31,11 @@ function freezeReviver(k: string, v: JSONType): JSONType {
 // Expected usage of below is
 // fromJS(parseNotebook(string|buffer))
 
-export function parseNotebook(notebookString: string): Notebook {
+function parseNotebook(notebookString: string): Notebook {
   return JSON.parse(notebookString, freezeReviver);
 }
 
-export function fromJS(notebookJSON: Notebook): ImmutableNotebook {
+function fromJS(notebookJSON: Notebook): ImmutableNotebook {
   if (notebookJSON.nbformat === 4 && notebookJSON.nbformat_minor >= 0) {
     if (Array.isArray(notebookJSON.cells) && typeof notebookJSON.metadata === 'object') {
       return v4.fromJS(notebookJSON);
@@ -50,7 +51,7 @@ export function fromJS(notebookJSON: Notebook): ImmutableNotebook {
   throw new TypeError('This notebook format is not supported');
 }
 
-export function toJS(immnb: ImmutableNotebook): v4Notebook {
+function toJS(immnb: ImmutableNotebook): v4Notebook {
   if (immnb.get('nbformat') === 4 && immnb.get('nbformat_minor') >= 0) {
     return v4.toJS(immnb);
   }
@@ -58,18 +59,21 @@ export function toJS(immnb: ImmutableNotebook): v4Notebook {
 }
 
 // Expected usage is stringifyNotebook(toJS(immutableNotebook))
-export function stringifyNotebook(notebook: v4Notebook): string {
+function stringifyNotebook(notebook: v4Notebook): string {
   return JSON.stringify(notebook, null, 2);
 }
 
-export type {
-  ImmutableNotebook,
-};
-
-export {
+module.exports = {
   emptyCodeCell,
   emptyMarkdownCell,
   emptyNotebook,
   appendCell,
   monocellNotebook,
+  toJS,
+  fromJS,
+  stringifyNotebook,
+};
+
+export type {
+  ImmutableNotebook,
 };

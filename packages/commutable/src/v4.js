@@ -16,7 +16,8 @@
  *
  */
 
-import * as Immutable from 'immutable';
+const Immutable = require('immutable');
+const appendCell = require('./structures').appendCell;
 
 import type {
   JSONType,
@@ -33,8 +34,6 @@ import type {
 import type {
   CellStructure,
 } from './structures';
-
-import { appendCell } from './structures';
 
 export type ExecutionCount = number | null;
 
@@ -157,7 +156,7 @@ function cleanMimeAtKey(mimeBundle: MimeBundle, previous: ImmutableMimeBundle, k
   return previous.set(key, cleanMimeData(key, mimeBundle[key]));
 }
 
-export function createImmutableMimeBundle(mimeBundle: MimeBundle): ImmutableMimeBundle {
+function createImmutableMimeBundle(mimeBundle: MimeBundle): ImmutableMimeBundle {
   // Map over all the mimetypes, turning them into our in-memory format
   //
   // {
@@ -186,7 +185,7 @@ function sanitize(o: ExecuteResult | DisplayData) {
 }
 
 
-export function createImmutableOutput(output: Output): ImmutableOutput {
+function createImmutableOutput(output: Output): ImmutableOutput {
   switch (output.output_type) {
     case 'execute_result':
       return Immutable.Map(Object.assign({}, {
@@ -258,7 +257,7 @@ function createImmutableCell(cell: Cell): ImmutableCell {
   }
 }
 
-export function fromJS(notebook: Notebook): ImmutableNotebook {
+function fromJS(notebook: Notebook): ImmutableNotebook {
   if (notebook.nbformat !== 4 || notebook.nbformat_minor < 0) {
     throw new TypeError(
       `Notebook is not a valid v4 notebook. v4 notebooks must be of form 4.x
@@ -391,7 +390,7 @@ function rawCellToJS(immCell: ImmutableCell): RawCell {
   };
 }
 
-export function cellToJS(immCell: ImmutableCell): Cell {
+function cellToJS(immCell: ImmutableCell): Cell {
   const cellType: 'markdown' | 'raw' | 'code' = immCell.get('cell_type');
   switch (cellType) {
     case 'markdown':
@@ -405,7 +404,7 @@ export function cellToJS(immCell: ImmutableCell): Cell {
   }
 }
 
-export function toJS(immnb: ImmutableNotebook): Notebook {
+function toJS(immnb: ImmutableNotebook): Notebook {
   const plainNotebook: PlainNotebook = immnb.toObject();
 
   const plainCellOrder: Array<string> = plainNotebook.cellOrder.toArray();
@@ -420,3 +419,11 @@ export function toJS(immnb: ImmutableNotebook): Notebook {
     nbformat_minor: plainNotebook.nbformat_minor,
   };
 }
+
+module.exports = {
+  createImmutableMimeBundle,
+  createImmutableOutput,
+
+  toJS,
+  fromJS,
+};

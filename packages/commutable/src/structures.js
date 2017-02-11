@@ -1,8 +1,7 @@
 /* @flow */
 
-import * as Immutable from 'immutable';
-
-import { v4 as uuidv4 } from 'uuid';
+const uuidv4 = require('uuid').v4;
+const Immutable = require('immutable');
 
 import type {
   ImmutableOutput,
@@ -57,16 +56,16 @@ const defaultMarkdownCell = Object.freeze({
   source: '',
 });
 
-export function createCodeCell(cell: CodeCell = defaultCodeCell): ImmutableCodeCell { // eslint-disable-line max-len
+function createCodeCell(cell: CodeCell = defaultCodeCell): ImmutableCodeCell { // eslint-disable-line max-len
   return Immutable.Map(cell);
 }
 
-export function createMarkdownCell(cell: MarkdownCell = defaultMarkdownCell): ImmutableMarkdownCell { // eslint-disable-line max-len
+function createMarkdownCell(cell: MarkdownCell = defaultMarkdownCell): ImmutableMarkdownCell { // eslint-disable-line max-len
   return Immutable.Map(cell);
 }
 
-export const emptyCodeCell = createCodeCell();
-export const emptyMarkdownCell = createMarkdownCell();
+const emptyCodeCell = createCodeCell();
+const emptyMarkdownCell = createMarkdownCell();
 
 const defaultNotebook = Object.freeze({
   nbformat: 4,
@@ -76,11 +75,11 @@ const defaultNotebook = Object.freeze({
   cellMap: new Immutable.Map(),
 });
 
-export function createNotebook(notebook: Notebook = defaultNotebook): ImmutableNotebook {
+function createNotebook(notebook: Notebook = defaultNotebook): ImmutableNotebook {
   return Immutable.Map(notebook);
 }
 
-export const emptyNotebook = createNotebook();
+const emptyNotebook = createNotebook();
 
 export type CellStructure = {
   cellOrder: ImmutableCellOrder,
@@ -88,7 +87,7 @@ export type CellStructure = {
 }
 
 // Intended to make it easy to use this with (temporary mutable cellOrder + cellMap)
-export function appendCell(
+function appendCell(
   cellStructure: CellStructure,
   immutableCell: ImmutableCell,
   id: string = uuidv4()
@@ -99,7 +98,7 @@ export function appendCell(
   };
 }
 
-export function appendCellToNotebook(
+function appendCellToNotebook(
   immnb: ImmutableNotebook,
   immCell: ImmutableCell)
   : ImmutableNotebook {
@@ -114,7 +113,7 @@ export function appendCellToNotebook(
   });
 }
 
-export function insertCellAt(
+function insertCellAt(
   notebook: ImmutableNotebook,
   cell: ImmutableCell,
   cellID: string,
@@ -126,7 +125,7 @@ export function insertCellAt(
     );
 }
 
-export function insertCellAfter(
+function insertCellAfter(
   notebook: ImmutableNotebook,
   cell: ImmutableCell,
   cellID: string,
@@ -135,7 +134,7 @@ export function insertCellAfter(
   return insertCellAt(notebook, cell, cellID, notebook.get('cellOrder').indexOf(priorCellID) + 1);
 }
 
-export function removeCell(notebook: ImmutableNotebook, cellID: string) {
+function removeCell(notebook: ImmutableNotebook, cellID: string) {
   return notebook
     .removeIn(['cellMap', cellID])
     .update('cellOrder',
@@ -143,4 +142,21 @@ export function removeCell(notebook: ImmutableNotebook, cellID: string) {
     );
 }
 
-export const monocellNotebook = appendCellToNotebook(emptyNotebook, emptyCodeCell);
+const monocellNotebook = appendCellToNotebook(emptyNotebook, emptyCodeCell);
+
+module.exports = {
+  emptyCodeCell,
+  emptyMarkdownCell,
+  emptyNotebook,
+  monocellNotebook,
+
+  createCodeCell,
+  createMarkdownCell,
+  createNotebook,
+
+  removeCell,
+  insertCellAfter,
+  insertCellAt,
+  appendCellToNotebook,
+  appendCell,
+}
