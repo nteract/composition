@@ -4,6 +4,11 @@
   "description": "library for immutable notebook operations",
   "main": "index.js",
   "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +28,8 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "flow-copy-source": "^1.1.0"
   }
 }
