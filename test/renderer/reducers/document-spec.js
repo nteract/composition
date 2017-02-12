@@ -12,9 +12,9 @@ import {
   emptyCodeCell,
   emptyMarkdownCell,
   fromJS,
+  appendCellToNotebook,
 } from '../../../packages/commutable';
 
-import { appendCellToNotebook } from '../../../packages/commutable/structures';
 import reducers from '../../../src/notebook/reducers';
 import { reduceOutputs, cleanCellTransient } from '../../../src/notebook/reducers/document';
 

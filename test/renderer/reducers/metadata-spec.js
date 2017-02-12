@@ -2,11 +2,11 @@ import { expect } from 'chai';
 
 import * as constants from '../../../src/notebook/constants';
 import { MetadataRecord } from '../../../src/notebook/records';
-import { emptyCodeCell } from '../../../packages/commutable';
 
 import {
   appendCellToNotebook,
-} from '../../../packages/commutable/structures';
+  emptyCodeCell,
+} from '../../../packages/commutable';
 
 import { dummyCommutable } from '../dummy-nb';
 

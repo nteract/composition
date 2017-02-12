@@ -5,11 +5,8 @@ import Immutable from 'immutable';
 import {
   monocellNotebook,
   emptyCodeCell,
-} from '../packages/commutable';
-
-import {
   appendCellToNotebook,
-} from '../packages/commutable/structures';
+} from '../packages/commutable';
 
 import createStore from '../src/notebook/store';
 import { reducers } from '../src/notebook/reducers';

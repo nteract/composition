@@ -20,6 +20,12 @@ const {
   emptyMarkdownCell,
   appendCell,
   monocellNotebook,
+
+  appendCellToNotebook,
+
+  insertCellAt,
+  insertCellAfter,
+  removeCell,
 } = require('./structures');
 
 export type Notebook = PlaceholderNotebook & v4Notebook;
@@ -67,11 +73,19 @@ module.exports = {
   emptyCodeCell,
   emptyMarkdownCell,
   emptyNotebook,
-  appendCell,
   monocellNotebook,
   toJS,
   fromJS,
+
+  parseNotebook,
   stringifyNotebook,
+
+  insertCellAt,
+  insertCellAfter,
+  removeCell,
+  appendCell,
+  appendCellToNotebook,
+  createImmutableOutput: v4.createImmutableOutput,
 };
 
 export type {
