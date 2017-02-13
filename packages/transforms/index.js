@@ -87,3 +87,5 @@ export function richestMimetype(bundle: ImmutableMap<string, any>,
     .sortBy(mimetype => order.indexOf(mimetype))
     .first();
 }
+export const transforms = standardTransforms;
+export const displayOrder = standardDisplayOrder;

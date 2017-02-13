@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { mount } from 'enzyme';
 
-import Text from '../../../../packages/transforms/text';
+import Text from '../text';
 
 describe('Text', () => {
   it('renders plain text', () => {

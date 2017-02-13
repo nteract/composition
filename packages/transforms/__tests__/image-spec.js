@@ -6,7 +6,7 @@ import ImageDisplay, {
   PNGDisplay,
   GIFDisplay,
   JPEGDisplay,
-} from '../../../../packages/transforms/image';
+} from '../image';
 
 const imageData = 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 

@@ -10,6 +10,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "plotly.js": "^1.19.2"
+  },
   "peerDependencies": {
     "react": "^15.4.2"
   },

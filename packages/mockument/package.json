@@ -1,0 +1,11 @@
+{
+  "name": "@nteract/mockument",
+  "version": "1.0.0",
+  "description": "Our suite of document polyfills for testing in jest",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-3-Clause"
+}
