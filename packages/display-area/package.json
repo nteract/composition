@@ -1,0 +1,48 @@
+{
+  "name": "@nteract/display-area",
+  "version": "1.0.0",
+  "description": "Display area for nteract outputs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract/tree/master/packages/display-area"
+  },
+  "keywords": [
+    "nteract",
+    "display",
+    "jupyter"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "jest": {
+    "setupFiles": [
+      "@nteract/mockument"
+    ]
+  },
+  "dependencies": {
+    "@nteract/transforms": "1.0.2"
+  },
+  "peerDependencies": {
+    "immutable": "^3.8.1",
+    "react": "^15.4.2"
+  },
+  "devDependencies": {
+    "@nteract/mockument": "^1.0.0",
+    "babel-jest": "^18.0.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "enzyme": "^2.7.1",
+    "immutable": "^3.8.1",
+    "jest": "^18.1.0",
+    "react": "^15.4.2",
+    "react-addons-test-utils": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-test-renderer": "^15.4.2"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

@@ -3,7 +3,7 @@ import React from 'react';
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
 import Inputs from './inputs';
-import Display from './display-area';
+import { Display } from '../../../../packages/display-area';
 
 import Editor from '../../providers/editor';
 import LatexRenderer from '../latex';

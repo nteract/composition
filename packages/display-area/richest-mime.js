@@ -2,7 +2,7 @@
 import React from 'react';
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
-import { richestMimetype, transforms, displayOrder } from '../../../../../packages/transforms-full';
+import { richestMimetype, transforms, displayOrder } from '@nteract/transforms';
 
 type Props = {
   displayOrder: ImmutableList<string>,

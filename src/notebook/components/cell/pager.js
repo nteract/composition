@@ -1,5 +1,7 @@
 // @flow
-import RichestMime from './display-area/richest-mime';
+import {
+  RichestMime,
+} from '../../../../packages/display-area';
 
 // The pager is really just the RichestMime component
 export default RichestMime;

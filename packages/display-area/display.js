@@ -2,7 +2,7 @@
 import React from 'react';
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
-import { transforms, displayOrder } from '../../../../../packages/transforms-full';
+import { transforms, displayOrder } from '@nteract/transforms';
 
 import Output from './output';
 
