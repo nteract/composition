@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import LaTeXDisplay from '../latex';
+import LaTeXDisplay from '../src/latex';
 
 describe('LaTeXDisplay', () => {
   it('processes basic LaTeX', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import HTMLDisplay from '../html';
+import HTMLDisplay from '../src/html';
 
 import {
   mount,

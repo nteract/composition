@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 
-import JavascriptDisplay, { runCodeHere } from '../javascript';
+import JavascriptDisplay, { runCodeHere } from '../src/javascript';
 
 describe('JavascriptDisplay', () => {
   it('renders contextual div tag', () => {

@@ -1,16 +1,12 @@
 import React from 'react';
 import { List, Map } from 'immutable';
 
-import {
-  mount,
-} from 'enzyme';
-
-import TextDisplay from '../text';
+import TextDisplay from '../src/text';
 
 import {
   richestMimetype,
   transforms,
-} from '../';
+} from '../src';
 
 describe('richestMimetype', () => {
   it('picks the richest of the mimetypes from a bundle with defaults', () => {
