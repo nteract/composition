@@ -182,7 +182,7 @@ export class Notebook extends React.PureComponent {
     const CellComponent = this.props.CellComponent;
 
     return (
-      <div key={`cell-container-${id}`}>
+      <div className="cell-container" key={`cell-container-${id}`}>
         {isStickied ?
           <div className="cell-placeholder">
             <span className="octicon octicon-link-external" />

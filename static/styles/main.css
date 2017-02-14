@@ -113,6 +113,10 @@ blockquote p {
     padding-right: 10px;
 }
 
+.notebook .cell-container:last-child {
+    padding-bottom: 200px;
+}
+
 /*
   Cell
  */
