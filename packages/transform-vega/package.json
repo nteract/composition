@@ -4,7 +4,12 @@
   "description": "Vega Transform",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "test": "jest"
   },
   "author": "",
   "publishConfig": {
@@ -19,6 +24,7 @@
     "react": "^15.4.2"
   },
   "devDependencies": {
+    "flow-copy-source": "^1.1.0",
     "react": "^15.4.2"
   },
   "license": "BSD-3-Clause"

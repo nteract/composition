@@ -4,6 +4,11 @@
   "description": "Display area for nteract outputs",
   "main": "index.js",
   "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "test": "jest"
   },
   "repository": {
@@ -32,10 +37,12 @@
   },
   "devDependencies": {
     "@nteract/mockument": "^1.0.0",
+    "babel-cli": "^6.22.2",
     "babel-jest": "^18.0.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "enzyme": "^2.7.1",
+    "flow-copy-source": "^1.1.0",
     "immutable": "^3.8.1",
     "jest": "^18.1.0",
     "react": "^15.4.2",
