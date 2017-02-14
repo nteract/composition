@@ -2,7 +2,7 @@
   "name": "@nteract/transform-vega",
   "version": "1.0.2",
   "description": "Vega Transform",
-  "main": "index.js",
+  "main": "lib/",
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",

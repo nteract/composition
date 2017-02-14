@@ -2,7 +2,7 @@
   "name": "@nteract/transform-model-debug",
   "version": "1.0.2",
   "description": "Transform for debug usage with nteract models",
-  "main": "index.js",
+  "main": "lib/",
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",

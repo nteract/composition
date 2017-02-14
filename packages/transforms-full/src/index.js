@@ -1,6 +1,7 @@
 /**
  * Thus begins our path for custom mimetypes and future extensions
  */
+
 import PlotlyTransform from '@nteract/transform-plotly';
 import GeoJSONTransform from '@nteract/transform-geojson';
 

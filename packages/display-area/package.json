@@ -2,7 +2,7 @@
   "name": "@nteract/display-area",
   "version": "1.0.0",
   "description": "Display area for nteract outputs",
-  "main": "index.js",
+  "main": "lib/",
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
