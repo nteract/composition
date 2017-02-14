@@ -4,8 +4,8 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Immutable from 'immutable';
 
-import Output from '../../../../../src/notebook/components/cell/display-area/output';
-import RichestMime from '../../../../../src/notebook/components/cell/display-area/richest-mime';
+import Output from '../output';
+import RichestMime from '../richest-mime';
 
 const Ansi = require('ansi-to-react');
 

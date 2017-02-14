@@ -4,8 +4,8 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import Immutable from 'immutable';
 
-import Display from '../../../../../src/notebook/components/cell/display-area';
-import { displayOrder, transforms } from '../../../../../packages/transforms-full';
+import { Display } from '../';
+import { displayOrder, transforms } from '@nteract/transforms';
 
 describe('Display', () => {
   it('does not display when status is hidden', () => {

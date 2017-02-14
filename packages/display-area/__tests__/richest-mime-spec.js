@@ -2,13 +2,12 @@ import React from 'react';
 import Immutable from 'immutable';
 
 import { shallow } from 'enzyme';
-import chai, { expect } from 'chai';
-import sinonChai from 'sinon-chai';
 
-import RichestMime from '../../../../../src/notebook/components/cell/display-area/richest-mime';
-import { displayOrder, transforms } from '../../../../../packages/transforms-full';
+import {
+  RichestMime
+} from '../';
 
-chai.use(sinonChai);
+import { displayOrder, transforms } from '@nteract/transforms';
 
 describe('RichestMime', () => {
   it('renders a mimebundle', () => {
