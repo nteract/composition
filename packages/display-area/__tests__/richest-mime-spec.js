@@ -22,8 +22,8 @@ describe('RichestMime', () => {
       />,
     );
 
-    expect(rm.instance().shouldComponentUpdate()).to.be.true;
-    expect(rm.first().props()).to.deep.equal({
+    expect(rm.instance().shouldComponentUpdate()).toBeTruthy();
+    expect(rm.first().props()).toEqual({
       data: 'THE DATA',
       theme: 'light',
       metadata: 'alright',
@@ -39,6 +39,6 @@ describe('RichestMime', () => {
       />,
     );
 
-    expect(rm.type()).to.be.null;
+    expect(rm.type()).toBeNull;
   });
 });

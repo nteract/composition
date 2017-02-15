@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import ImageDisplay, {
@@ -18,8 +17,8 @@ describe('ImageDisplay', () => {
 
     const img = component.find('img');
     // Slight a11y check
-    expect(img.prop('role')).to.equal('presentation');
-    expect(img.prop('src')).to.equal(`data:image/png;base64,${imageData}`);
+    expect(img.prop('role')).toEqual('presentation');
+    expect(img.prop('src')).toEqual(`data:image/png;base64,${imageData}`);
   });
 });
 
@@ -30,15 +29,15 @@ describe('ImageDisplay', () => {
     );
 
     const img = component.find('img');
-    expect(img.prop('width')).to.equal('200');
+    expect(img.prop('width')).toEqual('200');
 
     const component2 = shallow(
       <ImageDisplay data={imageData} mimetype="image/png" metadata={{ width: '200', height: '300' }} />,
     );
 
     const img2 = component2.find('img');
-    expect(img2.prop('width')).to.equal('200');
-    expect(img2.prop('height')).to.equal('300');
+    expect(img2.prop('width')).toEqual('200');
+    expect(img2.prop('height')).toEqual('300');
   });
 });
 
@@ -53,7 +52,7 @@ describe('PNGDisplay', () => {
         mimetype="image/png"
         data={imageData}
       />,
-    )).to.equal(true);
+    )).toEqual(true);
   });
 });
 
@@ -68,7 +67,7 @@ describe('JPEGDisplay', () => {
         mimetype="image/jpeg"
         data={imageData}
       />,
-    )).to.equal(true);
+    )).toEqual(true);
   });
 });
 
@@ -83,6 +82,6 @@ describe('GIFDisplay', () => {
         mimetype="image/gif"
         data={imageData}
       />,
-    )).to.equal(true);
+    )).toEqual(true);
   });
 });

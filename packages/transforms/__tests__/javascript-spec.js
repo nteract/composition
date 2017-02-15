@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import JavascriptDisplay, { runCodeHere } from '../src/javascript';
@@ -9,13 +8,13 @@ describe('JavascriptDisplay', () => {
     const component = mount(
       <JavascriptDisplay data={''} />,
     );
-    expect(component.html()).to.equal('<div></div>');
+    expect(component.html()).toEqual('<div></div>');
   });
   it('executes the Javascript', () => {
     mount(
       <JavascriptDisplay data={'window._test_variable = 5;'} />,
     );
-    expect(window._test_variable).to.equal(5);
+    expect(window._test_variable).toEqual(5);
   });
 
   it('creates a nice little error area', () => {
@@ -23,8 +22,8 @@ describe('JavascriptDisplay', () => {
       <JavascriptDisplay data={'throw "a fit"'} />,
     );
     const instance = component.instance();
-    expect(instance.el.firstChild.localName).to.equal('pre');
-    expect(instance.el.firstChild.textContent).to.equal('a fit');
+    expect(instance.el.firstChild.localName).toEqual('pre');
+    expect(instance.el.firstChild.textContent).toEqual('a fit');
   });
 
   it('creates a nice little error area with a stack', () => {
@@ -32,8 +31,8 @@ describe('JavascriptDisplay', () => {
       <JavascriptDisplay data={'throw new Error("a fit")'} />,
     );
     const instance = component.instance();
-    expect(instance.el.firstChild.localName).to.equal('pre');
-    expect(instance.el.firstChild.textContent).to.include('Error: a fit');
+    expect(instance.el.firstChild.localName).toEqual('pre');
+    expect(instance.el.firstChild.textContent).toContain('Error: a fit');
   });
 
   it('handles updates by running again', () => {
@@ -42,7 +41,7 @@ describe('JavascriptDisplay', () => {
       <JavascriptDisplay data={'x = 1'} />,
     );
     component.setProps({ data: 'x = x + 1' });
-    expect(global.x).to.equal(2);
+    expect(global.x).toEqual(2);
     delete global.x;
   });
 });
@@ -51,6 +50,6 @@ describe('runCodeHere', () => {
   it('runs code with `element` available', () => {
     const el = document.createElement('div');
     const element = runCodeHere(el, 'element');
-    expect(el).to.equal(element);
+    expect(el).toEqual(element);
   });
 });

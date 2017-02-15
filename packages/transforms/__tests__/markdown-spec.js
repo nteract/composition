@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
 import MarkdownDisplay from '../src/markdown';
@@ -14,10 +13,10 @@ describe('MarkdownDisplay', () => {
     const instance = component.instance();
 
     // Slightly "testing" the library underneath, but it's still a decent litmus test
-    expect(component.node.props.children[0].props.children[0]).to.equal('DO');
-    expect(component.node.props.children[1].props.children[0]).to.equal('it.');
+    expect(component.node.props.children[0].props.children[0]).toEqual('DO');
+    expect(component.node.props.children[1].props.children[0]).toEqual('it.');
 
-    expect(instance.shouldComponentUpdate({ data: '# DO\nit.' })).to.equal(false);
-    expect(instance.shouldComponentUpdate({ data: '#WOO' })).to.equal(true);
+    expect(instance.shouldComponentUpdate({ data: '# DO\nit.' })).toEqual(false);
+    expect(instance.shouldComponentUpdate({ data: '#WOO' })).toEqual(true);
   });
 });

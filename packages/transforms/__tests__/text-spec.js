@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 
 import { mount } from 'enzyme';
 
@@ -11,10 +10,10 @@ describe('Text', () => {
       <Text data={'hey'} />,
     );
 
-    expect(wrapper.html()).to.equal('<code><span>hey</span></code>');
+    expect(wrapper.html()).toEqual('<code><span>hey</span></code>');
 
     const component = wrapper.instance();
 
-    expect(component.shouldComponentUpdate()).to.equal(true);
+    expect(component.shouldComponentUpdate()).toEqual(true);
   });
 });

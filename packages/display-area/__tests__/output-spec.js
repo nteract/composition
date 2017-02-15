@@ -1,11 +1,10 @@
 import React from 'react';
 
-import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import Immutable from 'immutable';
 
-import Output from '../output';
-import RichestMime from '../richest-mime';
+import Output from '../src/output';
+import RichestMime from '../src/richest-mime';
 
 const Ansi = require('ansi-to-react');
 
@@ -20,8 +19,8 @@ describe('Output', () => {
     });
 
     const component = shallow(<Output output={output} />);
-    expect(component.type()).to.equal(RichestMime);
-    expect(component.first().props().bundle).to.eq(output.get('data'));
+    expect(component.type()).toEqual(RichestMime);
+    expect(component.first().props().bundle).toEqual(output.get('data'));
   });
   it('handles execute_component', () => {
     const output = Immutable.fromJS({
@@ -39,8 +38,8 @@ describe('Output', () => {
     });
 
     const component = shallow(<Output output={output} />);
-    expect(component.type()).to.equal(RichestMime);
-    expect(component.first().props().bundle).to.eq(output.get('data'));
+    expect(component.type()).toEqual(RichestMime);
+    expect(component.first().props().bundle).toEqual(output.get('data'));
   });
   it('handles stream data', () => {
     const output = Immutable.fromJS({
@@ -50,7 +49,7 @@ describe('Output', () => {
     });
 
     const component = shallow(<Output output={output} />);
-    expect(component.type()).to.equal(Ansi);
+    expect(component.type()).toEqual(Ansi);
   });
   it('handles errors/tracebacks', () => {
     const output = Immutable.fromJS({
@@ -61,7 +60,7 @@ describe('Output', () => {
     });
 
     const component = shallow(<Output output={output} />);
-    expect(component.type()).to.equal(Ansi);
+    expect(component.type()).toEqual(Ansi);
 
     const outputNoTraceback = Immutable.fromJS({
       output_type: 'error',
@@ -70,6 +69,6 @@ describe('Output', () => {
     });
 
     const component2 = shallow(<Output output={outputNoTraceback} />);
-    expect(component2.type()).to.equal(Ansi);
+    expect(component2.type()).toEqual(Ansi);
   });
 });

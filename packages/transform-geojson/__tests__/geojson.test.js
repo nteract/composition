@@ -2,12 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 
 import { mount } from 'enzyme';
-import chai, { expect } from 'chai';
-import sinonChai from 'sinon-chai';
 
-import GeoJSONTransform, { getTheme } from '../../../../packages/transform-geojson';
-
-chai.use(sinonChai);
+import GeoJSONTransform, { getTheme } from '../src';
 
 function deepFreeze(obj) {
   // Retrieve the property names defined on obj
@@ -61,8 +57,8 @@ describe('GeoJSONTransform', () => {
     expect(geoComponent.instance().shouldComponentUpdate({
       theme: 'light',
       data: geojson,
-    })).to.be.false;
-    expect(geoComponent.find('.leaflet-container')).to.have.length(1);
+    })).toBeFalsy();
+    expect(geoComponent.find('.leaflet-container').length).toBe(1);
   });
 
   it('updates the map', () => {
@@ -77,9 +73,9 @@ describe('GeoJSONTransform', () => {
     expect(instance.shouldComponentUpdate({
       theme: 'light',
       data: geojson,
-    })).to.be.false;
+    })).toBeFalsy();
 
-    expect(geoComponent.find('.leaflet-container')).to.have.length(1);
+    expect(geoComponent.find('.leaflet-container').length).toBe(1);
 
     geoComponent.setProps({
       data: _.set(_.cloneDeep(geojson), ['features', 0, 'properties', 'popupContent'], 'somewhere'),
@@ -87,15 +83,15 @@ describe('GeoJSONTransform', () => {
     });
   });
   it('picks an appropriate theme when unknown', () => {
-    expect(getTheme('light')).to.equal('light');
-    expect(getTheme('dark')).to.equal('dark');
+    expect(getTheme('light')).toEqual('light');
+    expect(getTheme('dark')).toEqual('dark');
 
     const el = document.createElement('div');
     el.style.backgroundColor = '#FFFFFF';
-    expect(getTheme('classic', el)).to.equal('light');
+    expect(getTheme('classic', el)).toEqual('light');
 
     const darkEl = document.createElement('div');
     darkEl.style.backgroundColor = '#000000';
-    expect(getTheme('classic', darkEl)).to.equal('dark');
+    expect(getTheme('classic', darkEl)).toEqual('dark');
   });
 });

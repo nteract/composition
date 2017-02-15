@@ -2,16 +2,13 @@ import React from 'react';
 import _ from 'lodash';
 
 import { mount } from 'enzyme';
-import chai, { expect } from 'chai';
-import sinon from 'sinon';
-import sinonChai from 'sinon-chai';
 
+import PlotlyTransform from '../src';
 
-import PlotlyTransform from '../../../../packages/transform-plotly';
-
-chai.use(sinonChai);
-
+jest.mock('plotly.js/dist/plotly');
 const plotly = require('plotly.js/dist/plotly');
+plotly.newPlot.mockImplementation(() => {})
+plotly.redraw.mockImplementation(() => {})
 
 function deepFreeze(obj) {
   // Retrieve the property names defined on obj
@@ -43,9 +40,7 @@ const figure = deepFreeze({
 });
 
 describe('PlotlyTransform', () => {
-  it('plots some data from an Immutablejs structure', () => {
-    const newPlot = sinon.spy(plotly, 'newPlot');
-
+  it('plots some data from an object', () => {
     const plotComponent = mount(
       <PlotlyTransform
         data={figure}
@@ -54,9 +49,8 @@ describe('PlotlyTransform', () => {
 
     const instance = plotComponent.instance();
 
-    expect(instance.shouldComponentUpdate({ data: '' })).to.be.true;
-    expect(newPlot).to.have.been
-      .calledWith(
+    expect(instance.shouldComponentUpdate({ data: '' })).toBeTruthy();
+    expect(plotly.newPlot).lastCalledWith(
         instance.el,
       [
           { x: [1999, 2000, 2001, 2002], y: [10, 15, 13, 17], type: 'scatter' },
@@ -69,13 +63,9 @@ describe('PlotlyTransform', () => {
         height: '100px',
       });
 
-        // Unwrap spy
-    plotly.newPlot.restore();
   });
 
   it('plots some data from a JSON string', () => {
-    const newPlot = sinon.spy(plotly, 'newPlot');
-
     const plotComponent = mount(
       <PlotlyTransform
         data={JSON.stringify(figure)}
@@ -84,9 +74,8 @@ describe('PlotlyTransform', () => {
 
     const instance = plotComponent.instance();
 
-    expect(instance.shouldComponentUpdate({ data: '' })).to.be.true;
-    expect(newPlot).to.have.been
-      .calledWith(
+    expect(instance.shouldComponentUpdate({ data: '' })).toBeTruthy();
+    expect(plotly.newPlot).lastCalledWith(
         instance.el,
       [
           { x: [1999, 2000, 2001, 2002], y: [10, 15, 13, 17], type: 'scatter' },
@@ -98,13 +87,9 @@ describe('PlotlyTransform', () => {
         yaxis: { title: 'Percent', showline: false },
         height: '100px',
       });
-    // Unwrap spy
-    plotly.newPlot.restore();
   });
 
   it('processes updates', () => {
-    const redraw = sinon.spy(plotly, 'redraw');
-
     const wrapper = mount(
       <PlotlyTransform
         data={figure}
@@ -117,11 +102,8 @@ describe('PlotlyTransform', () => {
       data: _.set(_.cloneDeep(figure), ['data', 0, 'type'], 'bar'),
     });
 
-    expect(instance.el.data[0].type).to.equal('bar');
+    expect(instance.el.data[0].type).toEqual('bar');
 
-    expect(redraw).to.have.been.calledWith(instance.el);
-
-      // Unwrap spy
-    plotly.redraw.restore();
+    expect(plotly.redraw).lastCalledWith(instance.el);
   });
 });

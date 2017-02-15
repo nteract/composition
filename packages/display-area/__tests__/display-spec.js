@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import Immutable from 'immutable';
 
 import { Display } from '../';
@@ -22,7 +21,7 @@ describe('Display', () => {
       displayOrder={displayOrder}
       transforms={transforms}
     />);
-    expect(component.contains(<div className="cell_display" />)).to.equal(false);
+    expect(component.contains(<div className="cell_display" />)).toEqual(false);
   });
   it('displays status when it is not hidden', () => {
     const outputs = Immutable.fromJS([{
@@ -38,6 +37,6 @@ describe('Display', () => {
       displayOrder={displayOrder}
       transforms={transforms}
     />);
-    expect(component.contains(<div className="cell_display" />)).to.equal(false);
+    expect(component.contains(<div className="cell_display" />)).toEqual(false);
   });
 });

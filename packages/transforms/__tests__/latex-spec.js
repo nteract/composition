@@ -1,5 +1,4 @@
 import React from 'react';
-import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import LaTeXDisplay from '../src/latex';
@@ -11,7 +10,7 @@ describe('LaTeXDisplay', () => {
     );
 
     const rendered = component.render();
-    expect(rendered.html()).to.equal('<div>x^2 + y = 3</div>');
+    expect(rendered.html()).toEqual('<div>x^2 + y = 3</div>');
   });
   it('updates the LaTeX', () => {
     const component = mount(
@@ -24,6 +23,6 @@ describe('LaTeXDisplay', () => {
     });
 
     rendered = component.render();
-    expect(rendered.html()).to.equal('<div>x^6 + z = 55</div>');
+    expect(rendered.html()).toEqual('<div>x^6 + z = 55</div>');
   });
 });

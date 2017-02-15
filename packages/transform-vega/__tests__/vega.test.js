@@ -7,18 +7,12 @@ import {
   Vega,
   VegaLite,
   VegaEmbed,
-} from '../../../../packages/transform-vega';
+} from '../src/';
 
-const chai = require('chai');
 const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
 const cars = require('vega-lite/data/cars.json');
 
-chai.use(sinonChai);
-
-const expect = chai.expect;
-
-const spec = Immutable.fromJS({
+const spec = {
   description: 'A scatterplot showing horsepower and miles per gallons.',
   data: {
     values: cars,
@@ -30,7 +24,7 @@ const spec = Immutable.fromJS({
     color: { field: 'Origin', type: 'nominal' },
     shape: { field: 'Origin', type: 'nominal' },
   },
-});
+};
 
 describe('Vega', () => {
   it('renders VegaEmbed with embedMode vega', () => {
@@ -38,8 +32,8 @@ describe('Vega', () => {
       <Vega data={spec} />,
     );
 
-    expect(wrapper.name()).to.equal('VegaEmbed');
-    expect(wrapper.props().embedMode).to.equal('vega');
+    expect(wrapper.name()).toEqual('VegaEmbed');
+    expect(wrapper.props().embedMode).toEqual('vega');
   });
 });
 
@@ -49,8 +43,8 @@ describe('VegaLite', () => {
       <VegaLite data={spec} />,
     );
 
-    expect(wrapper.name()).to.equal('VegaEmbed');
-    expect(wrapper.props().embedMode).to.equal('vega-lite');
+    expect(wrapper.name()).toEqual('VegaEmbed');
+    expect(wrapper.props().embedMode).toEqual('vega-lite');
   });
 });
 
@@ -67,7 +61,7 @@ describe('VegaEmbed', () => {
 
     const element = wrapper.instance();
 
-    expect(element.shouldComponentUpdate({ data: '324' })).to.equal(true);
+    expect(element.shouldComponentUpdate({ data: '324' })).toEqual(true);
   });
 
   it('embeds vega and handles updates', () => {
@@ -80,12 +74,11 @@ describe('VegaEmbed', () => {
       />,
     );
     wrapper.render();
-    // expect(spy).to.have.been.called;
 
     const spy2 = sinon.spy();
 
     wrapper.setProps({
-      data: Immutable.fromJS({
+      data: {
         data: {
           values: cars,
         },
@@ -94,9 +87,8 @@ describe('VegaEmbed', () => {
           x: { field: 'Horsepower', type: 'quantitative' },
           y: { field: 'Miles_per_Gallon', type: 'quantitative' },
         },
-      }),
+      },
       renderedCallback: spy2,
     });
-    // expect(spy2).to.have.been.called;
   });
 });
