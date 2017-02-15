@@ -1,0 +1,25 @@
+{
+  "name": "@nteract/notebook-preview-demo",
+  "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "react-scripts": "0.8.5"
+  },
+  "dependencies": {
+    "@nteract/commutable": "^1.0.2",
+    "@nteract/notebook-preview": "^1.0.0",
+    "normalize.css": "^5.0.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-router": "^4.0.0-beta.5",
+    "react-router-dom": "^4.0.0-beta.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
