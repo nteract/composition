@@ -4,7 +4,7 @@
   "description": "Our suite of document polyfills for testing in jest",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo 'It is a mock'"
   },
   "author": "",
   "license": "BSD-3-Clause"

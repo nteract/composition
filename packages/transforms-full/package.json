@@ -33,8 +33,10 @@
     "react": "^15.4.2"
   },
   "devDependencies": {
-    "react": "^15.4.2",
-    "flow-copy-source": "^1.1.0"
+    "babel-cli": "^6.23.0",
+    "flow-copy-source": "^1.1.0",
+    "jest": "^18.1.0",
+    "@nteract/dev-scripts": "^1.0.0"
   },
   "dependencies": {
     "@nteract/transform-geojson": "^1.0.2",

@@ -9,7 +9,7 @@
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"We need tests here\""
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
+    "babel-cli": "^6.23.0",
     "flow-copy-source": "^1.1.0"
   }
 }

@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import chai, { expect } from 'chai';
 import sinonChai from 'sinon-chai';
 
-import ModelDebug from '../../../../packages/transform-model-debug';
+import ModelDebug from '../src';
 
 chai.use(sinonChai);
 

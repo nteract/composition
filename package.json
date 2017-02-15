@@ -169,7 +169,7 @@
     "yargs": "^6.4.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.22.2",
+    "babel-cli": "^6.23.0",
     "babel-core": "^6.22.2",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.8",
@@ -178,7 +178,7 @@
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-preset-es2015-node6": "^0.4.0",
-    "babel-preset-react": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
     "chai": "^3.4.1",
     "chai-immutable": "^1.6.0",
     "cross-env": "^3.1.3",
