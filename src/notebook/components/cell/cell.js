@@ -109,7 +109,7 @@ export class Cell extends React.PureComponent {
     const editorFocused = this.props.editorFocused === this.props.id;
     return (
       <div
-        className={`cell ${type === 'markdown' ? 'text' : 'code'} ${cellFocused ? 'focused' : ''}`}
+        className={`cell ${(type === 'markdown' || type === 'raw') ? 'text' : 'code'} ${cellFocused ? 'focused' : ''}`}
         onClick={this.selectCell}
         ref={(el) => { this.cellDiv = el; }}
       >
@@ -121,7 +121,7 @@ export class Cell extends React.PureComponent {
           /> : null
         }
         {
-        type === 'markdown' ?
+        (type === 'markdown' || type === 'raw') ?
           <MarkdownCell
             focusAbove={this.focusAboveCell}
             focusBelow={this.focusBelowCell}
