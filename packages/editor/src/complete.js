@@ -2,7 +2,7 @@ import Rx from 'rxjs/Rx';
 
 import {
   createMessage,
-} from '../../../kernel/messaging';
+} from '@nteract/messaging';
 
 // Hint picker
 export const pick = (cm, handle) => handle.pick();

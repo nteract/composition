@@ -14,7 +14,7 @@ import {
 
 import {
   createMessage,
-} from '../../../src/notebook/kernel/messaging';
+} from '../../../packages/messaging';
 
 const Rx = require('rxjs/Rx');
 

@@ -27,7 +27,7 @@ import type {
 
 import {
   createMessage,
-} from '../kernel/messaging';
+} from '../../../packages/messaging';
 
 import {
   setExecutionState,

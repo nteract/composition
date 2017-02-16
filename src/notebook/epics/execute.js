@@ -1,6 +1,6 @@
 import {
   createMessage,
-} from '../kernel/messaging';
+} from '../../../packages/messaging';
 
 import {
   createCellAfter,

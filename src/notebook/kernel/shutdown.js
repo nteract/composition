@@ -2,10 +2,9 @@
 import * as fs from 'fs';
 
 import type { Subject } from 'rxjs';
-// import type { ChildProcess } from 'child_process'; // eslint-disable-line no-unused-vars
 
 import { shutdownRequest } from 'enchannel';
-import { getUsername, session } from './messaging';
+import { getUsername, session } from '../../../packages/messaging';
 
 export const filesystem = fs;
 

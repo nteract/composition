@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { focusCell, focusCellEditor, updateCellSource } from '../actions';
-import EditorView from '../views/editor';
+import EditorView from '../../../packages/editor/lib';
 
 type Props = {
   dispatch: Dispatch<*>,

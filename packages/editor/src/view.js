@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import CodeMirrorWrapper from '../components/cell/codemirror';
+import CodeMirrorWrapper from './wrapper';
 
 type Props = {
   children?: React.Element<*>

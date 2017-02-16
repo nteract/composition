@@ -2,7 +2,7 @@ import Rx from 'rxjs/Rx';
 
 import {
   createMessage,
-} from '../kernel/messaging';
+} from '../../../packages/messaging';
 
 import {
   COMM_OPEN,

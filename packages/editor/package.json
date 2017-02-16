@@ -1,0 +1,41 @@
+{
+  "name": "@nteract/editor",
+  "version": "1.0.0",
+  "description": "The editor that lives inside cells in nteract",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "test": "jest"
+  },
+  "keywords": [
+    "nteract",
+    "editor",
+    "notebook",
+    "jupyter"
+  ],
+  "jest": {
+    "setupFiles": [
+      "@nteract/mockument"
+    ]
+  },
+  "dependencies": {
+    "@nteract/messaging": "1.0.0"
+  },
+  "peerDependencies": {
+    "immutable": "^3.8.1",
+    "react": "^15.4.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.23.0",
+    "flow-copy-source": "^1.1.0",
+    "jest": "^18.1.0",
+    "@nteract/dev-scripts": "^1.0.0",
+    "@nteract/mockument": "^1.0.0"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}
