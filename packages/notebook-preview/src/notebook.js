@@ -11,7 +11,8 @@ type Props = {
   displayOrder: ImmutableList<any>,
   notebook: any,
   transforms: ImmutableMap<string, any>,
-  theme: string
+  theme: string,
+  tip: boolean
 };
 
 export function getLanguageMode(notebook: any): string {
@@ -55,6 +56,7 @@ export class Notebook extends React.PureComponent {
           key={id}
           id={id}
           cell={cell}
+          tip={this.props.tip}
           displayOrder={this.props.displayOrder}
           transforms={this.props.transforms}
           theme={this.props.theme}

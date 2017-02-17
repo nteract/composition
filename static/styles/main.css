@@ -599,3 +599,21 @@ li.CodeMirror-hint-active {
     background: var(--status-bar);
     z-index: 99;
 }
+
+/*Tooltip styling*/
+.bt {
+  float: right;
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.tip {
+  padding: 20px 20px 50px 20px;
+  margin: 30px 20px 50px 20px;
+  box-shadow: 2px 2px 50px rgba(0,0,0,.2);
+  white-space: pre-wrap;
+  background-color: var(--main-bg-color);
+  z-index: 9999999;
+}

@@ -12,6 +12,7 @@ type Props = {
   editorFocused: boolean,
   cellFocused: boolean,
   completion: boolean,
+  tip: boolean,
   focusAbove: () => void,
   focusBelow: () => void,
   theme: string,

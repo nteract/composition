@@ -57,6 +57,7 @@ class CodeCell extends React.PureComponent {
                 running={this.props.running}
               />
               <Editor
+                tip
                 completion
                 id={this.props.id}
                 input={this.props.cell.get("source")}

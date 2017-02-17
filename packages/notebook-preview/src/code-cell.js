@@ -15,6 +15,7 @@ type Props = {
   id: string,
   language: string,
   theme: string,
+  tip: boolean,
   transforms: ImmutableMap<string, any>,
   running: boolean,
   models: ImmutableMap<string, any>
@@ -56,6 +57,7 @@ class CodeCell extends React.PureComponent {
                 input={this.props.cell.get("source")}
                 language={this.props.language}
                 theme={this.props.theme}
+                tip={this.props.tip}
                 cellFocused={false}
                 onChange={() => {}}
                 onFocusChange={() => {}}
@@ -76,6 +78,7 @@ class CodeCell extends React.PureComponent {
               displayOrder={this.props.displayOrder}
               transforms={this.props.transforms}
               theme={this.props.theme}
+              tip={this.props.tip}
               expanded={this.isOutputExpanded()}
               isHidden={this.isOutputHidden()}
               models={this.props.models}

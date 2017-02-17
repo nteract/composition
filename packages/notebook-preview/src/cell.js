@@ -13,6 +13,7 @@ export type CellProps = {
   id: string,
   language: string,
   theme: string,
+  tip: boolean,
   transforms: ImmutableMap<string, any>
 };
 
@@ -41,6 +42,7 @@ export class Cell extends React.PureComponent {
                   cell={cell}
                   id={this.props.id}
                   theme={this.props.theme}
+                  tip={this.props.tip}
                   language={this.props.language}
                   displayOrder={this.props.displayOrder}
                   transforms={this.props.transforms}

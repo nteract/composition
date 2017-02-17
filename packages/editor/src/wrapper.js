@@ -1,34 +1,40 @@
 // @flow
 /* eslint-disable class-methods-use-this */
-import React, { PureComponent } from "react";
-import Rx from "rxjs/Rx";
-import CodeMirror from "react-codemirror";
-import CM from "codemirror";
+import React, { PureComponent } from 'react';
+import ReactDOM from 'react-dom';
+import Rx from 'rxjs/Rx';
+import CodeMirror from 'react-codemirror';
+import CM from 'codemirror';
+import { Map as ImmutableMap } from 'immutable';
 
-import "codemirror/addon/hint/show-hint";
-import "codemirror/addon/hint/anyword-hint";
-import "codemirror/addon/search/search";
-import "codemirror/addon/search/searchcursor";
-import "codemirror/addon/edit/matchbrackets";
-import "codemirror/addon/edit/closebrackets";
-import "codemirror/addon/dialog/dialog";
-import "codemirror/addon/comment/comment.js";
+import {
+  transforms
+} from '@nteract/transforms';
 
-import "codemirror/mode/python/python";
-import "codemirror/mode/ruby/ruby";
-import "codemirror/mode/javascript/javascript";
-import "codemirror/mode/css/css";
-import "codemirror/mode/julia/julia";
-import "codemirror/mode/r/r";
-import "codemirror/mode/clike/clike";
-import "codemirror/mode/shell/shell";
-import "codemirror/mode/sql/sql";
-import "codemirror/mode/markdown/markdown";
-import "codemirror/mode/gfm/gfm";
+import 'codemirror/addon/hint/show-hint';
+import 'codemirror/addon/hint/anyword-hint';
+import 'codemirror/addon/search/search';
+import 'codemirror/addon/search/searchcursor';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/dialog/dialog';
+import 'codemirror/addon/comment/comment.js';
+import 'codemirror/mode/python/python';
+import 'codemirror/mode/ruby/ruby';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/css/css';
+import 'codemirror/mode/julia/julia';
+import 'codemirror/mode/r/r';
+import 'codemirror/mode/clike/clike';
+import 'codemirror/mode/shell/shell';
+import 'codemirror/mode/sql/sql';
+import 'codemirror/mode/markdown/markdown';
+import 'codemirror/mode/gfm/gfm';
 
-import "./codemirror-ipython";
-import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
-import { codeComplete, pick } from "./complete";
+import './codemirror-ipython';
+import excludedIntelliSenseTriggerKeys from './excludedIntelliSenseKeys';
+import { codeComplete, pick } from './complete';
+import { tool } from './tooltip';
 
 type WrapperProps = {
   id: string,
@@ -36,6 +42,7 @@ type WrapperProps = {
   editorFocused: boolean,
   cellFocused: boolean,
   completion: boolean,
+  tip: boolean,
   focusAbove: () => void,
   focusBelow: () => void,
   theme: string,
@@ -63,11 +70,13 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
     goLineDownOrEmit: (editor: Object) => void;
     executeTab: (editor: Object) => void;
     hint: (editor: Object, cb: Function) => void;
+    tips: (editor: Object) => void;
 
     constructor(): void {
       super();
 
       this.hint = this.completions.bind(this);
+      this.tips = this.tips.bind(this);
       this.hint.async = true;
     }
 
@@ -149,6 +158,47 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       }
     }
 
+    tips(editor: Object): void {
+      const { tip, channels } = this.props;
+      const currentTip = document.getElementById('cl');
+      const body = document.body;
+      if (currentTip && body != null) {
+        body
+        .removeChild(currentTip);
+        editor.setSize('auto', 'auto');
+        return;
+      }
+      if (tip) {
+        tool(channels, editor).subscribe(resp => {
+          const bundle = ImmutableMap(resp.dict);
+          const mimetype = "text/plain";
+          // $FlowFixMe: until transforms refactored for new export interface GH #1488
+          const Transform = transforms.get(mimetype);
+          const node = document.createElement("div");
+          node.className = "CodeMirror-hint tip";
+          node.id = "cl";
+          ReactDOM.render(<Transform data={bundle.get(mimetype)} />, node);
+          const node2 = document.createElement("button");
+          node2.className = "bt";
+          node2.id = "btnid";
+          node2.textContent = "\u2715";
+          node2.style.fontSize = "11.5px";
+          node.appendChild(node2);
+          node2.onclick = function removeButton() {
+            this.parentNode.parentNode.removeChild(this.parentNode);
+            return false;
+          };
+            editor.addWidget({ line: editor.getCursor().line, ch: 0 }, node, true);
+            const x = document.getElementById('cl');
+            if (x != null && body != null) {
+              const pos = x.getBoundingClientRect();
+              body.appendChild(x);
+              x.style.top = pos.top + 'px';
+            }
+          });
+      }
+    }
+
     getCodeMirrorOptions({ cursorBlinkRate, language }: WrapperProps): Object {
       return {
         autoCloseBrackets: true,
@@ -171,8 +221,9 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
           "Shift-Tab": editor => editor.execCommand("indentLess"),
           Up: this.goLineUpOrEmit,
           Down: this.goLineDownOrEmit,
-          "Cmd-/": "toggleComment",
-          "Ctrl-/": "toggleComment"
+          'Cmd-/': 'toggleComment',
+          'Ctrl-/': 'toggleComment',
+          'Cmd-.': this.tips
         },
         indentUnit: 4,
         cursorBlinkRate,
