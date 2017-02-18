@@ -137,7 +137,7 @@
     "electron-react-devtools": "^0.4.0",
     "enchannel": "^1.1.3",
     "enchannel-zmq-backend": "^2.6.0",
-    "github": "^8.0.0",
+    "github": "^9.0.0",
     "ijavascript": "^5.0.17",
     "immutable": "^3.8.1",
     "jupyter-paths": "^1.1.0",
