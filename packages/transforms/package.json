@@ -15,6 +15,18 @@
     "type": "git",
     "url": "git+https://github.com/nteract/nteract.git"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "lodash",
+      "transform-class-properties",
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ]
+  },
   "keywords": [
     "nteract",
     "transforms",
