@@ -44,7 +44,7 @@ div#loading {
   Globals
  */
 
-pre
+.cell pre
 {
     font-size: 14px;
     line-height: 1.21429em;
@@ -60,7 +60,7 @@ body
     background-color: var(--main-bg-color);
     color: var(--main-fg-color);
 }
-img
+.cell img
 {
     display: block;
     max-width: 100%;
@@ -69,27 +69,27 @@ img
     margin-left: auto;
 }
 
-table {
+.cell table {
     border-collapse: collapse;
 }
 
-th,
-td {
+.cell th,
+.cell td {
     padding: 0.5em 1em;
     border: 1px solid var(--primary-border);
 }
 
-th {
+.cell th {
     text-align: left;
 }
 
-blockquote{
+.cell blockquote{
   padding: .75em .5em .75em 1em;
   background: var(--main-bg-color);
   border-left: 0.5em solid #DDD;
 }
 
-blockquote::before {
+.cell blockquote::before {
   display: block;
   height: 0;
   content: "“";
@@ -99,7 +99,7 @@ blockquote::before {
 }
 
 /* for nested paragraphs in block quotes */
-blockquote p {
+.cell blockquote p {
   display: inline;
 }
 
@@ -111,10 +111,6 @@ blockquote p {
     padding-top : 10px;
     padding-left: 10px;
     padding-right: 10px;
-}
-
-.notebook .cell-container:last-child {
-    padding-bottom: 200px;
 }
 
 /*
@@ -140,7 +136,6 @@ blockquote p {
     background: var(--cell-bg);
     transition: all .1s ease-in-out;
 }
-
 
 .cell.focused {
     box-shadow: 3px 3px 9px rgba(0,0,0,.12), -3px -3px 9px rgba(0,0,0,.12);
@@ -329,7 +324,7 @@ blockquote p {
   color: var(--toolbar-button);
 }
 
-code {
+.cell code {
   font-family: 'Source Code Pro';
   white-space: pre-wrap;
   font-size: 14px;
@@ -489,28 +484,30 @@ li.CodeMirror-hint-active {
  * write something general for nested HTML like the R kernel does for data
  */
 
-dd {
+.cell dd {
     display: block;
     -webkit-margin-start: 40px
 }
-dl {
+.cell dl {
     display: block;
     -webkit-margin-before: 1__qem;
     -webkit-margin-after: 1em;
     -webkit-margin-start: 0;
     -webkit-margin-end: 0;
 }
-dt {
+
+.cell dt {
     display: block
 }
 
-dl {
+.cell dl {
   width: 100%;
   overflow: hidden;
   padding: 0;
   margin: 0
 }
-dt {
+
+.cell dt {
   font-weight: bold;
   float: left;
   width: 20%;
@@ -518,7 +515,8 @@ dt {
   padding: 0;
   margin: 0
 }
-dd {
+
+.cell dd {
   float: left;
   width: 80%;
   /* adjust the width; make sure the total of both is 100% */
@@ -527,7 +525,7 @@ dd {
 }
 
 /* No dangling (1.) */
-li:only-child {
+.cell li:only-child {
   list-style-type: none;
 }
 
