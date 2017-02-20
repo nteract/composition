@@ -14,8 +14,15 @@ import type {
 } from './types';
 
 import type {
-    CellStructure,
+  CellStructure,
 } from './structures';
+
+import type {
+  MultilineString,
+  ErrorOutput,
+  RawCell,
+  MarkdownCell,
+} from './v4';
 
 function demultiline(s: string | Array<string>) {
     if (Array.isArray(s)) {
@@ -23,8 +30,6 @@ function demultiline(s: string | Array<string>) {
         }
     return s;
 }
-
-type MultiLineString = string | Array<string>;
 
 export type Notebook = {|
   worksheets: Array<Worksheet>,
@@ -73,26 +78,7 @@ export type StreamOutput = {|
   text: MultiLineString,
 |};
 
-export type ErrorOutput = {|
-  output_type: 'pyerr',
-  ename: string,
-  evalue: string,
-  traceback: Array<string>,
-|};
-
 export type Output = ExecuteResult | DisplayData | StreamOutput | ErrorOutput;
-
-export type RawCell = {|
-  cell_type: 'raw',
-  metadata: JSONObject,
-  source: MultiLineString,
-|};
-
-export type MarkdownCell = {|
-  cell_type: 'markdown',
-  metadata: JSONObject,
-  source: MultiLineString,
-|};
 
 export type HeadingCell = {|
   cell_type: 'heading',
