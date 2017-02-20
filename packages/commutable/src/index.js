@@ -1,6 +1,7 @@
 /* @flow */
 
 import type { Notebook as v4Notebook } from './v4';
+import type { Notebook as v3Notebook } from './v3';
 
 import type {
   ImmutableNotebook,
@@ -29,7 +30,7 @@ const {
   removeCell,
 } = require('./structures');
 
-export type Notebook = PlaceholderNotebook & v4Notebook;
+export type Notebook = PlaceholderNotebook & v4Notebook & v3Notebook;
 
 function freezeReviver(k: string, v: JSONType): JSONType {
   return Object.freeze(v);

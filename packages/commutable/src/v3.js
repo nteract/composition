@@ -4,6 +4,7 @@ const Immutable = require('immutable');
 const appendCell = require('./structures').appendCell;
 
 import type {
+  JSONObject,
   ImmutableNotebook,
   ImmutableCodeCell,
   ImmutableMarkdownCell,
@@ -18,10 +19,16 @@ import type {
 } from './structures';
 
 import type {
-  MultilineString,
+  MultiLineString,
   ErrorOutput,
   RawCell,
   MarkdownCell,
+  MimeBundle,
+} from './v4';
+
+import {
+  cleanMimeData,
+  cleanMimeAtKey,
 } from './v4';
 
 function demultiline(s: string | Array<string>) {
@@ -31,6 +38,11 @@ function demultiline(s: string | Array<string>) {
     return s;
 }
 
+export type Worksheet = {|
+  cells: Array<Cell>,
+  metadata: Object,
+|};
+
 export type Notebook = {|
   worksheets: Array<Worksheet>,
   metadata: Object,
@@ -38,38 +50,34 @@ export type Notebook = {|
   nbformat_minor: number,
 |};
 
-export type Worksheet = {|
-  cells: Array<Cell>,
-  metadata: Object,
-|};
-
 export type ExecuteResult = {|
   output_type: 'pyout',
   prompt_number: number,
-  output_metadata: Object,
-  text: MultieLineString,
-  latex: MultieLineString,
-  png: MultieLineString,
-  jpeg: MultieLineString,
-  svg: MultieLineString,
-  html: MultieLineString,
-  javascript: MultieLineString,
-  json: MultieLineString,
-  pdf: MultieLineString,
+  metadata: Object,
+  text?: MultiLineString,
+  latex?: MultiLineString,
+  png?: MultiLineString,
+  jpeg?: MultiLineString,
+  svg?: MultiLineString,
+  html?: MultiLineString,
+  javascript?: MultiLineString,
+  json?: MultiLineString,
+  pdf?: MultiLineString,
 |};
 
 export type DisplayData = {|
   output_type: 'display_data',
-  output_metadata: Object,
-  text: MultieLineString,
-  latex: MultieLineString,
-  png: MultieLineString,
-  jpeg: MultieLineString,
-  svg: MultieLineString,
-  html: MultieLineString,
-  javascript: MultieLineString,
-  json: MultieLineString,
-  pdf: MultieLineString,
+  metadata: Object,
+  prompt_number?: number,
+  text?: MultiLineString,
+  latex?: MultiLineString,
+  png?: MultiLineString,
+  jpeg?: MultiLineString,
+  svg?: MultiLineString,
+  html?: MultiLineString,
+  javascript?: MultiLineString,
+  json?: MultiLineString,
+  pdf?: MultiLineString,
 |};
 
 export type StreamOutput = {|
@@ -94,22 +102,10 @@ export type CodeCell = {|
   metadata: JSONObject,
   input: MultiLineString,
   prompt_number: number,
-  outputs: Output
+  outputs: Array<Output>
 |};
 
 export type Cell = RawCell | MarkdownCell | HeadingCell | CodeCell;
-
-export type Worksheet = {|
-  cells: Array<Cell>,
-  metadata: Object,
-|};
-
-export type Notebook = {|
-  worksheets: Array<Worksheet>,
-  metadata: Object,
-  nbformat: 3,
-  nbformat_minor: number,
-|};
 
 function createImmutableMarkdownCell(cell) {
   return new Immutable.Map({
@@ -119,11 +115,7 @@ function createImmutableMarkdownCell(cell) {
   });
 }
 
-function cleanMimeAtKey(mimeBundle: MimeBundle, previous: ImmutableMimeBundle, key: string) {
-  return previous.set(key, cleanMimeData(key, mimeBundle[key]));
-}
-
-function createImmutableMimeBundle(output: Output): ImmutableMimeBundle {
+function createImmutableMimeBundle(output: DisplayData | ExecuteResult): ImmutableMimeBundle {
   const VALID_MIMETYPES = {
     "text": "text/plain",
     "latex": "text/latex",
@@ -134,11 +126,14 @@ function createImmutableMimeBundle(output: Output): ImmutableMimeBundle {
     "javascript": "application/x-javascript",
     "json": "application/javascript",
     "pdf": "application/pdf",
+    "metadata": "",
+    "prompt_number": "",
+    "output_type": "",
   };
   const mimeBundle = {};
-  Object.keys(output).map(function(key) {
-    if (key.indexOf(Object.keys(VALID_MIMETYPES)) >= 0) {
-      mimeBundle[VALID_MIME_TYPES[key]] = output[key];
+  Object.keys(output).map(function(key: string) {
+    if (key !== 'prompt_number' || key !== 'metadata' || key !== 'output_type') {
+      mimeBundle[VALID_MIMETYPES[key]] = output[key];
     }
   });
   return Object.keys(mimeBundle)
@@ -204,9 +199,9 @@ function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
 function createImmutableHeadingCell(cell: HeadingCell): ImmutableMarkdownCell {
   return new Immutable.Map({
     cell_type: 'markdown',
-    source: demultiline(cell.source.map((line) => {
+    source: Array.isArray(cell.source) ? demultiline(cell.source.map((line) => {
       return Array(cell.level).join('#').concat(' ').concat(line);
-    })),
+    })) : cell.source,
     metadata: Immutable.fromJS(cell.metadata),
   });
 }
@@ -226,7 +221,7 @@ function createImmutableCell(cell) {
   }
 }
 
-function fromJS(notebook: Notebook): ImmutableNotebook {
+export function fromJS(notebook: Notebook): ImmutableNotebook {
   if (notebook.nbformat !== 3 || notebook.nbformat_minor < 0) {
     throw new TypeError(
       `Notebook is not a valid v3 notebook. v3 notebooks must be of form 3.x
@@ -253,7 +248,3 @@ function fromJS(notebook: Notebook): ImmutableNotebook {
     metadata: Immutable.fromJS(notebook.metadata),
   });
 }
-
-module.exports = {
-  fromJS,
-};

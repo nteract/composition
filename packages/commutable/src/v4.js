@@ -138,7 +138,7 @@ function isJSONKey(key) {
   return /^application\/(.*\+)?json$/.test(key);
 }
 
-function cleanMimeData(key: string, data: string | Array<string> | Object) {
+export function cleanMimeData(key: string, data: string | Array<string> | Object) {
   // See https://github.com/jupyter/nbformat/blob/62d6eb8803616d198eaa2024604d1fe923f2a7b3/nbformat/v4/nbformat.v4.schema.json#L368
   if (isJSONKey(key)) {
     // Data stays as is for JSON types
@@ -152,11 +152,11 @@ function cleanMimeData(key: string, data: string | Array<string> | Object) {
   throw new TypeError(`Data for ${key} is expected to be a string or an Array of strings`);
 }
 
-function cleanMimeAtKey(mimeBundle: MimeBundle, previous: ImmutableMimeBundle, key: string) {
+export function cleanMimeAtKey(mimeBundle: MimeBundle, previous: ImmutableMimeBundle, key: string): ImmutableMimeBundle {
   return previous.set(key, cleanMimeData(key, mimeBundle[key]));
 }
 
-function createImmutableMimeBundle(mimeBundle: MimeBundle): ImmutableMimeBundle {
+export function createImmutableMimeBundle(mimeBundle: MimeBundle): ImmutableMimeBundle {
   // Map over all the mimetypes, turning them into our in-memory format
   //
   // {
@@ -185,7 +185,7 @@ function sanitize(o: ExecuteResult | DisplayData) {
 }
 
 
-function createImmutableOutput(output: Output): ImmutableOutput {
+export function createImmutableOutput(output: Output): ImmutableOutput {
   switch (output.output_type) {
     case 'execute_result':
       return Immutable.Map(Object.assign({}, {
@@ -257,7 +257,7 @@ function createImmutableCell(cell: Cell): ImmutableCell {
   }
 }
 
-function fromJS(notebook: Notebook): ImmutableNotebook {
+export function fromJS(notebook: Notebook): ImmutableNotebook {
   if (notebook.nbformat !== 4 || notebook.nbformat_minor < 0) {
     throw new TypeError(
       `Notebook is not a valid v4 notebook. v4 notebooks must be of form 4.x
@@ -404,7 +404,7 @@ function cellToJS(immCell: ImmutableCell): Cell {
   }
 }
 
-function toJS(immnb: ImmutableNotebook): Notebook {
+export function toJS(immnb: ImmutableNotebook): Notebook {
   const plainNotebook: PlainNotebook = immnb.toObject();
 
   const plainCellOrder: Array<string> = plainNotebook.cellOrder.toArray();
@@ -419,11 +419,3 @@ function toJS(immnb: ImmutableNotebook): Notebook {
     nbformat_minor: plainNotebook.nbformat_minor,
   };
 }
-
-module.exports = {
-  createImmutableMimeBundle,
-  createImmutableOutput,
-
-  toJS,
-  fromJS,
-};
