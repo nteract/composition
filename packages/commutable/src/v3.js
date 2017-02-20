@@ -58,7 +58,7 @@ export type ExecuteResult = {|
   pdf: MultieLineString,
 |};
 
-export type ExecuteResult = {|
+export type DisplayData = {|
   output_type: 'display_data',
   output_metadata: Object,
   text: MultieLineString,
