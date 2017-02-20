@@ -64,7 +64,7 @@ function toJS(immnb: ImmutableNotebook): v4Notebook {
   if (immnb.get('nbformat') === 4 && immnb.get('nbformat_minor') >= 0) {
     return v4.toJS(immnb);
   }
-  throw new TypeError('Only notebook format 4 is supported');
+  throw new TypeError('Only notebook formats 3 and 4 are supported!');
 }
 
 // Expected usage is stringifyNotebook(toJS(immutableNotebook))
