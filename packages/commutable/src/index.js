@@ -13,6 +13,7 @@ type PlaceholderNotebook = {
 };
 
 const v4 = require('./v4');
+const v3 = require('./v3');
 
 const {
   emptyNotebook,
@@ -46,6 +47,8 @@ function fromJS(notebookJSON: Notebook): ImmutableNotebook {
     if (Array.isArray(notebookJSON.cells) && typeof notebookJSON.metadata === 'object') {
       return v4.fromJS(notebookJSON);
     }
+  } else if (notebookJSON.nbformat === 3 && notebookJSON.nbformat_minor >= 0) {
+    return v3.fromJS(notebookJSON);
   }
 
   if (notebookJSON.nbformat) {
