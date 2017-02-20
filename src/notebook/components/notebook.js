@@ -17,8 +17,10 @@ import DraggableCell from '../providers/draggable-cell';
 import CellCreator from '../providers/cell-creator';
 import StatusBar from './status-bar';
 import {
+  focusCellEditor,
   focusNextCell,
   focusNextCellEditor,
+  focusPreviousCell,
   moveCell,
   executeCell,
 } from '../actions';
@@ -117,38 +119,60 @@ export class Notebook extends React.PureComponent {
   }
 
   keyDown(e: KeyboardEvent): void {
-    // If enter is not pressed, do nothing
-    if (e.keyCode !== 13) {
-      return;
-    }
+    const { key, ctrlKey, shiftKey } = e;
+    const { notebook, cellFocused, editorFocused } = this.props;
+    const { store } = this.context;
 
-    const shiftXORctrl = (e.shiftKey || e.ctrlKey) && !(e.shiftKey && e.ctrlKey);
-    if (!shiftXORctrl) {
-      return;
-    }
+    if (!cellFocused) return;
 
-    if (!this.props.cellFocused) {
-      return;
-    }
+    const id = cellFocused;
 
-    e.preventDefault();
+    switch (key) {
+      case 'Escape': {
+        if (editorFocused) {
+          store.dispatch(focusCellEditor(null));
+        }
+        break;
+      }
+      case 'Enter': {
+        e.preventDefault();
 
-    const cellMap = this.props.notebook.get('cellMap');
-    const id = this.props.cellFocused;
-    const cell = cellMap.get(id);
+        const shiftXORctrl = (shiftKey || ctrlKey) && !(shiftKey && ctrlKey);
 
-    if (e.shiftKey) {
-      this.context.store.dispatch(focusNextCell(this.props.cellFocused, true));
-      this.context.store.dispatch(focusNextCellEditor(id));
-    }
+        if (!shiftXORctrl) {
+          if (!editorFocused) {
+            store.dispatch(focusCellEditor(id))
+          }
+          break;
+        }
 
-    if (cell.get('cell_type') === 'code') {
-      this.context.store.dispatch(
-        executeCell(
-          id,
-          cell.get('source')
-        )
-      );
+        if (shiftKey) {
+          store.dispatch(focusNextCell(id, true));
+          store.dispatch(focusNextCellEditor(id));
+        }
+
+        const cell = notebook.get('cellMap').get(id);
+
+        if (cell.get('cell_type') === 'code') {
+          store.dispatch(executeCell(id, cell.get('source')));
+        }
+        break;
+      }
+      case 'ArrowDown': {
+        if (!editorFocused) {
+          store.dispatch(focusNextCell(id, true));
+        }
+        break;
+      }
+      case 'ArrowUp': {
+        if (!editorFocused) {
+          store.dispatch(focusPreviousCell(id));
+        }
+        break;
+      }
+      default: {
+        break;
+      }
     }
   }
 
