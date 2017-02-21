@@ -195,7 +195,7 @@
     "eslint-plugin-react": "6.9.0",
     "flow-bin": "^0.38.0",
     "flow-copy-source": "^1.1.0",
-    "jest": "^18.1.0",
+    "jest": "^19.0.0",
     "jsdom": "^9.10.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
