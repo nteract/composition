@@ -34,7 +34,7 @@ nteract is a literate coding environment that supports Python, R, JavaScript and
 
 ## Installation - Users
 
-Head to the [Releases](https://github.com/nteract/nteract/releases) page and download the version for your OS.
+Head to the [Releases](https://github.com/nteract/nteract/releases/latest) page and download the version for your OS.
 
 ## Installation - Contributors and Development
 
