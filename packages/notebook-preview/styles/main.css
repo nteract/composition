@@ -60,13 +60,11 @@ body
     background-color: var(--main-bg-color);
     color: var(--main-fg-color);
 }
+
 .cell img
 {
     display: block;
     max-width: 100%;
-
-    margin-right: auto;
-    margin-left: auto;
 }
 
 .cell table {
