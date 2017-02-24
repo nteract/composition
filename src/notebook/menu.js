@@ -103,7 +103,7 @@ export function triggerKernelRefresh(store) {
       buttons: ['Launch New Kernel', 'Don\'t Launch New Kernel'],
       title: 'New Kernel Needs to Be Launched',
       message: 'It looks like you\'ve saved your notebook file to a new location.',
-      detail: 'The kernel executing your code thinks your notbook is still in the ' +
+      detail: 'The kernel executing your code thinks your notebook is still in the ' +
         'old location. Would you like to launch a new kernel to match it with the ' +
         'new location of the notebook?',
     }, (index) => {
