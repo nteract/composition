@@ -18,9 +18,8 @@ describe('unlinkObservable', () => {
   it('it errors on unlink issue', (done) => {
     const existsSync = sandbox.stub(filesystem, 'existsSync', () => true);
     const unlink = sandbox.stub(filesystem, 'unlink', (path, error) => error({ message: 'lol' }));
-    const nextBuffer = [];
     unlinkObservable('path').subscribe(
-      (x) => nextBuffer.push(x),
+      _ => _,
       (err) => {
         expect(err.message).to.equal('lol');
         done();
@@ -33,15 +32,13 @@ describe('unlinkObservable', () => {
   it('completes and calls fs.existsSync, fs.unlink', (done) => {
     const existsSync = sandbox.stub(filesystem, 'existsSync');
     const unlink = sandbox.stub(filesystem, 'unlink');
-    const nextBuffer = [];
-    unlinkObservable('path').subscribe(
-      (x) => nextBuffer.push(x),
-      (err) => expect.fail(err, null),
-      () => {
-        expect(nextBuffer.length).to.equal(1);
-        done();
-      },
-    );
+    unlinkObservable('path')
+      .toArray()
+      .subscribe(
+        (nexts) => expect(nexts.length).to.equal(1),
+        (err) => expect.fail(err, null),
+        () => done(),
+      );
     expect(existsSync).to.be.calledWithMatch('path');
     expect(unlink).to.be.called;
   });

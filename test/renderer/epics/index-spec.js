@@ -15,7 +15,7 @@ describe('epics', () => {
     expect(epics).to.be.an.array;
 
     const action$ = new ActionsObservable();
-    epics.map(epic => epic(action$));
+    expect(epics.map(epic => epic(action$))).to.be.an.array;
   });
 });
 

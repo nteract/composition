@@ -5,14 +5,9 @@ import {
   saveConfigOnChangeEpic,
 } from '../../../src/notebook/epics/config';
 
-const Rx = require('rxjs/Rx');
-
-const Observable = Rx.Observable;
-
 describe('saveConfigOnChangeEpic', () => {
   it('invokes a SAVE when the SET_CONFIG_KEY action happens', (done) => {
-    const input$ = Observable.of({ type: 'SET_CONFIG_KEY' });
-    const action$ = new ActionsObservable(input$);
+    const action$ = ActionsObservable.of({ type: 'SET_CONFIG_KEY' });
     const responseActions = saveConfigOnChangeEpic(action$);
     responseActions.subscribe(
       (x) => {
