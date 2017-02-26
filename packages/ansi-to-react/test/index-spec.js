@@ -45,4 +45,11 @@ describe("Ansi", () => {
     expect(el).to.not.be.null;
     expect(el.text()).to.equal('that sentence\nwill make you pause');
   });
+  
+  it('can linkify', () => {
+    const el = enzyme.shallow(React.createElement(Ansi, {linkify: true}, 'this is a link: https://nteract.io/'));
+    expect(el).to.not.be.null;
+    expect(el.text()).to.equal('this is a link: https://nteract.io/');
+    expect(el.html()).to.equal('<code><span>this is a link: <a href="https://nteract.io/" target="_blank">https://nteract.io/</a></span></code>');
+  });
 });
