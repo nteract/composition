@@ -15,6 +15,6 @@ export default class TextDisplay extends React.Component {
   }
 
   render(): ?React.Element<any> {
-    return <Ansi>{this.props.data}</Ansi>;
+    return <Ansi linkify>{this.props.data}</Ansi>;
   }
 }
