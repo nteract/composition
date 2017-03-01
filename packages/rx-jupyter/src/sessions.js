@@ -1,3 +1,5 @@
+// @flow
+
 import { ajax } from 'rxjs/observable/dom/ajax';
 
 import {
@@ -13,7 +15,7 @@ import {
  *
  * @return  {Object}  An Observable with the request response
  */
-export function list(serverConfig) {
+export function list(serverConfig : Object) {
   return ajax(createAJAXSettings(serverConfig, '/api/sessions'));
 }
 
@@ -26,7 +28,7 @@ export function list(serverConfig) {
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function get(serverConfig, sessionID) {
+export function get(serverConfig : Object, sessionID : string) {
   return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`));
 }
 
@@ -39,7 +41,7 @@ export function get(serverConfig, sessionID) {
  *
  * @return {Object} - An Observable with the request/response
  */
-export function destroy(serverConfig, sessionID) {
+export function destroy(serverConfig : Object, sessionID : string) {
   return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, { method: 'DELETE' }));
 }
 
@@ -50,12 +52,12 @@ export function destroy(serverConfig, sessionID) {
  *
  * @param {String} sessionID - Universally unique identifier for session to be changed.
  *
- * @param {String} body - Payload containing new kernel_name, new kernel_id,
+ * @param {Object} body - Payload containing new kernel_name, new kernel_id,
  * name of the new session, and the new path.
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function update(serverConfig, sessionID, body) {
+export function update(serverConfig : Object, sessionID : string, body : Object) {
   return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
     method: 'PATCH',
     headers: {
@@ -75,7 +77,7 @@ export function update(serverConfig, sessionID, body) {
  *
  * @return {Object} - An Observable with the request/response
  */
-export function create(serverConfig, body) {
+export function create(serverConfig : Object, body : Object) {
   return ajax(createAJAXSettings(serverConfig, '/api/sessions', {
     method: 'POST',
     headers: {

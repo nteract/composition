@@ -1,3 +1,5 @@
+// @flow
+
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { join as pathJoin } from 'path';
 
@@ -6,7 +8,7 @@ import {
   normalizeBaseURL,
 } from './base';
 
-function formURI(path) {
+function formURI(path : string) {
   return pathJoin('/api/terminals/', path);
 }
 
@@ -15,7 +17,7 @@ function formURI(path) {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function list(serverConfig) {
+export function list(serverConfig : Object) {
   const uri = '/api/terminals/';
   const opts = {
     method: 'GET',
@@ -28,7 +30,7 @@ export function list(serverConfig) {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function create(serverConfig) {
+export function create(serverConfig : Object) {
   const uri = '/api/terminals/';
   const opts = {
     method: 'POST',
@@ -42,7 +44,7 @@ export function create(serverConfig) {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig, id) {
+export function get(serverConfig : Object, id: string) {
   const uri = formURI(id);
   const opts = {
     method: 'GET',
@@ -56,7 +58,7 @@ export function get(serverConfig, id) {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return {AjaxObservable} An Observable with the request response
  */
-export function destroy(serverConfig, id) {
+export function destroy(serverConfig : Object, id : string) {
   const uri = formURI(id);
   const opts = {
     method: 'DELETE',
@@ -65,7 +67,7 @@ export function destroy(serverConfig, id) {
 }
 
 
-export function formWebSocketURL(serverConfig, id) {
+export function formWebSocketURL(serverConfig : Object, id : string) {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}/terminals/websocket/${id}`;
   return url.replace(/^http(s)?/, 'ws$1');

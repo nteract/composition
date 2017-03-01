@@ -1,8 +1,10 @@
-export function normalizeBaseURL(url) {
+// @flow
+
+export function normalizeBaseURL(url : string) {
   return url.replace(/\/+$/, '');
 }
 
-export function createAJAXSettings(serverConfig, uri = '/', opts = {}) {
+export function createAJAXSettings(serverConfig : Object, uri : string = '/', opts : Object = {}) {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}${uri}`;
   // Merge in our typical settings for responseType, allow setting additional options

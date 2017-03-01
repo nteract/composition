@@ -1,3 +1,5 @@
+// @flow
+
 import { ajax } from 'rxjs/observable/dom/ajax';
 
 import { webSocket } from 'rxjs/observable/dom/webSocket';
@@ -13,7 +15,7 @@ import {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function list(serverConfig) {
+export function list(serverConfig : Object) {
   return ajax(createAJAXSettings(serverConfig, '/api/kernels'));
 }
 
@@ -25,7 +27,7 @@ export function list(serverConfig) {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig, id) {
+export function get(serverConfig : Object, id : string) {
   return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}`));
 }
 
@@ -38,7 +40,7 @@ export function get(serverConfig, id) {
  *
  * @return  {AjaxObserbable}  An Observable with the request response
  */
-export function start(serverConfig, name, path) {
+export function start(serverConfig : Object, name : string, path : string) {
   const startSettings = createAJAXSettings(serverConfig, '/api/kernels', {
     headers: {
       'Content-Type': 'application/json',
@@ -60,7 +62,7 @@ export function start(serverConfig, name, path) {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function kill(serverConfig, id) {
+export function kill(serverConfig : Object, id : string) {
   return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}`, { method: 'DELETE' }));
 }
 
@@ -72,7 +74,7 @@ export function kill(serverConfig, id) {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function interrupt(serverConfig, id) {
+export function interrupt(serverConfig : Object, id : string) {
   return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}/interrupt`, { method: 'POST' }));
 }
 
@@ -84,15 +86,15 @@ export function interrupt(serverConfig, id) {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function restart(serverConfig, id) {
+export function restart(serverConfig : Object, id : string) {
   return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}/restart`, { method: 'POST' }));
 }
 
-export function formWebSocketURL(serverConfig, id) {
+export function formWebSocketURL(serverConfig : Object, id : string) {
   const url = `${serverConfig.endpoint}/api/kernels/${id}/channels`;
   return url.replace(/^http(s)?/, 'ws$1');
 }
 
-export function connect(serverConfig, id) {
+export function connect(serverConfig : Object, id : string) {
   return webSocket(formWebSocketURL(serverConfig, id));
 }

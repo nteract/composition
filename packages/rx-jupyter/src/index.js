@@ -1,3 +1,5 @@
+// @flow
+
 import { ajax } from 'rxjs/observable/dom/ajax';
 
 import * as kernels from './kernels';
@@ -10,7 +12,7 @@ import {
   createAJAXSettings,
 } from './base';
 
-function apiVersion(serverConfig) {
+function apiVersion(serverConfig : Object) {
   const req = createAJAXSettings(serverConfig, '/api');
   return ajax(req);
 }
