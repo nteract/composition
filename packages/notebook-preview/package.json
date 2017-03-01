@@ -29,7 +29,7 @@
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "flow-copy-source": "^1.1.0",
-    "jest": "^18.1.0",
+    "jest": "^19.0.0",
     "@nteract/dev-scripts": "^1.0.4",
     "@nteract/editor": "^1.0.4",
     "@nteract/mockument": "^1.0.4"
