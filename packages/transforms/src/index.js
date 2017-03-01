@@ -1,6 +1,11 @@
 /* @flow */
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
+// Needed for flow
+/* eslint-disable no-unused-vars */
+import React from 'react';
+/* eslint-enable no-unused-vars */
+
 import TextDisplay from './text';
 import JsonDisplay from './json';
 import JavaScriptDisplay from './javascript';

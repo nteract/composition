@@ -16,8 +16,6 @@
  *
  */
 
-import Immutable from 'immutable';
-
 import type {
   JSONType,
   JSONObject,
@@ -34,6 +32,7 @@ import type {
   CellStructure,
 } from './structures';
 
+const Immutable = require('immutable');
 const appendCell = require('./structures').appendCell;
 
 export type ExecutionCount = number | null;
