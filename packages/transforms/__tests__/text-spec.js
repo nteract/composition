@@ -9,8 +9,8 @@ describe('Text', () => {
     const wrapper = mount(
       <Text data={'hey'} />,
     );
-
-    expect(wrapper.html()).toEqual('<code><span><!-- react-text: 3 -->hey<!-- /react-text --></span></code>');
+    expect(wrapper.html())
+      .toEqual('<code><span><!-- react-text: 3 -->hey<!-- /react-text --></span></code>');
 
     const component = wrapper.instance();
 
