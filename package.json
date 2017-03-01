@@ -204,7 +204,7 @@
     "lodash-webpack-plugin": "^0.11.0",
     "mocha": "^3.2.0",
     "mock-require": "^2.0.0",
-    "nbschema": "0.0.2",
+    "nbschema": "0.1.0",
     "nyc": "^10.0.0",
     "react-addons-test-utils": "^15.4.2",
     "react-dnd-test-backend": "^2.2.4",
