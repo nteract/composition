@@ -8,8 +8,7 @@
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
-    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
-    "test": "jest"
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'"
   },
   "repository": {
     "type": "git",
@@ -35,7 +34,6 @@
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "flow-copy-source": "^1.1.0",
-    "jest": "^19.0.0",
     "@nteract/dev-scripts": "^1.0.4"
   },
   "dependencies": {
