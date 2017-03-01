@@ -1,15 +1,11 @@
 /* @flow */
-
-const Immutable = require('immutable');
-const appendCell = require('./structures').appendCell;
-
+/* eslint-disable array-callback-return, prefer-spread */
 import type {
   JSONObject,
   ImmutableNotebook,
   ImmutableCodeCell,
   ImmutableMarkdownCell,
   ImmutableRawCell,
-  ImmutableCell,
   ImmutableOutput,
   ImmutableMimeBundle,
 } from './types';
@@ -23,32 +19,21 @@ import type {
   ErrorOutput,
   RawCell,
   MarkdownCell,
-  MimeBundle,
 } from './v4';
 
 import {
-  cleanMimeData,
   cleanMimeAtKey,
 } from './v4';
 
+const Immutable = require('immutable');
+const appendCell = require('./structures').appendCell;
+
 function demultiline(s: string | Array<string>) {
-    if (Array.isArray(s)) {
-          return s.join('');
-        }
-    return s;
+  if (Array.isArray(s)) {
+    return s.join('');
+  }
+  return s;
 }
-
-export type Worksheet = {|
-  cells: Array<Cell>,
-  metadata: Object,
-|};
-
-export type Notebook = {|
-  worksheets: Array<Worksheet>,
-  metadata: Object,
-  nbformat: 3,
-  nbformat_minor: number,
-|};
 
 export type ExecuteResult = {|
   output_type: 'pyout',
@@ -107,6 +92,18 @@ export type CodeCell = {|
 
 export type Cell = RawCell | MarkdownCell | HeadingCell | CodeCell;
 
+export type Worksheet = {|
+  cells: Array<Cell>,
+  metadata: Object,
+|};
+
+export type Notebook = {|
+  worksheets: Array<Worksheet>,
+  metadata: Object,
+  nbformat: 3,
+  nbformat_minor: number,
+|};
+
 function createImmutableMarkdownCell(cell) {
   return new Immutable.Map({
     cell_type: cell.cell_type,
@@ -117,21 +114,21 @@ function createImmutableMarkdownCell(cell) {
 
 function createImmutableMimeBundle(output: DisplayData | ExecuteResult): ImmutableMimeBundle {
   const VALID_MIMETYPES = {
-    "text": "text/plain",
-    "latex": "text/latex",
-    "png": "image/png",
-    "jpeg": "image/jpeg",
-    "svg": "image/svg+xml",
-    "html": "text/html",
-    "javascript": "application/x-javascript",
-    "json": "application/javascript",
-    "pdf": "application/pdf",
-    "metadata": "",
-    "prompt_number": "",
-    "output_type": "",
+    text: 'text/plain',
+    latex: 'text/latex',
+    png: 'image/png',
+    jpeg: 'image/jpeg',
+    svg: 'image/svg+xml',
+    html: 'text/html',
+    javascript: 'application/x-javascript',
+    json: 'application/javascript',
+    pdf: 'application/pdf',
+    metadata: '',
+    prompt_number: '',
+    output_type: '',
   };
   const mimeBundle = {};
-  Object.keys(output).map(function(key: string) {
+  Object.keys(output).map((key: string) => {
     if (key !== 'prompt_number' || key !== 'metadata' || key !== 'output_type') {
       mimeBundle[VALID_MIMETYPES[key]] = output[key];
     }
@@ -199,9 +196,9 @@ function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
 function createImmutableHeadingCell(cell: HeadingCell): ImmutableMarkdownCell {
   return new Immutable.Map({
     cell_type: 'markdown',
-    source: Array.isArray(cell.source) ? demultiline(cell.source.map((line) => {
-      return Array(cell.level).join('#').concat(' ').concat(line);
-    })) : cell.source,
+    source: Array.isArray(cell.source) ?
+      demultiline(cell.source.map(line => Array(cell.level).join('#').concat(' ').concat(line)))
+      : cell.source,
     metadata: Immutable.fromJS(cell.metadata),
   });
 }
@@ -232,13 +229,12 @@ export function fromJS(notebook: Notebook): ImmutableNotebook {
   const starterCellStructure = {
     cellOrder: Immutable.List().asMutable(),
     cellMap: Immutable.Map().asMutable(),
-  }
+  };
 
-  const cellStructure = [].concat.apply([], notebook.worksheets.map((worksheet) => {
-    return worksheet.cells.reduce((cellStruct: CellStructure, cell: Cell) =>
+  const cellStructure = [].concat.apply([], notebook.worksheets.map(worksheet =>
+    worksheet.cells.reduce((cellStruct: CellStructure, cell: Cell) =>
       appendCell(cellStruct, createImmutableCell(cell)),
-    starterCellStructure);
-  }))[0];
+    starterCellStructure)))[0];
 
   return Immutable.Map({
     cellOrder: cellStructure.cellOrder.asImmutable(),

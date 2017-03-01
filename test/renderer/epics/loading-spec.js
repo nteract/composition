@@ -80,7 +80,7 @@ describe('loadingEpic', () => {
     const actionBuffer = [];
     const responseActions = loadEpic(action$);
     responseActions.subscribe(
-      (x) => actionBuffer.push(x.type),
+      x => actionBuffer.push(x.type),
       (err) => {
         expect(err.message).to.equal('load needs a filename');
         done();
@@ -96,7 +96,7 @@ describe('loadingEpic', () => {
     const actionBuffer = [];
     const responseActions = loadEpic(action$);
     responseActions.subscribe(
-      (x) => actionBuffer.push(x.type),
+      x => actionBuffer.push(x.type),
       () => expect.fail(),
       () => {
         expect(actionBuffer).to.deep.equal(['ERROR']);
@@ -113,7 +113,7 @@ describe('newNotebookEpic', () => {
     const actionBuffer = [];
     const responseActions = newNotebookEpic(action$);
     responseActions.subscribe(
-      (x) => actionBuffer.push(x.type),
+      x => actionBuffer.push(x.type),
       () => expect.fail(),
       () => {
         expect(actionBuffer).to.deep.equal(['SET_NOTEBOOK', 'LAUNCH_KERNEL']);

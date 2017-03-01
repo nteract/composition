@@ -9,7 +9,7 @@ describe('CellCreatorView', () => {
   const createCell = sinon.spy();
   const mergeCell = sinon.spy();
 
-  const setup = (id) => shallow(
+  const setup = id => shallow(
     <CellCreator
       createCell={createCell}
       mergeCell={mergeCell}

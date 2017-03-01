@@ -1,8 +1,6 @@
 /* @flow */
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
-import React from 'react';
-
 import TextDisplay from './text';
 import JsonDisplay from './json';
 import JavaScriptDisplay from './javascript';

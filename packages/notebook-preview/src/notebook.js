@@ -9,7 +9,6 @@ import {
 } from '@nteract/transforms';
 
 import Cell from './cell';
-import type { CellProps } from './cell';
 
 type Props = {
   displayOrder: ImmutableList<any>,

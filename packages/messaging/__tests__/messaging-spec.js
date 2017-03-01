@@ -12,10 +12,10 @@ describe('childOf', () => {
     .childOf({ header: { msg_id: '100' } })
     .count()
     .toPromise()
-    .then(val => {
+    .then((val) => {
       expect(val).toEqual(3);
     }));
-  it('throws an error if msg_id is not present', (done) => Rx.Observable.from([
+  it('throws an error if msg_id is not present', done => Rx.Observable.from([
       { parent_header: { msg_id_bad: '100' } },
       { parent_header: { msg_id_test: '100' } },
       { parent_header: { msg_id_invalid: '200' } },
@@ -40,17 +40,17 @@ describe('ofMessageType', () => {
       { header: { msg_type: 'd' } },
     ])
     .ofMessageType(['a', 'd'])
-    .do(val => {
+    .do((val) => {
       expect(val.header.msg_type === 'a' || val.header.msg_type === 'd');
     })
     .pluck('header', 'msg_type')
     .count()
     .toPromise()
-    .then(val => {
+    .then((val) => {
       expect(val).toEqual(4);
     });
   });
-  it('throws an error in msg_type is not present', (done) => Rx.Observable.from([
+  it('throws an error in msg_type is not present', done => Rx.Observable.from([
       { header: { msg_type_invalid: 'a' } },
       { header: { msg_type_invalid: 'd' } },
       { header: {} },

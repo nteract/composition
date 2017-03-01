@@ -35,9 +35,9 @@ describe('WrappedEditor', () => {
       indexFromPos: () => 90001,
     };
 
-    complete.codeComplete = jest.fn().mockImplementation((channels, editor) => channels.shell)
+    complete.codeComplete = jest.fn().mockImplementation(chan => chan.shell);
 
-    sent.subscribe(msg => {
+    sent.subscribe((msg) => {
       expect(msg.content.code).toBe('MY VALUE');
       expect(complete.codeComplete).lastCalledWith(channels, cm);
       done();
@@ -93,7 +93,7 @@ describe('complete', () => {
       getCursor: () => ({ line: 2 }),
       getValue: () => '\n\nimport thi',
       indexFromPos: () => 12,
-      posFromIndex: (x) => ({ ch: x, line: 3 }),
+      posFromIndex: x => ({ ch: x, line: 3 }),
     };
 
     const message = createMessage('complete_request');
@@ -110,14 +110,14 @@ describe('complete', () => {
 
     // Listen on the Observable
     observable.subscribe(
-      msg => {
+      (msg) => {
         expect(msg).toEqual({
           from: { line: 3, ch: 9 },
           list: ['import this'],
           to: { ch: 10, line: 3 },
         });
       },
-      err => { throw err; },
+      (err) => { throw err; },
       done,
     );
     received.next(response);

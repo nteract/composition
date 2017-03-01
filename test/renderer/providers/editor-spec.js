@@ -23,8 +23,8 @@ describe('EditorProvider', () => {
     const component = setup('test');
     expect(component).to.not.be.null;
   });
-  it('onChange updates cell source', () => new Promise(resolve => {
-    const dispatch = action => {
+  it('onChange updates cell source', () => new Promise((resolve) => {
+    const dispatch = (action) => {
       expect(action.id).to.equal('test');
       expect(action.source).to.equal('i love nteract');
       expect(action.type).to.equal(UPDATE_CELL_SOURCE);
@@ -32,18 +32,22 @@ describe('EditorProvider', () => {
     };
     store.dispatch = dispatch;
     const wrapper = setup('test');
-    const onChange = wrapper.findWhere(n => n.prop('onChange') !== undefined).first().prop('onChange');
+    const onChange = wrapper
+      .findWhere(n => n.prop('onChange') !== undefined)
+      .first().prop('onChange');
     onChange('i love nteract');
   }));
-  it('onFocusChange can update editor focus', () => new Promise(resolve => {
-    const dispatch = action => {
+  it('onFocusChange can update editor focus', () => new Promise((resolve) => {
+    const dispatch = (action) => {
       expect(action.id).to.equal('test');
       expect(action.type).to.equal(FOCUS_CELL_EDITOR);
       resolve();
     };
     store.dispatch = dispatch;
     const wrapper = setup('test');
-    const onFocusChange = wrapper.findWhere(n => n.prop('onFocusChange') !== undefined).first().prop('onFocusChange');
+    const onFocusChange = wrapper
+      .findWhere(n => n.prop('onFocusChange') !== undefined)
+      .first().prop('onFocusChange');
     onFocusChange(true);
   }));
 });

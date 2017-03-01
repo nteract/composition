@@ -32,7 +32,11 @@ describe('ImageDisplay', () => {
     expect(img.prop('width')).toEqual('200');
 
     const component2 = shallow(
-      <ImageDisplay data={imageData} mimetype="image/png" metadata={{ width: '200', height: '300' }} />,
+      <ImageDisplay
+        data={imageData}
+        mimetype="image/png"
+        metadata={{ width: '200', height: '300' }}
+      />,
     );
 
     const img2 = component2.find('img');

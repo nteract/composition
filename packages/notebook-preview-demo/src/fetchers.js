@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return, no-restricted-syntax */
+
 function frozenReviver(key, value) {
   return Object.freeze(value);
 }
@@ -12,20 +14,20 @@ function createFrozenNotebook(text) {
  * @return {[type]}        [description]
  */
 export function fetchFromGist(gistId) {
-  var path = `https://api.github.com/gists/${gistId}`;
+  const path = `https://api.github.com/gists/${gistId}`;
   return fetch(path)
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((ghResponse) => {
-      for (var file in ghResponse.files) {
+      for (const file in ghResponse.files) {
         if (/.ipynb$/.test(file)) {
           const fileResponse = ghResponse.files[file];
           if (fileResponse.truncated) {
             return fetch(fileResponse.raw_url)
-                    .then((resp) => resp.text())
-                    .then(createFrozenNotebook)
+                    .then(resp => resp.text())
+                    .then(createFrozenNotebook);
           }
           return createFrozenNotebook(fileResponse.content);
         }
       }
-    })
+    });
 }

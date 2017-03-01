@@ -50,14 +50,14 @@ describe('saveEpic', () => {
     const input$ = Observable.of({ type: SAVE });
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
-    const responseActions = saveEpic(action$).catch(error => {
+    const responseActions = saveEpic(action$).catch((error) => {
       expect(error.message).to.equal('save needs a filename');
       return Observable.of({ type: SAVE });
     });
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
-      (x) => actionBuffer.push(x.type),
-      (err) => expect.fail(err, null), // It should not error in the stream
+      x => actionBuffer.push(x.type),
+      err => expect.fail(err, null), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal([SAVE]);
         done();
@@ -70,7 +70,7 @@ describe('saveEpic', () => {
     const responseActions = saveEpic(action$);
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
-      (x) => actionBuffer.push(x.type),
+      x => actionBuffer.push(x.type),
       () => expect.fail(), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal([DONE_SAVING]);
@@ -87,7 +87,7 @@ describe('saveAsEpic', () => {
     const responseActions = saveAsEpic(action$);
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
-      (x) => actionBuffer.push(x.type),
+      x => actionBuffer.push(x.type),
       () => { expect.fail(); }, // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal([CHANGE_FILENAME, SAVE]);

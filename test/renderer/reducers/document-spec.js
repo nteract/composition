@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   List,
   Map,
@@ -631,7 +632,7 @@ describe('deleteMetadata', () => {
 describe('changeOutputVisibility', () => {
   it('changes the visibility on a single cell', () => {
     const originalState = {
-      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => cells.map((value) => value.setIn(['metadata', 'outputHidden'], false))),
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], cells => cells.map(value => value.setIn(['metadata', 'outputHidden'], false))),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
@@ -649,7 +650,7 @@ describe('changeOutputVisibility', () => {
 describe('changeInputVisibility', () => {
   it('changes the input visibility on a single cell', () => {
     const originalState = {
-      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => cells.map((value) => value.setIn(['metadata', 'inputHidden'], false))),
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], cells => cells.map(value => value.setIn(['metadata', 'inputHidden'], false))),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();
@@ -861,7 +862,7 @@ describe('changeCellType', () => {
 describe('toggleOutputExpansion', () => {
   it('changes outputExpanded set', () => {
     const originalState = {
-      document: monocellDocument.updateIn(['notebook', 'cellMap'], (cells) => cells.map((value) => value.setIn(['metadata', 'outputExpanded'], false))),
+      document: monocellDocument.updateIn(['notebook', 'cellMap'], cells => cells.map(value => value.setIn(['metadata', 'outputExpanded'], false))),
     };
 
     const id = originalState.document.getIn(['notebook', 'cellOrder']).first();

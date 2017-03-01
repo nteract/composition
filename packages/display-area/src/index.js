@@ -5,4 +5,4 @@ import RichestMime from './richest-mime';
 module.exports = {
   Display,
   RichestMime,
-}
+};

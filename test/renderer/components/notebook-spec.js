@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import Immutable from 'immutable';
 import { Provider } from 'react-redux';

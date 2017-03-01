@@ -16,8 +16,7 @@
  *
  */
 
-const Immutable = require('immutable');
-const appendCell = require('./structures').appendCell;
+import Immutable from 'immutable';
 
 import type {
   JSONType,
@@ -34,6 +33,8 @@ import type {
 import type {
   CellStructure,
 } from './structures';
+
+const appendCell = require('./structures').appendCell;
 
 export type ExecutionCount = number | null;
 
@@ -152,7 +153,11 @@ export function cleanMimeData(key: string, data: string | Array<string> | Object
   throw new TypeError(`Data for ${key} is expected to be a string or an Array of strings`);
 }
 
-export function cleanMimeAtKey(mimeBundle: MimeBundle, previous: ImmutableMimeBundle, key: string): ImmutableMimeBundle {
+export function cleanMimeAtKey(
+  mimeBundle: MimeBundle,
+  previous: ImmutableMimeBundle,
+  key: string
+): ImmutableMimeBundle {
   return previous.set(key, cleanMimeData(key, mimeBundle[key]));
 }
 

@@ -128,7 +128,7 @@ describe('publishEpic', () => {
     const action$ = ActionsObservable.of({ type: PUBLISH_USER_GIST });
     publishEpic(action$, store)
       .toArray()
-      .subscribe(actions => {
+      .subscribe((actions) => {
         expect(actions).to.deep.equal([
           {
             field: 'github_username',

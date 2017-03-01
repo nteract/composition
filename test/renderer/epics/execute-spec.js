@@ -62,7 +62,7 @@ describe('executeCellStream', () => {
 
     // Expect message to have been sent
     frontendToShell
-      .subscribe(msg => {
+      .subscribe((msg) => {
         expect(msg.header.msg_type).to.equal('execute_request');
         expect(msg.content.code).to.equal('import this');
       });
@@ -71,7 +71,7 @@ describe('executeCellStream', () => {
 
     action$
       .bufferCount(3)
-      .subscribe(messages => {
+      .subscribe((messages) => {
         expect(messages).to.deep.equal([
           // TODO: Order doesn't actually matter here
           { type: 'CLEAR_OUTPUTS', id: '0' },
@@ -234,8 +234,8 @@ describe('createExecuteCellStream', () => {
     const observable = createExecuteCellStream(action$, store, 'source', 'id');
     const actionBuffer = [];
     observable.subscribe(
-        (x) => actionBuffer.push(x.payload),
-        (err) => expect.fail(err, null),
+        x => actionBuffer.push(x.payload),
+        err => expect.fail(err, null),
         () => {
           expect(actionBuffer).to.deep.equal(['Kernel not connected!']);
           done();
@@ -267,8 +267,8 @@ describe('createExecuteCellStream', () => {
     const observable = createExecuteCellStream(action$, store, 'source', 'id');
     const actionBuffer = [];
     observable.subscribe(
-      (x) => actionBuffer.push(x.type),
-      (err) => expect.fail(err, null),
+      x => actionBuffer.push(x.type),
+      err => expect.fail(err, null),
     );
     expect(actionBuffer).to.deep.equal([CLEAR_OUTPUTS, UPDATE_CELL_STATUS, UPDATE_CELL_PAGERS]);
     done();
@@ -292,7 +292,7 @@ describe('executeCellEpic', () => {
     // Make one hot action
     const badInput$ = Observable.of({ type: EXECUTE_CELL }).share();
     const badAction$ = new ActionsObservable(badInput$);
-    const responseActions = executeCellEpic(badAction$, store).catch(error => {
+    const responseActions = executeCellEpic(badAction$, store).catch((error) => {
       expect(error.message).to.equal('execute cell needs an id');
     });
     responseActions.subscribe(
@@ -301,7 +301,7 @@ describe('executeCellEpic', () => {
         expect(x.type).to.equal(ERROR_EXECUTING);
         done();
       },
-      (err) => expect.fail(err, null), // It should not error in the stream
+      err => expect.fail(err, null), // It should not error in the stream
       () => {
         expect.fail('It should not complete');
       },
@@ -310,7 +310,7 @@ describe('executeCellEpic', () => {
   it('Errors on an action where source not a string', (done) => {
     const badInput$ = Observable.of(executeCell('id', 2)).share();
     const badAction$ = new ActionsObservable(badInput$);
-    const responseActions = executeCellEpic(badAction$, store).catch(error => {
+    const responseActions = executeCellEpic(badAction$, store).catch((error) => {
       expect(error.message).to.equal('execute cell needs source string');
     });
     responseActions.subscribe(
@@ -319,7 +319,7 @@ describe('executeCellEpic', () => {
         expect(x.type).to.equal('ERROR_EXECUTING');
         done();
       },
-      (err) => expect.fail(err, null), // It should not error in the stream
+      err => expect.fail(err, null), // It should not error in the stream
       () => {
         expect.fail('The epic should not complete');
       },
@@ -334,7 +334,7 @@ describe('executeCellEpic', () => {
         expect(x.payload.toString()).to.equal('Error: kernel not connected');
         done();
       },
-      (err) => expect.fail(err, null), // It should not error in the stream
+      err => expect.fail(err, null), // It should not error in the stream
       () => {
         expect.fail('the epic should not complete');
       },
@@ -383,7 +383,7 @@ describe('updateDisplayEpic', () => {
 
     const responseActions = [];
     epic.subscribe(
-      (action) => responseActions.push(action),
+      action => responseActions.push(action),
       (err) => { throw err; },
       () => {
         expect(responseActions).to.deep.equal([
@@ -414,7 +414,7 @@ describe('createErrorActionObservable', () => {
     const err = new Error('HEY');
     const obs = func(err);
 
-    obs.subscribe(x => {
+    obs.subscribe((x) => {
       expect(x.type).to.equal('TEST_IT');
       expect(x.payload).to.equal(err);
       expect(x.error).to.equal(true);

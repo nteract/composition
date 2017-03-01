@@ -1,9 +1,7 @@
 import React from 'react';
-import HTMLDisplay from '../src/html';
+import { mount } from 'enzyme';
 
-import {
-  mount,
-} from 'enzyme';
+import HTMLDisplay from '../src/html';
 
 describe('HTMLDisplay', () => {
   it('renders direct HTML', () => {
@@ -11,7 +9,7 @@ describe('HTMLDisplay', () => {
       <HTMLDisplay data={'<b>woo</b>'} />,
     );
     expect(component.html()).toEqual('<div><b>woo</b></div>');
-  })
+  });
   it('correctly chooses to update with data changing', () => {
     const wrapper = mount(
       <HTMLDisplay data={'<b>woo</b>'} />,

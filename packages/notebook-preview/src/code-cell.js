@@ -1,10 +1,9 @@
 // @flow
 import React from 'react';
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
+import { Display } from '@nteract/display-area';
 
 import Inputs from './inputs';
-
-import { Display } from '@nteract/display-area';
 
 import Editor from './editor';
 
@@ -58,14 +57,14 @@ class CodeCell extends React.PureComponent {
               language={this.props.language}
               theme={this.props.theme}
               cellFocused={false}
-              onChange={()=>{}}
-              onFocusChange={()=>{}}
+              onChange={() => {}}
+              onFocusChange={() => {}}
               channels={{}}
               cursorBlinkRate={0}
               executionState={'not connected'}
               editorFocused={false}
-              focusAbove={()=>{}}
-              focusBelow={()=>{}}
+              focusAbove={() => {}}
+              focusBelow={() => {}}
             />
           </div> : <div className="input-container invisible" />
       }

@@ -23,6 +23,6 @@ const NotebookPreview = (props: Props) => {
       transforms={transformer.transforms}
     />
   );
-}
+};
 
 export default NotebookPreview;

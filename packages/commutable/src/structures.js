@@ -1,8 +1,5 @@
 /* @flow */
 
-const uuidv4 = require('uuid').v4;
-const Immutable = require('immutable');
-
 import type {
   ImmutableOutput,
   ImmutableCell,
@@ -14,6 +11,9 @@ import type {
   ImmutableJSONType,
   ExecutionCount,
 } from './types';
+
+const uuidv4 = require('uuid').v4;
+const Immutable = require('immutable');
 
 // We're hardset to nbformat v4.4 for what we use in-memory
 export type Notebook = {|
@@ -159,4 +159,4 @@ module.exports = {
   insertCellAt,
   appendCellToNotebook,
   appendCell,
-}
+};

@@ -28,7 +28,7 @@
     "spawn": "cross-env NODE_ENV=development electron .",
     "spawn:debug": "cross-env DEBUG=true NODE_ENV=development electron .",
     "clean": "rimraf lib dist",
-    "lint": "eslint src/ test/",
+    "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prebuild": "rimraf lib",
     "lerna": "lerna bootstrap --hoist",

@@ -25,8 +25,8 @@ describe('CellCreatorProvider', () => {
     const component = setup(false, 'test');
     expect(component).to.not.be.null;
   });
-  it('createCell can create text cell', () => new Promise(resolve => {
-    const dispatch = action => {
+  it('createCell can create text cell', () => new Promise((resolve) => {
+    const dispatch = (action) => {
       expect(action.id).to.equal('test');
       expect(action.cellType).to.equal('markdown');
       expect(action.type).to.equal(NEW_CELL_AFTER);
@@ -34,11 +34,12 @@ describe('CellCreatorProvider', () => {
     };
     store.dispatch = dispatch;
     const wrapper = setup(false, 'test');
-    const createCell = wrapper.findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
+    const createCell = wrapper
+      .findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
     createCell('markdown');
   }));
-  it('createCell can create code cell', () => new Promise(resolve => {
-    const dispatch = action => {
+  it('createCell can create code cell', () => new Promise((resolve) => {
+    const dispatch = (action) => {
       expect(action.id).to.equal('test');
       expect(action.cellType).to.equal('code');
       expect(action.type).to.equal(NEW_CELL_AFTER);
@@ -46,11 +47,12 @@ describe('CellCreatorProvider', () => {
     };
     store.dispatch = dispatch;
     const wrapper = setup(false, 'test');
-    const createCell = wrapper.findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
+    const createCell = wrapper
+      .findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
     createCell('code');
   }));
-  it('createCell can add a cell above the current one', () => new Promise(resolve => {
-    const dispatch = action => {
+  it('createCell can add a cell above the current one', () => new Promise((resolve) => {
+    const dispatch = (action) => {
       expect(action.id).to.equal('test');
       expect(action.cellType).to.equal('code');
       expect(action.type).to.equal(NEW_CELL_BEFORE);
@@ -58,22 +60,24 @@ describe('CellCreatorProvider', () => {
     };
     store.dispatch = dispatch;
     const wrapper = setup(true, 'test');
-    const createCell = wrapper.findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
+    const createCell = wrapper
+      .findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
     createCell('code');
   }));
-  it('createCell creates a new cell if cell has no id', () => new Promise(resolve => {
-    const dispatch = action => {
+  it('createCell creates a new cell if cell has no id', () => new Promise((resolve) => {
+    const dispatch = (action) => {
       expect(action.cellType).to.equal('code');
       expect(action.type).to.equal(NEW_CELL_APPEND);
       resolve();
     };
     store.dispatch = dispatch;
     const wrapper = setup(false, null);
-    const createCell = wrapper.findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
+    const createCell = wrapper
+      .findWhere(n => n.prop('createCell') !== undefined).prop('createCell');
     createCell('code');
   }));
-  it('mergeCell merges two cells into one', () => new Promise(resolve => {
-    const dispatch = action => {
+  it('mergeCell merges two cells into one', () => new Promise((resolve) => {
+    const dispatch = (action) => {
       expect(action.id).to.equal('test');
       expect(action.type).to.equal(MERGE_CELL_AFTER);
       resolve();

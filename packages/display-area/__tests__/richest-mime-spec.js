@@ -3,11 +3,8 @@ import Immutable from 'immutable';
 
 import { shallow } from 'enzyme';
 
-import {
-  RichestMime
-} from '../';
-
 import { displayOrder, transforms } from '@nteract/transforms';
+import { RichestMime } from '../';
 
 describe('RichestMime', () => {
   it('renders a mimebundle', () => {

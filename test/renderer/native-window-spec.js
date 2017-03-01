@@ -52,7 +52,8 @@ describe('setTitleFromAttributes', () => {
 
 describe('createTitleFeed', () => {
   it('creates an observable that updates title attributes', (done) => {
-    const notebook = new Immutable.Map().setIn(['metadata', 'kernelspec', 'display_name'], 'python3000');
+    const notebook = new Immutable.Map()
+      .setIn(['metadata', 'kernelspec', 'display_name'], 'python3000');
     const state = {
       document: DocumentRecord({
         notebook,
@@ -71,7 +72,7 @@ describe('createTitleFeed', () => {
 
     const allAttributes = [];
     nativeWindow.createTitleFeed(state$)
-      .subscribe(attributes => {
+      .subscribe((attributes) => {
         allAttributes.push(attributes);
       }, null,
     () => {

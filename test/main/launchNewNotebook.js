@@ -20,7 +20,11 @@ describe('launchNewNotebook', () => {
     win.hide(); // To make it nicer to run locally
 
     setTimeout(() => {
-      expect.fail('nteract:ping:kernel', null, 'Expected nteract:ping:kernel to be sent from frontend');
+      expect.fail(
+        'nteract:ping:kernel',
+        null,
+        'Expected nteract:ping:kernel to be sent from frontend'
+      );
       done();
     }, 8000);
   });

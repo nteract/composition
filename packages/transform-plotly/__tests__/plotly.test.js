@@ -7,8 +7,9 @@ import PlotlyTransform from '../src';
 
 jest.mock('plotly.js/dist/plotly');
 const plotly = require('plotly.js/dist/plotly');
-plotly.newPlot.mockImplementation(() => {})
-plotly.redraw.mockImplementation(() => {})
+
+plotly.newPlot.mockImplementation(() => {});
+plotly.redraw.mockImplementation(() => {});
 
 function deepFreeze(obj) {
   // Retrieve the property names defined on obj
@@ -62,7 +63,6 @@ describe('PlotlyTransform', () => {
         yaxis: { title: 'Percent', showline: false },
         height: '100px',
       });
-
   });
 
   it('plots some data from a JSON string', () => {

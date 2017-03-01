@@ -1,9 +1,10 @@
 // @flow
+/* eslint-disable react/prefer-stateless-function, react/prop-types */
+
 import React from 'react';
 import CommonMark from 'commonmark';
 import MarkdownRenderer from 'commonmark-react-renderer';
 
-import Editor from './editor';
 import LatexRenderer from './latex';
 
 type MDRender = (input: string) => string
@@ -19,13 +20,13 @@ export default class MarkdownCell extends React.PureComponent {
       <div
         className="rendered"
         tabIndex="0"
-         >
-           <LatexRenderer>
-             {
+      >
+        <LatexRenderer>
+          {
               mdRender(this.props.cell.get('source'))
              }
-           </LatexRenderer>
-         </div>
+        </LatexRenderer>
+      </div>
     );
   }
 }

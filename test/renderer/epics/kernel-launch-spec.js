@@ -90,7 +90,7 @@ describe('watchExecutionStateEpic', () => {
     const obs = watchExecutionStateEpic(action$);
     obs.subscribe(
       // Every action that goes through should get stuck on an array
-      (x) => actionBuffer.push(x.type),
+      x => actionBuffer.push(x.type),
       () => expect.fail(), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal(
@@ -123,7 +123,7 @@ describe('newKernelEpic', () => {
         actionBuffer.push(x.type);
         done();
       },
-      (err) => expect.fail(err, null),
+      err => expect.fail(err, null),
       () => {
         expect.fail('Should not complete');
       },
@@ -146,7 +146,7 @@ describe('newKernelEpic', () => {
           done();
         }
       },
-      (err) => expect.fail(err, null),
+      err => expect.fail(err, null),
       () => {
         expect.fail();
       },
@@ -165,8 +165,8 @@ describe('newKernelByNameEpic', () => {
     const action$ = new ActionsObservable(input$);
     const obs = newKernelByNameEpic(action$);
     obs.subscribe(
-      (x) => actionBuffer.push(x.type),
-      (err) => expect.fail(err, null),
+      x => actionBuffer.push(x.type),
+      err => expect.fail(err, null),
       () => {
         expect(actionBuffer).to.deep.equal([constants.LAUNCH_KERNEL]);
         done();

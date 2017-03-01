@@ -1,4 +1,4 @@
-/* eslint-disable arrow-body-style */
+/* eslint-disable arrow-body-style, max-len */
 // From https://github.com/airbnb/enzyme/blob/master/docs/guides/jsdom.md
 
 const jsdom = require('jsdom').jsdom;
@@ -34,7 +34,7 @@ const createContextualFragment = (html) => {
   return div.children[0]; // so hokey it's not even funny
 };
 
-Range.prototype.createContextualFragment = (html) => createContextualFragment(html);
+Range.prototype.createContextualFragment = html => createContextualFragment(html);
 
 // HACK: Polyfil that allows codemirror to render in a JSDOM env.
 global.window.document.createRange = function createRange() {
@@ -154,7 +154,7 @@ mock('react-notification-system', () => {
 });
 
 mock('kernelspecs', {
-  find: (kernelName) => Promise.resolve({ name: kernelName }),
+  find: kernelName => Promise.resolve({ name: kernelName }),
 });
 
 mock('spawnteract', {

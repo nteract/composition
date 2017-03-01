@@ -34,7 +34,12 @@ describe('createCommOpenMessage', () => {
     });
   });
   it('can specify a target_module', () => {
-    const commMessage = createCommOpenMessage('0001', 'myTarget', { hey: 'is for horses' }, 'Dr. Pepper');
+    const commMessage = createCommOpenMessage(
+      '0001',
+      'myTarget',
+      { hey: 'is for horses' },
+      'Dr. Pepper'
+    );
 
     expect(commMessage.content).to.deep.equal({
       comm_id: '0001',
@@ -63,7 +68,7 @@ describe('createCommErrorAction', () => {
     const err = new Error();
     return createCommErrorAction(err)
       .toPromise()
-      .then(action => {
+      .then((action) => {
         expect(action.type).to.equal('COMM_ERROR');
         expect(action.payload).to.equal(err);
         expect(action.error).to.be.true;
@@ -156,7 +161,7 @@ describe('commActionObservable', () => {
       .subscribe((action) => {
         actionBuffer.push(action);
       },
-      (err) => expect.fail(err, null), // It should not error in the stream
+      err => expect.fail(err, null), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal([
           {

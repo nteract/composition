@@ -20,7 +20,7 @@ describe('unlinkObservable', () => {
     const unlink = sandbox.stub(filesystem, 'unlink', (path, error) => error({ message: 'lol' }));
     const nextBuffer = [];
     unlinkObservable('path').subscribe(
-      (x) => nextBuffer.push(x),
+      x => nextBuffer.push(x),
       (err) => {
         expect(err.message).to.equal('lol');
         done();
@@ -35,8 +35,8 @@ describe('unlinkObservable', () => {
     const unlink = sandbox.stub(filesystem, 'unlink');
     const nextBuffer = [];
     unlinkObservable('path').subscribe(
-      (x) => nextBuffer.push(x),
-      (err) => expect.fail(err, null),
+      x => nextBuffer.push(x),
+      err => expect.fail(err, null),
       () => {
         expect(nextBuffer.length).to.equal(1);
         done();

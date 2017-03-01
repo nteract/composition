@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
@@ -13,10 +14,6 @@ export type CellProps = {
   theme: string,
   transforms: ImmutableMap<string, any>,
 };
-
-type State = {
-  hoverCell: boolean,
-}
 
 export class Cell extends React.PureComponent {
   props: CellProps;

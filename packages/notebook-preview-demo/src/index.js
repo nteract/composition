@@ -1,13 +1,9 @@
+/* eslint-disable react/prop-types */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import logo from './logo.svg';
-
 import 'normalize.css/normalize.css';
-
-import './App.css';
-import './index.css';
-
 import 'codemirror/lib/codemirror.css';
 
 import '@nteract/notebook-preview/styles/main.css';
@@ -21,6 +17,13 @@ import {
   Redirect,
 } from 'react-router-dom';
 
+import './App.css';
+import './index.css';
+import logo from './logo.svg';
+
+import { fetchFromGist } from './fetchers';
+
+
 const commutable = require('@nteract/commutable');
 
 const gistIDs = [
@@ -28,8 +31,6 @@ const gistIDs = [
 ];
 
 const gistID = gistIDs[Math.floor(Math.random() * gistIDs.length)];
-
-import { fetchFromGist } from './fetchers';
 
 // TODO: See if there's a way to load a raw file (like a notebook) using the
 //       webpack setup without having to eject create-react-app
@@ -39,7 +40,7 @@ class GistedNotebook extends React.Component {
     super();
     this.state = {
       notebook: null,
-    }
+    };
   }
 
   componentDidMount() {
@@ -53,9 +54,8 @@ class GistedNotebook extends React.Component {
   render() {
     if (this.state.notebook) {
       return <NotebookPreview notebook={this.state.notebook} />;
-    } else {
-      return <h1>Loading Notebook...</h1>;
     }
+    return <h1>Loading Notebook...</h1>;
   }
 }
 
@@ -65,9 +65,11 @@ ReactDOM.render(
       <div className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </div>
-      <Route exact path="/" render={() => (
-        <Redirect to={`/gist/${gistID}`} />
-      )} />
+      <Route
+        exact path="/" render={() => (
+          <Redirect to={`/gist/${gistID}`} />
+      )}
+      />
       <Route path="/gist/:gistID" component={GistedNotebook} />
     </div>
   </Router>

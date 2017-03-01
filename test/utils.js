@@ -17,7 +17,7 @@ const sinon = require('sinon');
 
 function hideCells(notebook) {
   return notebook
-    .update('cellMap', (cells) => notebook
+    .update('cellMap', cells => notebook
       .get('cellOrder')
       .reduce((acc, id) => acc.setIn([id, 'metadata', 'inputHidden'], true), cells));
 }
@@ -67,7 +67,8 @@ export function dummyStore(config) {
       cellPagers: new Immutable.Map(),
       stickyCells: new Immutable.Map(),
       outputStatuses: new Immutable.Map(),
-      cellFocused: (config && config.codeCellCount > 1) ? dummyNotebook.get('cellOrder').get(1) : null,
+      cellFocused: (config && config.codeCellCount > 1) ?
+        dummyNotebook.get('cellOrder').get(1) : null,
     }),
     app: AppRecord({
       executionState: 'not connected',

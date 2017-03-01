@@ -3,8 +3,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Immutable from 'immutable';
 
-import { Display } from '../';
 import { displayOrder, transforms } from '@nteract/transforms';
+import { Display } from '../';
 
 describe('Display', () => {
   it('does not display when status is hidden', () => {
