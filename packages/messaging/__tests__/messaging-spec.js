@@ -1,6 +1,5 @@
-import { expect } from 'chai';
-
 const Rx = require('rxjs/Rx');
+require('../src/index');
 
 describe('childOf', () => {
   it('filters messages that have the same parent', () => Rx.Observable.from([
@@ -14,7 +13,7 @@ describe('childOf', () => {
     .count()
     .toPromise()
     .then(val => {
-      expect(val).to.equal(3);
+      expect(val).toEqual(3);
     }));
   it('throws an error if msg_id is not present', (done) => Rx.Observable.from([
       { parent_header: { msg_id_bad: '100' } },
@@ -26,7 +25,7 @@ describe('childOf', () => {
     .subscribe(() => {
       throw new Error('Subscription was unexpectedly fulfilled.');
     }, (error) => {
-      expect(error).to.not.be.null;
+      expect(error).not.toBe(null);
       done();
     }));
 });
@@ -48,7 +47,7 @@ describe('ofMessageType', () => {
     .count()
     .toPromise()
     .then(val => {
-      expect(val).to.equal(4);
+      expect(val).toEqual(4);
     });
   });
   it('throws an error in msg_type is not present', (done) => Rx.Observable.from([
@@ -61,7 +60,7 @@ describe('ofMessageType', () => {
     .subscribe(() => {
       throw new Error('Subscription was unexpectedly fulfilled.');
     }, (error) => {
-      expect(error).to.not.be.null;
+      expect(error).not.toBe(null);
       done();
     }));
 });
