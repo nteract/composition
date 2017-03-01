@@ -11,6 +11,12 @@
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "test": "jest"
   },
+  "dependencies": {
+    "leaflet": "^1.0.1"
+  },
+  "peerDependencies": {
+    "react": "^15.4.2"
+  },
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "flow-copy-source": "^1.1.0",

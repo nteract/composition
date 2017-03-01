@@ -2,7 +2,7 @@
 /* eslint class-methods-use-this: 0 */
 import React from 'react';
 
-import _ from 'lodash';
+const cloneDeep = require('lodash.clonedeep');
 
 type Props = {
   data: string|Object,
@@ -55,7 +55,7 @@ export class PlotlyTransform extends React.Component {
     // The Plotly API *mutates* the figure to include a UID, which means
     // they won't take our frozen objects
     if (Object.isFrozen(figure)) {
-      return _.cloneDeep(figure);
+      return cloneDeep(figure);
     }
     return figure;
   }
