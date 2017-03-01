@@ -11,6 +11,18 @@
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "test": "jest"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "lodash",
+      "transform-class-properties",
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ]
+  },
   "keywords": [
     "nteract",
     "editor",

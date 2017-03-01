@@ -17,6 +17,18 @@
   "publishConfig": {
     "access": "public"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "lodash",
+      "transform-class-properties",
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ]
+  },
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "flow-copy-source": "^1.1.0",

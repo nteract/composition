@@ -15,6 +15,18 @@
   "publishConfig": {
     "access": "public"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "lodash",
+      "transform-class-properties",
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ]
+  },
   "dependencies": {
     "plotly.js": "^1.19.2"
   },

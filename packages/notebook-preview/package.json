@@ -14,6 +14,18 @@
   "publishConfig": {
     "access": "public"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "lodash",
+      "transform-class-properties",
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ]
+  },
   "dependencies": {
     "@nteract/commutable": "^1.0.6",
     "@nteract/display-area": "^1.0.4",

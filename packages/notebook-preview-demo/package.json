@@ -7,6 +7,18 @@
   "devDependencies": {
     "react-scripts": "0.8.5"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "plugins": [
+      "lodash",
+      "transform-class-properties",
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ]
+  },
   "dependencies": {
     "@nteract/commutable": "^1.0.6",
     "@nteract/notebook-preview": "^1.0.5",
