@@ -22,11 +22,5 @@
   "peerDependencies": {
     "react": "^15.4.2"
   },
-  "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "flow-copy-source": "^1.1.0",
-    "jest": "^19.0.0",
-    "@nteract/dev-scripts": "^1.0.4"
-  },
   "license": "BSD-3-Clause"
 }

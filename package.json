@@ -53,7 +53,7 @@
     "test:watch": "watch 'npm run test' test/",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
-    "test:packages": "lerna run test",
+    "test:packages": "jest",
     "precoverage": "mkdirp coverage && nyc npm run test:unit",
     "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
     "pack": "npm install && npm run clean && npm run build && build --dir",
@@ -126,6 +126,11 @@
       "eslint-plugin-jsx-a11y",
       "eslint-plugin-react",
       "flow-bin"
+    ]
+  },
+  "jest": {
+    "setupFiles": [
+      "./scripts/mockument"
     ]
   },
   "dependencies": {

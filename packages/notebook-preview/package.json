@@ -28,13 +28,6 @@
     "immutable": "^3.8.1",
     "react": "^15.4.2"
   },
-  "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "flow-copy-source": "^1.1.0",
-    "@nteract/dev-scripts": "^1.0.4",
-    "@nteract/editor": "^1.0.4",
-    "@nteract/mockument": "^1.0.4"
-  },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }
