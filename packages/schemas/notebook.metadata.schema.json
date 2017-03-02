@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "nteract notebook metadata v1.0 JSON schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "description": {
+      "description": "Description of the notebook",
+      "type": "string"
+    },
+    "tags": {
+      "description": "User specified keyword to associate a notebook with other content",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "image": {
+      "description": "Image to represent this notebook in gallery view",
+      "type": "string"
+    }
+  }
+}

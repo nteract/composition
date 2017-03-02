@@ -1,0 +1,21 @@
+{
+  "name": "@nteract/schemas",
+  "version": "1.0.0",
+  "description": "Schemas for nteract metadata",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "nteract",
+    "json",
+    "schema",
+    "notebook",
+    "validation"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "jsonschema": "^1.1.1"
+  }
+}
