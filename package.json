@@ -31,7 +31,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prebuild": "rimraf lib",
-    "lerna": "lerna bootstrap --hoist",
+    "lerna": "lerna bootstrap --hoist rxjs",
     "install": "npm run lerna && npm run build",
     "build": "npm run build:renderer && npm run build:main",
     "build:renderer": "webpack --progress --colors",
