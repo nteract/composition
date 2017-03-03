@@ -172,7 +172,7 @@
     "spawn-rx": "^2.0.3",
     "spawnteract": "^2.2.0",
     "uuid": "^3.0.1",
-    "yargs": "^6.4.0"
+    "yargs": "^7.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
