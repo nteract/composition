@@ -63,7 +63,7 @@
     "diagnostics": "scripts/kernelspecs-diagnostics.js"
   },
   "build": {
-    "electronVersion": "1.4.15",
+    "electronVersion": "1.6.1",
     "appId": "io.nteract.nteract",
     "fileAssociations": {
       "ext": "ipynb",
