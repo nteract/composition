@@ -194,7 +194,7 @@
     "electron-mocha": "^3.2.0",
     "enzyme": "^2.7.1",
     "esdoc": "^0.5.1",
-    "eslint": "3.16.1",
+    "eslint": "3.17.0",
     "eslint-config-airbnb": "14.1.0",
     "eslint-plugin-flowtype": "2.30.0",
     "eslint-plugin-import": "2.2.0",
