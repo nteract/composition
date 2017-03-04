@@ -1,0 +1,27 @@
+{
+  "name": "@nteract/transform-dataresource",
+  "version": "1.0.0",
+  "description": "Transform for data resource JSON",
+  "main": "lib/",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "test": "jest"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "immutable": "^3.8.1",
+    "react": "^15.4.2"
+  },
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "jsontableschema": "^0.2.2",
+    "react-virtualized": "^9.2.1"
+  }
+}
