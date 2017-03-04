@@ -21,8 +21,7 @@
     "codemirror": "^5.23.0",
     "commonmark": "^0.27.0",
     "commonmark-react-renderer": "^4.3.1",
-    "mathjax-electron": "^1.2.0",
-    "react-codemirror": "^0.3.0"
+    "mathjax-electron": "^1.2.0"
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
