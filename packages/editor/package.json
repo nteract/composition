@@ -20,11 +20,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "jest": {
-    "setupFiles": [
-      "@nteract/mockument"
-    ]
-  },
   "dependencies": {
     "@nteract/messaging": "^1.0.5",
     "codemirror": "^5.23.0",

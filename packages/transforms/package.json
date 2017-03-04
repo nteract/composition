@@ -29,11 +29,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "jest": {
-    "setupFiles": [
-      "@nteract/mockument"
-    ]
-  },
   "dependencies": {
     "react-json-tree": "^0.10.1",
     "ansi-to-react": "^1.1.0",
