@@ -1,8 +1,8 @@
 /* @flow */
-import React from "react";
+import React from 'react';
 
 // import VirtualizedGrid from "./virtualized-grid";
-import VirtualizedTable from "./virtualized-table";
+import VirtualizedTable from './virtualized-table';
 
 type Props = {
   data: Object
@@ -10,7 +10,7 @@ type Props = {
 
 class DataResourceTransform extends React.Component {
   props: Props;
-  static MIMETYPE = "application/vnd.dataresource+json";
+  static MIMETYPE = 'application/vnd.dataresource+json';
 
   shouldComponentUpdate(): boolean {
     return true;
@@ -22,7 +22,7 @@ class DataResourceTransform extends React.Component {
       <VirtualizedTable
         data={data}
         schema={schema}
-        style={{ marginRight: "10px" }}
+        style={{ marginRight: '10px' }}
       />
     );
   }

@@ -1,10 +1,16 @@
-import React from "react";
-import { Grid, MultiGrid, AutoSizer, CellMeasurer } from "react-virtualized";
+/* @flow */
+import React from 'react';
+import { MultiGrid, AutoSizer, CellMeasurer } from 'react-virtualized';
 // import 'react-virtualized/styles.css';
-import { infer } from "jsontableschema";
+import { infer } from 'jsontableschema';
 // import './index.css';
 
 const ROW_HEIGHT = 34;
+
+type Props = {
+  data: Object,
+  schema: { fields: Array<Object> },
+};
 
 function inferSchema(data) {
   const headers = data.reduce(
@@ -16,17 +22,49 @@ function inferSchema(data) {
 }
 
 export default class VirtualizedGrid extends React.Component {
-  data = [];
-  schema = { fields: [] };
+  props: Props
 
   componentWillMount() {
     this.data = this.props.data;
     this.schema = this.props.schema || inferSchema(this.props.data);
   }
-  componentWillReceiveProps(nextProps) {
+
+  componentWillReceiveProps(nextProps: Props) {
     this.data = nextProps.data;
     this.schema = nextProps.schema || inferSchema(nextProps.data);
   }
+
+  data = [];
+  schema = { fields: [] };
+
+  cellRenderer = ({ columnIndex, key, rowIndex, style } :
+  { columnIndex: number, key: string, rowIndex: number, style: Object}) => (
+    <div
+      key={key}
+      style={{
+        ...style,
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,' +
+                    ' "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+        fontSize: 16,
+        fontWeight: rowIndex === 0 ? 600 : 'normal',
+        backgroundColor: rowIndex % 2 === 0 && rowIndex !== 0
+            ? '#f8f8f8'
+            : '#fff',
+        border: '1px solid #ddd',
+        padding: '6px 13px'
+      }}
+    >
+      {
+          [
+            this.schema.fields.reduce(
+              (result, field) => ({ ...result, [field.name]: field.name }),
+              {}
+            ),
+            ...this.data
+          ][rowIndex][this.schema.fields[columnIndex].name]
+        }
+    </div>
+    );
 
   render() {
     return (
@@ -59,33 +97,4 @@ export default class VirtualizedGrid extends React.Component {
       </AutoSizer>
     );
   }
-
-  cellRenderer = ({ columnIndex, key, rowIndex, style }) => {
-    return (
-      <div
-        key={key}
-        style={{
-          ...style,
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-          fontSize: 16,
-          fontWeight: rowIndex === 0 ? 600 : "normal",
-          backgroundColor: rowIndex % 2 === 0 && rowIndex !== 0
-            ? "#f8f8f8"
-            : "#fff",
-          border: "1px solid #ddd",
-          padding: "6px 13px"
-        }}
-      >
-        {
-          [
-            this.schema.fields.reduce(
-              (result, field) => ({ ...result, [field.name]: field.name }),
-              {}
-            ),
-            ...this.data
-          ][rowIndex][this.schema.fields[columnIndex].name]
-        }
-      </div>
-    );
-  };
 }

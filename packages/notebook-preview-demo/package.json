@@ -10,13 +10,15 @@
   "dependencies": {
     "@nteract/commutable": "^1.1.0",
     "@nteract/notebook-preview": "^1.0.6",
-    "@nteract/transforms-full": "^1.0.7",
+    "@nteract/transforms": "^1.0.7",
+    "@nteract/transform-dataresource": "^1.0.0",
     "codemirror": "^5.23.0",
     "normalize.css": "^5.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^4.0.0-beta.5",
-    "react-router-dom": "^4.0.0-beta.5"
+    "react-router-dom": "^4.0.0-beta.5",
+    "react-virtualized": "^9.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
