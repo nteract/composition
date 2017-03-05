@@ -27,6 +27,7 @@ import { fetchFromGist } from './fetchers';
 const commutable = require('@nteract/commutable');
 
 const gistIDs = [
+  '038c4061d5a562d5f24605b93dcffdb6',
   '8ea760c2e2a6bba2ebff27125a548508',
 ];
 
