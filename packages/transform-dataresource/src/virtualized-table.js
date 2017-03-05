@@ -8,6 +8,8 @@ import infer from 'jsontableschema/lib/infer';
 // import { infer } from 'jsontableschema';
 // import "./index.css";
 
+const _sortBy = require('lodash.sortby');
+
 const ROW_HEIGHT = 34;
 
 type Props = {
@@ -33,7 +35,7 @@ function inferSchema(data) {
 
 export default class VirtualizedTable extends React.Component {
   props: Props
-  state = { sortBy: '', sortDirection: '' };
+  state = { sortBy: '', sortDirection: SortDirection.ASC };
 
   componentWillMount() {
     this.data = this.props.data;
@@ -49,24 +51,10 @@ export default class VirtualizedTable extends React.Component {
   schema = { fields: [] };
 
   sort = ({ sortBy, sortDirection } : State) => {
-    if (this.state.sortDirection === SortDirection.DESC) {
-      this.data = this.props.data;
-      this.setState({ sortBy: '', sortDirection: '' });
-    } else {
-      const { type } = this.schema.fields.find(field => field.name === sortBy) || {};
-      this.data = [...this.props.data].sort((a, b) => {
-        if (type === 'date' || type === 'time' || type === 'datetime') {
-          return sortDirection === SortDirection.ASC
-            ? new Date(a[sortBy]) - new Date(b[sortBy])
-            : new Date(b[sortBy]) - new Date(a[sortBy]);
-        }
-        return sortDirection === SortDirection.ASC
-          ? a[sortBy] - b[sortBy]
-          : b[sortBy] - a[sortBy];
-      });
-      this.setState({ sortBy, sortDirection });
-    }
-  };
+    const data = _sortBy(this.props.data, [sortBy]);
+    this.data = (sortDirection === SortDirection.DESC) ? data.reverse() : data;
+    this.setState({ sortBy, sortDirection });
+  }
 
   render() {
     return (
