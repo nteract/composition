@@ -1,34 +1,32 @@
 /* eslint-disable react/prop-types */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import 'normalize.css/normalize.css';
-import 'codemirror/lib/codemirror.css';
+import "normalize.css/normalize.css";
+import "codemirror/lib/codemirror.css";
 
-import '@nteract/notebook-preview/styles/main.css';
-import '@nteract/notebook-preview/styles/theme-light.css';
+import "@nteract/notebook-preview/styles/main.css";
+import "@nteract/notebook-preview/styles/theme-light.css";
+import "react-virtualized/styles.css";
 
-import NotebookPreview from '@nteract/notebook-preview';
+const transformer = require("@nteract/transforms-full");
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import NotebookPreview from "@nteract/notebook-preview";
 
-import './App.css';
-import './index.css';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-import { fetchFromGist } from './fetchers';
+import "./App.css";
+import "./index.css";
+import logo from "./logo.svg";
 
+import { fetchFromGist } from "./fetchers";
 
-const commutable = require('@nteract/commutable');
+const commutable = require("@nteract/commutable");
 
 const gistIDs = [
-  '038c4061d5a562d5f24605b93dcffdb6',
-  '8ea760c2e2a6bba2ebff27125a548508',
+  "038c4061d5a562d5f24605b93dcffdb6",
+  "8ea760c2e2a6bba2ebff27125a548508"
 ];
 
 const gistID = gistIDs[Math.floor(Math.random() * gistIDs.length)];
@@ -40,12 +38,12 @@ class GistedNotebook extends React.Component {
   constructor() {
     super();
     this.state = {
-      notebook: null,
+      notebook: null
     };
   }
 
   componentDidMount() {
-    fetchFromGist(this.props.match.params.gistID).then((nbJSON) => {
+    fetchFromGist(this.props.match.params.gistID).then(nbJSON => {
       this.setState({
         notebook: commutable.fromJS(nbJSON)
       });
@@ -54,7 +52,13 @@ class GistedNotebook extends React.Component {
 
   render() {
     if (this.state.notebook) {
-      return <NotebookPreview notebook={this.state.notebook} />;
+      return (
+        <NotebookPreview
+          notebook={this.state.notebook}
+          displayOrder={transformer.displayOrder}
+          transforms={transformer.transforms}
+        />
+      );
     }
     return <h1>Loading Notebook...</h1>;
   }
@@ -67,11 +71,12 @@ ReactDOM.render(
         <img src={logo} className="App-logo" alt="logo" />
       </div>
       <Route
-        exact path="/" render={() => (
-          <Redirect to={`/gist/${gistID}`} />
-      )}
+        exact
+        path="/"
+        render={() => <Redirect to={`/gist/${gistID}`} />}
       />
       <Route path="/gist/:gistID" component={GistedNotebook} />
     </div>
-  </Router>
-, document.getElementById('root'));
+  </Router>,
+  document.getElementById("root")
+);

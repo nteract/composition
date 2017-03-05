@@ -528,3 +528,43 @@ li.CodeMirror-hint-active {
     background: var(--status-bar);
     z-index: 99;
 }
+
+.fixedDataTableLayout_main {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+}
+
+.public_fixedDataTableCell_main {
+  border-color: #ddd;
+}
+
+.public_fixedDataTable_header {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+}
+
+.public_fixedDataTable_header {
+  background: #fff;
+}
+
+.public_fixedDataTable_header, .public_fixedDataTable_header .public_fixedDataTableCell_main {
+  background: #fff;
+  text-align: center;
+}
+
+.public_fixedDataTableCell_cellContent {
+  padding: 6px 13px;
+}
+
+.public_fixedDataTableRow_highlighted, .public_fixedDataTableRow_highlighted .public_fixedDataTableCell_main {
+  background: #f8f8f8;
+}
+
+.dataframe {
+  width: 100%;
+  border-spacing: 1px;
+}
+
+.dataframe .header {
+  text-align: right;
+}

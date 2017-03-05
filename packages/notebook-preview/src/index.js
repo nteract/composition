@@ -1,14 +1,15 @@
 /* @flow */
-import React from 'react';
-import Notebook from './notebook';
+import React from "react";
+import Notebook from "./notebook";
 
-const transformer = require('@nteract/transforms');
-const commutable = require('@nteract/commutable');
-const Immutable = require('immutable');
+const commutable = require("@nteract/commutable");
+const Immutable = require("immutable");
 
 type Props = {
-  notebook: Immutable.Map<string, any> | Object;
-}
+  notebook: Immutable.Map<string, any> | Object,
+  displayOrder: Immutable.List<string>,
+  transforms: Immutable.Map<string, any>
+};
 
 const NotebookPreview = (props: Props) => {
   const nb = props.notebook;
@@ -19,8 +20,8 @@ const NotebookPreview = (props: Props) => {
     <Notebook
       notebook={notebook}
       theme="light"
-      displayOrder={transformer.displayOrder}
-      transforms={transformer.transforms}
+      displayOrder={props.displayOrder}
+      transforms={props.transforms}
     />
   );
 };
