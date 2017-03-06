@@ -51,8 +51,8 @@
       "es2015"
     ],
     "plugins": [
-        "transform-flow-strip-types"
-    ],
+      "transform-flow-strip-types"
+    ]
   },
   "dependencies": {
     "rxjs": "^5.0.0-rc.1"
