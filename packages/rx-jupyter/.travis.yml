@@ -5,6 +5,7 @@ sudo: false
 
 script:
     - npm t
+    - npm run test:flow
     - npm run coverage
 
 after_success:
