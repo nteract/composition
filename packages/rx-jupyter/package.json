@@ -42,7 +42,7 @@
     "eslint": "^3.17.0",
     "eslint-config-airbnb-base": "^11.1.1",
     "eslint-plugin-import": "^2.2.0",
-    "flow": "^0.2.3",
+    "flow-bin": "^0.41.0",
     "jsdoc": "^3.4.2",
     "mocha": "^3.1.2",
     "nyc": "^8.3.1",
