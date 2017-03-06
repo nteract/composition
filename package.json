@@ -37,6 +37,7 @@
     "build:renderer": "webpack --progress --colors",
     "build:renderer:watch": "npm run build:renderer -- --watch",
     "build:packages": "lerna run build --ignore @nteract/notebook-preview-demo",
+    "build:packages:watch": "lerna run build:lib:watch --stream",
     "build:main": "babel src/main --out-dir ./lib/main && babel src/utils --out-dir ./lib/utils",
     "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",

@@ -9,7 +9,7 @@
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
-    "test": "jest"
+    "build:lib:watch": "npm run build:lib -- --watch"
   },
   "keywords": [
     "nteract",
