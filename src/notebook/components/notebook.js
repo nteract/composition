@@ -122,7 +122,13 @@ export class Notebook extends React.PureComponent {
       return;
     }
 
-    const shiftXORctrl = (e.shiftKey || e.ctrlKey) && !(e.shiftKey && e.ctrlKey);
+    let ctrlKeyPressed = e.ctrlKey;
+    // Allow cmd + enter (macOS) to operate like ctrl + enter
+    if (process.platform === 'darwin') {
+      ctrlKeyPressed = (e.metaKey || e.ctrlKey) && !(e.metaKey && e.ctrlKey);
+    }
+
+    const shiftXORctrl = (e.shiftKey || ctrlKeyPressed) && !(e.shiftKey && ctrlKeyPressed);
     if (!shiftXORctrl) {
       return;
     }
