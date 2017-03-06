@@ -82,14 +82,14 @@ describe('kernels', () => {
       };
       const wsURL = kernels.formWebSocketURL(config, '0000-1111');
       expect(wsURL).to.equal(
-        'wss://tmp58.tmpnb.org/user/TOTefPUbkgOu/api/kernels/0000-1111/channels'
+        'wss://tmp58.tmpnb.org/user/TOTefPUbkgOu/api/kernels/0000-1111/channels',
       );
 
       config.endpoint = 'http://127.0.0.1:8888';
 
       const wsURL2 = kernels.formWebSocketURL(config, '4444-2222');
       expect(wsURL2).to.equal(
-        'ws://127.0.0.1:8888/api/kernels/4444-2222/channels'
+        'ws://127.0.0.1:8888/api/kernels/4444-2222/channels',
       );
     });
   });
