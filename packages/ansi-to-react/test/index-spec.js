@@ -52,4 +52,16 @@ describe("Ansi", () => {
     expect(el.text()).to.equal('this is a link: https://nteract.io/');
     expect(el.html()).to.equal('<code><span>this is a link: <a href="https://nteract.io/" target="_blank">https://nteract.io/</a></span></code>');
   });
+  
+  it('can distinguish URL-ish text', () => {
+    const el = enzyme.shallow(React.createElement(Ansi, {linkify: true}, '<transport.model.TransportInfo'));
+    expect(el).to.not.be.null;
+    expect(el.text()).to.equal('<transport.model.TransportInfo');
+  });
+  
+  it('can distinguish URL-ish text', () => {
+    const el = enzyme.shallow(React.createElement(Ansi, {linkify: true}, "<module 'something' from '/usr/local/lib/python2.7/dist-packages/something/__init__.pyc'>"));
+    expect(el).to.not.be.null;
+    expect(el.text()).to.equal("<module 'something' from '/usr/local/lib/python2.7/dist-packages/something/__init__.pyc'>");
+  });
 });
