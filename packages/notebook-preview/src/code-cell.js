@@ -17,7 +17,7 @@ type Props = {
   theme: string,
   transforms: ImmutableMap<string, any>,
   running: boolean,
-  models: ImmutableMap<string, any>,
+  models: ImmutableMap<string, any>
 };
 
 class CodeCell extends React.PureComponent {
@@ -26,7 +26,7 @@ class CodeCell extends React.PureComponent {
   static defaultProps = {
     running: false,
     tabSize: 4,
-    models: new ImmutableMap(),
+    models: new ImmutableMap()
   };
 
   isOutputHidden(): any {
@@ -38,14 +38,14 @@ class CodeCell extends React.PureComponent {
   }
 
   isOutputExpanded() {
-    return this.props.cell.getIn(['metadata', 'outputExpanded']);
+    return this.props.cell.getIn(['metadata', 'outputExpanded'], true);
   }
 
   render(): ?React.Element<any> {
-    return (<div className={this.props && this.props.running ? 'cell-running' : ''} >
-      {
-        !this.isInputHidden() ?
-          <div className="input-container">
+    return (
+      <div className={this.props && this.props.running ? 'cell-running' : ''}>
+        {!this.isInputHidden()
+          ? <div className="input-container">
             <Inputs
               executionCount={this.props.cell.get('execution_count')}
               running={this.props.running}
@@ -66,23 +66,24 @@ class CodeCell extends React.PureComponent {
               focusAbove={() => {}}
               focusBelow={() => {}}
             />
-          </div> : <div className="input-container invisible" />
-      }
-      <LatexRenderer>
-        <div className="outputs">
-          <Display
-            className="outputs-display"
-            outputs={this.props.cell.get('outputs')}
-            displayOrder={this.props.displayOrder}
-            transforms={this.props.transforms}
-            theme={this.props.theme}
-            expanded={this.isOutputExpanded()}
-            isHidden={this.isOutputHidden()}
-            models={this.props.models}
-          />
-        </div>
-      </LatexRenderer>
-    </div>);
+          </div>
+          : <div className="input-container invisible" />}
+        <LatexRenderer>
+          <div className="outputs">
+            <Display
+              className="outputs-display"
+              outputs={this.props.cell.get('outputs')}
+              displayOrder={this.props.displayOrder}
+              transforms={this.props.transforms}
+              theme={this.props.theme}
+              expanded={this.isOutputExpanded()}
+              isHidden={this.isOutputHidden()}
+              models={this.props.models}
+            />
+          </div>
+        </LatexRenderer>
+      </div>
+    );
   }
 }
 
