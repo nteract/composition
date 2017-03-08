@@ -188,7 +188,7 @@
     "chai": "^3.4.1",
     "chai-immutable": "^1.6.0",
     "cross-env": "^3.2.3",
-    "electron": "1.6.1",
+    "electron": "1.6.2",
     "electron-builder": "^15.1.0",
     "electron-mocha": "^3.2.0",
     "enzyme": "^2.7.1",
