@@ -10,23 +10,32 @@ import infer from 'jsontableschema/lib/infer';
 
 const _sortBy = require('lodash.sortby');
 
-const ROW_HEIGHT = 34;
+const ROW_HEIGHT = 36;
+const GRID_MAX_HEIGHT = ROW_HEIGHT * 10;
 
 type Props = {
-  data: Object,
+  data: Array<Object>,
   schema: { fields: Array<Object> },
+  theme: string
 };
 
-type State = { sortBy: string, sortDirection: string };
+type State = {
+  data: Array<Object>,
+  schema: { fields: Array<Object> },
+  sortBy: string,
+  sortDirection: string
+};
 
-function inferSchema(data) {
+function inferSchema(data: Array<Object>): { fields: Array<Object> } {
   // Take a sampling of rows from data
   const range = Array.from({ length: 10 }, () =>
     Math.floor(Math.random() * data.length));
   // Separate headers and values
-  const headers = range.reduce(
-    (result, row) => [...new Set([...result, ...Object.keys(data[row])])],
-    []
+  const headers = Array.from(
+    range.reduce(
+      (result, row) => new Set([...result, ...Object.keys(data[row])]),
+      new Set()
+    )
   );
   const values = range.map(row => Object.values(data[row]));
   // Infer column types and return schema for data
@@ -34,74 +43,78 @@ function inferSchema(data) {
 }
 
 export default class VirtualizedTable extends React.Component {
-  props: Props
-  state = { sortBy: '', sortDirection: SortDirection.ASC };
+  props: Props;
+  state: State = {
+    data: [],
+    schema: { fields: [] },
+    sortBy: '',
+    sortDirection: SortDirection.ASC
+  };
 
   componentWillMount() {
-    this.data = this.props.data;
-    this.schema = this.props.schema || inferSchema(this.props.data);
+    const data = this.props.data;
+    const schema = this.props.schema || inferSchema(this.props.data);
+    this.setState({ data, schema });
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    this.data = nextProps.data;
-    this.schema = nextProps.schema || inferSchema(nextProps.data);
+    const data = nextProps.data;
+    const schema = nextProps.schema || inferSchema(nextProps.data);
+    this.setState({ data, schema });
   }
 
-  data = [];
-  schema = { fields: [] };
-
-  sort = ({ sortBy, sortDirection } : State) => {
+  sort = ({ sortBy, sortDirection }: State) => {
     const data = _sortBy(this.props.data, [sortBy]);
-    this.data = (sortDirection === SortDirection.DESC) ? data.reverse() : data;
+    this.state.data = sortDirection === SortDirection.DESC ? data.reverse() : data;
     this.setState({ sortBy, sortDirection });
-  }
+  };
 
   render() {
+    const rowCount = this.state.data.length;
+    const height = rowCount * ROW_HEIGHT;
     return (
       <AutoSizer disableHeight>
         {({ width }) => (
           <Table
             // ref={ref => this.ref = ref}
+            className="table"
             // disableHeader={disableHeader}
-            // headerClassName={styles.headerColumn}
+            // headerClassName="th"
             headerHeight={ROW_HEIGHT}
-            headerStyle={{
-              fontWeight: 600,
-              textAlign: 'right',
-              // border: '1px solid #ddd',
-              // padding: '6px 13px'
-              textTransform: 'none',
-              outline: 0
-            }}
+            // headerStyle={{
+            //   fontWeight: 600,
+            //   textAlign: 'right',
+            //   // border: '1px solid #ddd',
+            //   // padding: '6px 13px'
+            //   textTransform: 'none',
+            //   outline: 0
+            // }}
             height={
-              (this.data.length + 1) * ROW_HEIGHT < 400
-                ? (this.data.length + 1) * ROW_HEIGHT
-                : 400
+              height < GRID_MAX_HEIGHT
+                ? height
+                : GRID_MAX_HEIGHT
             }
             // noRowsRenderer={this._noRowsRenderer}
             // overscanRowCount={overscanRowCount}
-            // rowClassName={this._rowClassName}
+            rowClassName={({ index }) => index === -1 ? 'th' : 'tr'}
             rowHeight={ROW_HEIGHT}
-            rowGetter={({ index }) => this.data[index]}
-            rowCount={this.data.length}
-            rowStyle={({ index }) => ({
-              backgroundColor: index % 2 === 0 ? '#f8f8f8' : '#fff',
-              textAlign: 'right'
-            })}
+            rowGetter={({ index }) => this.state.data[index]}
+            rowCount={rowCount}
+            rowStyle={{
+              padding: 0,
+              border: 'none'
+            }}
             // scrollToIndex={scrollToIndex}
             sort={this.sort}
             sortBy={this.state.sortBy}
             sortDirection={this.state.sortDirection}
-            style={{
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,' +
-                          'sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-              fontSize: 12,
-              fontWeight: 'normal'
-            }}
-            // width={this.schema.fields.length * 150}
+            // style={{
+            //   borderCollapse: 'collapse',
+            //   boxSizing: 'border-box'
+            // }}
             width={width}
           >
-            {this.schema.fields.map((field, fieldIndex) => (
+            {this.state.schema.fields.map((field, fieldIndex) => (
               <Column
                 key={fieldIndex}
                 label={`${field.name}`}
