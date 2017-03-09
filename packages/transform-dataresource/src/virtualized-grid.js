@@ -2,21 +2,15 @@
 import React from 'react';
 import {
   MultiGrid,
-  AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache
+  AutoSizer
 } from 'react-virtualized';
 // import 'react-virtualized/styles.css';
 import { infer } from 'jsontableschema';
 // import './index.css';
 
 const ROW_HEIGHT = 36;
+const COLUMN_WIDTH = 144;
 const GRID_MAX_HEIGHT = ROW_HEIGHT * 10;
-const cache = new CellMeasurerCache({
-  defaultWidth: 100,
-  minWidth: 75,
-  fixedHeight: true
-});
 
 type Props = {
   data: Array<Object>,
@@ -97,35 +91,27 @@ export default class VirtualizedGrid extends React.Component {
       style: Object
     }
   ) => (
-    <CellMeasurer
-      cache={cache}
-      columnIndex={columnIndex}
+    <div
       key={key}
-      parent={parent}
-      rowIndex={rowIndex}
+      className={rowIndex === 0 || columnIndex === 0 ? 'th' : 'td'}
+      style={{
+        ...style,
+        ...(this.props.theme === 'nteract' &&
+          rowIndex % 2 === 0 &&
+          !(rowIndex === 0 || columnIndex === 0)
+          ? { background: 'rgba(255,255,255,0.075)' }
+          : {}),
+        ...(this.props.theme === 'nteract' &&
+          (rowIndex === 0 || columnIndex === 0)
+          ? { fontWeight: 'bold' }
+          : {}),
+        boxSizing: 'border-box',
+        borderTop: 'none',
+        borderLeft: 'none'
+      }}
     >
-      <div
-        key={key}
-        className={rowIndex === 0 || columnIndex === 0 ? 'th' : 'td'}
-        style={{
-          ...style,
-          ...(this.props.theme === 'nteract' &&
-            rowIndex % 2 === 0 &&
-            !(rowIndex === 0 || columnIndex === 0)
-            ? { background: 'rgba(255,255,255,0.075)' }
-            : {}),
-          ...(this.props.theme === 'nteract' &&
-            (rowIndex === 0 || columnIndex === 0)
-            ? { fontWeight: 'bold' }
-            : {}),
-          boxSizing: 'border-box',
-          borderTop: 'none',
-          borderLeft: 'none'
-        }}
-      >
-        {this.state.data[rowIndex][this.state.schema.fields[columnIndex].name]}
-      </div>
-    </CellMeasurer>
+      {this.state.data[rowIndex][this.state.schema.fields[columnIndex].name]}
+    </div>
   );
 
   render() {
@@ -137,8 +123,7 @@ export default class VirtualizedGrid extends React.Component {
           <MultiGrid
             cellRenderer={this.cellRenderer}
             columnCount={this.state.schema.fields.length}
-            columnWidth={index => cache.columnWidth(index) + 15}
-            deferredMeasurementCache={cache}
+            columnWidth={COLUMN_WIDTH}
             fixedColumnCount={1}
             fixedRowCount={1}
             height={height < GRID_MAX_HEIGHT ? height : GRID_MAX_HEIGHT}
