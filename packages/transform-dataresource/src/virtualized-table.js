@@ -104,7 +104,7 @@ export default class VirtualizedTable extends React.Component {
             {this.schema.fields.map((field, fieldIndex) => (
               <Column
                 key={fieldIndex}
-                label={field.name}
+                label={`${field.name}`}
                 // cellDataGetter={({ columnData, dataKey, rowData }) =>
                 //   rowData
                 // }
