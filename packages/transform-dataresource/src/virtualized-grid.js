@@ -26,12 +26,15 @@ type Props = {
 
 function inferSchema(data) {
   // Take a sampling of rows from data
-  const range = Array.from({ length: 10 }, (v, i) =>
-    Math.floor(Math.random() * data.length));
+  const range = Array.from({ length: 10 }, () =>
+    Math.floor(Math.random() * data.length)
+  );
   // Separate headers and values
-  const headers = range.reduce(
-    (result, row) => [...new Set([...result, ...Object.keys(data[row])])],
-    []
+  const headers = Array.from(
+      range.reduce(
+      (result, row) => new Set([...result, ...Object.keys(data[row])]),
+      new Set()
+    )
   );
   const values = range.map(row => Object.values(data[row]));
   // Infer column types and return schema for data
