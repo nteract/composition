@@ -1,12 +1,22 @@
 /* @flow */
 import React from 'react';
-import { MultiGrid, AutoSizer, CellMeasurer } from 'react-virtualized';
+import {
+  MultiGrid,
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache
+} from 'react-virtualized';
 // import 'react-virtualized/styles.css';
 import { infer } from 'jsontableschema';
 // import './index.css';
 
 const ROW_HEIGHT = 42;
 const GRID_MAX_HEIGHT = 336;
+const cache = new CellMeasurerCache({
+  defaultWidth: 100,
+  minWidth: 75,
+  fixedHeight: true
+});
 
 type Props = {
   data: Object,
@@ -43,32 +53,40 @@ export default class VirtualizedGrid extends React.Component {
   data = [];
   schema = { fields: [] };
 
-  cellRenderer = ({ columnIndex, key, rowIndex, style } :
-  { columnIndex: number, key: string, rowIndex: number, style: Object}) => (
-    <div
+  cellRenderer = ({ columnIndex, key, parent, rowIndex, style } :
+  { columnIndex: number, key: string, parent: mixed, rowIndex: number, style: Object}) => (
+    <CellMeasurer
+      cache={cache}
+      columnIndex={columnIndex}
       key={key}
-      style={{
-        ...style,
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,' +
-                    ' "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-        fontSize: 12,
-        fontWeight: rowIndex === 0 ? 600 : 'normal',
-        backgroundColor: rowIndex % 2 === 0 && rowIndex !== 0
-          ? '#f8f8f8'
-          : '#fff',
-        padding: '6px 13px'
-      }}
+      parent={parent}
+      rowIndex={rowIndex}
     >
-      {
-          [
-            this.schema.fields.reduce(
-              (result, field) => ({ ...result, [field.name]: field.name }),
-              {}
-            ),
-            ...this.data
-          ][rowIndex][this.schema.fields[columnIndex].name]
-        }
-    </div>
+      <div
+        key={key}
+        style={{
+          ...style,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,' +
+                      ' "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+          fontSize: 12,
+          fontWeight: rowIndex === 0 ? 600 : 'normal',
+          backgroundColor: rowIndex % 2 === 0 && rowIndex !== 0
+            ? '#f8f8f8'
+            : '#fff',
+          padding: '6px 13px'
+        }}
+      >
+        {
+            [
+              this.schema.fields.reduce(
+                (result, field) => ({ ...result, [field.name]: field.name }),
+                {}
+              ),
+              ...this.data
+            ][rowIndex][this.schema.fields[columnIndex].name]
+          }
+      </div>
+    </CellMeasurer>
     );
 
   render() {
@@ -77,26 +95,18 @@ export default class VirtualizedGrid extends React.Component {
     return (
       <AutoSizer disableHeight>
         {({ width }) => (
-          <CellMeasurer
+          <MultiGrid
             cellRenderer={this.cellRenderer}
             columnCount={this.schema.fields.length}
-            height={ROW_HEIGHT}
+            columnWidth={cache.columnWidth}
+            deferredMeasurementCache={cache}
+            fixedColumnCount={1}
+            fixedRowCount={1}
+            height={height < GRID_MAX_HEIGHT ? height : GRID_MAX_HEIGHT}
             rowCount={rowCount}
-          >
-            {({ getColumnWidth }) => (
-              <MultiGrid
-                cellRenderer={this.cellRenderer}
-                columnCount={this.schema.fields.length}
-                columnWidth={index => getColumnWidth(index) + 10}
-                fixedColumnCount={1}
-                fixedRowCount={1}
-                height={height < GRID_MAX_HEIGHT ? height : GRID_MAX_HEIGHT}
-                rowCount={rowCount}
-                rowHeight={ROW_HEIGHT}
-                width={width}
-              />
-            )}
-          </CellMeasurer>
+            rowHeight={ROW_HEIGHT}
+            width={width}
+          />
         )}
       </AutoSizer>
     );
