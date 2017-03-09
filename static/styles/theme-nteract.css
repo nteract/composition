@@ -192,7 +192,7 @@ tr:nth-of-type(even), .tr:nth-of-type(even)
   background: rgba(255,255,255,0.075);
 }
 
-tr:hover, .tr:nth-of-type(even)
+tr:hover, .tr:hover,
 {
   background: rgba(0,0,0,0.4);
 }
