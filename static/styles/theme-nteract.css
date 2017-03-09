@@ -182,17 +182,17 @@ span[style="color: rgb(0, 255, 0);"]
 
 /* Tables */
 
-th
+th, .th
 {
   background: rgba(0,0,0,0.25);
 }
 
-tr:nth-of-type(even)
+tr:nth-of-type(even), .tr:nth-of-type(even)
 {
   background: rgba(255,255,255,0.075);
 }
 
-tr:hover
+tr:hover, .tr:nth-of-type(even)
 {
   background: rgba(0,0,0,0.4);
 }

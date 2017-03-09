@@ -10,8 +10,9 @@ import {
 import { infer } from 'jsontableschema';
 // import './index.css';
 
-const ROW_HEIGHT = 42;
-const GRID_MAX_HEIGHT = 336;
+
+const ROW_HEIGHT = 36;
+const GRID_MAX_HEIGHT = 360;
 const cache = new CellMeasurerCache({
   defaultWidth: 100,
   minWidth: 75,
@@ -64,16 +65,17 @@ export default class VirtualizedGrid extends React.Component {
     >
       <div
         key={key}
+        className={rowIndex === 0 || columnIndex === 0
+          ? 'th'
+          : 'td'
+        }
         style={{
           ...style,
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,' +
-                      ' "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-          fontSize: 12,
-          fontWeight: rowIndex === 0 ? 600 : 'normal',
-          backgroundColor: rowIndex % 2 === 0 && rowIndex !== 0
-            ? '#f8f8f8'
-            : '#fff',
-          padding: '6px 13px'
+          ...this.props.theme === 'nteract' && rowIndex % 2 === 0 && !(rowIndex === 0 || columnIndex === 0)
+            ? { background: 'rgba(255,255,255,0.075)' }
+            : {},
+          borderCollapse: 'collapse',
+          boxSizing: 'border-box'
         }}
       >
         {
@@ -98,7 +100,7 @@ export default class VirtualizedGrid extends React.Component {
           <MultiGrid
             cellRenderer={this.cellRenderer}
             columnCount={this.schema.fields.length}
-            columnWidth={cache.columnWidth}
+            columnWidth={index => cache.columnWidth(index) + 15}
             deferredMeasurementCache={cache}
             fixedColumnCount={1}
             fixedRowCount={1}
