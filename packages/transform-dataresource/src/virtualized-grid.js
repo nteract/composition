@@ -34,9 +34,7 @@ function getSampleRows(data: Array<Object>, sampleSize: number): Array<Object> {
 }
 
 function inferSchema(data: Array<Object>): { fields: Array<Object> } {
-  // Take a sampling of rows from data
   const sampleRows = getSampleRows(data, SAMPLE_SIZE);
-  // Separate headers and values
   const headers = Array.from(
     sampleRows.reduce(
       (result, row) => new Set([...result, ...Object.keys(row)]),
@@ -44,7 +42,6 @@ function inferSchema(data: Array<Object>): { fields: Array<Object> } {
     )
   );
   const values = sampleRows.map(row => Object.values(row));
-  // Infer column types and return schema for data
   return infer(headers, values);
 }
 
@@ -113,11 +110,13 @@ export default class VirtualizedGrid extends React.Component {
         style={{
           ...style,
           boxSizing: 'border-box',
-          borderTop: 'none',
-          borderLeft: 'none',
           overflow: 'hidden',
           whiteSpace: 'nowrap',
           textOverflow: 'ellipsis',
+          // Remove top border for all cells except first row
+          ...(rowIndex !== 0 ? { borderTop: 'none' } : {}),
+          // Remove left border for all cells except first column
+          ...(columnIndex !== 0 ? { borderLeft: 'none' } : {}),
           // Highlight even rows
           ...(this.props.theme === 'nteract' &&
             rowIndex % 2 === 0 &&
@@ -157,9 +156,6 @@ export default class VirtualizedGrid extends React.Component {
             height={height < GRID_MAX_HEIGHT ? height : GRID_MAX_HEIGHT}
             rowCount={rowCount}
             rowHeight={ROW_HEIGHT}
-            style={{
-              border: '1px solid var(--primary-border)'
-            }}
             width={width}
           />
         )}
