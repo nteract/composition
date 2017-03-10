@@ -1,9 +1,6 @@
 /* @flow */
 import React from 'react';
-import {
-  MultiGrid,
-  AutoSizer
-} from 'react-virtualized';
+import { MultiGrid, AutoSizer } from 'react-virtualized';
 // import 'react-virtualized/styles.css';
 import { infer } from 'jsontableschema';
 // import './index.css';
@@ -11,6 +8,10 @@ import { infer } from 'jsontableschema';
 const ROW_HEIGHT = 36;
 const COLUMN_WIDTH = 144;
 const GRID_MAX_HEIGHT = ROW_HEIGHT * 10;
+// The width per text character for calculating widths for columns
+const COLUMN_CHARACTER_WIDTH = 7;
+// The number of sample rows that should be used to infer types for columns
+const SAMPLE_SIZE = 10;
 
 type Props = {
   data: Array<Object>,
@@ -20,60 +21,60 @@ type Props = {
 
 type State = {
   data: Array<Object>,
-  schema: { fields: Array<Object> }
+  schema: { fields: Array<Object> },
 };
+
+function getSampleRows(data: Array<Object>, sampleSize: number): Array<Object> {
+  return Array.from({ length: sampleSize }, () => {
+    const index = Math.floor(Math.random() * data.length);
+    return data[index];
+  });
+}
 
 function inferSchema(data: Array<Object>): { fields: Array<Object> } {
   // Take a sampling of rows from data
-  const range = Array.from({ length: 10 }, () =>
-    Math.floor(Math.random() * data.length));
+  const sampleRows = getSampleRows(data, SAMPLE_SIZE);
   // Separate headers and values
   const headers = Array.from(
-    range.reduce(
-      (result, row) => new Set([...result, ...Object.keys(data[row])]),
+    sampleRows.reduce(
+      (result, row) => new Set([...result, ...Object.keys(row)]),
       new Set()
     )
   );
-  const values = range.map(row => Object.values(data[row]));
+  const values = sampleRows.map(row => Object.values(row));
   // Infer column types and return schema for data
   return infer(headers, values);
+}
+
+function getState(props: Props) {
+  const data = props.data;
+  const schema = props.schema || inferSchema(data);
+  const columns = schema.fields.map(field => field.name);
+  const headers = columns.reduce(
+    (result, column) => ({ ...result, [column]: column }),
+    {}
+  );
+  return {
+    data: [headers, ...data],
+    schema,
+  };
 }
 
 export default class VirtualizedGrid extends React.Component {
   props: Props;
   state: State = {
     data: [],
-    schema: { fields: [] }
+    schema: { fields: [] },
   };
 
   componentWillMount() {
-    const data = this.props.data;
-    const schema = this.props.schema || inferSchema(data);
-    this.setState({
-      data: [
-        schema.fields.reduce(
-          (result, field) => ({ ...result, [field.name]: field.name }),
-          {}
-        ),
-        ...data
-      ],
-      schema
-    });
+    const state = getState(this.props);
+    this.setState(state);
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const data = nextProps.data;
-    const schema = nextProps.schema || inferSchema(data);
-    this.setState({
-      data: [
-        schema.fields.reduce(
-          (result, field) => ({ ...result, [field.name]: field.name }),
-          {}
-        ),
-        ...data
-      ],
-      schema
-    });
+    const state = getState(nextProps);
+    this.setState(state);
   }
 
   cellRenderer = (
@@ -90,29 +91,42 @@ export default class VirtualizedGrid extends React.Component {
       rowIndex: number,
       style: Object
     }
-  ) => (
-    <div
-      key={key}
-      className={rowIndex === 0 || columnIndex === 0 ? 'th' : 'td'}
-      style={{
-        ...style,
-        ...(this.props.theme === 'nteract' &&
-          rowIndex % 2 === 0 &&
-          !(rowIndex === 0 || columnIndex === 0)
-          ? { background: 'rgba(255,255,255,0.075)' }
-          : {}),
-        ...(this.props.theme === 'nteract' &&
-          (rowIndex === 0 || columnIndex === 0)
-          ? { fontWeight: 'bold' }
-          : {}),
-        boxSizing: 'border-box',
-        borderTop: 'none',
-        borderLeft: 'none'
-      }}
-    >
-      {this.state.data[rowIndex][this.state.schema.fields[columnIndex].name]}
-    </div>
-  );
+  ) => {
+    const { name: column, type } = this.state.schema.fields[columnIndex];
+    const value = this.state.data[rowIndex][column];
+    return (
+      <div
+        key={key}
+        className={rowIndex === 0 || columnIndex === 0 ? 'th' : 'td'}
+        style={{
+          ...style,
+          boxSizing: 'border-box',
+          borderTop: 'none',
+          borderLeft: 'none',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+          textOverflow: 'ellipsis',
+          // Highlight even rows
+          ...(this.props.theme === 'nteract' &&
+            rowIndex % 2 === 0 &&
+            !(rowIndex === 0 || columnIndex === 0)
+            ? { background: 'rgba(255,255,255,0.075)' }
+            : {}),
+          // Bold the headers
+          ...(rowIndex === 0 || columnIndex === 0
+            ? { fontWeight: 'bold' }
+            : {}),
+          // Right-align numbers
+          ...(!(rowIndex === 0 || columnIndex === 0) &&
+            (type === 'number' || type === 'integer')
+            ? { textAlign: 'right' }
+            : { textAlign: 'left' })
+        }}
+      >
+        {value}
+      </div>
+    );
+  };
 
   render() {
     const rowCount = this.state.data.length;
@@ -129,10 +143,9 @@ export default class VirtualizedGrid extends React.Component {
             height={height < GRID_MAX_HEIGHT ? height : GRID_MAX_HEIGHT}
             rowCount={rowCount}
             rowHeight={ROW_HEIGHT}
-            style={this.props.theme === 'nteract'
-              ? { border: '1px solid var(--primary-border)' }
-              : {}
-            }
+            style={{
+              border: '1px solid var(--primary-border)'
+            }}
             width={width}
           />
         )}

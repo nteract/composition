@@ -65,7 +65,9 @@ export default class VirtualizedTable extends React.Component {
 
   sort = ({ sortBy, sortDirection }: State) => {
     const data = _sortBy(this.props.data, [sortBy]);
-    this.state.data = sortDirection === SortDirection.DESC ? data.reverse() : data;
+    this.state.data = sortDirection === SortDirection.DESC
+      ? data.reverse()
+      : data;
     this.setState({ sortBy, sortDirection });
   };
 
@@ -89,11 +91,7 @@ export default class VirtualizedTable extends React.Component {
             //   textTransform: 'none',
             //   outline: 0
             // }}
-            height={
-              height < GRID_MAX_HEIGHT
-                ? height
-                : GRID_MAX_HEIGHT
-            }
+            height={height < GRID_MAX_HEIGHT ? height : GRID_MAX_HEIGHT}
             // noRowsRenderer={this._noRowsRenderer}
             // overscanRowCount={overscanRowCount}
             rowClassName={({ index }) => index === -1 ? 'th' : 'tr'}
