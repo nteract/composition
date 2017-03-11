@@ -184,6 +184,17 @@ export const file = {
   ],
 };
 
+if (process.platform === 'win32') {
+  file.submenu.push({
+    type: 'separator',
+  },
+    {
+      label: 'Exit',
+      accelerator: 'Alt+F4',
+      role: 'close',
+    });
+}
+
 export const edit = {
   label: 'Edit',
   submenu: [
@@ -563,6 +574,17 @@ export function loadFullMenu(kernelSpecs) {
       fileSubMenus.exportPDF,
     ],
   };
+
+  if (process.platform === 'win32') {
+    fileWithNew.submenu.push({
+      type: 'separator',
+    },
+      {
+        label: 'Exit',
+        accelerator: 'Alt+F4',
+        role: 'close',
+      });
+  }
 
   template.push(fileWithNew);
   template.push(edit);
