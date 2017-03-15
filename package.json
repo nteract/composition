@@ -213,7 +213,7 @@
     "nyc": "^10.0.0",
     "react-addons-test-utils": "^15.4.2",
     "rimraf": "^2.5.2",
-    "sinon": "^1.17.6",
+    "sinon": "^2.0.0",
     "sinon-chai": "^2.8.0",
     "watch": "^1.0.0",
     "webpack": "^1.13.3"
