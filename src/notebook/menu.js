@@ -62,7 +62,7 @@ export function showSaveAsDialog() {
     if (filename && path.extname(filename) === '') {
       resolve(`${filename}.ipynb`);
     }
-    if(filename === undefined) {
+    if (filename === undefined) {
       reject();
     } else {
       resolve(filename);
