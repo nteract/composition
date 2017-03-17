@@ -22,17 +22,6 @@ const Rx = require('rxjs/Rx');
 
 const Observable = Rx.Observable;
 
-export function notificationObs(store) {
-  const state = store.getState();
-  const notificationSystem = state.app.get('notificationSystem');
-  return Observable.create((observer) => {
-    notificationSystem.addNotification({
-      title: 'Save successful!',
-      autoDismiss: 2,
-      level: 'success',
-    })
-  });
-}
 /**
   * Cleans up the notebook document and saves the file.
   *
@@ -46,7 +35,7 @@ export function saveEpic(action$: ActionsObservable, store) {
         throw new Error('save needs a filename');
       }
     })
-    .mergeMap((action) =>
+    .mergeMap(action =>
       writeFileObservable(action.filename, stringifyNotebook(toJS(action.notebook)))
         .catch((error: Error) =>
           Observable.of({
@@ -55,12 +44,20 @@ export function saveEpic(action$: ActionsObservable, store) {
             error: true,
           })
         )
-        .map(doneSaving)
+        .map(() => {
+          const state = store.getState();
+          const notificationSystem = state.app.get('notificationSystem');
+          notificationSystem.addNotification({
+            title: 'Save successful!',
+            autoDismiss: 2,
+            level: 'success',
+          });
+          return doneSaving();
+        })
         // .startWith({ type: START_SAVING })
         // since SAVE effectively acts as the same as START_SAVING
         // you could just look for that in your reducers instead of START_SAVING
-    )
-    .mergeMap(() => notificationObs(store));
+    );
 }
 
 /**

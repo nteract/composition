@@ -1,8 +1,7 @@
 import { ActionsObservable } from 'redux-observable';
-
 import { expect } from 'chai';
-
 import { dummyCommutable } from '../dummy-nb';
+import { dummyStore } from '../../utils';
 
 import {
   save,
@@ -50,7 +49,8 @@ describe('saveEpic', () => {
     const input$ = Observable.of({ type: SAVE });
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
-    const responseActions = saveEpic(action$).catch((error) => {
+    const store = dummyStore();
+    const responseActions = saveEpic(action$, store).catch((error) => {
       expect(error.message).to.equal('save needs a filename');
       return Observable.of({ type: SAVE });
     });
@@ -67,11 +67,12 @@ describe('saveEpic', () => {
     const input$ = Observable.of(save('filename', dummyCommutable));
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
-    const responseActions = saveEpic(action$);
+    const store = dummyStore();
+    const responseActions = saveEpic(action$, store);
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => actionBuffer.push(x.type),
-      () => expect.fail(), // It should not error in the stream
+      err => expect.fail(err, null), // It should not error in the stream
       () => {
         expect(actionBuffer).to.deep.equal([DONE_SAVING]);
         done();
