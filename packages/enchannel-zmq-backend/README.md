@@ -171,7 +171,7 @@ before you can send on a channel.
 ```
 
 ```javascript
-> shell.next(payload)
+> shell.next(message)
 > Message {
   header:
    { username: 'rgbkrk',
