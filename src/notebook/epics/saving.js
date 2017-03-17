@@ -1,5 +1,3 @@
-/* @flow */
-
 import { ActionsObservable } from 'redux-observable';
 import { writeFileObservable } from '../../utils/fs';
 import {
@@ -27,7 +25,7 @@ const Observable = Rx.Observable;
   *
   * @param  {ActionObservable}  action$ The SAVE action with the filename and notebook
   */
-export function saveEpic(action$: ActionsObservable, store) {
+export function saveEpic(action$, store) {
   return action$.ofType(SAVE)
     .do((action) => {
       // If there isn't a filename, save-as it instead
@@ -65,7 +63,7 @@ export function saveEpic(action$: ActionsObservable, store) {
   *
   * @param  {ActionObservable}  action$ The SAVE_AS action with the filename and notebook
   */
-export function saveAsEpic(action$: ActionsObservable) {
+export function saveAsEpic(action$) {
   return action$.ofType(SAVE_AS)
     .mergeMap(action => [
       changeFilename(action.filename),
