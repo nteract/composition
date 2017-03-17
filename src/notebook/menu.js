@@ -51,7 +51,7 @@ export function dispatchSaveAs(store, evt, filename) {
 const dialog = remote.dialog;
 
 export function showSaveAsDialog() {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const opts = Object.assign({
       title: 'Save Notebook',
       filters: [{ name: 'Notebooks', extensions: ['ipynb'] }],
@@ -61,6 +61,9 @@ export function showSaveAsDialog() {
 
     if (filename && path.extname(filename) === '') {
       resolve(`${filename}.ipynb`);
+    }
+    if (filename === undefined) {
+      reject();
     }
     resolve(filename);
   });
@@ -127,24 +130,10 @@ export function dispatchSave(store) {
   const state = store.getState();
   const notebook = state.document.get('notebook');
   const filename = state.metadata.get('filename');
-  const notificationSystem = state.app.get('notificationSystem');
-  try {
-    if (!filename) {
-      triggerSaveAs(store);
-    } else {
-      store.dispatch(save(filename, notebook));
-    }
-    notificationSystem.addNotification({
-      title: 'Save successful!',
-      autoDismiss: 2,
-      level: 'success',
-    });
-  } catch (err) {
-    notificationSystem.addNotification({
-      title: 'Save failed!',
-      message: err.message,
-      level: 'error',
-    });
+  if (!filename) {
+    triggerSaveAs(store);
+  } else {
+    store.dispatch(save(filename, notebook));
   }
 }
 
