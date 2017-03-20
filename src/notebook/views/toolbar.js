@@ -6,7 +6,6 @@ declare type ToolbarProps = {|
   cell: any,
   id: string,
   type: string,
-  dropdown: Dropdown,
   executeCell: () => void,
   removeCell: () => void,
   toggleStickyCell: () => void,
@@ -28,62 +27,78 @@ const renderToolbar = ({
   changeOutputVisibility,
   toggleOutputExpansion,
   changeCellType
-}: ToolbarProps) => (
-  <div className="cell-toolbar-mask">
-    <div className="cell-toolbar">
-      {type !== 'markdown' &&
-      <span>
-        <button onClick={() => executeCell()} className="executeButton" >
-          <span className="octicon octicon-triangle-right" />
-        </button>
-      </span>}
-      <button onClick={() => removeCell()} className="deleteButton" >
-        <span className="octicon octicon-trashcan" />
-      </button>
-      <button onClick={() => toggleStickyCell()} className="stickyButton" >
-        <span className="octicon octicon-pin" />
-      </button>
-      <Dropdown ref={(dropdown) => { this.dropdown = dropdown; }}>
-        <DropdownTrigger>
-          <button>
-            <span className="octicon octicon-chevron-down" />
+}: ToolbarProps) => {
+    let dropdownRef;
+    return (
+    <div className="cell-toolbar-mask">
+      <div className="cell-toolbar">
+        {type !== 'markdown' &&
+        <span>
+          <button
+            onClick={executeCell}
+            title="execute cell"
+            className="executeButton"
+          >
+            <span className="octicon octicon-triangle-right" />
           </button>
-        </DropdownTrigger>
-        <DropdownContent>
-          {
-          (type === 'code') ?
+        </span>}
+        <button
+          onClick={toggleStickyCell}
+          title="pin cell"
+          className="stickyButton"
+        >
+          <span className="octicon octicon-pin" />
+        </button>
+        <button
+          onClick={removeCell}
+          title="delete cell"
+          className="deleteButton"
+        >
+          <span className="octicon octicon-trashcan" />
+        </button>
+        <Dropdown ref={(dropdown) => { dropdownRef = dropdown; }}>
+          <DropdownTrigger>
+            <button title="show additional actions">
+              <span className="octicon octicon-chevron-down" />
+            </button>
+          </DropdownTrigger>
+          <DropdownContent>
+            {
+            ( type === 'code') ?
+              <ul>
+                <li onClick={() => clearOutputs(dropdownRef)} className="clearOutput" >
+                  <a>Clear Cell Output</a>
+                </li>
+                <li onClick={() => changeInputVisibility(dropdownRef)} className="inputVisibility" >
+                  <a>Toggle Input Visibility</a>
+                </li>
+                <li onClick={() => changeOutputVisibility(dropdownRef)} className="outputVisibility" >
+                  <a>Toggle Output Visibility</a>
+                </li>
+                <li onClick={() => toggleOutputExpansion(dropdownRef)} className="outputExpanded" >
+                  <a>Toggle Expanded Output</a>
+                </li>
+              </ul> : null
+            }
             <ul>
-              <li onClick={() => clearOutputs()} className="clearOutput" >
-                <a>Clear Cell Output</a>
+              <li onClick={() => changeCellType(dropdownRef)} className="changeType" >
+                <a>
+                  Convert to {type === 'markdown' ? 'Code' : 'Markdown'} Cell
+                </a>
               </li>
-              <li onClick={() => changeInputVisibility()} className="inputVisibility" >
-                <a>Toggle Input Visibility</a>
-              </li>
-              <li onClick={() => changeOutputVisibility()} className="outputVisibility" >
-                <a>Toggle Output Visibility</a>
-              </li>
-              <li onClick={() => toggleOutputExpansion()} className="outputExpanded" >
-                <a>Toggle Expanded Output</a>
-              </li>
-            </ul> : null
-          }
-          <ul>
-            <li onClick={() => changeCellType()} className="changeType" >
-              <a>
-                Convert to {type === 'markdown' ? 'Code' : 'Markdown'} Cell
-              </a>
-            </li>
-          </ul>
-        </DropdownContent>
-      </Dropdown>
+            </ul>
+          </DropdownContent>
+        </Dropdown>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
 
 export default class Toolbar extends PureComponent {
   props: ToolbarProps;
 
   render(): React.Element<any> {
-    return renderActionButtons(this.props);
+    return renderToolbar(this.props);
   }
 }

@@ -2,7 +2,6 @@
 // @flow
 import React, { Component } from 'react';
 import ToolbarView from '../views/toolbar';
-import Dropdown from 'react-simple-dropdown';
 import { connect } from 'react-redux';
 
 import {
@@ -20,15 +19,21 @@ type Props = {
   cell: any,
   id: string,
   type: string,
-  dropdown: Dropdown,
-  dispatch: Dispatch,
+  dispatch: Dispatch<Action>,
 };
 
 class Toolbar extends Component {
-  props: Props;
+  removeCell: () => void;
+  executeCell: () => void;
+  clearOutputs: () => void;
+  toggleStickyCell: () => void;
+  changeInputVisibility: () => void;
+  changeOutputVisibility: () => void;
+  changeCellType: () => void;
+  toggleOutputExpansion: () => void;
 
-  constructor(): void {
-    super();
+  constructor(props: Props): void {
+    super(props);
     this.removeCell = this.removeCell.bind(this);
     this.executeCell = this.executeCell.bind(this);
     this.clearOutputs = this.clearOutputs.bind(this);
@@ -40,49 +45,49 @@ class Toolbar extends Component {
   }
 
   toggleStickyCell(): void {
-    const { dispatch, id } = this.props;
-    dispatch(toggleStickyCell(id));
+    const { dispatch } = this.props;
+    dispatch(toggleStickyCell(this.props.id));
   }
 
   removeCell(): void {
-    const { dispatch, id } = this.props;
-    dispatch(removeCell(id));
+    const { dispatch } = this.props;
+    dispatch(removeCell(this.props.id));
   }
 
   executeCell(): void {
-    const { dispatch, id, cell} = this.props;
-    dispatch(executeCell(id,
-                        cell.get('source')));
+    const { dispatch } = this.props;
+    dispatch(executeCell(this.props.id,
+                        this.props.cell.get('source')));
   }
 
-  clearOutputs(): void {
-    this.dropdown.hide();
-    const { dispatch, id } = this.props;
-    dispatch(clearOutputs(id));
+  clearOutputs(dropdown): void {
+    const { dispatch } = this.props;
+    dropdown.hide();
+    dispatch(clearOutputs(this.props.id));
   }
 
-  changeInputVisibility(): void {
-    this.dropdown.hide();
-    const { dispatch, id } = this.props;
-    dispatch(changeInputVisibility(id));
+  changeInputVisibility(dropdown): void {
+    const { dispatch } = this.props;
+    dropdown.hide();
+    store.dispatch(changeInputVisibility(this.props.id));
   }
 
-  changeOutputVisibility(): void {
-    this.dropdown.hide();
-    const { dispatch, id } = this.props;
-    dispatch(changeOutputVisibility(id));
+  changeOutputVisibility(dropdown): void {
+    const { dispatch } = this.props;
+    dropdown.hide();
+    dispatch(changeOutputVisibility(this.props.id));
   }
 
-  changeCellType(): void {
-    this.dropdown.hide();
-    const { dispatch, id, type } = this.props;
-    const to = type === 'markdown' ? 'code' : 'markdown';
-    dispatch(changeCellType(id, to));
+  changeCellType(dropdown): void {
+    const { dispatch } = this.props;
+    dropdown.hide();
+    const to = this.props.type === 'markdown' ? 'code' : 'markdown';
+    dispatch(changeCellType(this.props.id, to));
   }
 
   toggleOutputExpansion(): void {
-    const { dispatch, id } = this.props;
-    dispatch(toggleOutputExpansion(id));
+    const { dispatch } = this.props;
+    dispatch(toggleOutputExpansion(this.props.id));
   }
 
   render(): ?React.Element<any> {
