@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint no-confusing-arrow: 0 */
 import React from 'react';
 import { MultiGrid, AutoSizer } from 'react-virtualized';
 // import 'react-virtualized/styles.css';
@@ -53,7 +54,7 @@ function getState(props: Props) {
     (result, column) => ({ ...result, [column]: column }),
     {}
   );
-  const columnWidths = columns.map(column => {
+  const columnWidths = columns.map((column) => {
     const sampleRows = getSampleRows(data, SAMPLE_SIZE);
     return sampleRows.reduce(
       (result, row) =>
@@ -90,7 +91,7 @@ export default class VirtualizedGrid extends React.Component {
     {
       columnIndex,
       key,
-      parent,
+      // parent,
       rowIndex,
       style
     }: {

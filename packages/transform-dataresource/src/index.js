@@ -1,7 +1,7 @@
 /* @flow */
 import React from 'react';
 
-import {default as Virtualized} from './virtualized-grid';
+import VirtualizedGrid from './virtualized-grid';
 // import VirtualizedTable from './virtualized-table';
 
 type Props = {
@@ -20,7 +20,7 @@ class DataResourceTransform extends React.Component {
   render(): ?React.Element<any> {
     const { data: { data, schema }, theme } = this.props;
     return (
-      <Virtualized
+      <VirtualizedGrid
         data={data}
         schema={schema}
         theme={theme}

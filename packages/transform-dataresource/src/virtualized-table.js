@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint no-confusing-arrow: 0 */
 import React from 'react';
 import { Table, Column, SortDirection, AutoSizer } from 'react-virtualized';
 // import "react-virtualized/styles.css";
