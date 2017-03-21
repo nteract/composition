@@ -11,7 +11,7 @@ declare type ToolbarProps = {|
   toggleStickyCell: () => void,
   clearOutputs: () => void,
   changeInputVisibility: () => void,
-  changeOutputVisibility: () => void,
+  changeOutputVisibility: (dropdown: Dropdown) => void,
   toggleOutputExpansion: () => void,
   changeCellType: () => void
 |};

@@ -27,10 +27,10 @@ class Toolbar extends Component {
   executeCell: () => void;
   clearOutputs: () => void;
   toggleStickyCell: () => void;
-  changeInputVisibility: () => void;
-  changeOutputVisibility: () => void;
-  changeCellType: () => void;
-  toggleOutputExpansion: () => void;
+  changeInputVisibility: (dropdown: Dropdown) => void;
+  changeOutputVisibility: (dropdown: Dropdown) => void;
+  changeCellType: (dropdown: Dropdown) => void;
+  toggleOutputExpansion: (dropdown: Dropdown) => void;
 
   constructor(props: Props): void {
     super(props);
@@ -69,7 +69,7 @@ class Toolbar extends Component {
   changeInputVisibility(dropdown): void {
     const { dispatch } = this.props;
     dropdown.hide();
-    store.dispatch(changeInputVisibility(this.props.id));
+    dispatch(changeInputVisibility(this.props.id));
   }
 
   changeOutputVisibility(dropdown): void {
