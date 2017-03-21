@@ -1,5 +1,6 @@
 /* @flow */
 /* eslint no-confusing-arrow: 0 */
+/* eslint no-nested-ternary: 0 */
 import React from 'react';
 import { Table, Column, SortDirection, AutoSizer } from 'react-virtualized';
 // import "react-virtualized/styles.css";
@@ -12,12 +13,15 @@ import infer from 'jsontableschema/lib/infer';
 const _sortBy = require('lodash.sortby');
 
 const ROW_HEIGHT = 36;
-const GRID_MAX_HEIGHT = ROW_HEIGHT * 10;
+const COLLAPSED_HEIGHT = ROW_HEIGHT * 10;
+const EXPANDED_HEIGHT = ROW_HEIGHT *
+  Math.floor((window.innerHeight - 30) / ROW_HEIGHT);
 
 type Props = {
   data: Array<Object>,
   schema: { fields: Array<Object> },
-  theme: string
+  theme: string,
+  expanded: boolean
 };
 
 type State = {
@@ -92,7 +96,11 @@ export default class VirtualizedTable extends React.Component {
             //   textTransform: 'none',
             //   outline: 0
             // }}
-            height={height < GRID_MAX_HEIGHT ? height : GRID_MAX_HEIGHT}
+            height={
+              this.props.expanded
+                ? EXPANDED_HEIGHT
+                : height < COLLAPSED_HEIGHT ? height : COLLAPSED_HEIGHT
+            }
             // noRowsRenderer={this._noRowsRenderer}
             // overscanRowCount={overscanRowCount}
             rowClassName={({ index }) => index === -1 ? 'th' : 'tr'}
