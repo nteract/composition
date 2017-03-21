@@ -3,12 +3,7 @@
 /* eslint no-nested-ternary: 0 */
 import React from 'react';
 import { Table, Column, SortDirection, AutoSizer } from 'react-virtualized';
-// import "react-virtualized/styles.css";
-// hack: `stream.Transform` (stream-browserify) is undefined in `csv-parse` when
-// built with @jupyterlabextension-builder
 import infer from 'jsontableschema/lib/infer';
-// import { infer } from 'jsontableschema';
-// import "./index.css";
 
 const _sortBy = require('lodash.sortby');
 

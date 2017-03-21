@@ -3,9 +3,7 @@
 /* eslint no-nested-ternary: 0 */
 import React from 'react';
 import { MultiGrid, AutoSizer } from 'react-virtualized';
-// import 'react-virtualized/styles.css';
 import { infer } from 'jsontableschema';
-// import './index.css';
 
 const ROW_HEIGHT = 36;
 const COLUMN_WIDTH = 144;

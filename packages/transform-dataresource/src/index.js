@@ -1,6 +1,5 @@
 /* @flow */
 import React from 'react';
-
 import VirtualizedGrid from './virtualized-grid';
 // import VirtualizedTable from './virtualized-table';
 
