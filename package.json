@@ -195,7 +195,7 @@
     "esdoc": "^0.5.1",
     "eslint": "3.18.0",
     "eslint-config-airbnb": "14.1.0",
-    "eslint-plugin-flowtype": "2.30.3",
+    "eslint-plugin-flowtype": "2.30.4",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-react": "^6.10.0",
