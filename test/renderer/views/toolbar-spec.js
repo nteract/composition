@@ -19,7 +19,7 @@ describe('Toolbar View', () => {
     expect(toolbar.find('div.cell-toolbar').length).to.be.greaterThan(0);
   });
   it('clearOutputs can be clicked', () => {
-    let dummyFunc = sinon.spy();
+    const dummyFunc = sinon.spy();
     const toolbar = mount(
       <Toolbar type={'code'} clearOutputs={dummyFunc} />,
     );
@@ -27,7 +27,7 @@ describe('Toolbar View', () => {
     expect(dummyFunc).to.have.been.called;
   });
   it('changeInputVisibility can be clicked', () => {
-    let dummyFunc = sinon.spy();
+    const dummyFunc = sinon.spy();
     const toolbar = mount(
       <Toolbar type={'code'} changeInputVisibility={dummyFunc} />,
     );
@@ -35,7 +35,7 @@ describe('Toolbar View', () => {
     expect(dummyFunc).to.have.been.called;
   });
   it('changeOutputVisibility can be clicked', () => {
-    let dummyFunc = sinon.spy();
+    const dummyFunc = sinon.spy();
     const toolbar = mount(
       <Toolbar type={'code'} changeOutputVisibility={dummyFunc} />,
     );
@@ -43,7 +43,7 @@ describe('Toolbar View', () => {
     expect(dummyFunc).to.have.been.called;
   });
   it('toggleOutputExpaned can be clicked', () => {
-    let dummyFunc = sinon.spy();
+    const dummyFunc = sinon.spy();
     const toolbar = mount(
       <Toolbar type={'code'} toggleOutputExpansion={dummyFunc} />,
     );
@@ -51,7 +51,7 @@ describe('Toolbar View', () => {
     expect(dummyFunc).to.have.been.called;
   });
   it('changeCellType can be clicked', () => {
-    let dummyFunc = sinon.spy();
+    const dummyFunc = sinon.spy();
     const toolbar = mount(
       <Toolbar type={'code'} changeCellType={dummyFunc} />,
     );
