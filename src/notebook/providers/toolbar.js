@@ -1,8 +1,9 @@
 /* eslint class-methods-use-this: 0 */
 // @flow
 import React, { Component } from 'react';
-import ToolbarView from '../views/toolbar';
 import { connect } from 'react-redux';
+
+import ToolbarView from '../views/toolbar';
 
 import {
   executeCell,
@@ -104,7 +105,7 @@ class Toolbar extends Component {
     };
 
     return (
-      <ToolbarView {...props}/>
+      <ToolbarView {...props} />
     );
   }
 }

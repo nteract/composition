@@ -18,7 +18,6 @@ declare type ToolbarProps = {|
 
 const renderToolbar = ({
   type,
-  dropdown,
   executeCell,
   removeCell,
   toggleStickyCell,
@@ -28,8 +27,8 @@ const renderToolbar = ({
   toggleOutputExpansion,
   changeCellType
 }: ToolbarProps) => {
-    let dropdownRef;
-    return (
+  let dropdownRef;
+  return (
     <div className="cell-toolbar-mask">
       <div className="cell-toolbar">
         {type !== 'markdown' &&
@@ -62,26 +61,41 @@ const renderToolbar = ({
               <span className="octicon octicon-chevron-down" />
             </button>
           </DropdownTrigger>
-          <DropdownContent>
+          <DropdownContent >
             {
-            ( type === 'code') ?
+            (type === 'code') ?
               <ul>
-                <li onClick={() => clearOutputs(dropdownRef)} className="clearOutput" >
+                <li
+                  onClick={() => clearOutputs(dropdownRef)}
+                  className="clearOutput"
+                >
                   <a>Clear Cell Output</a>
                 </li>
-                <li onClick={() => changeInputVisibility(dropdownRef)} className="inputVisibility" >
+                <li
+                  onClick={() => changeInputVisibility(dropdownRef)}
+                  className="inputVisibility"
+                >
                   <a>Toggle Input Visibility</a>
                 </li>
-                <li onClick={() => changeOutputVisibility(dropdownRef)} className="outputVisibility" >
+                <li
+                  onClick={() => changeOutputVisibility(dropdownRef)}
+                  className="outputVisibility"
+                >
                   <a>Toggle Output Visibility</a>
                 </li>
-                <li onClick={() => toggleOutputExpansion(dropdownRef)} className="outputExpanded" >
+                <li
+                  onClick={() => toggleOutputExpansion(dropdownRef)}
+                  className="outputExpanded"
+                >
                   <a>Toggle Expanded Output</a>
                 </li>
               </ul> : null
             }
             <ul>
-              <li onClick={() => changeCellType(dropdownRef)} className="changeType" >
+              <li
+                onClick={() => changeCellType(dropdownRef)}
+                className="changeType"
+              >
                 <a>
                   Convert to {type === 'markdown' ? 'Code' : 'Markdown'} Cell
                 </a>

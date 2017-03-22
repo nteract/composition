@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { mount } from 'enzyme';
-import { dummyStore } from '../../utils';
 import Toolbar from '../../../src/notebook/views/toolbar';
 
 const chai = require('chai');
@@ -16,7 +15,7 @@ describe('Toolbar View', () => {
 
   it('should be able to render a toolbar', () => {
     const toolbar = mount(
-      <Toolbar/>,
+      <Toolbar />,
     );
     expect(toolbar).to.not.be.null;
     expect(toolbar.find('div.cell-toolbar').length).to.be.greaterThan(0);
@@ -48,4 +47,4 @@ describe('Toolbar View', () => {
     toolbar.setProps({ type: 'markdown' });
     expect(toolbar.text()).to.contain('Convert to Code Cell');
   });
-})
+});

@@ -19,17 +19,13 @@ import {
 
 describe('toolbar provider', () => {
   const store = dummyStore();
-  const dropdown = { hide: () => {} }
+  const dropdown = { hide: () => {} };
 
-  const setup = (props) => mount(
+  const setup = props => mount(
     <Provider store={store}>
       <Toolbar {...props} />
     </Provider>,
     );
-
-  it('is mountable', () => {
-    const toolbar = setup('code', 'cell');
-  })
 
   it('toggle Sticky Cell works', (done) => {
     const dispatch = (action) => {
@@ -38,8 +34,8 @@ describe('toolbar provider', () => {
       done();
     };
     store.dispatch = dispatch;
-    const toolbar = setup({id: 'cell'});
-    toolbar.find('Toolbar').node.toggleStickyCell()
+    const toolbar = setup({ id: 'cell' });
+    toolbar.find('Toolbar').node.toggleStickyCell();
   });
 
   it('removes cell works', (done) => {
@@ -49,22 +45,22 @@ describe('toolbar provider', () => {
       done();
     };
     store.dispatch = dispatch;
-    const toolbar = setup({type: 'code', id: 'cell'});
-    toolbar.find('Toolbar').node.removeCell()
+    const toolbar = setup({ type: 'code', id: 'cell' });
+    toolbar.find('Toolbar').node.removeCell();
   });
 
   it('execute cell works', (done) => {
     const dispatch = (action) => {
       expect(action.id).to.equal('cell');
-      expect(action.source).to.equal('source')
+      expect(action.source).to.equal('source');
       expect(action.type).to.equal(EXECUTE_CELL);
       done();
     };
     store.dispatch = dispatch;
-    const func = (args) => { return 'source' };
+    const func = args => args;
     const cell = { get: func };
     const toolbar = setup({ id: 'cell', cell });
-    toolbar.find('Toolbar').node.executeCell()
+    toolbar.find('Toolbar').node.executeCell();
   });
 
   it('clear outputs works', (done) => {
@@ -75,7 +71,7 @@ describe('toolbar provider', () => {
     };
     store.dispatch = dispatch;
     const toolbar = setup({ id: 'cell' });
-    toolbar.find('Toolbar').node.clearOutputs(dropdown)
+    toolbar.find('Toolbar').node.clearOutputs(dropdown);
   });
 
   it('change Input Visibility works', (done) => {
@@ -86,7 +82,7 @@ describe('toolbar provider', () => {
     };
     store.dispatch = dispatch;
     const toolbar = setup({ id: 'cell' });
-    toolbar.find('Toolbar').node.changeInputVisibility(dropdown)
+    toolbar.find('Toolbar').node.changeInputVisibility(dropdown);
   });
 
   it('change Output Visibility works', (done) => {
@@ -97,7 +93,7 @@ describe('toolbar provider', () => {
     };
     store.dispatch = dispatch;
     const toolbar = setup({ id: 'cell' });
-    toolbar.find('Toolbar').node.changeOutputVisibility(dropdown)
+    toolbar.find('Toolbar').node.changeOutputVisibility(dropdown);
   });
 
   it('change Cell Type works', (done) => {
@@ -109,7 +105,7 @@ describe('toolbar provider', () => {
     };
     store.dispatch = dispatch;
     const toolbar = setup({ id: 'cell', type: 'code' });
-    toolbar.find('Toolbar').node.changeCellType(dropdown)
+    toolbar.find('Toolbar').node.changeCellType(dropdown);
   });
 
   it('toggle output expansion works', (done) => {
@@ -120,6 +116,6 @@ describe('toolbar provider', () => {
     };
     store.dispatch = dispatch;
     const toolbar = setup({ id: 'cell' });
-    toolbar.find('Toolbar').node.toggleOutputExpansion(dropdown)
+    toolbar.find('Toolbar').node.toggleOutputExpansion(dropdown);
   });
-})
+});
