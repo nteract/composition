@@ -2,7 +2,6 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Dropdown from 'react-simple-dropdown';
 import ToolbarView from '../views/toolbar';
 
 import {
@@ -28,10 +27,10 @@ class Toolbar extends Component {
   executeCell: () => void;
   clearOutputs: () => void;
   toggleStickyCell: () => void;
-  changeInputVisibility: (dropdown: Dropdown) => void;
-  changeOutputVisibility: (dropdown: Dropdown) => void;
-  changeCellType: (dropdown: Dropdown) => void;
-  toggleOutputExpansion: (dropdown: Dropdown) => void;
+  changeInputVisibility: () => void;
+  changeOutputVisibility: () => void;
+  changeCellType: () => void;
+  toggleOutputExpansion: () => void;
 
   constructor(props: Props): void {
     super(props);
@@ -61,27 +60,23 @@ class Toolbar extends Component {
                         this.props.cell.get('source')));
   }
 
-  clearOutputs(dropdown): void {
+  clearOutputs(): void {
     const { dispatch } = this.props;
-    dropdown.hide();
     dispatch(clearOutputs(this.props.id));
   }
 
-  changeInputVisibility(dropdown): void {
+  changeInputVisibility(): void {
     const { dispatch } = this.props;
-    dropdown.hide();
     dispatch(changeInputVisibility(this.props.id));
   }
 
-  changeOutputVisibility(dropdown): void {
+  changeOutputVisibility(): void {
     const { dispatch } = this.props;
-    dropdown.hide();
     dispatch(changeOutputVisibility(this.props.id));
   }
 
-  changeCellType(dropdown): void {
+  changeCellType(): void {
     const { dispatch } = this.props;
-    dropdown.hide();
     const to = this.props.type === 'markdown' ? 'code' : 'markdown';
     dispatch(changeCellType(this.props.id, to));
   }
