@@ -38,7 +38,7 @@ describe('toolbar provider', () => {
     toolbar.find('Toolbar').node.toggleStickyCell();
   });
 
-  it('removes cell works', (done) => {
+  it('Remove Cell works', (done) => {
     const dispatch = (action) => {
       expect(action.id).to.equal('cell');
       expect(action.type).to.equal(REMOVE_CELL);

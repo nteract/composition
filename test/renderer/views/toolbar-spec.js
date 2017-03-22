@@ -11,8 +11,6 @@ chai.use(sinonChai);
 const expect = chai.expect;
 
 describe('Toolbar View', () => {
-  const clearOutputs = sinon.spy();
-
   it('should be able to render a toolbar', () => {
     const toolbar = mount(
       <Toolbar />,
@@ -20,12 +18,45 @@ describe('Toolbar View', () => {
     expect(toolbar).to.not.be.null;
     expect(toolbar.find('div.cell-toolbar').length).to.be.greaterThan(0);
   });
-  it('clearOutputs does not throw error', () => {
+  it('clearOutputs can be clicked', () => {
+    let dummyFunc = sinon.spy();
     const toolbar = mount(
-      <Toolbar type={'code'} clearOutputs={clearOutputs} />,
+      <Toolbar type={'code'} clearOutputs={dummyFunc} />,
     );
     toolbar.find('.clearOutput').simulate('click');
-    expect(clearOutputs).to.have.been.called;
+    expect(dummyFunc).to.have.been.called;
+  });
+  it('changeInputVisibility can be clicked', () => {
+    let dummyFunc = sinon.spy();
+    const toolbar = mount(
+      <Toolbar type={'code'} changeInputVisibility={dummyFunc} />,
+    );
+    toolbar.find('.inputVisibility').simulate('click');
+    expect(dummyFunc).to.have.been.called;
+  });
+  it('changeOutputVisibility can be clicked', () => {
+    let dummyFunc = sinon.spy();
+    const toolbar = mount(
+      <Toolbar type={'code'} changeOutputVisibility={dummyFunc} />,
+    );
+    toolbar.find('.outputVisibility').simulate('click');
+    expect(dummyFunc).to.have.been.called;
+  });
+  it('toggleOutputExpaned can be clicked', () => {
+    let dummyFunc = sinon.spy();
+    const toolbar = mount(
+      <Toolbar type={'code'} toggleOutputExpansion={dummyFunc} />,
+    );
+    toolbar.find('.outputExpanded').simulate('click');
+    expect(dummyFunc).to.have.been.called;
+  });
+  it('changeCellType can be clicked', () => {
+    let dummyFunc = sinon.spy();
+    const toolbar = mount(
+      <Toolbar type={'code'} changeCellType={dummyFunc} />,
+    );
+    toolbar.find('.changeType').simulate('click');
+    expect(dummyFunc).to.have.been.called;
   });
   it('shows "convert to code cell" menu entry for markdown type', () => {
     const toolbar = mount(
