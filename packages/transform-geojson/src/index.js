@@ -2,15 +2,17 @@
 /* eslint class-methods-use-this: 0 */
 import React from 'react';
 
-type Props = { data: Object, theme: string };
-
 const L = require('leaflet');
 
-L.Icon.Default.imagePath = '../node_modules/leaflet/dist/images/';
+type Props = { data: Object, metadata: Object, theme: string };
+type TileTheme = 'dark' | 'light';
+type TileLayer = [string, Object];
 
 const MIMETYPE = 'application/geo+json';
+const MAPBOX_ACCESS_TOKEN =
+  'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
 
-type TileTheme = "dark" | "light";
+L.Icon.Default.imagePath = '../node_modules/leaflet/dist/images/';
 
 export function getLuma(el: HTMLElement): number {
   // https://en.wikipedia.org/wiki/Luma_(video)
@@ -20,7 +22,6 @@ export function getLuma(el: HTMLElement): number {
     .replace(/\)$/, '')
     .replace(/\s/g, '')
     .split(',');
-
   // Digital ITU BT.601
   // http://www.itu.int/rec/R-REC-BT.601
   const y = (0.299 * r) + (0.587 * g) + (0.114 * b);
@@ -49,27 +50,13 @@ export class GeoJSONTransform extends React.Component {
   tileLayer: Object;
 
   static defaultProps = { theme: 'light' };
-
   static MIMETYPE = MIMETYPE;
 
   componentDidMount(): void {
     this.map = L.map(this.el);
     this.map.scrollWheelZoom.disable();
-
-    const theme = getTheme(this.props.theme, this.el);
-
-    this.tileLayer = L
-      .tileLayer(
-        'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
-      {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        id: `mapbox.${theme}`
-      }
-      )
-      .addTo(this.map);
-
+    this.tileLayer = L.tileLayer(...this.getTileLayer()).addTo(this.map);
     const geoJSON = this.props.data;
-
     this.geoJSONLayer = L.geoJson(geoJSON).addTo(this.map);
     this.map.fitBounds(this.geoJSONLayer.getBounds());
   }
@@ -85,26 +72,27 @@ export class GeoJSONTransform extends React.Component {
 
   componentDidUpdate(prevProps: Props): void {
     if (prevProps.theme !== this.props.theme) {
-      const theme = getTheme(this.props.theme, this.el);
       this.map.removeLayer(this.tileLayer);
-      this.tileLayer = L
-        .tileLayer(
-          'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
-        {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          id: `mapbox.${theme}`
-        }
-        )
-        .addTo(this.map);
+      this.tileLayer = L.tileLayer(...this.getTileLayer()).addTo(this.map);
     }
-
     if (prevProps.data !== this.props.data) {
       const geoJSON = this.props.data;
-
       this.map.removeLayer(this.geoJSONLayer);
       this.geoJSONLayer = L.geoJson(geoJSON).addTo(this.map);
       this.map.fitBounds(this.geoJSONLayer.getBounds());
     }
+  }
+
+  getTileLayer(): TileLayer {
+    const metadata = this.props.metadata.toJSON();
+    const theme = getTheme(this.props.theme, this.el);
+    return [
+      (metadata && metadata.url_template) || `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${MAPBOX_ACCESS_TOKEN}`,
+      (metadata && metadata.layer_options) || {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        id: `mapbox.${theme}`
+      }
+    ];
   }
 
   render(): ?React.Element<any> {
