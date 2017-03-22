@@ -9,8 +9,6 @@ type TileTheme = 'dark' | 'light';
 type TileLayer = [string, Object];
 
 const MIMETYPE = 'application/geo+json';
-const MAPBOX_ACCESS_TOKEN =
-  'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
 
 L.Icon.Default.imagePath = '../node_modules/leaflet/dist/images/';
 
@@ -85,14 +83,15 @@ export class GeoJSONTransform extends React.Component {
 
   getTileLayer(): TileLayer {
     const metadata = this.props.metadata.toJSON();
-    const theme = getTheme(this.props.theme, this.el);
-    return [
-      (metadata && metadata.url_template) || `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${MAPBOX_ACCESS_TOKEN}`,
-      (metadata && metadata.layer_options) || {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        id: `mapbox.${theme}`
-      }
-    ];
+    // const theme = getTheme(this.props.theme, this.el);
+    const urlTemplate = (metadata && metadata.url_template) ||
+      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const layerOptions = (metadata && metadata.layer_options) || {
+      attribution: 'Map data (c) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+      minZoom: 0,
+      maxZoom: 18
+    };
+    return [urlTemplate, layerOptions];
   }
 
   render(): ?React.Element<any> {
