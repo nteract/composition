@@ -2,7 +2,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import Dropdown from 'react-simple-dropdown';
 import ToolbarView from '../views/toolbar';
 
 import {
@@ -92,7 +92,7 @@ class Toolbar extends Component {
   }
 
   render(): ?React.Element<any> {
-    const props: ToolbarProps = {
+    const props = {
       ...this.props,
       executeCell: this.executeCell,
       removeCell: this.removeCell,

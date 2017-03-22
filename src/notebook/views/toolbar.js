@@ -9,11 +9,11 @@ declare type ToolbarProps = {|
   executeCell: () => void,
   removeCell: () => void,
   toggleStickyCell: () => void,
-  clearOutputs: () => void,
-  changeInputVisibility: () => void,
+  clearOutputs: (dropdown: Dropdown) => void,
+  changeInputVisibility: (dropdown: Dropdown) => void,
   changeOutputVisibility: (dropdown: Dropdown) => void,
-  toggleOutputExpansion: () => void,
-  changeCellType: () => void
+  toggleOutputExpansion: (dropdown: Dropdown) => void,
+  changeCellType: (dropdown: Dropdown) => void
 |};
 
 const renderToolbar = ({
