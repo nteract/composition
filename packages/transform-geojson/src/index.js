@@ -83,13 +83,19 @@ export class GeoJSONTransform extends React.Component {
 
   getTileLayer(): TileLayer {
     const metadata = this.props.metadata.toJSON();
-    // const theme = getTheme(this.props.theme, this.el);
+    const theme = getTheme(this.props.theme, this.el);
+    // const urlTemplate = (metadata && metadata.url_template) ||
+    //   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const urlTemplate = (metadata && metadata.url_template) ||
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+      'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWlja3QiLCJhIjoiLXJIRS1NbyJ9.EfVT76g4A5dyuApW_zuIFQ';
+    // const layerOptions = (metadata && metadata.layer_options) || {
+    //   attribution: 'Map data (c) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+    //   minZoom: 0,
+    //   maxZoom: 18
+    // };
     const layerOptions = (metadata && metadata.layer_options) || {
-      attribution: 'Map data (c) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
-      minZoom: 0,
-      maxZoom: 18
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      id: `mapbox.${theme}`
     };
     return [urlTemplate, layerOptions];
   }
