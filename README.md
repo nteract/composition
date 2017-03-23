@@ -108,6 +108,10 @@ And then opening `docs/index.html` in your favorite browser.
 
 -  Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by spawning the application with `npm run spawn:debug`.
 
+> I keep getting 'Do you want the application "nteract Helper.app" to accept incoming network connections?' while developing or using a custom build of nteract on macOS.
+
+-  This is how the the macOS firewall behaves for unsigned apps. On a signed app, the dialog won't show up again after approving it the first time. If you're using a custom build of nteract, run: `sudo codesign --force --deep --sign - /Applications/nteract.app`. You will have to do this again every time you rebuild the app.
+
 ## For maintainers: Creating a release
 
 ### Bump the version
