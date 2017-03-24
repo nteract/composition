@@ -1,23 +1,56 @@
+/* @flow */
+
 import Rx from 'rxjs/Rx';
 
 import {
   spawn,
+  findActualExecutable,
 } from 'spawn-rx';
 
 const path = require('path');
+
+const kernelspecs = require('kernelspecs');
+
+type Environment = {
+  prefix: string,
+};
+
+function spawnIPyKernelObservable(executable = 'python') {
+  return spawn(executable, ['-m', 'ipykernel', '--version'], { split: true })
+    .filter(x => x.source && x.source === 'stdout');
+}
 
 /**
  * ipyKernelTryObservable checks for the existence of ipykernel in the environment.
  * @param  {Object} env - Current environment
  * @returns {Observable}  Source environment
  */
-export function ipyKernelTryObservable(env) {
+export function ipyKernelTryObservable(env: Environment) {
   const executable = path.join(env.prefix, 'bin', 'python');
-  return spawn(executable, ['-m', 'ipykernel', '--version'], { split: true })
-    .filter(x => x.source && x.source === 'stdout')
+  spawnIPyKernelObservable(executable)
     .mapTo(env)
     .catch(() => Rx.Observable.empty());
 }
+
+function formIPyKernelArgv(exePath: string) {
+  return [exePath, '-m', 'ipykernel', '-f', '{connection_file}'];
+}
+
+export function defaultPythonTryObservable() {
+  return spawnIPyKernelObservable()
+    .mapTo({
+      python: {
+        name: 'python',
+        spec: {
+          argv: formIPyKernelArgv('python'),
+          display_name: `Python (${findActualExecutable('python').cmd})`,
+          language: 'python',
+        },
+      },
+    })
+    .catch(() => Rx.Observable.empty());
+}
+
 
 /**
   * condaInfoObservable executes the conda info --json command and maps the
@@ -35,7 +68,7 @@ export function condaInfoObservable() {
   * @param {Observable} condaInfo$ - Environmental information
   * @returns {Observable}  List of envionmental variables
   */
-export function condaEnvsObservable(condaInfo$) {
+export function condaEnvsObservable(condaInfo$: Rx.Observable) {
   return condaInfo$.map((info) => {
     const envs = info.envs.map(env => ({ name: path.basename(env), prefix: env }));
     envs.push({ name: 'root', prefix: info.root_prefix });
@@ -53,7 +86,7 @@ export function condaEnvsObservable(condaInfo$) {
   * @param {Observable} envs - Environmental elements
   * @returns {Object}   Dictionary containing supported langauges paths.
   */
-export function createKernelSpecsFromEnvs(envs) {
+export function createKernelSpecsFromEnvs(envs: Object) {
   const displayPrefix = 'Python'; // Or R
   const languageKey = 'py'; // or r
 
@@ -61,14 +94,15 @@ export function createKernelSpecsFromEnvs(envs) {
 
   const langEnvs = {};
 
-  Object.keys(envs).forEach((env) => {
+  Object.keys(envs).forEach((envKey) => {
+    const env = envs[envKey];
     const base = env.prefix;
     const exePath = path.join(base, languageExe);
     const envName = env.name;
     const name = `conda-env-${envName}-${languageKey}`;
     langEnvs[name] = {
       display_name: `${displayPrefix} [conda env:${envName}]`,
-      argv: [exePath, '-m', 'ipykernel', '-f', '{connection_file}'],
+      argv: formIPyKernelArgv(exePath),
       language: 'python',
     };
   });
@@ -83,4 +117,14 @@ export function createKernelSpecsFromEnvs(envs) {
 export function condaKernelsObservable() {
   return condaEnvsObservable(condaInfoObservable())
     .map(createKernelSpecsFromEnvs);
+}
+
+export function findAll() {
+  return defaultPythonTryObservable()
+    .concat(
+      Rx.Observable.fromPromise(kernelspecs.findAll())
+    )
+    .reduce((kernels, kernelSpecs) =>
+      Object.assign({}, kernels, kernelSpecs), {}
+    );
 }

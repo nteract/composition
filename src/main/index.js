@@ -22,9 +22,10 @@ import initializeKernelSpecs from './kernel-specs';
 
 const log = require('electron-log');
 
-const kernelspecs = require('kernelspecs');
 const jupyterPaths = require('jupyter-paths');
 const path = require('path');
+
+const kernels = require('./kernels');
 
 const argv = require('yargs')
   .version()
@@ -91,7 +92,7 @@ const prepJupyterObservable = prepareEnv
 
 const kernelSpecsPromise = prepJupyterObservable
   .toPromise()
-  .then(() => kernelspecs.findAll())
+  .then(() => kernels.findAll().toPromise())
   .then(specs => initializeKernelSpecs(specs));
 
 /**
@@ -171,8 +172,8 @@ openFile$
 
         if (argv.kernel in specs) {
           kernel = argv.kernel;
-        } else if ('python2' in specs) {
-          kernel = 'python2';
+        } else if ('python' in specs) {
+          kernel = 'python';
         } else {
           const specList = Object.keys(specs);
           specList.sort();
