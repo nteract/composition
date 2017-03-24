@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { Map } from 'immutable';
 
 import { mount } from 'enzyme';
 
@@ -46,11 +47,14 @@ const geojson = deepFreeze({
   ],
 });
 
+const metadata = Map({ expanded: true });
+
 describe('GeoJSONTransform', () => {
   it('renders a map', () => {
     const geoComponent = mount(
       <GeoJSONTransform
         data={geojson}
+        metadata={metadata}
       />,
     );
 
@@ -65,6 +69,7 @@ describe('GeoJSONTransform', () => {
     const geoComponent = mount(
       <GeoJSONTransform
         data={geojson}
+        metadata={metadata}
       />,
     );
 
@@ -82,6 +87,7 @@ describe('GeoJSONTransform', () => {
       theme: 'dark',
     });
   });
+
   it('picks an appropriate theme when unknown', () => {
     expect(getTheme('light')).toEqual('light');
     expect(getTheme('dark')).toEqual('dark');

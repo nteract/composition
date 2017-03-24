@@ -15,6 +15,7 @@
     "leaflet": "^1.0.1"
   },
   "peerDependencies": {
+    "immutable": "^3.8.1",
     "react": "^15.4.2"
   },
   "publishConfig": {
