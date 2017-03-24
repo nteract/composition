@@ -98,10 +98,12 @@ export class GeoJSONTransform extends React.Component {
     //   minZoom: 0,
     //   maxZoom: 18
     // };
-    const layerOptions = this.props.metadata.get('layer_options') || {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      id: `mapbox.${theme}`
-    };
+    const layerOptions = this.props.metadata.get('layer_options')
+      ? this.props.metadata.get('layer_options').toJS()
+      : {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        id: `mapbox.${theme}`
+      };
     return [urlTemplate, layerOptions];
   };
 
