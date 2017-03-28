@@ -1,10 +1,14 @@
 /* @flow */
-import React from 'react';
-import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
 
-import CodeCell from './code-cell';
-import MarkdownCell from './markdown-cell';
-import Toolbar from '../../providers/toolbar';
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
+/* eslint jsx-a11y/click-events-have-key-events: 0 */
+
+import React from "react";
+import { List as ImmutableList, Map as ImmutableMap } from "immutable";
+
+import CodeCell from "./code-cell";
+import MarkdownCell from "./markdown-cell";
+import Toolbar from "../../providers/toolbar";
 
 import {
   focusCell,
@@ -12,8 +16,8 @@ import {
   focusNextCell,
   focusCellEditor,
   focusPreviousCellEditor,
-  focusNextCellEditor,
-} from '../../actions';
+  focusNextCellEditor
+} from "../../actions";
 
 export type CellProps = {
   cell: any,
@@ -26,12 +30,12 @@ export type CellProps = {
   theme: string,
   pagers: ImmutableList<any>,
   transforms: ImmutableMap<string, any>,
-  models: ImmutableMap<string, any>,
+  models: ImmutableMap<string, any>
 };
 
 type State = {
-  hoverCell: boolean,
-}
+  hoverCell: boolean
+};
 
 export class Cell extends React.PureComponent {
   props: CellProps;
@@ -44,7 +48,7 @@ export class Cell extends React.PureComponent {
   cellDiv: HTMLElement;
 
   static contextTypes = {
-    store: React.PropTypes.object,
+    store: React.PropTypes.object
   };
 
   constructor(): void {
@@ -57,7 +61,7 @@ export class Cell extends React.PureComponent {
   }
 
   state = {
-    hoverCell: false,
+    hoverCell: false
   };
 
   componentDidMount(): void {
@@ -65,19 +69,20 @@ export class Cell extends React.PureComponent {
     // intersection because we don't want the hover region to actually capture
     // any mouse events.  The hover region is an invisible element that
     // describes the "hot region" that toggles the creator buttons.
-    document.addEventListener('mousemove', this.setCellHoverState, false);
+    document.addEventListener("mousemove", this.setCellHoverState, false);
   }
 
   componentWillUnmount(): void {
-    document.removeEventListener('mousemove', this.setCellHoverState);
+    document.removeEventListener("mousemove", this.setCellHoverState);
   }
 
   setCellHoverState(mouseEvent: MouseEvent): void {
     const x = mouseEvent.clientX;
     const y = mouseEvent.clientY;
     const regionRect = this.cellDiv.getBoundingClientRect();
-    const hoverCell = (regionRect.left < x && x < regionRect.right) &&
-                 (regionRect.top < y && y < regionRect.bottom);
+    const hoverCell = regionRect.left < x &&
+      x < regionRect.right &&
+      (regionRect.top < y && y < regionRect.bottom);
 
     if (this.state.hoverCell !== hoverCell) {
       this.setState({ hoverCell });
@@ -104,50 +109,49 @@ export class Cell extends React.PureComponent {
 
   render(): ?React.Element<any> {
     const cell = this.props.cell;
-    const type = cell.get('cell_type');
+    const type = cell.get("cell_type");
     const cellFocused = this.props.cellFocused === this.props.id;
     const editorFocused = this.props.editorFocused === this.props.id;
     return (
       <div
-        className={`cell ${(type === 'markdown' || type === 'raw') ? 'text' : 'code'} ${cellFocused ? 'focused' : ''}`}
+        className={
+          `cell ${type === "markdown" || type === "raw" ? "text" : "code"} ${cellFocused ? "focused" : ""}`
+        }
         onClick={this.selectCell}
-        ref={(el) => { this.cellDiv = el; }}
+        role="presentation"
+        ref={el => {
+          this.cellDiv = el;
+        }}
       >
-        {
-          cellFocused ? <Toolbar
-            type={type}
-            cell={cell}
-            id={this.props.id}
-          /> : null
-        }
-        {
-        (type === 'markdown' || type === 'raw') ?
-          <MarkdownCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            focusEditor={this.focusCellEditor}
-            cellFocused={cellFocused}
-            editorFocused={editorFocused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-          /> :
-          <CodeCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            cellFocused={cellFocused}
-            editorFocused={editorFocused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-            language={this.props.language}
-            displayOrder={this.props.displayOrder}
-            transforms={this.props.transforms}
-            pagers={this.props.pagers}
-            running={this.props.running}
-            models={this.props.models}
-          />
-        }
+        {cellFocused
+          ? <Toolbar type={type} cell={cell} id={this.props.id} />
+          : null}
+        {type === "markdown" || type === "raw"
+          ? <MarkdownCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              focusEditor={this.focusCellEditor}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+            />
+          : <CodeCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+              language={this.props.language}
+              displayOrder={this.props.displayOrder}
+              transforms={this.props.transforms}
+              pagers={this.props.pagers}
+              running={this.props.running}
+              models={this.props.models}
+            />}
       </div>
     );
   }
