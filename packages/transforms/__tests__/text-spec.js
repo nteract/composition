@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import Text from '../src/text';
 
 describe('Text', () => {
-  it('renders plain text', () => {
+  it.skip('renders plain text', () => {
     const wrapper = mount(
       <Text data={'hey'} />,
     );
