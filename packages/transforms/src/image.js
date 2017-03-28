@@ -21,11 +21,7 @@ export default function ImageDisplay(props: TopProps): ?React.Element<any> {
   }
 
   return (
-    <img
-      role="presentation"
-      src={`data:${props.mimetype};base64,${props.data}`}
-      {...size}
-    />
+    <img alt="" src={`data:${props.mimetype};base64,${props.data}`} {...size} />
   );
 }
 
