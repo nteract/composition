@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text renders plain text 1`] = `
+<code>
+  <span
+    style={Object {}}
+  >
+    hey
+  </span>
+</code>
+`;
