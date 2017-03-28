@@ -17,7 +17,7 @@ describe('ImageDisplay', () => {
 
     const img = component.find('img');
     // Slight a11y check
-    expect(img.prop('role')).toEqual('presentation');
+    expect(img.prop('alt')).toEqual('');
     expect(img.prop('src')).toEqual(`data:image/png;base64,${imageData}`);
   });
 });
