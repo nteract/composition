@@ -1,11 +1,11 @@
 /* @flow */
 /* eslint no-confusing-arrow: 0 */
 /* eslint no-nested-ternary: 0 */
-import React from 'react';
-import { Table, Column, SortDirection, AutoSizer } from 'react-virtualized';
-import infer from 'jsontableschema/lib/infer';
+import React from "react";
+import { Table, Column, SortDirection, AutoSizer } from "react-virtualized";
+import infer from "jsontableschema/lib/infer";
 
-const _sortBy = require('lodash.sortby');
+const _sortBy = require("lodash.sortby");
 
 const ROW_HEIGHT = 36;
 const COLLAPSED_HEIGHT = ROW_HEIGHT * 10;
@@ -47,7 +47,7 @@ export default class VirtualizedTable extends React.Component {
   state: State = {
     data: [],
     schema: { fields: [] },
-    sortBy: '',
+    sortBy: "",
     sortDirection: SortDirection.ASC
   };
 
@@ -98,13 +98,13 @@ export default class VirtualizedTable extends React.Component {
             }
             // noRowsRenderer={this._noRowsRenderer}
             // overscanRowCount={overscanRowCount}
-            rowClassName={({ index }) => index === -1 ? 'th' : 'tr'}
+            rowClassName={({ index }) => index === -1 ? "th" : "tr"}
             rowHeight={ROW_HEIGHT}
             rowGetter={({ index }) => this.state.data[index]}
             rowCount={rowCount}
             rowStyle={{
               padding: 0,
-              border: 'none'
+              border: "none"
             }}
             // scrollToIndex={scrollToIndex}
             sort={this.sort}

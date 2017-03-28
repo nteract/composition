@@ -1,5 +1,5 @@
 /* eslint-disable no-multi-str */
-import { fromJS } from '../../packages/commutable';
+import { fromJS } from "../../packages/commutable";
 
 export const dummy = '{"cells":[{"cell_type":"markdown","metadata":{},\
 "source":["## The Notable Nteract Notebook\\n","\\n","**It\'s a notebook!**\\n"]},\

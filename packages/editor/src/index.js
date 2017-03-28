@@ -1,3 +1,3 @@
-import WrappedEditorView from './view';
+import WrappedEditorView from "./view";
 
 export default WrappedEditorView;

@@ -1,9 +1,9 @@
 /* @flow */
-import React from 'react';
+import React from "react";
 
 type Props = {
-  data: string,
-}
+  data: string
+};
 
 // Note: createRange and Range must be polyfilled on older browsers with
 //       https://github.com/timdown/rangy
@@ -35,7 +35,11 @@ export default class HTMLDisplay extends React.Component {
 
   render(): ?React.Element<any> {
     return (
-      <div ref={(el) => { this.el = el; }} />
+      <div
+        ref={el => {
+          this.el = el;
+        }}
+      />
     );
   }
 }

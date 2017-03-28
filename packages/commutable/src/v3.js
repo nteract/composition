@@ -7,36 +7,27 @@ import type {
   ImmutableMarkdownCell,
   ImmutableRawCell,
   ImmutableOutput,
-  ImmutableMimeBundle,
-} from './types';
+  ImmutableMimeBundle
+} from "./types";
 
-import type {
-  CellStructure,
-} from './structures';
+import type { CellStructure } from "./structures";
 
-import type {
-  MultiLineString,
-  ErrorOutput,
-  RawCell,
-  MarkdownCell,
-} from './v4';
+import type { MultiLineString, ErrorOutput, RawCell, MarkdownCell } from "./v4";
 
-import {
-  cleanMimeAtKey,
-} from './v4';
+import { cleanMimeAtKey } from "./v4";
 
-const Immutable = require('immutable');
-const appendCell = require('./structures').appendCell;
+const Immutable = require("immutable");
+const appendCell = require("./structures").appendCell;
 
 function demultiline(s: string | Array<string>) {
   if (Array.isArray(s)) {
-    return s.join('');
+    return s.join("");
   }
   return s;
 }
 
 export type ExecuteResult = {|
-  output_type: 'pyout',
+  output_type: "pyout",
   prompt_number: number,
   metadata: Object,
   text?: MultiLineString,
@@ -47,11 +38,11 @@ export type ExecuteResult = {|
   html?: MultiLineString,
   javascript?: MultiLineString,
   json?: MultiLineString,
-  pdf?: MultiLineString,
+  pdf?: MultiLineString
 |};
 
 export type DisplayData = {|
-  output_type: 'display_data',
+  output_type: "display_data",
   metadata: Object,
   prompt_number?: number,
   text?: MultiLineString,
@@ -62,26 +53,26 @@ export type DisplayData = {|
   html?: MultiLineString,
   javascript?: MultiLineString,
   json?: MultiLineString,
-  pdf?: MultiLineString,
+  pdf?: MultiLineString
 |};
 
 export type StreamOutput = {|
-  output_type: 'stream',
+  output_type: "stream",
   stream: string,
-  text: MultiLineString,
+  text: MultiLineString
 |};
 
 export type Output = ExecuteResult | DisplayData | StreamOutput | ErrorOutput;
 
 export type HeadingCell = {|
-  cell_type: 'heading',
+  cell_type: "heading",
   metadata: JSONObject,
   source: MultiLineString,
-  level: number,
+  level: number
 |};
 
 export type CodeCell = {|
-  cell_type: 'code',
+  cell_type: "code",
   language: string,
   collapsed: boolean,
   metadata: JSONObject,
@@ -94,47 +85,53 @@ export type Cell = RawCell | MarkdownCell | HeadingCell | CodeCell;
 
 export type Worksheet = {|
   cells: Array<Cell>,
-  metadata: Object,
+  metadata: Object
 |};
 
 export type Notebook = {|
   worksheets: Array<Worksheet>,
   metadata: Object,
   nbformat: 3,
-  nbformat_minor: number,
+  nbformat_minor: number
 |};
 
 function createImmutableMarkdownCell(cell) {
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
-    metadata: Immutable.fromJS(cell.metadata),
+    metadata: Immutable.fromJS(cell.metadata)
   });
 }
 
-function createImmutableMimeBundle(output: DisplayData | ExecuteResult): ImmutableMimeBundle {
+function createImmutableMimeBundle(
+  output: DisplayData | ExecuteResult
+): ImmutableMimeBundle {
   const VALID_MIMETYPES = {
-    text: 'text/plain',
-    latex: 'text/latex',
-    png: 'image/png',
-    jpeg: 'image/jpeg',
-    svg: 'image/svg+xml',
-    html: 'text/html',
-    javascript: 'application/x-javascript',
-    json: 'application/javascript',
-    pdf: 'application/pdf',
-    metadata: '',
-    prompt_number: '',
-    output_type: '',
+    text: "text/plain",
+    latex: "text/latex",
+    png: "image/png",
+    jpeg: "image/jpeg",
+    svg: "image/svg+xml",
+    html: "text/html",
+    javascript: "application/x-javascript",
+    json: "application/javascript",
+    pdf: "application/pdf",
+    metadata: "",
+    prompt_number: "",
+    output_type: ""
   };
   const mimeBundle = {};
   Object.keys(output).map((key: string) => {
-    if (key !== 'prompt_number' || key !== 'metadata' || key !== 'output_type') {
+    if (
+      key !== "prompt_number" || key !== "metadata" || key !== "output_type"
+    ) {
       mimeBundle[VALID_MIMETYPES[key]] = output[key];
     }
   });
-  return Object.keys(mimeBundle)
-    .reduce(cleanMimeAtKey.bind(null, mimeBundle), Immutable.Map());
+  return Object.keys(mimeBundle).reduce(
+    cleanMimeAtKey.bind(null, mimeBundle),
+    Immutable.Map()
+  );
 }
 
 function sanitize(o: ExecuteResult | DisplayData) {
@@ -146,29 +143,41 @@ function sanitize(o: ExecuteResult | DisplayData) {
 
 function createImmutableOutput(output: Output): ImmutableOutput {
   switch (output.output_type) {
-    case 'pyout':
-      return Immutable.Map(Object.assign({}, {
-        output_type: output.output_type,
-        execution_count: output.prompt_number,
-        data: createImmutableMimeBundle(output),
-      }, sanitize(output)));
-    case 'display_data':
-      return Immutable.Map(Object.assign({}, {
-        output_type: output.output_type,
-        data: createImmutableMimeBundle(output),
-      }, sanitize(output)));
-    case 'stream':
+    case "pyout":
+      return Immutable.Map(
+        Object.assign(
+          {},
+          {
+            output_type: output.output_type,
+            execution_count: output.prompt_number,
+            data: createImmutableMimeBundle(output)
+          },
+          sanitize(output)
+        )
+      );
+    case "display_data":
+      return Immutable.Map(
+        Object.assign(
+          {},
+          {
+            output_type: output.output_type,
+            data: createImmutableMimeBundle(output)
+          },
+          sanitize(output)
+        )
+      );
+    case "stream":
       return Immutable.Map({
         output_type: output.output_type,
         name: output.stream,
-        text: demultiline(output.text),
+        text: demultiline(output.text)
       });
-    case 'pyerr':
+    case "pyerr":
       return Immutable.Map({
-        output_type: 'error',
+        output_type: "error",
         ename: output.ename,
         evalue: output.evalue,
-        traceback: Immutable.List(output.traceback),
+        traceback: Immutable.List(output.traceback)
       });
     default:
       throw new TypeError(`Output type ${output.output_type} not recognized`);
@@ -181,7 +190,7 @@ function createImmutableCodeCell(cell): ImmutableCodeCell {
     source: demultiline(cell.input),
     outputs: new Immutable.List(cell.outputs.map(createImmutableOutput)),
     execution_count: cell.prompt_number,
-    metadata: Immutable.fromJS(cell.metadata),
+    metadata: Immutable.fromJS(cell.metadata)
   });
 }
 
@@ -189,29 +198,32 @@ function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
-    metadata: Immutable.fromJS(cell.metadata),
+    metadata: Immutable.fromJS(cell.metadata)
   });
 }
 
 function createImmutableHeadingCell(cell: HeadingCell): ImmutableMarkdownCell {
   return new Immutable.Map({
-    cell_type: 'markdown',
-    source: Array.isArray(cell.source) ?
-      demultiline(cell.source.map(line => Array(cell.level).join('#').concat(' ').concat(line)))
+    cell_type: "markdown",
+    source: Array.isArray(cell.source)
+      ? demultiline(
+          cell.source.map(line =>
+            Array(cell.level).join("#").concat(" ").concat(line))
+        )
       : cell.source,
-    metadata: Immutable.fromJS(cell.metadata),
+    metadata: Immutable.fromJS(cell.metadata)
   });
 }
 
 function createImmutableCell(cell) {
   switch (cell.cell_type) {
-    case 'markdown':
+    case "markdown":
       return createImmutableMarkdownCell(cell);
-    case 'code':
+    case "code":
       return createImmutableCodeCell(cell);
-    case 'raw':
+    case "raw":
       return createImmutableRawCell(cell);
-    case 'heading':
+    case "heading":
       return createImmutableHeadingCell(cell);
     default:
       throw new TypeError(`Cell type ${cell.cell_type} unknown`);
@@ -228,19 +240,24 @@ export function fromJS(notebook: Notebook): ImmutableNotebook {
 
   const starterCellStructure = {
     cellOrder: Immutable.List().asMutable(),
-    cellMap: Immutable.Map().asMutable(),
+    cellMap: Immutable.Map().asMutable()
   };
 
-  const cellStructure = [].concat.apply([], notebook.worksheets.map(worksheet =>
-    worksheet.cells.reduce((cellStruct: CellStructure, cell: Cell) =>
-      appendCell(cellStruct, createImmutableCell(cell)),
-    starterCellStructure)))[0];
+  const cellStructure = [].concat.apply(
+    [],
+    notebook.worksheets.map(worksheet =>
+      worksheet.cells.reduce(
+        (cellStruct: CellStructure, cell: Cell) =>
+          appendCell(cellStruct, createImmutableCell(cell)),
+        starterCellStructure
+      ))
+  )[0];
 
   return Immutable.Map({
     cellOrder: cellStructure.cellOrder.asImmutable(),
     cellMap: cellStructure.cellMap.asImmutable(),
     nbformat_minor: notebook.nbformat_minor,
     nbformat: 4,
-    metadata: Immutable.fromJS(notebook.metadata),
+    metadata: Immutable.fromJS(notebook.metadata)
   });
 }

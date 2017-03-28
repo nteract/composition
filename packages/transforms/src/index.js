@@ -1,71 +1,66 @@
 /* @flow */
-import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
+import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 // Needed for flow
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React from "react";
 /* eslint-enable no-unused-vars */
 
-import TextDisplay from './text';
-import JsonDisplay from './json';
-import JavaScriptDisplay from './javascript';
-import HTMLDisplay from './html';
-import MarkdownDisplay from './markdown';
-import LaTeXDisplay from './latex';
+import TextDisplay from "./text";
+import JsonDisplay from "./json";
+import JavaScriptDisplay from "./javascript";
+import HTMLDisplay from "./html";
+import MarkdownDisplay from "./markdown";
+import LaTeXDisplay from "./latex";
 
-import SVGDisplay from './svg';
+import SVGDisplay from "./svg";
 
-import {
-  PNGDisplay,
-  JPEGDisplay,
-  GIFDisplay,
-} from './image';
+import { PNGDisplay, JPEGDisplay, GIFDisplay } from "./image";
 
 declare class Transform extends React.Component {
-  MIMETYPE: string,
+  MIMETYPE: string
 }
 
-type Transforms = ImmutableMap<string, Transform>
-type DisplayOrder = ImmutableList<string>
+type Transforms = ImmutableMap<string, Transform>;
+type DisplayOrder = ImmutableList<string>;
 
 export type TransformRegister = {
   transforms: Transforms,
-  displayOrder: DisplayOrder,
-}
+  displayOrder: DisplayOrder
+};
 
 export const standardTransforms: Transforms = new ImmutableMap({
-  'text/plain': TextDisplay,
-  'image/png': PNGDisplay,
-  'image/jpeg': JPEGDisplay,
-  'image/gif': GIFDisplay,
-  'image/svg+xml': SVGDisplay,
-  'text/html': HTMLDisplay,
-  'text/markdown': MarkdownDisplay,
-  'text/latex': LaTeXDisplay,
-  'application/json': JsonDisplay,
-  'application/javascript': JavaScriptDisplay,
+  "text/plain": TextDisplay,
+  "image/png": PNGDisplay,
+  "image/jpeg": JPEGDisplay,
+  "image/gif": GIFDisplay,
+  "image/svg+xml": SVGDisplay,
+  "text/html": HTMLDisplay,
+  "text/markdown": MarkdownDisplay,
+  "text/latex": LaTeXDisplay,
+  "application/json": JsonDisplay,
+  "application/javascript": JavaScriptDisplay
 });
 
 export const standardDisplayOrder: DisplayOrder = new ImmutableList([
-  'application/json',
-  'application/javascript',
-  'text/html',
-  'image/svg+xml',
-  'text/markdown',
-  'text/latex',
-  'image/svg+xml',
-  'image/gif',
-  'image/png',
-  'image/jpeg',
-  'application/pdf',
-  'text/plain',
+  "application/json",
+  "application/javascript",
+  "text/html",
+  "image/svg+xml",
+  "text/markdown",
+  "text/latex",
+  "image/svg+xml",
+  "image/gif",
+  "image/png",
+  "image/jpeg",
+  "application/pdf",
+  "text/plain"
 ]);
 
-
 export function registerTransform(
-  { transforms, displayOrder } : TransformRegister,
+  { transforms, displayOrder }: TransformRegister,
   transform: Transform
-  ) {
+) {
   return {
     transforms: transforms.set(transform.MIMETYPE, transform),
     displayOrder: displayOrder.insert(0, transform.MIMETYPE)
@@ -80,15 +75,20 @@ export function registerTransform(
  * @return {string}          Richest mimetype
  */
 
-export function richestMimetype(bundle: ImmutableMap<string, any>,
+export function richestMimetype(
+  bundle: ImmutableMap<string, any>,
   order: ImmutableList<string> = standardDisplayOrder,
-  tf: ImmutableMap<string, any> = standardTransforms): string {
-  return bundle.keySeq()
-    // we can only use those we have a transform for
-    .filter(mimetype => tf.has(mimetype) && order.includes(mimetype))
-    // the richest is based on the order in displayOrder
-    .sortBy(mimetype => order.indexOf(mimetype))
-    .first();
+  tf: ImmutableMap<string, any> = standardTransforms
+): string {
+  return (
+    bundle
+      .keySeq()
+      // we can only use those we have a transform for
+      .filter(mimetype => tf.has(mimetype) && order.includes(mimetype))
+      // the richest is based on the order in displayOrder
+      .sortBy(mimetype => order.indexOf(mimetype))
+      .first()
+  );
 }
 export const transforms = standardTransforms;
 export const displayOrder = standardDisplayOrder;

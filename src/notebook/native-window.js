@@ -1,10 +1,10 @@
-import { remote } from 'electron';
+import { remote } from "electron";
 
-import path from 'path';
+import path from "path";
 
-import Rx from 'rxjs/Rx';
+import Rx from "rxjs/Rx";
 
-const HOME = remote.app.getPath('home');
+const HOME = remote.app.getPath("home");
 
 /**
  * Turn a path like /Users/n/mine.ipynb to ~/mine.ipynb
@@ -13,10 +13,12 @@ const HOME = remote.app.getPath('home');
  */
 export function tildify(p) {
   if (!p) {
-    return '';
+    return "";
   }
   const s = path.normalize(p) + path.sep;
-  return (s.indexOf(HOME) === 0 ? s.replace(HOME + path.sep, `~${path.sep}`) : s).slice(0, -1);
+  return (s.indexOf(HOME) === 0
+    ? s.replace(HOME + path.sep, `~${path.sep}`)
+    : s).slice(0, -1);
 }
 
 export function setTitleFromAttributes(attributes) {
@@ -34,10 +36,12 @@ export function setTitleFromAttributes(attributes) {
   } catch (e) {
     /* istanbul ignore next */
     (function log1277() {
-      console.error('Unable to set the filename, see https://github.com/nteract/nteract/issues/1277');
+      console.error(
+        "Unable to set the filename, see https://github.com/nteract/nteract/issues/1277"
+      );
       console.error(e);
       console.error(e.stack);
-    }());
+    })();
   }
 }
 
@@ -46,7 +50,7 @@ export function createTitleFeed(state$) {
     .map(state => ({
       // Assume not modified to start
       modified: false,
-      notebook: state.document.get('notebook'),
+      notebook: state.document.get("notebook")
     }))
     .distinctUntilChanged(last => last.notebook)
     .scan((last, current) => ({
@@ -56,16 +60,16 @@ export function createTitleFeed(state$) {
       //    modified: saved.notebook !== current.notebook
       //        we don't have saved.notebook here
       modified: last.notebook !== current.notebook,
-      notebook: current.notebook,
+      notebook: current.notebook
     }))
-    .pluck('modified');
+    .pluck("modified");
 
-
-  const fullpath$ = state$
-    .map(state => state.metadata.get('filename') || 'Untitled');
+  const fullpath$ = state$.map(
+    state => state.metadata.get("filename") || "Untitled"
+  );
 
   const executionState$ = state$
-    .map(state => state.app.get('executionState'))
+    .map(state => state.app.get("executionState"))
     .debounceTime(200);
 
   return Rx.Observable
@@ -73,7 +77,11 @@ export function createTitleFeed(state$) {
       modified$,
       fullpath$,
       executionState$,
-      (modified, fullpath, executionState) => ({ modified, fullpath, executionState })
+      (modified, fullpath, executionState) => ({
+        modified,
+        fullpath,
+        executionState
+      })
     )
     .distinctUntilChanged()
     .switchMap(i => Rx.Observable.of(i));
@@ -82,6 +90,6 @@ export function createTitleFeed(state$) {
 export function initNativeHandlers(store) {
   const state$ = Rx.Observable.from(store);
 
-  return createTitleFeed(state$)
-    .subscribe(setTitleFromAttributes, err => console.error(err));
+  return createTitleFeed(state$).subscribe(setTitleFromAttributes, err =>
+    console.error(err));
 }

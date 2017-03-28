@@ -1,20 +1,17 @@
 /* @flow */
 
-import type { Notebook as v4Notebook } from './v4';
-import type { Notebook as v3Notebook } from './v3';
+import type { Notebook as v4Notebook } from "./v4";
+import type { Notebook as v3Notebook } from "./v3";
 
-import type {
-  ImmutableNotebook,
-  JSONType,
-} from './types';
+import type { ImmutableNotebook, JSONType } from "./types";
 
 type PlaceholderNotebook = {
   nbformat: number,
-  nbformat_minor: number,
+  nbformat_minor: number
 };
 
-const v4 = require('./v4');
-const v3 = require('./v3');
+const v4 = require("./v4");
+const v3 = require("./v3");
 
 const {
   emptyNotebook,
@@ -27,8 +24,8 @@ const {
 
   insertCellAt,
   insertCellAfter,
-  removeCell,
-} = require('./structures');
+  removeCell
+} = require("./structures");
 
 export type Notebook = PlaceholderNotebook & v4Notebook & v3Notebook;
 
@@ -45,7 +42,10 @@ function parseNotebook(notebookString: string): Notebook {
 
 function fromJS(notebookJSON: Notebook): ImmutableNotebook {
   if (notebookJSON.nbformat === 4 && notebookJSON.nbformat_minor >= 0) {
-    if (Array.isArray(notebookJSON.cells) && typeof notebookJSON.metadata === 'object') {
+    if (
+      Array.isArray(notebookJSON.cells) &&
+      typeof notebookJSON.metadata === "object"
+    ) {
       return v4.fromJS(notebookJSON);
     }
   } else if (notebookJSON.nbformat === 3 && notebookJSON.nbformat_minor >= 0) {
@@ -58,14 +58,14 @@ function fromJS(notebookJSON: Notebook): ImmutableNotebook {
     );
   }
 
-  throw new TypeError('This notebook format is not supported');
+  throw new TypeError("This notebook format is not supported");
 }
 
 function toJS(immnb: ImmutableNotebook): v4Notebook {
-  if (immnb.get('nbformat') === 4 && immnb.get('nbformat_minor') >= 0) {
+  if (immnb.get("nbformat") === 4 && immnb.get("nbformat_minor") >= 0) {
     return v4.toJS(immnb);
   }
-  throw new TypeError('Only notebook formats 3 and 4 are supported!');
+  throw new TypeError("Only notebook formats 3 and 4 are supported!");
 }
 
 // Expected usage is stringifyNotebook(toJS(immutableNotebook))
@@ -89,9 +89,7 @@ module.exports = {
   removeCell,
   appendCell,
   appendCellToNotebook,
-  createImmutableOutput: v4.createImmutableOutput,
+  createImmutableOutput: v4.createImmutableOutput
 };
 
-export type {
-  ImmutableNotebook,
-};
+export type { ImmutableNotebook };
