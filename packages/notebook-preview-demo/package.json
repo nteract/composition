@@ -13,7 +13,7 @@
     "@nteract/transforms": "^1.0.8",
     "@nteract/transform-dataresource": "^1.0.1",
     "codemirror": "~5.24.0",
-    "normalize.css": "^5.0.0",
+    "normalize.css": "^6.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^4.0.0-beta.5",
