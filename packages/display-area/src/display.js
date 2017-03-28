@@ -68,9 +68,11 @@ export default class Display extends React.PureComponent {
             this.el = el;
           }}
         >
-          {outputs.map((output, index) => (
-            <Output key={index} output={output} {...props} />
-          ))}
+          {outputs
+            ? outputs.map((output, index) => (
+                <Output key={index} output={output} {...props} />
+              ))
+            : null}
         </div>
       );
     }
