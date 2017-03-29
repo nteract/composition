@@ -173,7 +173,8 @@ export function createCheckpoint(serverConfig : Object, path : string) : Observa
  * @param  {string} checkpoint_id - ID of checkpoint to be deleted.
  * @return {AjaxObservable}  An Observable with the request response
  */
-export function deleteCheckpoint(serverConfig : Object, path : string, checkpointID : string) : Observable {
+export function deleteCheckpoint(serverConfig : Object,
+  path : string, checkpointID : string) : Observable {
   const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: 'DELETE',
@@ -188,7 +189,8 @@ export function deleteCheckpoint(serverConfig : Object, path : string, checkpoin
  * @param  {string} checkpoint_id - ID of checkpoint to be used for restoration.
  * @return {AjaxObservable}  An Observable with the request response
  */
-export function restoreFromCheckpoint(serverConfig : Object, path : string, checkpointID : string) : Observable {
+export function restoreFromCheckpoint(serverConfig : Object,
+  path : string, checkpointID : string) : Observable {
   const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: 'POST',
