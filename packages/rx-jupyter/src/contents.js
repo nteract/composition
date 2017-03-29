@@ -1,6 +1,7 @@
 // @flow
 
 import { ajax } from 'rxjs/observable/dom/ajax';
+import { Observable } from 'rxjs/observable';
 
 import { join as pathJoin } from 'path';
 
@@ -10,11 +11,11 @@ import {
 
 const querystring = require('querystring');
 
-function formURI(path : string) {
+function formURI(path : string) : string {
   return pathJoin('/api/contents/', path);
 }
 
-function formCheckpointURI(path : string, checkpointID : string) {
+function formCheckpointURI(path : string, checkpointID : string) : string {
   return pathJoin('/api/contents/', path, 'checkpoints', checkpointID);
 }
 
@@ -44,7 +45,7 @@ function formCheckpointURI(path : string, checkpointID : string) {
   *
   * @return {AjaxObservable}  An Observable with the request response
   */
-export function remove(serverConfig : Object, path : string) {
+export function remove(serverConfig : Object, path : string) : Observable {
   const uri = formURI(path);
   const opts = {
     method: 'DELETE',
@@ -64,7 +65,7 @@ export function remove(serverConfig : Object, path : string) {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig : Object, path : string, params : Object) {
+export function get(serverConfig : Object, path : string, params : Object) : Observable {
   let uri = formURI(path);
   const query = querystring.stringify(params);
   if (query.length > 0) {
@@ -81,7 +82,7 @@ export function get(serverConfig : Object, path : string, params : Object) {
  * @param  {Object} model -  ^^TODO
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function update(serverConfig : Object, path : string, model : Object) {
+export function update(serverConfig : Object, path : string, model : Object) : Observable {
   const uri = formURI(path);
   const opts = {
     headers: {
@@ -102,7 +103,7 @@ export function update(serverConfig : Object, path : string, model : Object) {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function create(serverConfig : Object, path : string, model : Object) {
+export function create(serverConfig : Object, path : string, model : Object) : Observable {
   const uri = formURI(path);
   const opts = {
     headers: {
@@ -122,7 +123,7 @@ export function create(serverConfig : Object, path : string, model : Object) {
  * @param  {Object} model - ^^^^ TODO above
  * @return {AjaxObservable}  An Observable with the request response
  */
-export function save(serverConfig : Object, path : string, model : Object) {
+export function save(serverConfig : Object, path : string, model : Object) : Observable {
   const uri = formURI(path);
   const opts = {
     headers: {
@@ -140,7 +141,7 @@ export function save(serverConfig : Object, path : string, model : Object) {
  * @param  {string} path - The content containing checkpoints to be listed.
  * @return {AjaxObservable}  An Observable with the request response
  */
-export function listCheckpoints(serverConfig : Object, path : string) {
+export function listCheckpoints(serverConfig : Object, path : string) : Observable {
   const uri = formCheckpointURI(path, '');
   const opts = {
     method: 'GET',
@@ -157,7 +158,7 @@ export function listCheckpoints(serverConfig : Object, path : string) {
  * @param {string} path - The content containing the checkpoint to be created.
  * @return {AjaxObservable}  An Observable with the request response
  */
-export function createCheckpoint(serverConfig : Object, path : string) {
+export function createCheckpoint(serverConfig : Object, path : string) : Observable {
   const uri = formCheckpointURI(path, '');
   const opts = {
     method: 'POST',
@@ -172,7 +173,7 @@ export function createCheckpoint(serverConfig : Object, path : string) {
  * @param  {string} checkpoint_id - ID of checkpoint to be deleted.
  * @return {AjaxObservable}  An Observable with the request response
  */
-export function deleteCheckpoint(serverConfig : Object, path : string, checkpointID : string) {
+export function deleteCheckpoint(serverConfig : Object, path : string, checkpointID : string) : Observable {
   const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: 'DELETE',
@@ -187,7 +188,7 @@ export function deleteCheckpoint(serverConfig : Object, path : string, checkpoin
  * @param  {string} checkpoint_id - ID of checkpoint to be used for restoration.
  * @return {AjaxObservable}  An Observable with the request response
  */
-export function restoreFromCheckpoint(serverConfig : Object, path : string, checkpointID : string) {
+export function restoreFromCheckpoint(serverConfig : Object, path : string, checkpointID : string) : Observable {
   const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: 'POST',

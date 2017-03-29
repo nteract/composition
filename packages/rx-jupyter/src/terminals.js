@@ -1,6 +1,8 @@
 // @flow
 
 import { ajax } from 'rxjs/observable/dom/ajax';
+import Observable from 'rxjs/observable';
+
 import { join as pathJoin } from 'path';
 
 import {
@@ -17,7 +19,7 @@ function formURI(path : string) {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function list(serverConfig : Object) {
+export function list(serverConfig : Object) : Observable {
   const uri = '/api/terminals/';
   const opts = {
     method: 'GET',
@@ -30,7 +32,7 @@ export function list(serverConfig : Object) {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function create(serverConfig : Object) {
+export function create(serverConfig : Object) : Observable {
   const uri = '/api/terminals/';
   const opts = {
     method: 'POST',
@@ -44,7 +46,7 @@ export function create(serverConfig : Object) {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig : Object, id: string) {
+export function get(serverConfig : Object, id: string) : Observable {
   const uri = formURI(id);
   const opts = {
     method: 'GET',
@@ -58,7 +60,7 @@ export function get(serverConfig : Object, id: string) {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return {AjaxObservable} An Observable with the request response
  */
-export function destroy(serverConfig : Object, id : string) {
+export function destroy(serverConfig : Object, id : string) : Observable {
   const uri = formURI(id);
   const opts = {
     method: 'DELETE',
@@ -67,7 +69,7 @@ export function destroy(serverConfig : Object, id : string) {
 }
 
 
-export function formWebSocketURL(serverConfig : Object, id : string) {
+export function formWebSocketURL(serverConfig : Object, id : string) : string {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}/terminals/websocket/${id}`;
   return url.replace(/^http(s)?/, 'ws$1');

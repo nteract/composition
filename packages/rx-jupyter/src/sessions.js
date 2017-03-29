@@ -1,6 +1,7 @@
 // @flow
 
 import { ajax } from 'rxjs/observable/dom/ajax';
+import Observable from 'rxjs/observable';
 
 import {
   createAJAXSettings,
@@ -15,7 +16,7 @@ import {
  *
  * @return  {Object}  An Observable with the request response
  */
-export function list(serverConfig : Object) {
+export function list(serverConfig : Object) : Observable {
   return ajax(createAJAXSettings(serverConfig, '/api/sessions'));
 }
 
@@ -28,7 +29,7 @@ export function list(serverConfig : Object) {
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function get(serverConfig : Object, sessionID : string) {
+export function get(serverConfig : Object, sessionID : string) : Observable {
   return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`));
 }
 
@@ -41,7 +42,7 @@ export function get(serverConfig : Object, sessionID : string) {
  *
  * @return {Object} - An Observable with the request/response
  */
-export function destroy(serverConfig : Object, sessionID : string) {
+export function destroy(serverConfig : Object, sessionID : string) : Observable {
   return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, { method: 'DELETE' }));
 }
 
@@ -57,7 +58,7 @@ export function destroy(serverConfig : Object, sessionID : string) {
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function update(serverConfig : Object, sessionID : string, body : Object) {
+export function update(serverConfig : Object, sessionID : string, body : Object) : Observable {
   return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
     method: 'PATCH',
     headers: {
@@ -77,7 +78,7 @@ export function update(serverConfig : Object, sessionID : string, body : Object)
  *
  * @return {Object} - An Observable with the request/response
  */
-export function create(serverConfig : Object, body : Object) {
+export function create(serverConfig : Object, body : Object) : Observable {
   return ajax(createAJAXSettings(serverConfig, '/api/sessions', {
     method: 'POST',
     headers: {
