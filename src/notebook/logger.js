@@ -1,6 +1,6 @@
 import Immutable from "immutable";
 
-const createLogger = require("redux-logger");
+import { createLogger } from "redux-logger";
 
 module.exports = function clogger() {
   const logger = createLogger({
