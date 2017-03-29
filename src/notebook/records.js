@@ -1,8 +1,8 @@
 /* @flow */
 
-import type { Subject } from 'rxjs';
+import type { Subject } from "rxjs";
 
-const Immutable = require('immutable');
+const Immutable = require("immutable");
 
 /*
 
@@ -16,8 +16,13 @@ Which we'll adapt for our use of Immutable.js
 
 */
 
-export type ImmutableJSON = | string | number | boolean | null
-                            | ImmutableJSONMap | ImmutableJSONList; // eslint-disable-line no-use-before-define
+export type ImmutableJSON =
+  | string
+  | number
+  | boolean
+  | null
+  | ImmutableJSONMap
+  | ImmutableJSONList; // eslint-disable-line no-use-before-define
 export type ImmutableJSONMap = Immutable.Map<string, ImmutableJSON>;
 export type ImmutableJSONList = Immutable.List<ImmutableJSON>;
 
@@ -26,59 +31,59 @@ export type ExecutionCount = number | null;
 export type MimeBundle = Immutable.Map<string, ImmutableJSON>;
 
 export type ExecuteResult = {
-  output_type: 'execute_result',
+  output_type: "execute_result",
   execution_count: ExecutionCount,
   data: MimeBundle,
-  metadata: ImmutableJSONMap,
-}
+  metadata: ImmutableJSONMap
+};
 
 export type DisplayData = {
-  output_type: 'display_data',
+  output_type: "display_data",
   data: MimeBundle,
-  metadata: ImmutableJSONMap,
-}
+  metadata: ImmutableJSONMap
+};
 
 export type StreamOutput = {
-  output_type: 'stream',
-  name: 'stdout' | 'stderr',
-  text: string,
-}
+  output_type: "stream",
+  name: "stdout" | "stderr",
+  text: string
+};
 
 export type ErrorOutput = {
-  output_type: 'error',
+  output_type: "error",
   ename: string,
   evalue: string,
-  traceback: Immutable.List<string>,
-}
+  traceback: Immutable.List<string>
+};
 
 export type Output = ExecuteResult | DisplayData | StreamOutput | ErrorOutput;
 
 export type CodeCell = {
-  cell_type: 'code',
+  cell_type: "code",
   metadata: ImmutableJSONMap,
   execution_count: ExecutionCount,
   source: string,
-  outputs: Immutable.List<Output>,
-}
+  outputs: Immutable.List<Output>
+};
 
 export type MarkdownCell = {
-  cell_type: 'markdown',
+  cell_type: "markdown",
   source: string,
-  metadata: ImmutableJSONMap,
-}
+  metadata: ImmutableJSONMap
+};
 
 export type Cell = MarkdownCell | CodeCell;
 
 export type KernelspecMetadata = {
   name: string,
   display_name: string,
-  language: string,
-}
+  language: string
+};
 
 // Note: this is the kernelspec as formed by spawnteract and jupyter kernelspecs --json
 export type KernelInfo = {
   name: string,
-  spec: KernelspecMetadata,
+  spec: KernelspecMetadata
 };
 
 export type LanguageInfoMetadata = {
@@ -86,12 +91,12 @@ export type LanguageInfoMetadata = {
   codemirror_mode?: string | ImmutableJSONMap,
   file_extension?: string,
   mimetype?: string,
-  pygments_lexer?: string,
-}
+  pygments_lexer?: string
+};
 
 export type NotebookMetadata = {
   kernelspec: KernelspecMetadata,
-  language_info: LanguageInfoMetadata,
+  language_info: LanguageInfoMetadata
   // We're not currently using orig_nbformat in nteract. Based on the comment
   // in the schema, I'm not sure we should:
   //
@@ -102,13 +107,13 @@ export type NotebookMetadata = {
   // It seems like an intermediate/in-memory representation that bled its way into the spec
   //
   // orig_nbformat?: number,
-}
+};
 
 export type Channels = {
   iopub: Subject,
   shell: Subject,
   stdin: Subject,
-  control: Subject,
+  control: Subject
 };
 
 export type Notebook = {
@@ -116,11 +121,11 @@ export type Notebook = {
   cellOrder: Immutable.List<string>,
   nbformat: 4,
   nbformat_minor: 0 | 1 | 2 | 3 | 4,
-  metadata: NotebookMetadata,
-}
+  metadata: NotebookMetadata
+};
 
 export const AppRecord = Immutable.Record({
-  executionState: 'not connected',
+  executionState: "not connected",
   token: null,
   channels: null,
   spawn: null,
@@ -132,7 +137,7 @@ export const AppRecord = Immutable.Record({
   isSaving: false,
   lastSaved: null,
   configLastSaved: null,
-  error: null,
+  error: null
 });
 
 export type Document = {
@@ -143,32 +148,32 @@ export type Document = {
   stickyCells: Immutable.Set<any>,
   editorFocused: any,
   cellFocused: any,
-  copied: Immutable.Map<any, any>,
-}
+  copied: Immutable.Map<any, any>
+};
 
 export const DocumentRecord = Immutable.Record({
   notebook: null,
   transient: new Immutable.Map({
-    keyPathsForDisplays: new Immutable.Map(),
+    keyPathsForDisplays: new Immutable.Map()
   }),
   cellPagers: new Immutable.Map(),
   outputStatuses: new Immutable.Map(),
   stickyCells: new Immutable.Set(),
   editorFocused: null,
   cellFocused: null,
-  copied: new Immutable.Map(),
+  copied: new Immutable.Map()
 });
 
 export const MetadataRecord = Immutable.Record({
   past: new Immutable.List(),
   future: new Immutable.List(),
-  filename: '',
+  filename: ""
 });
 
 export const CommsRecord = Immutable.Record({
   targets: new Immutable.Map(),
   info: new Immutable.Map(),
-  models: new Immutable.Map(),
+  models: new Immutable.Map()
 });
 
 export type AppState = {
@@ -176,5 +181,5 @@ export type AppState = {
   metadata: MetadataRecord,
   document: DocumentRecord,
   comms: CommsRecord,
-  config: Immutable.Map<string, any>,
+  config: Immutable.Map<string, any>
 };

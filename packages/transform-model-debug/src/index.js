@@ -1,17 +1,17 @@
 /* @flow */
-import React from 'react';
+import React from "react";
 
-const Immutable = require('immutable');
+const Immutable = require("immutable");
 
 type Props = {
   data: string,
   models: Immutable.Map<string, any>,
-  modelID: string,
-}
+  modelID: string
+};
 
 class ModelDebug extends React.Component {
   props: Props;
-  static MIMETYPE = 'application/x-nteract-model-debug+json';
+  static MIMETYPE = "application/x-nteract-model-debug+json";
 
   shouldComponentUpdate(): boolean {
     return true;
@@ -27,14 +27,11 @@ class ModelDebug extends React.Component {
       <div>
         <h1>{JSON.stringify(data, null, 2)}</h1>
         <pre>
-          {
-            model ? JSON.stringify(model, null, 2) : null
-          }
+          {model ? JSON.stringify(model, null, 2) : null}
         </pre>
       </div>
     );
   }
 }
-
 
 export default ModelDebug;

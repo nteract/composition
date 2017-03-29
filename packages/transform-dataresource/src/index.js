@@ -1,6 +1,6 @@
 /* @flow */
-import React from 'react';
-import VirtualizedGrid from './virtualized-grid';
+import React from "react";
+import VirtualizedGrid from "./virtualized-grid";
 // import VirtualizedTable from './virtualized-table';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 
 class DataResourceTransform extends React.Component {
   props: Props;
-  static MIMETYPE = 'application/vnd.dataresource+json';
+  static MIMETYPE = "application/vnd.dataresource+json";
 
   shouldComponentUpdate(): boolean {
     return true;
@@ -25,7 +25,7 @@ class DataResourceTransform extends React.Component {
         schema={schema}
         theme={theme}
         expanded={expanded}
-        style={{ marginRight: '10px' }}
+        style={{ marginRight: "10px" }}
       />
     );
   }

@@ -1,21 +1,21 @@
 /* @flow */
 /* eslint class-methods-use-this: 0 */
-import React from 'react';
+import React from "react";
 
-const cloneDeep = require('lodash.clonedeep');
+const cloneDeep = require("lodash.clonedeep");
 
 type Props = {
-  data: string|Object,
+  data: string | Object
 };
 
 declare class PlotlyHTMLElement extends HTMLElement {
   data: Object,
-  layout: Object,
+  layout: Object
 }
 
-const Plotly = require('plotly.js/dist/plotly');
+const Plotly = require("plotly.js/dist/plotly");
 
-const MIMETYPE = 'application/vnd.plotly.v1+json';
+const MIMETYPE = "application/vnd.plotly.v1+json";
 
 export class PlotlyTransform extends React.Component {
   props: Props;
@@ -48,7 +48,7 @@ export class PlotlyTransform extends React.Component {
 
   getFigure(): Object {
     const figure = this.props.data;
-    if (typeof figure === 'string') {
+    if (typeof figure === "string") {
       return JSON.parse(figure);
     }
 
@@ -67,7 +67,12 @@ export class PlotlyTransform extends React.Component {
       style.height = layout.height;
     }
     return (
-      <div style={style} ref={(el) => { this.el = el; }} />
+      <div
+        style={style}
+        ref={el => {
+          this.el = el;
+        }}
+      />
     );
   }
 }

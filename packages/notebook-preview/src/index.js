@@ -1,9 +1,9 @@
 /* @flow */
-import React from 'react';
-import Notebook from './notebook';
+import React from "react";
+import Notebook from "./notebook";
 
-const commutable = require('@nteract/commutable');
-const Immutable = require('immutable');
+const commutable = require("@nteract/commutable");
+const Immutable = require("immutable");
 
 type Props = {
   notebook: Immutable.Map<string, any> | Object,

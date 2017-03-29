@@ -1,8 +1,8 @@
 // @flow
-import Display from './display';
-import RichestMime from './richest-mime';
+import Display from "./display";
+import RichestMime from "./richest-mime";
 
 module.exports = {
   Display,
-  RichestMime,
+  RichestMime
 };

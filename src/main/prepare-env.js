@@ -1,10 +1,10 @@
-import shellEnv from 'shell-env';
-import Rx from 'rxjs/Rx';
+import shellEnv from "shell-env";
+import Rx from "rxjs/Rx";
 
 const env$ = Rx.Observable
   .fromPromise(shellEnv())
   .first()
-  .do((env) => {
+  .do(env => {
     Object.assign(process.env, env);
   })
   .publishReplay(1);
@@ -12,4 +12,3 @@ const env$ = Rx.Observable
 env$.connect();
 
 export default env$;
-

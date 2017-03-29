@@ -1,6 +1,15 @@
 // @flow
-import React, { PureComponent } from 'react';
-import Dropdown, { DropdownTrigger, DropdownContent } from 'react-simple-dropdown';
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
+/* eslint jsx-a11y/click-events-have-key-events: 0 */
+
+// TODO: Fix up a11y eslint here
+// TODO: All the `<li>` below that have role button should just be `<button>` with proper styling
+
+import React, { PureComponent } from "react";
+import Dropdown, {
+  DropdownTrigger,
+  DropdownContent
+} from "react-simple-dropdown";
 
 declare type ToolbarProps = {|
   cell: any,
@@ -15,7 +24,6 @@ declare type ToolbarProps = {|
   toggleOutputExpansion: () => void,
   changeCellType: () => void
 |};
-
 
 export default class Toolbar extends PureComponent {
   props: ToolbarProps;
@@ -36,25 +44,27 @@ export default class Toolbar extends PureComponent {
     this.changeCellType = this.changeCellType.bind(this);
   }
 
-  renderToolbar({
-    type,
-    executeCell,
-    removeCell,
-    toggleStickyCell,
-  }: ToolbarProps) {
+  renderToolbar(
+    {
+      type,
+      executeCell,
+      removeCell,
+      toggleStickyCell
+    }: ToolbarProps
+  ) {
     return (
       <div className="cell-toolbar-mask">
         <div className="cell-toolbar">
-          {type !== 'markdown' &&
-          <span>
-            <button
-              onClick={executeCell}
-              title="execute cell"
-              className="executeButton"
-            >
-              <span className="octicon octicon-triangle-right" />
-            </button>
-          </span>}
+          {type !== "markdown" &&
+            <span>
+              <button
+                onClick={executeCell}
+                title="execute cell"
+                className="executeButton"
+              >
+                <span className="octicon octicon-triangle-right" />
+              </button>
+            </span>}
           <button
             onClick={toggleStickyCell}
             title="pin cell"
@@ -69,49 +79,62 @@ export default class Toolbar extends PureComponent {
           >
             <span className="octicon octicon-trashcan" />
           </button>
-          <Dropdown ref={(dropdown) => { this.dropdown = dropdown; }}>
+          <Dropdown
+            ref={dropdown => {
+              this.dropdown = dropdown;
+            }}
+          >
             <DropdownTrigger>
               <button title="show additional actions">
                 <span className="octicon octicon-chevron-down" />
               </button>
             </DropdownTrigger>
-            <DropdownContent >
-              {
-              (type === 'code') ?
-                <ul>
-                  <li
-                    onClick={() => this.clearOutputs()}
-                    className="clearOutput"
-                  >
-                    <a>Clear Cell Output</a>
-                  </li>
-                  <li
-                    onClick={() => this.changeInputVisibility()}
-                    className="inputVisibility"
-                  >
-                    <a>Toggle Input Visibility</a>
-                  </li>
-                  <li
-                    onClick={() => this.changeOutputVisibility()}
-                    className="outputVisibility"
-                  >
-                    <a>Toggle Output Visibility</a>
-                  </li>
-                  <li
-                    onClick={() => this.toggleOutputExpansion()}
-                    className="outputExpanded"
-                  >
-                    <a>Toggle Expanded Output</a>
-                  </li>
-                </ul> : null
-              }
+            <DropdownContent>
+              {type === "code"
+                ? <ul>
+                    <li
+                      onClick={() => this.clearOutputs()}
+                      className="clearOutput"
+                      role="button"
+                      tabIndex="0"
+                    >
+                      <a>Clear Cell Output</a>
+                    </li>
+                    <li
+                      onClick={() => this.changeInputVisibility()}
+                      className="inputVisibility"
+                      role="button"
+                      tabIndex="0"
+                    >
+                      <a>Toggle Input Visibility</a>
+                    </li>
+                    <li
+                      onClick={() => this.changeOutputVisibility()}
+                      className="outputVisibility"
+                      role="button"
+                      tabIndex="0"
+                    >
+                      <a>Toggle Output Visibility</a>
+                    </li>
+                    <li
+                      onClick={() => this.toggleOutputExpansion()}
+                      className="outputExpanded"
+                      role="button"
+                      tabIndex="0"
+                    >
+                      <a>Toggle Expanded Output</a>
+                    </li>
+                  </ul>
+                : null}
               <ul>
                 <li
                   onClick={() => this.changeCellType()}
                   className="changeType"
+                  role="button"
+                  tabIndex="0"
                 >
                   <a>
-                    Convert to {type === 'markdown' ? 'Code' : 'Markdown'} Cell
+                    Convert to {type === "markdown" ? "Code" : "Markdown"} Cell
                   </a>
                 </li>
               </ul>

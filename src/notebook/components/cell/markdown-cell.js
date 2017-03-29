@@ -1,10 +1,13 @@
 // @flow
-import React from 'react';
-import CommonMark from 'commonmark';
-import MarkdownRenderer from 'commonmark-react-renderer';
 
-import Editor from '../../providers/editor';
-import LatexRenderer from '../latex';
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
+
+import React from "react";
+import CommonMark from "commonmark";
+import MarkdownRenderer from "commonmark-react-renderer";
+
+import Editor from "../../providers/editor";
+import LatexRenderer from "../latex";
 
 type Props = {
   cell: any,
@@ -14,15 +17,15 @@ type Props = {
   focusBelow: () => void,
   focusEditor: Function,
   cellFocused: boolean,
-  editorFocused: boolean,
+  editorFocused: boolean
 };
 
 type State = {
   view: boolean,
-  source: string,
+  source: string
 };
 
-type MDRender = (input: string) => string
+type MDRender = (input: string) => string;
 
 const parser = new CommonMark.Parser();
 const renderer = new MarkdownRenderer();
@@ -37,11 +40,11 @@ export default class MarkdownCell extends React.PureComponent {
   rendered: HTMLElement;
 
   static contextTypes = {
-    store: React.PropTypes.object,
+    store: React.PropTypes.object
   };
 
   static defaultProps = {
-    cellFocused: false,
+    cellFocused: false
   };
 
   constructor(props: Props): void {
@@ -49,7 +52,7 @@ export default class MarkdownCell extends React.PureComponent {
     this.state = {
       view: true,
       // HACK: We'll need to handle props and state change better here
-      source: this.props.cell.get('source'),
+      source: this.props.cell.get("source")
     };
     this.openEditor = this.openEditor.bind(this);
     this.editorKeyDown = this.editorKeyDown.bind(this);
@@ -62,7 +65,7 @@ export default class MarkdownCell extends React.PureComponent {
 
   componentWillReceiveProps(nextProps: Props): void {
     this.setState({
-      source: nextProps.cell.get('source'),
+      source: nextProps.cell.get("source")
     });
   }
 
@@ -85,7 +88,7 @@ export default class MarkdownCell extends React.PureComponent {
   editorKeyDown(e: Object): void {
     const shift = e.shiftKey;
     const ctrl = e.ctrlKey;
-    if ((shift || ctrl) && e.key === 'Enter') {
+    if ((shift || ctrl) && e.key === "Enter") {
       this.setState({ view: true });
     }
   }
@@ -101,19 +104,19 @@ export default class MarkdownCell extends React.PureComponent {
   renderedKeyDown(e: Object): boolean {
     const shift = e.shiftKey;
     const ctrl = e.ctrlKey;
-    if ((shift || ctrl) && e.key === 'Enter') {
+    if ((shift || ctrl) && e.key === "Enter") {
       this.setState({ view: true });
       return false;
     }
 
     switch (e.key) {
-      case 'ArrowUp':
+      case "ArrowUp":
         this.props.focusAbove();
         break;
-      case 'ArrowDown':
+      case "ArrowDown":
         this.props.focusBelow();
         break;
-      case 'Enter':
+      case "Enter":
         this.openEditor();
         e.preventDefault();
         return false;
@@ -123,44 +126,43 @@ export default class MarkdownCell extends React.PureComponent {
   }
 
   render(): ?React.Element<any> {
-    return (
-       (this.state && this.state.view) ?
-         <div
-           className="rendered"
-           onDoubleClick={this.openEditor}
-           onKeyDown={this.renderedKeyDown}
-           ref={(rendered) => { this.rendered = rendered; }}
-           tabIndex="0"
-         >
-           <LatexRenderer>
-             {
-              mdRender(
-                this.state.source ?
-                this.state.source :
-                '*Empty markdown cell, double click me to add content.*')
-             }
-           </LatexRenderer>
-         </div> :
-         <div onKeyDown={this.editorKeyDown}>
-           <div className="input-container">
-             <div className="prompt" />
-             <Editor
-               language="markdown"
-               id={this.props.id}
-               input={this.state.source}
-               theme={this.props.theme}
-               focusAbove={this.props.focusAbove}
-               focusBelow={this.props.focusBelow}
-               cellFocused={this.props.cellFocused}
-               editorFocused={this.props.editorFocused}
-             />
-           </div>
-           <div className="outputs">
-             <LatexRenderer>
-               { mdRender(this.state.source) }
-             </LatexRenderer>
-           </div>
-         </div>
-    );
+    return this.state && this.state.view
+      ? <div
+          className="rendered"
+          onDoubleClick={this.openEditor}
+          onKeyDown={this.renderedKeyDown}
+          ref={rendered => {
+            this.rendered = rendered;
+          }}
+          tabIndex="0"
+        >
+          <LatexRenderer>
+            {mdRender(
+              this.state.source
+                ? this.state.source
+                : "*Empty markdown cell, double click me to add content.*"
+            )}
+          </LatexRenderer>
+        </div>
+      : <div onKeyDown={this.editorKeyDown}>
+          <div className="input-container">
+            <div className="prompt" />
+            <Editor
+              language="markdown"
+              id={this.props.id}
+              input={this.state.source}
+              theme={this.props.theme}
+              focusAbove={this.props.focusAbove}
+              focusBelow={this.props.focusBelow}
+              cellFocused={this.props.cellFocused}
+              editorFocused={this.props.editorFocused}
+            />
+          </div>
+          <div className="outputs">
+            <LatexRenderer>
+              {mdRender(this.state.source)}
+            </LatexRenderer>
+          </div>
+        </div>;
   }
 }

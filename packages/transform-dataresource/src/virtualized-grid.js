@@ -1,9 +1,9 @@
 /* @flow */
 /* eslint no-confusing-arrow: 0 */
 /* eslint no-nested-ternary: 0 */
-import React from 'react';
-import { MultiGrid, AutoSizer } from 'react-virtualized';
-import { infer } from 'jsontableschema';
+import React from "react";
+import { MultiGrid, AutoSizer } from "react-virtualized";
+import { infer } from "jsontableschema";
 
 const ROW_HEIGHT = 36;
 const COLUMN_WIDTH = 144;
@@ -56,7 +56,7 @@ function getState(props: Props) {
     (result, column) => ({ ...result, [column]: column }),
     {}
   );
-  const columnWidths = columns.map((column) => {
+  const columnWidths = columns.map(column => {
     const sampleRows = getSampleRows(data, SAMPLE_SIZE);
     return sampleRows.reduce(
       (result, row) =>
@@ -109,32 +109,32 @@ export default class VirtualizedGrid extends React.Component {
     return (
       <div
         key={key}
-        className={rowIndex === 0 || columnIndex === 0 ? 'th' : 'td'}
+        className={rowIndex === 0 || columnIndex === 0 ? "th" : "td"}
         style={{
           ...style,
-          boxSizing: 'border-box',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-          textOverflow: 'ellipsis',
+          boxSizing: "border-box",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
           // Remove top border for all cells except first row
-          ...(rowIndex !== 0 ? { borderTop: 'none' } : {}),
+          ...(rowIndex !== 0 ? { borderTop: "none" } : {}),
           // Remove left border for all cells except first column
-          ...(columnIndex !== 0 ? { borderLeft: 'none' } : {}),
+          ...(columnIndex !== 0 ? { borderLeft: "none" } : {}),
           // Highlight even rows
-          ...(this.props.theme === 'nteract' &&
+          ...(this.props.theme === "nteract" &&
             rowIndex % 2 === 0 &&
             !(rowIndex === 0 || columnIndex === 0)
-            ? { background: 'rgba(255,255,255,0.075)' }
+            ? { background: "rgba(255,255,255,0.075)" }
             : {}),
           // Bold the headers
           ...(rowIndex === 0 || columnIndex === 0
-            ? { fontWeight: 'bold' }
+            ? { fontWeight: "bold" }
             : {}),
           // Right-align numbers
           ...(!(rowIndex === 0 || columnIndex === 0) &&
-            (type === 'number' || type === 'integer')
-            ? { textAlign: 'right' }
-            : { textAlign: 'left' })
+            (type === "number" || type === "integer")
+            ? { textAlign: "right" }
+            : { textAlign: "left" })
         }}
       >
         {value}

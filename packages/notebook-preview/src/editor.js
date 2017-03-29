@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import CodeMirrorWrapper from '@nteract/editor/lib/wrapper';
+import React from "react";
+import CodeMirrorWrapper from "@nteract/editor/lib/wrapper";
 
 type Props = {
   children?: React.Element<*>

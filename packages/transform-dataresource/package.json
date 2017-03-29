@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transform-dataresource",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Transform for data resource JSON",
   "main": "lib/",
   "scripts": {

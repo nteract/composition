@@ -1,9 +1,9 @@
 /* @flow */
-import React from 'react';
-import mathjaxHelper from 'mathjax-electron';
+import React from "react";
+import mathjaxHelper from "mathjax-electron";
 
 type Props = {
-  data: string,
+  data: string
 };
 
 export default class LaTeXDisplay extends React.Component {
@@ -26,7 +26,11 @@ export default class LaTeXDisplay extends React.Component {
 
   render(): ?React.Element<any> {
     return (
-      <div ref={(el) => { this.el = el; }} />
+      <div
+        ref={el => {
+          this.el = el;
+        }}
+      />
     );
   }
 }

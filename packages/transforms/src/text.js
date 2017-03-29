@@ -1,11 +1,11 @@
 /* @flow */
-import React from 'react';
+import React from "react";
 
-import Ansi from 'ansi-to-react';
+import Ansi from "ansi-to-react";
 
 type Props = {
-  data: string,
-}
+  data: string
+};
 
 export default class TextDisplay extends React.Component {
   props: Props;

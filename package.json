@@ -62,7 +62,8 @@
     "dist": "npm install && npm run clean && npm run build && build",
     "dist:all": "npm run dist -- -mlw",
     "flow": "flow",
-    "diagnostics": "scripts/kernelspecs-diagnostics.js"
+    "diagnostics": "scripts/kernelspecs-diagnostics.js",
+    "precommit": "lint-staged"
   },
   "build": {
     "electronVersion": "1.6.2",
@@ -123,16 +124,18 @@
   },
   "greenkeeper": {
     "ignore": [
-      "eslint-plugin-jsx-a11y",
-      "eslint-plugin-import",
-      "eslint-plugin-jsx-a11y",
-      "eslint-plugin-react",
       "flow-bin"
     ]
   },
   "jest": {
     "setupFiles": [
       "./scripts/mockument"
+    ]
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
     ]
   },
   "dependencies": {
@@ -194,23 +197,25 @@
     "enzyme": "^2.7.1",
     "esdoc": "^0.5.1",
     "eslint": "3.18.0",
-    "eslint-config-airbnb": "14.1.0",
+    "eslint-config-prettier": "^1.5.0",
     "eslint-plugin-flowtype": "2.30.4",
-    "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jsx-a11y": "4.0.0",
-    "eslint-plugin-react": "^6.10.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-prettier": "^2.0.1",
     "flow-bin": "^0.40.0",
     "flow-copy-source": "^1.1.0",
+    "husky": "^0.13.3",
     "jest": "^19.0.0",
     "jsdom": "^9.10.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
     "lerna": "2.0.0-beta.38",
+    "lint-staged": "^3.4.0",
     "lodash-webpack-plugin": "^0.11.0",
     "mocha": "^3.2.0",
     "mock-require": "^2.0.0",
     "nbschema": "^0.1.0",
     "nyc": "^10.0.0",
+    "prettier": "^0.22.0",
     "react-addons-test-utils": "^15.4.2",
     "rimraf": "^2.5.2",
     "sinon": "^1.17.6",

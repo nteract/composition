@@ -1,34 +1,34 @@
 // @flow
 /* eslint-disable class-methods-use-this */
-import React, { PureComponent } from 'react';
-import Rx from 'rxjs/Rx';
-import CodeMirror from 'react-codemirror';
-import CM from 'codemirror';
+import React, { PureComponent } from "react";
+import Rx from "rxjs/Rx";
+import CodeMirror from "react-codemirror";
+import CM from "codemirror";
 
-import 'codemirror/addon/hint/show-hint';
-import 'codemirror/addon/hint/anyword-hint';
-import 'codemirror/addon/search/search';
-import 'codemirror/addon/search/searchcursor';
-import 'codemirror/addon/edit/matchbrackets';
-import 'codemirror/addon/edit/closebrackets';
-import 'codemirror/addon/dialog/dialog';
-import 'codemirror/addon/comment/comment.js';
+import "codemirror/addon/hint/show-hint";
+import "codemirror/addon/hint/anyword-hint";
+import "codemirror/addon/search/search";
+import "codemirror/addon/search/searchcursor";
+import "codemirror/addon/edit/matchbrackets";
+import "codemirror/addon/edit/closebrackets";
+import "codemirror/addon/dialog/dialog";
+import "codemirror/addon/comment/comment.js";
 
-import 'codemirror/mode/python/python';
-import 'codemirror/mode/ruby/ruby';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/mode/css/css';
-import 'codemirror/mode/julia/julia';
-import 'codemirror/mode/r/r';
-import 'codemirror/mode/clike/clike';
-import 'codemirror/mode/shell/shell';
-import 'codemirror/mode/sql/sql';
-import 'codemirror/mode/markdown/markdown';
-import 'codemirror/mode/gfm/gfm';
+import "codemirror/mode/python/python";
+import "codemirror/mode/ruby/ruby";
+import "codemirror/mode/javascript/javascript";
+import "codemirror/mode/css/css";
+import "codemirror/mode/julia/julia";
+import "codemirror/mode/r/r";
+import "codemirror/mode/clike/clike";
+import "codemirror/mode/shell/shell";
+import "codemirror/mode/sql/sql";
+import "codemirror/mode/markdown/markdown";
+import "codemirror/mode/gfm/gfm";
 
-import './codemirror-ipython';
-import excludedIntelliSenseTriggerKeys from './excludedIntelliSenseKeys';
-import { codeComplete, pick } from './complete';
+import "./codemirror-ipython";
+import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
+import { codeComplete, pick } from "./complete";
 
 type WrapperProps = {
   id: string,
@@ -41,19 +41,19 @@ type WrapperProps = {
   theme: string,
   channels: any,
   cursorBlinkRate: number,
-  executionState: 'idle' | 'starting' | 'not connected',
+  executionState: "idle" | "starting" | "not connected",
   language: string,
   onChange: (text: string) => void,
   onFocusChange: (focused: boolean) => void
-}
+};
 
-type FunctionalComponent<P> = (props: P) => React.Element<*>
-type ClassComponent<P> = Class<React.Component<void, P, void>>
+type FunctionalComponent<P> = (props: P) => React.Element<*>;
+type ClassComponent<P> = Class<React.Component<void, P, void>>;
 
 type CodeMirrorHOC = (
   E: ClassComponent<*> | FunctionalComponent<*>,
   C?: { [key: string]: any } | null
-) => ClassComponent<WrapperProps>
+) => ClassComponent<WrapperProps>;
 
 const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
   class CodeMirrorEditor extends PureComponent<void, WrapperProps, void> {
@@ -72,7 +72,12 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
     }
 
     componentDidMount(): void {
-      const { editorFocused, executionState, focusAbove, focusBelow } = this.props;
+      const {
+        editorFocused,
+        executionState,
+        focusAbove,
+        focusBelow
+      } = this.props;
       const cm = this.codemirror.getCodeMirror();
 
       // On first load, if focused, set codemirror to focus
@@ -80,24 +85,37 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
         this.codemirror.focus();
       }
 
-      cm.on('topBoundary', focusAbove);
-      cm.on('bottomBoundary', focusBelow);
+      cm.on("topBoundary", focusAbove);
+      cm.on("bottomBoundary", focusBelow);
 
-      const keyupEvents = Rx.Observable.fromEvent(cm, 'keyup', (editor, ev) => ({ editor, ev }));
+      const keyupEvents = Rx.Observable.fromEvent(
+        cm,
+        "keyup",
+        (editor, ev) => ({ editor, ev })
+      );
 
-      keyupEvents
-        .switchMap(i => Rx.Observable.of(i))
-        .subscribe(({ editor, ev }) => {
-          const cursor = editor.getDoc().getCursor();
-          const token = editor.getTokenAt(cursor);
+      keyupEvents.switchMap(i => Rx.Observable.of(i)).subscribe(({
+        editor,
+        ev
+      }) => {
+        const cursor = editor.getDoc().getCursor();
+        const token = editor.getTokenAt(cursor);
 
-          if (!editor.state.completionActive &&
-              !excludedIntelliSenseTriggerKeys[(ev.keyCode || ev.which).toString()] &&
-              (token.type === 'tag' || token.type === 'variable' || token.string === ' ' ||
-               token.string === '<' || token.string === '/') && executionState === 'idle') {
-            editor.execCommand('autocomplete', { completeSingle: false });
-          }
-        });
+        if (
+          !editor.state.completionActive &&
+          !excludedIntelliSenseTriggerKeys[
+            (ev.keyCode || ev.which).toString()
+          ] &&
+          (token.type === "tag" ||
+            token.type === "variable" ||
+            token.string === " " ||
+            token.string === "<" ||
+            token.string === "/") &&
+          executionState === "idle"
+        ) {
+          editor.execCommand("autocomplete", { completeSingle: false });
+        }
+      });
     }
 
     componentDidUpdate(prevProps: WrapperProps): void {
@@ -113,7 +131,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       }
 
       if (prevProps.cursorBlinkRate !== cursorBlinkRate) {
-        cm.setOption('cursorBlinkRate', cursorBlinkRate);
+        cm.setOption("cursorBlinkRate", cursorBlinkRate);
         if (editorFocused) {
           // code mirror doesn't change the blink rate immediately, we have to
           // move the cursor, or unfocus and refocus the editor to get the blink
@@ -127,35 +145,34 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
     completions(editor: Object, callback: Function): void {
       const { completion, channels } = this.props;
       if (completion) {
-        codeComplete(channels, editor)
-          .subscribe(callback);
+        codeComplete(channels, editor).subscribe(callback);
       }
     }
 
     getCodeMirrorOptions({ cursorBlinkRate, language }: WrapperProps): Object {
       return {
         autoCloseBrackets: true,
-        mode: language || 'python',
+        mode: language || "python",
         lineNumbers: false,
         lineWrapping: true,
         matchBrackets: true,
-        theme: 'composition',
+        theme: "composition",
         autofocus: false,
         hintOptions: {
           hint: this.hint,
           completeSingle: false, // In automatic autocomplete mode we don't want override
           extraKeys: {
-            Right: pick,
-          },
+            Right: pick
+          }
         },
         extraKeys: {
-          'Ctrl-Space': 'autocomplete',
+          "Ctrl-Space": "autocomplete",
           Tab: this.executeTab,
-          'Shift-Tab': editor => editor.execCommand('indentLess'),
+          "Shift-Tab": editor => editor.execCommand("indentLess"),
           Up: this.goLineUpOrEmit,
           Down: this.goLineDownOrEmit,
-          'Cmd-/': 'toggleComment',
-          'Ctrl-/': 'toggleComment'
+          "Cmd-/": "toggleComment",
+          "Ctrl-/": "toggleComment"
         },
         indentUnit: 4,
         cursorBlinkRate,
@@ -167,27 +184,30 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       const cursor = editor.getCursor();
       const lastLineNumber = editor.lastLine();
       const lastLine = editor.getLine(lastLineNumber);
-      if (cursor.line === lastLineNumber &&
-          cursor.ch === lastLine.length &&
-          !editor.somethingSelected()) {
-        CM.signal(editor, 'bottomBoundary');
+      if (
+        cursor.line === lastLineNumber &&
+        cursor.ch === lastLine.length &&
+        !editor.somethingSelected()
+      ) {
+        CM.signal(editor, "bottomBoundary");
       } else {
-        editor.execCommand('goLineDown');
+        editor.execCommand("goLineDown");
       }
     }
 
     goLineUpOrEmit(editor: Object): void {
       const cursor = editor.getCursor();
       if (cursor.line === 0 && cursor.ch === 0 && !editor.somethingSelected()) {
-        CM.signal(editor, 'topBoundary');
+        CM.signal(editor, "topBoundary");
       } else {
-        editor.execCommand('goLineUp');
+        editor.execCommand("goLineUp");
       }
     }
 
     executeTab(editor: Object): void {
       editor.somethingSelected()
-        ? editor.execCommand('indentMore') : editor.execCommand('insertSoftTab');
+        ? editor.execCommand("indentMore")
+        : editor.execCommand("insertSoftTab");
     }
 
     render(): React.Element<*> {
@@ -198,7 +218,9 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
         <EditorView {...this.props}>
           <CodeMirror
             value={input}
-            ref={(el) => { this.codemirror = el; }}
+            ref={el => {
+              this.codemirror = el;
+            }}
             className="cell_cm"
             options={options}
             onChange={onChange}
