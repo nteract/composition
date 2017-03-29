@@ -1,2 +1,3 @@
 lib/**/*.js
 docs
+flow-typed
