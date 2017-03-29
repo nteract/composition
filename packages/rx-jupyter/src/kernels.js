@@ -2,7 +2,7 @@
 
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { webSocket } from 'rxjs/observable/dom/webSocket';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 
 import {
   createAJAXSettings,

@@ -1,7 +1,7 @@
 // @flow
 
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 
 import { join as pathJoin } from 'path';
 
