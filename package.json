@@ -62,7 +62,8 @@
     "dist": "npm install && npm run clean && npm run build && build",
     "dist:all": "npm run dist -- -mlw",
     "flow": "flow",
-    "diagnostics": "scripts/kernelspecs-diagnostics.js"
+    "diagnostics": "scripts/kernelspecs-diagnostics.js",
+    "precommit": "lint-staged"
   },
   "build": {
     "electronVersion": "1.6.2",
@@ -131,6 +132,12 @@
       "./scripts/mockument"
     ]
   },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "dependencies": {
     "codemirror": "~5.24.0",
     "commonmark": "^0.27.0",
@@ -196,11 +203,13 @@
     "eslint-plugin-prettier": "^2.0.1",
     "flow-bin": "^0.40.0",
     "flow-copy-source": "^1.1.0",
+    "husky": "^0.13.3",
     "jest": "^19.0.0",
     "jsdom": "^9.10.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
     "lerna": "2.0.0-beta.38",
+    "lint-staged": "^3.4.0",
     "lodash-webpack-plugin": "^0.11.0",
     "mocha": "^3.2.0",
     "mock-require": "^2.0.0",
