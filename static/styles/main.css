@@ -578,6 +578,7 @@ li.CodeMirror-hint-active {
 .status-bar {
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
     font-size: 12px;
     line-height: 0.5em;
