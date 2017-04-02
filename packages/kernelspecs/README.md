@@ -2,7 +2,7 @@
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/nteract/kernelspecs.svg)](https://greenkeeper.io/)
 
-Find Juptyer kernelspecs on a system
+Find Jupyter kernelspecs on a system
 
 ```
 npm install kernelspecs
