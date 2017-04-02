@@ -37,7 +37,7 @@ We provide functions to create [RxJS](https://github.com/ReactiveX/RxJS)
 [Subjects](http://reactivex.io/documentation/subject.html) (two way
 [Observables](http://reactivex.io/documentation/observable.html) for
 four of the channels described in the
-[Jupyter messaging specification][]:
+[Jupyter messaging specification][]):
 
 * `shell`
 * `control`
