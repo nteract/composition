@@ -1,48 +1,51 @@
-import { expect } from 'chai';
+import { expect } from "chai";
 
-import * as constants from '../../../src/notebook/constants';
-import { MetadataRecord } from '../../../src/notebook/records';
+import * as constants from "../../../src/notebook/constants";
+import { MetadataRecord } from "../../../src/notebook/records";
 
 import {
   appendCellToNotebook,
-  emptyCodeCell,
-} from '../../../packages/commutable';
+  emptyCodeCell
+} from "../../../packages/commutable";
 
-import { dummyCommutable } from '../dummy-nb';
+import { dummyCommutable } from "../dummy-nb";
 
-import reducers from '../../../src/notebook/reducers';
+import reducers from "../../../src/notebook/reducers";
 
 const initialDocument = new Map();
-initialDocument.set('notebook', appendCellToNotebook(dummyCommutable, emptyCodeCell));
+initialDocument.set(
+  "notebook",
+  appendCellToNotebook(dummyCommutable, emptyCodeCell)
+);
 
-describe('changeFilename', () => {
-  it('returns the same originalState if filename is undefined', () => {
+describe("changeFilename", () => {
+  it("returns the same originalState if filename is undefined", () => {
     const originalState = {
       metadata: new MetadataRecord({
-        filename: 'original.ipynb',
-      }),
+        filename: "original.ipynb"
+      })
     };
 
     const action = {
-      type: constants.CHANGE_FILENAME,
+      type: constants.CHANGE_FILENAME
     };
 
     const state = reducers(originalState, action);
-    expect(state.metadata.filename).to.equal('original.ipynb');
+    expect(state.metadata.filename).to.equal("original.ipynb");
   });
-  it('sets the filename if given a valid one', () => {
+  it("sets the filename if given a valid one", () => {
     const originalState = {
       metadata: new MetadataRecord({
-        filename: 'original.ipynb',
-      }),
+        filename: "original.ipynb"
+      })
     };
 
     const action = {
       type: constants.CHANGE_FILENAME,
-      filename: 'test.ipynb',
+      filename: "test.ipynb"
     };
 
     const state = reducers(originalState, action);
-    expect(state.metadata.filename).to.equal('test.ipynb');
+    expect(state.metadata.filename).to.equal("test.ipynb");
   });
 });

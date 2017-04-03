@@ -1,25 +1,32 @@
 /* eslint-disable no-plusplus */
 
-import Immutable from 'immutable';
+import Immutable from "immutable";
 
 import {
   monocellNotebook,
   emptyCodeCell,
-  appendCellToNotebook,
-} from '../packages/commutable';
+  appendCellToNotebook
+} from "../packages/commutable";
 
-import createStore from '../src/notebook/store';
-import { reducers } from '../src/notebook/reducers';
+import createStore from "../src/notebook/store";
+import { reducers } from "../src/notebook/reducers";
 
-import { AppRecord, DocumentRecord, MetadataRecord } from '../src/notebook/records';
+import {
+  AppRecord,
+  DocumentRecord,
+  MetadataRecord
+} from "../src/notebook/records";
 
-const sinon = require('sinon');
+const sinon = require("sinon");
 
 function hideCells(notebook) {
-  return notebook
-    .update('cellMap', cells => notebook
-      .get('cellOrder')
-      .reduce((acc, id) => acc.setIn([id, 'metadata', 'inputHidden'], true), cells));
+  return notebook.update("cellMap", cells =>
+    notebook
+      .get("cellOrder")
+      .reduce(
+        (acc, id) => acc.setIn([id, "metadata", "inputHidden"], true),
+        cells
+      ));
 }
 
 /**
@@ -33,9 +40,10 @@ function hideCells(notebook) {
  * Created using the config object passed in.
  */
 function buildDummyNotebook(config) {
-  let notebook = monocellNotebook.setIn([
-    'metadata', 'kernelspec', 'name',
-  ], 'python2');
+  let notebook = monocellNotebook.setIn(
+    ["metadata", "kernelspec", "name"],
+    "python2"
+  );
 
   if (config) {
     if (config.codeCellCount) {
@@ -46,7 +54,10 @@ function buildDummyNotebook(config) {
 
     if (config.markdownCellCount) {
       for (let i = 0; i < config.markdownCellCount; i++) {
-        notebook = appendCellToNotebook(notebook, emptyCodeCell.set('cell_type', 'markdown'));
+        notebook = appendCellToNotebook(
+          notebook,
+          emptyCodeCell.set("cell_type", "markdown")
+        );
       }
     }
 
@@ -61,30 +72,34 @@ function buildDummyNotebook(config) {
 export function dummyStore(config) {
   const dummyNotebook = buildDummyNotebook(config);
 
-  return createStore({
-    document: DocumentRecord({
-      notebook: dummyNotebook,
-      cellPagers: new Immutable.Map(),
-      stickyCells: new Immutable.Map(),
-      outputStatuses: new Immutable.Map(),
-      cellFocused: (config && config.codeCellCount > 1) ?
-        dummyNotebook.get('cellOrder').get(1) : null,
-    }),
-    app: AppRecord({
-      executionState: 'not connected',
-      notificationSystem: {
-        addNotification: sinon.spy(),
-      },
-      token: 'TOKEN',
-      channels: 'channelInfo',
-    }),
-    metadata: MetadataRecord({
-      filename: (config && config.noFilename) ? '' : 'dummy-store-nb.ipynb',
-      past: new Immutable.List(),
-      future: new Immutable.List(),
-    }),
-    config: new Immutable.Map({
-      theme: 'light',
-    }),
-  }, reducers);
+  return createStore(
+    {
+      document: DocumentRecord({
+        notebook: dummyNotebook,
+        cellPagers: new Immutable.Map(),
+        stickyCells: new Immutable.Map(),
+        outputStatuses: new Immutable.Map(),
+        cellFocused: config && config.codeCellCount > 1
+          ? dummyNotebook.get("cellOrder").get(1)
+          : null
+      }),
+      app: AppRecord({
+        executionState: "not connected",
+        notificationSystem: {
+          addNotification: sinon.spy()
+        },
+        token: "TOKEN",
+        channels: "channelInfo"
+      }),
+      metadata: MetadataRecord({
+        filename: config && config.noFilename ? "" : "dummy-store-nb.ipynb",
+        past: new Immutable.List(),
+        future: new Immutable.List()
+      }),
+      config: new Immutable.Map({
+        theme: "light"
+      })
+    },
+    reducers
+  );
 }

@@ -1,13 +1,13 @@
-import chai, { expect } from 'chai';
+import chai, { expect } from "chai";
 
 import {
   forceShutdownKernel,
   cleanupKernel,
-  filesystem,
-} from '../../../src/notebook/kernel/shutdown';
+  filesystem
+} from "../../../src/notebook/kernel/shutdown";
 
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
 
 chai.use(sinonChai);
 
@@ -16,14 +16,14 @@ const emptyKernel = Object.freeze({
     shell: {},
     iopub: {},
     control: {},
-    stdin: {},
+    stdin: {}
   },
   spawn: {
     stdin: {},
     stdout: {},
-    stderr: {},
+    stderr: {}
   },
-  connectionFile: '/tmp/connection.json',
+  connectionFile: "/tmp/connection.json"
 });
 
 function setupMockKernel(sandbox) {
@@ -41,7 +41,7 @@ function setupMockKernel(sandbox) {
   return kernel;
 }
 
-describe('forceShutdownKernel', () => {
+describe("forceShutdownKernel", () => {
   let sandbox;
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -49,8 +49,8 @@ describe('forceShutdownKernel', () => {
   afterEach(() => {
     sandbox.restore();
   });
-  it('fully cleans up the kernel and uses SIGKILL', () => {
-    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', () => true);
+  it("fully cleans up the kernel and uses SIGKILL", () => {
+    const unlinkSync = sandbox.stub(filesystem, "unlinkSync", () => true);
     const kernel = setupMockKernel(sandbox);
     forceShutdownKernel(kernel);
 
@@ -63,14 +63,14 @@ describe('forceShutdownKernel', () => {
     expect(kernel.spawn.stdout.destroy).to.have.been.called;
     expect(kernel.spawn.stderr.destroy).to.have.been.called;
 
-    expect(kernel.spawn.kill).to.have.been.calledWith('SIGKILL');
+    expect(kernel.spawn.kill).to.have.been.calledWith("SIGKILL");
 
     // TODO: expect kernel.connectionFile to have called out to fs
     expect(unlinkSync).to.have.been.calledWith(kernel.connectionFile);
   });
 });
 
-describe('cleanupKernel', () => {
+describe("cleanupKernel", () => {
   let sandbox;
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -78,8 +78,8 @@ describe('cleanupKernel', () => {
   afterEach(() => {
     sandbox.restore();
   });
-  it('cleans out artifacts from the kernel object', () => {
-    const unlinkSync = sandbox.stub(filesystem, 'unlinkSync', () => true);
+  it("cleans out artifacts from the kernel object", () => {
+    const unlinkSync = sandbox.stub(filesystem, "unlinkSync", () => true);
     const kernel = setupMockKernel(sandbox);
     cleanupKernel(kernel, true);
 
@@ -99,5 +99,4 @@ describe('cleanupKernel', () => {
   });
 });
 
-describe('shutdownKernel', () => {
-});
+describe("shutdownKernel", () => {});

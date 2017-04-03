@@ -1,69 +1,66 @@
-import React from 'react';
+import React from "react";
 
-import { Provider } from 'react-redux';
-import { shallow, mount } from 'enzyme';
-import Immutable from 'immutable';
-import { expect } from 'chai';
+import { Provider } from "react-redux";
+import { shallow, mount } from "enzyme";
+import Immutable from "immutable";
+import { expect } from "chai";
 
-import { dummyStore } from '../../../utils';
-import CodeCell from '../../../../src/notebook/components/cell/code-cell';
-import { emptyCodeCell } from '../../../../packages/commutable';
-import { displayOrder, transforms } from '../../../../packages/transforms-full';
+import { dummyStore } from "../../../utils";
+import CodeCell from "../../../../src/notebook/components/cell/code-cell";
+import { emptyCodeCell } from "../../../../packages/commutable";
+import { displayOrder, transforms } from "../../../../packages/transforms-full";
 
 const sharedProps = { displayOrder, transforms };
-describe('CodeCell', () => {
-  it('can be rendered', () => {
+describe("CodeCell", () => {
+  it("can be rendered", () => {
     const cell = shallow(
       <CodeCell
-        cell={emptyCodeCell} {...sharedProps}
-        cellStatus={
-        Immutable.Map({
+        cell={emptyCodeCell}
+        {...sharedProps}
+        cellStatus={Immutable.Map({
           outputHidden: false,
           inputHidden: false,
-          outputExpanded: false,
-        })
-      }
-      />,
+          outputExpanded: false
+        })}
+      />
     );
     expect(cell).to.not.be.null;
   });
-  it('creates an editor', () => {
+  it("creates an editor", () => {
     const store = dummyStore();
 
     const cell = mount(
       <Provider store={store}>
         <CodeCell
-          cell={emptyCodeCell} {...sharedProps}
-          cellStatus={
-            Immutable.Map({
-              outputHidden: false,
-              inputHidden: false,
-              outputExpanded: false,
-            })
-          }
+          cell={emptyCodeCell}
+          {...sharedProps}
+          cellStatus={Immutable.Map({
+            outputHidden: false,
+            inputHidden: false,
+            outputExpanded: false
+          })}
         />
-      </Provider>,
+      </Provider>
     );
-    expect(cell.find('.input').length).to.be.greaterThan(0);
+    expect(cell.find(".input").length).to.be.greaterThan(0);
   });
-  it('creates a pager', () => {
+  it("creates a pager", () => {
     const store = dummyStore();
 
     const cell = mount(
       <Provider store={store}>
         <CodeCell
-          cell={emptyCodeCell} {...sharedProps}
-          cellStatus={
-            Immutable.Map({
-              outputHidden: false,
-              inputHidden: false,
-              outputExpanded: false,
-            })
-          }
-          pagers={Immutable.fromJS([{ data: { 'text/plain': 'one' } }])}
+          cell={emptyCodeCell}
+          {...sharedProps}
+          cellStatus={Immutable.Map({
+            outputHidden: false,
+            inputHidden: false,
+            outputExpanded: false
+          })}
+          pagers={Immutable.fromJS([{ data: { "text/plain": "one" } }])}
         />
-      </Provider>,
+      </Provider>
     );
-    expect(cell.find('.pagers').length).to.be.greaterThan(0);
+    expect(cell.find(".pagers").length).to.be.greaterThan(0);
   });
 });
