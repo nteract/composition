@@ -1,76 +1,60 @@
-import React from 'react';
+import React from "react";
 
-import { shallow, mount } from 'enzyme';
+import { shallow, mount } from "enzyme";
 
-import {
-  Vega,
-  VegaLite,
-  VegaEmbed,
-} from '../src/';
+import { Vega, VegaLite, VegaEmbed } from "../src/";
 
-const sinon = require('sinon');
-const cars = require('vega-lite/data/cars.json');
+const sinon = require("sinon");
+const cars = require("vega-lite/data/cars.json");
 
 const spec = {
-  description: 'A scatterplot showing horsepower and miles per gallons.',
+  description: "A scatterplot showing horsepower and miles per gallons.",
   data: {
-    values: cars,
+    values: cars
   },
-  mark: 'point',
+  mark: "point",
   encoding: {
-    x: { field: 'Horsepower', type: 'quantitative' },
-    y: { field: 'Miles_per_Gallon', type: 'quantitative' },
-    color: { field: 'Origin', type: 'nominal' },
-    shape: { field: 'Origin', type: 'nominal' },
-  },
+    x: { field: "Horsepower", type: "quantitative" },
+    y: { field: "Miles_per_Gallon", type: "quantitative" },
+    color: { field: "Origin", type: "nominal" },
+    shape: { field: "Origin", type: "nominal" }
+  }
 };
 
-describe('Vega', () => {
-  it('renders VegaEmbed with embedMode vega', () => {
-    const wrapper = shallow(
-      <Vega data={spec} />,
-    );
+describe("Vega", () => {
+  it("renders VegaEmbed with embedMode vega", () => {
+    const wrapper = shallow(<Vega data={spec} />);
 
-    expect(wrapper.name()).toEqual('VegaEmbed');
-    expect(wrapper.props().embedMode).toEqual('vega');
+    expect(wrapper.name()).toEqual("VegaEmbed");
+    expect(wrapper.props().embedMode).toEqual("vega");
   });
 });
 
-describe('VegaLite', () => {
-  it('renders VegaEmbed with embedMode vega-lite', () => {
-    const wrapper = shallow(
-      <VegaLite data={spec} />,
-    );
+describe("VegaLite", () => {
+  it("renders VegaEmbed with embedMode vega-lite", () => {
+    const wrapper = shallow(<VegaLite data={spec} />);
 
-    expect(wrapper.name()).toEqual('VegaEmbed');
-    expect(wrapper.props().embedMode).toEqual('vega-lite');
+    expect(wrapper.name()).toEqual("VegaEmbed");
+    expect(wrapper.props().embedMode).toEqual("vega-lite");
   });
 });
 
-describe('VegaEmbed', () => {
-  it('embeds vega', () => {
+describe("VegaEmbed", () => {
+  it("embeds vega", () => {
     const spy = sinon.spy();
     const wrapper = mount(
-      <VegaEmbed
-        data={spec}
-        embedMode="vega-lite"
-        renderedCallback={spy}
-      />,
+      <VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />
     );
 
     const element = wrapper.instance();
 
-    expect(element.shouldComponentUpdate({ data: '324' })).toEqual(true);
+    expect(element.shouldComponentUpdate({ data: "324" })).toEqual(true);
   });
 
-  it('embeds vega and handles updates', () => {
+  it("embeds vega and handles updates", () => {
     const spy = sinon.spy();
     const wrapper = mount(
-      <VegaEmbed
-        data={spec}
-        embedMode="vega-lite"
-        renderedCallback={spy}
-      />,
+      <VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />
     );
     wrapper.render();
 
@@ -79,15 +63,15 @@ describe('VegaEmbed', () => {
     wrapper.setProps({
       data: {
         data: {
-          values: cars,
+          values: cars
         },
-        mark: 'circle',
+        mark: "circle",
         encoding: {
-          x: { field: 'Horsepower', type: 'quantitative' },
-          y: { field: 'Miles_per_Gallon', type: 'quantitative' },
-        },
+          x: { field: "Horsepower", type: "quantitative" },
+          y: { field: "Miles_per_Gallon", type: "quantitative" }
+        }
       },
-      renderedCallback: spy2,
+      renderedCallback: spy2
     });
   });
 });
