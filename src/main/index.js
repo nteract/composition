@@ -156,7 +156,8 @@ function openFileFromEvent({ event, filename }) {
 // Since we can't launch until app is ready
 // and macOS will send the open-file events early,
 // buffer those that come early.
-openFile$.buffer(fullAppReady$).first().subscribe(buffer => { // Form an array of open-file events from before app-ready // Should only be the first
+openFile$.buffer(fullAppReady$).first().subscribe(buffer => {
+  // Form an array of open-file events from before app-ready // Should only be the first
   // Now we can choose whether to open the default notebook
   // based on if arguments went through argv or through open-file events
   if (notebooks.length <= 0 && buffer.length <= 0) {

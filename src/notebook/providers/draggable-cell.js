@@ -1,14 +1,14 @@
 // @flow
-import React from 'react';
+import React from "react";
 
-import { connect } from 'react-redux';
-import { focusCell } from '../actions';
+import { connect } from "react-redux";
+import { focusCell } from "../actions";
 
-import DraggableCellView from '../views/draggable-cell';
+import DraggableCellView from "../views/draggable-cell";
 
 type Props = {|
   dispatch: Dispatch<*>,
-  id: string,
+  id: string
 |};
 
 class DraggableCell extends React.Component {
@@ -28,7 +28,7 @@ class DraggableCell extends React.Component {
   render(): ?React.Element<any> {
     const props = {
       ...this.props,
-      selectCell: this.selectCell,
+      selectCell: this.selectCell
     };
     return <DraggableCellView {...props} />;
   }

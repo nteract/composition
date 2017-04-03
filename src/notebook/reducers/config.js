@@ -1,9 +1,9 @@
 /* @flow */
 
-import { Map } from 'immutable';
+import { Map } from "immutable";
 
-type SetConfigAction = { type: 'SET_CONFIG_KEY', key: string, value: string };
-type MergeConfigAction = { type: 'MERGE_CONFIG', config: Map<any, any> };
+type SetConfigAction = { type: "SET_CONFIG_KEY", key: string, value: string };
+type MergeConfigAction = { type: "MERGE_CONFIG", config: Map<any, any> };
 
 type ConfigAction = SetConfigAction | MergeConfigAction;
 
@@ -19,11 +19,14 @@ export function mergeConfig(state: ConfigState, action: MergeConfigAction) {
   return state.merge(config);
 }
 
-export default function handleConfig(state: ConfigState = Map(), action: ConfigAction) {
+export default function handleConfig(
+  state: ConfigState = Map(),
+  action: ConfigAction
+) {
   switch (action.type) {
-    case 'SET_CONFIG_KEY':
+    case "SET_CONFIG_KEY":
       return setConfigKey(state, action);
-    case 'MERGE_CONFIG':
+    case "MERGE_CONFIG":
       return mergeConfig(state, action);
     default:
       return state;

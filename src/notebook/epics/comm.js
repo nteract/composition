@@ -1,15 +1,8 @@
-import Rx from 'rxjs/Rx';
+import Rx from "rxjs/Rx";
 
-import {
-  createMessage,
-} from '../../../packages/messaging';
+import { createMessage } from "../../../packages/messaging";
 
-import {
-  COMM_OPEN,
-  COMM_MESSAGE,
-  COMM_ERROR,
-  NEW_KERNEL,
-} from '../constants';
+import { COMM_OPEN, COMM_MESSAGE, COMM_ERROR, NEW_KERNEL } from "../constants";
 
 /**
  * creates a comm open message
@@ -19,8 +12,15 @@ import {
  * @param  {string} target_module [Optional] used to select a module that is responsible for handling the target_name
  * @return {jmp.Message}          Message ready to send on the shell channel
  */
-export function createCommOpenMessage(comm_id, target_name, data = {}, target_module) {
-  const msg = createMessage('comm_open', { content: { comm_id, target_name, data } });
+export function createCommOpenMessage(
+  comm_id,
+  target_name,
+  data = {},
+  target_module
+) {
+  const msg = createMessage("comm_open", {
+    content: { comm_id, target_name, data }
+  });
   if (target_module) {
     msg.content.target_module = target_module;
   }
@@ -34,8 +34,12 @@ export function createCommOpenMessage(comm_id, target_name, data = {}, target_mo
  * @param  {Uint8Array} buffers    arbitrary binary data to send on the comm
  * @return {jmp.Message}           jupyter message for comm_msg
  */
-export function createCommMessage(comm_id, data = {}, buffers = new Uint8Array()) {
-  return createMessage('comm_msg', { content: { comm_id, data }, buffers });
+export function createCommMessage(
+  comm_id,
+  data = {},
+  buffers = new Uint8Array()
+) {
+  return createMessage("comm_msg", { content: { comm_id, data }, buffers });
 }
 
 /**
@@ -46,7 +50,10 @@ export function createCommMessage(comm_id, data = {}, buffers = new Uint8Array()
  * @return {jmp.Message}             jupyter message for comm_msg
  */
 export function createCommCloseMessage(parent_header, comm_id, data = {}) {
-  return createMessage('comm_close', { content: { comm_id, data }, parent_header });
+  return createMessage("comm_close", {
+    content: { comm_id, data },
+    parent_header
+  });
 }
 
 /**
@@ -58,7 +65,7 @@ export const createCommErrorAction = error =>
   Rx.Observable.of({
     type: COMM_ERROR,
     payload: error,
-    error: true,
+    error: true
   });
 
 /**
@@ -76,7 +83,7 @@ export function commOpenAction(message) {
     target_name: message.content.target_name,
     target_module: message.content.target_module,
     // Pass through the buffers
-    buffers: message.blob || message.buffers,
+    buffers: message.blob || message.buffers
     // NOTE: Naming inconsistent between jupyter notebook and jmp
     //       see https://github.com/n-riesco/jmp/issues/14
     //       We just expect either one
@@ -94,7 +101,7 @@ export function commMessageAction(message) {
     comm_id: message.content.comm_id,
     data: message.content.data,
     // Pass through the buffers
-    buffers: message.blob || message.buffers,
+    buffers: message.blob || message.buffers
     // NOTE: Naming inconsistent between jupyter notebook and jmp
     //       see https://github.com/n-riesco/jmp/issues/14
     //       We just expect either one
@@ -108,17 +115,14 @@ export function commMessageAction(message) {
  */
 export function commActionObservable(newKernelAction) {
   const commOpenAction$ = newKernelAction.channels.iopub
-    .ofMessageType(['comm_open'])
+    .ofMessageType(["comm_open"])
     .map(commOpenAction);
 
   const commMessageAction$ = newKernelAction.channels.iopub
-    .ofMessageType(['comm_msg'])
+    .ofMessageType(["comm_msg"])
     .map(commMessageAction);
 
-  return Rx.Observable.merge(
-    commOpenAction$,
-    commMessageAction$
-  ).retry();
+  return Rx.Observable.merge(commOpenAction$, commMessageAction$).retry();
 }
 
 /**
@@ -128,6 +132,4 @@ export function commActionObservable(newKernelAction) {
  * @return {ActionsObservable}         Comm actions
  */
 export const commListenEpic = action$ =>
-  action$.ofType(NEW_KERNEL)
-    // We have a new channel
-    .switchMap(commActionObservable);
+  action$.ofType(NEW_KERNEL).switchMap(commActionObservable); // We have a new channel

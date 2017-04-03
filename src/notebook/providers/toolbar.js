@@ -1,8 +1,8 @@
 /* eslint class-methods-use-this: 0 */
 // @flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ToolbarView from '../views/toolbar';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import ToolbarView from "../views/toolbar";
 
 import {
   executeCell,
@@ -12,14 +12,14 @@ import {
   changeOutputVisibility,
   changeInputVisibility,
   changeCellType,
-  toggleOutputExpansion,
-} from '../actions';
+  toggleOutputExpansion
+} from "../actions";
 
 type Props = {
   cell: any,
   id: string,
   type: string,
-  dispatch: Dispatch<Action>,
+  dispatch: Dispatch<Action>
 };
 
 class Toolbar extends Component {
@@ -56,8 +56,7 @@ class Toolbar extends Component {
 
   executeCell(): void {
     const { dispatch } = this.props;
-    dispatch(executeCell(this.props.id,
-                        this.props.cell.get('source')));
+    dispatch(executeCell(this.props.id, this.props.cell.get("source")));
   }
 
   clearOutputs(): void {
@@ -77,7 +76,7 @@ class Toolbar extends Component {
 
   changeCellType(): void {
     const { dispatch } = this.props;
-    const to = this.props.type === 'markdown' ? 'code' : 'markdown';
+    const to = this.props.type === "markdown" ? "code" : "markdown";
     dispatch(changeCellType(this.props.id, to));
   }
 
@@ -96,12 +95,10 @@ class Toolbar extends Component {
       changeInputVisibility: this.changeInputVisibility,
       changeOutputVisibility: this.changeOutputVisibility,
       toggleOutputExpansion: this.toggleOutputExpansion,
-      changeCellType: this.changeCellType,
+      changeCellType: this.changeCellType
     };
 
-    return (
-      <ToolbarView {...props} />
-    );
+    return <ToolbarView {...props} />;
   }
 }
 

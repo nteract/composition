@@ -1,52 +1,44 @@
 /* @flow */
 
-import Rx from 'rxjs/Rx';
+import Rx from "rxjs/Rx";
 
-import { launchSpec } from 'spawnteract';
+import { launchSpec } from "spawnteract";
 
-import { ActionsObservable } from 'redux-observable';
+import { ActionsObservable } from "redux-observable";
 
-import * as uuid from 'uuid';
+import * as uuid from "uuid";
 
-import {
-  ipcRenderer as ipc,
-} from 'electron';
+import { ipcRenderer as ipc } from "electron";
 
 import {
   createControlSubject,
   createStdinSubject,
   createIOPubSubject,
-  createShellSubject,
-} from 'enchannel-zmq-backend';
+  createShellSubject
+} from "enchannel-zmq-backend";
 
-import type {
-  LanguageInfoMetadata,
-  KernelInfo,
-  Channels,
-} from '../records';
+import type { LanguageInfoMetadata, KernelInfo, Channels } from "../records";
 
-import {
-  createMessage,
-} from '../../../packages/messaging';
+import { createMessage } from "../../../packages/messaging";
 
 import {
   setExecutionState,
   setNotebookKernelInfo,
-  newKernel,
-} from '../actions';
+  newKernel
+} from "../actions";
 
 import {
   NEW_KERNEL,
   LAUNCH_KERNEL,
   LAUNCH_KERNEL_BY_NAME,
   SET_LANGUAGE_INFO,
-  ERROR_KERNEL_LAUNCH_FAILED,
-} from '../constants';
+  ERROR_KERNEL_LAUNCH_FAILED
+} from "../constants";
 
 export function setLanguageInfo(langInfo: LanguageInfoMetadata) {
   return {
     type: SET_LANGUAGE_INFO,
-    langInfo,
+    langInfo
   };
 }
 
@@ -57,16 +49,16 @@ export function setLanguageInfo(langInfo: LanguageInfoMetadata) {
   * @returns  {Observable}  The reply from the server
   */
 export function acquireKernelInfo(channels: Channels) {
-  const message = createMessage('kernel_info_request');
+  const message = createMessage("kernel_info_request");
 
   const obs = channels.shell
     .childOf(message)
-    .ofMessageType(['kernel_info_reply'])
+    .ofMessageType(["kernel_info_reply"])
     .first()
-    .pluck('content', 'language_info')
+    .pluck("content", "language_info")
     .map(setLanguageInfo);
 
-  return Rx.Observable.create((observer) => {
+  return Rx.Observable.create(observer => {
     const subscription = obs.subscribe(observer);
     channels.shell.next(message);
     return subscription;
@@ -82,44 +74,43 @@ export function acquireKernelInfo(channels: Channels) {
 export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
   const spec = kernelSpec.spec;
 
-  return Rx.Observable.create((observer) => {
-    launchSpec(spec, { cwd })
-      .then((c) => {
-        const { config, spawn, connectionFile } = c;
-        const kernelSpecName = kernelSpec.name;
+  return Rx.Observable.create(observer => {
+    launchSpec(spec, { cwd }).then(c => {
+      const { config, spawn, connectionFile } = c;
+      const kernelSpecName = kernelSpec.name;
 
-        const identity = uuid.v4();
-        // TODO: I'm realizing that we could trigger on when the underlying sockets
-        //       are ready with these subjects to let us know when the kernels
-        //       are *really* ready
-        const channels = {
-          shell: createShellSubject(identity, config),
-          iopub: createIOPubSubject(identity, config),
-          control: createControlSubject(identity, config),
-          stdin: createStdinSubject(identity, config),
-        };
-        observer.next(setNotebookKernelInfo(kernelSpec));
+      const identity = uuid.v4();
+      // TODO: I'm realizing that we could trigger on when the underlying sockets
+      //       are ready with these subjects to let us know when the kernels
+      //       are *really* ready
+      const channels = {
+        shell: createShellSubject(identity, config),
+        iopub: createIOPubSubject(identity, config),
+        control: createControlSubject(identity, config),
+        stdin: createStdinSubject(identity, config)
+      };
+      observer.next(setNotebookKernelInfo(kernelSpec));
 
-        observer.next({
-          type: NEW_KERNEL,
-          channels,
-          connectionFile,
-          spawn,
-          kernelSpecName,
-          kernelSpec,
-        });
-
-        spawn.on('error', (error) => {
-          observer.error({ type: 'ERROR', payload: error, err: true });
-          observer.complete();
-        });
-        spawn.on('exit', () => {
-          observer.complete();
-        });
-        spawn.on('disconnect', () => {
-          observer.complete();
-        });
+      observer.next({
+        type: NEW_KERNEL,
+        channels,
+        connectionFile,
+        spawn,
+        kernelSpecName,
+        kernelSpec
       });
+
+      spawn.on("error", error => {
+        observer.error({ type: "ERROR", payload: error, err: true });
+        observer.complete();
+      });
+      spawn.on("exit", () => {
+        observer.complete();
+      });
+      spawn.on("disconnect", () => {
+        observer.complete();
+      });
+    });
   });
 }
 
@@ -129,28 +120,27 @@ export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
   * @oaram  {ActionObservable}  action$ ActionObservable for NEW_KERNEL action
   */
 export const watchExecutionStateEpic = (action$: ActionsObservable) =>
-  action$.ofType(NEW_KERNEL)
+  action$
+    .ofType(NEW_KERNEL)
     .switchMap(action =>
       Rx.Observable.merge(
         action.channels.iopub
-          .filter(msg => msg.header.msg_type === 'status')
+          .filter(msg => msg.header.msg_type === "status")
           .map(msg => setExecutionState(msg.content.execution_state)),
-        Rx.Observable.of(setExecutionState('idle'))
-      )
-  );
+        Rx.Observable.of(setExecutionState("idle"))
+      ));
 /**
   * Get kernel specs from main process
   *
   * @returns  {Observable}  The reply from main process
   */
-export const kernelSpecsObservable =
-  Rx.Observable.create((observer) => {
-    ipc.on('kernel_specs_reply', (event, specs) => {
-      observer.next(specs);
-      observer.complete();
-    });
-    ipc.send('kernel_specs_request');
+export const kernelSpecsObservable = Rx.Observable.create(observer => {
+  ipc.on("kernel_specs_reply", (event, specs) => {
+    observer.next(specs);
+    observer.complete();
   });
+  ipc.send("kernel_specs_request");
+});
 
 /**
   * Gets information about newly launched kernel.
@@ -158,28 +148,25 @@ export const kernelSpecsObservable =
   * @param  {ActionObservable}  The action type
   */
 export const acquireKernelInfoEpic = (action$: ActionsObservable) =>
-  action$.ofType(NEW_KERNEL)
-    .switchMap((action) => {
-      /* istanbul ignore if -- used for interactive debugging */
-      if (process.env.DEBUG) {
-        window.channels = action.channels;
-      }
-      return acquireKernelInfo(action.channels);
-    });
+  action$.ofType(NEW_KERNEL).switchMap(action => {
+    /* istanbul ignore if -- used for interactive debugging */
+    if (process.env.DEBUG) {
+      window.channels = action.channels;
+    }
+    return acquireKernelInfo(action.channels);
+  });
 
 export const newKernelByNameEpic = (action$: ActionsObservable) =>
-  action$.ofType(LAUNCH_KERNEL_BY_NAME)
-    .do((action) => {
+  action$
+    .ofType(LAUNCH_KERNEL_BY_NAME)
+    .do(action => {
       if (!action.kernelSpecName) {
-        throw new Error('newKernelByNameEpic requires a kernel name');
+        throw new Error("newKernelByNameEpic requires a kernel name");
       }
     })
     .mergeMap(action =>
-      kernelSpecsObservable
-        .mergeMap(specs =>
-          Rx.Observable.of(newKernel(specs[action.kernelSpecName], action.cwd))
-        )
-  );
+      kernelSpecsObservable.mergeMap(specs =>
+        Rx.Observable.of(newKernel(specs[action.kernelSpecName], action.cwd))));
 
 /**
   * Launches a new kernel.
@@ -187,21 +174,21 @@ export const newKernelByNameEpic = (action$: ActionsObservable) =>
   * @param  {ActionObservable} action$  ActionObservable for LAUNCH_KERNEL action
   */
 export const newKernelEpic = (action$: ActionsObservable) =>
-  action$.ofType(LAUNCH_KERNEL)
-    .do((action) => {
+  action$
+    .ofType(LAUNCH_KERNEL)
+    .do(action => {
       if (!action.kernelSpec) {
-        throw new Error('newKernel needs a kernelSpec');
+        throw new Error("newKernel needs a kernelSpec");
       }
-      ipc.send('nteract:ping:kernel', action.kernelSpec);
+      ipc.send("nteract:ping:kernel", action.kernelSpec);
     })
-    .mergeMap(action =>
-      newKernelObservable(action.kernelSpec, action.cwd)
-    )
-    .catch((error, source) => Rx.Observable.merge(
+    .mergeMap(action => newKernelObservable(action.kernelSpec, action.cwd))
+    .catch((error, source) =>
+      Rx.Observable.merge(
         Rx.Observable.of({
           type: ERROR_KERNEL_LAUNCH_FAILED,
           payload: error,
-          error: true,
+          error: true
         }),
-        source,
-    ));
+        source
+      ));

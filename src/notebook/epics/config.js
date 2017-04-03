@@ -1,30 +1,26 @@
-import { remote } from 'electron';
+import { remote } from "electron";
 
-import {
-  MERGE_CONFIG,
-  SET_CONFIG_KEY,
-  DONE_SAVING_CONFIG,
-} from '../constants';
+import { MERGE_CONFIG, SET_CONFIG_KEY, DONE_SAVING_CONFIG } from "../constants";
 
-import { readFileObservable, writeFileObservable } from '../../utils/fs';
+import { readFileObservable, writeFileObservable } from "../../utils/fs";
 
-const path = require('path');
+const path = require("path");
 
-export const LOAD_CONFIG = 'LOAD_CONFIG';
+export const LOAD_CONFIG = "LOAD_CONFIG";
 export const loadConfig = () => ({ type: LOAD_CONFIG });
 
-export const SAVE_CONFIG = 'SAVE_CONFIG';
+export const SAVE_CONFIG = "SAVE_CONFIG";
 export const saveConfig = () => ({ type: SAVE_CONFIG });
 export const doneSavingConfig = () => ({ type: DONE_SAVING_CONFIG });
 
 export const configLoaded = config => ({
   type: MERGE_CONFIG,
-  config,
+  config
 });
 
-const HOME = remote.app.getPath('home');
+const HOME = remote.app.getPath("home");
 
-export const CONFIG_FILE_PATH = path.join(HOME, '.jupyter', 'nteract.json');
+export const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
 
 /**
   * An epic that loads the configuration.
@@ -33,12 +29,10 @@ export const CONFIG_FILE_PATH = path.join(HOME, '.jupyter', 'nteract.json');
   * @return {ActionObservable}  ActionObservable for MERGE_CONFIG action
   */
 export const loadConfigEpic = actions =>
-  actions.ofType(LOAD_CONFIG)
+  actions
+    .ofType(LOAD_CONFIG)
     .switchMap(() =>
-      readFileObservable(CONFIG_FILE_PATH)
-        .map(JSON.parse)
-        .map(configLoaded)
-    );
+      readFileObservable(CONFIG_FILE_PATH).map(JSON.parse).map(configLoaded));
 
 /**
   * An epic that saves the configuration if it has been changed.
@@ -47,9 +41,7 @@ export const loadConfigEpic = actions =>
   * @return {ActionObservable}  ActionObservable with SAVE_CONFIG type
   */
 export const saveConfigOnChangeEpic = actions =>
-  actions
-    .ofType(SET_CONFIG_KEY)
-    .mapTo({ type: SAVE_CONFIG });
+  actions.ofType(SET_CONFIG_KEY).mapTo({ type: SAVE_CONFIG });
 
 /**
   * An epic that saves the configuration.
@@ -58,8 +50,10 @@ export const saveConfigOnChangeEpic = actions =>
   * @return {ActionObservable}  ActionObservable for DONE_SAVING action
   */
 export const saveConfigEpic = (actions, store) =>
-  actions.ofType(SAVE_CONFIG)
+  actions
+    .ofType(SAVE_CONFIG)
     .mergeMap(() =>
-      writeFileObservable(CONFIG_FILE_PATH, JSON.stringify(store.getState().config.toJS()))
-      .map(doneSavingConfig)
-    );
+      writeFileObservable(
+        CONFIG_FILE_PATH,
+        JSON.stringify(store.getState().config.toJS())
+      ).map(doneSavingConfig));

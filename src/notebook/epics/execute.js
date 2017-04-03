@@ -1,6 +1,4 @@
-import {
-  createMessage,
-} from '../../../packages/messaging';
+import { createMessage } from "../../../packages/messaging";
 
 import {
   createCellAfter,
@@ -8,27 +6,26 @@ import {
   updateCellSource,
   updateCellPagers,
   updateCellStatus,
-  clearOutputs,
-} from '../actions';
+  clearOutputs
+} from "../actions";
 
 import {
   NEW_KERNEL,
   REMOVE_CELL,
   ABORT_EXECUTION,
   ERROR_EXECUTING,
-  ERROR_UPDATE_DISPLAY,
-} from '../constants';
+  ERROR_UPDATE_DISPLAY
+} from "../constants";
 
-
-const Rx = require('rxjs/Rx');
-const Immutable = require('immutable');
+const Rx = require("rxjs/Rx");
+const Immutable = require("immutable");
 
 export const createErrorActionObservable = type =>
   error =>
     Rx.Observable.of({
       type,
       payload: error,
-      error: true,
+      error: true
     });
 
 /**
@@ -40,7 +37,7 @@ export const createErrorActionObservable = type =>
  */
 export function msgSpecToNotebookFormat(msg) {
   return Object.assign({}, msg.content, {
-    output_type: msg.header.msg_type,
+    output_type: msg.header.msg_type
   });
 }
 
@@ -51,14 +48,14 @@ export function msgSpecToNotebookFormat(msg) {
  * @return {Object} msg - Message object containing the code to be sent.
  */
 export function createExecuteRequest(code) {
-  const executeRequest = createMessage('execute_request');
+  const executeRequest = createMessage("execute_request");
   executeRequest.content = {
     code,
     silent: false,
     store_history: true,
     user_expressions: {},
     allow_stdin: false,
-    stop_on_error: false,
+    stop_on_error: false
   };
   return executeRequest;
 }
@@ -74,7 +71,8 @@ export function createExecuteRequest(code) {
  * Pager data.
  */
 export function createPagerActions(id, payloadStream) {
-  return payloadStream.filter(p => p.source === 'page')
+  return payloadStream
+    .filter(p => p.source === "page")
     .scan((acc, pd) => acc.push(Immutable.fromJS(pd)), new Immutable.List())
     .map(pagerDatas => updateCellPagers(id, pagerDatas));
 }
@@ -89,8 +87,9 @@ export function createPagerActions(id, payloadStream) {
  * @return {Observable<Action>} updateSourceStream - Stream with updateCellSource actions.
  */
 export function createSourceUpdateAction(id, setInputStream) {
-  return setInputStream.filter(x => x.replace)
-    .pluck('text')
+  return setInputStream
+    .filter(x => x.replace)
+    .pluck("text")
     .map(text => updateCellSource(id, text));
 }
 
@@ -105,9 +104,10 @@ export function createSourceUpdateAction(id, setInputStream) {
  * changes.
  */
 export function createCellAfterAction(id, setInputStream) {
-  return setInputStream.filter(x => !x.replace)
-    .pluck('text')
-    .map(text => createCellAfter('code', id, text));
+  return setInputStream
+    .filter(x => !x.replace)
+    .pluck("text")
+    .map(text => createCellAfter("code", id, text));
 }
 
 /**
@@ -119,8 +119,9 @@ export function createCellAfterAction(id, setInputStream) {
  * @return {Observable<jmp.Message>} updatedCellMessages - Updated messages.
  */
 export function createCellStatusAction(id, cellMessages) {
-  return cellMessages.ofMessageType(['status'])
-    .pluck('content', 'execution_state')
+  return cellMessages
+    .ofMessageType(["status"])
+    .pluck("content", "execution_state")
     .map(status => updateCellStatus(id, status));
 }
 
@@ -135,8 +136,9 @@ export function createCellStatusAction(id, cellMessages) {
  * @return {Observable<jmp.Message>} cellMessages - Updated messages.
  */
 export function updateCellNumberingAction(id, cellMessages) {
-  return cellMessages.ofMessageType(['execute_input'])
-    .pluck('content', 'execution_count')
+  return cellMessages
+    .ofMessageType(["execute_input"])
+    .pluck("content", "execution_count")
     .first()
     .map(ct => updateCellExecutionCount(id, ct));
 }
@@ -151,9 +153,9 @@ export function updateCellNumberingAction(id, cellMessages) {
  */
 export function handleFormattableMessages(id, cellMessages) {
   return cellMessages
-    .ofMessageType(['execute_result', 'display_data', 'stream', 'error'])
+    .ofMessageType(["execute_result", "display_data", "stream", "error"])
     .map(msgSpecToNotebookFormat)
-    .map(output => ({ type: 'APPEND_OUTPUT', id, output }));
+    .map(output => ({ type: "APPEND_OUTPUT", id, output }));
 }
 
 /**
@@ -168,7 +170,7 @@ export function handleFormattableMessages(id, cellMessages) {
  */
 export function executeCellStream(channels, id, code) {
   if (!channels || !channels.iopub || !channels.shell) {
-    return Rx.Observable.throw(new Error('kernel not connected'));
+    return Rx.Observable.throw(new Error("kernel not connected"));
   }
 
   const executeRequest = createExecuteRequest(code);
@@ -176,15 +178,17 @@ export function executeCellStream(channels, id, code) {
   const { iopub, shell } = channels;
 
   // Payload streams in general
-  const payloadStream = shell.childOf(executeRequest)
-    .ofMessageType(['execute_reply'])
-    .pluck('content', 'payload')
+  const payloadStream = shell
+    .childOf(executeRequest)
+    .ofMessageType(["execute_reply"])
+    .pluck("content", "payload")
     .filter(Boolean)
     .flatMap(payloads => Rx.Observable.from(payloads));
 
   // Payload stream for setting the input, whether in place or "next"
-  const setInputStream = payloadStream
-    .filter(payload => payload.source === 'set_next_input');
+  const setInputStream = payloadStream.filter(
+    payload => payload.source === "set_next_input"
+  );
 
   // All child messages for the cell
   const cellMessages = iopub.childOf(executeRequest);
@@ -192,9 +196,9 @@ export function executeCellStream(channels, id, code) {
   const cellAction$ = Rx.Observable.merge(
     // Clear cell outputs
     Rx.Observable.of(clearOutputs(id)),
-    Rx.Observable.of(updateCellStatus(id, 'busy')),
+    Rx.Observable.of(updateCellStatus(id, "busy")),
     // clear_output display message
-    cellMessages.ofMessageType(['clear_output']).mapTo(clearOutputs(id)),
+    cellMessages.ofMessageType(["clear_output"]).mapTo(clearOutputs(id)),
     // Inline %load
     createSourceUpdateAction(id, setInputStream),
     // %load for the cell _after_
@@ -208,11 +212,11 @@ export function executeCellStream(channels, id, code) {
     // Update the input numbering: `[ ]`
     updateCellNumberingAction(id, cellMessages),
     // Handle all nbformattable messages
-    handleFormattableMessages(id, cellMessages),
+    handleFormattableMessages(id, cellMessages)
   );
 
   // On subscription, send the message
-  return Rx.Observable.create((observer) => {
+  return Rx.Observable.create(observer => {
     const subscription = cellAction$.subscribe(observer);
     channels.shell.next(executeRequest);
     return subscription;
@@ -224,20 +228,22 @@ export function createExecuteCellStream(action$, store, source, id) {
   const channels = state.app.channels;
 
   const kernelConnected = channels &&
-    !(state.app.executionState === 'starting' ||
-      state.app.executionState === 'not connected');
+    !(state.app.executionState === "starting" ||
+      state.app.executionState === "not connected");
 
   if (!kernelConnected) {
     return Rx.Observable.of({
       type: ERROR_EXECUTING,
-      payload: 'Kernel not connected!',
-      error: true,
+      payload: "Kernel not connected!",
+      error: true
     });
   }
 
-  return executeCellStream(channels, id, source)
-    .takeUntil(action$.filter(laterAction => laterAction.id === id)
-                      .ofType(ABORT_EXECUTION, REMOVE_CELL));
+  return executeCellStream(channels, id, source).takeUntil(
+    action$
+      .filter(laterAction => laterAction.id === id)
+      .ofType(ABORT_EXECUTION, REMOVE_CELL)
+  );
 }
 
 /**
@@ -245,43 +251,43 @@ export function createExecuteCellStream(action$, store, source, id) {
  * inner observable streams of the running execution responses
  */
 export function executeCellEpic(action$, store) {
-  return action$.ofType('EXECUTE_CELL')
-    .do((action) => {
-      if (!action.id) {
-        throw new Error('execute cell needs an id');
-      }
-      if (typeof action.source !== 'string') {
-        throw new Error('execute cell needs source string');
-      }
-    })
-    // Split stream by cell IDs
-    .groupBy(action => action.id)
-    // Work on each cell's stream
-    .map(cellActionStream =>
-      cellActionStream
-        // When a new EXECUTE_CELL comes in with the current ID, we create a
-        // a new stream and unsubscribe from the old one.
-        .switchMap(({ source, id }) => createExecuteCellStream(action$, store, source, id))
-    )
-    // Bring back all the inner Observables into one stream
-    .mergeAll()
-    .catch((err, source) =>
-      Rx.Observable.merge(
-        createErrorActionObservable(ERROR_EXECUTING)(err),
-        source
-      )
-    );
+  return (
+    action$
+      .ofType("EXECUTE_CELL")
+      .do(action => {
+        if (!action.id) {
+          throw new Error("execute cell needs an id");
+        }
+        if (typeof action.source !== "string") {
+          throw new Error("execute cell needs source string");
+        }
+      })
+      // Split stream by cell IDs
+      .groupBy(action => action.id)
+      // Work on each cell's stream
+      .map(cellActionStream =>
+        cellActionStream
+          // When a new EXECUTE_CELL comes in with the current ID, we create a
+          // a new stream and unsubscribe from the old one.
+          .switchMap(({ source, id }) =>
+            createExecuteCellStream(action$, store, source, id)))
+      // Bring back all the inner Observables into one stream
+      .mergeAll()
+      .catch((err, source) =>
+        Rx.Observable.merge(
+          createErrorActionObservable(ERROR_EXECUTING)(err),
+          source
+        ))
+  );
 }
 
-
 export const updateDisplayEpic = action$ =>
-  // Global message watcher so we need to set up a feed for each new kernel
-  action$.ofType(NEW_KERNEL)
-    .switchMap(({ channels }) =>
-      channels.iopub.ofMessageType(['update_display_data'])
-        .map(msgSpecToNotebookFormat)
-        // Convert 'update_display_data' to 'display_data'
-        .map(output => Object.assign({}, output, { output_type: 'display_data' }))
-        .map(output => ({ type: 'UPDATE_DISPLAY', output }))
-        .catch(createErrorActionObservable(ERROR_UPDATE_DISPLAY))
-    );
+// Global message watcher so we need to set up a feed for each new kernel
+  action$.ofType(NEW_KERNEL).switchMap(({ channels }) =>
+    channels.iopub
+      .ofMessageType(["update_display_data"])
+      .map(msgSpecToNotebookFormat)
+      // Convert 'update_display_data' to 'display_data'
+      .map(output => Object.assign({}, output, { output_type: "display_data" }))
+      .map(output => ({ type: "UPDATE_DISPLAY", output }))
+      .catch(createErrorActionObservable(ERROR_UPDATE_DISPLAY)));

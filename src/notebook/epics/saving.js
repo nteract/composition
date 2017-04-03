@@ -1,24 +1,16 @@
 /* @flow */
 
-import { ActionsObservable } from 'redux-observable'; /* eslint-disable no-unused-vars */
-import { writeFileObservable } from '../../utils/fs';
 import {
-  SAVE,
-  SAVE_AS,
-} from '../constants';
+  ActionsObservable
+} from "redux-observable"; /* eslint-disable no-unused-vars */
+import { writeFileObservable } from "../../utils/fs";
+import { SAVE, SAVE_AS } from "../constants";
 
-import {
-  changeFilename,
-  save,
-  doneSaving,
-} from '../actions';
+import { changeFilename, save, doneSaving } from "../actions";
 
-import {
-  toJS,
-  stringifyNotebook,
-} from '../../../packages/commutable';
+import { toJS, stringifyNotebook } from "../../../packages/commutable";
 
-const Rx = require('rxjs/Rx');
+const Rx = require("rxjs/Rx");
 
 const Observable = Rx.Observable;
 
@@ -28,35 +20,39 @@ const Observable = Rx.Observable;
   * @param  {ActionObservable}  action$ The SAVE action with the filename and notebook
   */
 export function saveEpic(action$: ActionsObservable, store: Store<any, any>) {
-  return action$.ofType(SAVE)
-    .do((action) => {
+  return action$
+    .ofType(SAVE)
+    .do(action => {
       // If there isn't a filename, save-as it instead
       if (!action.filename) {
-        throw new Error('save needs a filename');
+        throw new Error("save needs a filename");
       }
     })
-    .mergeMap(action =>
-      writeFileObservable(action.filename, stringifyNotebook(toJS(action.notebook)))
-        .catch((error: Error) =>
-          Observable.of({
-            type: 'ERROR',
-            payload: error,
-            error: true,
-          })
+    .mergeMap(
+      action =>
+        writeFileObservable(
+          action.filename,
+          stringifyNotebook(toJS(action.notebook))
         )
-        .map(() => {
-          const state = store.getState();
-          const notificationSystem = state.app.get('notificationSystem');
-          notificationSystem.addNotification({
-            title: 'Save successful!',
-            autoDismiss: 2,
-            level: 'success',
-          });
-          return doneSaving();
-        })
-        // .startWith({ type: START_SAVING })
-        // since SAVE effectively acts as the same as START_SAVING
-        // you could just look for that in your reducers instead of START_SAVING
+          .catch((error: Error) =>
+            Observable.of({
+              type: "ERROR",
+              payload: error,
+              error: true
+            }))
+          .map(() => {
+            const state = store.getState();
+            const notificationSystem = state.app.get("notificationSystem");
+            notificationSystem.addNotification({
+              title: "Save successful!",
+              autoDismiss: 2,
+              level: "success"
+            });
+            return doneSaving();
+          })
+      // .startWith({ type: START_SAVING })
+      // since SAVE effectively acts as the same as START_SAVING
+      // you could just look for that in your reducers instead of START_SAVING
     );
 }
 
@@ -66,9 +62,10 @@ export function saveEpic(action$: ActionsObservable, store: Store<any, any>) {
   * @param  {ActionObservable}  action$ The SAVE_AS action with the filename and notebook
   */
 export function saveAsEpic(action$: ActionsObservable) {
-  return action$.ofType(SAVE_AS)
+  return action$
+    .ofType(SAVE_AS)
     .mergeMap(action => [
       changeFilename(action.filename),
-      save(action.filename, action.notebook),
+      save(action.filename, action.notebook)
     ]);
 }

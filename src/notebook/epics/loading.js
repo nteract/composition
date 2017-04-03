@@ -1,35 +1,32 @@
 /* @flow */
 
-import { ActionsObservable } from 'redux-observable';
+import { ActionsObservable } from "redux-observable";
 
 import {
   monocellNotebook,
   fromJS,
-  parseNotebook,
-} from '../../../packages/commutable';
+  parseNotebook
+} from "../../../packages/commutable";
 
-import type {
-  Notebook,
-  ImmutableNotebook,
-} from '../../../packages/commutable';
+import type { Notebook, ImmutableNotebook } from "../../../packages/commutable";
 
-import { readFileObservable } from '../../utils/fs';
-import { newKernelByName, newKernel } from '../actions';
+import { readFileObservable } from "../../utils/fs";
+import { newKernelByName, newKernel } from "../actions";
 
-const Rx = require('rxjs/Rx');
+const Rx = require("rxjs/Rx");
 
-const path = require('path');
+const path = require("path");
 
 const Observable = Rx.Observable;
 
-export const LOAD = 'LOAD';
-export const SET_NOTEBOOK = 'SET_NOTEBOOK';
-export const NEW_NOTEBOOK = 'NEW_NOTEBOOK';
+export const LOAD = "LOAD";
+export const SET_NOTEBOOK = "SET_NOTEBOOK";
+export const NEW_NOTEBOOK = "NEW_NOTEBOOK";
 
 export function load(filename: string) {
   return {
     type: LOAD,
-    filename,
+    filename
   };
 }
 
@@ -38,7 +35,7 @@ export function newNotebook(kernelSpec: Object, cwd: string) {
   return {
     type: NEW_NOTEBOOK,
     kernelSpec,
-    cwd: cwd || process.cwd(),
+    cwd: cwd || process.cwd()
   };
 }
 
@@ -46,7 +43,7 @@ export function newNotebook(kernelSpec: Object, cwd: string) {
 export const notebookLoaded = (filename: string, notebook: Notebook) => ({
   type: SET_NOTEBOOK,
   filename,
-  notebook,
+  notebook
 });
 
 /**
@@ -57,15 +54,19 @@ export const notebookLoaded = (filename: string, notebook: Notebook) => ({
   *
   * @returns  {ActionObservable}  ActionObservable for a NEW_KERNEL action
   */
-export const extractNewKernel = (filename: string, notebook: ImmutableNotebook) => {
-  const cwd = (filename && path.dirname(path.resolve(filename))) || process.cwd();
+export const extractNewKernel = (
+  filename: string,
+  notebook: ImmutableNotebook
+) => {
+  const cwd = (filename && path.dirname(path.resolve(filename))) ||
+    process.cwd();
   const kernelSpecName = notebook.getIn(
-    ['metadata', 'kernelspec', 'name'], notebook.getIn(
-      ['metadata', 'language_info', 'name'],
-        'python3'));
+    ["metadata", "kernelspec", "name"],
+    notebook.getIn(["metadata", "language_info", "name"], "python3")
+  );
   return {
     cwd,
-    kernelSpecName,
+    kernelSpecName
   };
 };
 
@@ -79,7 +80,7 @@ export const extractNewKernel = (filename: string, notebook: ImmutableNotebook) 
   */
 export const convertRawNotebook = (filename: string, data: string) => ({
   filename,
-  notebook: fromJS(parseNotebook(data)),
+  notebook: fromJS(parseNotebook(data))
 });
 
 /**
@@ -88,11 +89,12 @@ export const convertRawNotebook = (filename: string, data: string) => ({
   * @param  {ActionObservable}  A LOAD action with the notebook filename
   */
 export const loadEpic = (actions: ActionsObservable) =>
-  actions.ofType(LOAD)
-    .do((action) => {
+  actions
+    .ofType(LOAD)
+    .do(action => {
       // If there isn't a filename, save-as it instead
       if (!action.filename) {
-        throw new Error('load needs a filename');
+        throw new Error("load needs a filename");
       }
     })
     // Switch map since we want the last load request to be the lead
@@ -106,13 +108,11 @@ export const loadEpic = (actions: ActionsObservable) =>
             // Find kernel based on kernel name
             // NOTE: Conda based kernels and remote kernels will need
             // special handling
-            newKernelByName(kernelSpecName, cwd),
+            newKernelByName(kernelSpecName, cwd)
           );
         })
         .catch(err =>
-          Observable.of({ type: 'ERROR', payload: err, error: true })
-        )
-    );
+          Observable.of({ type: "ERROR", payload: err, error: true })));
 
 /**
   * Sets a new empty notebook.
@@ -120,13 +120,11 @@ export const loadEpic = (actions: ActionsObservable) =>
   * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
   */
 export const newNotebookEpic = (action$: ActionsObservable) =>
-  action$.ofType(NEW_NOTEBOOK)
-    .switchMap(action =>
-      Observable.of(
-        {
-          type: 'SET_NOTEBOOK',
-          notebook: monocellNotebook,
-        },
-        newKernel(action.kernelSpec, action.cwd),
-      )
-    );
+  action$.ofType(NEW_NOTEBOOK).switchMap(action =>
+    Observable.of(
+      {
+        type: "SET_NOTEBOOK",
+        notebook: monocellNotebook
+      },
+      newKernel(action.kernelSpec, action.cwd)
+    ));
