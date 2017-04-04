@@ -1,6 +1,6 @@
 import React from "react";
 
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import Immutable from "immutable";
 
 import { displayOrder, transforms } from "@nteract/transforms";
@@ -19,13 +19,13 @@ describe("Display", () => {
     const component = shallow(
       <Display
         outputs={outputs}
-        isHidden
+        isHidden={true}
         theme={"light"}
         displayOrder={displayOrder}
         transforms={transforms}
       />
     );
-    expect(component.contains(<div className="cell_display" />)).toEqual(false);
+    expect(component.find("div.cell_display")).toHaveLength(0);
   });
   it("displays status when it is not hidden", () => {
     const outputs = Immutable.fromJS([
@@ -45,6 +45,6 @@ describe("Display", () => {
         transforms={transforms}
       />
     );
-    expect(component.contains(<div className="cell_display" />)).toEqual(false);
+    expect(component.find("div.cell_display")).toHaveLength(1);
   });
 });
