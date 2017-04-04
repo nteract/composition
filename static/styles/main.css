@@ -616,4 +616,7 @@ li.CodeMirror-hint-active {
   white-space: pre-wrap;
   background-color: var(--main-bg-color);
   z-index: 9999999;
+
+.octicon-git-branch {
+  font-size: 12px;
 }
