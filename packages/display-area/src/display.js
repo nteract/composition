@@ -16,12 +16,12 @@ type Props = {
   models: ImmutableMap<string, any>
 };
 
-const DEFAULT_SCROLL_HEIGHT = 600;
+export const DEFAULT_SCROLL_HEIGHT = 600;
 
 export default class Display extends React.PureComponent {
   props: Props;
-  recomputeStyle: () => void;
   el: HTMLElement;
+  recomputeStyle: () => void;
 
   static defaultProps = {
     transforms,
@@ -47,6 +47,7 @@ export default class Display extends React.PureComponent {
     if (!this.el) {
       return;
     }
+
     if (!this.props.expanded && this.el.scrollHeight > DEFAULT_SCROLL_HEIGHT) {
       this.el.style.height = `${DEFAULT_SCROLL_HEIGHT}px`;
       this.el.style.overflowY = "scroll";
@@ -54,7 +55,7 @@ export default class Display extends React.PureComponent {
     }
 
     this.el.style.height = "auto";
-    this.el.style.overflowY = "overflow";
+    this.el.style.overflowY = "auto";
   }
 
   render() {
