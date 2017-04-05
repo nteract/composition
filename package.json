@@ -180,7 +180,7 @@
     "babel-cli": "^6.23.0",
     "babel-core": "^6.22.2",
     "babel-eslint": "^7.1.1",
-    "babel-loader": "^6.2.8",
+    "babel-loader": "^6.4.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-flow-strip-types": "^6.18.0",
@@ -221,6 +221,6 @@
     "sinon": "^1.17.6",
     "sinon-chai": "^2.8.0",
     "watch": "^1.0.0",
-    "webpack": "^1.13.3"
+    "webpack": "^2.3.3"
   }
 }
