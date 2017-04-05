@@ -177,6 +177,13 @@ body
 {
     display: inline-box;
     background-color: var(--toolbar-bg);
+    opacity: 0.4;
+    transition: opacity 0.4s;
+}
+
+.cell-toolbar:hover
+{
+    opacity: 1;
 }
 
 .cell-toolbar button
