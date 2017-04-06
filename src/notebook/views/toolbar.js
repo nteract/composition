@@ -56,7 +56,7 @@ export default class Toolbar extends PureComponent {
       <div className="cell-toolbar-mask">
         <div className="cell-toolbar">
           {type !== "markdown" &&
-            <span>
+            <div>
               <button
                 onClick={executeCell}
                 title="execute cell"
@@ -64,21 +64,25 @@ export default class Toolbar extends PureComponent {
               >
                 <span className="octicon octicon-triangle-right" />
               </button>
-            </span>}
-          <button
-            onClick={toggleStickyCell}
-            title="pin cell"
-            className="stickyButton"
-          >
-            <span className="octicon octicon-pin" />
-          </button>
-          <button
-            onClick={removeCell}
-            title="delete cell"
-            className="deleteButton"
-          >
-            <span className="octicon octicon-trashcan" />
-          </button>
+            </div>}
+          <div>
+            <button
+              onClick={toggleStickyCell}
+              title="pin cell"
+              className="stickyButton"
+            >
+              <span className="octicon octicon-pin" />
+            </button>
+          </div>
+          <div>
+            <button
+              onClick={removeCell}
+              title="delete cell"
+              className="deleteButton"
+            >
+              <span className="octicon octicon-trashcan" />
+            </button>
+          </div>
           <Dropdown
             ref={dropdown => {
               this.dropdown = dropdown;
