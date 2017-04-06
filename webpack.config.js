@@ -26,7 +26,8 @@ module.exports = {
       "rxjs",
       "codemirror",
       "commonmark",
-      "commonmark-react-renderer"
+      "commonmark-react-renderer",
+      "date-fns"
     ]
   },
   target: "electron-renderer",

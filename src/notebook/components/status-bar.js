@@ -1,6 +1,6 @@
 /* @flow */
 import React from "react";
-import moment from "moment";
+import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
 type Props = {
   notebook: any,
@@ -30,7 +30,7 @@ export default class StatusBar extends React.Component {
       <div className="status-bar">
         <span className="pull-right">
           {this.props.lastSaved
-            ? <p> Last saved {moment(this.props.lastSaved).fromNow()} </p>
+            ? <p> Last saved {distanceInWordsToNow(this.props.lastSaved)} </p>
             : <p> Not saved yet </p>}
         </span>
         <span className="pull-left">
