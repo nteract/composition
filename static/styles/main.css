@@ -44,6 +44,10 @@ div#loading {
   Globals
  */
 
+.octicon {
+    transition: color 0.5s;
+}
+
 .cell pre
 {
     font-size: 14px;
