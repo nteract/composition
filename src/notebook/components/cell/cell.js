@@ -111,6 +111,7 @@ export class Cell extends React.PureComponent {
     const cell = this.props.cell;
     const type = cell.get("cell_type");
     const cellFocused = this.props.cellFocused === this.props.id;
+    const hoverCell = this.state.hoverCell;
     const editorFocused = this.props.editorFocused === this.props.id;
     return (
       <div
@@ -123,7 +124,7 @@ export class Cell extends React.PureComponent {
           this.cellDiv = el;
         }}
       >
-        {cellFocused
+        {cellFocused || hoverCell
           ? <Toolbar type={type} cell={cell} id={this.props.id} />
           : null}
         {type === "markdown"
