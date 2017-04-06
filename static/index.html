@@ -53,6 +53,7 @@
             process.env.NODE_ENV = 'production';
         }
         try {
+          require('../lib/vendor')
           require('../lib/webpacked-notebook')
         } catch(err) {
           const el = document.querySelector('body');

@@ -10,7 +10,25 @@ const nodeModules = {
 };
 
 module.exports = {
-  entry: "./src/notebook/index.js",
+  entry: {
+    app: "./src/notebook/index.js",
+    vendor: [
+      "react",
+      "react-dnd",
+      "react-dnd-html5-backend",
+      "react-dom",
+      "react-redux",
+      "react-simple-dropdown",
+      "redux",
+      "redux-logger",
+      "redux-observable",
+      "immutable",
+      "rxjs",
+      "codemirror",
+      "commonmark",
+      "commonmark-react-renderer"
+    ]
+  },
   target: "electron-renderer",
   output: {
     path: path.join(__dirname, "lib"),
@@ -28,6 +46,13 @@ module.exports = {
   externals: nodeModules,
   plugins: [
     new LodashModuleReplacementPlugin(),
-    new webpack.IgnorePlugin(/\.(css|less)$/)
+
+    new webpack.IgnorePlugin(/\.(css|less)$/),
+
+    // build vendor bundle (including common code chunks used in other bundles)
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      filename: "vendor.js"
+    })
   ]
 };
