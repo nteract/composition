@@ -9,35 +9,7 @@
     <link rel="stylesheet" href="../node_modules/nteract-assets/fonts/source-sans-pro/source-sans-pro.css"/>
     <link rel="stylesheet" href="../node_modules/nteract-assets/fonts/source-code-pro/source-code-pro.css"/>
     <link rel="stylesheet" href="../node_modules/nteract-assets/fonts/octicons/octicons.css"/>
-    <script type="text/javascript" src="../node_modules/mathjax-electron/resources/MathJax/MathJax.js?delayStartupUntil=configured"></script>
-    <script type="text/javascript">
-      MathJax.Hub.Config({
-        jax: ["input/TeX", "output/SVG"],
-        extensions: ["tex2jax.js"],
-        messageStyle: "none",
-        showMathMenu: false,
-        tex2jax: {
-          inlineMath: [
-            ['$', '$'],
-            ["\\(", "\\)"]
-          ],
-          displayMath: [
-            ['$$', '$$'],
-            ["\\[", "\\]"]
-          ],
-          processEscapes: true,
-          processEnvironments: true,
-          preview: "none"
-        },
-        TeX: {
-          extensions: ["AMSmath.js", "AMSsymbols.js", "noErrors.js", "noUndefined.js"]
-        },
-        SVG: {
-          font: "STIX-Web"
-        }
-      });
-    MathJax.Hub.Configured();
-    </script>
+    <script type="text/javascript" src="../node_modules/mathjax-electron/resources/MathJax/MathJax.js?config=electron"></script>
   </head>
   <body>
     <div id="app">

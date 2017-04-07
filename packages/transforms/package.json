@@ -32,7 +32,7 @@
   "dependencies": {
     "react-json-tree": "^0.10.1",
     "ansi-to-react": "^1.1.1",
-    "mathjax-electron": "^1.2.0",
+    "mathjax-electron": "^2.0.0",
     "commonmark": "^0.27.0",
     "commonmark-react-renderer": "^4.3.1"
   },

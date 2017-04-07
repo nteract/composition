@@ -154,7 +154,7 @@
     "kernelspecs": "^1.1.0",
     "leaflet": "^1.0.1",
     "lodash": "^4.17.2",
-    "mathjax-electron": "^1.2.0",
+    "mathjax-electron": "^2.0.0",
     "mkdirp": "^0.5.1",
     "moment": "^2.15.2",
     "normalize.css": "^6.0.0",
