@@ -14,8 +14,9 @@ Object.keys(document.defaultView).forEach(property => {
   }
 });
 
-// For some reason, this property does not get set above.
+// For some reason, these properties do not get set above.
 global.Image = global.window.Image;
+global.HTMLElement = global.window.HTMLElement;
 
 // React assumes console.debug can/should be used when the userAgent matches Chrome
 // For tests, we want these debug statements suppressed
