@@ -192,7 +192,7 @@
     "chai-immutable": "^1.6.0",
     "cross-env": "^4.0.0",
     "electron": "1.6.2",
-    "electron-builder": "^16.8.0",
+    "electron-builder": "^16.8.1",
     "electron-mocha": "^3.2.0",
     "enzyme": "^2.7.1",
     "esdoc": "^0.5.1",
