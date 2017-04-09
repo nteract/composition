@@ -30,7 +30,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": "^15.4.2"
+    "react": "^15.5.3"
   },
   "dependencies": {
     "@nteract/transform-geojson": "^1.1.1",

@@ -14,8 +14,8 @@
     "@nteract/transform-dataresource": "^1.0.2",
     "codemirror": "~5.24.0",
     "normalize.css": "^6.0.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react": "^15.5.3",
+    "react-dom": "^15.5.3",
     "react-router": "^4.0.0-beta.5",
     "react-router-dom": "^4.0.0-beta.5",
     "react-virtualized": "^9.2.1"
