@@ -177,6 +177,10 @@ body
     padding: 0px 0px 0px 50px;
 }
 
+.cell-toolbar > div {
+  display: inline-block;
+}
+
 .cell-toolbar
 {
     background-color: var(--toolbar-bg);
@@ -203,10 +207,6 @@ body
     outline: none;
     background: none;
 
-}
-
-.inline-div {
-    display: inline-block;
 }
 
 .cell-toolbar button span
