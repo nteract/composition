@@ -179,7 +179,6 @@ body
 
 .cell-toolbar
 {
-    display: inline-box;
     background-color: var(--toolbar-bg);
     opacity: 0.4;
     transition: opacity 0.4s;
@@ -204,6 +203,10 @@ body
     outline: none;
     background: none;
 
+}
+
+.inline-div {
+    display: inline-block;
 }
 
 .cell-toolbar button span

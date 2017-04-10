@@ -56,7 +56,7 @@ export default class Toolbar extends PureComponent {
       <div className="cell-toolbar-mask">
         <div className="cell-toolbar">
           {type !== "markdown" &&
-            <div>
+            <div className="inline-div">
               <button
                 onClick={executeCell}
                 title="execute cell"
@@ -65,7 +65,7 @@ export default class Toolbar extends PureComponent {
                 <span className="octicon octicon-triangle-right" />
               </button>
             </div>}
-          <div>
+          <div className="inline-div">
             <button
               onClick={toggleStickyCell}
               title="pin cell"
@@ -74,7 +74,7 @@ export default class Toolbar extends PureComponent {
               <span className="octicon octicon-pin" />
             </button>
           </div>
-          <div>
+          <div className="inline-div">
             <button
               onClick={removeCell}
               title="delete cell"
