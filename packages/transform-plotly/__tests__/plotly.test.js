@@ -5,8 +5,8 @@ import { mount } from "enzyme";
 
 import PlotlyTransform from "../src";
 
-jest.mock("plotly.js/dist/plotly");
-const plotly = require("plotly.js/dist/plotly");
+jest.mock("@nteract/plotly");
+const plotly = require("@nteract/plotly");
 
 plotly.newPlot.mockImplementation(() => {});
 plotly.redraw.mockImplementation(() => {});

@@ -16,8 +16,8 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash.clonedeep": "^4.5.0",
-    "plotly.js": "^1.19.2"
+    "@nteract/plotly": "^1.0.0",
+    "lodash.clonedeep": "^4.5.0"
   },
   "peerDependencies": {
     "react": "^15.5.3"

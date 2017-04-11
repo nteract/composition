@@ -13,7 +13,7 @@ declare class PlotlyHTMLElement extends HTMLElement {
   layout: Object
 }
 
-const Plotly = require("plotly.js/dist/plotly");
+const Plotly = require("@nteract/plotly");
 
 const MIMETYPE = "application/vnd.plotly.v1+json";
 

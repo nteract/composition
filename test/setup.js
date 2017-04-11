@@ -67,7 +67,7 @@ mock("electron-json-storage", {
   }
 });
 
-mock("plotly.js/dist/plotly", {
+mock("@nteract/plotly", {
   newPlot: () => {},
   redraw: () => {}
 });
