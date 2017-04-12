@@ -217,6 +217,8 @@
     "nyc": "^10.0.0",
     "prettier": "^0.22.0",
     "react-addons-test-utils": "^15.5.1",
+    "react-dom": "^15.5.4",
+    "react-test-renderer": "^15.5.4",
     "rimraf": "^2.5.2",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
