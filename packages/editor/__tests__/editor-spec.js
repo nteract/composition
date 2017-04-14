@@ -101,11 +101,9 @@ describe("complete", () => {
     // Listen on the Observable
     observable.subscribe(
       msg => {
-        expect(msg).toEqual({
-          from: { line: 3, ch: 9 },
-          list: ["import this"],
-          to: { ch: 10, line: 3 }
-        });
+        expect(msg.from).toEqual({ line: 3, ch: 9 });
+        expect(msg.list[0].text).toEqual("import this");
+        expect(msg.to).toEqual({ ch: 10, line: 3 });
       },
       err => {
         throw err;

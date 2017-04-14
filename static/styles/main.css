@@ -44,6 +44,73 @@ div#loading {
   Globals
  */
 
+/* completions styles */
+
+.CodeMirror-hint {
+    padding-left: 0;
+    border-bottom: none;
+}
+
+.completion-type {
+    background: transparent;
+    border:transparent 1px solid;
+    width: 17px;   
+    height: 17px;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin-right: 5px;
+    top: 18px;
+}
+
+.completion-type:before {
+    content: "?";
+    bottom: 1px;
+    left: 4px;
+    position: relative;
+}
+/* color and content for each type of completion */
+.completion-type-keyword:before { content: "K"; }
+.completion-type-keyword{
+    background-color: darkred;
+}
+
+.completion-type-class:before { content: "C"; }
+.completion-type-class{
+    background-color: blueviolet;
+}
+
+.completion-type-module:before { content: "M"; }
+.completion-type-module{
+    background-color: chocolate;
+}
+
+.completion-type-statement:before { content: "S"; }
+.completion-type-statement{
+    background-color: forestgreen;
+}
+
+.completion-type-function:before { content: "ƒ"; }
+.completion-type-function{
+    background-color: yellowgreen;
+}
+
+.completion-type-instance:before { content: "I"; }
+.completion-type-instance{
+    background-color: teal;
+}
+
+.completion-type-null:before { content: "ø"; }
+.completion-type-null{
+    background-color: black;
+}
+
+
+/* end completion type color and content */
+
+
+
+
 .octicon {
     transition: color 0.5s;
 }
