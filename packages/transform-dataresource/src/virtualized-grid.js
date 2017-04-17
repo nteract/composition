@@ -1,17 +1,13 @@
 /* @flow */
-/* eslint no-confusing-arrow: 0 */
-/* eslint no-nested-ternary: 0 */
 import React from "react";
 import { MultiGrid, AutoSizer } from "react-virtualized";
 import { infer } from "jsontableschema";
 
 const ROW_HEIGHT = 36;
-const COLUMN_WIDTH = 144;
-const COLLAPSED_HEIGHT = ROW_HEIGHT * 10;
-const EXPANDED_HEIGHT = ROW_HEIGHT *
-  Math.floor((window.innerHeight - 30) / ROW_HEIGHT);
+const COLUMN_WIDTH = 72;
+const GRID_MAX_HEIGHT = ROW_HEIGHT * 10;
 // The width per text character for calculating widths for columns
-const COLUMN_CHARACTER_WIDTH = 7;
+const COLUMN_CHARACTER_WIDTH = 14;
 // The number of sample rows that should be used to infer types for columns
 // and widths for columns
 const SAMPLE_SIZE = 10;
@@ -19,8 +15,7 @@ const SAMPLE_SIZE = 10;
 type Props = {
   data: Array<Object>,
   schema: { fields: Array<Object> },
-  theme: string,
-  expanded: boolean
+  theme: string
 };
 
 type State = {
@@ -58,10 +53,10 @@ function getState(props: Props) {
   );
   const columnWidths = columns.map(column => {
     const sampleRows = getSampleRows(data, SAMPLE_SIZE);
-    return sampleRows.reduce(
+    return [headers, ...sampleRows].reduce(
       (result, row) =>
-        `${row[column]}`.length > result ? `${row[column]}`.length : result,
-      Math.ceil(COLUMN_WIDTH / COLUMN_CHARACTER_WIDTH)
+        (`${row[column]}`.length > result ? `${row[column]}`.length : result),
+      Math.ceil(COLUMN_WIDTH / getCharacterWidth(COLUMN_CHARACTER_WIDTH))
     );
   });
   return {
@@ -69,6 +64,10 @@ function getState(props: Props) {
     schema,
     columnWidths
   };
+}
+
+function getCharacterWidth(fontSize) {
+  return fontSize * 0.86;
 }
 
 export default class VirtualizedGrid extends React.Component {
@@ -89,53 +88,26 @@ export default class VirtualizedGrid extends React.Component {
     this.setState(state);
   }
 
-  cellRenderer = (
-    {
-      columnIndex,
-      key,
-      // parent,
-      rowIndex,
-      style
-    }: {
-      columnIndex: number,
-      key: string,
-      parent: mixed,
-      rowIndex: number,
-      style: Object
-    }
-  ) => {
+  cellRenderer = ({
+    columnIndex,
+    key,
+    parent,
+    rowIndex,
+    style
+  }: {
+    columnIndex: number,
+    key: string,
+    parent: mixed,
+    rowIndex: number,
+    style: Object
+  }) => {
     const { name: column, type } = this.state.schema.fields[columnIndex];
     const value = this.state.data[rowIndex][column];
     return (
       <div
         key={key}
         className={rowIndex === 0 || columnIndex === 0 ? "th" : "td"}
-        style={{
-          ...style,
-          boxSizing: "border-box",
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          textOverflow: "ellipsis",
-          // Remove top border for all cells except first row
-          ...(rowIndex !== 0 ? { borderTop: "none" } : {}),
-          // Remove left border for all cells except first column
-          ...(columnIndex !== 0 ? { borderLeft: "none" } : {}),
-          // Highlight even rows
-          ...(this.props.theme === "nteract" &&
-            rowIndex % 2 === 0 &&
-            !(rowIndex === 0 || columnIndex === 0)
-            ? { background: "rgba(255,255,255,0.075)" }
-            : {}),
-          // Bold the headers
-          ...(rowIndex === 0 || columnIndex === 0
-            ? { fontWeight: "bold" }
-            : {}),
-          // Right-align numbers
-          ...(!(rowIndex === 0 || columnIndex === 0) &&
-            (type === "number" || type === "integer")
-            ? { textAlign: "right" }
-            : { textAlign: "left" })
-        }}
+        style={styles.cell({ columnIndex, rowIndex, style, type })}
       >
         {value}
       </div>
@@ -144,7 +116,9 @@ export default class VirtualizedGrid extends React.Component {
 
   render() {
     const rowCount = this.state.data.length;
-    const height = rowCount * ROW_HEIGHT;
+    const height = rowCount * ROW_HEIGHT > GRID_MAX_HEIGHT
+      ? GRID_MAX_HEIGHT
+      : rowCount * ROW_HEIGHT;
     return (
       <AutoSizer disableHeight>
         {({ width }) => (
@@ -152,21 +126,53 @@ export default class VirtualizedGrid extends React.Component {
             cellRenderer={this.cellRenderer}
             columnCount={this.state.schema.fields.length}
             columnWidth={({ index }) =>
-              this.state.columnWidths[index] * COLUMN_CHARACTER_WIDTH ||
-              COLUMN_WIDTH}
+              this.state.columnWidths[index] *
+                getCharacterWidth(
+                  this.props.fontSize || COLUMN_CHARACTER_WIDTH
+                ) || COLUMN_WIDTH}
             fixedColumnCount={1}
             fixedRowCount={1}
-            height={
-              this.props.expanded
-                ? EXPANDED_HEIGHT
-                : height < COLLAPSED_HEIGHT ? height : COLLAPSED_HEIGHT
-            }
+            height={height}
+            overscanColumnCount={15}
+            overscanRowCount={150}
             rowCount={rowCount}
             rowHeight={ROW_HEIGHT}
-            width={width}
+            width={this.props.width || width}
           />
         )}
       </AutoSizer>
     );
   }
 }
+
+const styles = {
+  cell: ({ columnIndex, rowIndex, style, type }) => ({
+    ...style,
+    boxSizing: "border-box",
+    padding: "0.5em 1em",
+    border: "1px solid #ddd",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    // Remove top border for all cells except first row
+    ...(rowIndex !== 0 ? { borderTop: "none" } : {}),
+    // Remove left border for all cells except first column
+    ...(columnIndex !== 0 ? { borderLeft: "none" } : {}),
+    // Highlight even rows
+    ...(rowIndex % 2 === 0 && !(rowIndex === 0 || columnIndex === 0)
+      ? { background: "rgba(0, 0, 0, 0.03)" }
+      : {}),
+    // Bold the headers
+    ...(rowIndex === 0 || columnIndex === 0
+      ? {
+          background: "rgba(0, 0, 0, 0.06)",
+          fontWeight: "bold"
+        }
+      : {}),
+    // Right-align numbers
+    ...(!(rowIndex === 0 || columnIndex === 0) &&
+      (type === "number" || type === "integer")
+      ? { textAlign: "right" }
+      : { textAlign: "left" })
+  })
+};
