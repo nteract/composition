@@ -1,13 +1,10 @@
 /* @flow */
 import React from "react";
-import { MultiGrid, AutoSizer } from "react-virtualized";
+import { MultiGrid, AutoSizer, ColumnSizer } from "react-virtualized";
 import { infer } from "jsontableschema";
 
 const ROW_HEIGHT = 36;
-const COLUMN_WIDTH = 72;
 const GRID_MAX_HEIGHT = ROW_HEIGHT * 10;
-// The width per text character for calculating widths for columns
-const COLUMN_CHARACTER_WIDTH = 14;
 // The number of sample rows that should be used to infer types for columns
 // and widths for columns
 const SAMPLE_SIZE = 10;
@@ -20,8 +17,7 @@ type Props = {
 
 type State = {
   data: Array<Object>,
-  schema: { fields: Array<Object> },
-  columnWidths: Array<number>
+  schema: { fields: Array<Object> }
 };
 
 function getSampleRows(data: Array<Object>, sampleSize: number): Array<Object> {
@@ -35,7 +31,7 @@ function inferSchema(data: Array<Object>): { fields: Array<Object> } {
   const sampleRows = getSampleRows(data, SAMPLE_SIZE);
   const headers = Array.from(
     sampleRows.reduce(
-      (result, row) => new Set([...result, ...Object.keys(row)]),
+      (result, row) => new Set([...Array.from(result), ...Object.keys(row)]),
       new Set()
     )
   );
@@ -51,31 +47,17 @@ function getState(props: Props) {
     (result, column) => ({ ...result, [column]: column }),
     {}
   );
-  const columnWidths = columns.map(column => {
-    const sampleRows = getSampleRows(data, SAMPLE_SIZE);
-    return [headers, ...sampleRows].reduce(
-      (result, row) =>
-        (`${row[column]}`.length > result ? `${row[column]}`.length : result),
-      Math.ceil(COLUMN_WIDTH / getCharacterWidth(COLUMN_CHARACTER_WIDTH))
-    );
-  });
   return {
     data: [headers, ...data],
-    schema,
-    columnWidths
+    schema
   };
-}
-
-function getCharacterWidth(fontSize) {
-  return fontSize * 0.86;
 }
 
 export default class VirtualizedGrid extends React.Component {
   props: Props;
   state: State = {
     data: [],
-    schema: { fields: [] },
-    columnWidths: []
+    schema: { fields: [] }
   };
 
   componentWillMount() {
@@ -120,25 +102,31 @@ export default class VirtualizedGrid extends React.Component {
       ? GRID_MAX_HEIGHT
       : rowCount * ROW_HEIGHT;
     return (
-      <AutoSizer disableHeight>
-        {({ width }) => (
-          <MultiGrid
-            cellRenderer={this.cellRenderer}
+      <AutoSizer>
+        {({ width, height }) => (
+          <ColumnSizer
+            columnMaxWidth={300}
+            columnMinWidth={50}
             columnCount={this.state.schema.fields.length}
-            columnWidth={({ index }) =>
-              this.state.columnWidths[index] *
-                getCharacterWidth(
-                  this.props.fontSize || COLUMN_CHARACTER_WIDTH
-                ) || COLUMN_WIDTH}
-            fixedColumnCount={1}
-            fixedRowCount={1}
-            height={height}
-            overscanColumnCount={15}
-            overscanRowCount={150}
-            rowCount={rowCount}
-            rowHeight={ROW_HEIGHT}
-            width={this.props.width || width}
-          />
+            width={width}
+          >
+            {({ adjustedWidth, getColumnWidth, registerChild }) => (
+              <MultiGrid
+                ref={registerChild}
+                cellRenderer={this.cellRenderer}
+                columnCount={this.state.schema.fields.length}
+                columnWidth={getColumnWidth}
+                fixedColumnCount={1}
+                fixedRowCount={1}
+                height={height}
+                overscanColumnCount={15}
+                overscanRowCount={150}
+                rowCount={rowCount}
+                rowHeight={ROW_HEIGHT}
+                width={adjustedWidth}
+              />
+            )}
+          </ColumnSizer>
         )}
       </AutoSizer>
     );
