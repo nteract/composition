@@ -25,5 +25,11 @@
     "jsontableschema": "^0.2.2",
     "lodash.sortby": "^4.7.0",
     "react-virtualized": "^9.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "flow-copy-source": "^1.1.0",
+    "jest": "^19.0.2",
+    "rimraf": "^2.6.1"
   }
 }
