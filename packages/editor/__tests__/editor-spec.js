@@ -7,6 +7,7 @@ import { createMessage } from "@nteract/messaging";
 import WrappedEditor from "../src/view";
 
 const complete = require("../src/complete");
+const tooltip = require("../src/tooltip");
 
 describe("WrappedEditor", () => {
   it.skip("reaches out for code completion", done => {
@@ -104,6 +105,54 @@ describe("complete", () => {
           from: { line: 3, ch: 9 },
           list: ["import this"],
           to: { ch: 10, line: 3 }
+        });
+      },
+      err => {
+        throw err;
+      },
+      done
+    );
+    received.next(response);
+  });
+});
+
+describe("tooltip", () => {
+  it("handles tooltip", done => {
+    const sent = new Rx.Subject();
+    const received = new Rx.Subject();
+    const mockSocket = Rx.Subject.create(sent, received);
+    const channels = {
+      shell: mockSocket
+    };
+
+    const cm = {
+      getCursor: () => ({ line: 0 }),
+      getValue: () => "map",
+      indexFromPos: () => 3,
+      posFromIndex: x => ({ ch: x, line: 0 })
+    };
+
+    const message = createMessage("inspect_request");
+    const observable = tooltip.tooltipObservable(channels, cm, message);
+
+    // Craft the response to their message
+    const response = createMessage("inspect_reply");
+    response.content = {
+      data: [
+        "[0;31mInit signature:[0m [0mmap[0m[0;34m([0m[0mself[0m[0;34m,[0m [0;34m/[0m[0;34m,[0m [0;34m*[0m[0margs[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0m↵[0;31mDocstring:[0m     ↵map(func, *iterables) --> map object↵↵Make an iterator that computes the function using arguments from↵each of the iterables.  Stops when the shortest iterable is exhausted.↵[0;31mType:[0m           type↵"
+      ],
+      cursor_pos: 3,
+      detail_level: 0 // Likely hokey values
+    };
+    response.parent_header = Object.assign({}, message.header);
+
+    // Listen on the Observable
+    observable.subscribe(
+      msg => {
+        expect(msg).toEqual({
+          dict: [
+            "[0;31mInit signature:[0m [0mmap[0m[0;34m([0m[0mself[0m[0;34m,[0m [0;34m/[0m[0;34m,[0m [0;34m*[0m[0margs[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0m↵[0;31mDocstring:[0m     ↵map(func, *iterables) --> map object↵↵Make an iterator that computes the function using arguments from↵each of the iterables.  Stops when the shortest iterable is exhausted.↵[0;31mType:[0m           type↵"
+          ]
         });
       },
       err => {
