@@ -3,16 +3,17 @@ import React from "react";
 import { MultiGrid, AutoSizer, ColumnSizer } from "react-virtualized";
 import { infer } from "jsontableschema";
 
-const ROW_HEIGHT = 36;
-const GRID_MAX_HEIGHT = ROW_HEIGHT * 10;
-// The number of sample rows that should be used to infer types for columns
-// and widths for columns
-const SAMPLE_SIZE = 10;
-
 type Props = {
   data: Array<Object>,
   schema: { fields: Array<Object> },
-  theme: string
+  theme?: string,
+  width?: number,
+  height?: number,
+  rowHeight: number,
+  maxRows: number,
+  columnMinWidth: number,
+  columnMaxWidth: number,
+  sampleSize: number
 };
 
 type State = {
@@ -27,8 +28,11 @@ function getSampleRows(data: Array<Object>, sampleSize: number): Array<Object> {
   });
 }
 
-function inferSchema(data: Array<Object>): { fields: Array<Object> } {
-  const sampleRows = getSampleRows(data, SAMPLE_SIZE);
+function inferSchema(
+  data: Array<Object>,
+  sampleSize: number
+): { fields: Array<Object> } {
+  const sampleRows = getSampleRows(data, sampleSize);
   const headers = Array.from(
     sampleRows.reduce(
       (result, row) => new Set([...Array.from(result), ...Object.keys(row)]),
@@ -41,7 +45,7 @@ function inferSchema(data: Array<Object>): { fields: Array<Object> } {
 
 function getState(props: Props) {
   const data = props.data;
-  const schema = props.schema || inferSchema(data);
+  const schema = props.schema || inferSchema(data, props.sampleSize);
   const columns = schema.fields.map(field => field.name);
   const headers = columns.reduce(
     (result, column) => ({ ...result, [column]: column }),
@@ -58,6 +62,15 @@ export default class VirtualizedGrid extends React.Component {
   state: State = {
     data: [],
     schema: { fields: [] }
+  };
+
+  static defaultProps = {
+    theme: "light",
+    rowHeight: 36,
+    maxRows: 10,
+    columnMinWidth: 100,
+    columnMaxWidth: 300,
+    sampleSize: 10
   };
 
   componentWillMount() {
@@ -88,8 +101,13 @@ export default class VirtualizedGrid extends React.Component {
     return (
       <div
         key={key}
-        className={rowIndex === 0 || columnIndex === 0 ? "th" : "td"}
-        style={styles.cell({ columnIndex, rowIndex, style, type })}
+        style={styles.cell({
+          columnIndex,
+          rowIndex,
+          style,
+          type,
+          theme: this.props.theme
+        })}
       >
         {value}
       </div>
@@ -98,15 +116,16 @@ export default class VirtualizedGrid extends React.Component {
 
   render() {
     const rowCount = this.state.data.length;
-    const height = rowCount * ROW_HEIGHT > GRID_MAX_HEIGHT
-      ? GRID_MAX_HEIGHT
-      : rowCount * ROW_HEIGHT;
+    const { rowHeight, maxRows } = this.props;
+    const maxHeight = rowCount * rowHeight > maxRows * rowHeight
+      ? maxRows * rowHeight
+      : rowCount * rowHeight;
     return (
-      <AutoSizer>
-        {({ width, height }) => (
+      <AutoSizer disableHeight>
+        {({ width }) => (
           <ColumnSizer
-            columnMaxWidth={300}
-            columnMinWidth={50}
+            columnMaxWidth={this.props.columnMaxWidth}
+            columnMinWidth={this.props.columnMinWidth}
             columnCount={this.state.schema.fields.length}
             width={width}
           >
@@ -118,12 +137,12 @@ export default class VirtualizedGrid extends React.Component {
                 columnWidth={getColumnWidth}
                 fixedColumnCount={1}
                 fixedRowCount={1}
-                height={height}
+                height={this.props.height || maxHeight}
                 overscanColumnCount={15}
                 overscanRowCount={150}
                 rowCount={rowCount}
-                rowHeight={ROW_HEIGHT}
-                width={adjustedWidth}
+                rowHeight={rowHeight}
+                width={this.props.width || adjustedWidth}
               />
             )}
           </ColumnSizer>
@@ -134,11 +153,11 @@ export default class VirtualizedGrid extends React.Component {
 }
 
 const styles = {
-  cell: ({ columnIndex, rowIndex, style, type }) => ({
+  cell: ({ columnIndex, rowIndex, style, type, theme }) => ({
     ...style,
     boxSizing: "border-box",
     padding: "0.5em 1em",
-    border: "1px solid #ddd",
+    border: theme === "nteract" ? "1px solid #495F7D" : "1px solid #ddd",
     overflow: "hidden",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
@@ -148,14 +167,21 @@ const styles = {
     ...(columnIndex !== 0 ? { borderLeft: "none" } : {}),
     // Highlight even rows
     ...(rowIndex % 2 === 0 && !(rowIndex === 0 || columnIndex === 0)
-      ? { background: "rgba(0, 0, 0, 0.03)" }
+      ? theme === "nteract"
+          ? { background: "rgba(255,255,255,0.075)" }
+          : { background: "rgba(0, 0, 0, 0.03)" }
       : {}),
     // Bold the headers
     ...(rowIndex === 0 || columnIndex === 0
-      ? {
-          background: "rgba(0, 0, 0, 0.06)",
-          fontWeight: "bold"
-        }
+      ? theme === "nteract"
+          ? {
+              background: "rgba(0,0,0,0.25)",
+              fontWeight: "bold"
+            }
+          : {
+              background: "rgba(0, 0, 0, 0.06)",
+              fontWeight: "bold"
+            }
       : {}),
     // Right-align numbers
     ...(!(rowIndex === 0 || columnIndex === 0) &&
