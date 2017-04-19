@@ -8,7 +8,6 @@ import "codemirror/lib/codemirror.css";
 
 import "@nteract/notebook-preview/styles/main.css";
 import "@nteract/notebook-preview/styles/theme-light.css";
-import "react-virtualized/styles.css";
 
 import {
   standardTransforms,
@@ -29,10 +28,7 @@ import { fetchFromGist } from "./fetchers";
 
 const commutable = require("@nteract/commutable");
 
-const {
-  transforms,
-  displayOrder
-} = registerTransform(
+const { transforms, displayOrder } = registerTransform(
   {
     transforms: standardTransforms,
     displayOrder: standardDisplayOrder
