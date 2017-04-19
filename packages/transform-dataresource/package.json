@@ -24,7 +24,7 @@
   "dependencies": {
     "jsontableschema": "^0.2.2",
     "lodash.sortby": "^4.7.0",
-    "react-virtualized": "^9.2.1"
+    "react-virtualized": "^9.7.3"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
