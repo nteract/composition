@@ -1,27 +1,18 @@
-import { shell } from 'electron';
+import { shell } from "electron";
 
-import {
-  PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST
-} from './../constants';
+import { PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST } from "./../constants";
 
-import {
-  overwriteMetadata,
-  deleteMetadata,
-} from '../actions';
+import { overwriteMetadata, deleteMetadata } from "../actions";
 
-import {
-  toJS,
-  stringifyNotebook,
-} from '../../../packages/commutable';
+import { toJS, stringifyNotebook } from "../../../packages/commutable";
 
-const path = require('path');
+const path = require("path");
 
-const Rx = require('rxjs/Rx');
+const Rx = require("rxjs/Rx");
 
 const Observable = Rx.Observable;
 
-const Github = require('github');
-
+const Github = require("github");
 
 /**
  * Notify the notebook user that it has been published as a gist.
@@ -32,17 +23,17 @@ const Github = require('github');
  */
 export function notifyUser(filename, gistID, notificationSystem) {
   notificationSystem.addNotification({
-    title: 'Gist uploaded',
+    title: "Gist uploaded",
     message: `${filename} is ready`,
     dismissible: true,
-    position: 'tr',
-    level: 'success',
+    position: "tr",
+    level: "success",
     action: {
-      label: 'Open Gist',
+      label: "Open Gist",
       callback: function openGist() {
         shell.openExternal(`https://nbviewer.jupyter.org/${gistID}`);
-      },
-    },
+      }
+    }
   });
 }
 
@@ -65,7 +56,7 @@ export function createGistCallback(observer, filename, notificationSystem) {
       return;
     }
     const gistID = response.id;
-    observer.next(overwriteMetadata('gist_id', gistID));
+    observer.next(overwriteMetadata("gist_id", gistID));
     notifyUser(filename, gistID, notificationSystem);
     observer.complete();
   };
@@ -81,12 +72,17 @@ export function createGistCallback(observer, filename, notificationSystem) {
  * @param {function} notificationSystem - To be passed information for
  * notification of the user that the gist has been published.
  */
-export function publishNotebookObservable(github, notebook, filepath,
-  notificationSystem, publishAsUser) {
-  return Rx.Observable.create((observer) => {
+export function publishNotebookObservable(
+  github,
+  notebook,
+  filepath,
+  notificationSystem,
+  publishAsUser
+) {
+  return Rx.Observable.create(observer => {
     const notebookString = stringifyNotebook(toJS(notebook));
 
-    const filename = filepath ? path.parse(filepath).base : 'Untitled.ipynb';
+    const filename = filepath ? path.parse(filepath).base : "Untitled.ipynb";
     const files = {};
     files[filename] = { content: notebookString };
 
@@ -94,32 +90,39 @@ export function publishNotebookObservable(github, notebook, filepath,
       github.users.get({}, (err, res) => {
         if (err) throw err;
         notificationSystem.addNotification({
-          title: 'Authenticated',
+          title: "Authenticated",
           message: `Authenticated as ${res.login}`,
-          level: 'info',
+          level: "info"
         });
-        if (notebook.getIn(['metadata', 'github_username']) !== (res.login || undefined)) {
-          observer.next(overwriteMetadata('github_username', res.login));
-          observer.next(deleteMetadata('gist_id'));
+        if (
+          notebook.getIn(["metadata", "github_username"]) !==
+          (res.login || undefined)
+        ) {
+          observer.next(overwriteMetadata("github_username", res.login));
+          observer.next(deleteMetadata("gist_id"));
         }
       });
     }
     notificationSystem.addNotification({
-      title: 'Uploading gist...',
-      message: 'Your notebook is being uploaded as a GitHub gist',
-      level: 'info',
+      title: "Uploading gist...",
+      message: "Your notebook is being uploaded as a GitHub gist",
+      level: "info"
     });
     // Already in a gist belonging to the user, update the gist
 
-    const gistRequest = notebook.hasIn(['metadata', 'gist_id']) ?
-      { files, id: notebook.getIn(['metadata', 'gist_id']), public: false } :
-      { files, public: false };
+    const gistRequest = notebook.hasIn(["metadata", "gist_id"])
+      ? { files, id: notebook.getIn(["metadata", "gist_id"]), public: false }
+      : { files, public: false };
     if (gistRequest.id) {
-      github.gists.edit(gistRequest,
-        createGistCallback(observer, filename, notificationSystem));
+      github.gists.edit(
+        gistRequest,
+        createGistCallback(observer, filename, notificationSystem)
+      );
     } else {
-      github.gists.create(gistRequest,
-        createGistCallback(observer, filename, notificationSystem));
+      github.gists.create(
+        gistRequest,
+        createGistCallback(observer, filename, notificationSystem)
+      );
     }
   });
 }
@@ -130,7 +133,7 @@ export function publishNotebookObservable(github, notebook, filepath,
  *
  */
 export function handleGistError(err) {
-  return Observable.of({ type: 'ERROR', payload: err, err: true });
+  return Observable.of({ type: "ERROR", payload: err, err: true });
 }
 
 /**
@@ -142,17 +145,22 @@ export function handleGistError(err) {
 export function handleGistAction(store, action) {
   const github = new Github();
   const state = store.getState();
-  const notebook = state.document.get('notebook');
-  const filename = state.metadata.get('filename');
-  const notificationSystem = state.app.get('notificationSystem');
+  const notebook = state.document.get("notebook");
+  const filename = state.metadata.get("filename");
+  const notificationSystem = state.app.get("notificationSystem");
   let publishAsUser = false;
-  if (action.type === 'PUBLISH_USER_GIST') {
-    const githubToken = state.app.get('token');
-    github.authenticate({ type: 'oauth', token: githubToken });
+  if (action.type === "PUBLISH_USER_GIST") {
+    const githubToken = state.app.get("token");
+    github.authenticate({ type: "oauth", token: githubToken });
     publishAsUser = true;
   }
-  return publishNotebookObservable(github, notebook, filename,
-                                   notificationSystem, publishAsUser);
+  return publishNotebookObservable(
+    github,
+    notebook,
+    filename,
+    notificationSystem,
+    publishAsUser
+  );
 }
 
 /**
@@ -161,7 +169,8 @@ export function handleGistAction(store, action) {
  */
 export const publishEpic = (action$, store) => {
   const boundHandleGistAction = handleGistAction.bind(null, store);
-  return action$.ofType(PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST)
+  return action$
+    .ofType(PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST)
     .mergeMap(action => boundHandleGistAction(action))
     .catch(handleGistError);
 };

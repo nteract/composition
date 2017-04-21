@@ -34,7 +34,7 @@ nteract is a literate coding environment that supports Python, R, JavaScript and
 
 ## Installation - Users
 
-Head to the [Releases](https://github.com/nteract/nteract/releases) page and download the version for your OS.
+Head to the [Releases](https://github.com/nteract/nteract/releases/latest) page and download the version for your OS.
 
 ## Installation - Contributors and Development
 
@@ -107,6 +107,10 @@ And then opening `docs/index.html` in your favorite browser.
 > I want to debug redux actions and state changes.
 
 -  Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by spawning the application with `npm run spawn:debug`.
+
+> I keep getting 'Do you want the application "nteract Helper.app" to accept incoming network connections?' while developing or using a custom build of nteract on macOS.
+
+-  This is how the the macOS firewall behaves for unsigned apps. On a signed app, the dialog won't show up again after approving it the first time. If you're using a custom build of nteract, run: `sudo codesign --force --deep --sign - /Applications/nteract.app`. You will have to do this again every time you rebuild the app.
 
 ## For maintainers: Creating a release
 

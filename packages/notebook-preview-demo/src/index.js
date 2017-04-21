@@ -1,35 +1,47 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+/* eslint-disable react/prop-types */
 
-import logo from './logo.svg';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import 'normalize.css/normalize.css';
+import "normalize.css/normalize.css";
+import "codemirror/lib/codemirror.css";
 
-import './App.css';
-import './index.css';
-
-import 'codemirror/lib/codemirror.css';
-
-import '@nteract/notebook-preview/styles/main.css';
-import '@nteract/notebook-preview/styles/theme-light.css';
-
-import NotebookPreview from '@nteract/notebook-preview';
+import "@nteract/notebook-preview/styles/main.css";
+import "@nteract/notebook-preview/styles/theme-light.css";
 
 import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+  standardTransforms,
+  standardDisplayOrder,
+  registerTransform
+} from "@nteract/transforms";
+import DataResourceTransform from "@nteract/transform-dataresource";
 
-const commutable = require('@nteract/commutable');
+import NotebookPreview from "@nteract/notebook-preview";
+
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+
+import "./App.css";
+import "./index.css";
+import logo from "./logo.svg";
+
+import { fetchFromGist } from "./fetchers";
+
+const commutable = require("@nteract/commutable");
+
+const { transforms, displayOrder } = registerTransform(
+  {
+    transforms: standardTransforms,
+    displayOrder: standardDisplayOrder
+  },
+  DataResourceTransform
+);
 
 const gistIDs = [
-  '8ea760c2e2a6bba2ebff27125a548508',
+  "038c4061d5a562d5f24605b93dcffdb6",
+  "8ea760c2e2a6bba2ebff27125a548508"
 ];
 
 const gistID = gistIDs[Math.floor(Math.random() * gistIDs.length)];
-
-import { fetchFromGist } from './fetchers';
 
 // TODO: See if there's a way to load a raw file (like a notebook) using the
 //       webpack setup without having to eject create-react-app
@@ -38,12 +50,12 @@ class GistedNotebook extends React.Component {
   constructor() {
     super();
     this.state = {
-      notebook: null,
-    }
+      notebook: null
+    };
   }
 
   componentDidMount() {
-    fetchFromGist(this.props.match.params.gistID).then((nbJSON) => {
+    fetchFromGist(this.props.match.params.gistID).then(nbJSON => {
       this.setState({
         notebook: commutable.fromJS(nbJSON)
       });
@@ -52,10 +64,15 @@ class GistedNotebook extends React.Component {
 
   render() {
     if (this.state.notebook) {
-      return <NotebookPreview notebook={this.state.notebook} />;
-    } else {
-      return <h1>Loading Notebook...</h1>;
+      return (
+        <NotebookPreview
+          notebook={this.state.notebook}
+          displayOrder={displayOrder}
+          transforms={transforms}
+        />
+      );
     }
+    return <h1>Loading Notebook...</h1>;
   }
 }
 
@@ -65,10 +82,13 @@ ReactDOM.render(
       <div className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </div>
-      <Route exact path="/" render={() => (
-        <Redirect to={`/gist/${gistID}`} />
-      )} />
+      <Route
+        exact
+        path="/"
+        render={() => <Redirect to={`/gist/${gistID}`} />}
+      />
       <Route path="/gist/:gistID" component={GistedNotebook} />
     </div>
-  </Router>
-, document.getElementById('root'));
+  </Router>,
+  document.getElementById("root")
+);

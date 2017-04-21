@@ -55,8 +55,7 @@ did and any questions you might have about what you did.
 
 ## How should I write my commit messages and PR titles?
 
-Great question! Here at nteract, we utilize the [conventional-changelog-standard]
-(https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md)
+Great question! Here at nteract, we utilize the [conventional-changelog-standard](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md)
 for writing our commit messages and PR titles. Why do we do this? The standard
 comes in really handy when we need to determine what kinds of information should
 go into our release documentation (as the word changelog in the title might suggest!).

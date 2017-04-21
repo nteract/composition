@@ -1,11 +1,9 @@
 // @flow
-import {
-  remote,
-} from 'electron';
+import { remote } from "electron";
 
 export function cwdKernelFallback(defaultPath: string) {
-  if (process.cwd() === '/') {
-    return remote.app.getPath('home');
+  if (process.cwd() === "/") {
+    return remote.app.getPath("home");
   } else if (defaultPath) {
     return defaultPath;
   }

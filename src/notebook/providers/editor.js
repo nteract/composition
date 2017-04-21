@@ -1,9 +1,9 @@
 // @flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { focusCell, focusCellEditor, updateCellSource } from '../actions';
-import EditorView from '../../../packages/editor/lib';
+import { focusCell, focusCellEditor, updateCellSource } from "../actions";
+import EditorView from "../../../packages/editor/lib";
 
 type Props = {
   dispatch: Dispatch<*>,
@@ -12,18 +12,19 @@ type Props = {
   editorFocused: boolean,
   cellFocused: boolean,
   completion: boolean,
+  tip: boolean,
   focusAbove: () => void,
   focusBelow: () => void,
   theme: string,
   channels: any,
   cursorBlinkRate: number,
-  executionState: 'idle' | 'starting' | 'not connected',
+  executionState: "idle" | "starting" | "not connected",
   language: string
-}
+};
 
 function mapStateToProps(state: Object): Object {
   return {
-    cursorBlinkRate: state.config.get('cursorBlinkRate'),
+    cursorBlinkRate: state.config.get("cursorBlinkRate"),
     channels: state.app.channels,
     executionState: state.app.executionState
   };

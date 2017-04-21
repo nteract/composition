@@ -1,31 +1,30 @@
 /* @flow */
-import React from 'react';
+import React from "react";
 
-import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
+import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
-import {
-  displayOrder,
-  transforms,
-} from '@nteract/transforms';
+import { displayOrder, transforms } from "@nteract/transforms";
 
-import Cell from './cell';
-import type { CellProps } from './cell';
+import Cell from "./cell";
 
 type Props = {
   displayOrder: ImmutableList<any>,
   notebook: any,
   transforms: ImmutableMap<string, any>,
   theme: string,
+  tip: boolean
 };
 
 export function getLanguageMode(notebook: any): string {
   // The syntax highlighting language should be set in the language info
   // object.  First try codemirror_mode, then name, and fallback on 'null'.
-  const language =
-    notebook.getIn(['metadata', 'language_info', 'codemirror_mode', 'name'],
-    notebook.getIn(['metadata', 'language_info', 'codemirror_mode'],
-    notebook.getIn(['metadata', 'language_info', 'name'],
-    'text')));
+  const language = notebook.getIn(
+    ["metadata", "language_info", "codemirror_mode", "name"],
+    notebook.getIn(
+      ["metadata", "language_info", "codemirror_mode"],
+      notebook.getIn(["metadata", "language_info", "name"], "text")
+    )
+  );
   return language;
 }
 
@@ -35,11 +34,11 @@ export class Notebook extends React.PureComponent {
 
   static defaultProps = {
     displayOrder,
-    transforms,
+    transforms
   };
 
   static contextTypes = {
-    store: React.PropTypes.object,
+    store: React.PropTypes.object
   };
 
   constructor(): void {
@@ -48,7 +47,7 @@ export class Notebook extends React.PureComponent {
   }
 
   createCellElement(id: string): ?React.Element<any> {
-    const cellMap = this.props.notebook.get('cellMap');
+    const cellMap = this.props.notebook.get("cellMap");
     const cell = cellMap.get(id);
 
     return (
@@ -57,6 +56,7 @@ export class Notebook extends React.PureComponent {
           key={id}
           id={id}
           cell={cell}
+          tip={this.props.tip}
           displayOrder={this.props.displayOrder}
           transforms={this.props.transforms}
           theme={this.props.theme}
@@ -68,11 +68,10 @@ export class Notebook extends React.PureComponent {
 
   render(): ?React.Element<any> {
     if (!this.props.notebook) {
-      return (
-        <div className="notebook" />
-      );
+      return <div className="notebook" />;
     }
-    const cellOrder = this.props.notebook.get('cellOrder');
+
+    const cellOrder = this.props.notebook.get("cellOrder");
     return (
       <div>
         <div className="notebook">

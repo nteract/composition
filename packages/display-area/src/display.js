@@ -1,10 +1,10 @@
 // @flow
-import React from 'react';
-import { List as ImmutableList, Map as ImmutableMap } from 'immutable';
+import React from "react";
+import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
-import { transforms, displayOrder } from '@nteract/transforms';
+import { transforms, displayOrder } from "@nteract/transforms";
 
-import Output from './output';
+import Output from "./output";
 
 type Props = {
   displayOrder: ImmutableList<string>,
@@ -13,21 +13,21 @@ type Props = {
   theme: string,
   expanded: boolean,
   isHidden: boolean,
-  models: ImmutableMap<string, any>,
-}
+  models: ImmutableMap<string, any>
+};
 
-const DEFAULT_SCROLL_HEIGHT = 600;
+export const DEFAULT_SCROLL_HEIGHT = 600;
 
 export default class Display extends React.PureComponent {
   props: Props;
-  recomputeStyle: () => void;
   el: HTMLElement;
+  recomputeStyle: () => void;
 
   static defaultProps = {
     transforms,
     displayOrder,
     isHidden: false,
-    expanded: false,
+    expanded: false
   };
 
   constructor() {
@@ -47,35 +47,33 @@ export default class Display extends React.PureComponent {
     if (!this.el) {
       return;
     }
+
     if (!this.props.expanded && this.el.scrollHeight > DEFAULT_SCROLL_HEIGHT) {
       this.el.style.height = `${DEFAULT_SCROLL_HEIGHT}px`;
-      this.el.style.overflowY = 'scroll';
+      this.el.style.overflowY = "scroll";
       return;
     }
 
-    this.el.style.height = 'auto';
-    this.el.style.overflowY = 'overflow';
+    this.el.style.height = "auto";
+    this.el.style.overflowY = "auto";
   }
 
   render() {
-    const order = this.props.displayOrder;
-    const tf = this.props.transforms;
+    const { isHidden, outputs, ...props } = this.props;
 
-    if (!this.props.isHidden) {
+    if (!isHidden) {
       return (
-        <div className="cell_display" ref={(el) => { this.el = el; }}>
-          {
-            this.props.outputs.map((output, index) =>
-              <Output
-                key={index}
-                output={output}
-                displayOrder={order}
-                transforms={tf}
-                theme={this.props.theme}
-                models={this.props.models}
-              />
-            )
-          }
+        <div
+          className="cell_display"
+          ref={el => {
+            this.el = el;
+          }}
+        >
+          {outputs
+            ? outputs.map((output, index) => (
+                <Output key={index} output={output} {...props} />
+              ))
+            : null}
         </div>
       );
     }

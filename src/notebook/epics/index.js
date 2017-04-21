@@ -1,41 +1,28 @@
-import {
-  saveEpic,
-  saveAsEpic,
-} from './saving';
+import { saveEpic, saveAsEpic } from "./saving";
 
-import {
-  loadEpic,
-  newNotebookEpic,
-} from './loading';
+import { loadEpic, newNotebookEpic } from "./loading";
 
 import {
   newKernelEpic,
   acquireKernelInfoEpic,
   watchExecutionStateEpic,
-  newKernelByNameEpic,
-} from './kernel-launch';
+  newKernelByNameEpic
+} from "./kernel-launch";
 
-import {
-  executeCellEpic,
-  updateDisplayEpic,
-} from './execute';
+import { executeCellEpic, updateDisplayEpic } from "./execute";
 
-import {
-  publishEpic,
-} from './github-publish';
+import { publishEpic } from "./github-publish";
 
-import {
-  commListenEpic,
-} from './comm';
+import { commListenEpic } from "./comm";
 
 import {
   loadConfigEpic,
   saveConfigEpic,
-  saveConfigOnChangeEpic,
-} from './config';
+  saveConfigOnChangeEpic
+} from "./config";
 
 export function retryAndEmitError(err, source) {
-  return source.startWith({ type: 'ERROR', payload: err, error: true });
+  return source.startWith({ type: "ERROR", payload: err, error: true });
 }
 
 export const wrapEpic = epic => (...args) =>
@@ -56,7 +43,7 @@ const epics = [
   watchExecutionStateEpic,
   loadConfigEpic,
   saveConfigEpic,
-  saveConfigOnChangeEpic,
+  saveConfigOnChangeEpic
 ].map(wrapEpic);
 
 export default epics;

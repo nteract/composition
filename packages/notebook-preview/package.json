@@ -1,6 +1,6 @@
 {
   "name": "@nteract/notebook-preview",
-  "version": "1.0.5",
+  "version": "1.1.2",
   "description": "View a notebook using a React Component",
   "main": "lib/index.js",
   "scripts": {
@@ -9,30 +9,24 @@
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
-    "test": "jest"
+    "build:lib:watch": "npm run build:lib -- --watch"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@nteract/commutable": "^1.0.6",
-    "@nteract/display-area": "^1.0.4",
-    "@nteract/transforms": "^1.0.6",
-    "@nteract/editor": "^1.0.4",
-    "codemirror": "^5.23.0",
-    "react-codemirror": "^0.3.0"
+    "@nteract/commutable": "^1.1.2",
+    "@nteract/display-area": "^1.1.2",
+    "@nteract/editor": "^1.0.11",
+    "@nteract/transforms": "^1.0.10",
+    "codemirror": "~5.24.0",
+    "commonmark": "^0.27.0",
+    "commonmark-react-renderer": "^4.3.1",
+    "mathjax-electron": "^2.0.0"
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.4.2"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "flow-copy-source": "^1.1.0",
-    "jest": "^18.1.0",
-    "@nteract/dev-scripts": "^1.0.4",
-    "@nteract/editor": "^1.0.4",
-    "@nteract/mockument": "^1.0.4"
+    "react": "^15.5.3"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"

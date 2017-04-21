@@ -1,12 +1,13 @@
 // @flow
-import React from 'react';
-import CommonMark from 'commonmark';
-import MarkdownRenderer from 'commonmark-react-renderer';
+/* eslint-disable react/prefer-stateless-function, react/prop-types */
 
-import Editor from './editor';
-import LatexRenderer from './latex';
+import React from "react";
+import CommonMark from "commonmark";
+import MarkdownRenderer from "commonmark-react-renderer";
 
-type MDRender = (input: string) => string
+import LatexRenderer from "./latex";
+
+type MDRender = (input: string) => string;
 
 const parser = new CommonMark.Parser();
 const renderer = new MarkdownRenderer();
@@ -16,16 +17,11 @@ const mdRender: MDRender = input => renderer.render(parser.parse(input));
 export default class MarkdownCell extends React.PureComponent {
   render(): ?React.Element<any> {
     return (
-      <div
-        className="rendered"
-        tabIndex="0"
-         >
-           <LatexRenderer>
-             {
-              mdRender(this.props.cell.get('source'))
-             }
-           </LatexRenderer>
-         </div>
+      <div className="rendered" tabIndex="0">
+        <LatexRenderer>
+          {mdRender(this.props.cell.get("source"))}
+        </LatexRenderer>
+      </div>
     );
   }
 }

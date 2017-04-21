@@ -1,22 +1,23 @@
 // @flow
 
-import type { Map as ImmutableMap, List as ImmutableList } from 'immutable';
+import type { Map as ImmutableMap, List as ImmutableList } from "immutable";
 
-type PrimitiveImmutable = | string | number | boolean | null
+type PrimitiveImmutable = string | number | boolean | null;
 
 export type JSONType = PrimitiveImmutable | JSONObject | JSONArray; // eslint-disable-line no-use-before-define
-export type JSONObject = { [key:string]: JSONType };
+export type JSONObject = { [key: string]: JSONType };
 export type JSONArray = Array<JSONType>;
 
-export type ImmutableJSONType = PrimitiveImmutable |
-  ImmutableMap<string, ImmutableJSONType> |
-  ImmutableList<ImmutableJSONType>;
+export type ImmutableJSONType =
+  | PrimitiveImmutable
+  | ImmutableMap<string, ImmutableJSONType>
+  | ImmutableList<ImmutableJSONType>;
 
 export type ExecutionCount = number | null;
 
 export type MimeBundle = JSONObject;
 
-export type CellType = 'markdown' | 'code';
+export type CellType = "markdown" | "code";
 export type CellID = string;
 
 // These are very unserious types, since Records are not quite typable

@@ -20,6 +20,7 @@ Note: React and Immutable are peer dependencies you'll have to install yourself.
 ```js
 import {
   richestMimetype,
+  standardDisplayOrder,
   standardTransforms,
 } from '@nteract/transforms'
 
@@ -32,7 +33,7 @@ const bundle = new Immutable.Map({
 })
 
 // Find out which mimetype is the richest
-const mimetype = richestMimetype(bundle, standardTransforms)
+const mimetype = richestMimetype(bundle, standardDisplayOrder, standardTransforms)
 
 // Get the matching React.Component for that mimetype
 let Transform = standardTransforms.get(mimetype)

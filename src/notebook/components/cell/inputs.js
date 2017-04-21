@@ -1,15 +1,15 @@
 // @flow
-import React from 'react';
+import React from "react";
 
 type Props = {
   executionCount: any,
-  running: boolean,
+  running: boolean
 };
 
 export default function Inputs(props: Props): ?React.Element<any> {
   const { executionCount, running } = props;
-  const count = !executionCount ? ' ' : executionCount;
-  const input = running ? '*' : count;
+  const count = !executionCount ? " " : executionCount;
+  const input = running ? "*" : count;
 
   return (
     <div className="prompt">

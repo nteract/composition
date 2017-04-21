@@ -47,14 +47,23 @@
   --status-bar: #eeedee;
 }
 
+/* -------------------- */
+/* Miscellaneous Styles */
+/* -------------------- */
+
+body
+{
+  line-height: 1.3 !important;
+}
+
 /*custom scrollbar for notebook cells and hint box*/
 div::-webkit-scrollbar, ul::-webkit-scrollbar {
       width: 11px;
       height: 11px;
-} 
+}
 div::-webkit-scrollbar-track, ul::-webkit-scrollbar-track {
       -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
-} 
+}
 div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb {
       background-color: rgba(199,199,199, .4)
 }

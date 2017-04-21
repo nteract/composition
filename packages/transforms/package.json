@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transforms",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "description": "Common transforms for Jupyter",
   "main": "lib/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
-    "test": "jest"
+    "build:lib:watch": "npm run build:lib -- --watch"
   },
   "repository": {
     "type": "git",
@@ -29,27 +29,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "jest": {
-    "setupFiles": [
-      "@nteract/mockument"
-    ]
-  },
   "dependencies": {
-    "react-json-tree": "0.10.1",
-    "ansi-to-react": "0.0.6",
-    "mathjax-electron": "^1.2.0",
+    "ansi-to-react": "^1.1.1",
     "commonmark": "^0.27.0",
-    "commonmark-react-renderer": "^4.3.1"
+    "commonmark-react-renderer": "^4.3.1",
+    "mathjax-electron": "^2.0.0",
+    "react-json-tree": "^0.10.1"
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.4.2"
-  },
-  "devDependencies": {
-    "@nteract/mockument": "^1.0.4",
-    "babel-cli": "^6.23.0",
-    "flow-copy-source": "^1.1.0",
-    "jest": "^18.1.0",
-    "@nteract/dev-scripts": "^1.0.4"
+    "react": "^15.5.3"
   }
 }

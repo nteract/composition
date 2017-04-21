@@ -1,8 +1,8 @@
 /* @flow */
-import React from 'react';
+import React from "react";
 
 type Props = {
-  data: string,
+  data: string
 };
 
 export function runCodeHere(el: HTMLElement, code: string): any {
@@ -12,7 +12,7 @@ export function runCodeHere(el: HTMLElement, code: string): any {
   try {
     return eval(code); // eslint-disable-line no-eval
   } catch (err) {
-    const pre = document.createElement('pre');
+    const pre = document.createElement("pre");
     if (err.stack) {
       pre.textContent = err.stack;
     } else {
@@ -41,7 +41,11 @@ export default class JavaScript extends React.Component {
 
   render(): ?React.Element<any> {
     return (
-      <div ref={(el) => { this.el = el; }} />
+      <div
+        ref={el => {
+          this.el = el;
+        }}
+      />
     );
   }
 }

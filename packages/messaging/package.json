@@ -1,6 +1,6 @@
 {
   "name": "@nteract/messaging",
-  "version": "1.0.4",
+  "version": "1.0.8",
   "description": "Messaging mechanics for nteract apps (jupyter spec)",
   "main": "lib/index.js",
   "scripts": {
@@ -9,20 +9,14 @@
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
-    "test": "jest"
+    "build:lib:watch": "npm run build:lib -- --watch"
   },
   "dependencies": {
-    "rxjs": "^5.0.2"
+    "rxjs": "^5.0.2",
+    "uuid": "^3.0.1"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "flow-copy-source": "^1.1.0",
-    "jest": "^18.1.0",
-    "@nteract/dev-scripts": "^1.0.4",
-    "@nteract/mockument": "^1.0.4"
   },
   "keywords": [
     "nteract",

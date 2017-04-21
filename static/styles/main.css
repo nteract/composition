@@ -44,6 +44,10 @@ div#loading {
   Globals
  */
 
+.octicon {
+    transition: color 0.5s;
+}
+
 .cell pre
 {
     font-size: 14px;
@@ -60,26 +64,23 @@ body
     background-color: var(--main-bg-color);
     color: var(--main-fg-color);
 }
+
 .cell img
 {
     display: block;
     max-width: 100%;
-
-    margin-right: auto;
-    margin-left: auto;
 }
 
-.cell table {
+.cell table, .cell .table {
     border-collapse: collapse;
 }
 
-.cell th,
-.cell td {
+.cell th, .cell td, .cell .th, .cell .td {
     padding: 0.5em 1em;
     border: 1px solid var(--primary-border);
 }
 
-.cell th {
+.cell th, .cell .th {
     text-align: left;
 }
 
@@ -176,10 +177,20 @@ body
     padding: 0px 0px 0px 50px;
 }
 
+.cell-toolbar > div {
+  display: inline-block;
+}
+
 .cell-toolbar
 {
-    display: inline-box;
     background-color: var(--toolbar-bg);
+    opacity: 0.4;
+    transition: opacity 0.4s;
+}
+
+.cell-toolbar:hover
+{
+    opacity: 1;
 }
 
 .cell-toolbar button
@@ -581,9 +592,28 @@ li.CodeMirror-hint-active {
 .status-bar {
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
     font-size: 12px;
     line-height: 0.5em;
     background: var(--status-bar);
     z-index: 99;
+}
+
+/*Tooltip styling*/
+.bt {
+  float: right;
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.tip {
+  padding: 20px 20px 50px 20px;
+  margin: 30px 20px 50px 20px;
+  box-shadow: 2px 2px 50px rgba(0,0,0,.2);
+  white-space: pre-wrap;
+  background-color: var(--main-bg-color);
+  z-index: 9999999;
 }

@@ -1,6 +1,6 @@
   {
     "presets": [
-      "es2015-node6",
+      ["env", { "targets": { "electron": 1.6 } }],
       "react"
     ],
     "plugins": [

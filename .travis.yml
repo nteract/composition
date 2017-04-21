@@ -5,6 +5,7 @@ node_js:
 env:
   matrix:
   - GROUP=coverage
+  - GROUP=packages
   - GROUP=lint
   - GROUP=flow
   - GROUP=conformance
