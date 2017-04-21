@@ -8,8 +8,12 @@ const glob = require('glob');
 const fs = require('fs');
 const path = require('path');
 
-const notebookDir = path.join(__dirname, '..', 'example-notebooks');
-const files = glob.sync(path.join(notebookDir, '*.ipynb'));
+const exampleNotebookDir = path.join(__dirname, '..', 'example-notebooks');
+const testNotebookDir = path.join(__dirname, '..', 'test', 'notebooks');
+
+const files = glob.sync(path.join(exampleNotebookDir, '*.ipynb')).concat(
+              glob.sync(path.join(testNotebookDir, '*.ipynb'))
+)
 
 let numFailed = 0;
 
