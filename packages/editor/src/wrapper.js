@@ -168,6 +168,9 @@ const CodeMirrorWrapper: CodeMirrorHOC = (
     if (tip) {
       tool(channels, editor).subscribe(resp => {
         const bundle = ImmutableMap(resp.dict);
+        if (bundle.size === 0) {
+          return;
+        }
         const mimetype = "text/plain";
         // $FlowFixMe: until transforms refactored for new export interface GH #1488
         const Transform = transforms.get(mimetype);
