@@ -171,8 +171,7 @@ export function dispatchRunAllBelow(store) {
   cellsBelowFocusedId
     .filter(cellID => cells.getIn([cellID, "cell_type"]) === "code")
     .map(cellID =>
-      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"])))
-    );
+      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"]))));
 }
 
 export function dispatchRunAll(store) {
@@ -183,8 +182,7 @@ export function dispatchRunAll(store) {
     .get("cellOrder")
     .filter(cellID => cells.getIn([cellID, "cell_type"]) === "code")
     .map(cellID =>
-      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"])))
-    );
+      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"]))));
 }
 
 export function dispatchClearAll(store) {
@@ -283,13 +281,18 @@ export function dispatchNewNotebook(store, event, kernelSpec) {
 }
 
 /**
- * This function prints the current notebook to PDF.
+ * Print the current notebook to PDF.
  * It will expand all cell outputs before printing and restore cells it expanded when complete.
  * 
+ * @param {object} store - The Redux store 
  * @param {string} filename - filename of PDF to be saved.
  * @param {any} notificationSystem - reference to global notification system
  */
-export function exportPDF(filename: string, notificationSystem): void {
+export function exportPDF(
+  store: object,
+  filename: string,
+  notificationSystem
+): void {
   const state = store.getState();
   const notebook = state.document.get("notebook");
   const cellMap = notebook.get("cellMap");
@@ -298,6 +301,7 @@ export function exportPDF(filename: string, notificationSystem): void {
     cellID => cellMap.getIn([cellID, "metadata", "outputHidden"]) === false
   );
 
+  // Expand unexpanded cells
   unexpandedCells.map(cellID => store.dispatch(toggleOutputExpansion(cellID)));
 
   remote.getCurrentWindow().webContents.printToPDF({
@@ -305,7 +309,7 @@ export function exportPDF(filename: string, notificationSystem): void {
   }, (error, data) => {
     if (error) throw error;
 
-    // Restore the unexpanded cells to unexpanded state.
+    // Restore the modified cells to their unexpanded state.
     unexpandedCells.map(cellID =>
       store.dispatch(toggleOutputExpansion(cellID)));
 
@@ -333,12 +337,10 @@ export function triggerSaveAsPDF(store) {
       Promise.all([
         triggerWindowRefresh(store, filename),
         triggerKernelRefresh(store)
-      ])
-    )
+      ]))
     .then(() => storeToPDF(store))
     .catch(e =>
-      store.dispatch({ type: "ERROR", payload: e.message, error: true })
-    );
+      store.dispatch({ type: "ERROR", payload: e.message, error: true }));
 }
 
 export function storeToPDF(store) {
@@ -367,7 +369,7 @@ export function storeToPDF(store) {
       path.dirname(state.metadata.get("filename")),
       filename
     );
-    exportPDF(filename, notificationSystem);
+    exportPDF(store, filename, notificationSystem);
   }
 }
 
