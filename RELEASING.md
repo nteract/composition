@@ -2,11 +2,11 @@ Let's package a release!
 
 # All platform precursor
 
-Cut a release using the npm workflow:
+Cut a release using the `yarn` workflow:
 
 ```
-npm version patch # or minor, or major - whatever the right version is
-npm publish
+yarn version
+yarn publish
 git push
 git push --tags
 ```
@@ -46,6 +46,6 @@ In order to build a signed copy, you will need to join the Apple developer progr
 
 Once your certificate is all set up and your nteract dev environment is ready:
 
-* Run `npm run dist:osx`
+* Run `yarn run dist:osx`
 
 https://github.com/nteract/naming
