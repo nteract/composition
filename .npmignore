@@ -36,3 +36,6 @@ docs/
 test/*.ipynb
 
 bin/nteract-env
+
+# Ignore lerna lock
+packages/*/yarn.lock
