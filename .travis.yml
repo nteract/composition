@@ -24,3 +24,4 @@ before_script:
 script: travis_retry yarn run test:$GROUP
 after_success:
   - 'if [[ $GROUP == coverage* ]]; then bash <(curl -s https://codecov.io/bash); fi'
+  - bash scripts/yarn.sh
