@@ -1,6 +1,0 @@
-if [ "${GROUP}" == "lint" ] || [ "${GROUP}" == "flow" ] ; then
-  echo "skipping mega-install"
-  return
-fi
-
-yarn global add inodejs
