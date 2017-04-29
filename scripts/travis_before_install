@@ -3,4 +3,4 @@ if [ "${GROUP}" == "lint" ] || [ "${GROUP}" == "flow" ] ; then
   return
 fi
 
-npm install -g inodejs
+yarn global add inodejs
