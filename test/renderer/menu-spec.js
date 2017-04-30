@@ -447,10 +447,11 @@ describe("menu", () => {
 
   describe("exportPDF", () => {
     it("it notifies a user upon successful write", () => {
+      const store = dummyStore();
       const notificationSystem = NotificationSystem();
       const addNotification = sinon.spy(notificationSystem, "addNotification");
       const filename = "thisisafilename.ipynb";
-      menu.exportPDF(filename, notificationSystem);
+      menu.exportPDF(store, filename, notificationSystem);
       expect(addNotification).to.have.been.calledWithMatch({
         title: "PDF exported",
         message: `Notebook ${filename} has been exported as a pdf.`,
@@ -468,8 +469,9 @@ describe("menu", () => {
     it("triggers notification when not saved", () => {
       const config = { noFilename: true };
       const store = dummyStore(config);
-      const addNotification = store.getState().app.get("notificationSystem")
-        .addNotification;
+      const addNotification = store
+        .getState()
+        .app.get("notificationSystem").addNotification;
       menu.storeToPDF(store);
       expect(addNotification).to.have.been.calledWithMatch({
         title: "File has not been saved!",
@@ -485,8 +487,9 @@ describe("menu", () => {
     it("calls export PDF when filename exists", () => {
       // const exportStub = sinon.spy(menu.exportPDF);
       const store = dummyStore();
-      const addNotification = store.getState().app.get("notificationSystem")
-        .addNotification;
+      const addNotification = store
+        .getState()
+        .app.get("notificationSystem").addNotification;
       menu.storeToPDF(store);
       expect(addNotification).to.have.been.calledWithMatch({
         title: "PDF exported",

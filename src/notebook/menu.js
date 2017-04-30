@@ -10,21 +10,22 @@ import { load, newNotebook } from "./epics/loading";
 import { loadConfig } from "./epics/config";
 
 import {
-  executeCell,
-  clearOutputs,
-  newKernel,
-  killKernel,
-  interruptKernel,
-  copyCell,
-  cutCell,
-  pasteCell,
-  createCellAfter,
-  setGithubToken,
   changeInputVisibility,
-  setTheme,
-  setCursorBlink,
+  clearOutputs,
+  copyCell,
+  createCellAfter,
+  cutCell,
+  executeCell,
+  interruptKernel,
+  killKernel,
+  newKernel,
+  pasteCell,
   save,
-  saveAs
+  saveAs,
+  setCursorBlink,
+  setGithubToken,
+  setTheme,
+  toggleOutputExpansion
 } from "./actions";
 
 import { defaultPathFallback, cwdKernelFallback } from "./path";
@@ -170,8 +171,7 @@ export function dispatchRunAllBelow(store) {
   cellsBelowFocusedId
     .filter(cellID => cells.getIn([cellID, "cell_type"]) === "code")
     .map(cellID =>
-      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"])))
-    );
+      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"]))));
 }
 
 export function dispatchRunAll(store) {
@@ -182,8 +182,7 @@ export function dispatchRunAll(store) {
     .get("cellOrder")
     .filter(cellID => cells.getIn([cellID, "cell_type"]) === "code")
     .map(cellID =>
-      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"])))
-    );
+      store.dispatch(executeCell(cellID, cells.getIn([cellID, "source"]))));
 }
 
 export function dispatchClearAll(store) {
@@ -281,27 +280,55 @@ export function dispatchNewNotebook(store, event, kernelSpec) {
   store.dispatch(newNotebook(kernelSpec, cwdKernelFallback()));
 }
 
-export function exportPDF(filename, notificationSystem) {
-  remote
-    .getCurrentWindow()
-    .webContents.printToPDF({ printBackground: true }, (error, data) => {
-      if (error) throw error;
-      fs.writeFile(`${filename}.pdf`, data, error_fs => {
-        notificationSystem.addNotification({
-          title: "PDF exported",
-          message: `Notebook ${filename} has been exported as a pdf.`,
-          dismissible: true,
-          position: "tr",
-          level: "success",
-          action: {
-            label: "Open PDF",
-            callback: function openPDF() {
-              shell.openItem(`${filename}.pdf`);
-            }
+/**
+ * Print the current notebook to PDF.
+ * It will expand all cell outputs before printing and restore cells it expanded when complete.
+ * 
+ * @param {object} store - The Redux store 
+ * @param {string} filename - filename of PDF to be saved.
+ * @param {any} notificationSystem - reference to global notification system
+ */
+export function exportPDF(
+  store: object,
+  filename: string,
+  notificationSystem
+): void {
+  const state = store.getState();
+  const notebook = state.document.get("notebook");
+  const cellMap = notebook.get("cellMap");
+  const cellOrder = notebook.get("cellOrder");
+  const unexpandedCells = cellOrder.filter(
+    cellID => cellMap.getIn([cellID, "metadata", "outputHidden"]) === false
+  );
+
+  // Expand unexpanded cells
+  unexpandedCells.map(cellID => store.dispatch(toggleOutputExpansion(cellID)));
+
+  remote.getCurrentWindow().webContents.printToPDF({
+    printBackground: true
+  }, (error, data) => {
+    if (error) throw error;
+
+    // Restore the modified cells to their unexpanded state.
+    unexpandedCells.map(cellID =>
+      store.dispatch(toggleOutputExpansion(cellID)));
+
+    fs.writeFile(`${filename}.pdf`, data, error_fs => {
+      notificationSystem.addNotification({
+        title: "PDF exported",
+        message: `Notebook ${filename} has been exported as a pdf.`,
+        dismissible: true,
+        position: "tr",
+        level: "success",
+        action: {
+          label: "Open PDF",
+          callback: function openPDF() {
+            shell.openItem(`${filename}.pdf`);
           }
-        });
+        }
       });
     });
+  });
 }
 
 export function triggerSaveAsPDF(store) {
@@ -310,12 +337,10 @@ export function triggerSaveAsPDF(store) {
       Promise.all([
         triggerWindowRefresh(store, filename),
         triggerKernelRefresh(store)
-      ])
-    )
+      ]))
     .then(() => storeToPDF(store))
     .catch(e =>
-      store.dispatch({ type: "ERROR", payload: e.message, error: true })
-    );
+      store.dispatch({ type: "ERROR", payload: e.message, error: true }));
 }
 
 export function storeToPDF(store) {
@@ -344,7 +369,7 @@ export function storeToPDF(store) {
       path.dirname(state.metadata.get("filename")),
       filename
     );
-    exportPDF(filename, notificationSystem);
+    exportPDF(store, filename, notificationSystem);
   }
 }
 
