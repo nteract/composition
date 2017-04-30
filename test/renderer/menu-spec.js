@@ -447,10 +447,11 @@ describe("menu", () => {
 
   describe("exportPDF", () => {
     it("it notifies a user upon successful write", () => {
+      const store = dummyStore();
       const notificationSystem = NotificationSystem();
       const addNotification = sinon.spy(notificationSystem, "addNotification");
       const filename = "thisisafilename.ipynb";
-      menu.exportPDF(filename, notificationSystem);
+      menu.exportPDF(store, filename, notificationSystem);
       expect(addNotification).to.have.been.calledWithMatch({
         title: "PDF exported",
         message: `Notebook ${filename} has been exported as a pdf.`,
