@@ -55,7 +55,7 @@ export function createGistCallback(observer, filename, notificationSystem) {
       observer.complete();
       return;
     }
-    const gistID = response.id;
+    const gistID = response.data.id;
     observer.next(overwriteMetadata("gist_id", gistID));
     notifyUser(filename, gistID, notificationSystem);
     observer.complete();
@@ -91,14 +91,14 @@ export function publishNotebookObservable(
         if (err) throw err;
         notificationSystem.addNotification({
           title: "Authenticated",
-          message: `Authenticated as ${res.login}`,
+          message: `Authenticated as ${res.data.login}`,
           level: "info"
         });
         if (
           notebook.getIn(["metadata", "github_username"]) !==
           (res.login || undefined)
         ) {
-          observer.next(overwriteMetadata("github_username", res.login));
+          observer.next(overwriteMetadata("github_username", res.data.login));
           observer.next(deleteMetadata("gist_id"));
         }
       });
