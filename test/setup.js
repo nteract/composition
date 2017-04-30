@@ -141,14 +141,14 @@ mock("github", function github() {
     authenticate: () => {},
     gists: {
       edit: (request, callback) => {
-        callback(null, { id: 123, html_url: "foo" });
+        callback(null, { data: { id: 123, html_url: "foo" } });
       },
       create: (request, callback) => {
-        callback(null, { id: 123, html_url: "foo" });
+        callback(null, { data: { id: 123, html_url: "foo" } });
       }
     },
     users: {
-      get: (request, callback) => callback(null, { login: "jdetle" })
+      get: (request, callback) => callback(null, { data: { login: "jdetle" } })
     }
   };
 });

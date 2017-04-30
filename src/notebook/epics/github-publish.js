@@ -96,7 +96,7 @@ export function publishNotebookObservable(
         });
         if (
           notebook.getIn(["metadata", "github_username"]) !==
-          (res.login || undefined)
+          (res.data.login || undefined)
         ) {
           observer.next(overwriteMetadata("github_username", res.data.login));
           observer.next(deleteMetadata("gist_id"));
