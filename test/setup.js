@@ -1,12 +1,18 @@
 /* eslint-disable arrow-body-style, max-len */
 // From https://github.com/airbnb/enzyme/blob/master/docs/guides/jsdom.md
 
-const jsdom = require("jsdom").jsdom;
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 const exposedProperties = ["window", "navigator", "document"];
 
-global.document = jsdom('<html><body><div id="app"></div></html>');
-global.window = document.defaultView;
+const { window } = new JSDOM('<html><body><div id="app"></div></html>', {
+  runScripts: "outside-only"
+});
+
+global.window = window;
+global.document = window.document;
+
 Object.keys(document.defaultView).forEach(property => {
   if (typeof global[property] === "undefined") {
     exposedProperties.push(property);
