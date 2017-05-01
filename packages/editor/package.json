@@ -29,8 +29,8 @@
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.5.3",
-    "react-dom": "^15.5.3"
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"

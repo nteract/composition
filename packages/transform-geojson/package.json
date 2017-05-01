@@ -16,7 +16,7 @@
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.5.3"
+    "react": "^15.5.4"
   },
   "publishConfig": {
     "access": "public"
