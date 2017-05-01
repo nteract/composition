@@ -165,7 +165,7 @@
     "react-dom": "^15.5.3",
     "react-notification-system": "^0.2.9",
     "react-redux": "^5.0.4",
-    "react-simple-dropdown": "^2.0.0",
+    "react-simple-dropdown": "^3.0.0",
     "redux": "^3.5.2",
     "redux-logger": "^3.0.0",
     "redux-observable": "^0.14.0",
