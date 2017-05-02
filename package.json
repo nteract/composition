@@ -157,7 +157,7 @@
     "lodash": "^4.17.2",
     "mathjax-electron": "^2.0.0",
     "mkdirp": "^0.5.1",
-    "normalize.css": "^6.0.0",
+    "normalize.css": "^7.0.0",
     "nteract-assets": "^2.1.0",
     "react": "^15.5.3",
     "react-dnd": "^2.2.4",
