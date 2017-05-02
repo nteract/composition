@@ -19,6 +19,9 @@ import {
   focusNextCellEditor
 } from "../../actions";
 
+// TODO: Remove after provider refactor finished
+const PropTypes = require("prop-types");
+
 export type CellProps = {
   cell: any,
   displayOrder: ImmutableList<any>,
@@ -48,7 +51,7 @@ export class Cell extends React.PureComponent {
   cellDiv: HTMLElement;
 
   static contextTypes = {
-    store: React.PropTypes.object
+    store: PropTypes.object
   };
 
   constructor(): void {

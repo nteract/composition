@@ -20,6 +20,9 @@ import {
 } from "../actions";
 import type { CellProps } from "./cell/cell";
 
+// TODO: Remove after provider refactor finished
+const PropTypes = require("prop-types");
+
 type Props = {
   displayOrder: ImmutableList<any>,
   notebook: any,
@@ -81,7 +84,7 @@ export class Notebook extends React.PureComponent {
   };
 
   static contextTypes = {
-    store: React.PropTypes.object
+    store: PropTypes.object
   };
 
   constructor(): void {

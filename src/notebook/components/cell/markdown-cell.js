@@ -9,6 +9,9 @@ import MarkdownRenderer from "commonmark-react-renderer";
 import Editor from "../../providers/editor";
 import LatexRenderer from "../latex";
 
+// TODO: Remove after provider refactor finished
+const PropTypes = require("prop-types");
+
 type Props = {
   cell: any,
   id: string,
@@ -40,7 +43,7 @@ export default class MarkdownCell extends React.PureComponent {
   rendered: HTMLElement;
 
   static contextTypes = {
-    store: React.PropTypes.object
+    store: PropTypes.object
   };
 
   static defaultProps = {

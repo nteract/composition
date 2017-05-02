@@ -7,6 +7,9 @@ import { displayOrder, transforms } from "@nteract/transforms";
 
 import Cell from "./cell";
 
+// TODO: Remove after provider refactor finished
+const PropTypes = require("prop-types");
+
 type Props = {
   displayOrder: ImmutableList<any>,
   notebook: any,
@@ -35,10 +38,6 @@ export class Notebook extends React.PureComponent {
   static defaultProps = {
     displayOrder,
     transforms
-  };
-
-  static contextTypes = {
-    store: React.PropTypes.object
   };
 
   constructor(): void {
