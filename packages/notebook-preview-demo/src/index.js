@@ -14,7 +14,9 @@ import {
   standardDisplayOrder,
   registerTransform
 } from "@nteract/transforms";
+
 import DataResourceTransform from "@nteract/transform-dataresource";
+import PlotlyTransform from "@nteract/transform-plotly";
 
 import NotebookPreview from "@nteract/notebook-preview";
 
@@ -28,13 +30,13 @@ import { fetchFromGist } from "./fetchers";
 
 const commutable = require("@nteract/commutable");
 
-const { transforms, displayOrder } = registerTransform(
-  {
-    transforms: standardTransforms,
-    displayOrder: standardDisplayOrder
-  },
-  DataResourceTransform
-);
+const { transforms, displayOrder } = [
+  DataResourceTransform,
+  PlotlyTransform
+].reduce(registerTransform, {
+  transforms: standardTransforms,
+  displayOrder: standardDisplayOrder
+});
 
 const gistIDs = [
   "038c4061d5a562d5f24605b93dcffdb6",
