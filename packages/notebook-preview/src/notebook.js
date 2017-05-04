@@ -51,16 +51,19 @@ export class Notebook extends React.PureComponent {
 
     return (
       <div className="cell-container" key={`cell-container-${id}`}>
-        <Cell
-          key={id}
-          id={id}
-          cell={cell}
-          tip={this.props.tip}
-          displayOrder={this.props.displayOrder}
-          transforms={this.props.transforms}
-          theme={this.props.theme}
-          language={getLanguageMode(this.props.notebook)}
-        />
+        {/* Note: We don't have a draggable cell yet want to keep the same DOM structure for styling */}
+        <div className="draggable-cell">
+          <Cell
+            key={id}
+            id={id}
+            cell={cell}
+            tip={this.props.tip}
+            displayOrder={this.props.displayOrder}
+            transforms={this.props.transforms}
+            theme={this.props.theme}
+            language={getLanguageMode(this.props.notebook)}
+          />
+        </div>
       </div>
     );
   }
