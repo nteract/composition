@@ -198,7 +198,7 @@
     "enzyme": "^2.7.1",
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "3.19.0",
-    "eslint-config-prettier": "^1.5.0",
+    "eslint-config-prettier": "^2.0.0",
     "eslint-plugin-flowtype": "2.31.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-prettier": "^2.0.1",
