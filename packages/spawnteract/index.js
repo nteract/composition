@@ -22,17 +22,17 @@
 /**
  *
  */
-const path = require('path');
+const path = require("path");
 
-const kernelspecs = require('kernelspecs');
-const jp = require('jupyter-paths');
+const kernelspecs = require("kernelspecs");
+const jp = require("jupyter-paths");
 
-const uuid = require('uuid');
-const getPorts = require('portfinder').getPorts;
-const jsonfile = require('jsonfile');
+const uuid = require("uuid");
+const getPorts = require("portfinder").getPorts;
+const jsonfile = require("jsonfile");
 
-const child_process = require('child_process');
-const mkdirp = require('mkdirp');
+const child_process = require("child_process");
+const mkdirp = require("mkdirp");
 
 /**
  * Creates a connectionConfig object given an array of ports
@@ -45,14 +45,14 @@ function _createConnectionConfig(ports) {
   return {
     version: 5,
     key: uuid.v4(),
-    signature_scheme: 'hmac-sha256',
-    transport: 'tcp',
-    ip: '127.0.0.1',
+    signature_scheme: "hmac-sha256",
+    transport: "tcp",
+    ip: "127.0.0.1",
     hb_port: ports[0],
     control_port: ports[1],
     shell_port: ports[2],
     stdin_port: ports[3],
-    iopub_port: ports[4],
+    iopub_port: ports[4]
   };
 }
 
@@ -70,7 +70,7 @@ function _createConnectionConfig(ports) {
 function writeConnectionFile(portFinderOptions) {
   const options = Object.assign({}, portFinderOptions);
   options.port = options.port || 9000;
-  options.host = options.host || '127.0.0.1';
+  options.host = options.host || "127.0.0.1";
 
   return new Promise((resolve, reject) => {
     getPorts(5, options, (err, ports) => {
@@ -84,14 +84,17 @@ function writeConnectionFile(portFinderOptions) {
 
         // Write the kernel connection file.
         const config = _createConnectionConfig(ports);
-        const connectionFile = path.join(jp.runtimeDir(), `kernel-${uuid.v4()}.json`);
-        jsonfile.writeFile(connectionFile, config, (jsonErr) => {
+        const connectionFile = path.join(
+          jp.runtimeDir(),
+          `kernel-${uuid.v4()}.json`
+        );
+        jsonfile.writeFile(connectionFile, config, jsonErr => {
           if (jsonErr) {
             reject(jsonErr);
           } else {
             resolve({
               config,
-              connectionFile,
+              connectionFile
             });
           }
         });
@@ -114,13 +117,18 @@ function writeConnectionFile(portFinderOptions) {
  *
  */
 function launchSpec(kernelSpec, spawnOptions) {
-  return writeConnectionFile().then((c) => {
+  return writeConnectionFile().then(c => {
     const connectionFile = c.connectionFile;
     const config = c.config;
-    const argv = kernelSpec.argv.map(x => x === '{connection_file}' ? connectionFile : x);
+    const argv = kernelSpec.argv.map(
+      x => (x === "{connection_file}" ? connectionFile : x)
+    );
     const env = Object.assign({}, process.env, kernelSpec.env);
-    const runningKernel = child_process.spawn(argv[0], argv.slice(1),
-      Object.assign({}, { 'env': env}, spawnOptions));
+    const runningKernel = child_process.spawn(
+      argv[0],
+      argv.slice(1),
+      Object.assign({}, { env: env }, spawnOptions)
+    );
     return {
       spawn: runningKernel,
       connectionFile,
@@ -147,8 +155,9 @@ function launchSpec(kernelSpec, spawnOptions) {
 function launch(kernelName, spawnOptions, specs) {
   // Let them pass in a cached specs file
   if (!specs) {
-    return kernelspecs.findAll()
-                      .then((sp) => launch(kernelName, spawnOptions, sp));
+    return kernelspecs
+      .findAll()
+      .then(sp => launch(kernelName, spawnOptions, sp));
   }
   if (!specs[kernelName]) {
     return Promise.reject(new Error(`No spec available for ${kernelName}`));
@@ -159,5 +168,5 @@ function launch(kernelName, spawnOptions, specs) {
 
 module.exports = {
   launch,
-  launchSpec,
+  launchSpec
 };
