@@ -2706,9 +2706,16 @@ dnd-core@^2.3.0:
     lodash "^4.2.0"
     redux "^3.2.0"
 
-doctrine@1.3.x, doctrine@^1.2.2:
+doctrine@1.3.x:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.3.0.tgz#13e75682b55518424276f7c173783456ef913d26"
+  dependencies:
+    esutils "^2.0.2"
+    isarray "^1.0.0"
+
+doctrine@^1.2.2:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
   dependencies:
     esutils "^2.0.2"
     isarray "^1.0.0"
@@ -3788,9 +3795,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@^0.40.0:
-  version "0.40.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.40.0.tgz#e10d60846d923124e47f548f16ba60fd8baff5a5"
+flow-bin@^0.45.0:
+  version "0.45.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.45.0.tgz#009dd0f577a3f665c74ca8be827ae8c2dd8fd6b5"
 
 flow-copy-source@^1.1.0:
   version "1.1.0"
@@ -7600,8 +7607,8 @@ react-test-renderer@^15.5.4:
     object-assign "^4.1.0"
 
 react-virtualized@^9.7.3:
-  version "9.7.4"
-  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.7.4.tgz#1b5b25c1397282c6ffc651b416befc69e282df12"
+  version "9.7.5"
+  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.7.5.tgz#0b8db21a06938bf88a01f99aadb0f4a92f2fcb22"
   dependencies:
     babel-runtime "^6.11.6"
     classnames "^2.2.3"
