@@ -320,6 +320,7 @@ type PlainNotebook = {|
 |};
 
 function markdownCellToJS(immCell: ImmutableCell): MarkdownCell {
+  // $FlowFixMe: With Immutable we can not properly type this
   const cell: Cell = immCell.toObject();
 
   return {
@@ -396,6 +397,7 @@ type IntermediateCodeCell = {|
 |};
 
 function codeCellToJS(immCell: ImmutableCell): CodeCell {
+  // $FlowFixMe: With Immutable we can not properly type this
   const cell: IntermediateCodeCell = immCell.toObject();
 
   return {
@@ -408,6 +410,7 @@ function codeCellToJS(immCell: ImmutableCell): CodeCell {
 }
 
 function rawCellToJS(immCell: ImmutableCell): RawCell {
+  // $FlowFixMe: With Immutable we can not properly type this
   const cell: Cell = immCell.toObject();
 
   return {
@@ -432,6 +435,7 @@ function cellToJS(immCell: ImmutableCell): Cell {
 }
 
 export function toJS(immnb: ImmutableNotebook): Notebook {
+  // $FlowFixMe: With Immutable we can not properly type this
   const plainNotebook: PlainNotebook = immnb.toObject();
 
   const plainCellOrder: Array<string> = plainNotebook.cellOrder.toArray();
