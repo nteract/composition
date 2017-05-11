@@ -1,4 +1,5 @@
 const React = require('react');
+const PropTypes = require('prop-types');
 const Anser = require('anser');
 const escapeCarriageReturn = require('escape-carriage');
 
@@ -71,7 +72,7 @@ function Ansi(props) {
   return React.createElement(
     'code',
     {},
-    props.linkify 
+    props.linkify
       ? ansiToInlineStyle(props.children)
         .map(linkifyBundle)
         .map(inlineBundleToReact)
@@ -80,7 +81,7 @@ function Ansi(props) {
 }
 
 Ansi.propTypes = {
-  children: React.PropTypes.string,
+  children: PropTypes.string,
 };
 
 module.exports = Ansi;
