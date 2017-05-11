@@ -122,11 +122,6 @@
     ],
     "npmSkipBuildFromSource": true
   },
-  "greenkeeper": {
-    "ignore": [
-      "flow-bin"
-    ]
-  },
   "jest": {
     "setupFiles": [
       "./scripts/mockument"
