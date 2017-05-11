@@ -34,7 +34,8 @@
     "escape-carriage": "^1.0.1"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-0"
+    "prop-types": "^15.5.9",
+    "react": "^15.0.0-0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
