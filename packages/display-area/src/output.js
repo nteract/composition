@@ -16,6 +16,8 @@ type Props = {
   models: ImmutableMap<string, any>
 };
 
+const classPrefix = "nteract-display-area-";
+
 export default function Output(props: Props): ?React.Element<any> | null {
   const output = props.output;
   const outputType = output.get("output_type");
@@ -48,7 +50,7 @@ export default function Output(props: Props): ?React.Element<any> | null {
       switch (name) {
         case "stdout":
         case "stderr":
-          return <Ansi className={name}>{text}</Ansi>;
+          return <Ansi className={classPrefix + name}>{text}</Ansi>;
         default:
           return null;
       }
@@ -57,10 +59,16 @@ export default function Output(props: Props): ?React.Element<any> | null {
       const traceback = output.get("traceback");
       if (!traceback) {
         return (
-          <Ansi className="traceback">{`${output.get("ename")}: ${output.get("evalue")}`}</Ansi>
+          <Ansi
+            className={classPrefix + "traceback"}
+          >{`${output.get("ename")}: ${output.get("evalue")}`}</Ansi>
         );
       }
-      return <Ansi className="traceback">{traceback.join("\n")}</Ansi>;
+      return (
+        <Ansi className={classPrefix + "traceback"}>
+          {traceback.join("\n")}
+        </Ansi>
+      );
     }
     default:
       return null;
