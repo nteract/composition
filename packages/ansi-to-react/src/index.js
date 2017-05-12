@@ -71,7 +71,7 @@ function inlineBundleToReact(bundle, key) {
 function Ansi(props) {
   return React.createElement(
     'code',
-    {},
+    {className: props.className},
     props.linkify
       ? ansiToInlineStyle(props.children)
         .map(linkifyBundle)
@@ -82,6 +82,7 @@ function Ansi(props) {
 
 Ansi.propTypes = {
   children: PropTypes.string,
+  className: PropTypes.string
 };
 
 module.exports = Ansi;
