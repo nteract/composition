@@ -44,10 +44,11 @@ export default function Output(props: Props): ?React.Element<any> | null {
     }
     case "stream": {
       const text = output.get("text");
-      switch (output.get("name")) {
+      const name = output.get("name");
+      switch (name) {
         case "stdout":
         case "stderr":
-          return <Ansi>{text}</Ansi>;
+          return <Ansi className={name}>{text}</Ansi>;
         default:
           return null;
       }
@@ -55,9 +56,11 @@ export default function Output(props: Props): ?React.Element<any> | null {
     case "error": {
       const traceback = output.get("traceback");
       if (!traceback) {
-        return <Ansi>{`${output.get("ename")}: ${output.get("evalue")}`}</Ansi>;
+        return (
+          <Ansi className="traceback">{`${output.get("ename")}: ${output.get("evalue")}`}</Ansi>
+        );
       }
-      return <Ansi>{traceback.join("\n")}</Ansi>;
+      return <Ansi className="traceback">{traceback.join("\n")}</Ansi>;
     }
     default:
       return null;
