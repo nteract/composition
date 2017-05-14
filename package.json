@@ -194,7 +194,7 @@
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "3.19.0",
     "eslint-config-prettier": "^2.0.0",
-    "eslint-plugin-flowtype": "2.31.0",
+    "eslint-plugin-flowtype": "2.33.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-prettier": "^2.0.1",
     "flow-bin": "^0.46.0",
