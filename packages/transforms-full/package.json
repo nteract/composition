@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transforms-full",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Transforms from nteract",
   "main": "lib/",
   "scripts": {
@@ -33,7 +33,7 @@
     "react": "^15.5.4"
   },
   "dependencies": {
-    "@nteract/transform-dataresource": "^1.0.5",
+    "@nteract/transform-dataresource": "^1.0.6",
     "@nteract/transform-geojson": "^1.1.3",
     "@nteract/transform-model-debug": "^1.0.11",
     "@nteract/transform-plotly": "^1.2.0",
