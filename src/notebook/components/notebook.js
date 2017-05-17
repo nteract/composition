@@ -5,7 +5,7 @@ import { DragDropContext as dragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
-
+import * as path from "path";
 import { displayOrder, transforms } from "../../../packages/transforms-full";
 
 import Cell from "./cell/cell";
@@ -37,7 +37,8 @@ type Props = {
   kernelSpecDisplayName: string,
   CellComponent: any,
   executionState: string,
-  models: ImmutableMap<string, any>
+  models: ImmutableMap<string, any>,
+  fPath: string
 };
 
 export function getLanguageMode(notebook: any): string {
@@ -64,7 +65,8 @@ const mapStateToProps = (state: Object) => ({
   editorFocused: state.document.get("editorFocused"),
   stickyCells: state.document.get("stickyCells"),
   executionState: state.app.get("executionState"),
-  models: state.comms.get("models")
+  models: state.comms.get("models"),
+  fPath: state.metadata.get("filename")
 });
 
 export class Notebook extends React.PureComponent {
@@ -242,6 +244,7 @@ export class Notebook extends React.PureComponent {
           {cellOrder.map(this.createCellElement)}
         </div>
         <StatusBar
+          fPath={this.props.fPath}
           notebook={this.props.notebook}
           lastSaved={this.props.lastSaved}
           kernelSpecDisplayName={this.props.kernelSpecDisplayName}

@@ -38,7 +38,8 @@ module.exports = {
   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-      { test: /\.json$/, loader: "json-loader" }
+      { test: /\.json$/, loader: "json-loader" },
+      { test: /\.node$/, loader: "node-loader" }
     ]
   },
   resolve: {
