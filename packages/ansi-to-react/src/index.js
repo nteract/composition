@@ -1,7 +1,29 @@
+/* @flow */
+
 const React = require('react');
-const PropTypes = require('prop-types');
 const Anser = require('anser');
 const escapeCarriageReturn = require('escape-carriage');
+
+type AnserJsonEntry = {
+  content: string,
+  fg: string,
+  bg: string,
+  fg_truecolor: string,
+  bg_truecolor: string,
+  clearLine: boolean,
+  was_processed: boolean,
+  isEmpty: () => boolean
+};
+
+type AnserJson = Array<AnserJsonEntry>;
+
+type AnsiBundle = {
+  content: string,
+  style: {
+    color?: string,
+    backgroundColor?: string
+  }
+};
 
 /**
  * ansiToJson
@@ -12,7 +34,7 @@ const escapeCarriageReturn = require('escape-carriage');
  * @param {String} input The input string.
  * @return {Array} The parsed input.
  */
-function ansiToJSON(input) {
+function ansiToJSON(input: string): AnserJson {
   input = escapeCarriageReturn(input);
   return Anser.ansiToJson(input, {
     json: true,
@@ -20,7 +42,7 @@ function ansiToJSON(input) {
   });
 }
 
-function ansiJSONtoStyleBundle(ansiBundle) {
+function ansiJSONtoStyleBundle(ansiBundle: AnserJsonEntry): AnsiBundle {
   const style = {};
   if (ansiBundle.bg) {
     style.backgroundColor = `rgb(${ansiBundle.bg})`;
@@ -34,11 +56,11 @@ function ansiJSONtoStyleBundle(ansiBundle) {
   };
 }
 
-function ansiToInlineStyle(text) {
+function ansiToInlineStyle(text: string): Array<AnsiBundle> {
   return ansiToJSON(text).map(ansiJSONtoStyleBundle);
 }
 
-function linkifyBundle(bundle) {
+function linkifyBundle(bundle: AnsiBundle) {
   return {
     ...bundle,
     content: bundle.content.split(' ').reduce((result, word, index) => [
@@ -68,7 +90,7 @@ function inlineBundleToReact(bundle, key) {
   }, bundle.content);
 }
 
-function Ansi(props) {
+function Ansi(props: {children: string, className?: string}) {
   return React.createElement(
     'code',
     {className: props.className},
@@ -79,10 +101,5 @@ function Ansi(props) {
       : ansiToInlineStyle(props.children).map(inlineBundleToReact)
   );
 }
-
-Ansi.propTypes = {
-  children: PropTypes.string,
-  className: PropTypes.string
-};
 
 module.exports = Ansi;
