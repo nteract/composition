@@ -35,7 +35,10 @@ class CodeCell extends React.PureComponent {
   }
 
   isInputHidden(): any {
-    return this.props.cell.getIn(["metadata", "inputHidden"]);
+    return (
+      this.props.cell.getIn(["metadata", "inputHidden"]) ||
+      this.props.cell.getIn(["metadata", "hide_input"])
+    );
   }
 
   isOutputExpanded() {
