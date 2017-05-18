@@ -12,7 +12,7 @@
     "build:lib:watch": "npm run build:lib -- --watch"
   },
   "dependencies": {
-    "rxjs": "^5.0.2",
+    "rxjs": "^5.4.0",
     "uuid": "^3.0.1"
   },
   "publishConfig": {
