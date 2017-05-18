@@ -24,6 +24,7 @@
     "@nteract/messaging": "^1.0.9",
     "@nteract/transforms": "1.0.6",
     "codemirror": "~5.24.0",
+    "lodash.debounce": "^4.0.8",
     "prop-types": "^15.5.8",
     "rxjs": "^5.4.0"
   },
