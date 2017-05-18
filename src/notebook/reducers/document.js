@@ -3,6 +3,8 @@
 import * as Immutable from "immutable";
 import * as uuid from "uuid";
 
+import { escapeCarriageReturnSafe } from "escape-carriage";
+
 import * as constants from "../constants";
 
 import type { LanguageInfoMetadata, KernelInfo } from "../records";
@@ -73,7 +75,7 @@ export function reduceOutputs(
 
   function appendText(text: string): string {
     if (typeof streamOutput.text === "string") {
-      return text + streamOutput.text;
+      return escapeCarriageReturnSafe(text + streamOutput.text);
     }
     return text;
   }
