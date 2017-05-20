@@ -4,27 +4,6 @@ const React = require('react');
 const Anser = require('anser');
 const escapeCarriageReturn = require('escape-carriage');
 
-type AnserJsonEntry = {
-  content: string,
-  fg: string,
-  bg: string,
-  fg_truecolor: string,
-  bg_truecolor: string,
-  clearLine: boolean,
-  was_processed: boolean,
-  isEmpty: () => boolean
-};
-
-type AnserJson = Array<AnserJsonEntry>;
-
-type AnsiBundle = {
-  content: string,
-  style: {
-    color?: string,
-    backgroundColor?: string
-  }
-};
-
 /**
  * ansiToJson
  * Convert ANSI strings into JSON output.
@@ -34,7 +13,7 @@ type AnsiBundle = {
  * @param {String} input The input string.
  * @return {Array} The parsed input.
  */
-function ansiToJSON(input: string): AnserJson {
+function ansiToJSON(input) {
   input = escapeCarriageReturn(input);
   return Anser.ansiToJson(input, {
     json: true,
@@ -42,7 +21,7 @@ function ansiToJSON(input: string): AnserJson {
   });
 }
 
-function ansiJSONtoStyleBundle(ansiBundle: AnserJsonEntry): AnsiBundle {
+function ansiJSONtoStyleBundle(ansiBundle) {
   const style = {};
   if (ansiBundle.bg) {
     style.backgroundColor = `rgb(${ansiBundle.bg})`;
@@ -56,11 +35,11 @@ function ansiJSONtoStyleBundle(ansiBundle: AnserJsonEntry): AnsiBundle {
   };
 }
 
-function ansiToInlineStyle(text: string): Array<AnsiBundle> {
+function ansiToInlineStyle(text) {
   return ansiToJSON(text).map(ansiJSONtoStyleBundle);
 }
 
-function linkifyBundle(bundle: AnsiBundle) {
+function linkifyBundle(bundle) {
   return {
     ...bundle,
     content: bundle.content.split(' ').reduce((result, word, index) => [
@@ -90,7 +69,13 @@ function inlineBundleToReact(bundle, key) {
   }, bundle.content);
 }
 
-function Ansi(props: {children: string, className?: string}) {
+type Props = {
+  children?: React$Element<any>,
+  className?: string,
+  linkify?: boolean
+};
+
+function Ansi(props: Props) {
   return React.createElement(
     'code',
     {className: props.className},
