@@ -201,7 +201,7 @@
     "flow-copy-source": "^1.1.0",
     "husky": "^0.13.3",
     "jest": "^20.0.3",
-    "jsdom": "^10.1.0",
+    "jsdom": "^11.0.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
     "lerna": "^2.0.0-rc.4",
