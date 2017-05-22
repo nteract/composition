@@ -27,7 +27,10 @@ type Props = {
 };
 
 class CodeCell extends React.PureComponent {
-  props: Props;
+
+  constructor(props: Props): void {
+    super(props);
+  }
 
   static defaultProps = {
     pagers: new ImmutableList(),
