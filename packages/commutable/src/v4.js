@@ -32,6 +32,7 @@ import type { CellStructure } from "./structures";
 
 const Immutable = require("immutable");
 const appendCell = require("./structures").appendCell;
+const parse = require("@nteract/ansi-parse");
 
 export type ExecutionCount = number | null;
 
@@ -160,6 +161,12 @@ export function cleanMimeAtKey(
   previous: ImmutableMimeBundle,
   key: string
 ): ImmutableMimeBundle {
+  if (key === "text/plain") {
+    previous = previous.set(
+      "application/ansi+json",
+      parse(cleanMimeData(key, mimeBundle[key]))
+    );
+  }
   return previous.set(key, cleanMimeData(key, mimeBundle[key]));
 }
 
@@ -224,7 +231,8 @@ export function createImmutableOutput(output: Output): ImmutableOutput {
       return Immutable.Map({
         output_type: output.output_type,
         name: output.name,
-        text: demultiline(output.text)
+        text: demultiline(output.text),
+        parsed_ansi: parse(demultiline(output.text))
       });
     case "error":
       return Immutable.Map({
@@ -233,7 +241,12 @@ export function createImmutableOutput(output: Output): ImmutableOutput {
         evalue: output.evalue,
         // Note: this is one of the cases where the Array of strings (for traceback)
         // is part of the format, not a multiline string
-        traceback: Immutable.List(output.traceback)
+        traceback: Immutable.List(output.traceback),
+        parsed_ansi: parse(
+          output.traceback
+            ? output.traceback.join("\n")
+            : `${output.ename}: ${output.evalue}`
+        )
       });
     default:
       throw new TypeError(`Output type ${output.output_type} not recognized`);
