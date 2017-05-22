@@ -54,6 +54,10 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
       filename: "vendor.js"
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      filename: "[name].js.map",
+      exclude: ["vendor.js"]
     })
   ]
 };
