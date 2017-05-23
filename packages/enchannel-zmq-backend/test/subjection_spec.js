@@ -1,52 +1,32 @@
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 
-const chai = require('chai');
-const sinon = require('sinon');
-const sinonChai = require('sinon-chai');
+const chai = require("chai");
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
 const expect = chai.expect;
 chai.use(sinonChai);
 
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require("uuid/v4");
 
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 
-import * as constants from '../src/constants';
+import * as constants from "../src/constants";
 
-import * as jmp from 'jmp';
+import * as jmp from "jmp";
 
 import {
-  deepFreeze,
   createSubscriber,
   createObservable,
   createSubject,
-  createSocket,
-} from '../src/subjection';
+  createSocket
+} from "../src/subjection";
 
-describe('deepFreeze', () => {
-  it('should Object.freeze nested objects', () => {
-    const obj = {
-      a: 1,
-      b: {
-        bb: {
-          c: 3,
-        },
-      },
-    };
-
-    deepFreeze(obj);
-
-    expect((() => {obj.a = 2;})).to.throw('Cannot assign to read only property');
-    expect((() => {obj.b.bb.c = 42;})).to.throw('Cannot assign to read only property');
-    expect((() => {obj.d = 12;})).to.throw('Can\'t add property d, object is not extensible');
-  });
-});
-
-describe('createSubscriber', () => {
-  it('creates a subscriber from a socket', () => {
+describe("createSubscriber", () => {
+  it("creates a subscriber from a socket", () => {
     const hokeySocket = {
       send: sinon.spy(),
       removeAllListeners: sinon.spy(),
-      close: sinon.spy(),
+      close: sinon.spy()
     };
 
     const ob = createSubscriber(hokeySocket);
@@ -54,11 +34,11 @@ describe('createSubscriber', () => {
     ob.next(message);
     expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
   });
-  it('removes all listeners and closes the socket on complete()', () => {
+  it("removes all listeners and closes the socket on complete()", () => {
     const hokeySocket = {
       send: sinon.spy(),
       removeAllListeners: sinon.spy(),
-      close: sinon.spy(),
+      close: sinon.spy()
     };
 
     const ob = createSubscriber(hokeySocket);
@@ -66,11 +46,11 @@ describe('createSubscriber', () => {
     expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
     expect(hokeySocket.close).to.have.been.calledWith();
   });
-  it('should only close once', () => {
+  it("should only close once", () => {
     const hokeySocket = {
       send: sinon.spy(),
       removeAllListeners: sinon.spy(),
-      close: sinon.spy(),
+      close: sinon.spy()
     };
 
     const ob = createSubscriber(hokeySocket);
@@ -86,52 +66,32 @@ describe('createSubscriber', () => {
   });
 });
 
-describe('createObservable', () => {
-  it('publishes clean enchannel messages', (done) => {
+describe("createObservable", () => {
+  it("publishes clean enchannel messages", done => {
     const emitter = new EventEmitter();
     const obs = createObservable(emitter);
 
     obs.subscribe(msg => {
       expect(msg).to.deep.equal({
         content: {
-          success: true,
+          success: true
         },
-        blobs: [],
+        blobs: []
       });
       done();
     });
     const msg = {
       blobs: [],
       content: {
-        success: true,
-      },
+        success: true
+      }
     };
-    emitter.emit('message', msg);
-  });
-  it('publishes deeply frozen objects', (done) => {
-    const emitter = new EventEmitter();
-    const obs = createObservable(emitter);
-
-    obs.subscribe(msg => {
-      expect(Object.isFrozen(msg.content)).to.be.true;
-      expect(Object.isFrozen(msg.metadata)).to.be.true;
-      expect(Object.isFrozen(msg.parent_header)).to.be.true;
-      expect(Object.isFrozen(msg.header)).to.be.true;
-      done();
-    });
-    const msg = {
-      idents: [],
-      blobs: [],
-      content: {
-        success: true,
-      },
-    };
-    emitter.emit('message', msg);
+    emitter.emit("message", msg);
   });
 });
 
-describe('createSubject', () => {
-  it('creates a subject that can send and receive', (done) => {
+describe("createSubject", () => {
+  it("creates a subject that can send and receive", done => {
     // This is largely captured above, we make sure that the subject gets
     // created properly
     const hokeySocket = new EventEmitter();
@@ -145,9 +105,9 @@ describe('createSubject', () => {
     s.subscribe(msg => {
       expect(msg).to.deep.equal({
         content: {
-          success: true,
+          success: true
         },
-        blobs: [],
+        blobs: []
       });
       s.complete();
       expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
@@ -158,30 +118,30 @@ describe('createSubject', () => {
       idents: [],
       blobs: [],
       content: {
-        success: true,
-      },
+        success: true
+      }
     };
 
     const message = { content: { x: 2 } };
     s.next(message);
     expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
 
-    hokeySocket.emit('message', msg);
+    hokeySocket.emit("message", msg);
   });
 });
 
-describe('createSocket', () => {
-  it('creates a JMP socket on the channel with identity', () => {
+describe("createSocket", () => {
+  it("creates a JMP socket on the channel with identity", () => {
     const config = {
-      signature_scheme: 'hmac-sha256',
-      key: '5ca1ab1e-c0da-aced-cafe-c0ffeefacade',
-      ip: '127.0.0.1',
-      transport: 'tcp',
-      iopub_port: 9009,
+      signature_scheme: "hmac-sha256",
+      key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
+      ip: "127.0.0.1",
+      transport: "tcp",
+      iopub_port: 9009
     };
     const identity = uuidv4();
 
-    const socket = createSocket('iopub', identity, config);
+    const socket = createSocket("iopub", identity, config);
     expect(socket).to.not.be.null;
     expect(socket.identity).to.equal(identity);
     expect(socket.type).to.equal(constants.ZMQType.frontend.iopub);
