@@ -1,14 +1,6 @@
-import {
-  SHELL,
-  STDIN,
-  IOPUB,
-  CONTROL,
-} from './constants';
+import { SHELL, STDIN, IOPUB, CONTROL } from "./constants";
 
-import {
-  createSubject,
-  createSocket,
-} from './subjection';
+import { createSubject, createSocket } from "./subjection";
 
 /**
  * createChannels creates an enchannel spec channels object
@@ -21,13 +13,13 @@ import {
  * @param  {string} subscription            subscribed topic; defaults to all
  * @return {object} channels object, per enchannel spec
  */
-export function createChannels(identity, config, subscription='') {
+export function createChannels(identity, config, subscription = "") {
   return {
     shell: createShellSubject(identity, config),
     control: createControlSubject(identity, config),
     stdin: createStdinSubject(identity, config),
-    iopub: createIOPubSubject(identity, config, subscription),
-  }
+    iopub: createIOPubSubject(identity, config, subscription)
+  };
 }
 
 /**
@@ -108,7 +100,7 @@ export function createStdinSubject(identity, config) {
  * @return {Rx.Subject} subject for receiving messages on the shell_port
  *                      channel
  */
-export function createIOPubSubject(identity, config, subscription = '') {
+export function createIOPubSubject(identity, config, subscription = "") {
   const ioPubSocket = createSocket(IOPUB, identity, config);
   // ZMQ PUB/SUB subscription (not an Rx subscription)
   ioPubSocket.subscribe(subscription);
