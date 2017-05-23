@@ -1,27 +1,7 @@
-import { Subscriber, Observable, Subject } from 'rxjs/Rx';
-import * as jmp from 'jmp';
+import { Subscriber, Observable, Subject } from "rxjs/Rx";
+import * as jmp from "jmp";
 
-import {
-  ZMQType,
-} from './constants';
-
-/**
- * Recursive Object.freeze, does not handle functions since Jupyter messages
- * are plain JSON.
- * @param {Object} obj object to deeply freeze
- * @return {Object} the immutable object
- */
-export function deepFreeze(obj) {
-  // Freeze properties before freezing self
-  Object.getOwnPropertyNames(obj).forEach(name => {
-    const prop = obj[name];
-    if(typeof prop === 'object' && prop !== null && !Object.isFrozen(prop)) {
-      deepFreeze(prop);
-    }
-  });
-  // Freeze self
-  return Object.freeze(obj);
-}
+import { ZMQType } from "./constants";
 
 /**
  * Takes a Jupyter spec connection info object and channel and returns the
@@ -32,9 +12,9 @@ export function deepFreeze(obj) {
  * @return {string} The connection string
  */
 export function formConnectionString(config, channel) {
-  const portDelimiter = config.transport === 'tcp' ? ':' : '-';
-  const port = config[channel + '_port'];
-  if (! port) {
+  const portDelimiter = config.transport === "tcp" ? ":" : "-";
+  const port = config[channel + "_port"];
+  if (!port) {
     throw new Error(`Port not found for channel "${channel}"`);
   }
   return `${config.transport}://${config.ip}${portDelimiter}${port}`;
@@ -66,20 +46,15 @@ export function createSubscriber(socket) {
  * @return {Rx.Observable} an Observable that publishes kernel channel messages
  */
 export function createObservable(socket) {
-  return Observable.fromEvent(socket, 'message')
-                   .map(msg => {
-                     // Conform to same message format as notebook websockets
-                     // See https://github.com/n-riesco/jmp/issues/10
-                     delete msg.idents;
-                     // Deep freeze (most of) the message, not including buffers/blob
-                     msg.header && deepFreeze(msg.header);
-                     msg.parent_header && deepFreeze(msg.parent_header);
-                     msg.metadata && deepFreeze(msg.metadata);
-                     msg.content && deepFreeze(msg.content);
-                     return msg;
-                   })
-                   .publish()
-                   .refCount();
+  return Observable.fromEvent(socket, "message")
+    .map(msg => {
+      // Conform to same message format as notebook websockets
+      // See https://github.com/n-riesco/jmp/issues/10
+      delete msg.idents;
+      return msg;
+    })
+    .publish()
+    .refCount();
 }
 
 /**
@@ -88,8 +63,10 @@ export function createObservable(socket) {
  * @return {Rx.Subject} subject for sending and receiving messages to kernels
  */
 export function createSubject(socket) {
-  const subj = Subject.create(createSubscriber(socket),
-                              createObservable(socket));
+  const subj = Subject.create(
+    createSubscriber(socket),
+    createObservable(socket)
+  );
   return subj;
 }
 
@@ -102,7 +79,7 @@ export function createSubject(socket) {
  */
 export function createSocket(channel, identity, config) {
   const zmqType = ZMQType.frontend[channel];
-  const scheme = config.signature_scheme.slice('hmac-'.length);
+  const scheme = config.signature_scheme.slice("hmac-".length);
   const socket = new jmp.Socket(zmqType, scheme, config.key);
   socket.identity = identity;
   socket.connect(formConnectionString(config, channel));
