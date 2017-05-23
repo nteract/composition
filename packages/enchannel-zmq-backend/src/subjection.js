@@ -48,15 +48,15 @@ export function formConnectionString(config, channel) {
  *                         and closes the underlying socket on complete()
  */
 export function createSubscriber(socket) {
-  return Subscriber.create(messageObject => {
-    socket.send(new jmp.Message(messageObject));
-  }, err => {
-    // We don't expect to send errors to the kernel
-    console.error(err);
-  }, () => {
-    // tear it down, tear it *all* down
-    socket.removeAllListeners();
-    socket.close();
+  return Subscriber.create({
+    next: messageObject => {
+      socket.send(new jmp.Message(messageObject));
+    },
+    complete: () => {
+      // tear it down, tear it *all* down
+      socket.removeAllListeners();
+      socket.close();
+    }
   });
 }
 
