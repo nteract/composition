@@ -68,25 +68,9 @@ describe("Display", () => {
       />
     );
 
-    let ci = component.instance();
-
-    // Cannot new an HTMLElement without global document reference
-    ci.el = { scrollHeight: 100, style: {} };
-    ci.recomputeStyle();
-    expect(ci.el.style.overflowY).toEqual("auto");
-    expect(ci.el.style.height).toEqual("auto");
-
-    // Simulate scrollHeight changing
-    ci.el.scrollHeight = DEFAULT_SCROLL_HEIGHT + 1;
-    ci.recomputeStyle();
-    expect(ci.el.style.overflowY).toEqual("auto");
-    expect(ci.el.style.height).toEqual("auto");
-
-    // Simulate scrollHeight changing.
-    ci.el.scrollHeight = DEFAULT_SCROLL_HEIGHT;
-    ci.recomputeStyle();
-    expect(ci.el.style.overflowY).toEqual("auto");
-    expect(ci.el.style.height).toEqual("auto");
+    const props = component.props();
+    expect(props.style.overflowY).toEqual("auto");
+    expect(props.style.maxHeight).toEqual("100%");
   });
   it("sets non expanded cell style correctly", () => {
     const outputs = Immutable.fromJS([
@@ -108,24 +92,8 @@ describe("Display", () => {
       />
     );
 
-    let ci = component.instance();
-
-    //Cannot new an HTMLElement without global document reference
-    ci.el = { scrollHeight: 100, style: {} };
-    ci.recomputeStyle();
-    expect(ci.el.style.overflowY).toEqual("auto");
-    expect(ci.el.style.height).toEqual("auto");
-
-    //Simulate scrollHeight changing
-    ci.el.scrollHeight = DEFAULT_SCROLL_HEIGHT + 1;
-    ci.recomputeStyle();
-    expect(ci.el.style.overflowY).toEqual("scroll");
-    expect(ci.el.style.height).toEqual(`${DEFAULT_SCROLL_HEIGHT}px`);
-
-    // Simulate scrollHeight changing.
-    ci.el.scrollHeight = DEFAULT_SCROLL_HEIGHT;
-    ci.recomputeStyle();
-    expect(ci.el.style.overflowY).toEqual("auto");
-    expect(ci.el.style.height).toEqual("auto");
+    const props = component.props();
+    expect(props.style.overflowY).toEqual("auto");
+    expect(props.style.maxHeight).toEqual(`${DEFAULT_SCROLL_HEIGHT}px`);
   });
 });
