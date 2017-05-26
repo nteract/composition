@@ -30,34 +30,6 @@ export default class Display extends React.PureComponent {
     expanded: false
   };
 
-  constructor() {
-    super();
-    this.recomputeStyle = this.recomputeStyle.bind(this);
-  }
-
-  componentDidMount() {
-    this.recomputeStyle();
-  }
-
-  componentDidUpdate() {
-    this.recomputeStyle();
-  }
-
-  recomputeStyle(): void {
-    if (!this.el) {
-      return;
-    }
-
-    if (!this.props.expanded && this.el.scrollHeight > DEFAULT_SCROLL_HEIGHT) {
-      this.el.style.height = `${DEFAULT_SCROLL_HEIGHT}px`;
-      this.el.style.overflowY = "scroll";
-      return;
-    }
-
-    this.el.style.height = "auto";
-    this.el.style.overflowY = "auto";
-  }
-
   render() {
     const { isHidden, outputs, ...props } = this.props;
 
@@ -67,6 +39,10 @@ export default class Display extends React.PureComponent {
           className="cell_display"
           ref={el => {
             this.el = el;
+          }}
+          style={{
+            maxHeight: props.expanded ? "100%" : `${DEFAULT_SCROLL_HEIGHT}px`,
+            overflowY: "auto"
           }}
         >
           {outputs
