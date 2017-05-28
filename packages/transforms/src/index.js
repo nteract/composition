@@ -79,7 +79,7 @@ export function richestMimetype(
   bundle: ImmutableMap<string, any>,
   order: ImmutableList<string> = standardDisplayOrder,
   tf: ImmutableMap<string, any> = standardTransforms
-): string {
+): ?string {
   return (
     bundle
       .keySeq()
