@@ -168,7 +168,7 @@
     "rxjs": "^5.4.0",
     "shell-env": "^0.3.0",
     "spawn-rx": "^2.0.3",
-    "spawnteract": "^2.2.0",
+    "spawnteract": "^3.0.0",
     "uuid": "^3.0.1",
     "yargs": "^8.0.1"
   },
