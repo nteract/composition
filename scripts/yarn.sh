@@ -17,7 +17,7 @@ echo "Switching to branch $TRAVIS_PULL_REQUEST_BRANCH"
 git checkout $TRAVIS_PULL_REQUEST_BRANCH
 
 # See if commit message includes "update"
-git log --name-status HEAD^..HEAD | grep "update" || exit 0
+git log --name-status HEAD^..HEAD | grep "chore(package): update" || exit 0
 
 echo "(Creat/updat)ing lockfile"
 yarn
