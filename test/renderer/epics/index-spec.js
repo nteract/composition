@@ -11,10 +11,11 @@ chai.use(sinonChai);
 
 describe("epics", () => {
   it("is an array of epics", () => {
-    expect(epics).to.be.an.array;
+    expect(Array.isArray(epics)).to.equal(true);
 
     const action$ = new ActionsObservable();
-    expect(epics.map(epic => epic(action$))).to.be.an.array;
+    const mapped = epics.map(epic => epic(action$));
+    expect(Array.isArray(mapped)).to.equal(true);
   });
 });
 
