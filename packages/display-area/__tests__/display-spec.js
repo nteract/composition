@@ -9,14 +9,14 @@ import { DEFAULT_SCROLL_HEIGHT } from "../src/display";
 
 describe("Display", () => {
   it("does not display when status is hidden", () => {
-    const outputs = Immutable.fromJS([
+    const outputs = [
       {
         output_type: "display_data",
         data: {
           "text/html": "Test content"
         }
       }
-    ]);
+    ];
     const component = shallow(
       <Display
         outputs={outputs}
@@ -29,14 +29,14 @@ describe("Display", () => {
     expect(component.find("div.cell_display")).toHaveLength(0);
   });
   it("displays status when it is not hidden", () => {
-    const outputs = Immutable.fromJS([
+    const outputs = [
       {
         output_type: "display_data",
         data: {
           "text/html": "Test content"
         }
       }
-    ]);
+    ];
     const component = shallow(
       <Display
         outputs={outputs}
@@ -49,14 +49,14 @@ describe("Display", () => {
     expect(component.find("div.cell_display")).toHaveLength(1);
   });
   it("sets expanded cell style correctly", () => {
-    const outputs = Immutable.fromJS([
+    const outputs = [
       {
         output_type: "display_data",
         data: {
           "text/html": "Test content"
         }
       }
-    ]);
+    ];
     const component = shallow(
       <Display
         outputs={outputs}
@@ -73,14 +73,14 @@ describe("Display", () => {
     expect(props.style.maxHeight).toEqual("100%");
   });
   it("sets non expanded cell style correctly", () => {
-    const outputs = Immutable.fromJS([
+    const outputs = [
       {
         output_type: "display_data",
         data: {
           "text/html": "Test content"
         }
       }
-    ]);
+    ];
     const component = shallow(
       <Display
         outputs={outputs}

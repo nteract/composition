@@ -1,19 +1,18 @@
 // @flow
 import React from "react";
-import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import { transforms, displayOrder } from "@nteract/transforms";
 
 import Output from "./output";
 
 type Props = {
-  displayOrder: ImmutableList<string>,
-  outputs: ImmutableList<any>,
-  transforms: ImmutableMap<string, any>,
+  displayOrder: Array<string>,
+  outputs: Array<any>,
+  transforms: Object,
   theme: string,
   expanded: boolean,
   isHidden: boolean,
-  models: ImmutableMap<string, any>
+  models: Object
 };
 
 export const DEFAULT_SCROLL_HEIGHT = 600;

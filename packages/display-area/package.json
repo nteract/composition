@@ -28,7 +28,6 @@
     "ansi-to-react": "^1.4.2"
   },
   "peerDependencies": {
-    "immutable": "^3.8.1",
     "react": "^15.5.4"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",

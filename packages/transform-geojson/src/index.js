@@ -2,11 +2,10 @@
 /* eslint class-methods-use-this: 0 */
 import React from "react";
 import L from "leaflet";
-import { Map } from "immutable";
 
 type Props = {
   data: Object,
-  metadata: Map<string, any>,
+  metadata: Object,
   theme: string
 };
 type TileTheme = "dark" | "light";
@@ -93,19 +92,17 @@ export class GeoJSONTransform extends React.Component {
     // const urlTemplate = (metadata && metadata.url_template) ||
     //   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const urlTemplate =
-      this.props.metadata.get("url_template") ||
+      this.props.metadata.url_template ||
       "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWlja3QiLCJhIjoiLXJIRS1NbyJ9.EfVT76g4A5dyuApW_zuIFQ";
     // const layerOptions = (metadata && metadata.layer_options) || {
     //   attribution: 'Map data (c) <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
     //   minZoom: 0,
     //   maxZoom: 18
     // };
-    const layerOptions = this.props.metadata.get("layer_options")
-      ? this.props.metadata.get("layer_options").toJS()
-      : {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-          id: `mapbox.${theme}`
-        };
+    const layerOptions = this.props.metadata.layer_options || {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      id: `mapbox.${theme}`
+    };
     return [urlTemplate, layerOptions];
   };
 

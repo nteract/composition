@@ -1,17 +1,16 @@
 // @flow
 import React from "react";
-import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import { richestMimetype, transforms, displayOrder } from "@nteract/transforms";
 
 type Props = {
   expanded: boolean,
-  displayOrder: ImmutableList<string>,
-  transforms: ImmutableMap<string, any>,
-  bundle: ImmutableMap<string, any>,
-  metadata: ImmutableMap<string, any>,
+  displayOrder: Array<string>,
+  transforms: Object,
+  bundle: Object,
+  metadata: Object,
   theme: string,
-  models?: ImmutableMap<string, any>
+  models?: Object
 };
 
 export default class RichestMime extends React.Component {
@@ -21,9 +20,9 @@ export default class RichestMime extends React.Component {
     transforms,
     displayOrder,
     theme: "light",
-    metadata: new ImmutableMap(),
-    bundle: new ImmutableMap(),
-    models: new ImmutableMap()
+    metadata: {},
+    bundle: {},
+    models: {}
   };
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -52,9 +51,9 @@ export default class RichestMime extends React.Component {
       return null;
     }
 
-    const Transform = this.props.transforms.get(mimetype);
-    const data = this.props.bundle.get(mimetype);
-    const metadata = this.props.metadata.get(mimetype);
+    const Transform = this.props.transforms[mimetype];
+    const data = this.props.bundle[mimetype];
+    const metadata = this.props.metadata[mimetype];
     return (
       <Transform
         expanded={this.props.expanded}

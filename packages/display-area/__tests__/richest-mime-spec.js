@@ -1,5 +1,4 @@
 import React from "react";
-import Immutable from "immutable";
 
 import { shallow } from "enzyme";
 
@@ -8,13 +7,13 @@ import { RichestMime } from "../";
 
 describe("RichestMime", () => {
   it("renders a mimebundle", () => {
-    const models = Immutable.fromJS({});
+    const models = {};
     const rm = shallow(
       <RichestMime
         displayOrder={displayOrder}
         transforms={transforms}
-        bundle={Immutable.fromJS({ "text/plain": "THE DATA" })}
-        metadata={Immutable.fromJS({ "text/plain": "alright" })}
+        bundle={{ "text/plain": "THE DATA" }}
+        metadata={{ "text/plain": "alright" }}
         models={models}
       />
     );
@@ -32,7 +31,7 @@ describe("RichestMime", () => {
       <RichestMime
         displayOrder={displayOrder}
         transforms={transforms}
-        bundle={Immutable.fromJS({ "application/ipynb+json": "{}" })}
+        bundle={{ "application/ipynb+json": "{}" }}
       />
     );
 

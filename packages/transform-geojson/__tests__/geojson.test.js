@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "lodash";
-import { Map } from "immutable";
 
 import { mount } from "enzyme";
 
@@ -50,7 +49,7 @@ const geojson = deepFreeze({
   ]
 });
 
-const metadata = Map({ expanded: true });
+const metadata = { expanded: true };
 
 describe("GeoJSONTransform", () => {
   it("renders a map", () => {

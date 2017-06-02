@@ -1,4 +1,4 @@
-# Display Area 
+# Display Area
 Render Jupyter notebook outputs in a trim little React component.
 
 ## Installation
@@ -14,10 +14,10 @@ import Display from '@nteract/display-area`
 <Display outputs={outputs} />
 ```
 
-Here `outputs` is an Immutable.js structure with all the outputs of a cell. Note: this does require trim, clean editions of the multiline cells as is done in `@nteract/commutable`.
+Here `outputs` is an Object with all the outputs of a cell. Note: this does require trim, clean editions of the multiline cells as is done in `@nteract/commutable`.
 
 Used in context of a notebook, you will likely be extracting it from a cell:
 
 ```jsx
-<Display outputs={this.props.cell.get('outputs')} />
+<Display outputs={this.props.cell.outputs} />
 ```

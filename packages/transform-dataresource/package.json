@@ -16,7 +16,6 @@
     "access": "public"
   },
   "peerDependencies": {
-    "immutable": "^3.8.1",
     "react": "^15.5.4"
   },
   "license": "BSD-3-Clause",

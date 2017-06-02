@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 import Ansi from "ansi-to-react";
 
 import { transforms, displayOrder } from "@nteract/transforms";
@@ -9,29 +8,29 @@ import RichestMime from "./richest-mime";
 
 type Props = {
   expanded: boolean,
-  displayOrder: ImmutableList<string>,
+  displayOrder: Array<string>,
   output: any,
-  transforms: ImmutableMap<string, any>,
+  transforms: Object,
   theme: string,
-  models: ImmutableMap<string, any>
+  models: Object
 };
 
 const classPrefix = "nteract-display-area-";
 
 export default function Output(props: Props): ?React.Element<any> | null {
   const output = props.output;
-  const outputType = output.get("output_type");
+  const outputType = output.output_type;
   switch (outputType) {
     case "execute_result":
     // We can defer to display data here, the cell number will be handled
-    // separately. For reference, it is output.get('execution_count')
+    // separately. For reference, it is output.execution_count
     // The execution_count belongs in the component above if
     // this is a code cell
 
     // falls through
     case "display_data": {
-      const bundle = output.get("data");
-      const metadata = output.get("metadata");
+      const bundle = output.data;
+      const metadata = output.metadata;
       return (
         <RichestMime
           expanded={props.expanded}
@@ -45,8 +44,8 @@ export default function Output(props: Props): ?React.Element<any> | null {
       );
     }
     case "stream": {
-      const text = output.get("text");
-      const name = output.get("name");
+      const text = output.text;
+      const name = output.name;
       switch (name) {
         case "stdout":
         case "stderr":
@@ -56,12 +55,12 @@ export default function Output(props: Props): ?React.Element<any> | null {
       }
     }
     case "error": {
-      const traceback = output.get("traceback");
+      const traceback = output.traceback;
       if (!traceback) {
         return (
           <Ansi
             className={classPrefix + "traceback"}
-          >{`${output.get("ename")}: ${output.get("evalue")}`}</Ansi>
+          >{`${output.ename}: ${output.evalue}`}</Ansi>
         );
       }
       return (

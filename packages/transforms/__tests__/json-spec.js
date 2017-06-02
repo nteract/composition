@@ -1,12 +1,11 @@
 import React from "react";
-import Immutable from "immutable";
 import JSONTree from "react-json-tree";
 
 import { shallow } from "enzyme";
 
 import JsonDisplay from "../src/json";
 
-const baseData = Immutable.fromJS({ name: "Octocat" });
+const baseData = { name: "Octocat" };
 
 describe("JsonDisplay", () => {
   it("renders a <JSONTree /> component", () => {
@@ -21,7 +20,7 @@ describe("JsonDisplay", () => {
   });
 
   it("should expand json tree if expanded metadata is true", () => {
-    const metadata = Immutable.fromJS({ expanded: true });
+    const metadata = { expanded: true };
     const component = shallow(
       <JsonDisplay data={baseData} theme="light" metadata={metadata} />
     );
