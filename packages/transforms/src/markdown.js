@@ -16,6 +16,7 @@ const mdRender: MDRender = input => renderer.render(parser.parse(input));
 
 export class MarkdownDisplay extends React.Component {
   props: Props;
+  static MIMETYPE = "text/markdown";
 
   shouldComponentUpdate(nextProps: Props): boolean {
     return nextProps.data !== this.props.data;

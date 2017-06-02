@@ -9,6 +9,7 @@ type Props = {
 export default class LaTeXDisplay extends React.Component {
   props: Props;
   el: HTMLElement;
+  static MIMETYPE = "text/latex";
 
   componentDidMount(): void {
     this.el.innerHTML = this.props.data;

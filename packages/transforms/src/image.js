@@ -25,14 +25,26 @@ export default function ImageDisplay(props: TopProps): ?React.Element<any> {
   );
 }
 
-export function PNGDisplay(props: ImageProps): ?React.Element<any> {
-  return <ImageDisplay mimetype="image/png" {...props} />;
+export class PNGDisplay extends React.Component {
+  props: ImageProps;
+  static MIMETYPE = "image/png";
+  render() {
+    return <ImageDisplay mimetype="image/png" {...this.props} />;
+  }
 }
 
-export function JPEGDisplay(props: ImageProps): ?React.Element<any> {
-  return <ImageDisplay mimetype="image/jpeg" {...props} />;
+export class JPEGDisplay extends React.Component {
+  props: ImageProps;
+  static MIMETYPE = "image/jpeg";
+  render() {
+    return <ImageDisplay mimetype="image/jpeg" {...this.props} />;
+  }
 }
 
-export function GIFDisplay(props: ImageProps): ?React.Element<any> {
-  return <ImageDisplay mimetype="image/gif" {...props} />;
+export class GIFDisplay extends React.Component {
+  props: ImageProps;
+  static MIMETYPE = "image/gif";
+  render() {
+    return <ImageDisplay mimetype="image/gif" {...this.props} />;
+  }
 }

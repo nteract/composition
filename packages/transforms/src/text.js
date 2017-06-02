@@ -9,6 +9,7 @@ type Props = {
 
 export default class TextDisplay extends React.Component {
   props: Props;
+  static MIMETYPE = "text/plain";
 
   shouldComponentUpdate(): boolean {
     return true;

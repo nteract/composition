@@ -26,6 +26,7 @@ export function runCodeHere(el: HTMLElement, code: string): any {
 export default class JavaScript extends React.Component {
   props: Props;
   el: HTMLElement;
+  static MIMETYPE = "application/javascript";
 
   componentDidMount(): void {
     runCodeHere(this.el, this.props.data);

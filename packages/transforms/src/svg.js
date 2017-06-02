@@ -8,6 +8,7 @@ type Props = {
 export default class SVGDisplay extends React.Component {
   props: Props;
   el: HTMLElement;
+  static MIMETYPE = "image/svg+xml";
 
   componentDidMount(): void {
     this.el.insertAdjacentHTML("beforeend", this.props.data);

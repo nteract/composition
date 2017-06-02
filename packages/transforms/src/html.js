@@ -17,6 +17,7 @@ export function createFragment(html: string): Node {
 export default class HTMLDisplay extends React.Component {
   props: Props;
   el: HTMLElement;
+  static MIMETYPE = "text/html";
 
   componentDidMount(): void {
     this.el.appendChild(createFragment(this.props.data));
