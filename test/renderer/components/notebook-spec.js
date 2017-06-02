@@ -58,9 +58,10 @@ describe("Notebook", () => {
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
           stickyCells={new Immutable.Map()}
-          displayOrder={displayOrder.delete("text/html")}
-          transforms={transforms.delete("text/html")}
+          displayOrder={displayOrder}
+          transforms={transforms}
           CellComponent={Cell}
+          models={new Immutable.Map({})}
         />
       </Provider>
     );

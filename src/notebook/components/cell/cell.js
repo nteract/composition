@@ -24,7 +24,7 @@ const PropTypes = require("prop-types");
 
 export type CellProps = {
   cell: any,
-  displayOrder: ImmutableList<any>,
+  displayOrder: Array<string>,
   id: string,
   cellFocused: string,
   editorFocused: string,
@@ -32,7 +32,7 @@ export type CellProps = {
   running: boolean,
   theme: string,
   pagers: ImmutableList<any>,
-  transforms: ImmutableMap<string, any>,
+  transforms: Object,
   models: ImmutableMap<string, any>
 };
 

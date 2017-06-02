@@ -35,6 +35,7 @@ describe("Cell", () => {
         cell={emptyCodeCell}
         {...sharedProps}
         cellStatus={Immutable.Map({ outputHidden: false, inputHidden: false })}
+        models={new Immutable.Map({})}
       />,
       {
         context: { store }

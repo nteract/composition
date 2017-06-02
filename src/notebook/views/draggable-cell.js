@@ -10,7 +10,7 @@ import Cell from "../components/cell/cell";
 
 type Props = {|
   cell: ImmutableMap<string, any>,
-  displayOrder: ImmutableList<any>,
+  displayOrder: Array<string>,
   connectDragPreview: (img: Image) => void,
   connectDragSource: (el: ?React.Element<any>) => void,
   connectDropTarget: (el: ?React.Element<any>) => void,

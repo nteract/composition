@@ -24,9 +24,9 @@ import type { CellProps } from "./cell/cell";
 const PropTypes = require("prop-types");
 
 type Props = {
-  displayOrder: ImmutableList<any>,
+  displayOrder: Array<string>,
   notebook: any,
-  transforms: ImmutableMap<string, any>,
+  transforms: Object,
   cellPagers: ImmutableMap<string, any>,
   stickyCells: ImmutableMap<string, any>,
   transient: ImmutableMap<string, any>,

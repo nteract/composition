@@ -22,6 +22,7 @@ describe("CodeCell", () => {
           inputHidden: false,
           outputExpanded: false
         })}
+        models={new Immutable.Map({})}
       />
     );
     expect(cell).to.not.be.null;
@@ -39,6 +40,7 @@ describe("CodeCell", () => {
             inputHidden: false,
             outputExpanded: false
           })}
+          models={new Immutable.Map({})}
         />
       </Provider>
     );
@@ -58,6 +60,7 @@ describe("CodeCell", () => {
             outputExpanded: false
           })}
           pagers={Immutable.fromJS([{ data: { "text/plain": "one" } }])}
+          models={new Immutable.Map({})}
         />
       </Provider>
     );

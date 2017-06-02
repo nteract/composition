@@ -4,6 +4,7 @@ import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import Inputs from "./inputs";
 import { Display } from "../../../../packages/display-area";
+import { outputToJS } from "../../../../packages/commutable";
 
 import Editor from "../../providers/editor";
 import LatexRenderer from "../latex";
@@ -12,11 +13,11 @@ import Pager from "./pager";
 
 type Props = {
   cell: ImmutableMap<string, any>,
-  displayOrder: ImmutableList<any>,
+  displayOrder: Array<string>,
   id: string,
   language: string,
   theme: string,
-  transforms: ImmutableMap<string, any>,
+  transforms: Object,
   cellFocused: boolean,
   editorFocused: boolean,
   pagers: ImmutableList<any>,
@@ -89,13 +90,13 @@ class CodeCell extends React.PureComponent {
           <div className="outputs">
             <Display
               className="outputs-display"
-              outputs={this.props.cell.get("outputs")}
+              outputs={this.props.cell.get("outputs").toJS()}
               displayOrder={this.props.displayOrder}
               transforms={this.props.transforms}
               theme={this.props.theme}
               expanded={this.isOutputExpanded()}
               isHidden={this.isOutputHidden()}
-              models={this.props.models}
+              models={this.props.models.toJS()}
             />
           </div>
         </LatexRenderer>
