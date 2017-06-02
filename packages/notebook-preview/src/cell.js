@@ -9,7 +9,7 @@ import RawCell from "./raw-cell";
 
 export type CellProps = {
   cell: any,
-  displayOrder: ImmutableList<any>,
+  displayOrder: Array<string>,
   id: string,
   language: string,
   theme: string,

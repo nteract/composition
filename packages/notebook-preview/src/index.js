@@ -7,8 +7,8 @@ const Immutable = require("immutable");
 
 type Props = {
   notebook: Immutable.Map<string, any> | Object,
-  displayOrder: Immutable.List<string>,
-  transforms: Immutable.Map<string, any>,
+  displayOrder: Array<string>,
+  transforms: Object,
   tip: boolean
 };
 
