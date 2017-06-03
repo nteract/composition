@@ -4,13 +4,18 @@ import { richestMimetype, transforms } from "../src";
 
 describe("richestMimetype", () => {
   it("picks the richest of the mimetypes from a bundle with defaults", () => {
-    const mimeBundle = { "text/plain": "Hello World" };
+    const singleMimeBundle = { "text/plain": "Hello World" };
+    const mimeBundle = {
+      "text/plain": "Hello World",
+      "image/png": "imageData"
+    };
 
-    expect(richestMimetype(mimeBundle)).toEqual("text/plain");
+    expect(richestMimetype(singleMimeBundle)).toEqual("text/plain");
+    expect(richestMimetype(Object.freeze(singleMimeBundle))).toEqual(
+      "text/plain"
+    );
 
-    expect(
-      richestMimetype({ "text/plain": "Hello World", "image/png": "imageData" })
-    ).toEqual("image/png");
+    expect(richestMimetype(Object.freeze(mimeBundle))).toEqual("image/png");
   });
   it("falls back to a simpler mimetype if a transform is not available", () => {
     const mimeBundle = {
