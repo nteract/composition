@@ -11,7 +11,7 @@ release of the display area (:soon:).
 npm install @nteract/transforms
 ```
 
-Note: React and Immutable are peer dependencies you'll have to install yourself.
+Note: React is a peer dependencies you'll have to install yourself.
 
 ## Usage
 
@@ -24,22 +24,20 @@ import {
   standardTransforms,
 } from '@nteract/transforms'
 
-import Immutable from 'immutable'
-
 // Jupyter style MIME bundle
-const bundle = new Immutable.Map({
+const bundle = {
   'text/plain': 'This is great',
   'image/png': 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-})
+}
 
 // Find out which mimetype is the richest
 const mimetype = richestMimetype(bundle, standardDisplayOrder, standardTransforms)
 
 // Get the matching React.Component for that mimetype
-let Transform = standardTransforms.get(mimetype)
+let Transform = standardTransforms[mimetype]
 
 // Create a React element
-return <Transform data={bundle.get(mimetype)} />
+return <Transform data={bundle[mimetype]} />
 ```
 
 ### Adding New Transforms
@@ -64,5 +62,5 @@ const {
 
 ...
 
-let Transform = transforms.get(mimetype);
+const Transform = transforms[mimetype];
 ```
