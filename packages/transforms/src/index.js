@@ -1,10 +1,5 @@
 /* @flow */
 
-// Needed for flow
-/* eslint-disable no-unused-vars */
-import React from "react";
-/* eslint-enable no-unused-vars */
-
 import TextDisplay from "./text";
 import JsonDisplay from "./json";
 import JavaScriptDisplay from "./javascript";
@@ -14,9 +9,9 @@ import LaTeXDisplay from "./latex";
 import SVGDisplay from "./svg";
 import { PNGDisplay, JPEGDisplay, GIFDisplay } from "./image";
 
-declare class Transform extends React.Component {
+type Transform = {
   MIMETYPE: string
-}
+};
 
 type Transforms = { [string]: Transform };
 type DisplayOrder = Array<string>;
