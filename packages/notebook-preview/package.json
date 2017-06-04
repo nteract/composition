@@ -21,7 +21,7 @@
     "@nteract/transforms": "^1.1.0",
     "codemirror": "^5.25.2",
     "commonmark": "^0.27.0",
-    "commonmark-react-renderer": "^4.3.2",
+    "commonmark-react-renderer": "^4.3.3",
     "mathjax-electron": "^2.0.1"
   },
   "peerDependencies": {
