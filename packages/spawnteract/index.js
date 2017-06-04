@@ -117,36 +117,63 @@ function writeConnectionFile(portFinderOptions) {
  *
  */
 function launchSpec(kernelSpec, spawnOptions) {
-  return writeConnectionFile().then(c => {
-    const connectionFile = c.connectionFile;
-    const config = c.config;
-    const argv = kernelSpec.argv.map(
-      x => (x === "{connection_file}" ? connectionFile : x)
-    );
-
-    const defaultSpawnOptions = {
-      stdio: "ignore"
-    };
-    const env = Object.assign({}, process.env, kernelSpec.env);
-    const fullSpawnOptions = Object.assign(
-      {},
-      defaultSpawnOptions,
-      { env: env },
+  return writeConnectionFile().then(({ config, connectionFile }) => {
+    return launchSpecFromConfig(
+      kernelSpec,
+      config,
+      connectionFile,
       spawnOptions
     );
-
-    const runningKernel = child_process.spawn(
-      argv[0],
-      argv.slice(1),
-      fullSpawnOptions
-    );
-    return {
-      spawn: runningKernel,
-      connectionFile,
-      config,
-      kernelSpec
-    };
   });
+}
+
+/**
+ * Launch a kernel for a given kernelSpec and connection config
+ * @public
+ * @param  {object}       kernelSpec      describes a specific
+ *                                        kernel, see the npm
+ *                                        package `kernelspecs`
+ * @param  {object}       config          connection config
+ * @param  {string}       connectionFile  path to the config file
+ * @param  {object}       [spawnOptions]  options for [child_process.spawn]{@link https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options}
+ * @return {object}       spawnResults
+ * @return {ChildProcess} spawnResults.spawn           spawned process
+ * @return {string}       spawnResults.connectionFile  connection file path
+ * @return {object}       spawnResults.config          connectionConfig
+ *
+ */
+function launchSpecFromConfig(
+  kernelSpec,
+  config,
+  connectionFile,
+  spawnOptions
+) {
+  const argv = kernelSpec.argv.map(
+    x => (x === "{connection_file}" ? connectionFile : x)
+  );
+
+  const defaultSpawnOptions = {
+    stdio: "ignore"
+  };
+  const env = Object.assign({}, process.env, kernelSpec.env);
+  const fullSpawnOptions = Object.assign(
+    {},
+    defaultSpawnOptions,
+    { env: env },
+    spawnOptions
+  );
+
+  const runningKernel = child_process.spawn(
+    argv[0],
+    argv.slice(1),
+    fullSpawnOptions
+  );
+  return {
+    spawn: runningKernel,
+    connectionFile,
+    config,
+    kernelSpec
+  };
 }
 
 /**
@@ -179,5 +206,6 @@ function launch(kernelName, spawnOptions, specs) {
 
 module.exports = {
   launch,
-  launchSpec
+  launchSpec,
+  launchSpecFromConfig
 };
