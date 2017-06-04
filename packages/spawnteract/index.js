@@ -35,13 +35,13 @@ const child_process = require("child_process");
 const mkdirp = require("mkdirp");
 
 /**
- * Creates a connectionConfig object given an array of ports
+ * Creates a connectionInfo object given an array of ports
  * @private
  * @param  {number[]} ports array of ports to use for the connection, [hb_port,
  *                          control_port, shell_port, stdin_port, iopub_port]
- * @return {object}         connectionConfig object
+ * @return {object}         connectionInfo object
  */
-function _createConnectionConfig(ports) {
+function _createConnectionInfo(ports) {
   return {
     version: 5,
     key: uuid.v4(),
@@ -64,8 +64,8 @@ function _createConnectionConfig(ports) {
  * @param  {number} [portFinderOptions.port]
  * @param  {string} [portFinderOptions.host]
  * @return {object} configResults
- * @return {object} configResults.config          connectionConfig
- * @return {string} configResults.connectionFile  path to the config file
+ * @return {object} configResults.config          connection info
+ * @return {string} configResults.connectionFile  path to the connection file
  */
 function writeConnectionFile(portFinderOptions) {
   const options = Object.assign({}, portFinderOptions);
@@ -83,7 +83,7 @@ function writeConnectionFile(portFinderOptions) {
         mkdirp(runtimeDir);
 
         // Write the kernel connection file.
-        const config = _createConnectionConfig(ports);
+        const config = _createConnectionInfo(ports);
         const connectionFile = path.join(
           jp.runtimeDir(),
           `kernel-${uuid.v4()}.json`
@@ -113,12 +113,12 @@ function writeConnectionFile(portFinderOptions) {
  * @return {object}       spawnResults
  * @return {ChildProcess} spawnResults.spawn           spawned process
  * @return {string}       spawnResults.connectionFile  connection file path
- * @return {object}       spawnResults.config          connectionConfig
+ * @return {object}       spawnResults.config          connection info
  *
  */
 function launchSpec(kernelSpec, spawnOptions) {
   return writeConnectionFile().then(c => {
-    return launchSpecFromConfig(
+    return launchSpecFromConnectionInfo(
       kernelSpec,
       c.config,
       c.connectionFile,
@@ -128,7 +128,7 @@ function launchSpec(kernelSpec, spawnOptions) {
 }
 
 /**
- * Launch a kernel for a given kernelSpec and connection config
+ * Launch a kernel for a given kernelSpec and connection info
  * @public
  * @param  {object}       kernelSpec      describes a specific
  *                                        kernel, see the npm
@@ -139,10 +139,10 @@ function launchSpec(kernelSpec, spawnOptions) {
  * @return {object}       spawnResults
  * @return {ChildProcess} spawnResults.spawn           spawned process
  * @return {string}       spawnResults.connectionFile  connection file path
- * @return {object}       spawnResults.config          connectionConfig
+ * @return {object}       spawnResults.config          connection info
  *
  */
-function launchSpecFromConfig(
+function launchSpecFromConnectionInfo(
   kernelSpec,
   config,
   connectionFile,
@@ -188,7 +188,7 @@ function launchSpecFromConfig(
  * @return {object}       spawnResults
  * @return {ChildProcess} spawnResults.spawn           spawned process
  * @return {string}       spawnResults.connectionFile  connection file path
- * @return {object}       spawnResults.config          connectionConfig
+ * @return {object}       spawnResults.config          connection info
  */
 function launch(kernelName, spawnOptions, specs) {
   // Let them pass in a cached specs file
@@ -207,5 +207,5 @@ function launch(kernelName, spawnOptions, specs) {
 module.exports = {
   launch,
   launchSpec,
-  launchSpecFromConfig
+  launchSpecFromConnectionInfo
 };
