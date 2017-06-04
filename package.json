@@ -191,6 +191,7 @@
     "electron-builder": "^18.2.2",
     "electron-mocha": "^3.2.0",
     "enzyme": "^2.7.1",
+    "enzyme-to-json": "^1.5.1",
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "3.19.0",
     "eslint-config-prettier": "^2.1.1",
