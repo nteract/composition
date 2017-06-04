@@ -7,7 +7,7 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const PropTypes = require("prop-types");
 const className = require("classnames");
-const debounce = require("lodash.debounce");
+const debounce = require("lodash").debounce;
 const createReactClass = require("create-react-class");
 
 function normalizeLineEndings(str) {

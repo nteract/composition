@@ -5,7 +5,7 @@ import React from "react";
 import { Table, Column, SortDirection, AutoSizer } from "react-virtualized";
 import infer from "jsontableschema/lib/infer";
 
-const _sortBy = require("lodash.sortby");
+const _sortBy = require("lodash").sortBy;
 
 const ROW_HEIGHT = 36;
 const COLLAPSED_HEIGHT = ROW_HEIGHT * 10;
@@ -77,7 +77,7 @@ export default class VirtualizedTable extends React.Component {
     const height = rowCount * ROW_HEIGHT;
     return (
       <AutoSizer disableHeight>
-        {({ width }) => (
+        {({ width }) =>
           <Table
             // ref={ref => this.ref = ref}
             className="table"
@@ -117,7 +117,7 @@ export default class VirtualizedTable extends React.Component {
             // }}
             width={width}
           >
-            {this.state.schema.fields.map((field, fieldIndex) => (
+            {this.state.schema.fields.map((field, fieldIndex) =>
               <Column
                 key={fieldIndex}
                 label={`${field.name}`}
@@ -130,9 +130,8 @@ export default class VirtualizedTable extends React.Component {
                 flexGrow={1}
                 flexShrink={1}
               />
-            ))}
-          </Table>
-        )}
+            )}
+          </Table>}
       </AutoSizer>
     );
   }

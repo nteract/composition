@@ -1,7 +1,10 @@
 sudo: false
 language: node_js
 node_js:
-- '6'
+# Current Long Term Stable (LTS) release
+- "6"
+# Pending LTS
+- "8"
 env:
   matrix:
   - GROUP=coverage
@@ -11,9 +14,9 @@ env:
   - GROUP=conformance
 
 cache:
-  apt: true
   yarn: true
-  directories:
+  apt: true
+  directories: 
     - node_modules
 
 before_install: yarn global add greenkeeper-lockfile@1

@@ -117,7 +117,7 @@ And then opening `docs/index.html` in your favorite browser.
 ### Bump the version
 
 ```
-yarn version
+yarn version {major, minor, patch}
 git push
 git push --tags
 yarn publish

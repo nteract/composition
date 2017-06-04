@@ -4,7 +4,7 @@
   "description": "View a notebook using a React Component",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
@@ -23,6 +23,9 @@
     "commonmark": "^0.27.0",
     "commonmark-react-renderer": "^4.3.3",
     "mathjax-electron": "^2.0.1"
+  },
+  "devDependencies": {
+    "enzyme-to-json": "^1.5.1"
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
