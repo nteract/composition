@@ -117,11 +117,11 @@ function writeConnectionFile(portFinderOptions) {
  *
  */
 function launchSpec(kernelSpec, spawnOptions) {
-  return writeConnectionFile().then(({ config, connectionFile }) => {
+  return writeConnectionFile().then(c => {
     return launchSpecFromConfig(
       kernelSpec,
-      config,
-      connectionFile,
+      c.config,
+      c.connectionFile,
       spawnOptions
     );
   });
