@@ -13,6 +13,6 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'normalize.css' {
+declare module "normalize.css" {
   declare module.exports: any;
 }

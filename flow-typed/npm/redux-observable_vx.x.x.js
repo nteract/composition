@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'redux-observable' {
+declare module "redux-observable" {
   declare module.exports: any;
 }
 
@@ -22,53 +22,55 @@ declare module 'redux-observable' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'redux-observable/dist/redux-observable' {
+declare module "redux-observable/dist/redux-observable" {
   declare module.exports: any;
 }
 
-declare module 'redux-observable/dist/redux-observable.min' {
+declare module "redux-observable/dist/redux-observable.min" {
   declare module.exports: any;
 }
 
-declare module 'redux-observable/lib/ActionsObservable' {
+declare module "redux-observable/lib/ActionsObservable" {
   declare module.exports: any;
 }
 
-declare module 'redux-observable/lib/combineEpics' {
+declare module "redux-observable/lib/combineEpics" {
   declare module.exports: any;
 }
 
-declare module 'redux-observable/lib/createEpicMiddleware' {
+declare module "redux-observable/lib/createEpicMiddleware" {
   declare module.exports: any;
 }
 
-declare module 'redux-observable/lib/EPIC_END' {
+declare module "redux-observable/lib/EPIC_END" {
   declare module.exports: any;
 }
 
-declare module 'redux-observable/lib/index' {
+declare module "redux-observable/lib/index" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'redux-observable/dist/redux-observable.js' {
-  declare module.exports: $Exports<'redux-observable/dist/redux-observable'>;
+declare module "redux-observable/dist/redux-observable.js" {
+  declare module.exports: $Exports<"redux-observable/dist/redux-observable">;
 }
-declare module 'redux-observable/dist/redux-observable.min.js' {
-  declare module.exports: $Exports<'redux-observable/dist/redux-observable.min'>;
+declare module "redux-observable/dist/redux-observable.min.js" {
+  declare module.exports: $Exports<
+    "redux-observable/dist/redux-observable.min"
+  >;
 }
-declare module 'redux-observable/lib/ActionsObservable.js' {
-  declare module.exports: $Exports<'redux-observable/lib/ActionsObservable'>;
+declare module "redux-observable/lib/ActionsObservable.js" {
+  declare module.exports: $Exports<"redux-observable/lib/ActionsObservable">;
 }
-declare module 'redux-observable/lib/combineEpics.js' {
-  declare module.exports: $Exports<'redux-observable/lib/combineEpics'>;
+declare module "redux-observable/lib/combineEpics.js" {
+  declare module.exports: $Exports<"redux-observable/lib/combineEpics">;
 }
-declare module 'redux-observable/lib/createEpicMiddleware.js' {
-  declare module.exports: $Exports<'redux-observable/lib/createEpicMiddleware'>;
+declare module "redux-observable/lib/createEpicMiddleware.js" {
+  declare module.exports: $Exports<"redux-observable/lib/createEpicMiddleware">;
 }
-declare module 'redux-observable/lib/EPIC_END.js' {
-  declare module.exports: $Exports<'redux-observable/lib/EPIC_END'>;
+declare module "redux-observable/lib/EPIC_END.js" {
+  declare module.exports: $Exports<"redux-observable/lib/EPIC_END">;
 }
-declare module 'redux-observable/lib/index.js' {
-  declare module.exports: $Exports<'redux-observable/lib/index'>;
+declare module "redux-observable/lib/index.js" {
+  declare module.exports: $Exports<"redux-observable/lib/index">;
 }

@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'babel-preset-es2015-node6' {
+declare module "babel-preset-es2015-node6" {
   declare module.exports: any;
 }
 
@@ -22,17 +22,17 @@ declare module 'babel-preset-es2015-node6' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'babel-preset-es2015-node6/object-rest' {
+declare module "babel-preset-es2015-node6/object-rest" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'babel-preset-es2015-node6/index' {
-  declare module.exports: $Exports<'babel-preset-es2015-node6'>;
+declare module "babel-preset-es2015-node6/index" {
+  declare module.exports: $Exports<"babel-preset-es2015-node6">;
 }
-declare module 'babel-preset-es2015-node6/index.js' {
-  declare module.exports: $Exports<'babel-preset-es2015-node6'>;
+declare module "babel-preset-es2015-node6/index.js" {
+  declare module.exports: $Exports<"babel-preset-es2015-node6">;
 }
-declare module 'babel-preset-es2015-node6/object-rest.js' {
-  declare module.exports: $Exports<'babel-preset-es2015-node6/object-rest'>;
+declare module "babel-preset-es2015-node6/object-rest.js" {
+  declare module.exports: $Exports<"babel-preset-es2015-node6/object-rest">;
 }

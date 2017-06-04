@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'spawnteract' {
+declare module "spawnteract" {
   declare module.exports: any;
 }
 
@@ -22,17 +22,17 @@ declare module 'spawnteract' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'spawnteract/test/spawn_spec' {
+declare module "spawnteract/test/spawn_spec" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'spawnteract/index' {
-  declare module.exports: $Exports<'spawnteract'>;
+declare module "spawnteract/index" {
+  declare module.exports: $Exports<"spawnteract">;
 }
-declare module 'spawnteract/index.js' {
-  declare module.exports: $Exports<'spawnteract'>;
+declare module "spawnteract/index.js" {
+  declare module.exports: $Exports<"spawnteract">;
 }
-declare module 'spawnteract/test/spawn_spec.js' {
-  declare module.exports: $Exports<'spawnteract/test/spawn_spec'>;
+declare module "spawnteract/test/spawn_spec.js" {
+  declare module.exports: $Exports<"spawnteract/test/spawn_spec">;
 }

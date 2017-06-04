@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'chai-immutable' {
+declare module "chai-immutable" {
   declare module.exports: any;
 }
 
@@ -22,18 +22,18 @@ declare module 'chai-immutable' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'chai-immutable/chai-immutable' {
+declare module "chai-immutable/chai-immutable" {
   declare module.exports: any;
 }
 
-declare module 'chai-immutable/test/test' {
+declare module "chai-immutable/test/test" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'chai-immutable/chai-immutable.js' {
-  declare module.exports: $Exports<'chai-immutable/chai-immutable'>;
+declare module "chai-immutable/chai-immutable.js" {
+  declare module.exports: $Exports<"chai-immutable/chai-immutable">;
 }
-declare module 'chai-immutable/test/test.js' {
-  declare module.exports: $Exports<'chai-immutable/test/test'>;
+declare module "chai-immutable/test/test.js" {
+  declare module.exports: $Exports<"chai-immutable/test/test">;
 }

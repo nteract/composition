@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'vega-embed' {
+declare module "vega-embed" {
   declare module.exports: any;
 }
 
@@ -22,46 +22,46 @@ declare module 'vega-embed' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'vega-embed/scripts/schema' {
+declare module "vega-embed/scripts/schema" {
   declare module.exports: any;
 }
 
-declare module 'vega-embed/src/embed' {
+declare module "vega-embed/src/embed" {
   declare module.exports: any;
 }
 
-declare module 'vega-embed/src/parameter' {
+declare module "vega-embed/src/parameter" {
   declare module.exports: any;
 }
 
-declare module 'vega-embed/src/post' {
+declare module "vega-embed/src/post" {
   declare module.exports: any;
 }
 
-declare module 'vega-embed/vega-embed' {
+declare module "vega-embed/vega-embed" {
   declare module.exports: any;
 }
 
-declare module 'vega-embed/vega-embed.min' {
+declare module "vega-embed/vega-embed.min" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'vega-embed/scripts/schema.js' {
-  declare module.exports: $Exports<'vega-embed/scripts/schema'>;
+declare module "vega-embed/scripts/schema.js" {
+  declare module.exports: $Exports<"vega-embed/scripts/schema">;
 }
-declare module 'vega-embed/src/embed.js' {
-  declare module.exports: $Exports<'vega-embed/src/embed'>;
+declare module "vega-embed/src/embed.js" {
+  declare module.exports: $Exports<"vega-embed/src/embed">;
 }
-declare module 'vega-embed/src/parameter.js' {
-  declare module.exports: $Exports<'vega-embed/src/parameter'>;
+declare module "vega-embed/src/parameter.js" {
+  declare module.exports: $Exports<"vega-embed/src/parameter">;
 }
-declare module 'vega-embed/src/post.js' {
-  declare module.exports: $Exports<'vega-embed/src/post'>;
+declare module "vega-embed/src/post.js" {
+  declare module.exports: $Exports<"vega-embed/src/post">;
 }
-declare module 'vega-embed/vega-embed.js' {
-  declare module.exports: $Exports<'vega-embed/vega-embed'>;
+declare module "vega-embed/vega-embed.js" {
+  declare module.exports: $Exports<"vega-embed/vega-embed">;
 }
-declare module 'vega-embed/vega-embed.min.js' {
-  declare module.exports: $Exports<'vega-embed/vega-embed.min'>;
+declare module "vega-embed/vega-embed.min.js" {
+  declare module.exports: $Exports<"vega-embed/vega-embed.min">;
 }

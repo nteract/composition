@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'leaflet' {
+declare module "leaflet" {
   declare module.exports: any;
 }
 
@@ -22,907 +22,963 @@ declare module 'leaflet' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'leaflet/build/build' {
+declare module "leaflet/build/build" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/build/deps' {
+declare module "leaflet/build/deps" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/build/docs' {
+declare module "leaflet/build/docs" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/debug/leaflet-include' {
+declare module "leaflet/debug/leaflet-include" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/debug/leaflet-rollup-src' {
+declare module "leaflet/debug/leaflet-rollup-src" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/debug/map/path' {
+declare module "leaflet/debug/map/path" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/debug/vector/geojson-sample' {
+declare module "leaflet/debug/vector/geojson-sample" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/debug/vector/route' {
+declare module "leaflet/debug/vector/route" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/debug/vector/us-states' {
+declare module "leaflet/debug/vector/us-states" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/dist/leaflet-src' {
+declare module "leaflet/dist/leaflet-src" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/dist/leaflet' {
+declare module "leaflet/dist/leaflet" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/docs/docs/highlight/highlight.pack' {
+declare module "leaflet/docs/docs/highlight/highlight.pack" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/docs/docs/js/docs' {
+declare module "leaflet/docs/docs/js/docs" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/docs/examples/choropleth/us-states' {
+declare module "leaflet/docs/examples/choropleth/us-states" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/docs/examples/geojson/sample-geojson' {
+declare module "leaflet/docs/examples/geojson/sample-geojson" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/docs/examples/map-panes/eu-countries' {
+declare module "leaflet/docs/examples/map-panes/eu-countries" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/Jakefile' {
+declare module "leaflet/Jakefile" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/after' {
+declare module "leaflet/spec/after" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/expect' {
+declare module "leaflet/spec/expect" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/karma.conf' {
+declare module "leaflet/spec/karma.conf" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/sinon' {
+declare module "leaflet/spec/sinon" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/control/Control.AttributionSpec' {
+declare module "leaflet/spec/suites/control/Control.AttributionSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/control/Control.LayersSpec' {
+declare module "leaflet/spec/suites/control/Control.LayersSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/control/Control.ScaleSpec' {
+declare module "leaflet/spec/suites/control/Control.ScaleSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/control/ControlSpec' {
+declare module "leaflet/spec/suites/control/ControlSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/core/ClassSpec' {
+declare module "leaflet/spec/suites/core/ClassSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/core/EventsSpec' {
+declare module "leaflet/spec/suites/core/EventsSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/core/UtilSpec' {
+declare module "leaflet/spec/suites/core/UtilSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/dom/DomEventSpec' {
+declare module "leaflet/spec/suites/dom/DomEventSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/dom/DomUtilSpec' {
+declare module "leaflet/spec/suites/dom/DomUtilSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geo/CRSSpec' {
+declare module "leaflet/spec/suites/geo/CRSSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geo/LatLngBoundsSpec' {
+declare module "leaflet/spec/suites/geo/LatLngBoundsSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geo/LatLngSpec' {
+declare module "leaflet/spec/suites/geo/LatLngSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geo/ProjectionSpec' {
+declare module "leaflet/spec/suites/geo/ProjectionSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geometry/BoundsSpec' {
+declare module "leaflet/spec/suites/geometry/BoundsSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geometry/LineUtilSpec' {
+declare module "leaflet/spec/suites/geometry/LineUtilSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geometry/PointSpec' {
+declare module "leaflet/spec/suites/geometry/PointSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geometry/PolyUtilSpec' {
+declare module "leaflet/spec/suites/geometry/PolyUtilSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/geometry/TransformationSpec' {
+declare module "leaflet/spec/suites/geometry/TransformationSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/FeatureGroupSpec' {
+declare module "leaflet/spec/suites/layer/FeatureGroupSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/GeoJSONSpec' {
+declare module "leaflet/spec/suites/layer/GeoJSONSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/ImageOverlaySpec' {
+declare module "leaflet/spec/suites/layer/ImageOverlaySpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/LayerGroupSpec' {
+declare module "leaflet/spec/suites/layer/LayerGroupSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/marker/Icon.DefaultSpec' {
+declare module "leaflet/spec/suites/layer/marker/Icon.DefaultSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/marker/MarkerSpec' {
+declare module "leaflet/spec/suites/layer/marker/MarkerSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/PopupSpec' {
+declare module "leaflet/spec/suites/layer/PopupSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/tile/GridLayerSpec' {
+declare module "leaflet/spec/suites/layer/tile/GridLayerSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/tile/TileLayerSpec' {
+declare module "leaflet/spec/suites/layer/tile/TileLayerSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/TooltipSpec' {
+declare module "leaflet/spec/suites/layer/TooltipSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/vector/CanvasSpec' {
+declare module "leaflet/spec/suites/layer/vector/CanvasSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/vector/CircleMarkerSpec' {
+declare module "leaflet/spec/suites/layer/vector/CircleMarkerSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/vector/CircleSpec' {
+declare module "leaflet/spec/suites/layer/vector/CircleSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/vector/PathSpec' {
+declare module "leaflet/spec/suites/layer/vector/PathSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/vector/PolygonSpec' {
+declare module "leaflet/spec/suites/layer/vector/PolygonSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/vector/PolylineGeometrySpec' {
+declare module "leaflet/spec/suites/layer/vector/PolylineGeometrySpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/layer/vector/PolylineSpec' {
+declare module "leaflet/spec/suites/layer/vector/PolylineSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/map/anim/Map.ZoomAnimationSpec' {
+declare module "leaflet/spec/suites/map/anim/Map.ZoomAnimationSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/map/handler/Map.DragSpec' {
+declare module "leaflet/spec/suites/map/handler/Map.DragSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/map/handler/Map.TouchZoomSpec' {
+declare module "leaflet/spec/suites/map/handler/Map.TouchZoomSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/map/MapSpec' {
+declare module "leaflet/spec/suites/map/MapSpec" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/spec/suites/SpecHelper' {
+declare module "leaflet/spec/suites/SpecHelper" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/control/Control.Attribution' {
+declare module "leaflet/src/control/Control.Attribution" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/control/Control' {
+declare module "leaflet/src/control/Control" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/control/Control.Layers' {
+declare module "leaflet/src/control/Control.Layers" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/control/Control.Scale' {
+declare module "leaflet/src/control/Control.Scale" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/control/Control.Zoom' {
+declare module "leaflet/src/control/Control.Zoom" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/copyright' {
+declare module "leaflet/src/copyright" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/core/Browser' {
+declare module "leaflet/src/core/Browser" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/core/Class' {
+declare module "leaflet/src/core/Class" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/core/Events' {
+declare module "leaflet/src/core/Events" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/core/Handler' {
+declare module "leaflet/src/core/Handler" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/core/Util' {
+declare module "leaflet/src/core/Util" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/dom/DomEvent.DoubleTap' {
+declare module "leaflet/src/dom/DomEvent.DoubleTap" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/dom/DomEvent' {
+declare module "leaflet/src/dom/DomEvent" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/dom/DomEvent.Pointer' {
+declare module "leaflet/src/dom/DomEvent.Pointer" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/dom/DomUtil' {
+declare module "leaflet/src/dom/DomUtil" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/dom/Draggable' {
+declare module "leaflet/src/dom/Draggable" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/dom/PosAnimation' {
+declare module "leaflet/src/dom/PosAnimation" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/crs/CRS.Earth' {
+declare module "leaflet/src/geo/crs/CRS.Earth" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/crs/CRS.EPSG3395' {
+declare module "leaflet/src/geo/crs/CRS.EPSG3395" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/crs/CRS.EPSG3857' {
+declare module "leaflet/src/geo/crs/CRS.EPSG3857" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/crs/CRS.EPSG4326' {
+declare module "leaflet/src/geo/crs/CRS.EPSG4326" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/crs/CRS' {
+declare module "leaflet/src/geo/crs/CRS" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/crs/CRS.Simple' {
+declare module "leaflet/src/geo/crs/CRS.Simple" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/LatLng' {
+declare module "leaflet/src/geo/LatLng" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/LatLngBounds' {
+declare module "leaflet/src/geo/LatLngBounds" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/projection/Projection.LonLat' {
+declare module "leaflet/src/geo/projection/Projection.LonLat" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/projection/Projection.Mercator' {
+declare module "leaflet/src/geo/projection/Projection.Mercator" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geo/projection/Projection.SphericalMercator' {
+declare module "leaflet/src/geo/projection/Projection.SphericalMercator" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geometry/Bounds' {
+declare module "leaflet/src/geometry/Bounds" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geometry/LineUtil' {
+declare module "leaflet/src/geometry/LineUtil" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geometry/Point' {
+declare module "leaflet/src/geometry/Point" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geometry/PolyUtil' {
+declare module "leaflet/src/geometry/PolyUtil" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/geometry/Transformation' {
+declare module "leaflet/src/geometry/Transformation" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/DivOverlay' {
+declare module "leaflet/src/layer/DivOverlay" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/FeatureGroup' {
+declare module "leaflet/src/layer/FeatureGroup" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/GeoJSON' {
+declare module "leaflet/src/layer/GeoJSON" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/ImageOverlay' {
+declare module "leaflet/src/layer/ImageOverlay" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/Layer' {
+declare module "leaflet/src/layer/Layer" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/LayerGroup' {
+declare module "leaflet/src/layer/LayerGroup" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/marker/DivIcon' {
+declare module "leaflet/src/layer/marker/DivIcon" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/marker/Icon.Default' {
+declare module "leaflet/src/layer/marker/Icon.Default" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/marker/Icon' {
+declare module "leaflet/src/layer/marker/Icon" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/marker/Marker.Drag' {
+declare module "leaflet/src/layer/marker/Marker.Drag" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/marker/Marker' {
+declare module "leaflet/src/layer/marker/Marker" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/Popup' {
+declare module "leaflet/src/layer/Popup" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/tile/GridLayer' {
+declare module "leaflet/src/layer/tile/GridLayer" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/tile/TileLayer' {
+declare module "leaflet/src/layer/tile/TileLayer" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/tile/TileLayer.WMS' {
+declare module "leaflet/src/layer/tile/TileLayer.WMS" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/Tooltip' {
+declare module "leaflet/src/layer/Tooltip" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/Canvas' {
+declare module "leaflet/src/layer/vector/Canvas" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/Circle' {
+declare module "leaflet/src/layer/vector/Circle" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/CircleMarker' {
+declare module "leaflet/src/layer/vector/CircleMarker" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/Path' {
+declare module "leaflet/src/layer/vector/Path" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/Polygon' {
+declare module "leaflet/src/layer/vector/Polygon" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/Polyline' {
+declare module "leaflet/src/layer/vector/Polyline" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/Rectangle' {
+declare module "leaflet/src/layer/vector/Rectangle" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/Renderer' {
+declare module "leaflet/src/layer/vector/Renderer" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/SVG' {
+declare module "leaflet/src/layer/vector/SVG" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/layer/vector/SVG.VML' {
+declare module "leaflet/src/layer/vector/SVG.VML" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/Leaflet' {
+declare module "leaflet/src/Leaflet" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/handler/Map.BoxZoom' {
+declare module "leaflet/src/map/handler/Map.BoxZoom" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/handler/Map.DoubleClickZoom' {
+declare module "leaflet/src/map/handler/Map.DoubleClickZoom" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/handler/Map.Drag' {
+declare module "leaflet/src/map/handler/Map.Drag" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/handler/Map.Keyboard' {
+declare module "leaflet/src/map/handler/Map.Keyboard" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/handler/Map.ScrollWheelZoom' {
+declare module "leaflet/src/map/handler/Map.ScrollWheelZoom" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/handler/Map.Tap' {
+declare module "leaflet/src/map/handler/Map.Tap" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/handler/Map.TouchZoom' {
+declare module "leaflet/src/map/handler/Map.TouchZoom" {
   declare module.exports: any;
 }
 
-declare module 'leaflet/src/map/Map' {
+declare module "leaflet/src/map/Map" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'leaflet/build/build.js' {
-  declare module.exports: $Exports<'leaflet/build/build'>;
+declare module "leaflet/build/build.js" {
+  declare module.exports: $Exports<"leaflet/build/build">;
 }
-declare module 'leaflet/build/deps.js' {
-  declare module.exports: $Exports<'leaflet/build/deps'>;
+declare module "leaflet/build/deps.js" {
+  declare module.exports: $Exports<"leaflet/build/deps">;
 }
-declare module 'leaflet/build/docs.js' {
-  declare module.exports: $Exports<'leaflet/build/docs'>;
+declare module "leaflet/build/docs.js" {
+  declare module.exports: $Exports<"leaflet/build/docs">;
 }
-declare module 'leaflet/debug/leaflet-include.js' {
-  declare module.exports: $Exports<'leaflet/debug/leaflet-include'>;
+declare module "leaflet/debug/leaflet-include.js" {
+  declare module.exports: $Exports<"leaflet/debug/leaflet-include">;
 }
-declare module 'leaflet/debug/leaflet-rollup-src.js' {
-  declare module.exports: $Exports<'leaflet/debug/leaflet-rollup-src'>;
+declare module "leaflet/debug/leaflet-rollup-src.js" {
+  declare module.exports: $Exports<"leaflet/debug/leaflet-rollup-src">;
 }
-declare module 'leaflet/debug/map/path.js' {
-  declare module.exports: $Exports<'leaflet/debug/map/path'>;
+declare module "leaflet/debug/map/path.js" {
+  declare module.exports: $Exports<"leaflet/debug/map/path">;
 }
-declare module 'leaflet/debug/vector/geojson-sample.js' {
-  declare module.exports: $Exports<'leaflet/debug/vector/geojson-sample'>;
+declare module "leaflet/debug/vector/geojson-sample.js" {
+  declare module.exports: $Exports<"leaflet/debug/vector/geojson-sample">;
 }
-declare module 'leaflet/debug/vector/route.js' {
-  declare module.exports: $Exports<'leaflet/debug/vector/route'>;
+declare module "leaflet/debug/vector/route.js" {
+  declare module.exports: $Exports<"leaflet/debug/vector/route">;
 }
-declare module 'leaflet/debug/vector/us-states.js' {
-  declare module.exports: $Exports<'leaflet/debug/vector/us-states'>;
+declare module "leaflet/debug/vector/us-states.js" {
+  declare module.exports: $Exports<"leaflet/debug/vector/us-states">;
 }
-declare module 'leaflet/dist/leaflet-src.js' {
-  declare module.exports: $Exports<'leaflet/dist/leaflet-src'>;
+declare module "leaflet/dist/leaflet-src.js" {
+  declare module.exports: $Exports<"leaflet/dist/leaflet-src">;
 }
-declare module 'leaflet/dist/leaflet.js' {
-  declare module.exports: $Exports<'leaflet/dist/leaflet'>;
+declare module "leaflet/dist/leaflet.js" {
+  declare module.exports: $Exports<"leaflet/dist/leaflet">;
 }
-declare module 'leaflet/docs/docs/highlight/highlight.pack.js' {
-  declare module.exports: $Exports<'leaflet/docs/docs/highlight/highlight.pack'>;
+declare module "leaflet/docs/docs/highlight/highlight.pack.js" {
+  declare module.exports: $Exports<
+    "leaflet/docs/docs/highlight/highlight.pack"
+  >;
 }
-declare module 'leaflet/docs/docs/js/docs.js' {
-  declare module.exports: $Exports<'leaflet/docs/docs/js/docs'>;
+declare module "leaflet/docs/docs/js/docs.js" {
+  declare module.exports: $Exports<"leaflet/docs/docs/js/docs">;
 }
-declare module 'leaflet/docs/examples/choropleth/us-states.js' {
-  declare module.exports: $Exports<'leaflet/docs/examples/choropleth/us-states'>;
+declare module "leaflet/docs/examples/choropleth/us-states.js" {
+  declare module.exports: $Exports<
+    "leaflet/docs/examples/choropleth/us-states"
+  >;
 }
-declare module 'leaflet/docs/examples/geojson/sample-geojson.js' {
-  declare module.exports: $Exports<'leaflet/docs/examples/geojson/sample-geojson'>;
+declare module "leaflet/docs/examples/geojson/sample-geojson.js" {
+  declare module.exports: $Exports<
+    "leaflet/docs/examples/geojson/sample-geojson"
+  >;
 }
-declare module 'leaflet/docs/examples/map-panes/eu-countries.js' {
-  declare module.exports: $Exports<'leaflet/docs/examples/map-panes/eu-countries'>;
+declare module "leaflet/docs/examples/map-panes/eu-countries.js" {
+  declare module.exports: $Exports<
+    "leaflet/docs/examples/map-panes/eu-countries"
+  >;
 }
-declare module 'leaflet/Jakefile.js' {
-  declare module.exports: $Exports<'leaflet/Jakefile'>;
+declare module "leaflet/Jakefile.js" {
+  declare module.exports: $Exports<"leaflet/Jakefile">;
 }
-declare module 'leaflet/spec/after.js' {
-  declare module.exports: $Exports<'leaflet/spec/after'>;
+declare module "leaflet/spec/after.js" {
+  declare module.exports: $Exports<"leaflet/spec/after">;
 }
-declare module 'leaflet/spec/expect.js' {
-  declare module.exports: $Exports<'leaflet/spec/expect'>;
+declare module "leaflet/spec/expect.js" {
+  declare module.exports: $Exports<"leaflet/spec/expect">;
 }
-declare module 'leaflet/spec/karma.conf.js' {
-  declare module.exports: $Exports<'leaflet/spec/karma.conf'>;
+declare module "leaflet/spec/karma.conf.js" {
+  declare module.exports: $Exports<"leaflet/spec/karma.conf">;
 }
-declare module 'leaflet/spec/sinon.js' {
-  declare module.exports: $Exports<'leaflet/spec/sinon'>;
+declare module "leaflet/spec/sinon.js" {
+  declare module.exports: $Exports<"leaflet/spec/sinon">;
 }
-declare module 'leaflet/spec/suites/control/Control.AttributionSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/control/Control.AttributionSpec'>;
+declare module "leaflet/spec/suites/control/Control.AttributionSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/control/Control.AttributionSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/control/Control.LayersSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/control/Control.LayersSpec'>;
+declare module "leaflet/spec/suites/control/Control.LayersSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/control/Control.LayersSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/control/Control.ScaleSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/control/Control.ScaleSpec'>;
+declare module "leaflet/spec/suites/control/Control.ScaleSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/control/Control.ScaleSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/control/ControlSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/control/ControlSpec'>;
+declare module "leaflet/spec/suites/control/ControlSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/control/ControlSpec">;
 }
-declare module 'leaflet/spec/suites/core/ClassSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/core/ClassSpec'>;
+declare module "leaflet/spec/suites/core/ClassSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/core/ClassSpec">;
 }
-declare module 'leaflet/spec/suites/core/EventsSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/core/EventsSpec'>;
+declare module "leaflet/spec/suites/core/EventsSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/core/EventsSpec">;
 }
-declare module 'leaflet/spec/suites/core/UtilSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/core/UtilSpec'>;
+declare module "leaflet/spec/suites/core/UtilSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/core/UtilSpec">;
 }
-declare module 'leaflet/spec/suites/dom/DomEventSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/dom/DomEventSpec'>;
+declare module "leaflet/spec/suites/dom/DomEventSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/dom/DomEventSpec">;
 }
-declare module 'leaflet/spec/suites/dom/DomUtilSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/dom/DomUtilSpec'>;
+declare module "leaflet/spec/suites/dom/DomUtilSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/dom/DomUtilSpec">;
 }
-declare module 'leaflet/spec/suites/geo/CRSSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geo/CRSSpec'>;
+declare module "leaflet/spec/suites/geo/CRSSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geo/CRSSpec">;
 }
-declare module 'leaflet/spec/suites/geo/LatLngBoundsSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geo/LatLngBoundsSpec'>;
+declare module "leaflet/spec/suites/geo/LatLngBoundsSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geo/LatLngBoundsSpec">;
 }
-declare module 'leaflet/spec/suites/geo/LatLngSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geo/LatLngSpec'>;
+declare module "leaflet/spec/suites/geo/LatLngSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geo/LatLngSpec">;
 }
-declare module 'leaflet/spec/suites/geo/ProjectionSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geo/ProjectionSpec'>;
+declare module "leaflet/spec/suites/geo/ProjectionSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geo/ProjectionSpec">;
 }
-declare module 'leaflet/spec/suites/geometry/BoundsSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geometry/BoundsSpec'>;
+declare module "leaflet/spec/suites/geometry/BoundsSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geometry/BoundsSpec">;
 }
-declare module 'leaflet/spec/suites/geometry/LineUtilSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geometry/LineUtilSpec'>;
+declare module "leaflet/spec/suites/geometry/LineUtilSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geometry/LineUtilSpec">;
+}
+declare module "leaflet/spec/suites/geometry/PointSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geometry/PointSpec">;
 }
-declare module 'leaflet/spec/suites/geometry/PointSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geometry/PointSpec'>;
+declare module "leaflet/spec/suites/geometry/PolyUtilSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/geometry/PolyUtilSpec">;
 }
-declare module 'leaflet/spec/suites/geometry/PolyUtilSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geometry/PolyUtilSpec'>;
+declare module "leaflet/spec/suites/geometry/TransformationSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/geometry/TransformationSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/geometry/TransformationSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/geometry/TransformationSpec'>;
+declare module "leaflet/spec/suites/layer/FeatureGroupSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/FeatureGroupSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/FeatureGroupSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/FeatureGroupSpec'>;
+declare module "leaflet/spec/suites/layer/GeoJSONSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/layer/GeoJSONSpec">;
 }
-declare module 'leaflet/spec/suites/layer/GeoJSONSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/GeoJSONSpec'>;
+declare module "leaflet/spec/suites/layer/ImageOverlaySpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/ImageOverlaySpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/ImageOverlaySpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/ImageOverlaySpec'>;
+declare module "leaflet/spec/suites/layer/LayerGroupSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/layer/LayerGroupSpec">;
 }
-declare module 'leaflet/spec/suites/layer/LayerGroupSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/LayerGroupSpec'>;
+declare module "leaflet/spec/suites/layer/marker/Icon.DefaultSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/marker/Icon.DefaultSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/marker/Icon.DefaultSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/marker/Icon.DefaultSpec'>;
+declare module "leaflet/spec/suites/layer/marker/MarkerSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/marker/MarkerSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/marker/MarkerSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/marker/MarkerSpec'>;
+declare module "leaflet/spec/suites/layer/PopupSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/layer/PopupSpec">;
 }
-declare module 'leaflet/spec/suites/layer/PopupSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/PopupSpec'>;
+declare module "leaflet/spec/suites/layer/tile/GridLayerSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/tile/GridLayerSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/tile/GridLayerSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/tile/GridLayerSpec'>;
+declare module "leaflet/spec/suites/layer/tile/TileLayerSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/tile/TileLayerSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/tile/TileLayerSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/tile/TileLayerSpec'>;
+declare module "leaflet/spec/suites/layer/TooltipSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/layer/TooltipSpec">;
 }
-declare module 'leaflet/spec/suites/layer/TooltipSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/TooltipSpec'>;
+declare module "leaflet/spec/suites/layer/vector/CanvasSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/vector/CanvasSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/vector/CanvasSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/vector/CanvasSpec'>;
+declare module "leaflet/spec/suites/layer/vector/CircleMarkerSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/vector/CircleMarkerSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/vector/CircleMarkerSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/vector/CircleMarkerSpec'>;
+declare module "leaflet/spec/suites/layer/vector/CircleSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/vector/CircleSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/vector/CircleSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/vector/CircleSpec'>;
+declare module "leaflet/spec/suites/layer/vector/PathSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/layer/vector/PathSpec">;
 }
-declare module 'leaflet/spec/suites/layer/vector/PathSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/vector/PathSpec'>;
+declare module "leaflet/spec/suites/layer/vector/PolygonSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/vector/PolygonSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/vector/PolygonSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/vector/PolygonSpec'>;
+declare module "leaflet/spec/suites/layer/vector/PolylineGeometrySpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/vector/PolylineGeometrySpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/vector/PolylineGeometrySpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/vector/PolylineGeometrySpec'>;
+declare module "leaflet/spec/suites/layer/vector/PolylineSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/layer/vector/PolylineSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/layer/vector/PolylineSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/layer/vector/PolylineSpec'>;
+declare module "leaflet/spec/suites/map/anim/Map.ZoomAnimationSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/map/anim/Map.ZoomAnimationSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/map/anim/Map.ZoomAnimationSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/map/anim/Map.ZoomAnimationSpec'>;
+declare module "leaflet/spec/suites/map/handler/Map.DragSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/map/handler/Map.DragSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/map/handler/Map.DragSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/map/handler/Map.DragSpec'>;
+declare module "leaflet/spec/suites/map/handler/Map.TouchZoomSpec.js" {
+  declare module.exports: $Exports<
+    "leaflet/spec/suites/map/handler/Map.TouchZoomSpec"
+  >;
 }
-declare module 'leaflet/spec/suites/map/handler/Map.TouchZoomSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/map/handler/Map.TouchZoomSpec'>;
+declare module "leaflet/spec/suites/map/MapSpec.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/map/MapSpec">;
 }
-declare module 'leaflet/spec/suites/map/MapSpec.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/map/MapSpec'>;
+declare module "leaflet/spec/suites/SpecHelper.js" {
+  declare module.exports: $Exports<"leaflet/spec/suites/SpecHelper">;
 }
-declare module 'leaflet/spec/suites/SpecHelper.js' {
-  declare module.exports: $Exports<'leaflet/spec/suites/SpecHelper'>;
+declare module "leaflet/src/control/Control.Attribution.js" {
+  declare module.exports: $Exports<"leaflet/src/control/Control.Attribution">;
 }
-declare module 'leaflet/src/control/Control.Attribution.js' {
-  declare module.exports: $Exports<'leaflet/src/control/Control.Attribution'>;
+declare module "leaflet/src/control/Control.js" {
+  declare module.exports: $Exports<"leaflet/src/control/Control">;
 }
-declare module 'leaflet/src/control/Control.js' {
-  declare module.exports: $Exports<'leaflet/src/control/Control'>;
+declare module "leaflet/src/control/Control.Layers.js" {
+  declare module.exports: $Exports<"leaflet/src/control/Control.Layers">;
 }
-declare module 'leaflet/src/control/Control.Layers.js' {
-  declare module.exports: $Exports<'leaflet/src/control/Control.Layers'>;
+declare module "leaflet/src/control/Control.Scale.js" {
+  declare module.exports: $Exports<"leaflet/src/control/Control.Scale">;
 }
-declare module 'leaflet/src/control/Control.Scale.js' {
-  declare module.exports: $Exports<'leaflet/src/control/Control.Scale'>;
+declare module "leaflet/src/control/Control.Zoom.js" {
+  declare module.exports: $Exports<"leaflet/src/control/Control.Zoom">;
 }
-declare module 'leaflet/src/control/Control.Zoom.js' {
-  declare module.exports: $Exports<'leaflet/src/control/Control.Zoom'>;
+declare module "leaflet/src/copyright.js" {
+  declare module.exports: $Exports<"leaflet/src/copyright">;
 }
-declare module 'leaflet/src/copyright.js' {
-  declare module.exports: $Exports<'leaflet/src/copyright'>;
+declare module "leaflet/src/core/Browser.js" {
+  declare module.exports: $Exports<"leaflet/src/core/Browser">;
 }
-declare module 'leaflet/src/core/Browser.js' {
-  declare module.exports: $Exports<'leaflet/src/core/Browser'>;
+declare module "leaflet/src/core/Class.js" {
+  declare module.exports: $Exports<"leaflet/src/core/Class">;
 }
-declare module 'leaflet/src/core/Class.js' {
-  declare module.exports: $Exports<'leaflet/src/core/Class'>;
+declare module "leaflet/src/core/Events.js" {
+  declare module.exports: $Exports<"leaflet/src/core/Events">;
 }
-declare module 'leaflet/src/core/Events.js' {
-  declare module.exports: $Exports<'leaflet/src/core/Events'>;
+declare module "leaflet/src/core/Handler.js" {
+  declare module.exports: $Exports<"leaflet/src/core/Handler">;
 }
-declare module 'leaflet/src/core/Handler.js' {
-  declare module.exports: $Exports<'leaflet/src/core/Handler'>;
+declare module "leaflet/src/core/Util.js" {
+  declare module.exports: $Exports<"leaflet/src/core/Util">;
 }
-declare module 'leaflet/src/core/Util.js' {
-  declare module.exports: $Exports<'leaflet/src/core/Util'>;
+declare module "leaflet/src/dom/DomEvent.DoubleTap.js" {
+  declare module.exports: $Exports<"leaflet/src/dom/DomEvent.DoubleTap">;
 }
-declare module 'leaflet/src/dom/DomEvent.DoubleTap.js' {
-  declare module.exports: $Exports<'leaflet/src/dom/DomEvent.DoubleTap'>;
+declare module "leaflet/src/dom/DomEvent.js" {
+  declare module.exports: $Exports<"leaflet/src/dom/DomEvent">;
 }
-declare module 'leaflet/src/dom/DomEvent.js' {
-  declare module.exports: $Exports<'leaflet/src/dom/DomEvent'>;
+declare module "leaflet/src/dom/DomEvent.Pointer.js" {
+  declare module.exports: $Exports<"leaflet/src/dom/DomEvent.Pointer">;
 }
-declare module 'leaflet/src/dom/DomEvent.Pointer.js' {
-  declare module.exports: $Exports<'leaflet/src/dom/DomEvent.Pointer'>;
+declare module "leaflet/src/dom/DomUtil.js" {
+  declare module.exports: $Exports<"leaflet/src/dom/DomUtil">;
 }
-declare module 'leaflet/src/dom/DomUtil.js' {
-  declare module.exports: $Exports<'leaflet/src/dom/DomUtil'>;
+declare module "leaflet/src/dom/Draggable.js" {
+  declare module.exports: $Exports<"leaflet/src/dom/Draggable">;
 }
-declare module 'leaflet/src/dom/Draggable.js' {
-  declare module.exports: $Exports<'leaflet/src/dom/Draggable'>;
+declare module "leaflet/src/dom/PosAnimation.js" {
+  declare module.exports: $Exports<"leaflet/src/dom/PosAnimation">;
 }
-declare module 'leaflet/src/dom/PosAnimation.js' {
-  declare module.exports: $Exports<'leaflet/src/dom/PosAnimation'>;
+declare module "leaflet/src/geo/crs/CRS.Earth.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/crs/CRS.Earth">;
 }
-declare module 'leaflet/src/geo/crs/CRS.Earth.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/crs/CRS.Earth'>;
+declare module "leaflet/src/geo/crs/CRS.EPSG3395.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/crs/CRS.EPSG3395">;
 }
-declare module 'leaflet/src/geo/crs/CRS.EPSG3395.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/crs/CRS.EPSG3395'>;
+declare module "leaflet/src/geo/crs/CRS.EPSG3857.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/crs/CRS.EPSG3857">;
 }
-declare module 'leaflet/src/geo/crs/CRS.EPSG3857.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/crs/CRS.EPSG3857'>;
+declare module "leaflet/src/geo/crs/CRS.EPSG4326.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/crs/CRS.EPSG4326">;
 }
-declare module 'leaflet/src/geo/crs/CRS.EPSG4326.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/crs/CRS.EPSG4326'>;
+declare module "leaflet/src/geo/crs/CRS.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/crs/CRS">;
 }
-declare module 'leaflet/src/geo/crs/CRS.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/crs/CRS'>;
+declare module "leaflet/src/geo/crs/CRS.Simple.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/crs/CRS.Simple">;
 }
-declare module 'leaflet/src/geo/crs/CRS.Simple.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/crs/CRS.Simple'>;
+declare module "leaflet/src/geo/LatLng.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/LatLng">;
 }
-declare module 'leaflet/src/geo/LatLng.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/LatLng'>;
+declare module "leaflet/src/geo/LatLngBounds.js" {
+  declare module.exports: $Exports<"leaflet/src/geo/LatLngBounds">;
 }
-declare module 'leaflet/src/geo/LatLngBounds.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/LatLngBounds'>;
+declare module "leaflet/src/geo/projection/Projection.LonLat.js" {
+  declare module.exports: $Exports<
+    "leaflet/src/geo/projection/Projection.LonLat"
+  >;
 }
-declare module 'leaflet/src/geo/projection/Projection.LonLat.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/projection/Projection.LonLat'>;
+declare module "leaflet/src/geo/projection/Projection.Mercator.js" {
+  declare module.exports: $Exports<
+    "leaflet/src/geo/projection/Projection.Mercator"
+  >;
 }
-declare module 'leaflet/src/geo/projection/Projection.Mercator.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/projection/Projection.Mercator'>;
+declare module "leaflet/src/geo/projection/Projection.SphericalMercator.js" {
+  declare module.exports: $Exports<
+    "leaflet/src/geo/projection/Projection.SphericalMercator"
+  >;
 }
-declare module 'leaflet/src/geo/projection/Projection.SphericalMercator.js' {
-  declare module.exports: $Exports<'leaflet/src/geo/projection/Projection.SphericalMercator'>;
+declare module "leaflet/src/geometry/Bounds.js" {
+  declare module.exports: $Exports<"leaflet/src/geometry/Bounds">;
 }
-declare module 'leaflet/src/geometry/Bounds.js' {
-  declare module.exports: $Exports<'leaflet/src/geometry/Bounds'>;
+declare module "leaflet/src/geometry/LineUtil.js" {
+  declare module.exports: $Exports<"leaflet/src/geometry/LineUtil">;
 }
-declare module 'leaflet/src/geometry/LineUtil.js' {
-  declare module.exports: $Exports<'leaflet/src/geometry/LineUtil'>;
+declare module "leaflet/src/geometry/Point.js" {
+  declare module.exports: $Exports<"leaflet/src/geometry/Point">;
 }
-declare module 'leaflet/src/geometry/Point.js' {
-  declare module.exports: $Exports<'leaflet/src/geometry/Point'>;
+declare module "leaflet/src/geometry/PolyUtil.js" {
+  declare module.exports: $Exports<"leaflet/src/geometry/PolyUtil">;
 }
-declare module 'leaflet/src/geometry/PolyUtil.js' {
-  declare module.exports: $Exports<'leaflet/src/geometry/PolyUtil'>;
+declare module "leaflet/src/geometry/Transformation.js" {
+  declare module.exports: $Exports<"leaflet/src/geometry/Transformation">;
 }
-declare module 'leaflet/src/geometry/Transformation.js' {
-  declare module.exports: $Exports<'leaflet/src/geometry/Transformation'>;
+declare module "leaflet/src/layer/DivOverlay.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/DivOverlay">;
 }
-declare module 'leaflet/src/layer/DivOverlay.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/DivOverlay'>;
+declare module "leaflet/src/layer/FeatureGroup.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/FeatureGroup">;
 }
-declare module 'leaflet/src/layer/FeatureGroup.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/FeatureGroup'>;
+declare module "leaflet/src/layer/GeoJSON.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/GeoJSON">;
 }
-declare module 'leaflet/src/layer/GeoJSON.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/GeoJSON'>;
+declare module "leaflet/src/layer/ImageOverlay.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/ImageOverlay">;
 }
-declare module 'leaflet/src/layer/ImageOverlay.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/ImageOverlay'>;
+declare module "leaflet/src/layer/Layer.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/Layer">;
 }
-declare module 'leaflet/src/layer/Layer.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/Layer'>;
+declare module "leaflet/src/layer/LayerGroup.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/LayerGroup">;
 }
-declare module 'leaflet/src/layer/LayerGroup.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/LayerGroup'>;
+declare module "leaflet/src/layer/marker/DivIcon.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/marker/DivIcon">;
 }
-declare module 'leaflet/src/layer/marker/DivIcon.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/marker/DivIcon'>;
+declare module "leaflet/src/layer/marker/Icon.Default.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/marker/Icon.Default">;
 }
-declare module 'leaflet/src/layer/marker/Icon.Default.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/marker/Icon.Default'>;
+declare module "leaflet/src/layer/marker/Icon.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/marker/Icon">;
 }
-declare module 'leaflet/src/layer/marker/Icon.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/marker/Icon'>;
+declare module "leaflet/src/layer/marker/Marker.Drag.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/marker/Marker.Drag">;
 }
-declare module 'leaflet/src/layer/marker/Marker.Drag.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/marker/Marker.Drag'>;
+declare module "leaflet/src/layer/marker/Marker.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/marker/Marker">;
 }
-declare module 'leaflet/src/layer/marker/Marker.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/marker/Marker'>;
+declare module "leaflet/src/layer/Popup.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/Popup">;
 }
-declare module 'leaflet/src/layer/Popup.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/Popup'>;
+declare module "leaflet/src/layer/tile/GridLayer.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/tile/GridLayer">;
 }
-declare module 'leaflet/src/layer/tile/GridLayer.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/tile/GridLayer'>;
+declare module "leaflet/src/layer/tile/TileLayer.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/tile/TileLayer">;
 }
-declare module 'leaflet/src/layer/tile/TileLayer.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/tile/TileLayer'>;
+declare module "leaflet/src/layer/tile/TileLayer.WMS.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/tile/TileLayer.WMS">;
 }
-declare module 'leaflet/src/layer/tile/TileLayer.WMS.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/tile/TileLayer.WMS'>;
+declare module "leaflet/src/layer/Tooltip.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/Tooltip">;
 }
-declare module 'leaflet/src/layer/Tooltip.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/Tooltip'>;
+declare module "leaflet/src/layer/vector/Canvas.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/Canvas">;
 }
-declare module 'leaflet/src/layer/vector/Canvas.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/Canvas'>;
+declare module "leaflet/src/layer/vector/Circle.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/Circle">;
 }
-declare module 'leaflet/src/layer/vector/Circle.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/Circle'>;
+declare module "leaflet/src/layer/vector/CircleMarker.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/CircleMarker">;
 }
-declare module 'leaflet/src/layer/vector/CircleMarker.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/CircleMarker'>;
+declare module "leaflet/src/layer/vector/Path.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/Path">;
 }
-declare module 'leaflet/src/layer/vector/Path.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/Path'>;
+declare module "leaflet/src/layer/vector/Polygon.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/Polygon">;
 }
-declare module 'leaflet/src/layer/vector/Polygon.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/Polygon'>;
+declare module "leaflet/src/layer/vector/Polyline.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/Polyline">;
 }
-declare module 'leaflet/src/layer/vector/Polyline.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/Polyline'>;
+declare module "leaflet/src/layer/vector/Rectangle.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/Rectangle">;
 }
-declare module 'leaflet/src/layer/vector/Rectangle.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/Rectangle'>;
+declare module "leaflet/src/layer/vector/Renderer.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/Renderer">;
 }
-declare module 'leaflet/src/layer/vector/Renderer.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/Renderer'>;
+declare module "leaflet/src/layer/vector/SVG.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/SVG">;
 }
-declare module 'leaflet/src/layer/vector/SVG.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/SVG'>;
+declare module "leaflet/src/layer/vector/SVG.VML.js" {
+  declare module.exports: $Exports<"leaflet/src/layer/vector/SVG.VML">;
 }
-declare module 'leaflet/src/layer/vector/SVG.VML.js' {
-  declare module.exports: $Exports<'leaflet/src/layer/vector/SVG.VML'>;
+declare module "leaflet/src/Leaflet.js" {
+  declare module.exports: $Exports<"leaflet/src/Leaflet">;
 }
-declare module 'leaflet/src/Leaflet.js' {
-  declare module.exports: $Exports<'leaflet/src/Leaflet'>;
+declare module "leaflet/src/map/handler/Map.BoxZoom.js" {
+  declare module.exports: $Exports<"leaflet/src/map/handler/Map.BoxZoom">;
 }
-declare module 'leaflet/src/map/handler/Map.BoxZoom.js' {
-  declare module.exports: $Exports<'leaflet/src/map/handler/Map.BoxZoom'>;
+declare module "leaflet/src/map/handler/Map.DoubleClickZoom.js" {
+  declare module.exports: $Exports<
+    "leaflet/src/map/handler/Map.DoubleClickZoom"
+  >;
 }
-declare module 'leaflet/src/map/handler/Map.DoubleClickZoom.js' {
-  declare module.exports: $Exports<'leaflet/src/map/handler/Map.DoubleClickZoom'>;
+declare module "leaflet/src/map/handler/Map.Drag.js" {
+  declare module.exports: $Exports<"leaflet/src/map/handler/Map.Drag">;
 }
-declare module 'leaflet/src/map/handler/Map.Drag.js' {
-  declare module.exports: $Exports<'leaflet/src/map/handler/Map.Drag'>;
+declare module "leaflet/src/map/handler/Map.Keyboard.js" {
+  declare module.exports: $Exports<"leaflet/src/map/handler/Map.Keyboard">;
 }
-declare module 'leaflet/src/map/handler/Map.Keyboard.js' {
-  declare module.exports: $Exports<'leaflet/src/map/handler/Map.Keyboard'>;
+declare module "leaflet/src/map/handler/Map.ScrollWheelZoom.js" {
+  declare module.exports: $Exports<
+    "leaflet/src/map/handler/Map.ScrollWheelZoom"
+  >;
 }
-declare module 'leaflet/src/map/handler/Map.ScrollWheelZoom.js' {
-  declare module.exports: $Exports<'leaflet/src/map/handler/Map.ScrollWheelZoom'>;
+declare module "leaflet/src/map/handler/Map.Tap.js" {
+  declare module.exports: $Exports<"leaflet/src/map/handler/Map.Tap">;
 }
-declare module 'leaflet/src/map/handler/Map.Tap.js' {
-  declare module.exports: $Exports<'leaflet/src/map/handler/Map.Tap'>;
+declare module "leaflet/src/map/handler/Map.TouchZoom.js" {
+  declare module.exports: $Exports<"leaflet/src/map/handler/Map.TouchZoom">;
 }
-declare module 'leaflet/src/map/handler/Map.TouchZoom.js' {
-  declare module.exports: $Exports<'leaflet/src/map/handler/Map.TouchZoom'>;
-}
-declare module 'leaflet/src/map/Map.js' {
-  declare module.exports: $Exports<'leaflet/src/map/Map'>;
+declare module "leaflet/src/map/Map.js" {
+  declare module.exports: $Exports<"leaflet/src/map/Map">;
 }

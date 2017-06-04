@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'electron-log' {
+declare module "electron-log" {
   declare module.exports: any;
 }
 
@@ -23,11 +23,10 @@ declare module 'electron-log' {
  * needed.
  */
 
-
 // Filename aliases
-declare module 'electron-log/index' {
-  declare module.exports: $Exports<'electron-log'>;
+declare module "electron-log/index" {
+  declare module.exports: $Exports<"electron-log">;
 }
-declare module 'electron-log/index.js' {
-  declare module.exports: $Exports<'electron-log'>;
+declare module "electron-log/index.js" {
+  declare module.exports: $Exports<"electron-log">;
 }

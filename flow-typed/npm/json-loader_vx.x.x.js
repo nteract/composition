@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'json-loader' {
+declare module "json-loader" {
   declare module.exports: any;
 }
 
@@ -23,11 +23,10 @@ declare module 'json-loader' {
  * needed.
  */
 
-
 // Filename aliases
-declare module 'json-loader/index' {
-  declare module.exports: $Exports<'json-loader'>;
+declare module "json-loader/index" {
+  declare module.exports: $Exports<"json-loader">;
 }
-declare module 'json-loader/index.js' {
-  declare module.exports: $Exports<'json-loader'>;
+declare module "json-loader/index.js" {
+  declare module.exports: $Exports<"json-loader">;
 }

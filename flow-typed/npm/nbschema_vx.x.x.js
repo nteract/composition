@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'nbschema' {
+declare module "nbschema" {
   declare module.exports: any;
 }
 
@@ -23,11 +23,10 @@ declare module 'nbschema' {
  * needed.
  */
 
-
 // Filename aliases
-declare module 'nbschema/index' {
-  declare module.exports: $Exports<'nbschema'>;
+declare module "nbschema/index" {
+  declare module.exports: $Exports<"nbschema">;
 }
-declare module 'nbschema/index.js' {
-  declare module.exports: $Exports<'nbschema'>;
+declare module "nbschema/index.js" {
+  declare module.exports: $Exports<"nbschema">;
 }

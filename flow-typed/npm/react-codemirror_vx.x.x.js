@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'react-codemirror' {
+declare module "react-codemirror" {
   declare module.exports: any;
 }
 
@@ -22,46 +22,48 @@ declare module 'react-codemirror' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'react-codemirror/dist/react-codemirror' {
+declare module "react-codemirror/dist/react-codemirror" {
   declare module.exports: any;
 }
 
-declare module 'react-codemirror/dist/react-codemirror.min' {
+declare module "react-codemirror/dist/react-codemirror.min" {
   declare module.exports: any;
 }
 
-declare module 'react-codemirror/example/src/example' {
+declare module "react-codemirror/example/src/example" {
   declare module.exports: any;
 }
 
-declare module 'react-codemirror/gulpfile' {
+declare module "react-codemirror/gulpfile" {
   declare module.exports: any;
 }
 
-declare module 'react-codemirror/lib/Codemirror' {
+declare module "react-codemirror/lib/Codemirror" {
   declare module.exports: any;
 }
 
-declare module 'react-codemirror/src/Codemirror' {
+declare module "react-codemirror/src/Codemirror" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'react-codemirror/dist/react-codemirror.js' {
-  declare module.exports: $Exports<'react-codemirror/dist/react-codemirror'>;
+declare module "react-codemirror/dist/react-codemirror.js" {
+  declare module.exports: $Exports<"react-codemirror/dist/react-codemirror">;
 }
-declare module 'react-codemirror/dist/react-codemirror.min.js' {
-  declare module.exports: $Exports<'react-codemirror/dist/react-codemirror.min'>;
+declare module "react-codemirror/dist/react-codemirror.min.js" {
+  declare module.exports: $Exports<
+    "react-codemirror/dist/react-codemirror.min"
+  >;
 }
-declare module 'react-codemirror/example/src/example.js' {
-  declare module.exports: $Exports<'react-codemirror/example/src/example'>;
+declare module "react-codemirror/example/src/example.js" {
+  declare module.exports: $Exports<"react-codemirror/example/src/example">;
 }
-declare module 'react-codemirror/gulpfile.js' {
-  declare module.exports: $Exports<'react-codemirror/gulpfile'>;
+declare module "react-codemirror/gulpfile.js" {
+  declare module.exports: $Exports<"react-codemirror/gulpfile">;
 }
-declare module 'react-codemirror/lib/Codemirror.js' {
-  declare module.exports: $Exports<'react-codemirror/lib/Codemirror'>;
+declare module "react-codemirror/lib/Codemirror.js" {
+  declare module.exports: $Exports<"react-codemirror/lib/Codemirror">;
 }
-declare module 'react-codemirror/src/Codemirror.js' {
-  declare module.exports: $Exports<'react-codemirror/src/Codemirror'>;
+declare module "react-codemirror/src/Codemirror.js" {
+  declare module.exports: $Exports<"react-codemirror/src/Codemirror">;
 }

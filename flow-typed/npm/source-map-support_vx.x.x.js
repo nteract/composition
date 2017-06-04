@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'source-map-support' {
+declare module "source-map-support" {
   declare module.exports: any;
 }
 
@@ -22,60 +22,64 @@ declare module 'source-map-support' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'source-map-support/browser-source-map-support' {
+declare module "source-map-support/browser-source-map-support" {
   declare module.exports: any;
 }
 
-declare module 'source-map-support/build' {
+declare module "source-map-support/build" {
   declare module.exports: any;
 }
 
-declare module 'source-map-support/register' {
+declare module "source-map-support/register" {
   declare module.exports: any;
 }
 
-declare module 'source-map-support/source-map-support' {
+declare module "source-map-support/source-map-support" {
   declare module.exports: any;
 }
 
-declare module 'source-map-support/test' {
+declare module "source-map-support/test" {
   declare module.exports: any;
 }
 
-declare module 'source-map-support/webpack-test/compiled' {
+declare module "source-map-support/webpack-test/compiled" {
   declare module.exports: any;
 }
 
-declare module 'source-map-support/webpack-test/script' {
+declare module "source-map-support/webpack-test/script" {
   declare module.exports: any;
 }
 
-declare module 'source-map-support/webpack-test/webpack.config' {
+declare module "source-map-support/webpack-test/webpack.config" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'source-map-support/browser-source-map-support.js' {
-  declare module.exports: $Exports<'source-map-support/browser-source-map-support'>;
+declare module "source-map-support/browser-source-map-support.js" {
+  declare module.exports: $Exports<
+    "source-map-support/browser-source-map-support"
+  >;
 }
-declare module 'source-map-support/build.js' {
-  declare module.exports: $Exports<'source-map-support/build'>;
+declare module "source-map-support/build.js" {
+  declare module.exports: $Exports<"source-map-support/build">;
 }
-declare module 'source-map-support/register.js' {
-  declare module.exports: $Exports<'source-map-support/register'>;
+declare module "source-map-support/register.js" {
+  declare module.exports: $Exports<"source-map-support/register">;
 }
-declare module 'source-map-support/source-map-support.js' {
-  declare module.exports: $Exports<'source-map-support/source-map-support'>;
+declare module "source-map-support/source-map-support.js" {
+  declare module.exports: $Exports<"source-map-support/source-map-support">;
 }
-declare module 'source-map-support/test.js' {
-  declare module.exports: $Exports<'source-map-support/test'>;
+declare module "source-map-support/test.js" {
+  declare module.exports: $Exports<"source-map-support/test">;
 }
-declare module 'source-map-support/webpack-test/compiled.js' {
-  declare module.exports: $Exports<'source-map-support/webpack-test/compiled'>;
+declare module "source-map-support/webpack-test/compiled.js" {
+  declare module.exports: $Exports<"source-map-support/webpack-test/compiled">;
 }
-declare module 'source-map-support/webpack-test/script.js' {
-  declare module.exports: $Exports<'source-map-support/webpack-test/script'>;
+declare module "source-map-support/webpack-test/script.js" {
+  declare module.exports: $Exports<"source-map-support/webpack-test/script">;
 }
-declare module 'source-map-support/webpack-test/webpack.config.js' {
-  declare module.exports: $Exports<'source-map-support/webpack-test/webpack.config'>;
+declare module "source-map-support/webpack-test/webpack.config.js" {
+  declare module.exports: $Exports<
+    "source-map-support/webpack-test/webpack.config"
+  >;
 }

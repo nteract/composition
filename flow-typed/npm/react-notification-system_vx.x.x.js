@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'react-notification-system' {
+declare module "react-notification-system" {
   declare module.exports: any;
 }
 
@@ -22,95 +22,107 @@ declare module 'react-notification-system' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'react-notification-system/dist/constants' {
+declare module "react-notification-system/dist/constants" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/dist/helpers' {
+declare module "react-notification-system/dist/helpers" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/dist/NotificationContainer' {
+declare module "react-notification-system/dist/NotificationContainer" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/dist/NotificationItem' {
+declare module "react-notification-system/dist/NotificationItem" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/dist/NotificationSystem' {
+declare module "react-notification-system/dist/NotificationSystem" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/dist/styles' {
+declare module "react-notification-system/dist/styles" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/karma.conf' {
+declare module "react-notification-system/karma.conf" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/src/constants' {
+declare module "react-notification-system/src/constants" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/src/helpers' {
+declare module "react-notification-system/src/helpers" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/src/NotificationContainer' {
+declare module "react-notification-system/src/NotificationContainer" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/src/NotificationItem' {
+declare module "react-notification-system/src/NotificationItem" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/src/NotificationSystem' {
+declare module "react-notification-system/src/NotificationSystem" {
   declare module.exports: any;
 }
 
-declare module 'react-notification-system/src/styles' {
+declare module "react-notification-system/src/styles" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'react-notification-system/dist/constants.js' {
-  declare module.exports: $Exports<'react-notification-system/dist/constants'>;
+declare module "react-notification-system/dist/constants.js" {
+  declare module.exports: $Exports<"react-notification-system/dist/constants">;
 }
-declare module 'react-notification-system/dist/helpers.js' {
-  declare module.exports: $Exports<'react-notification-system/dist/helpers'>;
+declare module "react-notification-system/dist/helpers.js" {
+  declare module.exports: $Exports<"react-notification-system/dist/helpers">;
 }
-declare module 'react-notification-system/dist/NotificationContainer.js' {
-  declare module.exports: $Exports<'react-notification-system/dist/NotificationContainer'>;
+declare module "react-notification-system/dist/NotificationContainer.js" {
+  declare module.exports: $Exports<
+    "react-notification-system/dist/NotificationContainer"
+  >;
 }
-declare module 'react-notification-system/dist/NotificationItem.js' {
-  declare module.exports: $Exports<'react-notification-system/dist/NotificationItem'>;
+declare module "react-notification-system/dist/NotificationItem.js" {
+  declare module.exports: $Exports<
+    "react-notification-system/dist/NotificationItem"
+  >;
 }
-declare module 'react-notification-system/dist/NotificationSystem.js' {
-  declare module.exports: $Exports<'react-notification-system/dist/NotificationSystem'>;
+declare module "react-notification-system/dist/NotificationSystem.js" {
+  declare module.exports: $Exports<
+    "react-notification-system/dist/NotificationSystem"
+  >;
 }
-declare module 'react-notification-system/dist/styles.js' {
-  declare module.exports: $Exports<'react-notification-system/dist/styles'>;
+declare module "react-notification-system/dist/styles.js" {
+  declare module.exports: $Exports<"react-notification-system/dist/styles">;
 }
-declare module 'react-notification-system/karma.conf.js' {
-  declare module.exports: $Exports<'react-notification-system/karma.conf'>;
+declare module "react-notification-system/karma.conf.js" {
+  declare module.exports: $Exports<"react-notification-system/karma.conf">;
 }
-declare module 'react-notification-system/src/constants.js' {
-  declare module.exports: $Exports<'react-notification-system/src/constants'>;
+declare module "react-notification-system/src/constants.js" {
+  declare module.exports: $Exports<"react-notification-system/src/constants">;
 }
-declare module 'react-notification-system/src/helpers.js' {
-  declare module.exports: $Exports<'react-notification-system/src/helpers'>;
+declare module "react-notification-system/src/helpers.js" {
+  declare module.exports: $Exports<"react-notification-system/src/helpers">;
 }
-declare module 'react-notification-system/src/NotificationContainer.jsx' {
-  declare module.exports: $Exports<'react-notification-system/src/NotificationContainer'>;
+declare module "react-notification-system/src/NotificationContainer.jsx" {
+  declare module.exports: $Exports<
+    "react-notification-system/src/NotificationContainer"
+  >;
 }
-declare module 'react-notification-system/src/NotificationItem.jsx' {
-  declare module.exports: $Exports<'react-notification-system/src/NotificationItem'>;
+declare module "react-notification-system/src/NotificationItem.jsx" {
+  declare module.exports: $Exports<
+    "react-notification-system/src/NotificationItem"
+  >;
 }
-declare module 'react-notification-system/src/NotificationSystem.jsx' {
-  declare module.exports: $Exports<'react-notification-system/src/NotificationSystem'>;
+declare module "react-notification-system/src/NotificationSystem.jsx" {
+  declare module.exports: $Exports<
+    "react-notification-system/src/NotificationSystem"
+  >;
 }
-declare module 'react-notification-system/src/styles.js' {
-  declare module.exports: $Exports<'react-notification-system/src/styles'>;
+declare module "react-notification-system/src/styles.js" {
+  declare module.exports: $Exports<"react-notification-system/src/styles">;
 }

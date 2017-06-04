@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'electron-json-storage' {
+declare module "electron-json-storage" {
   declare module.exports: any;
 }
 
@@ -22,32 +22,32 @@ declare module 'electron-json-storage' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'electron-json-storage/lib/storage' {
+declare module "electron-json-storage/lib/storage" {
   declare module.exports: any;
 }
 
-declare module 'electron-json-storage/lib/utils' {
+declare module "electron-json-storage/lib/utils" {
   declare module.exports: any;
 }
 
-declare module 'electron-json-storage/tests/storage.spec' {
+declare module "electron-json-storage/tests/storage.spec" {
   declare module.exports: any;
 }
 
-declare module 'electron-json-storage/tests/utils.spec' {
+declare module "electron-json-storage/tests/utils.spec" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'electron-json-storage/lib/storage.js' {
-  declare module.exports: $Exports<'electron-json-storage/lib/storage'>;
+declare module "electron-json-storage/lib/storage.js" {
+  declare module.exports: $Exports<"electron-json-storage/lib/storage">;
 }
-declare module 'electron-json-storage/lib/utils.js' {
-  declare module.exports: $Exports<'electron-json-storage/lib/utils'>;
+declare module "electron-json-storage/lib/utils.js" {
+  declare module.exports: $Exports<"electron-json-storage/lib/utils">;
 }
-declare module 'electron-json-storage/tests/storage.spec.js' {
-  declare module.exports: $Exports<'electron-json-storage/tests/storage.spec'>;
+declare module "electron-json-storage/tests/storage.spec.js" {
+  declare module.exports: $Exports<"electron-json-storage/tests/storage.spec">;
 }
-declare module 'electron-json-storage/tests/utils.spec.js' {
-  declare module.exports: $Exports<'electron-json-storage/tests/utils.spec'>;
+declare module "electron-json-storage/tests/utils.spec.js" {
+  declare module.exports: $Exports<"electron-json-storage/tests/utils.spec">;
 }

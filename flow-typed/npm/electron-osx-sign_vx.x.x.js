@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'electron-osx-sign' {
+declare module "electron-osx-sign" {
   declare module.exports: any;
 }
 
@@ -22,45 +22,45 @@ declare module 'electron-osx-sign' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'electron-osx-sign/bin/electron-osx-flat' {
+declare module "electron-osx-sign/bin/electron-osx-flat" {
   declare module.exports: any;
 }
 
-declare module 'electron-osx-sign/bin/electron-osx-sign' {
+declare module "electron-osx-sign/bin/electron-osx-sign" {
   declare module.exports: any;
 }
 
-declare module 'electron-osx-sign/test/basic' {
+declare module "electron-osx-sign/test/basic" {
   declare module.exports: any;
 }
 
-declare module 'electron-osx-sign/test/index' {
+declare module "electron-osx-sign/test/index" {
   declare module.exports: any;
 }
 
-declare module 'electron-osx-sign/test/util' {
+declare module "electron-osx-sign/test/util" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'electron-osx-sign/bin/electron-osx-flat.js' {
-  declare module.exports: $Exports<'electron-osx-sign/bin/electron-osx-flat'>;
+declare module "electron-osx-sign/bin/electron-osx-flat.js" {
+  declare module.exports: $Exports<"electron-osx-sign/bin/electron-osx-flat">;
 }
-declare module 'electron-osx-sign/bin/electron-osx-sign.js' {
-  declare module.exports: $Exports<'electron-osx-sign/bin/electron-osx-sign'>;
+declare module "electron-osx-sign/bin/electron-osx-sign.js" {
+  declare module.exports: $Exports<"electron-osx-sign/bin/electron-osx-sign">;
 }
-declare module 'electron-osx-sign/index' {
-  declare module.exports: $Exports<'electron-osx-sign'>;
+declare module "electron-osx-sign/index" {
+  declare module.exports: $Exports<"electron-osx-sign">;
 }
-declare module 'electron-osx-sign/index.js' {
-  declare module.exports: $Exports<'electron-osx-sign'>;
+declare module "electron-osx-sign/index.js" {
+  declare module.exports: $Exports<"electron-osx-sign">;
 }
-declare module 'electron-osx-sign/test/basic.js' {
-  declare module.exports: $Exports<'electron-osx-sign/test/basic'>;
+declare module "electron-osx-sign/test/basic.js" {
+  declare module.exports: $Exports<"electron-osx-sign/test/basic">;
 }
-declare module 'electron-osx-sign/test/index.js' {
-  declare module.exports: $Exports<'electron-osx-sign/test/index'>;
+declare module "electron-osx-sign/test/index.js" {
+  declare module.exports: $Exports<"electron-osx-sign/test/index">;
 }
-declare module 'electron-osx-sign/test/util.js' {
-  declare module.exports: $Exports<'electron-osx-sign/test/util'>;
+declare module "electron-osx-sign/test/util.js" {
+  declare module.exports: $Exports<"electron-osx-sign/test/util">;
 }

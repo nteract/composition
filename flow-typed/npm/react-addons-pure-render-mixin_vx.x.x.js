@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'react-addons-pure-render-mixin' {
+declare module "react-addons-pure-render-mixin" {
   declare module.exports: any;
 }
 
@@ -23,11 +23,10 @@ declare module 'react-addons-pure-render-mixin' {
  * needed.
  */
 
-
 // Filename aliases
-declare module 'react-addons-pure-render-mixin/index' {
-  declare module.exports: $Exports<'react-addons-pure-render-mixin'>;
+declare module "react-addons-pure-render-mixin/index" {
+  declare module.exports: $Exports<"react-addons-pure-render-mixin">;
 }
-declare module 'react-addons-pure-render-mixin/index.js' {
-  declare module.exports: $Exports<'react-addons-pure-render-mixin'>;
+declare module "react-addons-pure-render-mixin/index.js" {
+  declare module.exports: $Exports<"react-addons-pure-render-mixin">;
 }

@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'commutable' {
+declare module "commutable" {
   declare module.exports: any;
 }
 
@@ -22,53 +22,53 @@ declare module 'commutable' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'commutable/lib/cleaning' {
+declare module "commutable/lib/cleaning" {
   declare module.exports: any;
 }
 
-declare module 'commutable/lib/convert' {
+declare module "commutable/lib/convert" {
   declare module.exports: any;
 }
 
-declare module 'commutable/lib/index' {
+declare module "commutable/lib/index" {
   declare module.exports: any;
 }
 
-declare module 'commutable/scripts/repl' {
+declare module "commutable/scripts/repl" {
   declare module.exports: any;
 }
 
-declare module 'commutable/test/commutable_spec' {
+declare module "commutable/test/commutable_spec" {
   declare module.exports: any;
 }
 
-declare module 'commutable/test/convert_spec' {
+declare module "commutable/test/convert_spec" {
   declare module.exports: any;
 }
 
-declare module 'commutable/test/notebook_helpers' {
+declare module "commutable/test/notebook_helpers" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'commutable/lib/cleaning.js' {
-  declare module.exports: $Exports<'commutable/lib/cleaning'>;
+declare module "commutable/lib/cleaning.js" {
+  declare module.exports: $Exports<"commutable/lib/cleaning">;
 }
-declare module 'commutable/lib/convert.js' {
-  declare module.exports: $Exports<'commutable/lib/convert'>;
+declare module "commutable/lib/convert.js" {
+  declare module.exports: $Exports<"commutable/lib/convert">;
 }
-declare module 'commutable/lib/index.js' {
-  declare module.exports: $Exports<'commutable/lib/index'>;
+declare module "commutable/lib/index.js" {
+  declare module.exports: $Exports<"commutable/lib/index">;
 }
-declare module 'commutable/scripts/repl.js' {
-  declare module.exports: $Exports<'commutable/scripts/repl'>;
+declare module "commutable/scripts/repl.js" {
+  declare module.exports: $Exports<"commutable/scripts/repl">;
 }
-declare module 'commutable/test/commutable_spec.js' {
-  declare module.exports: $Exports<'commutable/test/commutable_spec'>;
+declare module "commutable/test/commutable_spec.js" {
+  declare module.exports: $Exports<"commutable/test/commutable_spec">;
 }
-declare module 'commutable/test/convert_spec.js' {
-  declare module.exports: $Exports<'commutable/test/convert_spec'>;
+declare module "commutable/test/convert_spec.js" {
+  declare module.exports: $Exports<"commutable/test/convert_spec">;
 }
-declare module 'commutable/test/notebook_helpers.js' {
-  declare module.exports: $Exports<'commutable/test/notebook_helpers'>;
+declare module "commutable/test/notebook_helpers.js" {
+  declare module.exports: $Exports<"commutable/test/notebook_helpers">;
 }

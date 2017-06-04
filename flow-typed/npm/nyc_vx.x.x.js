@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'nyc' {
+declare module "nyc" {
   declare module.exports: any;
 }
 
@@ -22,73 +22,73 @@ declare module 'nyc' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'nyc/bin/nyc' {
+declare module "nyc/bin/nyc" {
   declare module.exports: any;
 }
 
-declare module 'nyc/bin/wrap' {
+declare module "nyc/bin/wrap" {
   declare module.exports: any;
 }
 
-declare module 'nyc/lib/commands/instrument' {
+declare module "nyc/lib/commands/instrument" {
   declare module.exports: any;
 }
 
-declare module 'nyc/lib/config-util' {
+declare module "nyc/lib/config-util" {
   declare module.exports: any;
 }
 
-declare module 'nyc/lib/instrumenters/istanbul' {
+declare module "nyc/lib/instrumenters/istanbul" {
   declare module.exports: any;
 }
 
-declare module 'nyc/lib/instrumenters/noop' {
+declare module "nyc/lib/instrumenters/noop" {
   declare module.exports: any;
 }
 
-declare module 'nyc/lib/process-args' {
+declare module "nyc/lib/process-args" {
   declare module.exports: any;
 }
 
-declare module 'nyc/lib/process' {
+declare module "nyc/lib/process" {
   declare module.exports: any;
 }
 
-declare module 'nyc/lib/self-coverage-helper' {
+declare module "nyc/lib/self-coverage-helper" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'nyc/bin/nyc.js' {
-  declare module.exports: $Exports<'nyc/bin/nyc'>;
+declare module "nyc/bin/nyc.js" {
+  declare module.exports: $Exports<"nyc/bin/nyc">;
 }
-declare module 'nyc/bin/wrap.js' {
-  declare module.exports: $Exports<'nyc/bin/wrap'>;
+declare module "nyc/bin/wrap.js" {
+  declare module.exports: $Exports<"nyc/bin/wrap">;
 }
-declare module 'nyc/index' {
-  declare module.exports: $Exports<'nyc'>;
+declare module "nyc/index" {
+  declare module.exports: $Exports<"nyc">;
 }
-declare module 'nyc/index.js' {
-  declare module.exports: $Exports<'nyc'>;
+declare module "nyc/index.js" {
+  declare module.exports: $Exports<"nyc">;
 }
-declare module 'nyc/lib/commands/instrument.js' {
-  declare module.exports: $Exports<'nyc/lib/commands/instrument'>;
+declare module "nyc/lib/commands/instrument.js" {
+  declare module.exports: $Exports<"nyc/lib/commands/instrument">;
 }
-declare module 'nyc/lib/config-util.js' {
-  declare module.exports: $Exports<'nyc/lib/config-util'>;
+declare module "nyc/lib/config-util.js" {
+  declare module.exports: $Exports<"nyc/lib/config-util">;
 }
-declare module 'nyc/lib/instrumenters/istanbul.js' {
-  declare module.exports: $Exports<'nyc/lib/instrumenters/istanbul'>;
+declare module "nyc/lib/instrumenters/istanbul.js" {
+  declare module.exports: $Exports<"nyc/lib/instrumenters/istanbul">;
 }
-declare module 'nyc/lib/instrumenters/noop.js' {
-  declare module.exports: $Exports<'nyc/lib/instrumenters/noop'>;
+declare module "nyc/lib/instrumenters/noop.js" {
+  declare module.exports: $Exports<"nyc/lib/instrumenters/noop">;
 }
-declare module 'nyc/lib/process-args.js' {
-  declare module.exports: $Exports<'nyc/lib/process-args'>;
+declare module "nyc/lib/process-args.js" {
+  declare module.exports: $Exports<"nyc/lib/process-args">;
 }
-declare module 'nyc/lib/process.js' {
-  declare module.exports: $Exports<'nyc/lib/process'>;
+declare module "nyc/lib/process.js" {
+  declare module.exports: $Exports<"nyc/lib/process">;
 }
-declare module 'nyc/lib/self-coverage-helper.js' {
-  declare module.exports: $Exports<'nyc/lib/self-coverage-helper'>;
+declare module "nyc/lib/self-coverage-helper.js" {
+  declare module.exports: $Exports<"nyc/lib/self-coverage-helper">;
 }
