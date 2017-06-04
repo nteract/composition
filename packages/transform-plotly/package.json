@@ -4,7 +4,7 @@
   "description": "Plotly Transform",
   "main": "lib/",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@nteract/plotly": "^1.0.0",
-    "lodash.clonedeep": "^4.5.0"
+    "lodash": "^4.17.4"
   },
   "peerDependencies": {
     "react": "^15.5.4"

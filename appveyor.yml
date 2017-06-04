@@ -1,6 +1,7 @@
 environment:
   matrix:
     - nodejs_version: "6"
+    - nodejs_version: "8"
 
 platform:
   - x64
@@ -13,9 +14,8 @@ cache:
 
 install:
   - ps: Install-Product node $env:nodejs_version $env:platform
-  - yarn
+  - npm i
 
 test_script:
   - node --version
-  - yarn --version
-  - yarn run test:coverage
+  - npm run test:coverage

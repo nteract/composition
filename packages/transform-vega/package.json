@@ -4,7 +4,7 @@
   "description": "Vega Transform",
   "main": "lib/",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash.merge": "^4.6.0",
+    "lodash": "^4.17.4",
     "vega": "^2.6.5",
     "vega-embed": "^2.2.0",
     "vega-lite": "^1.3.1"

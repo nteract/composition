@@ -4,7 +4,7 @@
   "description": "Transform for data resource JSON",
   "main": "lib/",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
@@ -21,7 +21,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "jsontableschema": "^0.2.2",
-    "lodash.sortby": "^4.7.0",
+    "lodash": "^4.17.4",
     "react-virtualized": "^9.7.5"
   }
 }

@@ -2,7 +2,7 @@
 /* eslint class-methods-use-this: 0 */
 import React from "react";
 
-const cloneDeep = require("lodash.clonedeep");
+const cloneDeep = require("lodash").cloneDeep;
 
 type Props = {
   data: string | Object
