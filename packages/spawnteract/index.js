@@ -41,7 +41,7 @@ const mkdirp = require("mkdirp");
  *                          control_port, shell_port, stdin_port, iopub_port]
  * @return {object}         connectionInfo object
  */
-function _createConnectionInfo(ports) {
+function createConnectionInfo(ports) {
   return {
     version: 5,
     key: uuid.v4(),
@@ -83,7 +83,7 @@ function writeConnectionFile(portFinderOptions) {
         mkdirp(runtimeDir);
 
         // Write the kernel connection file.
-        const config = _createConnectionInfo(ports);
+        const config = createConnectionInfo(ports);
         const connectionFile = path.join(
           jp.runtimeDir(),
           `kernel-${uuid.v4()}.json`
