@@ -4,7 +4,6 @@ import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import Inputs from "./inputs";
 import { Display } from "../../../../packages/display-area";
-import { outputToJS } from "../../../../packages/commutable";
 
 import Editor from "../../providers/editor";
 import LatexRenderer from "../latex";
