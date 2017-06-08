@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'watch' {
+declare module "watch" {
   declare module.exports: any;
 }
 
@@ -22,39 +22,39 @@ declare module 'watch' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'watch/cli' {
+declare module "watch/cli" {
   declare module.exports: any;
 }
 
-declare module 'watch/main' {
+declare module "watch/main" {
   declare module.exports: any;
 }
 
-declare module 'watch/test/test_monitor' {
+declare module "watch/test/test_monitor" {
   declare module.exports: any;
 }
 
-declare module 'watch/test/test_monitorRootDirectory' {
+declare module "watch/test/test_monitorRootDirectory" {
   declare module.exports: any;
 }
 
-declare module 'watch/test/test_watchTree' {
+declare module "watch/test/test_watchTree" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'watch/cli.js' {
-  declare module.exports: $Exports<'watch/cli'>;
+declare module "watch/cli.js" {
+  declare module.exports: $Exports<"watch/cli">;
 }
-declare module 'watch/main.js' {
-  declare module.exports: $Exports<'watch/main'>;
+declare module "watch/main.js" {
+  declare module.exports: $Exports<"watch/main">;
 }
-declare module 'watch/test/test_monitor.js' {
-  declare module.exports: $Exports<'watch/test/test_monitor'>;
+declare module "watch/test/test_monitor.js" {
+  declare module.exports: $Exports<"watch/test/test_monitor">;
 }
-declare module 'watch/test/test_monitorRootDirectory.js' {
-  declare module.exports: $Exports<'watch/test/test_monitorRootDirectory'>;
+declare module "watch/test/test_monitorRootDirectory.js" {
+  declare module.exports: $Exports<"watch/test/test_monitorRootDirectory">;
 }
-declare module 'watch/test/test_watchTree.js' {
-  declare module.exports: $Exports<'watch/test/test_watchTree'>;
+declare module "watch/test/test_watchTree.js" {
+  declare module.exports: $Exports<"watch/test/test_watchTree">;
 }

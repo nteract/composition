@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'electron' {
+declare module "electron" {
   declare module.exports: any;
 }
 
@@ -22,38 +22,38 @@ declare module 'electron' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'electron/cli' {
+declare module "electron/cli" {
   declare module.exports: any;
 }
 
-declare module 'electron/install' {
+declare module "electron/install" {
   declare module.exports: any;
 }
 
-declare module 'electron/test/errors' {
+declare module "electron/test/errors" {
   declare module.exports: any;
 }
 
-declare module 'electron/test/index' {
+declare module "electron/test/index" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'electron/cli.js' {
-  declare module.exports: $Exports<'electron/cli'>;
+declare module "electron/cli.js" {
+  declare module.exports: $Exports<"electron/cli">;
 }
-declare module 'electron/index' {
-  declare module.exports: $Exports<'electron'>;
+declare module "electron/index" {
+  declare module.exports: $Exports<"electron">;
 }
-declare module 'electron/index.js' {
-  declare module.exports: $Exports<'electron'>;
+declare module "electron/index.js" {
+  declare module.exports: $Exports<"electron">;
 }
-declare module 'electron/install.js' {
-  declare module.exports: $Exports<'electron/install'>;
+declare module "electron/install.js" {
+  declare module.exports: $Exports<"electron/install">;
 }
-declare module 'electron/test/errors.js' {
-  declare module.exports: $Exports<'electron/test/errors'>;
+declare module "electron/test/errors.js" {
+  declare module.exports: $Exports<"electron/test/errors">;
 }
-declare module 'electron/test/index.js' {
-  declare module.exports: $Exports<'electron/test/index'>;
+declare module "electron/test/index.js" {
+  declare module.exports: $Exports<"electron/test/index">;
 }

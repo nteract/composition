@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'kernelspecs' {
+declare module "kernelspecs" {
   declare module.exports: any;
 }
 
@@ -22,24 +22,24 @@ declare module 'kernelspecs' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'kernelspecs/lib/traverse' {
+declare module "kernelspecs/lib/traverse" {
   declare module.exports: any;
 }
 
-declare module 'kernelspecs/test/traverse_spec' {
+declare module "kernelspecs/test/traverse_spec" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'kernelspecs/index' {
-  declare module.exports: $Exports<'kernelspecs'>;
+declare module "kernelspecs/index" {
+  declare module.exports: $Exports<"kernelspecs">;
 }
-declare module 'kernelspecs/index.js' {
-  declare module.exports: $Exports<'kernelspecs'>;
+declare module "kernelspecs/index.js" {
+  declare module.exports: $Exports<"kernelspecs">;
 }
-declare module 'kernelspecs/lib/traverse.js' {
-  declare module.exports: $Exports<'kernelspecs/lib/traverse'>;
+declare module "kernelspecs/lib/traverse.js" {
+  declare module.exports: $Exports<"kernelspecs/lib/traverse">;
 }
-declare module 'kernelspecs/test/traverse_spec.js' {
-  declare module.exports: $Exports<'kernelspecs/test/traverse_spec'>;
+declare module "kernelspecs/test/traverse_spec.js" {
+  declare module.exports: $Exports<"kernelspecs/test/traverse_spec">;
 }

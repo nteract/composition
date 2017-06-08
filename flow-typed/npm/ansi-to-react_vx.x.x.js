@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'ansi-to-react' {
+declare module "ansi-to-react" {
   declare module.exports: any;
 }
 
@@ -22,25 +22,25 @@ declare module 'ansi-to-react' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'ansi-to-react/lib/index' {
+declare module "ansi-to-react/lib/index" {
   declare module.exports: any;
 }
 
-declare module 'ansi-to-react/src/index' {
+declare module "ansi-to-react/src/index" {
   declare module.exports: any;
 }
 
-declare module 'ansi-to-react/test/index-spec' {
+declare module "ansi-to-react/test/index-spec" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'ansi-to-react/lib/index.js' {
-  declare module.exports: $Exports<'ansi-to-react/lib/index'>;
+declare module "ansi-to-react/lib/index.js" {
+  declare module.exports: $Exports<"ansi-to-react/lib/index">;
 }
-declare module 'ansi-to-react/src/index.js' {
-  declare module.exports: $Exports<'ansi-to-react/src/index'>;
+declare module "ansi-to-react/src/index.js" {
+  declare module.exports: $Exports<"ansi-to-react/src/index">;
 }
-declare module 'ansi-to-react/test/index-spec.js' {
-  declare module.exports: $Exports<'ansi-to-react/test/index-spec'>;
+declare module "ansi-to-react/test/index-spec.js" {
+  declare module.exports: $Exports<"ansi-to-react/test/index-spec">;
 }

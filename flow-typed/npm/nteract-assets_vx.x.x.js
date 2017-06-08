@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'nteract-assets' {
+declare module "nteract-assets" {
   declare module.exports: any;
 }
 
@@ -23,11 +23,10 @@ declare module 'nteract-assets' {
  * needed.
  */
 
-
 // Filename aliases
-declare module 'nteract-assets/index' {
-  declare module.exports: $Exports<'nteract-assets'>;
+declare module "nteract-assets/index" {
+  declare module.exports: $Exports<"nteract-assets">;
 }
-declare module 'nteract-assets/index.js' {
-  declare module.exports: $Exports<'nteract-assets'>;
+declare module "nteract-assets/index.js" {
+  declare module.exports: $Exports<"nteract-assets">;
 }

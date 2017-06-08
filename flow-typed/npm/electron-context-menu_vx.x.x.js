@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'electron-context-menu' {
+declare module "electron-context-menu" {
   declare module.exports: any;
 }
 
@@ -23,11 +23,10 @@ declare module 'electron-context-menu' {
  * needed.
  */
 
-
 // Filename aliases
-declare module 'electron-context-menu/index' {
-  declare module.exports: $Exports<'electron-context-menu'>;
+declare module "electron-context-menu/index" {
+  declare module.exports: $Exports<"electron-context-menu">;
 }
-declare module 'electron-context-menu/index.js' {
-  declare module.exports: $Exports<'electron-context-menu'>;
+declare module "electron-context-menu/index.js" {
+  declare module.exports: $Exports<"electron-context-menu">;
 }

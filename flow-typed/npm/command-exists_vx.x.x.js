@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'command-exists' {
+declare module "command-exists" {
   declare module.exports: any;
 }
 
@@ -22,24 +22,24 @@ declare module 'command-exists' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'command-exists/lib/command-exists' {
+declare module "command-exists/lib/command-exists" {
   declare module.exports: any;
 }
 
-declare module 'command-exists/test/test' {
+declare module "command-exists/test/test" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'command-exists/index' {
-  declare module.exports: $Exports<'command-exists'>;
+declare module "command-exists/index" {
+  declare module.exports: $Exports<"command-exists">;
 }
-declare module 'command-exists/index.js' {
-  declare module.exports: $Exports<'command-exists'>;
+declare module "command-exists/index.js" {
+  declare module.exports: $Exports<"command-exists">;
 }
-declare module 'command-exists/lib/command-exists.js' {
-  declare module.exports: $Exports<'command-exists/lib/command-exists'>;
+declare module "command-exists/lib/command-exists.js" {
+  declare module.exports: $Exports<"command-exists/lib/command-exists">;
 }
-declare module 'command-exists/test/test.js' {
-  declare module.exports: $Exports<'command-exists/test/test'>;
+declare module "command-exists/test/test.js" {
+  declare module.exports: $Exports<"command-exists/test/test">;
 }

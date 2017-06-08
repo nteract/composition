@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'enchannel-zmq-backend' {
+declare module "enchannel-zmq-backend" {
   declare module.exports: any;
 }
 
@@ -22,81 +22,85 @@ declare module 'enchannel-zmq-backend' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'enchannel-zmq-backend/lib/constants' {
+declare module "enchannel-zmq-backend/lib/constants" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/lib/index' {
+declare module "enchannel-zmq-backend/lib/index" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/lib/subjection' {
+declare module "enchannel-zmq-backend/lib/subjection" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/scripts/repl' {
+declare module "enchannel-zmq-backend/scripts/repl" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/src/constants' {
+declare module "enchannel-zmq-backend/src/constants" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/src/index' {
+declare module "enchannel-zmq-backend/src/index" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/src/subjection' {
+declare module "enchannel-zmq-backend/src/subjection" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/test/channeling_spec' {
+declare module "enchannel-zmq-backend/test/channeling_spec" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/test/constants_spec' {
+declare module "enchannel-zmq-backend/test/constants_spec" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/test/index_spec' {
+declare module "enchannel-zmq-backend/test/index_spec" {
   declare module.exports: any;
 }
 
-declare module 'enchannel-zmq-backend/test/subjection_spec' {
+declare module "enchannel-zmq-backend/test/subjection_spec" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'enchannel-zmq-backend/lib/constants.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/lib/constants'>;
+declare module "enchannel-zmq-backend/lib/constants.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/lib/constants">;
 }
-declare module 'enchannel-zmq-backend/lib/index.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/lib/index'>;
+declare module "enchannel-zmq-backend/lib/index.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/lib/index">;
 }
-declare module 'enchannel-zmq-backend/lib/subjection.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/lib/subjection'>;
+declare module "enchannel-zmq-backend/lib/subjection.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/lib/subjection">;
 }
-declare module 'enchannel-zmq-backend/scripts/repl.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/scripts/repl'>;
+declare module "enchannel-zmq-backend/scripts/repl.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/scripts/repl">;
 }
-declare module 'enchannel-zmq-backend/src/constants.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/src/constants'>;
+declare module "enchannel-zmq-backend/src/constants.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/src/constants">;
 }
-declare module 'enchannel-zmq-backend/src/index.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/src/index'>;
+declare module "enchannel-zmq-backend/src/index.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/src/index">;
 }
-declare module 'enchannel-zmq-backend/src/subjection.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/src/subjection'>;
+declare module "enchannel-zmq-backend/src/subjection.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/src/subjection">;
 }
-declare module 'enchannel-zmq-backend/test/channeling_spec.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/test/channeling_spec'>;
+declare module "enchannel-zmq-backend/test/channeling_spec.js" {
+  declare module.exports: $Exports<
+    "enchannel-zmq-backend/test/channeling_spec"
+  >;
 }
-declare module 'enchannel-zmq-backend/test/constants_spec.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/test/constants_spec'>;
+declare module "enchannel-zmq-backend/test/constants_spec.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/test/constants_spec">;
 }
-declare module 'enchannel-zmq-backend/test/index_spec.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/test/index_spec'>;
+declare module "enchannel-zmq-backend/test/index_spec.js" {
+  declare module.exports: $Exports<"enchannel-zmq-backend/test/index_spec">;
 }
-declare module 'enchannel-zmq-backend/test/subjection_spec.js' {
-  declare module.exports: $Exports<'enchannel-zmq-backend/test/subjection_spec'>;
+declare module "enchannel-zmq-backend/test/subjection_spec.js" {
+  declare module.exports: $Exports<
+    "enchannel-zmq-backend/test/subjection_spec"
+  >;
 }

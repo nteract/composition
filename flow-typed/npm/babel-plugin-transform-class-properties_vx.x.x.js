@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'babel-plugin-transform-class-properties' {
+declare module "babel-plugin-transform-class-properties" {
   declare module.exports: any;
 }
 
@@ -22,11 +22,13 @@ declare module 'babel-plugin-transform-class-properties' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'babel-plugin-transform-class-properties/lib/index' {
+declare module "babel-plugin-transform-class-properties/lib/index" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'babel-plugin-transform-class-properties/lib/index.js' {
-  declare module.exports: $Exports<'babel-plugin-transform-class-properties/lib/index'>;
+declare module "babel-plugin-transform-class-properties/lib/index.js" {
+  declare module.exports: $Exports<
+    "babel-plugin-transform-class-properties/lib/index"
+  >;
 }

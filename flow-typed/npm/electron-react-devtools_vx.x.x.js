@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'electron-react-devtools' {
+declare module "electron-react-devtools" {
   declare module.exports: any;
 }
 
@@ -22,53 +22,55 @@ declare module 'electron-react-devtools' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'electron-react-devtools/api' {
+declare module "electron-react-devtools/api" {
   declare module.exports: any;
 }
 
-declare module 'electron-react-devtools/build/backend' {
+declare module "electron-react-devtools/build/backend" {
   declare module.exports: any;
 }
 
-declare module 'electron-react-devtools/build/background' {
+declare module "electron-react-devtools/build/background" {
   declare module.exports: any;
 }
 
-declare module 'electron-react-devtools/build/contentScript' {
+declare module "electron-react-devtools/build/contentScript" {
   declare module.exports: any;
 }
 
-declare module 'electron-react-devtools/build/inject' {
+declare module "electron-react-devtools/build/inject" {
   declare module.exports: any;
 }
 
-declare module 'electron-react-devtools/build/main' {
+declare module "electron-react-devtools/build/main" {
   declare module.exports: any;
 }
 
-declare module 'electron-react-devtools/build/panel' {
+declare module "electron-react-devtools/build/panel" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'electron-react-devtools/api.js' {
-  declare module.exports: $Exports<'electron-react-devtools/api'>;
+declare module "electron-react-devtools/api.js" {
+  declare module.exports: $Exports<"electron-react-devtools/api">;
 }
-declare module 'electron-react-devtools/build/backend.js' {
-  declare module.exports: $Exports<'electron-react-devtools/build/backend'>;
+declare module "electron-react-devtools/build/backend.js" {
+  declare module.exports: $Exports<"electron-react-devtools/build/backend">;
 }
-declare module 'electron-react-devtools/build/background.js' {
-  declare module.exports: $Exports<'electron-react-devtools/build/background'>;
+declare module "electron-react-devtools/build/background.js" {
+  declare module.exports: $Exports<"electron-react-devtools/build/background">;
 }
-declare module 'electron-react-devtools/build/contentScript.js' {
-  declare module.exports: $Exports<'electron-react-devtools/build/contentScript'>;
+declare module "electron-react-devtools/build/contentScript.js" {
+  declare module.exports: $Exports<
+    "electron-react-devtools/build/contentScript"
+  >;
 }
-declare module 'electron-react-devtools/build/inject.js' {
-  declare module.exports: $Exports<'electron-react-devtools/build/inject'>;
+declare module "electron-react-devtools/build/inject.js" {
+  declare module.exports: $Exports<"electron-react-devtools/build/inject">;
 }
-declare module 'electron-react-devtools/build/main.js' {
-  declare module.exports: $Exports<'electron-react-devtools/build/main'>;
+declare module "electron-react-devtools/build/main.js" {
+  declare module.exports: $Exports<"electron-react-devtools/build/main">;
 }
-declare module 'electron-react-devtools/build/panel.js' {
-  declare module.exports: $Exports<'electron-react-devtools/build/panel'>;
+declare module "electron-react-devtools/build/panel.js" {
+  declare module.exports: $Exports<"electron-react-devtools/build/panel">;
 }

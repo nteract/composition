@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'babel-plugin-transform-flow-strip-types' {
+declare module "babel-plugin-transform-flow-strip-types" {
   declare module.exports: any;
 }
 
@@ -22,11 +22,13 @@ declare module 'babel-plugin-transform-flow-strip-types' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'babel-plugin-transform-flow-strip-types/lib/index' {
+declare module "babel-plugin-transform-flow-strip-types/lib/index" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'babel-plugin-transform-flow-strip-types/lib/index.js' {
-  declare module.exports: $Exports<'babel-plugin-transform-flow-strip-types/lib/index'>;
+declare module "babel-plugin-transform-flow-strip-types/lib/index.js" {
+  declare module.exports: $Exports<
+    "babel-plugin-transform-flow-strip-types/lib/index"
+  >;
 }

@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'sinon-chai' {
+declare module "sinon-chai" {
   declare module.exports: any;
 }
 
@@ -22,11 +22,11 @@ declare module 'sinon-chai' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'sinon-chai/lib/sinon-chai' {
+declare module "sinon-chai/lib/sinon-chai" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'sinon-chai/lib/sinon-chai.js' {
-  declare module.exports: $Exports<'sinon-chai/lib/sinon-chai'>;
+declare module "sinon-chai/lib/sinon-chai.js" {
+  declare module.exports: $Exports<"sinon-chai/lib/sinon-chai">;
 }

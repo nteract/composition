@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'react-simple-dropdown' {
+declare module "react-simple-dropdown" {
   declare module.exports: any;
 }
 
@@ -22,88 +22,108 @@ declare module 'react-simple-dropdown' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'react-simple-dropdown/docs/index' {
+declare module "react-simple-dropdown/docs/index" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/lib/components/Dropdown' {
+declare module "react-simple-dropdown/lib/components/Dropdown" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/lib/components/DropdownContent' {
+declare module "react-simple-dropdown/lib/components/DropdownContent" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/lib/components/DropdownTrigger' {
+declare module "react-simple-dropdown/lib/components/DropdownTrigger" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/src/components/Dropdown' {
+declare module "react-simple-dropdown/src/components/Dropdown" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/src/components/DropdownContent' {
+declare module "react-simple-dropdown/src/components/DropdownContent" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/src/components/DropdownTrigger' {
+declare module "react-simple-dropdown/src/components/DropdownTrigger" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/src/docs/components/AccountDropdown' {
+declare module "react-simple-dropdown/src/docs/components/AccountDropdown" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/src/docs/index' {
+declare module "react-simple-dropdown/src/docs/index" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/test/components/Dropdown' {
+declare module "react-simple-dropdown/test/components/Dropdown" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/test/components/DropdownContent' {
+declare module "react-simple-dropdown/test/components/DropdownContent" {
   declare module.exports: any;
 }
 
-declare module 'react-simple-dropdown/test/components/DropdownTrigger' {
+declare module "react-simple-dropdown/test/components/DropdownTrigger" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'react-simple-dropdown/docs/index.js' {
-  declare module.exports: $Exports<'react-simple-dropdown/docs/index'>;
+declare module "react-simple-dropdown/docs/index.js" {
+  declare module.exports: $Exports<"react-simple-dropdown/docs/index">;
 }
-declare module 'react-simple-dropdown/lib/components/Dropdown.js' {
-  declare module.exports: $Exports<'react-simple-dropdown/lib/components/Dropdown'>;
+declare module "react-simple-dropdown/lib/components/Dropdown.js" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/lib/components/Dropdown"
+  >;
 }
-declare module 'react-simple-dropdown/lib/components/DropdownContent.js' {
-  declare module.exports: $Exports<'react-simple-dropdown/lib/components/DropdownContent'>;
+declare module "react-simple-dropdown/lib/components/DropdownContent.js" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/lib/components/DropdownContent"
+  >;
 }
-declare module 'react-simple-dropdown/lib/components/DropdownTrigger.js' {
-  declare module.exports: $Exports<'react-simple-dropdown/lib/components/DropdownTrigger'>;
+declare module "react-simple-dropdown/lib/components/DropdownTrigger.js" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/lib/components/DropdownTrigger"
+  >;
 }
-declare module 'react-simple-dropdown/src/components/Dropdown.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/src/components/Dropdown'>;
+declare module "react-simple-dropdown/src/components/Dropdown.jsx" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/src/components/Dropdown"
+  >;
 }
-declare module 'react-simple-dropdown/src/components/DropdownContent.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/src/components/DropdownContent'>;
+declare module "react-simple-dropdown/src/components/DropdownContent.jsx" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/src/components/DropdownContent"
+  >;
 }
-declare module 'react-simple-dropdown/src/components/DropdownTrigger.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/src/components/DropdownTrigger'>;
+declare module "react-simple-dropdown/src/components/DropdownTrigger.jsx" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/src/components/DropdownTrigger"
+  >;
 }
-declare module 'react-simple-dropdown/src/docs/components/AccountDropdown.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/src/docs/components/AccountDropdown'>;
+declare module "react-simple-dropdown/src/docs/components/AccountDropdown.jsx" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/src/docs/components/AccountDropdown"
+  >;
 }
-declare module 'react-simple-dropdown/src/docs/index.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/src/docs/index'>;
+declare module "react-simple-dropdown/src/docs/index.jsx" {
+  declare module.exports: $Exports<"react-simple-dropdown/src/docs/index">;
 }
-declare module 'react-simple-dropdown/test/components/Dropdown.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/test/components/Dropdown'>;
+declare module "react-simple-dropdown/test/components/Dropdown.jsx" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/test/components/Dropdown"
+  >;
 }
-declare module 'react-simple-dropdown/test/components/DropdownContent.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/test/components/DropdownContent'>;
+declare module "react-simple-dropdown/test/components/DropdownContent.jsx" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/test/components/DropdownContent"
+  >;
 }
-declare module 'react-simple-dropdown/test/components/DropdownTrigger.jsx' {
-  declare module.exports: $Exports<'react-simple-dropdown/test/components/DropdownTrigger'>;
+declare module "react-simple-dropdown/test/components/DropdownTrigger.jsx" {
+  declare module.exports: $Exports<
+    "react-simple-dropdown/test/components/DropdownTrigger"
+  >;
 }

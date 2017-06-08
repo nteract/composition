@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'commonmark-react-renderer' {
+declare module "commonmark-react-renderer" {
   declare module.exports: any;
 }
 
@@ -22,18 +22,20 @@ declare module 'commonmark-react-renderer' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'commonmark-react-renderer/examples/usage' {
+declare module "commonmark-react-renderer/examples/usage" {
   declare module.exports: any;
 }
 
-declare module 'commonmark-react-renderer/src/commonmark-react-renderer' {
+declare module "commonmark-react-renderer/src/commonmark-react-renderer" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'commonmark-react-renderer/examples/usage.js' {
-  declare module.exports: $Exports<'commonmark-react-renderer/examples/usage'>;
+declare module "commonmark-react-renderer/examples/usage.js" {
+  declare module.exports: $Exports<"commonmark-react-renderer/examples/usage">;
 }
-declare module 'commonmark-react-renderer/src/commonmark-react-renderer.js' {
-  declare module.exports: $Exports<'commonmark-react-renderer/src/commonmark-react-renderer'>;
+declare module "commonmark-react-renderer/src/commonmark-react-renderer.js" {
+  declare module.exports: $Exports<
+    "commonmark-react-renderer/src/commonmark-react-renderer"
+  >;
 }

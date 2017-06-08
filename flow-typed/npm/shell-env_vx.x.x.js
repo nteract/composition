@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'shell-env' {
+declare module "shell-env" {
   declare module.exports: any;
 }
 
@@ -23,11 +23,10 @@ declare module 'shell-env' {
  * needed.
  */
 
-
 // Filename aliases
-declare module 'shell-env/index' {
-  declare module.exports: $Exports<'shell-env'>;
+declare module "shell-env/index" {
+  declare module.exports: $Exports<"shell-env">;
 }
-declare module 'shell-env/index.js' {
-  declare module.exports: $Exports<'shell-env'>;
+declare module "shell-env/index.js" {
+  declare module.exports: $Exports<"shell-env">;
 }

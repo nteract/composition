@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'spawn-rx' {
+declare module "spawn-rx" {
   declare module.exports: any;
 }
 
@@ -22,46 +22,46 @@ declare module 'spawn-rx' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'spawn-rx/lib/babel-maybefill' {
+declare module "spawn-rx/lib/babel-maybefill" {
   declare module.exports: any;
 }
 
-declare module 'spawn-rx/lib/index' {
+declare module "spawn-rx/lib/index" {
   declare module.exports: any;
 }
 
-declare module 'spawn-rx/src/index' {
+declare module "spawn-rx/src/index" {
   declare module.exports: any;
 }
 
-declare module 'spawn-rx/test/asserttest' {
+declare module "spawn-rx/test/asserttest" {
   declare module.exports: any;
 }
 
-declare module 'spawn-rx/test/spawn' {
+declare module "spawn-rx/test/spawn" {
   declare module.exports: any;
 }
 
-declare module 'spawn-rx/test/support' {
+declare module "spawn-rx/test/support" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'spawn-rx/lib/babel-maybefill.js' {
-  declare module.exports: $Exports<'spawn-rx/lib/babel-maybefill'>;
+declare module "spawn-rx/lib/babel-maybefill.js" {
+  declare module.exports: $Exports<"spawn-rx/lib/babel-maybefill">;
 }
-declare module 'spawn-rx/lib/index.js' {
-  declare module.exports: $Exports<'spawn-rx/lib/index'>;
+declare module "spawn-rx/lib/index.js" {
+  declare module.exports: $Exports<"spawn-rx/lib/index">;
 }
-declare module 'spawn-rx/src/index.js' {
-  declare module.exports: $Exports<'spawn-rx/src/index'>;
+declare module "spawn-rx/src/index.js" {
+  declare module.exports: $Exports<"spawn-rx/src/index">;
 }
-declare module 'spawn-rx/test/asserttest.js' {
-  declare module.exports: $Exports<'spawn-rx/test/asserttest'>;
+declare module "spawn-rx/test/asserttest.js" {
+  declare module.exports: $Exports<"spawn-rx/test/asserttest">;
 }
-declare module 'spawn-rx/test/spawn.js' {
-  declare module.exports: $Exports<'spawn-rx/test/spawn'>;
+declare module "spawn-rx/test/spawn.js" {
+  declare module.exports: $Exports<"spawn-rx/test/spawn">;
 }
-declare module 'spawn-rx/test/support.js' {
-  declare module.exports: $Exports<'spawn-rx/test/support'>;
+declare module "spawn-rx/test/support.js" {
+  declare module.exports: $Exports<"spawn-rx/test/support">;
 }

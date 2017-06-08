@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'jupyter-paths' {
+declare module "jupyter-paths" {
   declare module.exports: any;
 }
 
@@ -22,17 +22,17 @@ declare module 'jupyter-paths' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'jupyter-paths/test/jupyter_paths_spec' {
+declare module "jupyter-paths/test/jupyter_paths_spec" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'jupyter-paths/index' {
-  declare module.exports: $Exports<'jupyter-paths'>;
+declare module "jupyter-paths/index" {
+  declare module.exports: $Exports<"jupyter-paths">;
 }
-declare module 'jupyter-paths/index.js' {
-  declare module.exports: $Exports<'jupyter-paths'>;
+declare module "jupyter-paths/index.js" {
+  declare module.exports: $Exports<"jupyter-paths">;
 }
-declare module 'jupyter-paths/test/jupyter_paths_spec.js' {
-  declare module.exports: $Exports<'jupyter-paths/test/jupyter_paths_spec'>;
+declare module "jupyter-paths/test/jupyter_paths_spec.js" {
+  declare module.exports: $Exports<"jupyter-paths/test/jupyter_paths_spec">;
 }

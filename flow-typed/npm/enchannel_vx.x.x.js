@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'enchannel' {
+declare module "enchannel" {
   declare module.exports: any;
 }
 
@@ -22,17 +22,17 @@ declare module 'enchannel' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'enchannel/test/index' {
+declare module "enchannel/test/index" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'enchannel/index' {
-  declare module.exports: $Exports<'enchannel'>;
+declare module "enchannel/index" {
+  declare module.exports: $Exports<"enchannel">;
 }
-declare module 'enchannel/index.js' {
-  declare module.exports: $Exports<'enchannel'>;
+declare module "enchannel/index.js" {
+  declare module.exports: $Exports<"enchannel">;
 }
-declare module 'enchannel/test/index.js' {
-  declare module.exports: $Exports<'enchannel/test/index'>;
+declare module "enchannel/test/index.js" {
+  declare module.exports: $Exports<"enchannel/test/index">;
 }

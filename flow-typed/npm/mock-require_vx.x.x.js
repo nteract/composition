@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'mock-require' {
+declare module "mock-require" {
   declare module.exports: any;
 }
 
@@ -22,80 +22,82 @@ declare module 'mock-require' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'mock-require/test/exported-fn' {
+declare module "mock-require/test/exported-fn" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/exported-obj' {
+declare module "mock-require/test/exported-obj" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/index' {
+declare module "mock-require/test/index" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/module-a' {
+declare module "mock-require/test/module-a" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/module-b' {
+declare module "mock-require/test/module-b" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/nested/module-c' {
+declare module "mock-require/test/nested/module-c" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/runner' {
+declare module "mock-require/test/runner" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/throw-exception-runner' {
+declare module "mock-require/test/throw-exception-runner" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/throw-exception-when-required' {
+declare module "mock-require/test/throw-exception-when-required" {
   declare module.exports: any;
 }
 
-declare module 'mock-require/test/throw-exception' {
+declare module "mock-require/test/throw-exception" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'mock-require/index' {
-  declare module.exports: $Exports<'mock-require'>;
+declare module "mock-require/index" {
+  declare module.exports: $Exports<"mock-require">;
 }
-declare module 'mock-require/index.js' {
-  declare module.exports: $Exports<'mock-require'>;
+declare module "mock-require/index.js" {
+  declare module.exports: $Exports<"mock-require">;
 }
-declare module 'mock-require/test/exported-fn.js' {
-  declare module.exports: $Exports<'mock-require/test/exported-fn'>;
+declare module "mock-require/test/exported-fn.js" {
+  declare module.exports: $Exports<"mock-require/test/exported-fn">;
 }
-declare module 'mock-require/test/exported-obj.js' {
-  declare module.exports: $Exports<'mock-require/test/exported-obj'>;
+declare module "mock-require/test/exported-obj.js" {
+  declare module.exports: $Exports<"mock-require/test/exported-obj">;
 }
-declare module 'mock-require/test/index.js' {
-  declare module.exports: $Exports<'mock-require/test/index'>;
+declare module "mock-require/test/index.js" {
+  declare module.exports: $Exports<"mock-require/test/index">;
 }
-declare module 'mock-require/test/module-a.js' {
-  declare module.exports: $Exports<'mock-require/test/module-a'>;
+declare module "mock-require/test/module-a.js" {
+  declare module.exports: $Exports<"mock-require/test/module-a">;
 }
-declare module 'mock-require/test/module-b.js' {
-  declare module.exports: $Exports<'mock-require/test/module-b'>;
+declare module "mock-require/test/module-b.js" {
+  declare module.exports: $Exports<"mock-require/test/module-b">;
 }
-declare module 'mock-require/test/nested/module-c.js' {
-  declare module.exports: $Exports<'mock-require/test/nested/module-c'>;
+declare module "mock-require/test/nested/module-c.js" {
+  declare module.exports: $Exports<"mock-require/test/nested/module-c">;
 }
-declare module 'mock-require/test/runner.js' {
-  declare module.exports: $Exports<'mock-require/test/runner'>;
+declare module "mock-require/test/runner.js" {
+  declare module.exports: $Exports<"mock-require/test/runner">;
 }
-declare module 'mock-require/test/throw-exception-runner.js' {
-  declare module.exports: $Exports<'mock-require/test/throw-exception-runner'>;
+declare module "mock-require/test/throw-exception-runner.js" {
+  declare module.exports: $Exports<"mock-require/test/throw-exception-runner">;
 }
-declare module 'mock-require/test/throw-exception-when-required.js' {
-  declare module.exports: $Exports<'mock-require/test/throw-exception-when-required'>;
+declare module "mock-require/test/throw-exception-when-required.js" {
+  declare module.exports: $Exports<
+    "mock-require/test/throw-exception-when-required"
+  >;
 }
-declare module 'mock-require/test/throw-exception.js' {
-  declare module.exports: $Exports<'mock-require/test/throw-exception'>;
+declare module "mock-require/test/throw-exception.js" {
+  declare module.exports: $Exports<"mock-require/test/throw-exception">;
 }

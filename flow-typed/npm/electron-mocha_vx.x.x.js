@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'electron-mocha' {
+declare module "electron-mocha" {
   declare module.exports: any;
 }
 
@@ -22,38 +22,38 @@ declare module 'electron-mocha' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'electron-mocha/args' {
+declare module "electron-mocha/args" {
   declare module.exports: any;
 }
 
-declare module 'electron-mocha/mocha' {
+declare module "electron-mocha/mocha" {
   declare module.exports: any;
 }
 
-declare module 'electron-mocha/renderer/console' {
+declare module "electron-mocha/renderer/console" {
   declare module.exports: any;
 }
 
-declare module 'electron-mocha/renderer/run' {
+declare module "electron-mocha/renderer/run" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'electron-mocha/args.js' {
-  declare module.exports: $Exports<'electron-mocha/args'>;
+declare module "electron-mocha/args.js" {
+  declare module.exports: $Exports<"electron-mocha/args">;
 }
-declare module 'electron-mocha/index' {
-  declare module.exports: $Exports<'electron-mocha'>;
+declare module "electron-mocha/index" {
+  declare module.exports: $Exports<"electron-mocha">;
 }
-declare module 'electron-mocha/index.js' {
-  declare module.exports: $Exports<'electron-mocha'>;
+declare module "electron-mocha/index.js" {
+  declare module.exports: $Exports<"electron-mocha">;
 }
-declare module 'electron-mocha/mocha.js' {
-  declare module.exports: $Exports<'electron-mocha/mocha'>;
+declare module "electron-mocha/mocha.js" {
+  declare module.exports: $Exports<"electron-mocha/mocha">;
 }
-declare module 'electron-mocha/renderer/console.js' {
-  declare module.exports: $Exports<'electron-mocha/renderer/console'>;
+declare module "electron-mocha/renderer/console.js" {
+  declare module.exports: $Exports<"electron-mocha/renderer/console">;
 }
-declare module 'electron-mocha/renderer/run.js' {
-  declare module.exports: $Exports<'electron-mocha/renderer/run'>;
+declare module "electron-mocha/renderer/run.js" {
+  declare module.exports: $Exports<"electron-mocha/renderer/run">;
 }

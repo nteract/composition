@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'jsonschema' {
+declare module "jsonschema" {
   declare module.exports: any;
 }
 
@@ -22,32 +22,32 @@ declare module 'jsonschema' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'jsonschema/lib/attribute' {
+declare module "jsonschema/lib/attribute" {
   declare module.exports: any;
 }
 
-declare module 'jsonschema/lib/helpers' {
+declare module "jsonschema/lib/helpers" {
   declare module.exports: any;
 }
 
-declare module 'jsonschema/lib/index' {
+declare module "jsonschema/lib/index" {
   declare module.exports: any;
 }
 
-declare module 'jsonschema/lib/validator' {
+declare module "jsonschema/lib/validator" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'jsonschema/lib/attribute.js' {
-  declare module.exports: $Exports<'jsonschema/lib/attribute'>;
+declare module "jsonschema/lib/attribute.js" {
+  declare module.exports: $Exports<"jsonschema/lib/attribute">;
 }
-declare module 'jsonschema/lib/helpers.js' {
-  declare module.exports: $Exports<'jsonschema/lib/helpers'>;
+declare module "jsonschema/lib/helpers.js" {
+  declare module.exports: $Exports<"jsonschema/lib/helpers">;
 }
-declare module 'jsonschema/lib/index.js' {
-  declare module.exports: $Exports<'jsonschema/lib/index'>;
+declare module "jsonschema/lib/index.js" {
+  declare module.exports: $Exports<"jsonschema/lib/index">;
 }
-declare module 'jsonschema/lib/validator.js' {
-  declare module.exports: $Exports<'jsonschema/lib/validator'>;
+declare module "jsonschema/lib/validator.js" {
+  declare module.exports: $Exports<"jsonschema/lib/validator">;
 }

@@ -9,7 +9,7 @@ type Identifier = string;
 type ClientOffset = {
   x: number,
   y: number
-}
+};
 
 type DndOptions<P> = {
   arePropsEqual?: (props: P, otherProps: P) => boolean
@@ -20,31 +20,29 @@ type ElementOrNode = React$Element<any> | HTMLElement;
 // Decorated Components
 // ----------------------------------------------------------------------
 declare class DndComponent<D, P, S> extends React$Component<D, P, S> {
-  static defaultProps: D;
-  props: P;
-  state: S;
+  static defaultProps: D,
+  props: P,
+  state: S,
 
-  static DecoratedComponent: Class<this>;
-  getDecoratedComponentInstance(): this;
-  getHandlerId(): Identifier;
+  static DecoratedComponent: Class<this>,
+  getDecoratedComponentInstance(): this,
+  getHandlerId(): Identifier
 }
 
 declare class ContextComponent<D, P, S> extends React$Component<D, P, S> {
-  static defaultProps: D;
-  props: P;
-  state: S;
+  static defaultProps: D,
+  props: P,
+  state: S,
 
-  static DecoratedComponent: Class<this>;
-  getDecoratedComponentInstance(): this;
+  static DecoratedComponent: Class<this>,
+  getDecoratedComponentInstance(): this,
   // getManager is not yet documented in ReactDnd Docs
-  getManager(): any;
+  getManager(): any
 }
 
 // Drag Source
 // ----------------------------------------------------------------------
-type DragSourceType<P> =
-  Identifier |
-  (props: P) => Identifier;
+type DragSourceType<P> = Identifier | ((props: P) => Identifier);
 
 type DragSourceSpec<D, P, S> = {
   beginDrag: (
@@ -59,15 +57,9 @@ type DragSourceSpec<D, P, S> = {
     component?: ?React$Component<D, P, S>
   ) => void,
 
-  canDrag?: (
-    props: P,
-    monitor?: DragSourceMonitor
-  ) => boolean,
+  canDrag?: (props: P, monitor?: DragSourceMonitor) => boolean,
 
-  isDragging?: (
-    props: P,
-    monitor?: DragSourceMonitor
-  ) => boolean
+  isDragging?: (props: P, monitor?: DragSourceMonitor) => boolean
 };
 
 type DragSourceMonitor = {
@@ -82,29 +74,29 @@ type DragSourceMonitor = {
   getClientOffset: () => ClientOffset,
   getDifferenceFromInitialOffset: () => ClientOffset,
   getSourceClientOffset: () => ClientOffset
-}
+};
 
 type DragSourceConnector = {
   dragSource: () => ConnectDragSource,
   dragPreview: () => ConnectDragPreview
-}
+};
 
 type DragSourceOptions = {
   dropEffect?: string
-}
+};
 
 type DragPreviewOptions = {
   captureDraggingState?: boolean,
   anchorX?: number,
   anchorY?: number
-}
+};
 
-type ConnectDragSource = <T : ElementOrNode>(
+type ConnectDragSource = <T: ElementOrNode>(
   elementOrNode: T,
   options?: DragSourceOptions
 ) => ?T;
 
-type ConnectDragPreview = <T : ElementOrNode>(
+type ConnectDragPreview = <T: ElementOrNode>(
   elementOrNode: T,
   options?: DragPreviewOptions
 ) => ?T;
@@ -124,9 +116,9 @@ type DragSource = <D, P, S, C: React$Component<D, P, S>>(
 // Drop Target
 // ----------------------------------------------------------------------
 type DropTargetTypes<P> =
-  Identifier |
-  Array<Identifier> |
-  (props: P) => Identifier | Array<Identifier>;
+  | Identifier
+  | Array<Identifier>
+  | ((props: P) => Identifier | Array<Identifier>);
 
 type DropTargetSpec<D, P, S> = {
   drop?: (
@@ -141,10 +133,7 @@ type DropTargetSpec<D, P, S> = {
     component?: React$Component<D, P, S>
   ) => void,
 
-  canDrop?: (
-    props: P,
-    monitor?: DropTargetMonitor
-  ) => boolean
+  canDrop?: (props: P, monitor?: DropTargetMonitor) => boolean
 };
 
 type DropTargetMonitor = {
@@ -159,38 +148,33 @@ type DropTargetMonitor = {
   getClientOffset: () => ClientOffset,
   getDifferenceFromInitialOffset: () => ClientOffset,
   getSourceClientOffset: () => ClientOffset
-}
+};
 
 type DropTargetConnector = {
   dropTarget: () => ConnectDropTarget
-}
+};
 
-type ConnectDropTarget = <T : ElementOrNode>(
-  elementOrNode: T
-) => ?T;
+type ConnectDropTarget = <T: ElementOrNode>(elementOrNode: T) => ?T;
 
 type DropTarget = <D, P, S, C: React$Component<D, P, S>>(
   types: DropTargetTypes<P>,
   spec: DropTargetSpec<D, P, S>,
-  collect: (
-    connect: DropTargetConnector,
-    monitor: DropTargetMonitor
-  ) => Object,
+  collect: (connect: DropTargetConnector, monitor: DropTargetMonitor) => Object,
   options?: DndOptions<P>
 ) => (component: Class<C>) => Class<DndComponent<D, P, S>>;
 
 // Drag Layer
 // ----------------------------------------------------------------------
 type DragLayerMonitor = {
-  isDragging: () => boolean;
-  getItemType: () => Identifier;
-  getItem: () => Object;
-  getInitialClientOffset: () => ClientOffset;
-  getInitialSourceClientOffset: () => ClientOffset;
-  getClientOffset: () => ClientOffset;
-  getDifferenceFromInitialOffset: () => ClientOffset;
-  getSourceClientOffset: () => ClientOffset;
-}
+  isDragging: () => boolean,
+  getItemType: () => Identifier,
+  getItem: () => Object,
+  getInitialClientOffset: () => ClientOffset,
+  getInitialSourceClientOffset: () => ClientOffset,
+  getClientOffset: () => ClientOffset,
+  getDifferenceFromInitialOffset: () => ClientOffset,
+  getSourceClientOffset: () => ClientOffset
+};
 
 type DragLayer = <D, P, S, C: React$Component<D, P, S>>(
   collect: (monitor: DragLayerMonitor) => Object,
@@ -205,11 +189,11 @@ type DragDropContext = <D, P, S, C: React$Component<D, P, S>>(
 
 // Top-level API
 // ----------------------------------------------------------------------
-declare module 'react-dnd' {
-  declare var exports : {
+declare module "react-dnd" {
+  declare var exports: {
     DragSource: DragSource,
     DropTarget: DropTarget,
     DragLayer: DragLayer,
     DragDropContext: DragDropContext
-  }
+  };
 }

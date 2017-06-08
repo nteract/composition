@@ -13,7 +13,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare module 'babel-preset-react' {
+declare module "babel-preset-react" {
   declare module.exports: any;
 }
 
@@ -22,11 +22,11 @@ declare module 'babel-preset-react' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'babel-preset-react/lib/index' {
+declare module "babel-preset-react/lib/index" {
   declare module.exports: any;
 }
 
 // Filename aliases
-declare module 'babel-preset-react/lib/index.js' {
-  declare module.exports: $Exports<'babel-preset-react/lib/index'>;
+declare module "babel-preset-react/lib/index.js" {
+  declare module.exports: $Exports<"babel-preset-react/lib/index">;
 }
