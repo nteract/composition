@@ -4,7 +4,7 @@
   "description": "The editor that lives inside cells in nteract",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
@@ -24,7 +24,7 @@
     "@nteract/messaging": "^1.0.10",
     "@nteract/transforms": "^1.1.0",
     "codemirror": "^5.25.2",
-    "lodash.debounce": "^4.0.8",
+    "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "rxjs": "^5.4.0"
   },
