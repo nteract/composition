@@ -68,7 +68,7 @@ export function acquireKernelInfo(channels: Channels) {
 /**
   * Instantiate a connection to a new kernel.
   *
-  * @param  {String}  kernelSpecName  The name of the kernel to launch
+  * @param  {KernelInfo}  kernelSpec The kernel specs - name,language, etc
   * @param  {String}  cwd The working directory to launch the kernel in
   */
 export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
