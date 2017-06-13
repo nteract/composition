@@ -7,6 +7,10 @@ import { connect } from "react-redux";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import { displayOrder, transforms } from "../../../packages/transforms-full";
+import {
+  HTMLTransform,
+  JavaScriptTransform
+} from "../../../packages/transforms-electron";
 
 import Cell from "./cell/cell";
 import DraggableCell from "../providers/draggable-cell";
@@ -79,7 +83,9 @@ export class Notebook extends React.PureComponent {
 
   static defaultProps = {
     displayOrder,
-    transforms,
+    transforms: transforms
+      .set(HTMLTransform.MIMETYPE, HTMLTransform)
+      .set(JavaScriptTransform.MIMETYPE, JavaScriptTransform),
     CellComponent: DraggableCell
   };
 

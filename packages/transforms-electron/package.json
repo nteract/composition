@@ -1,0 +1,41 @@
+{
+  "name": "@nteract/transforms-electron",
+  "version": "1.0.0",
+  "description": "nteract transforms for electron based jupyter frontends",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/nteract.git"
+  },
+  "keywords": [
+    "nteract",
+    "transforms",
+    "electron",
+    "notebook"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
+  "homepage": "https://github.com/nteract/nteract#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "d3": "^4.9.1",
+    "vega-embed": "^2.2.0"
+  },
+  "peerDependencies": {
+    "immutable": "^3.8.1",
+    "react": "^15.5.4"
+  }
+}
