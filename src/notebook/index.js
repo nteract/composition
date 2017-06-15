@@ -11,6 +11,7 @@ import NotificationSystem from "react-notification-system";
 import configureStore from "./store";
 import { reducers } from "./reducers";
 import Notebook from "./components/notebook";
+import Head from "./head";
 
 import { setNotificationSystem } from "./actions";
 
@@ -24,6 +25,8 @@ import {
   MetadataRecord,
   CommsRecord
 } from "./records";
+
+const path = require("path");
 
 const store = configureStore(
   {
@@ -59,7 +62,7 @@ class App extends React.PureComponent {
     return (
       <Provider store={store}>
         <div>
-          <link rel="stylesheet" href="../static/styles/main.css" />
+          <Head />
           <Notebook />
           <NotificationSystem
             ref={notificationSystem => {

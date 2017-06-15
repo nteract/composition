@@ -1,4 +1,11 @@
-import { Menu, dialog, app, ipcMain as ipc, BrowserWindow } from "electron";
+import {
+  Menu,
+  dialog,
+  app,
+  ipcMain as ipc,
+  BrowserWindow,
+  protocol
+} from "electron";
 import { resolve, join } from "path";
 import { existsSync } from "fs";
 
@@ -13,6 +20,8 @@ import {
 import { launch, launchNewNotebook } from "./launch";
 
 import { loadFullMenu } from "./menu";
+
+import { registerProtocol } from "./protocol";
 
 import prepareEnv from "./prepare-env";
 import initializeKernelSpecs from "./kernel-specs";
@@ -52,6 +61,12 @@ ipc.on("open-notebook", (event, filename) => {
 });
 
 const electronReady$ = Rx.Observable.fromEvent(app, "ready");
+
+// TODO: Register our protocol here, rendering index.html accordingly
+// See https://github.com/nteract/nteract/pull/1720
+electronReady$.subscribe(() => {
+  registerProtocol();
+});
 
 const fullAppReady$ = Rx.Observable.zip(electronReady$, prepareEnv).first();
 
@@ -208,10 +223,11 @@ fullAppReady$.subscribe(() => {
             title: "No Kernels Installed",
             buttons: [],
             message: "No kernels are installed on your system.",
-            detail: "No kernels are installed on your system so you will not be " +
-              "able to execute code cells in any language. You can read about " +
-              "installing kernels at " +
-              "https://ipython.readthedocs.io/en/latest/install/kernel_install.html"
+            detail:
+              "No kernels are installed on your system so you will not be " +
+                "able to execute code cells in any language. You can read about " +
+                "installing kernels at " +
+                "https://ipython.readthedocs.io/en/latest/install/kernel_install.html"
           },
           index => {
             if (index === 0) {
@@ -228,11 +244,12 @@ fullAppReady$.subscribe(() => {
           title: "No Kernels Installed",
           buttons: [],
           message: "No kernels are installed on your system.",
-          detail: "No kernels are installed on your system so you will not be " +
-            "able to execute code cells in any language. You can read about " +
-            "installing kernels at " +
-            "https://ipython.readthedocs.io/en/latest/install/kernel_install.html" +
-            `\nFull error: ${err.message}`
+          detail:
+            "No kernels are installed on your system so you will not be " +
+              "able to execute code cells in any language. You can read about " +
+              "installing kernels at " +
+              "https://ipython.readthedocs.io/en/latest/install/kernel_install.html" +
+              `\nFull error: ${err.message}`
         },
         index => {
           if (index === 0) {
