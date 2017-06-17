@@ -1,14 +1,14 @@
 /* @flow */
 
-import {
-  ActionsObservable
-} from "redux-observable"; /* eslint-disable no-unused-vars */
+import { ActionsObservable } from "redux-observable"; /* eslint-disable no-unused-vars */
 import { writeFileObservable } from "../../utils/fs";
 import { SAVE, SAVE_AS } from "../constants";
 
 import { changeFilename, save, doneSaving } from "../actions";
 
 import { toJS, stringifyNotebook } from "../../../packages/commutable";
+
+import { remote } from "electron";
 
 const Rx = require("rxjs/Rx");
 
@@ -32,7 +32,14 @@ export function saveEpic(action$: ActionsObservable, store: Store<any, any>) {
       action =>
         writeFileObservable(
           action.filename,
-          stringifyNotebook(toJS(action.notebook))
+          stringifyNotebook(
+            toJS(
+              action.notebook.setIn(
+                ["metadata", "nteract", "version"],
+                remote.app.getVersion()
+              )
+            )
+          )
         )
           .catch((error: Error) =>
             Observable.of({

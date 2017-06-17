@@ -29,7 +29,8 @@ global.HTMLElement = global.window.HTMLElement;
 global.console.debug = () => {};
 
 global.navigator = {
-  userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) nteract/0.0.12 Chrome/50.0.2661.102 Electron/1.1.3 Safari/537.36",
+  userAgent:
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) nteract/0.0.12 Chrome/50.0.2661.102 Electron/1.1.3 Safari/537.36",
   platform: "MacIntel"
 };
 
@@ -96,7 +97,8 @@ mock("electron", {
           return "/home/home/on/the/range";
         }
         throw Error("not mocked");
-      }
+      },
+      getVersion: () => "0.1.0"
     },
     dialog: {
       showSaveDialog: () => {}
