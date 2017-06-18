@@ -1520,8 +1520,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000683"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000683.tgz#58b57ed1e0bb9da54eaf1462985147bbe16679fa"
+  version "1.0.30000690"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000690.tgz#ee4e0750070f6aae6f40e76477984449bd6cb48a"
 
 caniuse-lite@^1.0.30000669, caniuse-lite@^1.0.30000670:
   version "1.0.30000683"
@@ -1658,8 +1658,8 @@ circular-json@^0.3.1:
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.1.tgz#be8b36aefccde8b3ca7aa2d6afc07a37242c0d2d"
 
 clap@^1.0.9:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/clap/-/clap-1.1.3.tgz#b3bd36e93dd4cbfb395a3c26896352445265c05b"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/clap/-/clap-1.2.0.tgz#59c90fe3e137104746ff19469a27a634ff68c857"
   dependencies:
     chalk "^1.1.3"
 
@@ -1668,8 +1668,8 @@ classnames@^2.1.2, classnames@^2.2.3:
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
 clean-css@4.1.x:
-  version "4.1.3"
-  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.3.tgz#07cfe8980edb20d455ddc23aadcf1e04c6e509ce"
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.4.tgz#eec8811db27457e0078d8ca921fa81b72fa82bf4"
   dependencies:
     source-map "0.5.x"
 
@@ -4216,8 +4216,8 @@ he@1.1.x:
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
 history@^4.5.1, history@^4.6.0:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/history/-/history-4.6.1.tgz#911cf8eb65728555a94f2b12780a0c531a14d2fd"
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/history/-/history-4.6.2.tgz#716e863e1da0e97a028eed6da644061dd1e1ed1d"
   dependencies:
     invariant "^2.2.1"
     loose-envify "^1.2.0"
@@ -5426,9 +5426,9 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lint-staged@^3.5.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-3.6.1.tgz#24423c8b7bd99d96e15acd1ac8cb392a78e58582"
+lint-staged@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-4.0.0.tgz#c15669f598614a6e68090303e175a799d48e0d85"
   dependencies:
     app-root-path "^2.0.0"
     cosmiconfig "^1.1.0"
@@ -6985,8 +6985,8 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     supports-color "^3.2.3"
 
 postcss@^6.0.1, postcss@^6.x:
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.1.tgz#000dbd1f8eef217aa368b9a212c5fc40b2a8f3f2"
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.2.tgz#5c4fea589f0ac3b00caa75b1cbc3a284195b7e5d"
   dependencies:
     chalk "^1.1.3"
     source-map "^0.5.6"
@@ -8437,8 +8437,8 @@ sw-precache-webpack-plugin@0.9.1:
     uglify-js "^2.8.5"
 
 sw-precache@^5.0.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/sw-precache/-/sw-precache-5.1.1.tgz#928720957463e55ed56777e177c4699f35ec59b6"
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/sw-precache/-/sw-precache-5.2.0.tgz#eb6225ce580ceaae148194578a0ad01ab7ea199c"
   dependencies:
     dom-urls "^1.1.0"
     es6-promise "^4.0.5"
@@ -8764,8 +8764,8 @@ ua-parser-js@^0.7.9:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
 uglify-js@3.0.x:
-  version "3.0.15"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.15.tgz#aacb323a846b234602270dead8a32441a8806f42"
+  version "3.0.17"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.0.17.tgz#d228cd55c2df9b3d2f53f147568cb4cc4a72cc06"
   dependencies:
     commander "~2.9.0"
     source-map "~0.5.1"
