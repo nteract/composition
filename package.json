@@ -210,7 +210,7 @@
     "eslint-plugin-prettier": "^2.1.1",
     "flow-bin": "^0.46.0",
     "flow-copy-source": "^1.1.0",
-    "husky": "^0.13.4",
+    "husky": "^0.14.0",
     "jest": "^20.0.4",
     "jsdom": "^11.0.0",
     "json-loader": "^0.5.4",
