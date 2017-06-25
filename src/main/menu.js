@@ -317,6 +317,10 @@ const theme_menu = [
   {
     label: "nteract",
     click: createSender("menu:theme", "nteract")
+  },
+  {
+    label: "One-Dark",
+    click: createSender("menu:theme", "one-dark")
   }
 ];
 const blink_menu = [
