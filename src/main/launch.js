@@ -1,6 +1,6 @@
 import path from "path";
 
-import { shell, BrowserWindow } from "electron";
+import { shell, BrowserWindow, dialog } from "electron";
 
 let launchIpynb;
 
@@ -35,6 +35,29 @@ export function launch(filename) {
 
   const index = path.join(__dirname, "..", "..", "static", "index.html");
   win.loadURL(`file://${index}`);
+
+  let actuallyExit = false;
+
+  win.on("close", e => {
+    if (!actuallyExit) {
+      e.preventDefault();
+      dialog.showMessageBox(
+        {
+          type: "question",
+          buttons: ["Yes", "No"],
+          title: "Confirm",
+          message: "Unsaved data will be lost. Are you sure you want to quit?"
+        },
+        function(response) {
+          if (response === 0) {
+            e.returnValue = false;
+            actuallyExit = true;
+            win.close();
+          }
+        }
+      );
+    }
+  });
 
   win.webContents.on("did-finish-load", () => {
     if (filename) {
