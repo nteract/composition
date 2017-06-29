@@ -77,13 +77,6 @@
   padding: 0px 0px 0px calc(var(--prompt-width) + 10px);
 }
 
-.draggable-cell {
-  padding: 0px !important;
-  border-top-width: 1px !important;
-  border-bottom-width: 1px !important;
-  margin-bottom: -1px;
-}
-
 .cell-toolbar {
   box-shadow: 0 1px 0.5px 0 rgba(0,0,0,.10);
   border-radius: 3px;

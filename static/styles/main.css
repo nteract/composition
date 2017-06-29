@@ -182,7 +182,7 @@ body
 }
 
 .notebook .cell-container:last-child {
-    padding-bottom: 200px;
+    padding-bottom: 20px;
 }
 
 /*
