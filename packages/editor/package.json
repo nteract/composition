@@ -23,15 +23,15 @@
   "dependencies": {
     "@nteract/messaging": "^1.0.10",
     "@nteract/transforms": "^1.1.0",
-    "codemirror": "^5.25.2",
+    "codemirror": "^5.27.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
-    "rxjs": "^5.4.0"
+    "rxjs": "^5.4.1"
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"

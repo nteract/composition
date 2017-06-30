@@ -13,10 +13,10 @@
     "@nteract/transform-dataresource": "^1.0.7",
     "@nteract/transform-plotly": "^1.2.0",
     "@nteract/transforms": "^1.1.0",
-    "codemirror": "^5.25.2",
+    "codemirror": "^5.27.0",
     "normalize.css": "^7.0.0",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1"
   },

@@ -28,7 +28,7 @@
     "ansi-to-react": "^1.4.2"
   },
   "peerDependencies": {
-    "react": "^15.5.4"
+    "react": "^15.6.1"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"

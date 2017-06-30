@@ -30,7 +30,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": "^15.5.4"
+    "react": "^15.6.1"
   },
   "dependencies": {
     "@nteract/transform-dataresource": "^1.0.7",

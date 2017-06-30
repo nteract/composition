@@ -27,6 +27,6 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "immutable": "^3.8.1",
-    "uuid": "^3.0.1"
+    "uuid": "^3.1.0"
   }
 }
