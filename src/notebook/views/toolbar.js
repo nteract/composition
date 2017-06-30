@@ -1,6 +1,7 @@
 // @flow
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
+/* eslint jsx-a11y/anchor-is-valid: 0 */
 
 // TODO: Fix up a11y eslint here
 // TODO: All the `<li>` below that have role button should just be `<button>` with proper styling
