@@ -4,8 +4,8 @@ import React from "react";
 const merge = require("lodash").merge;
 const vegaEmbed = require("vega-embed");
 
-const MIMETYPE_VEGA = "application/vnd.vega+json";
-const MIMETYPE_VEGALITE = "application/vnd.vegalite+json";
+const MIMETYPE_VEGA = "application/vnd.vega.v2+json";
+const MIMETYPE_VEGALITE = "application/vnd.vegalite.v1+json";
 
 const DEFAULT_WIDTH = 500;
 const DEFAULT_HEIGHT = DEFAULT_WIDTH / 1.5;
