@@ -1,0 +1,22 @@
+.initialTextAreaForCodeMirror {
+  font-family: 'Source Code Pro';
+  font-size: 14px;
+  line-height: 20px;
+
+  height: auto;
+
+  background: none;
+
+  border: none;
+  overflow: hidden;
+  outline: none;
+
+  -webkit-scrollbar: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  width: 100%;
+  resize: none;
+  padding-top: .4em;
+  padding-bottom: .4em;
+}

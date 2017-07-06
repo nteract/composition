@@ -6,10 +6,14 @@ type Props = {
   children?: React.Element<any>
 };
 
-const MathJax: global = window.MathJax;
+let MathJax: global;
+if (global.hasOwnProperty("window")) {
+  MathJax = window.MathJax;
+}
 
 function isMathJaxOkYet(): boolean {
   return (
+    window &&
     !window.disableMathJax &&
     typeof MathJax !== "undefined" &&
     window.MathJax &&

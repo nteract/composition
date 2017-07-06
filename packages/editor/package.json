@@ -24,6 +24,7 @@
     "@nteract/messaging": "^1.0.10",
     "@nteract/transforms": "^1.1.0",
     "codemirror": "^5.27.0",
+    "exenv": "^1.2.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "rxjs": "^5.4.1"

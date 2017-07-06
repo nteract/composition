@@ -120,16 +120,20 @@ const CodeMirror = createReactClass({
       this.state.isFocused ? "ReactCodeMirror--focused" : null,
       this.props.className
     );
+
     return (
       <div className={editorClassName}>
-        <textarea
-          ref={ta => {
-            this.textarea = ta;
-          }}
-          name={this.props.path}
-          defaultValue={this.props.value}
-          autoComplete="off"
-        />
+        <div className="CodeMirror cm-s-composition CodeMirror-wrap">
+          <textarea
+            ref={ta => {
+              this.textarea = ta;
+            }}
+            name={this.props.path}
+            defaultValue={this.props.value}
+            autoComplete="off"
+            className="CodeMirror-code initialTextAreaForCodeMirror"
+          />
+        </div>
       </div>
     );
   }

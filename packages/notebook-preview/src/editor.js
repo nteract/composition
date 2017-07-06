@@ -6,10 +6,9 @@ type Props = {
   children?: React.Element<*>
 };
 
-const EditorView = (props: Props): React.Element<*> => (
+const EditorView = (props: Props): React.Element<*> =>
   <div className="input">
     {props.children}
-  </div>
-);
+  </div>;
 
 export default CodeMirrorWrapper(EditorView, { readOnly: true });

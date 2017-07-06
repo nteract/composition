@@ -1,4 +1,5 @@
 /* eslint-disable consistent-return, no-restricted-syntax */
+require("isomorphic-fetch");
 
 function frozenReviver(key, value) {
   return Object.freeze(value);

@@ -4,9 +4,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "devDependencies": {
-    "react-scripts": "^1.0.1"
-  },
   "dependencies": {
     "@nteract/commutable": "^1.1.4",
     "@nteract/notebook-preview": "^1.2.2",
@@ -14,6 +11,9 @@
     "@nteract/transform-plotly": "^1.2.0",
     "@nteract/transforms": "^1.1.0",
     "codemirror": "^5.27.0",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash.debounce": "^4.0.8",
+    "next": "^3.0.1-beta.8",
     "normalize.css": "^7.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -21,8 +21,8 @@
     "react-router-dom": "^4.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   }
 }
