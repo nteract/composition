@@ -215,7 +215,7 @@
     "jsdom": "^11.0.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
-    "lerna": "^2.0.0-rc.5",
+    "lerna": "^2.0.0",
     "lint-staged": "^4.0.0",
     "lodash-webpack-plugin": "^0.11.4",
     "mocha": "^3.4.2",
