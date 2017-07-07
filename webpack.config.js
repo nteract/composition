@@ -47,6 +47,7 @@ module.exports = {
   externals: nodeModules,
   plugins: [
     new LodashModuleReplacementPlugin(),
+    new webpack.optimize.ModuleConcatenationPlugin(),
 
     new webpack.IgnorePlugin(/\.(css|less)$/),
 
