@@ -62,29 +62,29 @@ python3 -m ipykernel install --user
 
 #### Install `nteract` in dev mode
 
-Requires [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/).
+Requires [Node.js and npm 3+](https://docs.npmjs.com/getting-started/installing-node).
 
 1. Fork this repo
 2. Clone it `git clone https://github.com/nteract/nteract`
 3. `cd` to where you `clone`d it
-4. `yarn install`
-5. `yarn run start`
+4. `npm install`
+5. `npm run start`
 
-As you make changes, close the entire app (cmd-q on OS X, or ctrl-c at the terminal) then run `yarn run start` again.
+As you make changes, close the entire app (cmd-q on OS X, or ctrl-c at the terminal) then run `npm run start` again.
 
 ##### Progressive Webpack build for the notebook
 
 In separate terminals run:
 
 ```
-yarn run build:main
-yarn run build:renderer:watch
+npm run build:main
+npm run build:renderer:watch
 ```
 
 and
 
 ```
-yarn run spawn
+npm run spawn
 ```
 
 The webpack build will keep occurring as you modify source. When you open a new notebook, you'll get the freshest copy of the notebook app.
@@ -93,7 +93,7 @@ The webpack build will keep occurring as you modify source. When you open a new 
 You can run nteract's documentation generator by running
 
 ```
-yarn run build:docs
+npm run build:docs
 ```
 
 And then opening `docs/index.html` in your favorite browser.
@@ -102,11 +102,11 @@ And then opening `docs/index.html` in your favorite browser.
 
 > I upgraded my developer installation and things are broken!
 
-- Try `yarn run reinstall`
+- Try `npm run reinstall`
 
 > I want to debug redux actions and state changes.
 
--  Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by spawning the application with `yarn run spawn:debug`.
+-  Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by spawning the application with `npm run spawn:debug`.
 
 > I keep getting 'Do you want the application "nteract Helper.app" to accept incoming network connections?' while developing or using a custom build of nteract on macOS.
 
@@ -117,24 +117,24 @@ And then opening `docs/index.html` in your favorite browser.
 ### Bump the version
 
 ```
-yarn version {major, minor, patch}
+npm version {major, minor, patch}
 git push
 git push --tags
-yarn publish
+npm publish
 ```
 
 ### Create the package
 
-It is recommended to run `yarn run reinstall` before packaging a release.
+It is recommended to run `npm run reinstall` before packaging a release.
 
 To package a release for your current platform run:
 ```
-yarn run dist
+npm run dist
 ```
 
 To package a release for all platforms run:
 ```
-yarn run dist:all
+npm run dist:all
 ```
 Make sure you have the [required dependencies](https://github.com/electron-userland/electron-builder/wiki/Multi-Platform-Build) for a multi platform build installed.
 

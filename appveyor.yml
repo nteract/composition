@@ -10,13 +10,15 @@ platform:
 build: off
 
 cache:
- - "%LOCALAPPDATA%\\Yarn"
+  - node_modules           # local npm modules
+  - '%APPDATA%\npm-cache'  # npm cache
 
 install:
   - ps: Install-Product node $env:nodejs_version $env:platform
-  - yarn
+  - npm install -g npm@5 
+  - npm install
 
 test_script:
   - node --version
-  - yarn --version
-  - yarn run test:coverage
+  - npm --version
+  - npm run test:coverage
