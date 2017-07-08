@@ -14,6 +14,11 @@ env:
   - GROUP=flow
   - GROUP=conformance
 
+cache:
+  directories:
+    - $HOME/.npm
+    - node_modules
+
 before_install:
 - npm install -g npm@5
 - npm install -g greenkeeper-lockfile@1
