@@ -29,9 +29,9 @@ import type {
   ImmutableOutput,
   ImmutableOutputs,
   MimeBundle
-} from "../../../packages/commutable/lib/types";
+} from "../../../packages/commutable/src/types";
 
-import type { Output, StreamOutput } from "../../../packages/commutable/lib/v4";
+import type { Output, StreamOutput } from "../../../packages/commutable/src/v4";
 
 type Pager = {
   source: "page",
@@ -439,9 +439,8 @@ function newCellAppend(state: DocumentState, action: NewCellAppendAction) {
   const { cellType } = action;
   const notebook: ImmutableNotebook = state.get("notebook");
   const cellOrder: ImmutableCellOrder = notebook.get("cellOrder");
-  const cell: ImmutableCell = cellType === "markdown"
-    ? emptyMarkdownCell
-    : emptyCodeCell;
+  const cell: ImmutableCell =
+    cellType === "markdown" ? emptyMarkdownCell : emptyCodeCell;
   const index = cellOrder.count();
   const cellID = uuid.v4();
   return state.set("notebook", insertCellAt(notebook, cell, cellID, index));
