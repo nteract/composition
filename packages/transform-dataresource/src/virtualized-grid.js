@@ -1,7 +1,7 @@
 /* @flow */
 import React from "react";
 import { MultiGrid, AutoSizer, ColumnSizer } from "react-virtualized";
-import { infer } from "jsontableschema";
+import { infer } from "./infer";
 
 type Props = {
   data: Array<Object>,
@@ -117,19 +117,20 @@ export default class VirtualizedGrid extends React.Component {
   render() {
     const rowCount = this.state.data.length;
     const { rowHeight, maxRows } = this.props;
-    const maxHeight = rowCount * rowHeight > maxRows * rowHeight
-      ? maxRows * rowHeight
-      : rowCount * rowHeight;
+    const maxHeight =
+      rowCount * rowHeight > maxRows * rowHeight
+        ? maxRows * rowHeight
+        : rowCount * rowHeight;
     return (
       <AutoSizer disableHeight>
-        {({ width }) => (
+        {({ width }) =>
           <ColumnSizer
             columnMaxWidth={this.props.columnMaxWidth}
             columnMinWidth={this.props.columnMinWidth}
             columnCount={this.state.schema.fields.length}
             width={width}
           >
-            {({ adjustedWidth, getColumnWidth, registerChild }) => (
+            {({ adjustedWidth, getColumnWidth, registerChild }) =>
               <MultiGrid
                 ref={registerChild}
                 cellRenderer={this.cellRenderer}
@@ -143,10 +144,8 @@ export default class VirtualizedGrid extends React.Component {
                 rowCount={rowCount}
                 rowHeight={rowHeight}
                 width={this.props.width || adjustedWidth}
-              />
-            )}
-          </ColumnSizer>
-        )}
+              />}
+          </ColumnSizer>}
       </AutoSizer>
     );
   }
@@ -168,24 +167,24 @@ const styles = {
     // Highlight even rows
     ...(rowIndex % 2 === 0 && !(rowIndex === 0 || columnIndex === 0)
       ? theme === "nteract"
-          ? { background: "rgba(255,255,255,0.075)" }
-          : { background: "rgba(0, 0, 0, 0.03)" }
+        ? { background: "rgba(255,255,255,0.075)" }
+        : { background: "rgba(0, 0, 0, 0.03)" }
       : {}),
     // Bold the headers
     ...(rowIndex === 0 || columnIndex === 0
       ? theme === "nteract"
-          ? {
-              background: "rgba(0,0,0,0.25)",
-              fontWeight: "bold"
-            }
-          : {
-              background: "rgba(0, 0, 0, 0.06)",
-              fontWeight: "bold"
-            }
+        ? {
+            background: "rgba(0,0,0,0.25)",
+            fontWeight: "bold"
+          }
+        : {
+            background: "rgba(0, 0, 0, 0.06)",
+            fontWeight: "bold"
+          }
       : {}),
     // Right-align numbers
     ...(!(rowIndex === 0 || columnIndex === 0) &&
-      (type === "number" || type === "integer")
+    (type === "number" || type === "integer")
       ? { textAlign: "right" }
       : { textAlign: "left" })
   })

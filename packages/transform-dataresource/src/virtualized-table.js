@@ -3,7 +3,7 @@
 /* eslint no-nested-ternary: 0 */
 import React from "react";
 import { Table, Column, SortDirection, AutoSizer } from "react-virtualized";
-import infer from "jsontableschema/lib/infer";
+import { infer } from "./infer";
 
 const _sortBy = require("lodash").sortBy;
 
@@ -66,9 +66,8 @@ export default class VirtualizedTable extends React.Component {
 
   sort = ({ sortBy, sortDirection }: State) => {
     const data = _sortBy(this.props.data, [sortBy]);
-    this.state.data = sortDirection === SortDirection.DESC
-      ? data.reverse()
-      : data;
+    this.state.data =
+      sortDirection === SortDirection.DESC ? data.reverse() : data;
     this.setState({ sortBy, sortDirection });
   };
 
