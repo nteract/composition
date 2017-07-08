@@ -17,6 +17,7 @@
   box-shadow: none;
   width: 100%;
   resize: none;
-  padding-top: .4em;
-  padding-bottom: .4em;
+  padding: 10px 0 5px 10px;
+  letter-spacing: 0.3px;
+  word-spacing: 1px;
 }
