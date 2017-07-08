@@ -12,6 +12,7 @@ import Cell from "./cell/cell";
 import DraggableCell from "../providers/draggable-cell";
 import CellCreator from "../providers/cell-creator";
 import StatusBar from "./status-bar";
+import ScrollBuffer from "./scroll-buffer";
 import {
   focusNextCell,
   focusNextCellEditor,
@@ -19,6 +20,7 @@ import {
   executeCell
 } from "../actions";
 import type { CellProps } from "./cell/cell";
+import type { ImmutableCell } from "../../../packages/commutable/";
 
 // TODO: Remove after provider refactor finished
 const PropTypes = require("prop-types");
@@ -71,6 +73,7 @@ export class Notebook extends React.PureComponent {
   props: Props;
   createCellElement: (s: string) => ?React.Element<any>;
   createStickyCellElement: (s: string) => ?React.Element<any>;
+  findLastCell: () => ImmutableCell;
   keyDown: (e: KeyboardEvent) => void;
   moveCell: (source: string, dest: string, above: boolean) => void;
   stickyCellsPlaceholder: HTMLElement;
@@ -91,6 +94,7 @@ export class Notebook extends React.PureComponent {
     super();
     this.createCellElement = this.createCellElement.bind(this);
     this.createStickyCellElement = this.createStickyCellElement.bind(this);
+    this.findLastCell = this.findLastCell.bind(this);
     this.keyDown = this.keyDown.bind(this);
     this.moveCell = this.moveCell.bind(this);
     this.cellElements = new ImmutableMap();
@@ -104,7 +108,8 @@ export class Notebook extends React.PureComponent {
     if (this.stickyCellsPlaceholder) {
       // Make sure the document is vertically shifted so the top non-stickied
       // cell is always visible.
-      this.stickyCellsPlaceholder.style.height = `${this.stickyCellContainer.clientHeight}px`;
+      this.stickyCellsPlaceholder.style.height = `${this.stickyCellContainer
+        .clientHeight}px`;
     }
   }
 
@@ -177,6 +182,21 @@ export class Notebook extends React.PureComponent {
     };
   }
 
+  /**
+   * Return the last cell in the notebook
+   * 
+   * @returns {ImmutableCell} 
+   * @memberof Notebook
+   */
+  findLastCell(): ImmutableCell {
+    const cellOrder = this.props.notebook.get("cellOrder");
+    const cellMap = this.props.notebook.get("cellMap");
+    const cellId = cellOrder.get(-1);
+    const cell = cellMap.get(cellId);
+
+    return cell;
+  }
+
   createCellElement(id: string): ?React.Element<any> {
     const cellMap = this.props.notebook.get("cellMap");
     const cell = cellMap.get(id);
@@ -219,6 +239,8 @@ export class Notebook extends React.PureComponent {
       return <div className="notebook" />;
     }
     const cellOrder = this.props.notebook.get("cellOrder");
+    const lastCell = this.findLastCell();
+
     return (
       <div>
         <div className="notebook">
@@ -241,6 +263,7 @@ export class Notebook extends React.PureComponent {
           <CellCreator id={cellOrder.get(0, null)} above />
           {cellOrder.map(this.createCellElement)}
         </div>
+        <ScrollBuffer lastCell={lastCell} />
         <StatusBar
           notebook={this.props.notebook}
           lastSaved={this.props.lastSaved}
