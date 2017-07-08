@@ -20,6 +20,11 @@ export default class HTMLDisplay extends React.Component {
   static MIMETYPE = "text/html";
 
   componentDidMount(): void {
+    // clear out all DOM element children
+    // This matters on server side render
+    while (this.el.firstChild) {
+      this.el.removeChild(this.el.firstChild);
+    }
     this.el.appendChild(createFragment(this.props.data));
   }
 
@@ -37,6 +42,7 @@ export default class HTMLDisplay extends React.Component {
   render(): ?React.Element<any> {
     return (
       <div
+        dangerouslySetInnerHTML={{ __html: this.props.data }}
         ref={el => {
           this.el = el;
         }}
