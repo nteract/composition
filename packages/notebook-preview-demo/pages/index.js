@@ -2,6 +2,25 @@ import React from "react";
 
 import { fetchFromGist } from "./fetchers";
 
+import DataResourceTransform from "@nteract/transform-dataresource";
+
+import {
+  standardTransforms,
+  standardDisplayOrder,
+  registerTransform,
+  richestMimetype
+} from "@nteract/transforms";
+
+const additionalTransforms = [DataResourceTransform];
+
+const {
+  transforms,
+  displayOrder
+} = additionalTransforms.reduce(registerTransform, {
+  transforms: standardTransforms,
+  displayOrder: standardDisplayOrder
+});
+
 import NotebookPreview from "@nteract/notebook-preview";
 
 const hokeyNB = {
@@ -45,7 +64,11 @@ class NotebookPage extends React.Component {
         <link rel="stylesheet" href="/static/codemirror.css" />
         <link rel="stylesheet" href="/static/main.css" />
         <link rel="stylesheet" href="/static/theme-light.css" />
-        <NotebookPreview notebook={this.props.notebook} />
+        <NotebookPreview
+          notebook={this.props.notebook}
+          displayOrder={displayOrder}
+          transforms={transforms}
+        />
       </div>
     );
     return;

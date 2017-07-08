@@ -8,7 +8,6 @@
     "@nteract/commutable": "^2.0.1",
     "@nteract/notebook-preview": "^2.0.1",
     "@nteract/transform-dataresource": "^1.0.9",
-    "@nteract/transform-plotly": "^2.0.1",
     "@nteract/transforms": "^2.0.1",
     "codemirror": "^5.27.0",
     "isomorphic-fetch": "^2.2.1",
