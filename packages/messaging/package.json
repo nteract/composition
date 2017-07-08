@@ -3,6 +3,7 @@
   "version": "1.0.10",
   "description": "Messaging mechanics for nteract apps (jupyter spec)",
   "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
@@ -18,12 +19,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "nteract",
-    "messaging",
-    "jmp",
-    "jupyter"
-  ],
+  "keywords": ["nteract", "messaging", "jmp", "jupyter"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }

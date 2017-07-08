@@ -3,6 +3,7 @@
   "version": "1.0.11",
   "description": "Transform for debug usage with nteract models",
   "main": "lib/",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",

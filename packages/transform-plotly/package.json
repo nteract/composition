@@ -3,6 +3,7 @@
   "version": "1.2.0",
   "description": "Plotly Transform",
   "main": "lib/",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",

@@ -3,6 +3,7 @@
   "version": "1.2.2",
   "description": "View a notebook using a React Component",
   "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",

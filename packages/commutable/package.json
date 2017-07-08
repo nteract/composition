@@ -3,6 +3,7 @@
   "version": "1.1.4",
   "description": "library for immutable notebook operations",
   "main": "index.js",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
@@ -15,11 +16,7 @@
     "type": "git",
     "url": "https://github.com/nteract/nteract/tree/master/packages/commutable"
   },
-  "keywords": [
-    "commutable",
-    "nteract",
-    "notebooks"
-  ],
+  "keywords": ["commutable", "nteract", "notebooks"],
   "publishConfig": {
     "access": "public"
   },

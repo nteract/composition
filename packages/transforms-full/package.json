@@ -3,6 +3,7 @@
   "version": "1.4.0",
   "description": "Transforms from nteract",
   "main": "lib/",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
@@ -15,11 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/nteract/nteract.git"
   },
-  "keywords": [
-    "nteract",
-    "transforms",
-    "notebook"
-  ],
+  "keywords": ["nteract", "transforms", "notebook"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {

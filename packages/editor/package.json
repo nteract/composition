@@ -3,6 +3,7 @@
   "version": "1.0.14",
   "description": "The editor that lives inside cells in nteract",
   "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
@@ -11,12 +12,7 @@
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "build:lib:watch": "npm run build:lib -- --watch"
   },
-  "keywords": [
-    "nteract",
-    "editor",
-    "notebook",
-    "jupyter"
-  ],
+  "keywords": ["nteract", "editor", "notebook", "jupyter"],
   "publishConfig": {
     "access": "public"
   },
