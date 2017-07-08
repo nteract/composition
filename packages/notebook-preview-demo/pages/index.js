@@ -2,7 +2,6 @@ import React from "react";
 
 import { fetchFromGist } from "./fetchers";
 
-import JSONTree from "react-json-tree";
 import NotebookPreview from "@nteract/notebook-preview";
 
 const hokeyNB = {

@@ -15,3 +15,5 @@ build
 npm-debug.log
 
 .next
+# Don't include the package-lock for our demo app
+package-lock.json
