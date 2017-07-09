@@ -1,6 +1,14 @@
 /* @flow */
 
-import Rx from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/merge";
+
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/catch";
 
 import { launchSpec } from "spawnteract";
 
@@ -58,7 +66,7 @@ export function acquireKernelInfo(channels: Channels) {
     .pluck("content", "language_info")
     .map(setLanguageInfo);
 
-  return Rx.Observable.create(observer => {
+  return Observable.create(observer => {
     const subscription = obs.subscribe(observer);
     channels.shell.next(message);
     return subscription;
@@ -74,7 +82,7 @@ export function acquireKernelInfo(channels: Channels) {
 export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
   const spec = kernelSpec.spec;
 
-  return Rx.Observable.create(observer => {
+  return Observable.create(observer => {
     launchSpec(spec, { cwd }).then(c => {
       const { config, spawn, connectionFile } = c;
       const kernelSpecName = kernelSpec.name;
@@ -123,11 +131,11 @@ export const watchExecutionStateEpic = (action$: ActionsObservable) =>
   action$
     .ofType(NEW_KERNEL)
     .switchMap(action =>
-      Rx.Observable.merge(
+      Observable.merge(
         action.channels.iopub
           .filter(msg => msg.header.msg_type === "status")
           .map(msg => setExecutionState(msg.content.execution_state)),
-        Rx.Observable.of(setExecutionState("idle"))
+        Observable.of(setExecutionState("idle"))
       )
     );
 /**
@@ -135,7 +143,7 @@ export const watchExecutionStateEpic = (action$: ActionsObservable) =>
   *
   * @returns  {Observable}  The reply from main process
   */
-export const kernelSpecsObservable = Rx.Observable.create(observer => {
+export const kernelSpecsObservable = Observable.create(observer => {
   ipc.on("kernel_specs_reply", (event, specs) => {
     observer.next(specs);
     observer.complete();
@@ -167,7 +175,7 @@ export const newKernelByNameEpic = (action$: ActionsObservable) =>
     })
     .mergeMap(action =>
       kernelSpecsObservable.mergeMap(specs =>
-        Rx.Observable.of(newKernel(specs[action.kernelSpecName], action.cwd))
+        Observable.of(newKernel(specs[action.kernelSpecName], action.cwd))
       )
     );
 
@@ -187,8 +195,8 @@ export const newKernelEpic = (action$: ActionsObservable) =>
     })
     .mergeMap(action => newKernelObservable(action.kernelSpec, action.cwd))
     .catch((error, source) =>
-      Rx.Observable.merge(
-        Rx.Observable.of({
+      Observable.merge(
+        Observable.of({
           type: ERROR_KERNEL_LAUNCH_FAILED,
           payload: error,
           error: true

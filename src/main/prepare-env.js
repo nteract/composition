@@ -6,7 +6,6 @@ import "rxjs/add/observable/fromPromise";
 import "rxjs/add/operator/first";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/publishReplay";
-import "rxjs/add/operator/connect";
 
 const env$ = Observable.fromPromise(shellEnv())
   .first()

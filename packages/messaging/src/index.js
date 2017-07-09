@@ -16,7 +16,7 @@ export function getUsername() {
   );
 }
 
-export function createMessage(msg_type: string, fields: Object) {
+export function createMessage(msg_type: string, fields: Object = {}) {
   const username = getUsername();
   return Object.assign(
     {
