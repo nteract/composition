@@ -2,7 +2,11 @@ import { Menu, dialog, app, ipcMain as ipc, BrowserWindow } from "electron";
 import { resolve, join } from "path";
 import { existsSync } from "fs";
 
-import Rx from "rxjs/Rx";
+import { Subscriber } from "rxjs/Subscriber";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/fromEvent";
+import "rxjs/add/observable/forkJoin";
+import "rxjs/add/observable/zip";
 
 import {
   mkdirpObservable,
@@ -51,9 +55,9 @@ ipc.on("open-notebook", (event, filename) => {
   launch(resolve(filename));
 });
 
-const electronReady$ = Rx.Observable.fromEvent(app, "ready");
+const electronReady$ = Observable.fromEvent(app, "ready");
 
-const fullAppReady$ = Rx.Observable.zip(electronReady$, prepareEnv).first();
+const fullAppReady$ = Observable.zip(electronReady$, prepareEnv).first();
 
 const jupyterConfigDir = path.join(app.getPath("home"), ".jupyter");
 const nteractConfigFilename = path.join(jupyterConfigDir, "nteract.json");
@@ -61,7 +65,7 @@ const nteractConfigFilename = path.join(jupyterConfigDir, "nteract.json");
 const prepJupyterObservable = prepareEnv
   .mergeMap(() =>
     // Create all the directories we need in parallel
-    Rx.Observable.forkJoin(
+    Observable.forkJoin(
       // Ensure the runtime Dir is setup for kernels
       mkdirpObservable(jupyterPaths.runtimeDir()),
       // Ensure the config directory is all set up
@@ -96,7 +100,7 @@ const kernelSpecsPromise = prepJupyterObservable
 export function createSplashSubscriber() {
   let win;
 
-  return Rx.Subscriber.create(
+  return Subscriber.create(
     () => {
       win = new BrowserWindow({
         width: 565,
@@ -123,7 +127,7 @@ export function createSplashSubscriber() {
   );
 }
 
-const appAndKernelSpecsReady = Rx.Observable.zip(
+const appAndKernelSpecsReady = Observable.zip(
   fullAppReady$,
   kernelSpecsPromise
 );
@@ -139,16 +143,15 @@ function closeAppOnNonDarwin() {
     app.quit();
   }
 }
-const windowAllClosed = Rx.Observable.fromEvent(app, "window-all-closed");
+const windowAllClosed = Observable.fromEvent(app, "window-all-closed");
 windowAllClosed
   .skipUntil(appAndKernelSpecsReady)
   .subscribe(closeAppOnNonDarwin);
 
-const openFile$ = Rx.Observable.fromEvent(
-  app,
-  "open-file",
-  (event, filename) => ({ event, filename })
-);
+const openFile$ = Observable.fromEvent(app, "open-file", (event, filename) => ({
+  event,
+  filename
+}));
 
 function openFileFromEvent({ event, filename }) {
   event.preventDefault();
@@ -208,7 +211,8 @@ fullAppReady$.subscribe(() => {
             title: "No Kernels Installed",
             buttons: [],
             message: "No kernels are installed on your system.",
-            detail: "No kernels are installed on your system so you will not be " +
+            detail:
+              "No kernels are installed on your system so you will not be " +
               "able to execute code cells in any language. You can read about " +
               "installing kernels at " +
               "https://ipython.readthedocs.io/en/latest/install/kernel_install.html"
@@ -228,7 +232,8 @@ fullAppReady$.subscribe(() => {
           title: "No Kernels Installed",
           buttons: [],
           message: "No kernels are installed on your system.",
-          detail: "No kernels are installed on your system so you will not be " +
+          detail:
+            "No kernels are installed on your system so you will not be " +
             "able to execute code cells in any language. You can read about " +
             "installing kernels at " +
             "https://ipython.readthedocs.io/en/latest/install/kernel_install.html" +

@@ -1,4 +1,7 @@
-import Rx from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/pluck";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/map";
 
 import { createMessage } from "@nteract/messaging";
 
@@ -12,7 +15,7 @@ export function tooltipObservable(channels, editor, message) {
       dict: results.data
     }));
   // On subscription, send the message
-  return Rx.Observable.create(observer => {
+  return Observable.create(observer => {
     const subscription = tip$.subscribe(observer);
     channels.shell.next(message);
     return subscription;

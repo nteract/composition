@@ -1,4 +1,8 @@
-import Rx from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/pluck";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/timeout";
 
 import { createMessage } from "@nteract/messaging";
 
@@ -80,7 +84,7 @@ export function codeCompleteObservable(channels, editor, message) {
     .timeout(2000); // 2s
 
   // On subscription, send the message
-  return Rx.Observable.create(observer => {
+  return Observable.create(observer => {
     const subscription = completion$.subscribe(observer);
     channels.shell.next(message);
     return subscription;

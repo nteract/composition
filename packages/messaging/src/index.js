@@ -1,10 +1,9 @@
+// @flow
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 
 import * as uuid from "uuid";
 
-import Rx from "rxjs/Rx";
-
-const Observable = Rx.Observable;
+import { Observable } from "rxjs/Observable";
 
 export const session = uuid.v4();
 
@@ -17,7 +16,7 @@ export function getUsername() {
   );
 }
 
-export function createMessage(msg_type, fields) {
+export function createMessage(msg_type: string, fields: Object) {
   const username = getUsername();
   return Object.assign(
     {
@@ -42,7 +41,7 @@ export function createMessage(msg_type, fields) {
  * @param  {Object}  parentMessage Jupyter message protocol message
  * @return {Observable}               the resulting observable
  */
-export function childOf(parentMessage) {
+export function childOf(parentMessage: Object) {
   const parentMessageID = parentMessage.header.msg_id;
   return Observable.create(subscriber => {
     // since we're in an arrow function `this` is from the outer scope.
@@ -75,7 +74,7 @@ export function childOf(parentMessage) {
  * @param  {Array} messageTypes e.g. ['stream', 'error']
  * @return {Observable}                 the resulting observable
  */
-export function ofMessageType(messageTypes) {
+export function ofMessageType(messageTypes: Array<string>) {
   return Observable.create(subscriber => {
     // since we're in an arrow function `this` is from the outer scope.
     // save our inner subscription

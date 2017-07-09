@@ -2,7 +2,12 @@
 /* eslint-disable class-methods-use-this */
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
-import Rx from "rxjs/Rx";
+
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/fromEvent";
+import "rxjs/add/operator/switchMap";
+
 import CodeMirror from "./codemirror";
 import { Map as ImmutableMap } from "immutable";
 
@@ -96,17 +101,13 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       cm.on("topBoundary", focusAbove);
       cm.on("bottomBoundary", focusBelow);
 
-      const keyupEvents = Rx.Observable.fromEvent(
-        cm,
-        "keyup",
-        (editor, ev) => ({
-          editor,
-          ev
-        })
-      );
+      const keyupEvents = Observable.fromEvent(cm, "keyup", (editor, ev) => ({
+        editor,
+        ev
+      }));
 
       keyupEvents
-        .switchMap(i => Rx.Observable.of(i))
+        .switchMap(i => Observable.of(i))
         .subscribe(({ editor, ev }) => {
           const cursor = editor.getDoc().getCursor();
           const token = editor.getTokenAt(cursor);
