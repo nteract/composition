@@ -1,5 +1,5 @@
 import React from "react";
-import Rx from "rxjs/Rx";
+import { Subject } from "rxjs/Subject";
 
 import { mount } from "enzyme";
 
@@ -11,10 +11,10 @@ const tooltip = require("../src/tooltip");
 
 describe("WrappedEditor", () => {
   it.skip("reaches out for code completion", done => {
-    const sent = new Rx.Subject();
-    const received = new Rx.Subject();
+    const sent = new Subject();
+    const received = new Subject();
 
-    const mockSocket = Rx.Subject.create(sent, received);
+    const mockSocket = Subject.create(sent, received);
 
     const channels = {
       shell: mockSocket
@@ -72,9 +72,9 @@ describe("WrappedEditor", () => {
 
 describe("complete", () => {
   it("handles code completion", done => {
-    const sent = new Rx.Subject();
-    const received = new Rx.Subject();
-    const mockSocket = Rx.Subject.create(sent, received);
+    const sent = new Subject();
+    const received = new Subject();
+    const mockSocket = Subject.create(sent, received);
     const channels = {
       shell: mockSocket
     };
@@ -116,9 +116,9 @@ describe("complete", () => {
 
 describe("tooltip", () => {
   it("handles tooltip", done => {
-    const sent = new Rx.Subject();
-    const received = new Rx.Subject();
-    const mockSocket = Rx.Subject.create(sent, received);
+    const sent = new Subject();
+    const received = new Subject();
+    const mockSocket = Subject.create(sent, received);
     const channels = {
       shell: mockSocket
     };

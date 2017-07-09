@@ -27,7 +27,10 @@ import {
 } from "../../../src/notebook/epics/execute";
 
 const Immutable = require("immutable");
-const Rx = require("rxjs/Rx");
+
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/observable/from";
 
 const sinon = require("sinon");
 const chai = require("chai");
@@ -35,8 +38,6 @@ const chaiImmutable = require("chai-immutable");
 
 const expect = chai.expect;
 chai.use(chaiImmutable);
-
-const Observable = Rx.Observable;
 
 describe("executeCell", () => {
   it("returns an executeCell action", () => {
@@ -53,10 +54,10 @@ describe("executeCell", () => {
 describe("executeCellStream", () => {
   // TODO: Refactor executeCelStream into separate testable observables
   it("is entirely too insane for me to test this well right this second", done => {
-    const frontendToShell = new Rx.Subject();
-    const shellToFrontend = new Rx.Subject();
-    const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
-    const mockIOPub = new Rx.Subject();
+    const frontendToShell = new Subject();
+    const shellToFrontend = new Subject();
+    const mockShell = Subject.create(frontendToShell, shellToFrontend);
+    const mockIOPub = new Subject();
 
     const channels = {
       shell: mockShell,
@@ -117,7 +118,7 @@ describe("msgSpecToNotebookFormat", () => {
 
 describe("createPagerActions", () => {
   it("emits actions to set pagers", done => {
-    const msgObs = Rx.Observable.from([
+    const msgObs = Observable.from([
       {
         source: "page",
         data: { "text/html": "this is a test" }
@@ -139,7 +140,7 @@ describe("createPagerActions", () => {
 
 describe("createCellAfterAction", () => {
   it("emits a createCellAfter action", done => {
-    const msgObs = Rx.Observable.from([
+    const msgObs = Observable.from([
       {
         source: "set_next_input",
         text: "This is some test text.",
@@ -158,7 +159,7 @@ describe("createCellAfterAction", () => {
 
 describe("createCellStatusAction", () => {
   it("emits an updateCellStatus action", done => {
-    const msgObs = Rx.Observable.from([
+    const msgObs = Observable.from([
       {
         header: {
           msg_id: "123",
@@ -184,7 +185,7 @@ describe("createCellStatusAction", () => {
 
 describe("updateCellNumberingAction", () => {
   it("emits updateCellExecutionCount action", done => {
-    const msgObs = Rx.Observable.from([
+    const msgObs = Observable.from([
       {
         header: {
           msg_id: "123",
@@ -210,7 +211,7 @@ describe("updateCellNumberingAction", () => {
 
 describe("createSourceUpdateAction", () => {
   it("emits updateCellSource action", done => {
-    const msgObs = Rx.Observable.from([
+    const msgObs = Observable.from([
       {
         source: "set_next_input",
         text: "This is some test text.",
@@ -228,10 +229,10 @@ describe("createSourceUpdateAction", () => {
 });
 describe("createExecuteCellStream", () => {
   it("errors if the kernel is not connected in create", done => {
-    const frontendToShell = new Rx.Subject();
-    const shellToFrontend = new Rx.Subject();
-    const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
-    const mockIOPub = new Rx.Subject();
+    const frontendToShell = new Subject();
+    const shellToFrontend = new Subject();
+    const mockShell = Subject.create(frontendToShell, shellToFrontend);
+    const mockIOPub = new Subject();
     const store = {
       getState() {
         return this.state;
@@ -261,10 +262,10 @@ describe("createExecuteCellStream", () => {
     );
   });
   it("doesnt complete but does push until abort action", done => {
-    const frontendToShell = new Rx.Subject();
-    const shellToFrontend = new Rx.Subject();
-    const mockShell = Rx.Subject.create(frontendToShell, shellToFrontend);
-    const mockIOPub = new Rx.Subject();
+    const frontendToShell = new Subject();
+    const shellToFrontend = new Subject();
+    const mockShell = Subject.create(frontendToShell, shellToFrontend);
+    const mockIOPub = new Subject();
     const store = {
       getState() {
         return this.state;

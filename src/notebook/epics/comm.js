@@ -1,4 +1,8 @@
-import Rx from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/merge";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/switchMap";
 
 import { createMessage } from "../../../packages/messaging";
 
@@ -62,7 +66,7 @@ export function createCommCloseMessage(parent_header, comm_id, data = {}) {
  * @return {Object}       Flux standard error action
  */
 export const createCommErrorAction = error =>
-  Rx.Observable.of({
+  Observable.of({
     type: COMM_ERROR,
     payload: error,
     error: true
@@ -122,7 +126,7 @@ export function commActionObservable(newKernelAction) {
     .ofMessageType(["comm_msg"])
     .map(commMessageAction);
 
-  return Rx.Observable.merge(commOpenAction$, commMessageAction$).retry();
+  return Observable.merge(commOpenAction$, commMessageAction$).retry();
 }
 
 /**

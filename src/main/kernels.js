@@ -1,4 +1,5 @@
-import Rx from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/empty";
 
 import { spawn } from "spawn-rx";
 
@@ -14,7 +15,7 @@ export function ipyKernelTryObservable(env) {
   return spawn(executable, ["-m", "ipykernel", "--version"], { split: true })
     .filter(x => x.source && x.source === "stdout")
     .mapTo(env)
-    .catch(() => Rx.Observable.empty());
+    .catch(() => Observable.empty());
 }
 
 /**

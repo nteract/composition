@@ -1,5 +1,21 @@
 import { createMessage } from "../../../packages/messaging";
 
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/from";
+import "rxjs/add/observable/merge";
+import "rxjs/add/observable/throw";
+
+import "rxjs/add/operator/pluck";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/groupBy";
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/scan";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/switchMap";
+import "rxjs/add/operator/mergeAll";
+import "rxjs/add/operator/mergeMap";
+
 import {
   createCellAfter,
   updateCellExecutionCount,
@@ -17,11 +33,10 @@ import {
   ERROR_UPDATE_DISPLAY
 } from "../constants";
 
-const Rx = require("rxjs/Rx");
 const Immutable = require("immutable");
 
 export const createErrorActionObservable = type => error =>
-  Rx.Observable.of({
+  Observable.of({
     type,
     payload: error,
     error: true
@@ -160,7 +175,7 @@ export function handleFormattableMessages(id, cellMessages) {
 /**
  * Observe all the reactions to running code for cell with id.
  *
- * @param {Rx.Subject} channels - The standard channels specified in the Jupyter
+ * @param {Subject} channels - The standard channels specified in the Jupyter
  * specification.
  * @param {String} id - Universally Unique Identifier of cell to be executed.
  * @param {String} code - Source code to be executed.
@@ -169,7 +184,7 @@ export function handleFormattableMessages(id, cellMessages) {
  */
 export function executeCellStream(channels, id, code) {
   if (!channels || !channels.iopub || !channels.shell) {
-    return Rx.Observable.throw(new Error("kernel not connected"));
+    return Observable.throw(new Error("kernel not connected"));
   }
 
   const executeRequest = createExecuteRequest(code);
@@ -182,7 +197,7 @@ export function executeCellStream(channels, id, code) {
     .ofMessageType(["execute_reply"])
     .pluck("content", "payload")
     .filter(Boolean)
-    .flatMap(payloads => Rx.Observable.from(payloads));
+    .mergeMap(payloads => Observable.from(payloads));
 
   // Payload stream for setting the input, whether in place or "next"
   const setInputStream = payloadStream.filter(
@@ -192,10 +207,10 @@ export function executeCellStream(channels, id, code) {
   // All child messages for the cell
   const cellMessages = iopub.childOf(executeRequest);
 
-  const cellAction$ = Rx.Observable.merge(
+  const cellAction$ = Observable.merge(
     // Clear cell outputs
-    Rx.Observable.of(clearOutputs(id)),
-    Rx.Observable.of(updateCellStatus(id, "busy")),
+    Observable.of(clearOutputs(id)),
+    Observable.of(updateCellStatus(id, "busy")),
     // clear_output display message
     cellMessages.ofMessageType(["clear_output"]).mapTo(clearOutputs(id)),
     // Inline %load
@@ -203,7 +218,7 @@ export function executeCellStream(channels, id, code) {
     // %load for the cell _after_
     createCellAfterAction(id, setInputStream),
     // Clear any old pager
-    Rx.Observable.of(updateCellPagers(id, new Immutable.List())),
+    Observable.of(updateCellPagers(id, new Immutable.List())),
     // Update the doc/pager section with new bundles
     createPagerActions(id, payloadStream),
     // Set the cell status
@@ -215,7 +230,7 @@ export function executeCellStream(channels, id, code) {
   );
 
   // On subscription, send the message
-  return Rx.Observable.create(observer => {
+  return Observable.create(observer => {
     const subscription = cellAction$.subscribe(observer);
     channels.shell.next(executeRequest);
     return subscription;
@@ -228,11 +243,13 @@ export function createExecuteCellStream(action$, store, source, id) {
 
   const kernelConnected =
     channels &&
-    !(state.app.executionState === "starting" ||
-      state.app.executionState === "not connected");
+    !(
+      state.app.executionState === "starting" ||
+      state.app.executionState === "not connected"
+    );
 
   if (!kernelConnected) {
-    return Rx.Observable.of({
+    return Observable.of({
       type: ERROR_EXECUTING,
       payload: "Kernel not connected!",
       error: true
@@ -276,7 +293,7 @@ export function executeCellEpic(action$, store) {
       // Bring back all the inner Observables into one stream
       .mergeAll()
       .catch((err, source) =>
-        Rx.Observable.merge(
+        Observable.merge(
           createErrorActionObservable(ERROR_EXECUTING)(err),
           source
         )
