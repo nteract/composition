@@ -8,6 +8,11 @@ type Props = {
 // Note: createRange and Range must be polyfilled on older browsers with
 //       https://github.com/timdown/rangy
 export function createFragment(html: string): Node {
+  /**
+   * createFragment takes in an HTML string and outputs a DOM element that is
+   * treated as if it originated on the page "like normal".
+   * @type {Node} - https://developer.mozilla.org/en-US/docs/Web/API/Node
+   */
   // Create a range to ensure that scripts are invoked from within the HTML
   const range = document.createRange();
   const fragment = range.createContextualFragment(html);
@@ -21,10 +26,14 @@ export default class HTMLDisplay extends React.Component {
 
   componentDidMount(): void {
     // clear out all DOM element children
-    // This matters on server side render
+    // This matters on server side render otherwise we'll get both the `innerHTML`ed
+    // version + the fragment version right after each other
+    // In the desktop app (and successive loads with tools like commuter) this
+    // will be a no-op
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
     }
+    // DOM element appended with a real DOM Node fragment
     this.el.appendChild(createFragment(this.props.data));
   }
 
