@@ -7,6 +7,8 @@ import {
   filesystem
 } from "../../src/utils/fs";
 
+import "rxjs/add/operator/toArray";
+
 const sinon = require("sinon");
 
 chai.use(sinonChai);

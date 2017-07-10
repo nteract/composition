@@ -6,6 +6,8 @@ import sinonChai from "sinon-chai";
 import { dummyCommutable } from "../dummy-nb";
 import { dummyStore } from "../../utils";
 
+import "rxjs/add/operator/toArray";
+
 import { PUBLISH_USER_GIST } from "../../../src/notebook/constants";
 import {
   publishNotebookObservable,

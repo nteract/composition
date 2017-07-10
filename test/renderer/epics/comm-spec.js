@@ -18,6 +18,7 @@ const chai = require("chai");
 
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
+import "rxjs/add/operator/toArray";
 
 const expect = chai.expect;
 

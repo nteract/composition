@@ -31,6 +31,7 @@ const Immutable = require("immutable");
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import "rxjs/add/observable/from";
+import "rxjs/add/operator/toArray";
 
 const sinon = require("sinon");
 const chai = require("chai");

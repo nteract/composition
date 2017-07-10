@@ -17,6 +17,8 @@ import {
   newNotebookEpic
 } from "../../../src/notebook/epics/loading";
 
+import "rxjs/add/operator/toArray";
+
 const path = require("path");
 
 describe("load", () => {
