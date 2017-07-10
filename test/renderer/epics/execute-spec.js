@@ -32,6 +32,9 @@ import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import "rxjs/add/observable/from";
 import "rxjs/add/operator/toArray";
+import "rxjs/add/operator/share";
+import "rxjs/add/operator/toPromise";
+import "rxjs/add/operator/bufferCount";
 
 const sinon = require("sinon");
 const chai = require("chai");
