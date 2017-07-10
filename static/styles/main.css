@@ -181,10 +181,11 @@ body
     padding-right: 10px;
 }
 
-.notebook .cell-container:last-child {
-    padding-bottom: 200px;
+@media not print {
+    .notebook .cell-container:last-child {
+        padding-bottom: calc(100vh - 110px);
+    }
 }
-
 /*
   Cell
  */
