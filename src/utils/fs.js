@@ -1,11 +1,13 @@
-import Rx from "rxjs/Rx";
 import * as fs from "fs";
 
 export const filesystem = fs;
 const mkdirp = require("mkdirp");
 
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/bindNodeCallback";
+
 export const unlinkObservable = path =>
-  Rx.Observable.create(observer => {
+  Observable.create(observer => {
     if (filesystem.existsSync(path)) {
       filesystem.unlink(path, error => {
         if (error) {
@@ -21,7 +23,7 @@ export const unlinkObservable = path =>
     }
   });
 
-export const createNewSymlinkObservable = Rx.Observable.bindNodeCallback(
+export const createNewSymlinkObservable = Observable.bindNodeCallback(
   filesystem.symlink
 );
 
@@ -30,12 +32,12 @@ export const createSymlinkObservable = (target, path) =>
     createNewSymlinkObservable(target, path)
   );
 
-export const readFileObservable = Rx.Observable.bindNodeCallback(
+export const readFileObservable = Observable.bindNodeCallback(
   filesystem.readFile
 );
 
-export const writeFileObservable = Rx.Observable.bindNodeCallback(
+export const writeFileObservable = Observable.bindNodeCallback(
   filesystem.writeFile
 );
 
-export const mkdirpObservable = Rx.Observable.bindNodeCallback(mkdirp);
+export const mkdirpObservable = Observable.bindNodeCallback(mkdirp);

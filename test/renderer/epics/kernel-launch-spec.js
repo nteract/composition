@@ -14,7 +14,9 @@ import {
 
 import { createMessage } from "../../../packages/messaging";
 
-const Rx = require("rxjs/Rx");
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/observable/of";
 
 describe("setLanguageInfo", () => {
   it("creates a SET_LANGUAGE_INFO action", () => {
@@ -40,10 +42,10 @@ describe("setLanguageInfo", () => {
 
 describe("acquireKernelInfo", () => {
   it("sends a kernel_info_request and processes kernel_info_reply", done => {
-    const sent = new Rx.Subject();
-    const received = new Rx.Subject();
+    const sent = new Subject();
+    const received = new Subject();
 
-    const mockSocket = Rx.Subject.create(sent, received);
+    const mockSocket = Subject.create(sent, received);
 
     sent.subscribe(msg => {
       expect(msg.header.msg_type).to.equal("kernel_info_request");
@@ -77,7 +79,7 @@ describe("watchExecutionStateEpic", () => {
     const action$ = ActionsObservable.of({
       type: constants.NEW_KERNEL,
       channels: {
-        iopub: Rx.Observable.of({
+        iopub: Observable.of({
           header: { msg_type: "status" },
           content: { execution_state: "idle" }
         })

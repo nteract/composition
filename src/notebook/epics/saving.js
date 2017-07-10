@@ -10,9 +10,14 @@ import { toJS, stringifyNotebook } from "../../../packages/commutable";
 
 import { remote } from "electron";
 
-const Rx = require("rxjs/Rx");
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/merge";
 
-const Observable = Rx.Observable;
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/catch";
 
 /**
   * Cleans up the notebook document and saves the file.

@@ -8,6 +8,13 @@ import "rxjs/add/observable/fromEvent";
 import "rxjs/add/observable/forkJoin";
 import "rxjs/add/observable/zip";
 
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/takeUntil";
+import "rxjs/add/operator/skipUntil";
+import "rxjs/add/operator/buffer";
+import "rxjs/add/operator/catch";
+import "rxjs/add/operator/toPromise";
+
 import {
   mkdirpObservable,
   readFileObservable,

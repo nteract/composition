@@ -8,9 +8,11 @@ import { toJS, stringifyNotebook } from "../../../packages/commutable";
 
 const path = require("path");
 
-const Rx = require("rxjs/Rx");
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
 
-const Observable = Rx.Observable;
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/catch";
 
 const Github = require("github");
 
@@ -79,7 +81,7 @@ export function publishNotebookObservable(
   notificationSystem,
   publishAsUser
 ) {
-  return Rx.Observable.create(observer => {
+  return Observable.create(observer => {
     const notebookString = stringifyNotebook(toJS(notebook));
 
     const filename = filepath ? path.parse(filepath).base : "Untitled.ipynb";

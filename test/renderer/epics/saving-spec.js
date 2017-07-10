@@ -14,9 +14,8 @@ import {
 
 import { saveEpic, saveAsEpic } from "../../../src/notebook/epics/saving";
 
-const Rx = require("rxjs/Rx");
-
-const Observable = Rx.Observable;
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
 
 describe("save", () => {
   it("creates a SAVE action", () => {

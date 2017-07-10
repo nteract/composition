@@ -9,6 +9,10 @@ const path = require("path");
 export const LOAD_CONFIG = "LOAD_CONFIG";
 export const loadConfig = () => ({ type: LOAD_CONFIG });
 
+import "rxjs/add/operator/mapTo";
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/map";
+
 export const SAVE_CONFIG = "SAVE_CONFIG";
 export const saveConfig = () => ({ type: SAVE_CONFIG });
 export const doneSavingConfig = () => ({ type: DONE_SAVING_CONFIG });

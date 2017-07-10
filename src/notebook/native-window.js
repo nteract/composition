@@ -2,7 +2,16 @@ import { remote } from "electron";
 
 import path from "path";
 
-import Rx from "rxjs/Rx";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/observable/combineLatest";
+
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/distinctUntilChanged";
+import "rxjs/add/operator/scan";
+import "rxjs/add/operator/pluck";
+import "rxjs/add/operator/switchMap";
+import "rxjs/add/operator/debounceTime";
 
 const HOME = remote.app.getPath("home");
 
@@ -72,23 +81,22 @@ export function createTitleFeed(state$) {
     .map(state => state.app.get("executionState"))
     .debounceTime(200);
 
-  return Rx.Observable
-    .combineLatest(
-      modified$,
-      fullpath$,
-      executionState$,
-      (modified, fullpath, executionState) => ({
-        modified,
-        fullpath,
-        executionState
-      })
-    )
+  return Observable.combineLatest(
+    modified$,
+    fullpath$,
+    executionState$,
+    (modified, fullpath, executionState) => ({
+      modified,
+      fullpath,
+      executionState
+    })
+  )
     .distinctUntilChanged()
-    .switchMap(i => Rx.Observable.of(i));
+    .switchMap(i => Observable.of(i));
 }
 
 export function initNativeHandlers(store) {
-  const state$ = Rx.Observable.from(store);
+  const state$ = Observable.from(store);
 
   return createTitleFeed(state$).subscribe(setTitleFromAttributes, err =>
     console.error(err)

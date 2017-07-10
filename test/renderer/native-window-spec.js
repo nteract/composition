@@ -1,6 +1,8 @@
 import Immutable from "immutable";
-import Rx from "rxjs/Rx";
 import { remote } from "electron";
+
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/from";
 
 import chai, { expect } from "chai";
 import sinon from "sinon";
@@ -75,7 +77,7 @@ describe("createTitleFeed", () => {
       })
     };
 
-    const state$ = Rx.Observable.from([state]);
+    const state$ = Observable.from([state]);
 
     const allAttributes = [];
     nativeWindow.createTitleFeed(state$).subscribe(attributes => {

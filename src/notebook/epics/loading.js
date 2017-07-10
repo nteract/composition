@@ -13,11 +13,16 @@ import type { Notebook, ImmutableNotebook } from "../../../packages/commutable";
 import { readFileObservable } from "../../utils/fs";
 import { newKernelByName, newKernel } from "../actions";
 
-const Rx = require("rxjs/Rx");
-
 const path = require("path");
 
-const Observable = Rx.Observable;
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/mergeMap";
+import "rxjs/add/operator/switchMap";
+import "rxjs/add/operator/catch";
 
 export const LOAD = "LOAD";
 export const SET_NOTEBOOK = "SET_NOTEBOOK";
@@ -101,7 +106,7 @@ export const loadEpic = (actions: ActionsObservable) =>
     .switchMap(action =>
       readFileObservable(action.filename)
         .map(data => convertRawNotebook(action.filename, data))
-        .flatMap(({ filename, notebook }) => {
+        .mergeMap(({ filename, notebook }) => {
           const { cwd, kernelSpecName } = extractNewKernel(filename, notebook);
           return Observable.of(
             notebookLoaded(filename, notebook),
