@@ -1,4 +1,11 @@
-import { Subscriber, Observable, Subject } from "rxjs/Rx";
+import { Subscriber } from "rxjs/Subscriber";
+import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
+
+import "rxjs/add/observable/fromEvent";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/publish";
+
 import * as jmp from "jmp";
 
 import { ZMQType } from "./constants";
