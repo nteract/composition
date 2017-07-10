@@ -180,7 +180,6 @@ export class Notebook extends React.PureComponent {
 
   createCellElement(id: string): ?React.Element<any> {
     const cellMap = this.props.notebook.get("cellMap");
-    const cellOrder = this.props.notebook.get("cellOrder");
     const cell = cellMap.get(id);
     const transient = this.props.transient.getIn(
       ["cellMap", id],
