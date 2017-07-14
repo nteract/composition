@@ -42,7 +42,7 @@ module.exports = {
     ]
   },
   resolve: {
-    mainFields: ["nteractDesktop", "main"],
+    mainFields: ["nteractDesktop", "webpack", "main"],
     extensions: [".js", ".jsx"]
   },
   externals: nodeModules,

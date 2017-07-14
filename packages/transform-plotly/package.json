@@ -17,8 +17,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/plotly": "^1.0.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "plotly.js": "^1.28.3"
   },
   "peerDependencies": {
     "react": "^15.6.1"
