@@ -13,14 +13,13 @@ declare class PlotlyHTMLElement extends HTMLElement {
   layout: Object
 }
 
-const Plotly = require("@nteract/plotly");
-
 const MIMETYPE = "application/vnd.plotly.v1+json";
 
 export class PlotlyTransform extends React.Component {
   props: Props;
   getFigure: () => Object;
   el: PlotlyHTMLElement;
+  Plotly: Object;
 
   static MIMETYPE = MIMETYPE;
 
@@ -32,7 +31,8 @@ export class PlotlyTransform extends React.Component {
   componentDidMount(): void {
     // Handle case of either string to be `JSON.parse`d or pure object
     const figure = this.getFigure();
-    Plotly.newPlot(this.el, figure.data, figure.layout);
+    this.Plotly = require("@nteract/plotly");
+    this.Plotly.newPlot(this.el, figure.data, figure.layout);
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -43,7 +43,7 @@ export class PlotlyTransform extends React.Component {
     const figure = this.getFigure();
     this.el.data = figure.data;
     this.el.layout = figure.layout;
-    Plotly.redraw(this.el);
+    this.Plotly.redraw(this.el);
   }
 
   getFigure(): Object {
