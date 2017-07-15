@@ -367,6 +367,17 @@ ul li::before
 }
 
 /* -------------------- */
+/*   Printing Styles    */
+/* -------------------- */
+@media print {
+  .cell:focus .cm-s-composition.CodeMirror,
+  .cell.focused .cm-s-composition.CodeMirror,
+  .cell.focused .rendered{
+    background: var(--cm-background);
+  }
+}
+
+/* -------------------- */
 /* Miscellaneous Styles */
 /* -------------------- */
 

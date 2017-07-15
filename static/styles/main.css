@@ -22,6 +22,14 @@
   .cell-creator{
     display: none!important;
   }
+  .cell.focused {
+    border: none;
+    background: var(--cell-bg)!important;
+  }
+  .cell:focus .prompt,
+  .cell.focused .prompt {
+      background: var(--pager-bg)!important;
+  }
 
 }
 
