@@ -40,7 +40,7 @@ describe('dataDirs', () => {
                  expect(el).to.be.a('String')
                })
                expect(actual.data).to.include.members(dirs)
-               expect(actual.data.length).to.be.greaterThan(dirs.length)
+               expect(actual.data.length).to.not.be.lessThan(dirs.length)
               });
 
     revert();
