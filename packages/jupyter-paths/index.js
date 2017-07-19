@@ -198,9 +198,11 @@ function dataDirs(opts) {
   }
   // inexpensive guess, based on location of `python` executable
   var sysPrefix = guessSysPrefix();
-  var sysPathed = path.join(sysPrefix, 'share', 'jupyter');
-  if (systemDirs.indexOf(sysPathed) === -1) {
-    paths.push(sysPathed);
+  if(sysPrefix) {
+    var sysPathed = path.join(sysPrefix, 'share', 'jupyter');
+    if (systemDirs.indexOf(sysPathed) === -1) {
+      paths.push(sysPathed);
+    }
   }
   return paths.concat(systemDirs);
 }

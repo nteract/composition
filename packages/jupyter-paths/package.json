@@ -24,7 +24,8 @@
   "homepage": "https://github.com/nteract/jupyter-paths",
   "devDependencies": {
     "chai": "^4.0.1",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "rewire": "^2.5.2"
   },
   "dependencies": {
     "home-dir": "^1.0.0"
