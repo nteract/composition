@@ -5,6 +5,8 @@
 import PlotlyTransform from "@nteract/transform-plotly";
 import GeoJSONTransform from "@nteract/transform-geojson";
 
+import GraphVizTransform from "@nteract/transform-dot";
+
 import ModelDebug from "@nteract/transform-model-debug";
 
 import DataResourceTransform from "@nteract/transform-dataresource";
@@ -19,6 +21,7 @@ import {
 } from "@nteract/transforms";
 
 const additionalTransforms = [
+  GraphVizTransform,
   DataResourceTransform,
   ModelDebug,
   PlotlyTransform,
