@@ -31,7 +31,7 @@ export class PlotlyTransform extends React.Component {
   componentDidMount(): void {
     // Handle case of either string to be `JSON.parse`d or pure object
     const figure = this.getFigure();
-    this.Plotly = require("@nteract/plotly");
+    this.Plotly = require("plotly.js");
     this.Plotly.newPlot(this.el, figure.data, figure.layout);
   }
 
