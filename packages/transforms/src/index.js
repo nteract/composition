@@ -75,7 +75,7 @@ export function richestMimetype(
       // we can only use those we have a transform for
       .filter(mimetype => tf[mimetype] && order.includes(mimetype))
       // the richest is based on the order in displayOrder
-      .sort(mimetype => order.indexOf(mimetype))[0]
+      .sort((a, b) => order.indexOf(a) - order.indexOf(b))[0]
   );
 }
 export const transforms = standardTransforms;
