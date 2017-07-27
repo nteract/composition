@@ -18,7 +18,8 @@ type Props = {
   tip: boolean,
   transforms: Object,
   running: boolean,
-  models: ImmutableMap<string, any>
+  models: ImmutableMap<string, any>,
+  sourceHidden: boolean
 };
 
 class CodeCell extends React.PureComponent {
@@ -27,7 +28,8 @@ class CodeCell extends React.PureComponent {
   static defaultProps = {
     running: false,
     tabSize: 4,
-    models: new ImmutableMap()
+    models: new ImmutableMap(),
+    sourceHidden: false
   };
 
   isOutputHidden(): any {
@@ -36,6 +38,7 @@ class CodeCell extends React.PureComponent {
 
   isInputHidden(): any {
     return (
+      this.props.sourceHidden ||
       this.props.cell.getIn(["metadata", "inputHidden"]) ||
       this.props.cell.getIn(["metadata", "hide_input"])
     );

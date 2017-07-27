@@ -14,7 +14,8 @@ export type CellProps = {
   language: string,
   theme: string,
   tip: boolean,
-  transforms: ImmutableMap<string, any>
+  transforms: ImmutableMap<string, any>,
+  sourceHidden: boolean
 };
 
 export class Cell extends React.PureComponent {
@@ -46,6 +47,7 @@ export class Cell extends React.PureComponent {
                   language={this.props.language}
                   displayOrder={this.props.displayOrder}
                   transforms={this.props.transforms}
+                  sourceHidden={this.props.sourceHidden}
                 />
               );
             case "raw":

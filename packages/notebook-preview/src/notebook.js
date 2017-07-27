@@ -49,6 +49,9 @@ export class Notebook extends React.PureComponent {
     const cellMap = this.props.notebook.get("cellMap");
     const cell = cellMap.get(id);
 
+    // Propagated from the hide_(all)_input nbextension
+    const sourceHidden = this.props.notebook.getIn("metadata", "hide_input");
+
     return (
       <div className="cell-container" key={`cell-container-${id}`}>
         {/* Note: We don't have a draggable cell yet want to keep the same DOM structure for styling */}
@@ -62,6 +65,7 @@ export class Notebook extends React.PureComponent {
             transforms={this.props.transforms}
             theme={this.props.theme}
             language={getLanguageMode(this.props.notebook)}
+            sourceHidden={sourceHidden}
           />
         </div>
       </div>
