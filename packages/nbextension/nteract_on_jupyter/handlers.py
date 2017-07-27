@@ -2,7 +2,20 @@ import json
 import os
 from tornado import web
 
-from notebook.base.handlers import IPythonHandler, FileFindHandler
+HTTPError = web.HTTPError
+
+import notebook
+
+
+from notebook.base.handlers import (
+    IPythonHandler,
+    FileFindHandler,
+    FilesRedirectHandler,
+    path_regex,
+)
+
+from notebook.utils import url_escape
+
 from jinja2 import FileSystemLoader
 from notebook.utils import url_path_join as ujoin
 from traitlets import HasTraits, Unicode, Bool
@@ -12,11 +25,12 @@ FILE_LOADER = FileSystemLoader(HERE)
 
 class NAppHandler(IPythonHandler):
     """Render the nteract view"""
-    def initialize(self, config):
+    def initialize(self, config, page):
         self.nteract_config = config
+        self.page = page
 
     @web.authenticated
-    def get(self):
+    def get(self, path="/"):
         config = self.nteract_config
         settings_dir = config.settings_dir
         assets_dir = config.assets_dir
@@ -38,7 +52,9 @@ class NAppHandler(IPythonHandler):
             mathjax_url=self.mathjax_url,
             mathjax_config=mathjax_config,
             page_config=page_config,
-            public_url=url
+            public_url=url,
+            contents_path=path,
+            page=self.page,
         )
         self.write(self.render_template('index.html', **config))
 
@@ -63,9 +79,21 @@ def add_handlers(web_app, config):
                       data['version'])
     config.name = config.name or data['name']
 
+    print('boot uppppp this')
+
     handlers = [
+        # TODO
+        # Our tree view is here
         (url + r'/?', NAppHandler, {
             'config': config
+        }),
+        (url + r"/edit%s" % path_regex, NAppHandler, {
+            'config': config,
+            'page': 'edit',
+        }),
+        (url + r"/view%s" % path_regex, NAppHandler, {
+            'config': config,
+            'page': 'view'
         }),
         (url + r"/static/(.*)", FileFindHandler, {
             'path': assets_dir

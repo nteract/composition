@@ -4,8 +4,28 @@
   "description": "nteract woo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "next build",
+    "preexport": "npm run build",
+    "export": "next export",
+    "prepare": "npm run export"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1",
+    "next": "^3.0.1-beta.18",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "babel": {
+    "presets": [
+      "next/babel"
+    ],
+    "plugins": [
+      "transform-flow-strip-types"
+    ]
+  },
+  "devDependencies": {
+    "webpack": "^3.4.1"
+  }
 }

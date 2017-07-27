@@ -22,7 +22,9 @@ Distributed under the terms of the Modified BSD License.
     {% endfor -%}
     "baseUrl": "{{ base_url }}",
     "wsUrl": "{{ ws_url }}",
-    "publicUrl": "{{ public_url }}"
+    "publicUrl": "{{ public_url }}",
+    "contentsPath": "{{ contents_path }}",
+    "page": "{{ page }}"
   }</script>
 
   {% block favicon %}<link rel="shortcut icon" type="image/x-icon" href="{{ base_url }}static/base/images/favicon.ico">{% endblock %}
@@ -30,6 +32,7 @@ Distributed under the terms of the Modified BSD License.
   {% for bundle_file in bundle_files %}
   <script src="{{ bundle_file }}" type="text/javascript" charset="utf-8"></script>
   {% endfor %}
+
 
   {% if mathjax_url %}
   <script type="text/javascript" src="{{mathjax_url}}?config={{mathjax_config}}&amp;delayStartupUntil=configured" charset="utf-8"></script>
@@ -68,6 +71,17 @@ function _remove_token_from_url() {
 }
 _remove_token_from_url();
 </script>
+
+<div id="root">
+</div>
+
+<!-- TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+These need to be adapted for base path
+-->
+
+<script src="/nteract/static/lib/vendor.js" type="text/javascript" charset="utf-8"></script>
+<script src="/nteract/static/lib/main.js" type="text/javascript" charset="utf-8"></script>
+
 
 </body>
 
