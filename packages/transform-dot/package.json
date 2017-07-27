@@ -1,0 +1,24 @@
+{
+  "name": "@nteract/transform-dot",
+  "version": "1.0.0",
+  "description": "Graphviz / Dot language -> React",
+  "main": "lib/",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": ["graphviz", "dot", "react"],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "viz.js": "^1.8.0"
+  }
+}
