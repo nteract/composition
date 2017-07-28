@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "4.2"
+  - "5.4"
+sudo: false
+env:
+  global:
+    - GH_REF: github.com/nteract/spawnteract.git
+    - secure: JeyqTluw8Dtr6MYVEfuVw/gvmJ/1Q55qts7+ncGIsZRJ1ptwNPAF4xaKnEYtXIAb+ZDx1HvEEtuFbRcTsVMrWKep7GNV+w7CQKVrzfWaffGF0ttw3y98/NBbBG0EI7UmeF3TjUdGH5c8Tzt4wASvT3EFEas2k3eZhl7eprAdGlyXuDHgNUUcHUhoMLtRlW+t7QyZMaA2G3GjAVHL9giy7tvXnvb34r/D5BrGVC5oFYyDblKi6vvk2bE/Bgb+WNznlt+oj2tvxR76zBBj/xQoT31SrQ03DvrnJ0rv+Qg7oi0fx/whaNk0vM51iWsqZqak21MTPks9u+S4J5qkKmcJvgcoCPhxxPtUuCstEvzeitgWZUJRYKeX47dBRE085DVUQ9lvLKa69Ct0BVQemaV0wWIUzBJ3tZBSOtUTm5kmC2Mi0MtsPDSSv3h68CLCKv32UqSy1NZ0rDzDkP3w+mH5ee0GYHeJBhUa939twZDZEnh6VmiqrWiy22VyXNQ1T7sOtQw59ATtIvGeN08WB4ymODvWSzSH/uB+n9bRbBKJwvkT3LJ6K7BRjavrW0xUTDCBApjisbTV4b0Nt0Y4T0amdQr0Lxyx45QLNkViL3dNrkeayhSSRBqfpRZZAC0pSegIL+OmTCQCaIzsy8EFK9csKEx6yJ11htbJLyfmQ97G/x4=
+
+before_install:
+  - pip install -U pip --user
+  - python -m pip install ipykernel==4.6.1 IPython==5.3.0 --user
+  - python -m ipykernel install --user
+
+after_success:
+  - bash ./travis_after_success.sh
