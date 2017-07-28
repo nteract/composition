@@ -10,7 +10,7 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/catch";
 
-import { launchSpec } from "spawnteract";
+import { launchSpec } from "../../../packages/spawnteract";
 
 import { ActionsObservable } from "redux-observable";
 
@@ -23,7 +23,7 @@ import {
   createStdinSubject,
   createIOPubSubject,
   createShellSubject
-} from "enchannel-zmq-backend";
+} from "../../../packages/enchannel-zmq-backend";
 
 import type { LanguageInfoMetadata, KernelInfo, Channels } from "../records";
 

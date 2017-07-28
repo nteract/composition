@@ -30,8 +30,8 @@ import initializeKernelSpecs from "./kernel-specs";
 
 const log = require("electron-log");
 
-const kernelspecs = require("kernelspecs");
-const jupyterPaths = require("jupyter-paths");
+const kernelspecs = require("../../packages/kernelspecs");
+const jupyterPaths = require("../../packages/jupyter-paths");
 const path = require("path");
 
 const argv = require("yargs")
