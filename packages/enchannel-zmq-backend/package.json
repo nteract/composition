@@ -29,24 +29,16 @@
     "rxjs": "^5.4.1",
     "uuid": "^3.1.0"
   },
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
-  },
   "devDependencies": {
-    "babel-cli": "^6.4.0",
-    "babel-core": "^6.4.0",
-    "babel-preset-es2015": "^6.3.13",
-    "chai": "^4.0.0",
+    "chai": "^4.0.1",
     "chalk": "^2.0.0",
     "fs-promise": "^2.0.0",
     "jsdoc": "^3.4.0",
-    "jupyter-paths": "^1.0.0",
+    "jupyter-paths": "^2.0.0",
     "mkdirp": "^0.5.1",
-    "mocha": "^3.0.2",
-    "rimraf": "^2.5.0",
-    "sinon": "^2.0.0",
-    "sinon-chai": "^2.8.0"
+    "mocha": "^3.4.2",
+    "rimraf": "^2.6.1",
+    "sinon": "^2.4.1",
+    "sinon-chai": "^2.12.0"
   }
 }

@@ -15,11 +15,11 @@
   },
   "dependencies": {
     "jsonfile": "^3.0.0",
-    "jupyter-paths": "^1.0.0",
+    "jupyter-paths": "^2.0.0",
     "kernelspecs": "^1.0.0",
     "mkdirp": "^0.5.1",
     "portfinder": "^1.0.13",
-    "uuid": "^3.0.1"
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "chai": "^4.0.1",

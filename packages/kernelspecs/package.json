@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/nteract/kernelspecs#readme",
   "dependencies": {
-    "jupyter-paths": "^1.0.2"
+    "jupyter-paths": "^2.0.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0"
+    "chai": "^4.0.1",
+    "mocha": "^3.4.2"
   }
 }

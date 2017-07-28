@@ -11,11 +11,7 @@
     "type": "git",
     "url": "https://github.com/nteract/jupyter-paths.git"
   },
-  "keywords": [
-    "jupyter",
-    "paths",
-    "ipython"
-  ],
+  "keywords": ["jupyter", "paths", "ipython"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -24,7 +20,7 @@
   "homepage": "https://github.com/nteract/jupyter-paths",
   "devDependencies": {
     "chai": "^4.0.1",
-    "mocha": "^3.2.0",
+    "mocha": "^3.4.2",
     "rewire": "^2.5.2"
   },
   "dependencies": {

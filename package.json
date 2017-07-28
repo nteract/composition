@@ -193,7 +193,7 @@
     "babel-preset-env": "^1.5.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "chai": "^4.0.0",
+    "chai": "^4.0.1",
     "chai-immutable": "^1.6.0",
     "cross-env": "^5.0.0",
     "electron": "^1.7.1",
@@ -204,6 +204,7 @@
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "4.3.0",
     "eslint-config-prettier": "^2.1.1",
+    "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^2.1.1",
@@ -225,8 +226,8 @@
     "react-addons-test-utils": "^15.5.1",
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
-    "sinon": "^2.3.5",
-    "sinon-chai": "^2.10.0",
+    "sinon": "^2.4.1",
+    "sinon-chai": "^2.12.0",
     "watch": "^1.0.0",
     "webpack": "^3.1.0"
   }

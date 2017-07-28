@@ -19,45 +19,26 @@
     "type": "git",
     "url": "git+https://github.com/nteract/ansi-to-react.git"
   },
-  "keywords": [
-    "ansi",
-    "react"
-  ],
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-3",
-      "react"
-    ],
-    "plugins": [
-      "transform-flow-strip-types"
-    ]
-  },
+  "keywords": ["ansi", "react"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
     "anser": "^1.1.0",
-    "escape-carriage": "^1.0.1"
+    "escape-carriage": "^1.2.0"
   },
   "peerDependencies": {
-    "react": "^15.0.0-0"
+    "react": "^15.6.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.8.0",
-    "babel-core": "^6.8.0",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-react": "^6.5.0",
-    "babel-preset-stage-3": "^6.22.0",
-    "chai": "^4.0.0",
-    "enzyme": "^2.2.0",
+    "chai": "^4.0.1",
+    "enzyme": "^2.7.1",
     "flow-bin": "^0.46.0",
     "flow-copy-source": "^1.1.0",
-    "mkdirp": "0.5.1",
-    "mocha": "^3.2.0",
-    "react": "^15.0.1",
-    "react-addons-test-utils": "^15.0.1",
-    "react-dom": "^15.0.1",
-    "rimraf": "^2.5.2"
+    "mkdirp": "^0.5.1",
+    "mocha": "^3.4.2",
+    "react": "^15.6.1",
+    "react-addons-test-utils": "^15.5.1",
+    "react-dom": "^15.6.1",
+    "rimraf": "^2.6.1"
   }
 }
