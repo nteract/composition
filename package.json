@@ -6,7 +6,13 @@
     "type": "git",
     "url": "https://github.com/nteract/nteract.git"
   },
-  "keywords": ["jupyter", "electron", "notebook", "nteract", "monorepo"],
+  "keywords": [
+    "jupyter",
+    "electron",
+    "notebook",
+    "nteract",
+    "monorepo"
+  ],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -23,7 +29,7 @@
     "clean": "rimraf lib dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lerna": "lerna bootstrap --hoist",
+    "lerna": "lerna bootstrap",
     "install": "npm run lerna && npm run build",
     "build": "echo 1 || lerna run build --ignore @nteract/notebook-preview-demo",
     "test": "lerna run test",
@@ -37,10 +43,15 @@
     "precommit": "lint-staged"
   },
   "jest": {
-    "setupFiles": ["./scripts/mockument"]
+    "setupFiles": [
+      "./scripts/mockument"
+    ]
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -103,18 +114,28 @@
     },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "nsis": {
       "perMachine": true,
       "oneClick": false
     },
     "win": {
-      "target": ["nsis", "zip"]
+      "target": [
+        "nsis",
+        "zip"
+      ]
     },
     "linux": {
       "maintainer": "nteract contributors <jupyter@googlegroups.com>",
-      "target": ["deb", "AppImage", "tar.gz"],
+      "target": [
+        "deb",
+        "AppImage",
+        "tar.gz"
+      ],
       "desktop": {
         "Comment": "Interactive literate coding notebook",
         "Exec": "/opt/nteract/nteract %U",
@@ -130,8 +151,15 @@
       "category": "science",
       "packageCategory": "editors"
     },
-    "files": ["lib", "node_modules", "static"],
-    "extraResources": ["bin", "example-notebooks"],
+    "files": [
+      "lib",
+      "node_modules",
+      "static"
+    ],
+    "extraResources": [
+      "bin",
+      "example-notebooks"
+    ],
     "npmSkipBuildFromSource": true
   }
 }

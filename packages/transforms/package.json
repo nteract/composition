@@ -37,6 +37,9 @@
     "mathjax-electron": "^2.0.1",
     "react-json-tree": "^0.10.9"
   },
+  "devDependencies": {
+    "react": "^15.6.1"
+  },
   "peerDependencies": {
     "react": "^15.6.1"
   }

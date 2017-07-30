@@ -20,6 +20,9 @@
     "@nteract/plotly": "^1.0.0",
     "lodash": "^4.17.4"
   },
+  "devDependencies": {
+    "react": "^15.6.1"
+  },
   "peerDependencies": {
     "react": "^15.6.1"
   },

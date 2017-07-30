@@ -7,7 +7,13 @@
     "type": "git",
     "url": "https://github.com/nteract/nteract.git"
   },
-  "keywords": ["jupyter", "electron", "notebook", "nteract", "data"],
+  "keywords": [
+    "jupyter",
+    "electron",
+    "notebook",
+    "nteract",
+    "data"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -67,18 +73,28 @@
     },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "nsis": {
       "perMachine": true,
       "oneClick": false
     },
     "win": {
-      "target": ["nsis", "zip"]
+      "target": [
+        "nsis",
+        "zip"
+      ]
     },
     "linux": {
       "maintainer": "nteract contributors <jupyter@googlegroups.com>",
-      "target": ["deb", "AppImage", "tar.gz"],
+      "target": [
+        "deb",
+        "AppImage",
+        "tar.gz"
+      ],
       "desktop": {
         "Comment": "Interactive literate coding notebook",
         "Exec": "/opt/nteract/nteract %U",
@@ -94,39 +110,51 @@
       "category": "science",
       "packageCategory": "editors"
     },
-    "files": ["lib", "node_modules", "static"],
-    "extraResources": ["bin", "example-notebooks"],
+    "files": [
+      "lib",
+      "node_modules",
+      "static"
+    ],
+    "extraResources": [
+      "bin",
+      "example-notebooks"
+    ],
     "npmSkipBuildFromSource": true
   },
   "jest": {
-    "setupFiles": ["./scripts/mockument"]
+    "setupFiles": [
+      "./scripts/mockument"
+    ]
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
-    "@nteract/plotly": "^1.0.0",
-    "@nteract/editor": "^2.1.3",
-    "@nteract/display-area": "^2.1.3",
-    "@nteract/transforms-full": "^2.2.3",
-    "@nteract/messaging": "^1.1.1",
     "@nteract/commutable": "^2.0.2",
-    "kernelspecs": "^1.1.0",
-    "enchannel": "^1.1.3",
+    "@nteract/display-area": "^2.1.3",
+    "@nteract/editor": "^2.1.3",
+    "@nteract/messaging": "^1.1.1",
+    "@nteract/plotly": "^1.0.0",
+    "@nteract/transforms-full": "^2.2.3",
     "codemirror": "^5.27.0",
     "commonmark": "^0.27.0",
     "commonmark-react-renderer": "^4.3.3",
     "date-fns": "^1.28.5",
-    "enchannel-zmq-backend": "^3.1.0",
-    "spawnteract": "^3.1.0",
-    "jupyter-paths": "^2.0.0",
     "electron-context-menu": "^0.9.1",
     "electron-log": "^2.2.6",
     "electron-react-devtools": "^0.4.0",
+    "enchannel": "^1.1.3",
+    "enchannel-zmq-backend": "^3.1.0",
+    "escape-carriage": "^1.2.0",
     "github": "^9.0.0",
     "ijavascript": "^5.0.17",
     "immutable": "^3.8.1",
     "jsontableschema": "^0.2.2",
+    "jupyter-paths": "^2.0.0",
+    "kernelspecs": "^1.1.0",
     "leaflet": "^1.0.3",
     "lodash": "^4.17.4",
     "mathjax-electron": "^2.0.1",
@@ -149,6 +177,7 @@
     "rxjs": "^5.4.1",
     "shell-env": "^0.3.0",
     "spawn-rx": "^2.0.11",
+    "spawnteract": "^3.1.0",
     "uuid": "^3.1.0",
     "vega": "^2.6.5",
     "vega-embed": "^2.2.0",
