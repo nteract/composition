@@ -79,12 +79,15 @@ mock("@nteract/plotly", {
   redraw: () => {}
 });
 
-mock("enchannel-zmq-backend", {
+const enchannelZMQMock = {
   createControlSubject: () => {},
   createStdinSubject: () => {},
   createIOPubSubject: () => {},
   createShellSubject: () => {}
-});
+};
+
+mock("enchannel-zmq-backend", enchannelZMQMock);
+mock("packages/enchannel-zmq-backend", enchannelZMQMock);
 
 mock("electron", {
   shell: {
@@ -169,11 +172,14 @@ mock("react-notification-system", () => {
   };
 });
 
-mock("kernelspecs", {
+const kernelspecsMock = {
   find: kernelName => Promise.resolve({ name: kernelName })
-});
+};
 
-mock("spawnteract", {
+mock("kernelspecs", kernelspecsMock);
+mock("packages/kernelspecs", kernelspecsMock);
+
+const spawnteractMock = {
   launchSpec: kernelSpec => {
     function writeConnectionFile(config) {
       return new Promise((resolve, reject) => {
@@ -212,7 +218,10 @@ mock("spawnteract", {
       };
     });
   }
-});
+};
+
+mock("spawnteract", spawnteractMock);
+mock("packages/spawnteract", kernelspecsMock);
 
 mock("fs", {
   unlinkSync: () => {},
