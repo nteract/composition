@@ -6,13 +6,7 @@
     "type": "git",
     "url": "https://github.com/nteract/nteract.git"
   },
-  "keywords": [
-    "jupyter",
-    "electron",
-    "notebook",
-    "nteract",
-    "monorepo"
-  ],
+  "keywords": ["jupyter", "electron", "notebook", "nteract", "monorepo"],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -21,6 +15,7 @@
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
     "reinstall": "npm run clean && rimraf node_modules && npm install",
+    "postinstall": "electron-builder install-app-deps",
     "prestart": "npm run build",
     "start": "npm run spawn",
     "spawn": "cross-env NODE_ENV=development electron .",
@@ -42,15 +37,10 @@
     "precommit": "lint-staged"
   },
   "jest": {
-    "setupFiles": [
-      "./scripts/mockument"
-    ]
+    "setupFiles": ["./scripts/mockument"]
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["prettier --write", "git add"]
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -103,5 +93,45 @@
     "sinon-chai": "^2.12.0",
     "watch": "^1.0.0",
     "webpack": "^3.1.0"
+  },
+  "build": {
+    "electronVersion": "1.7.1",
+    "appId": "io.nteract.nteract",
+    "fileAssociations": {
+      "ext": "ipynb",
+      "name": "ipynb"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": ["dmg", "zip"]
+    },
+    "nsis": {
+      "perMachine": true,
+      "oneClick": false
+    },
+    "win": {
+      "target": ["nsis", "zip"]
+    },
+    "linux": {
+      "maintainer": "nteract contributors <jupyter@googlegroups.com>",
+      "target": ["deb", "AppImage", "tar.gz"],
+      "desktop": {
+        "Comment": "Interactive literate coding notebook",
+        "Exec": "/opt/nteract/nteract %U",
+        "Icon": "nteract",
+        "MimeType": "application/x-ipynb+json",
+        "Name": "nteract",
+        "Path": "/opt/nteract/",
+        "StartupNotify": "true",
+        "Terminal": "false",
+        "Type": "Application",
+        "Categories": "Science;Development;"
+      },
+      "category": "science",
+      "packageCategory": "editors"
+    },
+    "files": ["lib", "node_modules", "static"],
+    "extraResources": ["bin", "example-notebooks"],
+    "npmSkipBuildFromSource": true
   }
 }
