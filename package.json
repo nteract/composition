@@ -1,8 +1,7 @@
 {
   "name": "nteract",
   "version": "0.1.0",
-  "description": "Interactive literate coding notebook!",
-  "main": "./lib/main/index.js",
+  "description": "the nteract monorepo galore",
   "repository": {
     "type": "git",
     "url": "https://github.com/nteract/nteract.git"
@@ -12,7 +11,7 @@
     "electron",
     "notebook",
     "nteract",
-    "data"
+    "monorepo"
   ],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
@@ -21,7 +20,6 @@
   },
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
     "reinstall": "npm run clean && rimraf node_modules && npm install",
     "prestart": "npm run build",
     "start": "npm run spawn",
@@ -30,97 +28,18 @@
     "clean": "rimraf lib dist",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "prebuild": "rimraf lib",
     "lerna": "lerna bootstrap --hoist",
     "install": "npm run lerna && npm run build",
-    "build": "npm run build:packages && npm run build:renderer && npm run build:main",
-    "build:renderer": "webpack --progress --colors",
-    "build:renderer:watch": "npm run build:renderer -- --watch",
-    "build:packages": "lerna run build --ignore @nteract/notebook-preview-demo",
-    "build:packages:watch": "lerna run build:lib:watch --stream",
-    "build:main": "babel src/main --out-dir ./lib/main && babel src/utils --out-dir ./lib/utils",
-    "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
-    "build:docs": "esdoc -c esdoc.json",
-    "test": "npm run test:unit && npm run test:packages && npm run test:lint",
-    "pretest:functional": "npm run build",
-    "sublaunch": "electron-mocha --compilers js:babel-core/register",
-    "test:conformance": "node scripts/conformance.js",
-    "test:functional:launch": "npm run sublaunch -- test/main/launch.js",
-    "test:functional:launchNewNotebook": "npm run sublaunch -- test/main/launchNewNotebook.js",
-    "test:functional": "npm run test:functional:launch && npm run test:functional:launchNewNotebook",
+    "build": "echo 1 || lerna run build --ignore @nteract/notebook-preview-demo",
+    "test": "lerna run test",
     "test:coverage": "npm run coverage",
-    "test:unit": "mocha -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
-    "test:debug": "mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
-    "test:unit:individual": "mocha -r test/setup.js --compilers js:babel-core/register ",
-    "test:watch": "watch 'npm run test' test/",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
     "test:packages": "jest",
     "precoverage": "mkdirp coverage && nyc npm run test:unit",
     "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
-    "pack": "npm install && npm run clean && npm run build && electron-builder --dir",
-    "dist": "npm install && npm run clean && npm run build && electron-builder",
-    "dist:all": "npm run dist -- -mlw",
     "flow": "flow",
-    "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged"
-  },
-  "build": {
-    "electronVersion": "1.7.1",
-    "appId": "io.nteract.nteract",
-    "fileAssociations": {
-      "ext": "ipynb",
-      "name": "ipynb"
-    },
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "nsis": {
-      "perMachine": true,
-      "oneClick": false
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "zip"
-      ]
-    },
-    "linux": {
-      "maintainer": "nteract contributors <jupyter@googlegroups.com>",
-      "target": [
-        "deb",
-        "AppImage",
-        "tar.gz"
-      ],
-      "desktop": {
-        "Comment": "Interactive literate coding notebook",
-        "Exec": "/opt/nteract/nteract %U",
-        "Icon": "nteract",
-        "MimeType": "application/x-ipynb+json",
-        "Name": "nteract",
-        "Path": "/opt/nteract/",
-        "StartupNotify": "true",
-        "Terminal": "false",
-        "Type": "Application",
-        "Categories": "Science;Development;"
-      },
-      "category": "science",
-      "packageCategory": "editors"
-    },
-    "files": [
-      "lib",
-      "node_modules",
-      "static"
-    ],
-    "extraResources": [
-      "bin",
-      "example-notebooks"
-    ],
-    "npmSkipBuildFromSource": true
   },
   "jest": {
     "setupFiles": [
@@ -132,47 +51,6 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "dependencies": {
-    "@nteract/plotly": "^1.0.0",
-    "codemirror": "^5.27.0",
-    "commonmark": "^0.28.0",
-    "commonmark-react-renderer": "^4.3.3",
-    "date-fns": "^1.28.5",
-    "electron-context-menu": "^0.9.1",
-    "electron-log": "^2.2.6",
-    "electron-react-devtools": "^0.4.0",
-    "github": "^9.0.0",
-    "ijavascript": "^5.0.17",
-    "immutable": "^3.8.1",
-    "jsontableschema": "^0.2.2",
-    "leaflet": "^1.0.3",
-    "lodash": "^4.17.4",
-    "mathjax-electron": "^2.0.1",
-    "mkdirp": "^0.5.1",
-    "normalize.css": "^7.0.0",
-    "nteract-assets": "^2.1.0",
-    "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dnd": "^2.4.0",
-    "react-dnd-html5-backend": "^2.4.1",
-    "react-dom": "^15.6.1",
-    "react-json-tree": "^0.10.9",
-    "react-notification-system": "^0.2.14",
-    "react-redux": "^5.0.5",
-    "react-simple-dropdown": "^3.0.0",
-    "react-virtualized": "^9.7.5",
-    "redux": "^3.7.0",
-    "redux-logger": "^3.0.6",
-    "redux-observable": "^0.14.0",
-    "rxjs": "^5.4.1",
-    "shell-env": "^0.3.0",
-    "spawn-rx": "^2.0.11",
-    "uuid": "^3.1.0",
-    "vega": "^2.6.5",
-    "vega-embed": "^2.2.0",
-    "vega-lite": "^1.3.1",
-    "yargs": "^8.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -212,6 +90,7 @@
     "lerna": "^2.0.0",
     "lint-staged": "^4.0.0",
     "lodash-webpack-plugin": "^0.11.4",
+    "mkdirp": "^0.5.1",
     "mocha": "^3.4.2",
     "mock-require": "^2.0.0",
     "nbschema": "^0.1.0",
