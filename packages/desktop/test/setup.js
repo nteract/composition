@@ -36,6 +36,12 @@ global.navigator = {
 
 global.Range = function Range() {};
 
+// Patch the Observable to have our jupyter operators
+import { Observable } from "rxjs/Observable";
+import { ofMessageType, childOf } from "@nteract/messaging";
+Observable.prototype.childOf = childOf;
+Observable.prototype.ofMessageType = ofMessageType;
+
 const createContextualFragment = html => {
   const div = document.createElement("div");
   div.innerHTML = html;

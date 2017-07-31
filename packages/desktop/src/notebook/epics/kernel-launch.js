@@ -10,6 +10,11 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/catch";
 
+import { createMessage, ofMessageType, childOf } from "@nteract/messaging";
+
+Observable.prototype.childOf = childOf;
+Observable.prototype.ofMessageType = ofMessageType;
+
 import { launchSpec } from "spawnteract";
 
 import { ActionsObservable } from "redux-observable";
@@ -26,8 +31,6 @@ import {
 } from "enchannel-zmq-backend";
 
 import type { LanguageInfoMetadata, KernelInfo, Channels } from "../records";
-
-import { createMessage } from "@nteract/messaging";
 
 import {
   setExecutionState,

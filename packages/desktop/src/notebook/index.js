@@ -18,6 +18,11 @@ import { initMenuHandlers } from "./menu";
 import { initNativeHandlers } from "./native-window";
 import { initGlobalHandlers } from "./global-events";
 
+import { Observable } from "rxjs/Observable";
+import { ofMessageType, childOf } from "@nteract/messaging";
+Observable.prototype.childOf = childOf;
+Observable.prototype.ofMessageType = ofMessageType;
+
 import {
   AppRecord,
   DocumentRecord,

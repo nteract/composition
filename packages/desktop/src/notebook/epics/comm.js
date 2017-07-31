@@ -5,7 +5,10 @@ import "rxjs/add/operator/map";
 import "rxjs/add/operator/retry";
 import "rxjs/add/operator/switchMap";
 
-import { createMessage } from "@nteract/messaging";
+import { createMessage, ofMessageType, childOf } from "@nteract/messaging";
+
+Observable.prototype.childOf = childOf;
+Observable.prototype.ofMessageType = ofMessageType;
 
 import { COMM_OPEN, COMM_MESSAGE, COMM_ERROR, NEW_KERNEL } from "../constants";
 

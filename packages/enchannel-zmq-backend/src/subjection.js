@@ -6,6 +6,10 @@ import "rxjs/add/observable/fromEvent";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/publish";
 
+import { ofMessageType, childOf } from "@nteract/messaging";
+Observable.prototype.childOf = childOf;
+Observable.prototype.ofMessageType = ofMessageType;
+
 import * as jmp from "jmp";
 
 import { ZMQType } from "./constants";

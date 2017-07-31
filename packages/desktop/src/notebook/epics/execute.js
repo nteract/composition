@@ -1,4 +1,4 @@
-import { createMessage } from "@nteract/messaging";
+import { createMessage, ofMessageType, childOf } from "@nteract/messaging";
 
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
@@ -17,6 +17,9 @@ import "rxjs/add/operator/mergeAll";
 import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/takeUntil";
 import "rxjs/add/operator/catch";
+
+Observable.prototype.childOf = childOf;
+Observable.prototype.ofMessageType = ofMessageType;
 
 import {
   createCellAfter,
