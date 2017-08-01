@@ -13,17 +13,17 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "next": "^3.0.1-beta.18",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "jquery": "^3.2.1",
+    "@nteract/notebook-preview": "^2.1.5",
+    "@nteract/transform-dataresource": "^1.1.1",
+    "@nteract/transform-vega": "^2.0.2",
+    "@nteract/transforms": "^2.1.3"
   },
   "babel": {
-    "presets": [
-      "next/babel"
-    ],
-    "plugins": [
-      "transform-flow-strip-types"
-    ]
+    "presets": ["next/babel"],
+    "plugins": ["transform-flow-strip-types"]
   },
   "devDependencies": {
     "webpack": "^3.4.1"

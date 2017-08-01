@@ -3,6 +3,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+// TODO: Could do dynamic importing, we'll be lazy for now to start prototyping
+import ViewPage from "../pages/view";
+
 function main(rootEl: Node | null, dataEl: Node | null) {
   // TODO: Clean this error handling up -- this is mostly here for rapid feedback
   //       while working on nbextension
@@ -41,6 +44,7 @@ function main(rootEl: Node | null, dataEl: Node | null) {
       <pre>
         {JSON.stringify(jupyterConfigData, null, 2)}
       </pre>
+      <ViewPage />
       <p />
     </div>,
     rootEl

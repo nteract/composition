@@ -14,8 +14,7 @@ type Props = {
   displayOrder: Array<string>,
   notebook: any,
   transforms: Object,
-  theme: string,
-  tip: boolean
+  theme: string
 };
 
 export function getLanguageMode(notebook: any): string {
@@ -63,7 +62,7 @@ export class Notebook extends React.PureComponent {
             key={id}
             id={id}
             cell={cell}
-            tip={this.props.tip}
+            tip={false}
             displayOrder={this.props.displayOrder}
             transforms={this.props.transforms}
             theme={this.props.theme}
