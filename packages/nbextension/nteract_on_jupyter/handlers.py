@@ -79,13 +79,15 @@ def add_handlers(web_app, config):
                       data['version'])
     config.name = config.name or data['name']
 
-    print('boot uppppp this')
-
     handlers = [
-        # TODO
-        # Our tree view is here
+        # TODO Redirect to /tree
         (url + r'/?', NAppHandler, {
-            'config': config
+            'config': config,
+            'page': 'tree'
+        }),
+        (url + r"/tree%s" % path_regex, NAppHandler, {
+            'config': config,
+            'page': 'tree',
         }),
         (url + r"/edit%s" % path_regex, NAppHandler, {
             'config': config,
