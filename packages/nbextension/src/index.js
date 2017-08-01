@@ -3,49 +3,51 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-const rootEl = document.querySelector("#root");
-const jupyterConfigEl = document.querySelector("#jupyter-config-data");
+function main(rootEl: Node | null, dataEl: Node | null) {
+  // TODO: Clean this error handling up -- this is mostly here for rapid feedback
+  //       while working on nbextension
+  const ErrorPage = (props: { error?: Error }) =>
+    <div>
+      <h1>ERROR</h1>
+      <pre>Unable to parse / process the jupyter config data.</pre>
+      {props.error ? props.error.message : null}
+    </div>;
 
-const ErrorPage = () =>
-  <div>
-    <h1>ERROR</h1>
-    <pre>Unable to parse / process the jupyter config data.</pre>
-  </div>;
+  if (!dataEl) {
+    ReactDOM.render(<ErrorPage />, rootEl);
+    return;
+  }
 
-if (!jupyterConfigEl || !jupyterConfigEl.innerText) {
-  ReactDOM.render(<ErrorPage />, rootEl);
+  type JupyterConfigData = {
+    token: string,
+    page: "tree" | "view" | "edit",
+    contentsPath: string,
+    baseUrl: string,
+    appVersion: string
+  };
+
+  let jupyterConfigData: JupyterConfigData;
+
+  try {
+    jupyterConfigData = JSON.parse(dataEl.textContent);
+  } catch (err) {
+    ReactDOM.render(<ErrorPage error={err} />, rootEl);
+    return;
+  }
+
+  ReactDOM.render(
+    <div>
+      <pre>Woo</pre>
+      <pre>
+        {JSON.stringify(jupyterConfigData, null, 2)}
+      </pre>
+      <p />
+    </div>,
+    rootEl
+  );
 }
 
-type JupyterConfigData = {};
+const rootEl = document.querySelector("#root");
+const dataEl = document.querySelector("#jupyter-config-data");
 
-const jupyterConfigData: JupyterConfigData = JSON.parse(
-  jupyterConfigEl.innerText
-);
-
-ReactDOM.render(
-  <div>
-    <pre>Woo</pre>
-    <pre>
-      {JSON.stringify(jupyterConfigData, null, 2)}
-    </pre>
-    <p />
-  </div>,
-  rootEl
-);
-
-/**
- *
- * Ok, I have to admit that I won't be able to do next.js
- *
- * As much as possible I'm going to emulate the style, which likely means
- * that I'll be setting up pages and components as separate pieces.
- *
- */
-
-/**
-  * Pages to create:
-  *
-  * /notebooks/
-  * /edit/
-  *
-  */
+main(rootEl, dataEl);
