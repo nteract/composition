@@ -137,7 +137,7 @@
     "@nteract/plotly": "^1.0.0",
     "ansi-to-react": "^1.4.2",
     "codemirror": "^5.27.0",
-    "commonmark": "^0.27.0",
+    "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",
     "date-fns": "^1.28.5",
     "electron-context-menu": "^0.9.1",
