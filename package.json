@@ -207,7 +207,7 @@
     "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^2.1.1",
-    "flow-bin": "^0.46.0",
+    "flow-bin": "^0.52.0",
     "flow-copy-source": "^1.1.0",
     "husky": "^0.14.0",
     "jest": "^20.0.4",
