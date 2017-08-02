@@ -38,14 +38,35 @@ function main(rootEl: Node | null, dataEl: Node | null) {
     return;
   }
 
+  const url = jupyterConfigData.baseUrl + "api/contents";
+  jupyterConfigData.contentsPath; //  + `?token=${jupyterConfigData.token}`;
+
+  fetch(url, { credentials: "include" })
+    .then(y => {
+      console.log(y);
+      return y;
+    })
+    .then(x => x.json())
+    .then(x => {
+      ReactDOM.render(
+        <div>
+          <pre>Woo</pre>
+          <pre>
+            {JSON.stringify(x, null, 2)}
+          </pre>
+          <ViewPage />
+          <p />
+        </div>,
+        rootEl
+      );
+    });
+
   ReactDOM.render(
     <div>
-      <pre>Woo</pre>
+      <pre>Rendering</pre>
       <pre>
         {JSON.stringify(jupyterConfigData, null, 2)}
       </pre>
-      <ViewPage />
-      <p />
     </div>,
     rootEl
   );
