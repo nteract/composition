@@ -225,7 +225,7 @@
     "react-addons-test-utils": "^15.5.1",
     "react-test-renderer": "^15.5.4",
     "rimraf": "^2.6.1",
-    "sinon": "^2.3.5",
+    "sinon": "^3.0.0",
     "sinon-chai": "^2.10.0",
     "watch": "^1.0.0",
     "webpack": "^3.1.0"
