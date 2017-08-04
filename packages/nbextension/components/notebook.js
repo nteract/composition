@@ -37,7 +37,7 @@ type NotebookProps = {
   content: Object
 };
 
-class Notebook extends React.Component {
+export class Notebook extends React.Component {
   Props: NotebookProps;
 
   render() {

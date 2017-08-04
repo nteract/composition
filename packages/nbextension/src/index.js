@@ -47,15 +47,10 @@ function main(rootEl: Node | null, dataEl: Node | null) {
       return y;
     })
     .then(x => x.json())
-    .then(x => {
+    .then(contents => {
       ReactDOM.render(
         <div>
-          <pre>Woo</pre>
-          <pre>
-            {JSON.stringify(x, null, 2)}
-          </pre>
-          <ViewPage />
-          <p />
+          <ViewPage contents={contents} />
         </div>,
         rootEl
       );
