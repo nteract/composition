@@ -22,6 +22,8 @@ Distributed under the terms of the Modified BSD License.
   <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/theme-light.css" rel="stylesheet" />
   <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/theme-light.css" rel="stylesheet" />
 
+  <script src="{{ base_url }}nteract/static/node_modules/plotly.js/dist/plotly.min.js" type="text/javascript" charset="utf-8"></script>
+
   <script id="jupyter-config-data" type="application/json">{
     {% for key, value in page_config.items() -%}
     "{{ key }}": "{{ value }}",
