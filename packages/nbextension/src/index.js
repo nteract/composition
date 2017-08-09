@@ -41,7 +41,7 @@ function main(rootEl: Node | null, dataEl: Node | null) {
   const url =
     jupyterConfigData.baseUrl + "api/contents" + jupyterConfigData.contentsPath;
 
-  fetch(url) //, { credentials: "include" })
+  fetch(url, { credentials: "include" })
     .then(y => {
       console.log(y);
       return y;

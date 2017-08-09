@@ -16,6 +16,12 @@ Distributed under the terms of the Modified BSD License.
     {% endfor %}
   {% endblock %}
 
+  <link href="{{ base_url }}nteract/static/node_modules/codemirror/lib/codemirror.css" rel="stylesheet" />
+
+  <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/main.css" rel="stylesheet" />
+  <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/theme-light.css" rel="stylesheet" />
+  <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/theme-light.css" rel="stylesheet" />
+
   <script id="jupyter-config-data" type="application/json">{
     {% for key, value in page_config.items() -%}
     "{{ key }}": "{{ value }}",
