@@ -50,7 +50,9 @@ describe("forceShutdownKernel", () => {
     sandbox.restore();
   });
   it("fully cleans up the kernel and uses SIGKILL", () => {
-    const unlinkSync = sandbox.stub(filesystem, "unlinkSync", () => true);
+    const unlinkSync = sandbox
+      .stub(filesystem, "unlinkSync")
+      .callsFake(() => true);
     const kernel = setupMockKernel(sandbox);
     forceShutdownKernel(kernel);
 
@@ -79,7 +81,9 @@ describe("cleanupKernel", () => {
     sandbox.restore();
   });
   it("cleans out artifacts from the kernel object", () => {
-    const unlinkSync = sandbox.stub(filesystem, "unlinkSync", () => true);
+    const unlinkSync = sandbox
+      .stub(filesystem, "unlinkSync")
+      .callsFake(() => true);
     const kernel = setupMockKernel(sandbox);
     cleanupKernel(kernel, true);
 

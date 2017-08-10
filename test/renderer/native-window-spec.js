@@ -45,7 +45,7 @@ describe("setTitleFromAttributes", () => {
       setTitle: sinon.spy()
     };
 
-    sinon.stub(electron.remote, "getCurrentWindow", () => win);
+    sinon.stub(electron.remote, "getCurrentWindow").callsFake(() => win);
 
     const titleObject = {
       fullpath: "/tmp/test.ipynb",

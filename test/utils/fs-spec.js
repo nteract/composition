@@ -22,10 +22,12 @@ describe("unlinkObservable", () => {
     sandbox.restore();
   });
   it("it errors on unlink issue", done => {
-    const existsSync = sandbox.stub(filesystem, "existsSync", () => true);
-    const unlink = sandbox.stub(filesystem, "unlink", (path, error) =>
-      error({ message: "lol" })
-    );
+    const existsSync = sandbox
+      .stub(filesystem, "existsSync")
+      .callsFake(() => true);
+    const unlink = sandbox
+      .stub(filesystem, "unlink")
+      .callsFake((path, error) => error({ message: "lol" }));
     unlinkObservable("path").subscribe(
       _ => _,
       err => {
