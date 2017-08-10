@@ -151,7 +151,7 @@
     "immutable": "^3.8.1",
     "jsontableschema": "^0.2.2",
     "jupyter-paths": "^2.0.0",
-    "kernelspecs": "^1.1.0",
+    "kernelspecs": "^2.0.0",
     "leaflet": "^1.0.3",
     "lodash": "^4.17.4",
     "mathjax-electron": "^2.0.1",
