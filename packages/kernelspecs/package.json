@@ -1,0 +1,26 @@
+{
+  "name": "kernelspecs",
+  "version": "1.1.0",
+  "description": "Find Jupyter kernelspecs on a system",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/kernelspecs.git"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/kernelspecs/issues"
+  },
+  "homepage": "https://github.com/nteract/kernelspecs#readme",
+  "dependencies": {
+    "jupyter-paths": "^2.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.0.1",
+    "mocha": "^3.4.2"
+  }
+}

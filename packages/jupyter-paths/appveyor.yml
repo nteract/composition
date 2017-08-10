@@ -1,0 +1,21 @@
+environment:
+    matrix:
+        - PYTHON: "C:\\Python27"
+        - PYTHON: "C:\\Python35"
+        - PYTHON: "C:\\Python27-x64"
+        - PYTHON: "C:\\Python35-x64"
+
+install:
+    - ps: Install-Product node 6
+    - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+    - npm install
+
+before_test:
+    - "%PYTHON%\\python.exe -m pip install jupyter"
+
+test_script:
+    - node --version
+    - npm --version
+    - npm test
+
+build: off

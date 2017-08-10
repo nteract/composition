@@ -18,6 +18,9 @@
   "peerDependencies": {
     "react": "^15.6.1"
   },
+  "devDependencies": {
+    "react": "^15.6.1"
+  },
   "publishConfig": {
     "access": "public"
   },

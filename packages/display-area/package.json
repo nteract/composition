@@ -16,11 +16,7 @@
     "type": "git",
     "url": "https://github.com/nteract/nteract/tree/master/packages/display-area"
   },
-  "keywords": [
-    "nteract",
-    "display",
-    "jupyter"
-  ],
+  "keywords": ["nteract", "display", "jupyter"],
   "publishConfig": {
     "access": "public"
   },
@@ -29,6 +25,9 @@
     "ansi-to-react": "^1.4.2"
   },
   "peerDependencies": {
+    "react": "^15.6.1"
+  },
+  "devDependencies": {
     "react": "^15.6.1"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",

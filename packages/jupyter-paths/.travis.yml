@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - "5.4"
+  - "4.2"
+sudo: false
+before_install:
+  - pip install --user jupyter_core
+
