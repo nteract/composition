@@ -174,7 +174,7 @@
     "rxjs": "^5.4.1",
     "shell-env": "^0.3.0",
     "spawn-rx": "^2.0.11",
-    "spawnteract": "^3.0.0",
+    "spawnteract": "^4.0.0",
     "uuid": "^3.1.0",
     "vega": "^2.6.5",
     "vega-embed": "^2.2.0",
