@@ -8,8 +8,7 @@ const Immutable = require("immutable");
 type Props = {
   notebook: Immutable.Map<string, any> | Object,
   displayOrder: Array<string>,
-  transforms: Object,
-  tip: boolean
+  transforms: Object
 };
 
 const NotebookPreview = (props: Props) => {
@@ -21,7 +20,6 @@ const NotebookPreview = (props: Props) => {
     <Notebook
       notebook={notebook}
       theme="light"
-      tip={props.tip}
       displayOrder={props.displayOrder}
       transforms={props.transforms}
     />
