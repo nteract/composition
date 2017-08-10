@@ -250,6 +250,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
         !editor.somethingSelected()
       ) {
         const CM = require("codemirror");
+        // $FlowFixMe: fix the flow definition for signal on a commonjs import
         CM.signal(editor, "bottomBoundary");
       } else {
         editor.execCommand("goLineDown");
@@ -260,6 +261,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       const cursor = editor.getCursor();
       if (cursor.line === 0 && cursor.ch === 0 && !editor.somethingSelected()) {
         const CM = require("codemirror");
+        // $FlowFixMe: fix the flow definition for signal on a commonjs import
         CM.signal(editor, "topBoundary");
       } else {
         editor.execCommand("goLineUp");
