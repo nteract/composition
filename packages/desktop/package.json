@@ -55,8 +55,7 @@
     "dist": "npm install && npm run clean && npm run build && electron-builder",
     "dist:all": "npm run dist -- -mlw",
     "flow": "flow",
-    "diagnostics": "scripts/kernelspecs-diagnostics.js",
-    "precommit": "lint-staged"
+    "diagnostics": "scripts/kernelspecs-diagnostics.js"
   },
   "build": {
     "electronVersion": "1.7.1",
@@ -100,9 +99,6 @@
   },
   "jest": {
     "setupFiles": ["./scripts/mockument"]
-  },
-  "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
   },
   "dependencies": {
     "@nteract/commutable": "^2.0.2",
@@ -191,7 +187,6 @@
     "jsdom": "^11.0.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.1.0",
-    "lint-staged": "^4.0.0",
     "lodash-webpack-plugin": "^0.11.4",
     "mocha": "^3.4.2",
     "mock-require": "^2.0.0",

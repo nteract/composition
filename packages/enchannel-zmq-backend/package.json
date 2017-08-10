@@ -10,6 +10,7 @@
     "build": "npm run build:es5",
     "build:es5": "babel src --out-dir lib/ --source-maps",
     "build:docs": "jsdoc -R README.md -d docs src/*.js",
+    "pretest": "npm rebuild zeromq",
     "test": "mocha --compilers js:babel-core/register --recursive",
     "test:watch": "npm run test -- --watch",
     "clean": "rimraf lib/*"
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/nteract/enchannel-zmq-backend#readme",
   "dependencies": {
+    "@nteract/messaging": "^1.1.1",
     "jmp": "^0.7.3",
     "rxjs": "^5.4.1",
     "uuid": "^3.1.0"
