@@ -1,13 +1,12 @@
 {
   "name": "nteract-on-jupyter",
   "version": "0.0.1",
-  "description": "nteract woo",
+  "description": "nteract on jupyter, as an extension",
   "main": "index.js",
   "scripts": {
-    "build": "next build",
-    "preexport": "npm run build",
-    "export": "next export",
-    "prepare": "npm run export"
+    "build": "webpack",
+    "build:watch": "webpack --watch",
+    "prepare": "npm run build"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
@@ -25,12 +24,8 @@
     "react-dom": "^15.6.1"
   },
   "babel": {
-    "presets": [
-      "next/babel"
-    ],
-    "plugins": [
-      "transform-flow-strip-types"
-    ]
+    "presets": ["next/babel"],
+    "plugins": ["transform-flow-strip-types"]
   },
   "devDependencies": {
     "webpack": "^3.4.1"
