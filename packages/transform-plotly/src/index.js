@@ -15,66 +15,74 @@ declare class PlotlyHTMLElement extends HTMLElement {
 
 const MIMETYPE = "application/vnd.plotly.v1+json";
 
-export class PlotlyTransform extends React.Component {
-  props: Props;
-  getFigure: () => Object;
-  el: PlotlyHTMLElement;
-  Plotly: Object;
+export function createPlotlyTransform(Plotly: Object) {
+  // Plotly is a closure around the transform
+  class CraftedPlotlyTransform extends React.Component {
+    props: Props;
+    getFigure: () => Object;
+    el: PlotlyHTMLElement;
 
-  static MIMETYPE = MIMETYPE;
+    static MIMETYPE = MIMETYPE;
 
-  constructor(): void {
-    super();
-    this.getFigure = this.getFigure.bind(this);
-  }
-
-  componentDidMount(): void {
-    // Handle case of either string to be `JSON.parse`d or pure object
-    const figure = this.getFigure();
-    this.Plotly = require("@nteract/plotly");
-    this.Plotly.newPlot(this.el, figure.data, figure.layout);
-  }
-
-  shouldComponentUpdate(nextProps: Props): boolean {
-    return this.props.data !== nextProps.data;
-  }
-
-  componentDidUpdate() {
-    const figure = this.getFigure();
-    this.el.data = figure.data;
-    this.el.layout = figure.layout;
-    this.Plotly.redraw(this.el);
-  }
-
-  getFigure(): Object {
-    const figure = this.props.data;
-    if (typeof figure === "string") {
-      return JSON.parse(figure);
+    constructor(): void {
+      super();
+      this.getFigure = this.getFigure.bind(this);
     }
 
-    // The Plotly API *mutates* the figure to include a UID, which means
-    // they won't take our frozen objects
-    if (Object.isFrozen(figure)) {
-      return cloneDeep(figure);
+    componentDidMount(): void {
+      // Handle case of either string to be `JSON.parse`d or pure object
+      const figure = this.getFigure();
+      Plotly.newPlot(this.el, figure.data, figure.layout);
     }
-    return figure;
-  }
 
-  render(): ?React.Element<any> {
-    const { layout } = this.getFigure();
-    const style = {};
-    if (layout && layout.height && !layout.autosize) {
-      style.height = layout.height;
+    shouldComponentUpdate(nextProps: Props): boolean {
+      return this.props.data !== nextProps.data;
     }
-    return (
-      <div
-        style={style}
-        ref={el => {
-          this.el = el;
-        }}
-      />
-    );
+
+    componentDidUpdate() {
+      const figure = this.getFigure();
+      this.el.data = figure.data;
+      this.el.layout = figure.layout;
+      Plotly.redraw(this.el);
+    }
+
+    getFigure(): Object {
+      const figure = this.props.data;
+      if (typeof figure === "string") {
+        return JSON.parse(figure);
+      }
+
+      // The Plotly API *mutates* the figure to include a UID, which means
+      // they won't take our frozen objects
+      if (Object.isFrozen(figure)) {
+        return cloneDeep(figure);
+      }
+      return figure;
+    }
+
+    render(): ?React.Element<any> {
+      const { layout } = this.getFigure();
+      const style = {};
+      if (layout && layout.height && !layout.autosize) {
+        style.height = layout.height;
+      }
+      return (
+        <div
+          style={style}
+          ref={el => {
+            this.el = el;
+          }}
+        />
+      );
+    }
   }
+  return CraftedPlotlyTransform;
 }
+
+// Old way
+// const PlotlyTransform = createPlotlyTransform(require("@nteract/plotly"));
+
+// The way that nteract and commuter will use it
+const PlotlyTransform = createPlotlyTransform(global.Plotly);
 
 export default PlotlyTransform;
