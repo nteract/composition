@@ -59,7 +59,6 @@ type ImmutableCellMap = Immutable.Map<string, ImmutableCell>;
  * @return {Immutable.List<Object>} updated-outputs - Outputs + Output
  */
 export function reduceOutputs(
-  // $FlowFixMe: Not sure what the issue is for why it doesn't think the List is not the same as a List
   outputs: ImmutableOutputs = Immutable.List(),
   output: Output
 ) {
@@ -289,7 +288,6 @@ function focusNextCellEditor(
   state: DocumentState,
   action: FocusNextCellEditorAction
 ) {
-  // $FlowFixMe: Not sure what the issue is for why it doesn't think the List is not the same as a List
   const cellOrder: ImmutableCellOrder = state.getIn(
     ["notebook", "cellOrder"],
     Immutable.List()
@@ -308,7 +306,6 @@ function focusPreviousCellEditor(
   state: DocumentState,
   action: FocusPreviousCellEditorAction
 ) {
-  // $FlowFixMe: Not sure what the issue is for why it doesn't think the List is not the same as a List
   const cellOrder: ImmutableCellOrder = state.getIn(
     ["notebook", "cellOrder"],
     Immutable.List()
@@ -412,7 +409,6 @@ function newCellBefore(state: DocumentState, action: NewCellBeforeAction) {
 type MergeCellAfterAction = { type: "MERGE_CELL_AFTER", id: CellID };
 function mergeCellAfter(state: DocumentState, action: MergeCellAfterAction) {
   const { id } = action;
-  // $FlowFixMe: Not sure what the issue is for why it doesn't think the List is not the same as a List
   const cellOrder: ImmutableCellOrder = state.getIn(
     ["notebook", "cellOrder"],
     Immutable.List()
@@ -578,14 +574,11 @@ function cutCell(state: DocumentState, action: CutCellAction) {
   const { id } = action;
   const cellMap = state.getIn(["notebook", "cellMap"], Immutable.Map());
   const cell: ImmutableCell = cellMap.get(id);
-  return (
-    state
-      // $FlowFixMe: Not sure what the issue is for why it doesn't think this Map matches
-      .set("copied", new Immutable.Map({ id, cell }))
-      .update("notebook", (notebook: ImmutableNotebook) =>
-        removeCell(notebook, id)
-      )
-  );
+  return state
+    .set("copied", new Immutable.Map({ id, cell }))
+    .update("notebook", (notebook: ImmutableNotebook) =>
+      removeCell(notebook, id)
+    );
 }
 
 type PasteCellAction = { type: "PASTE_CELL" };
