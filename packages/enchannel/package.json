@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/nteract/enchannel.git"
   },
-  "keywords": ["enchannel", "jupyter"],
+  "keywords": [
+    "enchannel",
+    "jupyter"
+  ],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -19,7 +22,7 @@
   "homepage": "https://github.com/nteract/enchannel#readme",
   "dependencies": {
     "rxjs": "^5.4.1",
-    "uuid": "^2.0.2"
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
