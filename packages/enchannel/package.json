@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/nteract/enchannel#readme",
   "dependencies": {
+    "rxjs": "^5.4.1",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
