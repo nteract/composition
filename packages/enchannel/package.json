@@ -1,6 +1,6 @@
 {
   "name": "enchannel",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Light spec for wiring up communications between Jupyter frontend and backend implementations.",
   "main": "index.js",
   "scripts": {
