@@ -1,8 +1,8 @@
 const uuid = require("uuid");
 
 // Import the operators we use
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/map";
+require("rxjs/add/operator/filter");
+require("rxjs/add/operator/map");
 
 /**
  * Filter for finding out if message is a child of parentMessage
