@@ -1,3 +1,5 @@
 include README.md
 include setup.py
-recursive-include nflx_jupyter_extension *
+recursive-include nteract_on_jupyter *
+prune nteract_on_jupyter/node_modules
+prune nteract_on_jupyter/__pycache__

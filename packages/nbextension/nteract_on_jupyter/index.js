@@ -4,7 +4,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // TODO: Could do dynamic importing, we'll be lazy for now to start prototyping
-import ViewPage from "../pages/view";
+import ViewPage from "./pages/view";
+
+import "codemirror/lib/codemirror.css";
+import "@nteract/notebook-preview/styles/main.css";
+import "@nteract/notebook-preview/styles/theme-light.css";
 
 function main(rootEl: Node | null, dataEl: Node | null) {
   // TODO: Clean this error handling up -- this is mostly here for rapid feedback

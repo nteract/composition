@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    app: "./src/index.js",
+    app: "./index.js",
     vendor: [
       "react",
       "react-dnd",
@@ -30,6 +30,7 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /\.css$/, use: ["style-loader", "css-loader"] },
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
       { test: /\.json$/, loader: "json-loader" }
     ]

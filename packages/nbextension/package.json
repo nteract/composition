@@ -1,33 +1,20 @@
 {
-  "name": "nteract-on-jupyter",
+  "name": "@nteract/nbextension",
   "version": "0.0.1",
   "description": "nteract on jupyter, as an extension",
-  "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "build:watch": "webpack --watch",
-    "prepare": "npm run build"
+    "build:python": "python setup.py sdist",
+    "upload:pypi": "twine upload dist/*",
+    "prebuild:python": "rimraf dist",
+    "publish": "echo 'not really publishing'"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@nteract/notebook-preview": "^2.1.5",
-    "@nteract/transform-dataresource": "^1.1.1",
-    "@nteract/transform-vega": "^2.0.2",
-    "@nteract/transforms": "^2.1.3",
-    "anser": "^1.4.1",
-    "codemirror": "^5.28.0",
-    "isomorphic-fetch": "^2.2.1",
-    "jquery": "^3.2.1",
-    "plotly.js": "^1.29.3",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
-  },
-  "babel": {
-    "presets": ["next/babel"],
-    "plugins": ["transform-flow-strip-types"]
+    "fs-extra": "^4.0.1"
   },
   "devDependencies": {
-    "webpack": "^3.4.1"
+    "mkdirp": "*",
+    "rimraf": "^2.6.1"
   }
 }

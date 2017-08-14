@@ -1,0 +1,36 @@
+{
+  "name": "nteract-on-jupyter",
+  "version": "0.0.9",
+  "description": "nteract on jupyter, as an extension",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "build:watch": "webpack --watch",
+    "prepare": "npm run build",
+    "copy-static": "cp"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@nteract/notebook-preview": "^2.1.5",
+    "@nteract/transform-dataresource": "^1.1.1",
+    "@nteract/transform-vega": "^2.0.2",
+    "@nteract/transforms": "^2.1.3",
+    "anser": "^1.4.1",
+    "codemirror": "^5.28.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jquery": "^3.2.1",
+    "plotly.js": "^1.29.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "babel": {
+    "presets": ["next/babel"],
+    "plugins": ["transform-flow-strip-types"]
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.4",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.4.1"
+  }
+}

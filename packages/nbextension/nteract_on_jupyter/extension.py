@@ -34,7 +34,7 @@ def load_jupyter_server_extension(nbapp):
     #if hasattr(nbapp, 'app_dir'):
     #    app_dir = get_app_dir(nbapp.app_dir)
 
-    app_dir = os.path.abspath(os.path.join(here, '..')) # force loading locally
+    app_dir = here # bundle is part of the python package
 
     web_app = nbapp.web_app
     config = Config()

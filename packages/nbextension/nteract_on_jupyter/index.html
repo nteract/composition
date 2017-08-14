@@ -10,19 +10,7 @@ Distributed under the terms of the Modified BSD License.
 
   <title>{% block title %}{{page_title}}{% endblock %}</title>
 
-  {% block stylesheet %}
-    {% for css_file in css_files %}
-      <link href="{{ css_file }}" rel="stylesheet">
-    {% endfor %}
-  {% endblock %}
-
-  <link href="{{ base_url }}nteract/static/node_modules/codemirror/lib/codemirror.css" rel="stylesheet" />
-
-  <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/main.css" rel="stylesheet" />
-  <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/theme-light.css" rel="stylesheet" />
-  <link href="{{ base_url }}nteract/static/node_modules/@nteract/notebook-preview/styles/theme-light.css" rel="stylesheet" />
-
-  <script src="{{ base_url }}nteract/static/node_modules/plotly.js/dist/plotly.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js" type="text/javascript" charset="utf-8"></script>
 
   <script id="jupyter-config-data" type="application/json">{
     {% for key, value in page_config.items() -%}
