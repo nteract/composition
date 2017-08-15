@@ -23,7 +23,7 @@ import {
   createStdinSubject,
   createIOPubSubject,
   createShellSubject
-} from "enchannel-zmq-backend";
+} from "../../../packages/enchannel-zmq-backend";
 
 import type { LanguageInfoMetadata, KernelInfo, Channels } from "../records";
 
