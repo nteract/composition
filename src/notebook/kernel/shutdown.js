@@ -3,7 +3,7 @@ import * as fs from "fs";
 
 import type { Subject } from "rxjs";
 
-import { shutdownRequest } from "enchannel";
+import { shutdownRequest } from "../../../packages/enchannel";
 import { getUsername, session } from "../../../packages/messaging";
 
 export const filesystem = fs;
