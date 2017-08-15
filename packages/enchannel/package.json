@@ -8,17 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nteract/enchannel.git"
+    "url": "git+https://github.com/nteract/nteract.git"
   },
   "keywords": ["enchannel", "jupyter"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/nteract/enchannel/issues"
+    "url": "https://github.com/nteract/nteract/issues"
   },
-  "homepage": "https://github.com/nteract/enchannel#readme",
+  "homepage": "https://github.com/nteract/nteract#readme",
   "dependencies": {
-    "rxjs": "^5.4.1",
-    "uuid": "^3.1.0"
+    "rxjs": "^5.4.1"
   }
 }

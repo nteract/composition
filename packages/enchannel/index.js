@@ -1,47 +1,6 @@
-const uuid = require("uuid");
-
 // Import the operators we use
 require("rxjs/add/operator/filter");
 require("rxjs/add/operator/map");
-
-/**
- * Filter for finding out if message is a child of parentMessage
- * @param  {Object}  parentMessage the expected parent
- * @param  {Object}  message - message to evaluate lineage
- * @return {Boolean}
- */
-function isChildMessage(parentMessage, message) {
-  return Boolean(
-    parentMessage &&
-      parentMessage.header &&
-      message &&
-      message.parent_header &&
-      parentMessage.header.msg_id === message.parent_header.msg_id
-  );
-}
-
-/**
- * Create a message
- * @param  {string} username
- * @param  {string} session  guid for the session
- * @param  {string} msg_type
- * @return {object}          msg
- */
-function createMessage(username, session, msg_type) {
-  return {
-    header: {
-      username,
-      session,
-      msg_type,
-      msg_id: uuid.v4(),
-      date: new Date(),
-      version: "5.0"
-    },
-    metadata: {},
-    parent_header: {},
-    content: {}
-  };
-}
 
 /**
  * Send a shutdown request message
@@ -80,7 +39,5 @@ function shutdownRequest(channels, username, session, restart) {
 }
 
 module.exports = {
-  isChildMessage,
-  createMessage,
   shutdownRequest
 };
