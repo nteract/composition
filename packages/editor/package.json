@@ -12,19 +12,14 @@
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "build:lib:watch": "npm run build:lib -- --watch"
   },
-  "keywords": [
-    "nteract",
-    "editor",
-    "notebook",
-    "jupyter"
-  ],
+  "keywords": ["nteract", "editor", "notebook", "jupyter"],
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@nteract/messaging": "^1.1.1",
     "@nteract/transforms": "^2.1.3",
-    "codemirror": "^5.27.0",
+    "codemirror": "^5.28.0",
     "exenv": "^1.2.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",

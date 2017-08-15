@@ -20,7 +20,7 @@
     "@nteract/display-area": "^2.1.3",
     "@nteract/editor": "^2.1.3",
     "@nteract/transforms": "^2.1.3",
-    "codemirror": "^5.27.0",
+    "codemirror": "^5.28.0",
     "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",
     "mathjax-electron": "^2.0.1"

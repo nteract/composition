@@ -9,7 +9,7 @@
     "@nteract/notebook-preview": "^2.1.5",
     "@nteract/transform-dataresource": "^1.1.1",
     "@nteract/transforms": "^2.1.3",
-    "codemirror": "^5.27.0",
+    "codemirror": "^5.28.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash.debounce": "^4.0.8",
     "next": "^3.0.1-beta.8",
