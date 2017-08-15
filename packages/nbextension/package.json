@@ -18,7 +18,7 @@
     "fs-extra": "^4.0.1"
   },
   "devDependencies": {
-    "mkdirp": "*",
+    "mkdirp": "^0.5.1",
     "rimraf": "^2.6.1"
   }
 }

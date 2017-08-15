@@ -20,10 +20,5 @@
   "dependencies": {
     "rxjs": "^5.4.1",
     "uuid": "^3.1.0"
-  },
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.4.5",
-    "sinon": "^1.17.3"
   }
 }
