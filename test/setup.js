@@ -79,7 +79,7 @@ mock("@nteract/plotly", {
   redraw: () => {}
 });
 
-mock("enchannel-zmq-backend", {
+mock("../packages/enchannel-zmq-backend", {
   createControlSubject: () => {},
   createStdinSubject: () => {},
   createIOPubSubject: () => {},
