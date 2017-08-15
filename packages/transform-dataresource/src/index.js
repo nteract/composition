@@ -5,8 +5,9 @@ import VirtualizedGrid from "./virtualized-grid";
 
 type Props = {
   data: Object,
-  theme: string,
-  expanded: boolean
+  theme?: string,
+  expanded?: boolean,
+  height?: number
 };
 
 class DataResourceTransform extends React.Component {
@@ -18,14 +19,15 @@ class DataResourceTransform extends React.Component {
   }
 
   render(): ?React.Element<any> {
-    const { data: { data, schema }, theme, expanded } = this.props;
+    const { data: { data, schema }, theme, expanded, height } = this.props;
     return (
       <VirtualizedGrid
         data={data}
         schema={schema}
         theme={theme}
         expanded={expanded}
-        style={{ marginRight: "10px" }}
+        height={height}
+        // style={{ marginRight: "10px" }}
       />
     );
   }
