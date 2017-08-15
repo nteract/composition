@@ -35,7 +35,8 @@
     "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",
     "mathjax-electron": "^2.0.1",
-    "react-json-tree": "^0.10.9"
+    "react-json-tree": "^0.10.9",
+    "requirejs": "^2.3.3"
   },
   "peerDependencies": {
     "react": "^15.6.1"
