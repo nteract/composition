@@ -7,7 +7,7 @@ import { ERROR } from "./config";
  * Infer Table Schema descriptor
  * https://github.com/frictionlessdata/tableschema-js#infer
  */
-export function infer(source, { headers }, options = {}) {
+export function infer(headers, values, options = {}) {
   // Set up default options
   const opts = lodash.extend(
       {
@@ -51,7 +51,7 @@ export function infer(source, { headers }, options = {}) {
   });
 
   headers.forEach((header, index) => {
-    let columnValues = lodash.map(source, value => value[index]);
+    let columnValues = lodash.map(values, value => value[index]);
     const field = descriptor.fields[index];
 
     if (opts.rowLimit) {
