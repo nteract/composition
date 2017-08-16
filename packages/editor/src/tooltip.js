@@ -5,6 +5,8 @@ import "rxjs/add/operator/map";
 
 import { createMessage } from "@nteract/messaging";
 
+import { js_idx_to_char_idx } from "./surrogate";
+
 export function tooltipObservable(channels, editor, message) {
   const tip$ = channels.shell
     .childOf(message)
@@ -33,7 +35,11 @@ export const tooltipRequest = (code, cursorPos) =>
 
 export function tool(channels, editor) {
   const cursor = editor.getCursor();
-  const cursorPos = editor.indexFromPos(cursor);
+  // Get position while handling surrogate pairs
+  const cursorPos = js_idx_to_char_idx(
+    editor.indexFromPos(cursor),
+    editor.getValue()
+  );
   const code = editor.getValue();
 
   const message = tooltipRequest(code, cursorPos);

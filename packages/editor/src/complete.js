@@ -6,6 +6,8 @@ import "rxjs/add/operator/timeout";
 
 import { createMessage } from "@nteract/messaging";
 
+import { js_idx_to_char_idx, char_idx_to_js_idx } from "./surrogate";
+
 // Hint picker
 export const pick = (cm, handle) => handle.pick();
 
@@ -63,14 +65,37 @@ export const expand_completions = editor => results => {
       console.error("Exprimental completion failed :", e);
     }
   }
+
+  let start = results.cursor_start;
+  let end = results.cursor_end;
+
+  if (end === null) {
+    // adapted message spec replies don't have cursor position info,
+    // interpret end=null as current position,
+    // and negative start relative to that
+    end = editor.indexFromPos(editor.getCursor());
+    if (start === null) {
+      start = end;
+    } else if (start < 0) {
+      start = end + start;
+    }
+  } else {
+    // handle surrogate pairs
+    // HACK: This seems susceptible to timing issues, we could verify changes in
+    //       what's in the editor, as we'll be able to correlate across events
+    const text = editor.getValue();
+    end = char_idx_to_js_idx(end, text);
+    start = char_idx_to_js_idx(start, text);
+  }
+
   return {
     list: results.matches.map(match => ({
       text: match,
       render: (elt, data, current) =>
         elt.appendChild(document.createTextNode(current.text))
     })),
-    from: editor.posFromIndex(results.cursor_start),
-    to: editor.posFromIndex(results.cursor_end)
+    from: editor.posFromIndex(start),
+    to: editor.posFromIndex(end)
   };
 };
 
@@ -101,8 +126,9 @@ export const completionRequest = (code, cursorPos) =>
 
 export function codeComplete(channels, editor) {
   const cursor = editor.getCursor();
-  const cursorPos = editor.indexFromPos(cursor);
+  let cursorPos = editor.indexFromPos(cursor);
   const code = editor.getValue();
+  cursorPos = js_idx_to_char_idx(cursorPos, code);
 
   const message = completionRequest(code, cursorPos);
 
