@@ -60,7 +60,7 @@
     "precommit": "lint-staged"
   },
   "build": {
-    "electronVersion": "1.7.1",
+    "electronVersion": "1.7.6",
     "appId": "io.nteract.nteract",
     "fileAssociations": {
       "ext": "ipynb",
