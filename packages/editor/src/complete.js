@@ -83,6 +83,7 @@ export const expand_completions = editor => results => {
     // handle surrogate pairs
     // HACK: This seems susceptible to timing issues, we could verify changes in
     //       what's in the editor, as we'll be able to correlate across events
+    //       Suggestions and background in https://github.com/nteract/nteract/pull/1840#discussion_r133380430
     const text = editor.getValue();
     end = char_idx_to_js_idx(end, text);
     start = char_idx_to_js_idx(start, text);
