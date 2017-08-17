@@ -2,9 +2,7 @@ sudo: false
 dist: trusty
 language: node_js
 node_js:
-# Current Long Term Stable (LTS) release
-- "6"
-# Pending LTS
+# Pending LTS (October 2017)
 - "8"
 env:
   matrix:
