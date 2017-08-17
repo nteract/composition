@@ -68,6 +68,7 @@ export default class MarkdownCell extends React.PureComponent {
 
   componentWillReceiveProps(nextProps: Props): void {
     this.setState({
+      view: !nextProps.editorFocused,
       source: nextProps.cell.get("source")
     });
   }
