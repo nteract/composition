@@ -3,6 +3,7 @@
   "version": "1.5.1",
   "description": "ANSI to React Elements",
   "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "prebuild": "mkdirp lib/ && npm run clean",
     "prepublish": "npm run build",
@@ -20,10 +21,7 @@
     "url": "git+https://github.com/nteract/nteract.git"
   },
   "homepage": "https://github.com/nteract/nteract/tree/master/packages/ansi-to-react",
-  "keywords": [
-    "ansi",
-    "react"
-  ],
+  "keywords": ["ansi", "react"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {

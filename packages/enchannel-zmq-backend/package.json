@@ -3,6 +3,7 @@
   "version": "4.0.1",
   "description": "Channeling jupyter over zmq",
   "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
   "scripts": {
     "repl": "babel-node scripts/repl.js",
     "prepublish": "npm run build",
