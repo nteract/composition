@@ -140,7 +140,7 @@
     "react-virtualized": "^9.7.5",
     "redux": "^3.7.0",
     "redux-logger": "^3.0.6",
-    "redux-observable": "^0.15.0",
+    "redux-observable": "^0.16.0",
     "rxjs": "^5.4.1",
     "shell-env": "^0.3.0",
     "spawn-rx": "^2.0.11",
