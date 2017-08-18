@@ -3,8 +3,8 @@ const webpack = require("webpack");
 const path = require("path");
 
 const nodeModules = {
-  zmq: "commonjs zmq",
   jmp: "commonjs jmp",
+  uuid: "commonjs uuid",
   github: "commonjs github",
   canvas: "commonjs canvas"
 };
