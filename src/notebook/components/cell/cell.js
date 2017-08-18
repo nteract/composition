@@ -49,6 +49,7 @@ export class Cell extends React.PureComponent {
   focusCellEditor: () => void;
   setCellHoverState: (mouseEvent: MouseEvent) => void;
   cellDiv: HTMLElement;
+  scrollIntoViewIfNeeded: Function;
 
   static contextTypes = {
     store: PropTypes.object
@@ -61,11 +62,16 @@ export class Cell extends React.PureComponent {
     this.focusAboveCell = this.focusAboveCell.bind(this);
     this.focusBelowCell = this.focusBelowCell.bind(this);
     this.setCellHoverState = this.setCellHoverState.bind(this);
+    this.scrollIntoViewIfNeeded = this.scrollIntoViewIfNeeded.bind(this);
   }
 
   state = {
     hoverCell: false
   };
+
+  componentDidUpdate(prevProps: CellProps) {
+    this.scrollIntoViewIfNeeded(prevProps.cellFocused);
+  }
 
   componentDidMount(): void {
     // Listen to the page level mouse move event and manually check for
@@ -73,6 +79,23 @@ export class Cell extends React.PureComponent {
     // any mouse events.  The hover region is an invisible element that
     // describes the "hot region" that toggles the creator buttons.
     document.addEventListener("mousemove", this.setCellHoverState, false);
+
+    this.scrollIntoViewIfNeeded();
+  }
+
+  scrollIntoViewIfNeeded(prevCellFocused?: string): void {
+    // If the previous cell that was focused was not us, we go ahead and scroll
+    //
+
+    if (
+      this.props.cellFocused &&
+      this.props.cellFocused === this.props.id &&
+      prevCellFocused !== this.props.cellFocused
+    ) {
+      // $FlowFixMe: This is only valid in Chrome, WebKit
+      this.cellDiv.scrollIntoViewIfNeeded();
+      // TODO: Polyfill as best we can for the webapp version
+    }
   }
 
   componentWillUnmount(): void {
