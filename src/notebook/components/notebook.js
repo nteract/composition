@@ -20,7 +20,7 @@ import {
 } from "../actions";
 import type { CellProps } from "./cell/cell";
 
-// TODO: Remove after provider refactor finished
+// NOTE: PropTypes are required for the sake of contextTypes
 const PropTypes = require("prop-types");
 
 type Props = {
@@ -100,7 +100,7 @@ export class Notebook extends React.PureComponent {
     document.addEventListener("keydown", this.keyDown);
   }
 
-  componentDidUpdate(): void {
+  componentDidUpdate(prevProps: Props): void {
     if (this.stickyCellsPlaceholder) {
       // Make sure the document is vertically shifted so the top non-stickied
       // cell is always visible.

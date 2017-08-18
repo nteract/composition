@@ -19,7 +19,7 @@ import {
   focusNextCellEditor
 } from "../../actions";
 
-// TODO: Remove after provider refactor finished
+// NOTE: PropTypes are required for the sake of contextTypes
 const PropTypes = require("prop-types");
 
 export type CellProps = {
