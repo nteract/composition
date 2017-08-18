@@ -17,7 +17,7 @@
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
     "reinstall": "npm run clean && rimraf node_modules && npm install",
-    "prestart": "npm run build",
+    "prestart": "npm run build:webpack",
     "start": "npm run spawn",
     "spawn": "cross-env NODE_ENV=development electron .",
     "spawn:debug": "cross-env DEBUG=true NODE_ENV=development electron .",
@@ -27,7 +27,7 @@
     "prebuild": "rimraf lib",
     "lerna": "lerna bootstrap --hoist",
     "install": "npm run lerna && npm run build",
-    "build": "npm run build:webpack",
+    "build": "npm run build:packages && npm run build:webpack",
     "build:webpack": "webpack --progress --colors",
     "build:webpack:watch": "npm run build:webpack -- --watch",
     "build:packages": "lerna run build --ignore @nteract/notebook-preview-demo",
