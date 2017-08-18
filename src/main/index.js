@@ -34,8 +34,9 @@ const kernelspecs = require("kernelspecs");
 const jupyterPaths = require("jupyter-paths");
 const path = require("path");
 
-const argv = require("yargs")
-  .version()
+const yargs = require("yargs/yargs");
+const argv = yargs()
+  .version(() => require("./../../package.json").version)
   .usage("Usage: nteract <notebooks> [options]")
   .example("nteract notebook1.ipynb notebook2.ipynb", "Open notebooks")
   .example("nteract --kernel javascript", "Launch a kernel")
@@ -118,7 +119,7 @@ export function createSplashSubscriber() {
         show: false
       });
 
-      const index = join(__dirname, "..", "..", "static", "splash.html");
+      const index = join(__dirname, "..", "static", "splash.html");
       win.loadURL(`file://${index}`);
       win.once("ready-to-show", () => {
         win.show();

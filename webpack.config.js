@@ -9,7 +9,39 @@ const nodeModules = {
   canvas: "commonjs canvas"
 };
 
-module.exports = {
+const options = {
+  module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      { test: /\.json$/, loader: "json-loader" }
+    ]
+  },
+  resolve: {
+    mainFields: ["nteractDesktop", "main"],
+    extensions: [".js", ".jsx"]
+  }
+};
+
+const mainConfig = Object.assign({}, options, {
+  entry: {
+    main: "./src/main/index.js"
+  },
+  target: "electron-main",
+  output: {
+    path: path.join(__dirname, "lib"),
+    filename: "webpacked-main.js"
+  },
+  node: {
+    __dirname: false,
+    __filename: false
+  },
+  plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.IgnorePlugin(/\.(css|less)$/)
+  ]
+});
+
+const rendererConfig = Object.assign({}, options, {
   entry: {
     app: "./src/notebook/index.js",
     vendor: [
@@ -35,16 +67,6 @@ module.exports = {
     path: path.join(__dirname, "lib"),
     filename: "webpacked-notebook.js"
   },
-  module: {
-    rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-      { test: /\.json$/, loader: "json-loader" }
-    ]
-  },
-  resolve: {
-    mainFields: ["nteractDesktop", "main"],
-    extensions: [".js", ".jsx"]
-  },
   externals: nodeModules,
   plugins: [
     new LodashModuleReplacementPlugin(),
@@ -62,4 +84,6 @@ module.exports = {
       exclude: ["vendor.js"]
     })
   ]
-};
+});
+
+module.exports = [mainConfig, rendererConfig];

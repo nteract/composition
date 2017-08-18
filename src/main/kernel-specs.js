@@ -7,7 +7,14 @@ const KERNEL_SPECS = {
     spec: {
       argv: [
         process.execPath,
-        join(require.resolve("ijavascript"), "..", "lib", "kernel.js"),
+        join(
+          __dirname,
+          "..",
+          "node_modules",
+          "ijavascript",
+          "lib",
+          "kernel.js"
+        ),
         "{connection_file}",
         "--protocol=5.0",
         "--hide-undefined"
