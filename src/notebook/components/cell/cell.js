@@ -85,12 +85,14 @@ export class Cell extends React.PureComponent {
 
   scrollIntoViewIfNeeded(prevCellFocused?: string): void {
     // If the previous cell that was focused was not us, we go ahead and scroll
-    //
 
     if (
       this.props.cellFocused &&
       this.props.cellFocused === this.props.id &&
-      prevCellFocused !== this.props.cellFocused
+      prevCellFocused !== this.props.cellFocused &&
+      // Don't scroll into view if already hovered over, this prevents
+      // accidentally selecting text within the codemirror area
+      !this.state.hoverCell
     ) {
       // $FlowFixMe: This is only valid in Chrome, WebKit
       this.cellDiv.scrollIntoViewIfNeeded();
