@@ -94,9 +94,12 @@ export class Cell extends React.PureComponent {
       // accidentally selecting text within the codemirror area
       !this.state.hoverCell
     ) {
-      // $FlowFixMe: This is only valid in Chrome, WebKit
-      this.cellDiv.scrollIntoViewIfNeeded();
-      // TODO: Polyfill as best we can for the webapp version
+      if ("scrollIntoViewIfNeeded" in this.cellDiv) {
+        // $FlowFixMe: This is only valid in Chrome, WebKit
+        this.cellDiv.scrollIntoViewIfNeeded();
+      } else {
+        // TODO: Polyfill as best we can for the webapp version
+      }
     }
   }
 

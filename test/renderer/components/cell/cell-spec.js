@@ -27,6 +27,10 @@ describe("Cell", () => {
     });
     expect(cell).to.not.be.null;
     expect(cell.find("div.cell.text").length).to.be.greaterThan(0);
+
+    cell.update();
+
+    cell.setProps({ cellFocused: "1", id: "1" });
   });
   it("should be able to render a code cell", () => {
     const store = dummyStore();
