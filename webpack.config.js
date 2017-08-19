@@ -17,7 +17,7 @@ const options = {
     ]
   },
   resolve: {
-    mainFields: ["nteractDesktop", "main"],
+    mainFields: ["nteractDesktop", "jsnext:main", "main"],
     extensions: [".js", ".jsx"]
   }
 };
