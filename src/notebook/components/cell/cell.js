@@ -3,6 +3,10 @@
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 
+global.audioCtx = new window.AudioContext();
+
+const cMajor = [440.0, 493.88, 523.25, 587.33, 659.25, 698.46, 783.99, 880.0];
+
 import React from "react";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
@@ -70,6 +74,24 @@ export class Cell extends React.PureComponent {
   };
 
   componentDidUpdate(prevProps: CellProps) {
+    // Pick a pseudorandom frequency, scaled
+    // Note that the character will only be in the range 0-15, though within
+    // the ranges 97-102 (a-f) and 48-57 (0-9)
+    // We'll want that range and the length of the array to be coprime to make this work nicely though
+    const context: AudioContext = global.audioCtx;
+
+    const beepBoop = context.createOscillator();
+    beepBoop.connect(context.destination);
+
+    const frequency = cMajor[this.props.id.charCodeAt(0) % cMajor.length];
+
+    beepBoop.frequency.value = frequency;
+
+    beepBoop.type = "sawtooth";
+    beepBoop.start(context.currentTime);
+    // IDEA: Could turn this off when not hovered
+    beepBoop.stop(context.currentTime + 0.1);
+
     this.scrollIntoViewIfNeeded(prevProps.cellFocused);
   }
 
