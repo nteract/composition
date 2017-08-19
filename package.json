@@ -110,9 +110,9 @@
     "github": "^9.0.0",
     "ijavascript": "^5.0.17",
     "jmp": "^0.7.5",
-    "normalize.css": "^7.0.0",
-    "nteract-assets": "^2.1.0",
     "mathjax-electron": "^2.0.1",
+    "normalize.css": "^7.0.0",
+    "nteract-assets": "^3.0.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
