@@ -4,6 +4,8 @@
 :root {
   --prompt-width: 50px;
   --cell-placeholder-opacity: 0.3;
+  --link-color-unvisited: blue;
+  --link-color-visited: var(--link-color-unvisited);
 }
 
 @media print {
@@ -62,7 +64,7 @@ div#loading {
 .completion-type {
     background: transparent;
     border:transparent 1px solid;
-    width: 17px;   
+    width: 17px;
     height: 17px;
     margin: 0;
     padding: 0;
@@ -217,6 +219,15 @@ body
     background: var(--cell-bg);
     transition: all .1s ease-in-out;
 }
+
+.cell a {
+  color: var(--link-color-unvisited);
+}
+
+.cell a:visited {
+  color: var(--link-color-visited);
+}
+
 
 .cell:hover {
     box-shadow: 1px 1px 3px rgba(0,0,0,.12), -1px -1px 3px rgba(0,0,0,.12);

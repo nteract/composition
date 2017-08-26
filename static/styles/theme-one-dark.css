@@ -4,11 +4,14 @@
 
   --primary-border: #cbcbcb;
 
-  --cell-bg: #2b2b2b;
+  --cell-bg: #28282f;
   --cell-bg-hover: #151515;
   --cell-bg-focus: #1f1f1f;
 
-  --toolbar-bg: rgba(0,0,0,.3);;
+  --link-color-unvisited: #829bc9;
+  --link-color-visited: #728bb9;
+
+  --toolbar-bg: rgba(0,0,0,.3);
   --toolbar-button: #aaa;
   --toolbar-button-hover: #555;
 
