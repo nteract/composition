@@ -16,11 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/nteract/nteract.git"
   },
-  "keywords": [
-    "nteract",
-    "transforms",
-    "notebook"
-  ],
+  "keywords": ["nteract", "transforms", "notebook"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -31,6 +27,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@nteract/transform-vdom": "^1.0.0",
     "ansi-to-react": "^1.5.1",
     "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",

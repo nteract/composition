@@ -1,3 +1,5 @@
+/* @flow */
+
 /**
  * The original copy of this comes from
  * https://github.com/remarkablemark/REON/blob/1f126e71c17f96daad518abffdb2c53b66b8b792/lib/object-to-react.js
@@ -26,7 +28,7 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var React = require("react");
+const React = require("react");
 
 /**
  * Convert an object to React element(s).
@@ -37,7 +39,8 @@ var React = require("react");
  * @param  {Object}       obj - The element object.
  * @return {ReactElement}
  */
-function objectToReactElement(obj) {
+export function objectToReactElement(obj: Object): React$Element<*> {
+  // Pack args for React.createElement
   var args = [];
   var children;
 
@@ -97,7 +100,7 @@ function objectToReactElement(obj) {
  * @param  {Array} arr - The array.
  * @return {Array}     - The array of mixed values.
  */
-function arrayToReactChildren(arr) {
+export function arrayToReactChildren(arr: Array<any>): Array<any> {
   // similar to `props.children`
   var result = [];
   // child of `props.children`
@@ -127,8 +130,3 @@ function arrayToReactChildren(arr) {
 
   return result;
 }
-
-/**
- * Export object to React element converter.
- */
-module.exports = objectToReactElement;

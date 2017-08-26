@@ -8,6 +8,7 @@ import MarkdownDisplay from "./markdown";
 import LaTeXDisplay from "./latex";
 import SVGDisplay from "./svg";
 import { PNGDisplay, JPEGDisplay, GIFDisplay } from "./image";
+import VDOMDisplay from "@nteract/transform-vdom";
 
 type Transform = {
   MIMETYPE: string
@@ -22,6 +23,7 @@ export type TransformRegister = {
 };
 
 const tfs = [
+  VDOMDisplay,
   JsonDisplay,
   JavaScriptDisplay,
   HTMLDisplay,

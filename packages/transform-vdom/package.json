@@ -1,0 +1,26 @@
+{
+  "name": "@nteract/transform-vdom",
+  "version": "1.0.0",
+  "description": "VDOM Transform for jupyter outputs",
+  "main": "lib/",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch"
+  },
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "react": "^15.6.1"
+  },
+  "peerDependencies": {
+    "react": "^15.6.1"
+  },
+  "license": "BSD-3-Clause"
+}
