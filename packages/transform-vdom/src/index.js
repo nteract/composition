@@ -17,7 +17,7 @@ export default class VDOM extends React.Component {
 
   render(): ?React.Element<any> {
     try {
-      return objectToReactElement(this.props.data.toJS());
+      return objectToReactElement(this.props.data);
     } catch (err) {
       return (
         <div>
