@@ -5,6 +5,8 @@ import * as path from "path";
 
 import * as fs from "fs";
 
+import { throttle } from "lodash";
+
 import { load, newNotebook } from "./epics/loading";
 
 import { loadConfig } from "./epics/config";
@@ -97,8 +99,10 @@ export function triggerKernelRefresh(store) {
         type: "question",
         buttons: ["Launch New Kernel", "Don't Launch New Kernel"],
         title: "New Kernel Needs to Be Launched",
-        message: "It looks like you've saved your notebook file to a new location.",
-        detail: "The kernel executing your code thinks your notebook is still in the " +
+        message:
+          "It looks like you've saved your notebook file to a new location.",
+        detail:
+          "The kernel executing your code thinks your notebook is still in the " +
           "old location. Would you like to launch a new kernel to match it with the " +
           "new location of the notebook?"
       },
@@ -389,7 +393,7 @@ export function initMenuHandlers(store) {
   ipc.on("menu:run-all-below", dispatchRunAllBelow.bind(null, store));
   ipc.on("menu:clear-all", dispatchClearAll.bind(null, store));
   ipc.on("menu:unhide-all", dispatchUnhideAll.bind(null, store));
-  ipc.on("menu:save", dispatchSave.bind(null, store));
+  ipc.on("menu:save", throttle(dispatchSave.bind(null, store), 2000));
   ipc.on("menu:save-as", dispatchSaveAs.bind(null, store));
   ipc.on("menu:new-code-cell", dispatchCreateCellAfter.bind(null, store));
   ipc.on("menu:new-text-cell", dispatchCreateTextCellAfter.bind(null, store));
