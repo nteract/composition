@@ -3,6 +3,8 @@ import React from "react";
 
 import { objectToReactElement } from "./object-to-react";
 
+const cloneDeep = require("lodash").cloneDeep;
+
 type Props = {
   data: Object
 };
@@ -17,7 +19,9 @@ export default class VDOM extends React.Component {
 
   render(): ?React.Element<any> {
     try {
-      return objectToReactElement(this.props.data);
+      // objectToReactElement is mutatitve so we'll clone our object
+      var obj = cloneDeep(this.props.data);
+      return objectToReactElement(obj);
     } catch (err) {
       return (
         <div>
