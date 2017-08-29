@@ -30,6 +30,17 @@
 
 const React = require("react");
 
+type VDOMEl = {
+  tagName: string, // Could be an enum honestly
+  children: VDOMNode,
+  attributes: Object,
+  key: number | string | null
+};
+
+type ReactArray = Array<React$Element<*> | ReactArray | string>;
+
+type VDOMNode = VDOMEl | string | Array<VDOMNode>;
+
 /**
  * Convert an object to React element(s).
  *
@@ -39,55 +50,36 @@ const React = require("react");
  * @param  {Object}       obj - The element object.
  * @return {ReactElement}
  */
-export function objectToReactElement(obj: Object): React$Element<*> {
+export function objectToReactElement(obj: VDOMEl): React$Element<*> {
   // Pack args for React.createElement
   var args = [];
-  var children;
 
-  // `React.createElement` 1st argument: type
-  args[0] = obj.type;
-
-  // `props` should always be defined
-  // it can be an empty object or contain the React props and/or children
-  if (obj.props) {
-    // save reference to `children` and remove `children` from `props`
-    // as it shouldn't be passed as a prop in `React.createElement`
-    if (obj.props.children) {
-      children = obj.props.children;
-      obj.props.children = null; // more performant than `delete`
-    }
-
-    // set `key` in `prop`
-    if (obj.key !== undefined && obj.key !== null) {
-      obj.props.key = obj.key;
-    }
-
-    // `React.createElement` 2nd argument: props
-    args[1] = obj.props;
+  if (!obj.tagName || typeof obj.tagName !== "string") {
+    throw new Error(`Invalid tagName on ${JSON.stringify(obj, null, 2)}`);
+  }
+  if (!obj.attributes || typeof obj.attributes !== "object") {
+    throw new Error(`Attributes must exist on a VDOM Object`);
   }
 
-  // `props.children`
+  // `React.createElement` 1st argument: type
+  args[0] = obj.tagName;
+  args[1] = obj.attributes;
+
+  const children = obj.children;
+
   if (children) {
-    // third argument: children (mixed values)
-    switch (children.constructor) {
-      // text
-      case String:
-        args[2] = children;
-        break;
-      // React element
-      case Object:
-        args[2] = objectToReactElement(children);
-        break;
-      // array (mixed values)
-      case Array:
-        // to be safe (although this should never happen)
-        if (args[1] === undefined) {
-          args[1] = null;
-        }
-        args = args.concat(arrayToReactChildren(children));
-        break;
-      default:
-      // pass
+    if (Array.isArray(children)) {
+      // to be safe (although this should never happen)
+      if (args[1] === undefined) {
+        args[1] = null;
+      }
+      args = args.concat(arrayToReactChildren(children));
+    } else if (typeof children === "string") {
+      args[2] = children;
+    } else if (typeof children === "object") {
+      args[2] = objectToReactElement(children);
+    } else {
+      console.warn("invalid vdom data passed", children);
     }
   }
 
@@ -100,31 +92,25 @@ export function objectToReactElement(obj: Object): React$Element<*> {
  * @param  {Array} arr - The array.
  * @return {Array}     - The array of mixed values.
  */
-export function arrayToReactChildren(arr: Array<any>): Array<any> {
+export function arrayToReactChildren(arr: Array<VDOMNode>): ReactArray {
   // similar to `props.children`
   var result = [];
   // child of `props.children`
-  var item;
 
   // iterate through the `children`
   for (var i = 0, len = arr.length; i < len; i++) {
     // child can have mixed values: text, React element, or array
-    item = arr[i];
-    switch (item.constructor) {
-      // text node
-      case String:
-        result.push(item);
-        break;
-      // React element
-      case Object:
-        result.push(objectToReactElement(item));
-        break;
-      // array (mixed values)
-      case Array:
-        result.push(arrayToReactChildren(item));
-        break;
-      default:
-      // pass
+    const item = arr[i];
+    if (Array.isArray(item)) {
+      result.push(arrayToReactChildren(item));
+    } else if (typeof item === "string") {
+      result.push(item);
+    } else if (typeof item === "object") {
+      const keyedItem = item;
+      item.key = i;
+      result.push(objectToReactElement(keyedItem));
+    } else {
+      console.warn("invalid vdom data passed", item);
     }
   }
 
