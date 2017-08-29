@@ -6,13 +6,23 @@ test("VDOM Transform is cool", () => {
   const component = renderer.create(
     <TransformVDOM
       data={{
-        tagName: "h1",
+        tagName: "div",
         attributes: {
           style: {
             color: "DeepPink"
           }
         },
         children: [
+          {
+            tagName: "h1",
+            attributes: {},
+            children: "Wahoo"
+          },
+          {
+            tagName: "h1",
+            attributes: {},
+            children: null
+          },
           {
             tagName: "img",
             attributes: {
