@@ -109,6 +109,7 @@ exports[`Notebook accepts an Object of cells 1`] = `
 <Notebook
   displayOrder={
     Array [
+      "application/vdom.v1+json",
       "application/json",
       "application/javascript",
       "text/html",
@@ -195,6 +196,7 @@ exports[`Notebook accepts an Object of cells 1`] = `
     Object {
       "application/javascript": [Function],
       "application/json": [Function],
+      "application/vdom.v1+json": [Function],
       "image/gif": [Function],
       "image/jpeg": [Function],
       "image/png": [Function],
