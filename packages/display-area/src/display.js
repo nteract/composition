@@ -17,9 +17,8 @@ type Props = {
 
 export const DEFAULT_SCROLL_HEIGHT = 600;
 
-export default class Display extends React.PureComponent {
-  props: Props;
-  el: HTMLElement;
+export default class Display extends React.PureComponent<Props> {
+  el: ?HTMLElement;
   recomputeStyle: () => void;
 
   static defaultProps = {
@@ -45,9 +44,9 @@ export default class Display extends React.PureComponent {
           }}
         >
           {outputs
-            ? outputs.map((output, index) => (
+            ? outputs.map((output, index) =>
                 <Output key={index} output={output} {...props} />
-              ))
+              )
             : null}
         </div>
       );

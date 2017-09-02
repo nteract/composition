@@ -16,8 +16,7 @@ type Props = {|
   id: string | null
 |};
 
-class CellCreator extends Component {
-  props: Props;
+class CellCreator extends Component<Props> {
   createCell: (type: string) => void;
   mergeCell: () => void;
 
@@ -46,7 +45,7 @@ class CellCreator extends Component {
     dispatch(mergeCellAfter(id));
   }
 
-  render(): React.Element<any> {
+  render(): React$Element<any> {
     const props = {
       ...this.props,
       createCell: this.createCell,

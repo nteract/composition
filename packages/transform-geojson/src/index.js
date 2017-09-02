@@ -42,11 +42,10 @@ export function getTheme(theme: string = "light", el: HTMLElement): TileTheme {
   }
 }
 
-export class GeoJSONTransform extends React.Component {
-  props: Props;
+export class GeoJSONTransform extends React.Component<Props> {
   MIMETYPE: string;
   map: Object;
-  el: HTMLElement;
+  el: ?HTMLElement;
   geoJSONLayer: Object;
   tileLayer: Object;
 
@@ -87,7 +86,8 @@ export class GeoJSONTransform extends React.Component {
     }
   }
 
-  getTileLayer = (): TileLayer => {
+  getTileLayer = (): ?TileLayer => {
+    if (!this.el) return;
     const theme = getTheme(this.props.theme, this.el);
     // const urlTemplate = (metadata && metadata.url_template) ||
     //   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -100,13 +100,14 @@ export class GeoJSONTransform extends React.Component {
     //   maxZoom: 18
     // };
     const layerOptions = this.props.metadata.layer_options || {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       id: `mapbox.${theme}`
     };
     return [urlTemplate, layerOptions];
   };
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div>
         <link

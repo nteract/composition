@@ -30,8 +30,7 @@ function mapStateToProps(state: Object): Object {
   };
 }
 
-class Editor extends Component {
-  props: Props;
+class Editor extends Component<Props> {
   onChange: (text: string) => void;
   onFocusChange: (focused: boolean) => void;
 
@@ -59,7 +58,7 @@ class Editor extends Component {
     }
   }
 
-  render(): React.Element<*> {
+  render(): React$Element<any> {
     const props = {
       ...this.props,
       onChange: this.onChange,

@@ -13,9 +13,7 @@ type Props = {
   models?: Object
 };
 
-export default class RichestMime extends React.Component {
-  props: Props;
-
+export default class RichestMime extends React.Component<Props> {
   static defaultProps = {
     transforms,
     displayOrder,
@@ -39,7 +37,7 @@ export default class RichestMime extends React.Component {
     return true;
   }
 
-  render(): ?React.Element<any> | null {
+  render(): ?React$Element<any> | null {
     const mimetype = richestMimetype(
       this.props.bundle,
       this.props.displayOrder,

@@ -22,11 +22,10 @@ const MIMETYPE = "application/vnd.plotly.v1+json";
 const PlotlyNullTransform = () => null;
 PlotlyNullTransform.MIMETYPE = NULL_MIMETYPE;
 
-class PlotlyTransform extends Component {
-  props: Props;
+class PlotlyTransform extends Component<Props> {
   getFigure: () => Object;
-  plotDivRef: (plotDiv: PlotlyHTMLElement) => void;
-  plotDiv: PlotlyHTMLElement;
+  plotDivRef: (plotDiv: ?PlotlyHTMLElement) => void;
+  plotDiv: ?PlotlyHTMLElement;
 
   static MIMETYPE = MIMETYPE;
 
@@ -48,12 +47,13 @@ class PlotlyTransform extends Component {
 
   componentDidUpdate() {
     const figure = this.getFigure();
+    if (!this.plotDiv) return;
     this.plotDiv.data = figure.data;
     this.plotDiv.layout = figure.layout;
     Plotly.redraw(this.plotDiv);
   }
 
-  plotDivRef(plotDiv: PlotlyHTMLElement): void {
+  plotDivRef(plotDiv: ?PlotlyHTMLElement): void {
     this.plotDiv = plotDiv;
   }
 
@@ -71,7 +71,7 @@ class PlotlyTransform extends Component {
     return figure;
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const { layout } = this.getFigure();
     const style = {};
     if (layout && layout.height && !layout.autosize) {

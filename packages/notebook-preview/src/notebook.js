@@ -30,9 +30,8 @@ export function getLanguageMode(notebook: any): string {
   return language;
 }
 
-export class Notebook extends React.PureComponent {
-  props: Props;
-  createCellElement: (s: string) => ?React.Element<any>;
+export class Notebook extends React.PureComponent<Props> {
+  createCellElement: (s: string) => ?React$Element<any>;
 
   static defaultProps = {
     displayOrder,
@@ -44,7 +43,7 @@ export class Notebook extends React.PureComponent {
     this.createCellElement = this.createCellElement.bind(this);
   }
 
-  createCellElement(id: string): ?React.Element<any> {
+  createCellElement(id: string): ?React$Element<any> {
     const cellMap = this.props.notebook.get("cellMap");
     const cell = cellMap.get(id);
 
@@ -74,7 +73,7 @@ export class Notebook extends React.PureComponent {
     );
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     if (!this.props.notebook) {
       return <div className="notebook" />;
     }

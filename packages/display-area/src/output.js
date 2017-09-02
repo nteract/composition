@@ -17,7 +17,7 @@ type Props = {
 
 const classPrefix = "nteract-display-area-";
 
-export default function Output(props: Props): ?React.Element<any> | null {
+export default function Output(props: Props): ?React$Element<any> | null {
   const output = props.output;
   const outputType = output.output_type;
   switch (outputType) {
@@ -49,7 +49,11 @@ export default function Output(props: Props): ?React.Element<any> | null {
       switch (name) {
         case "stdout":
         case "stderr":
-          return <Ansi className={classPrefix + name}>{text}</Ansi>;
+          return (
+            <Ansi className={classPrefix + name}>
+              {text}
+            </Ansi>
+          );
         default:
           return null;
       }

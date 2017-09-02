@@ -3,7 +3,7 @@ import React from "react";
 import { typesetMath } from "mathjax-electron";
 
 type Props = {
-  children?: React.Element<any>
+  children?: React$Node
 };
 
 const MathJax: global = window.MathJax;
@@ -17,9 +17,8 @@ function isMathJaxOkYet(): boolean {
   );
 }
 
-export default class LatexRenderer extends React.PureComponent {
-  props: Props;
-  rendered: HTMLElement;
+export default class LatexRenderer extends React.PureComponent<Props> {
+  rendered: ?HTMLElement;
 
   componentDidMount(): void {
     if (isMathJaxOkYet()) typesetMath(this.rendered);
@@ -29,7 +28,7 @@ export default class LatexRenderer extends React.PureComponent {
     if (isMathJaxOkYet()) typesetMath(this.rendered);
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div
         ref={rendered => {

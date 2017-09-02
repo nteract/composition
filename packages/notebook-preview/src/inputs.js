@@ -6,7 +6,7 @@ type Props = {
   running: boolean
 };
 
-export default function Inputs(props: Props): ?React.Element<any> {
+export default function Inputs(props: Props): ?React$Element<any> {
   const { executionCount, running } = props;
   const count = !executionCount ? " " : executionCount;
   const input = running ? "*" : count;

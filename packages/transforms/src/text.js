@@ -7,15 +7,18 @@ type Props = {
   data: string
 };
 
-export default class TextDisplay extends React.Component {
-  props: Props;
+export default class TextDisplay extends React.Component<Props> {
   static MIMETYPE = "text/plain";
 
   shouldComponentUpdate(): boolean {
     return true;
   }
 
-  render(): ?React.Element<any> {
-    return <Ansi>{this.props.data}</Ansi>;
+  render(): ?React$Element<any> {
+    return (
+      <Ansi>
+        {this.props.data}
+      </Ansi>
+    );
   }
 }

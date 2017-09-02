@@ -6,12 +6,12 @@ type Props = {
   data: string
 };
 
-export default class LaTeXDisplay extends React.Component {
-  props: Props;
-  el: HTMLElement;
+export default class LaTeXDisplay extends React.Component<Props> {
+  el: ?HTMLElement;
   static MIMETYPE = "text/latex";
 
   componentDidMount(): void {
+    if (!this.el) return;
     this.el.innerHTML = this.props.data;
     mathjaxHelper.loadAndTypeset(document, this.el);
   }
@@ -21,11 +21,12 @@ export default class LaTeXDisplay extends React.Component {
   }
 
   componentDidUpdate() {
+    if (!this.el) return;
     this.el.innerHTML = this.props.data;
     mathjaxHelper.loadAndTypeset(document, this.el);
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div
         ref={el => {

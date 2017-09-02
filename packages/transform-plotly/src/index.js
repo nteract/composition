@@ -15,10 +15,9 @@ declare class PlotlyHTMLElement extends HTMLElement {
 
 const MIMETYPE = "application/vnd.plotly.v1+json";
 
-export class PlotlyTransform extends React.Component {
-  props: Props;
+export class PlotlyTransform extends React.Component<Props> {
   getFigure: () => Object;
-  el: PlotlyHTMLElement;
+  el: ?PlotlyHTMLElement;
   Plotly: Object;
 
   static MIMETYPE = MIMETYPE;
@@ -41,6 +40,7 @@ export class PlotlyTransform extends React.Component {
 
   componentDidUpdate() {
     const figure = this.getFigure();
+    if (!this.el) return;
     this.el.data = figure.data;
     this.el.layout = figure.layout;
     this.Plotly.redraw(this.el);
@@ -60,7 +60,7 @@ export class PlotlyTransform extends React.Component {
     return figure;
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const { layout } = this.getFigure();
     const style = {};
     if (layout && layout.height && !layout.autosize) {

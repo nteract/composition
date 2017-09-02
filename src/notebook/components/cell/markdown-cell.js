@@ -35,12 +35,11 @@ const renderer = new MarkdownRenderer();
 
 const mdRender: MDRender = input => renderer.render(parser.parse(input));
 
-export default class MarkdownCell extends React.PureComponent {
-  state: State;
+export default class MarkdownCell extends React.PureComponent<any, State> {
   openEditor: () => void;
   editorKeyDown: (e: Object) => void;
   renderedKeyDown: (e: Object) => boolean;
-  rendered: HTMLElement;
+  rendered: ?HTMLElement;
 
   static contextTypes = {
     store: PropTypes.object
@@ -78,7 +77,12 @@ export default class MarkdownCell extends React.PureComponent {
   }
 
   updateFocus(): void {
-    if (this.state && this.state.view && this.props.cellFocused) {
+    if (
+      this.rendered &&
+      this.state &&
+      this.state.view &&
+      this.props.cellFocused
+    ) {
       this.rendered.focus();
       if (this.props.editorFocused) {
         this.openEditor();
@@ -129,7 +133,7 @@ export default class MarkdownCell extends React.PureComponent {
     return true;
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return this.state && this.state.view
       ? <div
           className="rendered"

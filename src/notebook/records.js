@@ -110,10 +110,10 @@ export type NotebookMetadata = {
 };
 
 export type Channels = {
-  iopub: Subject,
-  shell: Subject,
-  stdin: Subject,
-  control: Subject
+  iopub: Subject<*>,
+  shell: Subject<*>,
+  stdin: Subject<*>,
+  control: Subject<*>
 };
 
 export type Notebook = {
@@ -153,6 +153,7 @@ export type Document = {
 
 export const DocumentRecord = Immutable.Record({
   notebook: null,
+  // $FlowFixMe: Immutable
   transient: new Immutable.Map({
     keyPathsForDisplays: new Immutable.Map()
   }),

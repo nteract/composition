@@ -96,6 +96,7 @@ export type Notebook = {|
 |};
 
 function createImmutableMarkdownCell(cell) {
+  // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
@@ -187,9 +188,11 @@ function createImmutableOutput(output: Output): ImmutableOutput {
 }
 
 function createImmutableCodeCell(cell): ImmutableCodeCell {
+  // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.input),
+    // $FlowFixMe: Immutable
     outputs: new Immutable.List(cell.outputs.map(createImmutableOutput)),
     execution_count: cell.prompt_number,
     metadata: Immutable.fromJS(cell.metadata)
@@ -197,6 +200,7 @@ function createImmutableCodeCell(cell): ImmutableCodeCell {
 }
 
 function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
+  // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
@@ -205,6 +209,7 @@ function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
 }
 
 function createImmutableHeadingCell(cell: HeadingCell): ImmutableMarkdownCell {
+  // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: "markdown",
     source: Array.isArray(cell.source)

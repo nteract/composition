@@ -83,6 +83,7 @@ export function objectToReactElement(obj: VDOMEl): React$Element<*> {
     }
   }
 
+  // $FlowFixMe: React
   return React.createElement.apply({}, args);
 }
 

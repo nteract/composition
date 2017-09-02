@@ -566,6 +566,7 @@ function copyCell(state: DocumentState, action: CopyCellAction) {
   const { id } = action;
   const cellMap = state.getIn(["notebook", "cellMap"], Immutable.Map());
   const cell = cellMap.get(id);
+  // $FlowFixMe: Immutable
   return state.set("copied", new Immutable.Map({ id, cell }));
 }
 
@@ -574,11 +575,14 @@ function cutCell(state: DocumentState, action: CutCellAction) {
   const { id } = action;
   const cellMap = state.getIn(["notebook", "cellMap"], Immutable.Map());
   const cell: ImmutableCell = cellMap.get(id);
-  return state
-    .set("copied", new Immutable.Map({ id, cell }))
-    .update("notebook", (notebook: ImmutableNotebook) =>
-      removeCell(notebook, id)
-    );
+  return (
+    state
+      // $FlowFixMe: Immutable
+      .set("copied", new Immutable.Map({ id, cell }))
+      .update("notebook", (notebook: ImmutableNotebook) =>
+        removeCell(notebook, id)
+      )
+  );
 }
 
 type PasteCellAction = { type: "PASTE_CELL" };
@@ -747,7 +751,7 @@ function handleDocument(
     case constants.CUT_CELL:
       return cutCell(state, action);
     case constants.PASTE_CELL:
-      return pasteCell(state, action);
+      return pasteCell(state);
     case constants.CHANGE_CELL_TYPE:
       return changeCellType(state, action);
     case constants.TOGGLE_OUTPUT_EXPANSION:

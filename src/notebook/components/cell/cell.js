@@ -40,15 +40,13 @@ type State = {
   hoverCell: boolean
 };
 
-export class Cell extends React.PureComponent {
-  props: CellProps;
-  state: State;
+export class Cell extends React.PureComponent<CellProps, State> {
   selectCell: () => void;
   focusAboveCell: () => void;
   focusBelowCell: () => void;
   focusCellEditor: () => void;
   setCellHoverState: (mouseEvent: MouseEvent) => void;
-  cellDiv: HTMLElement;
+  cellDiv: ?HTMLElement;
   scrollIntoViewIfNeeded: Function;
 
   static contextTypes = {
@@ -94,7 +92,7 @@ export class Cell extends React.PureComponent {
       // accidentally selecting text within the codemirror area
       !this.state.hoverCell
     ) {
-      if ("scrollIntoViewIfNeeded" in this.cellDiv) {
+      if (this.cellDiv && "scrollIntoViewIfNeeded" in this.cellDiv) {
         // $FlowFixMe: This is only valid in Chrome, WebKit
         this.cellDiv.scrollIntoViewIfNeeded();
       } else {
@@ -108,6 +106,7 @@ export class Cell extends React.PureComponent {
   }
 
   setCellHoverState(mouseEvent: MouseEvent): void {
+    if (!this.cellDiv) return;
     const x = mouseEvent.clientX;
     const y = mouseEvent.clientY;
     const regionRect = this.cellDiv.getBoundingClientRect();
@@ -139,7 +138,7 @@ export class Cell extends React.PureComponent {
     this.context.store.dispatch(focusNextCellEditor(this.props.id));
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const cell = this.props.cell;
     const type = cell.get("cell_type");
     const cellFocused = this.props.cellFocused === this.props.id;

@@ -49,8 +49,7 @@ type Props = {
   metadata: Object
 };
 
-export default class JsonDisplay extends React.Component {
-  props: Props;
+export default class JsonDisplay extends React.Component<Props> {
   shouldExpandNode: () => boolean;
   static MIMETYPE = "application/json";
 
@@ -76,7 +75,7 @@ export default class JsonDisplay extends React.Component {
     return false;
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const theme = getTheme(this.props.theme);
     return (
       <JSONTree

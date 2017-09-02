@@ -5,13 +5,14 @@ type Props = {
   data: string
 };
 
-export default class SVGDisplay extends React.Component {
-  props: Props;
-  el: HTMLElement;
+export default class SVGDisplay extends React.Component<Props> {
+  el: ?HTMLElement;
   static MIMETYPE = "image/svg+xml";
 
   componentDidMount(): void {
-    this.el.insertAdjacentHTML("beforeend", this.props.data);
+    if (this.el) {
+      this.el.insertAdjacentHTML("beforeend", this.props.data);
+    }
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -19,6 +20,7 @@ export default class SVGDisplay extends React.Component {
   }
 
   componentDidUpdate(): void {
+    if (!this.el) return;
     // clear out all DOM element children
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
@@ -26,7 +28,7 @@ export default class SVGDisplay extends React.Component {
     this.el.insertAdjacentHTML("beforeend", this.props.data);
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div
         ref={el => {

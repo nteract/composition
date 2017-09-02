@@ -57,14 +57,14 @@ const defaultMarkdownCell = Object.freeze({
 });
 
 function createCodeCell(cell: CodeCell = defaultCodeCell): ImmutableCodeCell {
-  // eslint-disable-line max-len
+  // $FlowFixMe: Immutable
   return Immutable.Map(cell);
 }
 
 function createMarkdownCell(
   cell: MarkdownCell = defaultMarkdownCell
 ): ImmutableMarkdownCell {
-  // eslint-disable-line max-len
+  // $FlowFixMe: Immutable
   return Immutable.Map(cell);
 }
 
@@ -82,6 +82,7 @@ const defaultNotebook = Object.freeze({
 function createNotebook(
   notebook: Notebook = defaultNotebook
 ): ImmutableNotebook {
+  // $FlowFixMe: Immutable
   return Immutable.Map(notebook);
 }
 

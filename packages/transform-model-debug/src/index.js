@@ -7,15 +7,14 @@ type Props = {
   modelID: string
 };
 
-class ModelDebug extends React.Component {
-  props: Props;
+class ModelDebug extends React.Component<Props> {
   static MIMETYPE = "application/x-nteract-model-debug+json";
 
   shouldComponentUpdate(): boolean {
     return true;
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const { models, data, modelID } = this.props;
     // TODO: Provide model IDs on transient field
     // For now, if modelID is not provided (or model does not exist),
@@ -23,7 +22,9 @@ class ModelDebug extends React.Component {
     const model = models.modelID || models;
     return (
       <div>
-        <h1>{JSON.stringify(data, null, 2)}</h1>
+        <h1>
+          {JSON.stringify(data, null, 2)}
+        </h1>
         <pre>
           {model ? JSON.stringify(model, null, 2) : null}
         </pre>

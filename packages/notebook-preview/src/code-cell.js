@@ -22,9 +22,7 @@ type Props = {
   sourceHidden: boolean
 };
 
-class CodeCell extends React.PureComponent {
-  props: Props;
-
+class CodeCell extends React.PureComponent<Props> {
   static defaultProps = {
     running: false,
     tabSize: 4,
@@ -47,7 +45,7 @@ class CodeCell extends React.PureComponent {
     return this.props.cell.getIn(["metadata", "outputExpanded"], true);
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div className={this.props && this.props.running ? "cell-running" : ""}>
         {!this.isInputHidden()

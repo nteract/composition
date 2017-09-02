@@ -22,7 +22,7 @@ type Props = {
   dispatch: Dispatch<Action>
 };
 
-class Toolbar extends Component {
+class Toolbar extends Component<Props> {
   removeCell: () => void;
   executeCell: () => void;
   clearOutputs: () => void;
@@ -85,7 +85,7 @@ class Toolbar extends Component {
     dispatch(toggleOutputExpansion(this.props.id));
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const props = {
       ...this.props,
       executeCell: this.executeCell,
@@ -98,6 +98,7 @@ class Toolbar extends Component {
       changeCellType: this.changeCellType
     };
 
+    // $FlowFixMe: React
     return <ToolbarView {...props} />;
   }
 }

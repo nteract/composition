@@ -57,8 +57,7 @@ function getState(props: Props) {
   };
 }
 
-export default class VirtualizedGrid extends React.Component {
-  props: Props;
+export default class VirtualizedGrid extends React.Component<Props, State> {
   state: State = {
     data: [],
     schema: { fields: [] }

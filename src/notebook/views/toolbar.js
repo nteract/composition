@@ -26,14 +26,13 @@ declare type ToolbarProps = {|
   changeCellType: () => void
 |};
 
-export default class Toolbar extends PureComponent {
-  props: ToolbarProps;
+export default class Toolbar extends PureComponent<ToolbarProps> {
   clearOutputs: () => void;
   changeInputVisibility: () => void;
   changeOutputVisibility: () => void;
   changeCellType: () => void;
   toggleOutputExpansion: () => void;
-  renderToolbar: () => React.Element<any>;
+  renderToolbar: ToolbarProps => React$Element<any>;
   dropdown: any;
   constructor(props: ToolbarProps) {
     super(props);
@@ -177,7 +176,7 @@ export default class Toolbar extends PureComponent {
     this.dropdown.hide();
     this.props.changeCellType();
   }
-  render(): React.Element<any> {
+  render(): React$Element<any> {
     return this.renderToolbar(this.props);
   }
 }

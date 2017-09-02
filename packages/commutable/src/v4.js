@@ -241,6 +241,7 @@ export function createImmutableOutput(output: Output): ImmutableOutput {
 }
 
 function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
+  // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
@@ -251,6 +252,7 @@ function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
 function createImmutableMarkdownCell(
   cell: MarkdownCell
 ): ImmutableMarkdownCell {
+  // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
@@ -259,9 +261,11 @@ function createImmutableMarkdownCell(
 }
 
 function createImmutableCodeCell(cell: CodeCell): ImmutableCodeCell {
+  // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
+    // $FlowFixMe: Immutable
     outputs: new Immutable.List(cell.outputs.map(createImmutableOutput)),
     execution_count: cell.execution_count,
     metadata: Immutable.fromJS(cell.metadata)

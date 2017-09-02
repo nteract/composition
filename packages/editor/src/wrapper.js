@@ -35,8 +35,8 @@ type WrapperProps = {
   onFocusChange: (focused: boolean) => void
 };
 
-type FunctionalComponent<P> = (props: P) => React.Element<*>;
-type ClassComponent<P> = Class<React.Component<void, P, void>>;
+type FunctionalComponent<P> = (props: P) => React$Element<any>;
+type ClassComponent<P> = Class<React.Component<P>>;
 
 type CodeMirrorHOC = (
   E: ClassComponent<*> | FunctionalComponent<*>,
@@ -44,8 +44,8 @@ type CodeMirrorHOC = (
 ) => ClassComponent<WrapperProps>;
 
 const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
-  class CodeMirrorEditor extends PureComponent<void, WrapperProps, void> {
-    codemirror: Object;
+  class CodeMirrorEditor extends PureComponent<WrapperProps> {
+    codemirror: ?Object;
     getCodeMirrorOptions: (p: WrapperProps) => Object;
     goLineUpOrEmit: (editor: Object) => void;
     goLineDownOrEmit: (editor: Object) => void;
@@ -62,6 +62,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
     }
 
     componentDidMount(): void {
+      if (!this.codemirror) return;
       const {
         editorFocused,
         executionState,
@@ -94,7 +95,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       const cm = this.codemirror.getCodeMirror();
 
       // On first load, if focused, set codemirror to focus
-      if (editorFocused) {
+      if (editorFocused && this.codemirror) {
         this.codemirror.focus();
       }
 
@@ -130,6 +131,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
     }
 
     componentDidUpdate(prevProps: WrapperProps): void {
+      if (!this.codemirror) return;
       const cm = this.codemirror.getCodeMirror();
       const { cursorBlinkRate, editorFocused, theme } = this.props;
 
@@ -138,7 +140,9 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       }
 
       if (prevProps.editorFocused !== editorFocused) {
-        editorFocused ? this.codemirror.focus() : cm.getInputField().blur();
+        editorFocused && this.codemirror
+          ? this.codemirror.focus()
+          : cm.getInputField().blur();
       }
 
       if (prevProps.cursorBlinkRate !== cursorBlinkRate) {
@@ -274,7 +278,7 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
         : editor.execCommand("insertSoftTab");
     }
 
-    render(): React.Element<*> {
+    render(): React$Element<any> {
       const { input, onChange, onFocusChange } = this.props;
       const options = this.getCodeMirrorOptions(this.props);
 
@@ -288,7 +292,9 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
             className="cell_cm"
             options={options}
             onChange={onChange}
-            onClick={() => this.codemirror.focus()}
+            onClick={() => {
+              if (this.codemirror) this.codemirror.focus();
+            }}
             onFocusChange={onFocusChange}
           />
         </EditorView>

@@ -10,15 +10,14 @@ type Props = {
   height?: number
 };
 
-class DataResourceTransform extends React.Component {
-  props: Props;
+class DataResourceTransform extends React.Component<Props> {
   static MIMETYPE = "application/vnd.dataresource+json";
 
   shouldComponentUpdate(): boolean {
     return true;
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const { data: { data, schema }, theme, expanded, height } = this.props;
     return (
       <VirtualizedGrid

@@ -67,14 +67,13 @@ const mapStateToProps = (state: Object) => ({
   models: state.comms.get("models")
 });
 
-export class Notebook extends React.PureComponent {
-  props: Props;
-  createCellElement: (s: string) => ?React.Element<any>;
-  createStickyCellElement: (s: string) => ?React.Element<any>;
+export class Notebook extends React.PureComponent<Props> {
+  createCellElement: (s: string) => ?React$Element<any>;
+  createStickyCellElement: (s: string) => ?React$Element<any>;
   keyDown: (e: KeyboardEvent) => void;
   moveCell: (source: string, dest: string, above: boolean) => void;
-  stickyCellsPlaceholder: HTMLElement;
-  stickyCellContainer: HTMLElement;
+  stickyCellsPlaceholder: ?HTMLElement;
+  stickyCellContainer: ?HTMLElement;
   cellElements: ImmutableMap<string, any>;
 
   static defaultProps = {
@@ -101,7 +100,7 @@ export class Notebook extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps: Props): void {
-    if (this.stickyCellsPlaceholder) {
+    if (this.stickyCellsPlaceholder && this.stickyCellContainer) {
       // Make sure the document is vertically shifted so the top non-stickied
       // cell is always visible.
       this.stickyCellsPlaceholder.style.height = `${this.stickyCellContainer
@@ -186,7 +185,7 @@ export class Notebook extends React.PureComponent {
     };
   }
 
-  createCellElement(id: string): ?React.Element<any> {
+  createCellElement(id: string): ?React$Element<any> {
     const cellMap = this.props.notebook.get("cellMap");
     const cell = cellMap.get(id);
     const transient = this.props.transient.getIn(
@@ -209,7 +208,7 @@ export class Notebook extends React.PureComponent {
     );
   }
 
-  createStickyCellElement(id: string): ?React.Element<any> {
+  createStickyCellElement(id: string): ?React$Element<any> {
     const cellMap = this.props.notebook.get("cellMap");
     const transient = this.props.transient.getIn(
       ["cellMap", id],
@@ -223,7 +222,7 @@ export class Notebook extends React.PureComponent {
     );
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     if (!this.props.notebook) {
       return <div className="notebook" />;
     }

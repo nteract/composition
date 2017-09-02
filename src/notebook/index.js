@@ -9,7 +9,6 @@ import { Map as ImmutableMap } from "immutable";
 import NotificationSystem from "react-notification-system";
 
 import configureStore from "./store";
-import { reducers } from "./reducers";
 import Notebook from "./components/notebook";
 
 import { setNotificationSystem } from "./actions";
@@ -25,18 +24,15 @@ import {
   CommsRecord
 } from "./records";
 
-const store = configureStore(
-  {
-    app: AppRecord(),
-    metadata: MetadataRecord(),
-    document: DocumentRecord(),
-    comms: CommsRecord(),
-    config: ImmutableMap({
-      theme: "light"
-    })
-  },
-  reducers
-);
+const store = configureStore({
+  app: AppRecord(),
+  metadata: MetadataRecord(),
+  document: DocumentRecord(),
+  comms: CommsRecord(),
+  config: ImmutableMap({
+    theme: "light"
+  })
+});
 
 // Register for debugging
 window.store = store;
@@ -45,16 +41,14 @@ initNativeHandlers(store);
 initMenuHandlers(store);
 initGlobalHandlers(store);
 
-class App extends React.PureComponent {
-  props: Object;
-  state: Object;
+class App extends React.PureComponent<Object, Object> {
   notificationSystem: NotificationSystem;
 
   componentDidMount(): void {
     store.dispatch(setNotificationSystem(this.notificationSystem));
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     // eslint-disable-line class-methods-use-this
     return (
       <Provider store={store}>

@@ -18,10 +18,8 @@ export type CellProps = {
   sourceHidden: boolean
 };
 
-export class Cell extends React.PureComponent {
-  props: CellProps;
-
-  render(): ?React.Element<any> {
+export class Cell extends React.PureComponent<CellProps> {
+  render(): ?React$Element<any> {
     const cell = this.props.cell;
     const type = cell.get("cell_type");
 

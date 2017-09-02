@@ -11,8 +11,7 @@ type Props = {|
   id: string
 |};
 
-class DraggableCell extends React.Component {
-  props: Props;
+class DraggableCell extends React.Component<Props> {
   selectCell: () => void;
 
   constructor(): void {
@@ -25,7 +24,7 @@ class DraggableCell extends React.Component {
     dispatch(focusCell(id));
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const props = {
       ...this.props,
       selectCell: this.selectCell

@@ -12,7 +12,7 @@ type ImageProps = {
   metadata: string
 };
 
-export default function ImageDisplay(props: TopProps): ?React.Element<any> {
+export default function ImageDisplay(props: TopProps): ?React$Element<any> {
   let size = {};
 
   if (props.metadata) {
@@ -25,24 +25,21 @@ export default function ImageDisplay(props: TopProps): ?React.Element<any> {
   );
 }
 
-export class PNGDisplay extends React.Component {
-  props: ImageProps;
+export class PNGDisplay extends React.Component<ImageProps> {
   static MIMETYPE = "image/png";
   render() {
     return <ImageDisplay mimetype="image/png" {...this.props} />;
   }
 }
 
-export class JPEGDisplay extends React.Component {
-  props: ImageProps;
+export class JPEGDisplay extends React.Component<ImageProps> {
   static MIMETYPE = "image/jpeg";
   render() {
     return <ImageDisplay mimetype="image/jpeg" {...this.props} />;
   }
 }
 
-export class GIFDisplay extends React.Component {
-  props: ImageProps;
+export class GIFDisplay extends React.Component<ImageProps> {
   static MIMETYPE = "image/gif";
   render() {
     return <ImageDisplay mimetype="image/gif" {...this.props} />;

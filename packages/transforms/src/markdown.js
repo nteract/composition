@@ -14,16 +14,19 @@ const renderer = new MarkdownRenderer();
 
 const mdRender: MDRender = input => renderer.render(parser.parse(input));
 
-export class MarkdownDisplay extends React.Component {
-  props: Props;
+export class MarkdownDisplay extends React.Component<Props> {
   static MIMETYPE = "text/markdown";
 
   shouldComponentUpdate(nextProps: Props): boolean {
     return nextProps.data !== this.props.data;
   }
 
-  render(): ?React.Element<any> {
-    return <div>{mdRender(this.props.data)}</div>;
+  render(): ?React$Element<any> {
+    return (
+      <div>
+        {mdRender(this.props.data)}
+      </div>
+    );
   }
 }
 

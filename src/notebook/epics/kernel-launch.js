@@ -59,6 +59,7 @@ export function setLanguageInfo(langInfo: LanguageInfoMetadata) {
 export function acquireKernelInfo(channels: Channels) {
   const message = createMessage("kernel_info_request");
 
+  // $FlowFixMe: RxJS
   const obs = channels.shell
     .childOf(message)
     .ofMessageType(["kernel_info_reply"])

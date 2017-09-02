@@ -14,8 +14,8 @@ const renderer = new MarkdownRenderer();
 
 const mdRender: MDRender = input => renderer.render(parser.parse(input));
 
-export default class MarkdownCell extends React.PureComponent {
-  render(): ?React.Element<any> {
+export default class MarkdownCell extends React.PureComponent<any> {
+  render(): ?React$Element<any> {
     return (
       <div className="rendered">
         <LatexRenderer>

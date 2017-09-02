@@ -12,8 +12,8 @@ type Props = {|
   cell: ImmutableMap<string, any>,
   displayOrder: Array<string>,
   connectDragPreview: (img: Image) => void,
-  connectDragSource: (el: ?React.Element<any>) => void,
-  connectDropTarget: (el: ?React.Element<any>) => void,
+  connectDragSource: (el: ?React$Element<any>) => void,
+  connectDropTarget: (el: ?React$Element<any>) => void,
   selectCell: () => void,
   id: string,
   isDragging: boolean,
@@ -85,11 +85,8 @@ function collectTarget(connect: Object, monitor: Object): Object {
   };
 }
 
-class DraggableCellView extends React.PureComponent {
-  props: Props;
-  state: State;
-
-  el: HTMLElement;
+class DraggableCellView extends React.PureComponent<Props, State> {
+  el: ?HTMLElement;
 
   state = {
     hoverUpperHalf: true
@@ -125,17 +122,19 @@ class DraggableCellView extends React.PureComponent {
     };
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return this.props.connectDropTarget(
       <div
         style={{
           opacity: this.props.isDragging ? 0.25 : 1,
-          borderTop: this.props.isOver && this.state.hoverUpperHalf
-            ? "3px lightgray solid"
-            : "3px transparent solid",
-          borderBottom: this.props.isOver && !this.state.hoverUpperHalf
-            ? "3px lightgray solid"
-            : "3px transparent solid"
+          borderTop:
+            this.props.isOver && this.state.hoverUpperHalf
+              ? "3px lightgray solid"
+              : "3px transparent solid",
+          borderBottom:
+            this.props.isOver && !this.state.hoverUpperHalf
+              ? "3px lightgray solid"
+              : "3px transparent solid"
         }}
         className={"draggable-cell"}
         ref={el => {

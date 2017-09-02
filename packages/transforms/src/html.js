@@ -19,9 +19,8 @@ export function createFragment(html: string): Node {
   return fragment;
 }
 
-export default class HTMLDisplay extends React.Component {
-  props: Props;
-  el: HTMLElement;
+export default class HTMLDisplay extends React.Component<Props> {
+  el: ?HTMLElement;
   static MIMETYPE = "text/html";
 
   componentDidMount(): void {
@@ -30,6 +29,7 @@ export default class HTMLDisplay extends React.Component {
     // version + the fragment version right after each other
     // In the desktop app (and successive loads with tools like commuter) this
     // will be a no-op
+    if (!this.el) return;
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
     }
@@ -41,6 +41,7 @@ export default class HTMLDisplay extends React.Component {
     return nextProps.data !== this.props.data;
   }
   componentDidUpdate(): void {
+    if (!this.el) return;
     // clear out all DOM element children
     while (this.el.firstChild) {
       this.el.removeChild(this.el.firstChild);
@@ -48,7 +49,7 @@ export default class HTMLDisplay extends React.Component {
     this.el.appendChild(createFragment(this.props.data));
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div
         dangerouslySetInnerHTML={{ __html: this.props.data }}

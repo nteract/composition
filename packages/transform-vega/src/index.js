@@ -44,9 +44,8 @@ function embed(
   vegaEmbed(el, embedSpec, cb);
 }
 
-export class VegaEmbed extends React.Component {
-  props: EmbedProps;
-  el: HTMLElement;
+export class VegaEmbed extends React.Component<EmbedProps> {
+  el: ?HTMLElement;
 
   static defaultProps = {
     renderedCallback: defaultCallback,
@@ -54,12 +53,14 @@ export class VegaEmbed extends React.Component {
   };
 
   componentDidMount(): void {
-    embed(
-      this.el,
-      this.props.data,
-      this.props.embedMode,
-      this.props.renderedCallback
-    );
+    if (this.el) {
+      embed(
+        this.el,
+        this.props.data,
+        this.props.embedMode,
+        this.props.renderedCallback
+      );
+    }
   }
 
   shouldComponentUpdate(nextProps: EmbedProps): boolean {
@@ -67,19 +68,23 @@ export class VegaEmbed extends React.Component {
   }
 
   componentDidUpdate(): void {
-    embed(
-      this.el,
-      this.props.data,
-      this.props.embedMode,
-      this.props.renderedCallback
-    );
+    if (this.el) {
+      embed(
+        this.el,
+        this.props.data,
+        this.props.embedMode,
+        this.props.renderedCallback
+      );
+    }
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     // Note: We hide vega-actions since they won't work in our environment
     return (
       <div>
-        <style>{".vega-actions{ display: none; }"}</style>
+        <style>
+          {".vega-actions{ display: none; }"}
+        </style>
         <div
           ref={el => {
             this.el = el;

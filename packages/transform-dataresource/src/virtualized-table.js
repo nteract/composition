@@ -43,8 +43,7 @@ function inferSchema(data: Array<Object>): { fields: Array<Object> } {
   return infer(headers, values);
 }
 
-export default class VirtualizedTable extends React.Component {
-  props: Props;
+export default class VirtualizedTable extends React.Component<Props, State> {
   state: State = {
     data: [],
     schema: { fields: [] },

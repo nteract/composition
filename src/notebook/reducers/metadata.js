@@ -2,6 +2,7 @@
 import * as Immutable from "immutable";
 
 type MetadataState = Immutable.Map<string, any>;
+// $FlowFixMe: Immutable
 const defaultMetadataState: MetadataState = new Immutable.Map({
   filename: null
 });

@@ -13,7 +13,7 @@ type State = {|
   show: boolean
 |};
 
-const renderActionButtons = ({ above, createCell, mergeCell }: Props) => (
+const renderActionButtons = ({ above, createCell, mergeCell }: Props) =>
   <div className="cell-creator">
     <button
       onClick={() => createCell("markdown")}
@@ -38,14 +38,11 @@ const renderActionButtons = ({ above, createCell, mergeCell }: Props) => (
         >
           <span className="octicon octicon-arrow-up" />
         </button>}
-  </div>
-);
+  </div>;
 
-export default class CellCreator extends PureComponent {
-  props: Props;
-  state: State;
+export default class CellCreator extends PureComponent<Props, State> {
   updateVisibility: (mouseEvent: MouseEvent) => void;
-  hoverElement: HTMLElement;
+  hoverElement: ?HTMLElement;
 
   constructor(): void {
     super();
@@ -83,7 +80,7 @@ export default class CellCreator extends PureComponent {
     }
   }
 
-  render(): React.Element<any> {
+  render(): React$Element<any> {
     return (
       <div className="creator-hover-mask">
         <div

@@ -26,9 +26,7 @@ type Props = {
   models: ImmutableMap<string, any>
 };
 
-class CodeCell extends React.PureComponent {
-  props: Props;
-
+class CodeCell extends React.PureComponent<Props> {
   static defaultProps = {
     pagers: new ImmutableList(),
     running: false,
@@ -47,7 +45,7 @@ class CodeCell extends React.PureComponent {
     return this.props.cell.getIn(["metadata", "outputExpanded"]);
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div className={this.props && this.props.running ? "cell-running" : ""}>
         {!this.isInputHidden()
@@ -72,7 +70,7 @@ class CodeCell extends React.PureComponent {
           : <div className="input-container invisible" />}
         {this.props.pagers && !this.props.pagers.isEmpty()
           ? <div className="pagers">
-              {this.props.pagers.map((pager, key) => (
+              {this.props.pagers.map((pager, key) =>
                 <Pager
                   expanded
                   className="pager"
@@ -82,7 +80,7 @@ class CodeCell extends React.PureComponent {
                   theme={this.props.theme}
                   key={key}
                 />
-              ))}
+              )}
             </div>
           : null}
         <LatexRenderer>

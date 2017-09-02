@@ -8,10 +8,10 @@ import { shutdownRequest } from "../../../packages/enchannel";
 export const filesystem = fs;
 
 export type Channels = {
-  iopub: Subject,
-  stdin: Subject,
-  shell: Subject,
-  control: Subject
+  iopub: Subject<*>,
+  stdin: Subject<*>,
+  shell: Subject<*>,
+  control: Subject<*>
 };
 
 export type Kernel = {

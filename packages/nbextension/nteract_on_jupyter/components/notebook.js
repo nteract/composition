@@ -37,9 +37,7 @@ type NotebookProps = {
   content: Object
 };
 
-export class Notebook extends React.Component {
-  Props: NotebookProps;
-
+export class Notebook extends React.Component<NotebookProps> {
   render() {
     return (
       <NotebookPreview

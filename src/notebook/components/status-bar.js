@@ -9,9 +9,7 @@ type Props = {
   executionState: string
 };
 
-export default class StatusBar extends React.Component {
-  props: Props;
-
+export default class StatusBar extends React.Component<Props> {
   shouldComponentUpdate(nextProps: Props): boolean {
     if (
       this.props.notebook !== nextProps.notebook ||
@@ -23,18 +21,24 @@ export default class StatusBar extends React.Component {
     return false;
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     const name = this.props.kernelSpecDisplayName || "Loading...";
 
     return (
       <div className="status-bar">
         <span className="pull-right">
           {this.props.lastSaved
-            ? <p> Last saved {distanceInWordsToNow(this.props.lastSaved)} </p>
+            ? <p>
+                {" "}Last saved {distanceInWordsToNow(
+                  this.props.lastSaved
+                )}{" "}
+              </p>
             : <p> Not saved yet </p>}
         </span>
         <span className="pull-left">
-          <p>{name} | {this.props.executionState}</p>
+          <p>
+            {name} | {this.props.executionState}
+          </p>
         </span>
       </div>
     );

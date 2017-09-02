@@ -100,5 +100,7 @@ export function ofMessageType(messageTypes: Array<string>) {
   });
 }
 
+// $FlowFixMe: RxJS
 Observable.prototype.childOf = childOf;
+// $FlowFixMe: RxJS
 Observable.prototype.ofMessageType = ofMessageType;

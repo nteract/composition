@@ -5,7 +5,8 @@ type Props = {
   data: string
 };
 
-export function runCodeHere(el: HTMLElement, code: string): any {
+export function runCodeHere(el: ?HTMLElement, code: string): any {
+  if (!el) return;
   // Compatibility with Jupyter/notebook JS evaluation.  Set element so
   // the user has a handle on the context of the current output.
   const element = el;
@@ -23,9 +24,8 @@ export function runCodeHere(el: HTMLElement, code: string): any {
   }
 }
 
-export default class JavaScript extends React.Component {
-  props: Props;
-  el: HTMLElement;
+export default class JavaScript extends React.Component<Props> {
+  el: ?HTMLElement;
   static MIMETYPE = "application/javascript";
 
   componentDidMount(): void {
@@ -40,7 +40,7 @@ export default class JavaScript extends React.Component {
     runCodeHere(this.el, this.props.data);
   }
 
-  render(): ?React.Element<any> {
+  render(): ?React$Element<any> {
     return (
       <div
         ref={el => {
