@@ -23,6 +23,7 @@ before_install:
 before_script:
 - export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start
 - greenkeeper-lockfile-update
+- chmod +x node_modules/flow-bin/flow-linux64-v0.54.0/flow
 install:
 - npm install
 script: npm run test:$GROUP
