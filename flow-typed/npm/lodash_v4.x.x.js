@@ -1,5 +1,5 @@
-// flow-typed signature: 7484c4dca25cff44e654d2c8d938d4ca
-// flow-typed version: 666888bf86/lodash_v4.x.x/flow_>=v0.28.x
+// flow-typed signature: 83935520f5ff73d31271b162a330d97e
+// flow-typed version: 3b064385b7/lodash_v4.x.x/flow_>=v0.47.x
 
 declare module "lodash" {
   declare type TemplateSettings = {
@@ -52,16 +52,14 @@ declare module "lodash" {
     | matchesPropertyIterateeShorthand
     | propertyIterateeShorthand;
 
+  declare type _ValueOnlyIteratee<T> = (value: T) => mixed;
+  declare type ValueOnlyIteratee<T> = _ValueOnlyIteratee<T> | string;
   declare type _Iteratee<T> = (
     item: T,
     index: number,
     array: ?Array<T>
   ) => mixed;
   declare type Iteratee<T> = _Iteratee<T> | Object | string;
-  declare type Iteratee2<T, U> =
-    | ((item: T, index: number, array: ?Array<T>) => U)
-    | Object
-    | string;
   declare type FlatMapIteratee<T, U> =
     | ((item: T, index: number, array: ?Array<T>) => Array<U>)
     | Object
@@ -85,7 +83,7 @@ declare module "lodash" {
     differenceBy<T>(
       array: ?Array<T>,
       values: Array<T>,
-      iteratee: Iteratee<T>
+      iteratee: ValueOnlyIteratee<T>
     ): T[],
     differenceWith<T>(array: T[], values: T[], comparator?: Comparator<T>): T[],
     drop<T>(array: ?Array<T>, n?: number): Array<T>,
@@ -98,8 +96,16 @@ declare module "lodash" {
       start?: number,
       end?: number
     ): Array<T | U>,
-    findIndex<T>(array: ?Array<T>, predicate?: Predicate<T>): number,
-    findLastIndex<T>(array: ?Array<T>, predicate?: Predicate<T>): number,
+    findIndex<T>(
+      array: ?Array<T>,
+      predicate?: Predicate<T>,
+      fromIndex?: number
+    ): number,
+    findLastIndex<T>(
+      array: ?Array<T>,
+      predicate?: Predicate<T>,
+      fromIndex?: number
+    ): number,
     // alias of _.head
     first<T>(array: ?Array<T>): T,
     flatten<T, X>(array: Array<Array<T> | X>): Array<T | X>,
@@ -111,24 +117,24 @@ declare module "lodash" {
     initial<T>(array: ?Array<T>): Array<T>,
     intersection<T>(...arrays: Array<Array<T>>): Array<T>,
     //Workaround until (...parameter: T, parameter2: U) works
-    intersectionBy<T>(a1: Array<T>, iteratee?: Iteratee<T>): Array<T>,
+    intersectionBy<T>(a1: Array<T>, iteratee?: ValueOnlyIteratee<T>): Array<T>,
     intersectionBy<T>(
       a1: Array<T>,
       a2: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     intersectionBy<T>(
       a1: Array<T>,
       a2: Array<T>,
       a3: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     intersectionBy<T>(
       a1: Array<T>,
       a2: Array<T>,
       a3: Array<T>,
       a4: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     //Workaround until (...parameter: T, parameter2: U) works
     intersectionWith<T>(a1: Array<T>, comparator: Comparator<T>): Array<T>,
@@ -159,7 +165,7 @@ declare module "lodash" {
     pullAllBy<T>(
       array: ?Array<T>,
       values: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     pullAllWith<T>(array?: T[], values: T[], comparator?: Function): T[],
     pullAt<T>(array: ?Array<T>, ...indexed?: Array<number>): Array<T>,
@@ -171,14 +177,14 @@ declare module "lodash" {
     sortedIndexBy<T>(
       array: ?Array<T>,
       value: T,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): number,
     sortedIndexOf<T>(array: ?Array<T>, value: T): number,
     sortedLastIndex<T>(array: ?Array<T>, value: T): number,
     sortedLastIndexBy<T>(
       array: ?Array<T>,
       value: T,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): number,
     sortedLastIndexOf<T>(array: ?Array<T>, value: T): number,
     sortedUniq<T>(array: ?Array<T>): Array<T>,
@@ -190,20 +196,24 @@ declare module "lodash" {
     takeWhile<T>(array: ?Array<T>, predicate?: Predicate<T>): Array<T>,
     union<T>(...arrays?: Array<Array<T>>): Array<T>,
     //Workaround until (...parameter: T, parameter2: U) works
-    unionBy<T>(a1: Array<T>, iteratee?: Iteratee<T>): Array<T>,
-    unionBy<T>(a1: Array<T>, a2: Array<T>, iteratee?: Iteratee<T>): Array<T>,
+    unionBy<T>(a1: Array<T>, iteratee?: ValueOnlyIteratee<T>): Array<T>,
+    unionBy<T>(
+      a1: Array<T>,
+      a2: Array<T>,
+      iteratee?: ValueOnlyIteratee<T>
+    ): Array<T>,
     unionBy<T>(
       a1: Array<T>,
       a2: Array<T>,
       a3: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     unionBy<T>(
       a1: Array<T>,
       a2: Array<T>,
       a3: Array<T>,
       a4: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     //Workaround until (...parameter: T, parameter2: U) works
     unionWith<T>(a1: Array<T>, comparator?: Comparator<T>): Array<T>,
@@ -226,27 +236,31 @@ declare module "lodash" {
       comparator?: Comparator<T>
     ): Array<T>,
     uniq<T>(array: ?Array<T>): Array<T>,
-    uniqBy<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Array<T>,
+    uniqBy<T>(array: ?Array<T>, iteratee?: ValueOnlyIteratee<T>): Array<T>,
     uniqWith<T>(array: ?Array<T>, comparator?: Comparator<T>): Array<T>,
     unzip<T>(array: ?Array<T>): Array<T>,
     unzipWith<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Array<T>,
     without<T>(array: ?Array<T>, ...values?: Array<T>): Array<T>,
     xor<T>(...array: Array<Array<T>>): Array<T>,
     //Workaround until (...parameter: T, parameter2: U) works
-    xorBy<T>(a1: Array<T>, iteratee?: Iteratee<T>): Array<T>,
-    xorBy<T>(a1: Array<T>, a2: Array<T>, iteratee?: Iteratee<T>): Array<T>,
+    xorBy<T>(a1: Array<T>, iteratee?: ValueOnlyIteratee<T>): Array<T>,
+    xorBy<T>(
+      a1: Array<T>,
+      a2: Array<T>,
+      iteratee?: ValueOnlyIteratee<T>
+    ): Array<T>,
     xorBy<T>(
       a1: Array<T>,
       a2: Array<T>,
       a3: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     xorBy<T>(
       a1: Array<T>,
       a2: Array<T>,
       a3: Array<T>,
       a4: Array<T>,
-      iteratee?: Iteratee<T>
+      iteratee?: ValueOnlyIteratee<T>
     ): Array<T>,
     //Workaround until (...parameter: T, parameter2: U) works
     xorWith<T>(a1: Array<T>, comparator?: Comparator<T>): Array<T>,
@@ -303,8 +317,8 @@ declare module "lodash" {
     ): Array<T>,
 
     // Collection
-    countBy<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Object,
-    countBy<T: Object>(object: T, iteratee?: OIteratee<T>): Object,
+    countBy<T>(array: ?Array<T>, iteratee?: ValueOnlyIteratee<T>): Object,
+    countBy<T: Object>(object: T, iteratee?: ValueOnlyIteratee<T>): Object,
     // alias of _.forEach
     each<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Array<T>,
     each<T: Object>(object: T, iteratee?: OIteratee<T>): T,
@@ -318,12 +332,21 @@ declare module "lodash" {
       object: T,
       predicate?: OPredicate<A, T>
     ): Array<A>,
-    find<T>(array: ?Array<T>, predicate?: Predicate<T>): T,
+    find<T>(
+      array: ?Array<T>,
+      predicate?: Predicate<T>,
+      fromIndex?: number
+    ): T | void,
     find<V, A, T: { [id: string]: A }>(
       object: T,
-      predicate?: OPredicate<A, T>
+      predicate?: OPredicate<A, T>,
+      fromIndex?: number
     ): V,
-    findLast<T>(array: ?Array<T>, predicate?: Predicate<T>): T,
+    findLast<T>(
+      array: ?Array<T>,
+      predicate?: Predicate<T>,
+      fromIndex?: number
+    ): T | void,
     findLast<V, A, T: { [id: string]: A }>(
       object: T,
       predicate?: OPredicate<A, T>
@@ -355,8 +378,14 @@ declare module "lodash" {
     forEach<T: Object>(object: T, iteratee?: OIteratee<T>): T,
     forEachRight<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Array<T>,
     forEachRight<T: Object>(object: T, iteratee?: OIteratee<T>): T,
-    groupBy<T>(array: ?Array<T>, iteratee?: Iteratee<T>): Object,
-    groupBy<T: Object>(object: T, iteratee?: OIteratee<T>): Object,
+    groupBy<V, T>(
+      array: ?Array<T>,
+      iteratee?: ValueOnlyIteratee<T>
+    ): { [key: V]: Array<T> },
+    groupBy<V, A, T: { [id: string]: A }>(
+      object: T,
+      iteratee?: ValueOnlyIteratee<A>
+    ): { [key: V]: Array<A> },
     includes<T>(array: ?Array<T>, value: T, fromIndex?: number): boolean,
     includes<T: Object>(object: T, value: any, fromIndex?: number): boolean,
     includes(str: string, value: string, fromIndex?: number): boolean,
@@ -370,8 +399,14 @@ declare module "lodash" {
       path: ((value: any) => Array<string> | string) | Array<string> | string,
       ...args?: Array<any>
     ): Array<any>,
-    keyBy<T, V>(array: ?Array<T>, iteratee?: Iteratee2<T, V>): { [key: V]: T },
-    keyBy<V, T: Object>(object: T, iteratee?: OIteratee<T>): Object,
+    keyBy<T, V>(
+      array: ?Array<T>,
+      iteratee?: ValueOnlyIteratee<T>
+    ): { [key: V]: ?T },
+    keyBy<V, A, I, T: { [id: I]: A }>(
+      object: T,
+      iteratee?: ValueOnlyIteratee<A>
+    ): { [key: V]: ?A },
     map<T, U>(array: ?Array<T>, iteratee?: MapIterator<T, U>): Array<U>,
     map<V, T: Object, U>(
       object: ?T,
@@ -562,7 +597,10 @@ declare module "lodash" {
     isRegExp(value: any): boolean,
     isSafeInteger(value: any): boolean,
     isSet(value: any): boolean,
-    isString(value: any): boolean,
+    isString(value: string): true,
+    isString(
+      value: number | boolean | Function | void | null | Object | Array<any>
+    ): false,
     isSymbol(value: any): boolean,
     isTypedArray(value: any): boolean,
     isUndefined(value: any): boolean,
@@ -787,7 +825,7 @@ declare module "lodash" {
     functions(object?: ?Object): Array<string>,
     functionsIn(object?: ?Object): Array<string>,
     get(
-      object?: ?Object,
+      object?: ?Object | ?Array<any>,
       path?: ?Array<string> | string,
       defaultValue?: any
     ): any,
@@ -945,7 +983,7 @@ declare module "lodash" {
     words(string?: string, pattern?: RegExp | string): Array<string>,
 
     // Util
-    attempt(func: Function): any,
+    attempt(func: Function, ...args: Array<any>): any,
     bindAll(object?: ?Object, methodNames: Array<string>): Object,
     bindAll(object?: ?Object, ...methodNames: Array<string>): Object,
     cond(pairs: NestedArray<Function>): Function,
@@ -974,7 +1012,7 @@ declare module "lodash" {
       options?: { chain: boolean }
     ): T,
     noConflict(): Lodash,
-    noop(): void,
+    noop(...args: Array<mixed>): void,
     nthArg(n?: number): Function,
     over(...iteratees: Array<Function>): Function,
     over(iteratees: Array<Function>): Function,
