@@ -80,9 +80,10 @@ export function dummyStore(config) {
         cellPagers: new Immutable.Map(),
         stickyCells: new Immutable.Map(),
         outputStatuses: new Immutable.Map(),
-        cellFocused: config && config.codeCellCount > 1
-          ? dummyNotebook.get("cellOrder").get(1)
-          : null
+        cellFocused:
+          config && config.codeCellCount > 1
+            ? dummyNotebook.get("cellOrder").get(1)
+            : null
       }),
       app: AppRecord({
         executionState: "not connected",

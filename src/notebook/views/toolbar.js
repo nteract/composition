@@ -53,7 +53,7 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
     return (
       <div className="cell-toolbar-mask">
         <div className="cell-toolbar">
-          {type !== "markdown" &&
+          {type !== "markdown" && (
             <div>
               <button
                 onClick={executeCell}
@@ -62,7 +62,8 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
               >
                 <span className="octicon octicon-triangle-right" />
               </button>
-            </div>}
+            </div>
+          )}
           <div>
             <button
               onClick={toggleStickyCell}
@@ -92,46 +93,46 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
               </button>
             </DropdownTrigger>
             <DropdownContent>
-              {type === "code"
-                ? <ul role="listbox" tabIndex="0">
-                    <li
-                      onClick={() => this.clearOutputs()}
-                      className="clearOutput"
-                      role="option"
-                      aria-selected="false"
-                      tabIndex="0"
-                    >
-                      <a>Clear Cell Output</a>
-                    </li>
-                    <li
-                      onClick={() => this.changeInputVisibility()}
-                      className="inputVisibility"
-                      role="option"
-                      aria-selected="false"
-                      tabIndex="0"
-                    >
-                      <a>Toggle Input Visibility</a>
-                    </li>
-                    <li
-                      onClick={() => this.changeOutputVisibility()}
-                      className="outputVisibility"
-                      role="option"
-                      aria-selected="false"
-                      tabIndex="0"
-                    >
-                      <a>Toggle Output Visibility</a>
-                    </li>
-                    <li
-                      onClick={() => this.toggleOutputExpansion()}
-                      className="outputExpanded"
-                      role="option"
-                      aria-selected="false"
-                      tabIndex="0"
-                    >
-                      <a>Toggle Expanded Output</a>
-                    </li>
-                  </ul>
-                : null}
+              {type === "code" ? (
+                <ul role="listbox" tabIndex="0">
+                  <li
+                    onClick={() => this.clearOutputs()}
+                    className="clearOutput"
+                    role="option"
+                    aria-selected="false"
+                    tabIndex="0"
+                  >
+                    <a>Clear Cell Output</a>
+                  </li>
+                  <li
+                    onClick={() => this.changeInputVisibility()}
+                    className="inputVisibility"
+                    role="option"
+                    aria-selected="false"
+                    tabIndex="0"
+                  >
+                    <a>Toggle Input Visibility</a>
+                  </li>
+                  <li
+                    onClick={() => this.changeOutputVisibility()}
+                    className="outputVisibility"
+                    role="option"
+                    aria-selected="false"
+                    tabIndex="0"
+                  >
+                    <a>Toggle Output Visibility</a>
+                  </li>
+                  <li
+                    onClick={() => this.toggleOutputExpansion()}
+                    className="outputExpanded"
+                    role="option"
+                    aria-selected="false"
+                    tabIndex="0"
+                  >
+                    <a>Toggle Expanded Output</a>
+                  </li>
+                </ul>
+              ) : null}
               <ul role="listbox" tabIndex="0">
                 <li
                   onClick={() => this.changeCellType()}

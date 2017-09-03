@@ -48,31 +48,31 @@ class CodeCell extends React.PureComponent<Props> {
   render(): ?React$Element<any> {
     return (
       <div className={this.props && this.props.running ? "cell-running" : ""}>
-        {!this.isInputHidden()
-          ? <div className="input-container">
-              <Inputs
-                executionCount={this.props.cell.get("execution_count")}
-                running={this.props.running}
-              />
-              <Editor
-                completion
-                id={this.props.id}
-                input={this.props.cell.get("source")}
-                language={this.props.language}
-                theme={this.props.theme}
-                tip={this.props.tip}
-                cellFocused={false}
-                onChange={() => {}}
-                onFocusChange={() => {}}
-                channels={{}}
-                cursorBlinkRate={0}
-                executionState={"not connected"}
-                editorFocused={false}
-                focusAbove={() => {}}
-                focusBelow={() => {}}
-              />
-            </div>
-          : null}
+        {!this.isInputHidden() ? (
+          <div className="input-container">
+            <Inputs
+              executionCount={this.props.cell.get("execution_count")}
+              running={this.props.running}
+            />
+            <Editor
+              completion
+              id={this.props.id}
+              input={this.props.cell.get("source")}
+              language={this.props.language}
+              theme={this.props.theme}
+              tip={this.props.tip}
+              cellFocused={false}
+              onChange={() => {}}
+              onFocusChange={() => {}}
+              channels={{}}
+              cursorBlinkRate={0}
+              executionState={"not connected"}
+              editorFocused={false}
+              focusAbove={() => {}}
+              focusBelow={() => {}}
+            />
+          </div>
+        ) : null}
         <LatexRenderer>
           <div className="outputs">
             <Display

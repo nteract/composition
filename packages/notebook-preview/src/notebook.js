@@ -81,9 +81,7 @@ export class Notebook extends React.PureComponent<Props> {
     const cellOrder = this.props.notebook.get("cellOrder");
     return (
       <div>
-        <div className="notebook">
-          {cellOrder.map(this.createCellElement)}
-        </div>
+        <div className="notebook">{cellOrder.map(this.createCellElement)}</div>
       </div>
     );
   }

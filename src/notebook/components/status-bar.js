@@ -27,13 +27,11 @@ export default class StatusBar extends React.Component<Props> {
     return (
       <div className="status-bar">
         <span className="pull-right">
-          {this.props.lastSaved
-            ? <p>
-                {" "}Last saved {distanceInWordsToNow(
-                  this.props.lastSaved
-                )}{" "}
-              </p>
-            : <p> Not saved yet </p>}
+          {this.props.lastSaved ? (
+            <p> Last saved {distanceInWordsToNow(this.props.lastSaved)} </p>
+          ) : (
+            <p> Not saved yet </p>
+          )}
         </span>
         <span className="pull-left">
           <p>

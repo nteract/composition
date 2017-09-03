@@ -26,9 +26,7 @@ export default class VDOM extends React.Component<Props> {
           <pre>
             There was an error rendering VDOM data from the kernel or notebook
           </pre>
-          <code>
-            {JSON.stringify(err, null, 2)}
-          </code>
+          <code>{JSON.stringify(err, null, 2)}</code>
         </div>
       );
     }

@@ -1,5 +1,5 @@
 {
-    "source": "./src",
-    "destination": "./docs/",
-    "lint": true
+  "source": "./src",
+  "destination": "./docs/",
+  "lint": true
 }

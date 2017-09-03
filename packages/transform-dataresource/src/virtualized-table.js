@@ -75,7 +75,7 @@ export default class VirtualizedTable extends React.Component<Props, State> {
     const height = rowCount * ROW_HEIGHT;
     return (
       <AutoSizer disableHeight>
-        {({ width }) =>
+        {({ width }) => (
           <Table
             // ref={ref => this.ref = ref}
             className="table"
@@ -91,9 +91,13 @@ export default class VirtualizedTable extends React.Component<Props, State> {
             //   outline: 0
             // }}
             height={
-              this.props.expanded
-                ? EXPANDED_HEIGHT
-                : height < COLLAPSED_HEIGHT ? height : COLLAPSED_HEIGHT
+              this.props.expanded ? (
+                EXPANDED_HEIGHT
+              ) : height < COLLAPSED_HEIGHT ? (
+                height
+              ) : (
+                COLLAPSED_HEIGHT
+              )
             }
             // noRowsRenderer={this._noRowsRenderer}
             // overscanRowCount={overscanRowCount}
@@ -115,7 +119,7 @@ export default class VirtualizedTable extends React.Component<Props, State> {
             // }}
             width={width}
           >
-            {this.state.schema.fields.map((field, fieldIndex) =>
+            {this.state.schema.fields.map((field, fieldIndex) => (
               <Column
                 key={fieldIndex}
                 label={`${field.name}`}
@@ -128,8 +132,9 @@ export default class VirtualizedTable extends React.Component<Props, State> {
                 flexGrow={1}
                 flexShrink={1}
               />
-            )}
-          </Table>}
+            ))}
+          </Table>
+        )}
       </AutoSizer>
     );
   }

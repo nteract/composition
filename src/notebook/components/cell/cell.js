@@ -155,39 +155,39 @@ export class Cell extends React.PureComponent<CellProps, State> {
           this.cellDiv = el;
         }}
       >
-        {cellFocused || hoverCell
-          ? <Toolbar type={type} cell={cell} id={this.props.id} />
-          : null}
-        {type === "markdown"
-          ? <MarkdownCell
-              focusAbove={this.focusAboveCell}
-              focusBelow={this.focusBelowCell}
-              focusEditor={this.focusCellEditor}
-              cellFocused={cellFocused}
-              editorFocused={editorFocused}
-              cell={cell}
-              id={this.props.id}
-              theme={this.props.theme}
-            />
-          : type === "code"
-            ? <CodeCell
-                focusAbove={this.focusAboveCell}
-                focusBelow={this.focusBelowCell}
-                cellFocused={cellFocused}
-                editorFocused={editorFocused}
-                cell={cell}
-                id={this.props.id}
-                theme={this.props.theme}
-                language={this.props.language}
-                displayOrder={this.props.displayOrder}
-                transforms={this.props.transforms}
-                pagers={this.props.pagers}
-                running={this.props.running}
-                models={this.props.models}
-              />
-            : <pre>
-                {cell.get("source")}
-              </pre>}
+        {cellFocused || hoverCell ? (
+          <Toolbar type={type} cell={cell} id={this.props.id} />
+        ) : null}
+        {type === "markdown" ? (
+          <MarkdownCell
+            focusAbove={this.focusAboveCell}
+            focusBelow={this.focusBelowCell}
+            focusEditor={this.focusCellEditor}
+            cellFocused={cellFocused}
+            editorFocused={editorFocused}
+            cell={cell}
+            id={this.props.id}
+            theme={this.props.theme}
+          />
+        ) : type === "code" ? (
+          <CodeCell
+            focusAbove={this.focusAboveCell}
+            focusBelow={this.focusBelowCell}
+            cellFocused={cellFocused}
+            editorFocused={editorFocused}
+            cell={cell}
+            id={this.props.id}
+            theme={this.props.theme}
+            language={this.props.language}
+            displayOrder={this.props.displayOrder}
+            transforms={this.props.transforms}
+            pagers={this.props.pagers}
+            running={this.props.running}
+            models={this.props.models}
+          />
+        ) : (
+          <pre>{cell.get("source")}</pre>
+        )}
       </div>
     );
   }

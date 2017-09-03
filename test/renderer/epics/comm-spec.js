@@ -79,11 +79,13 @@ describe("createCommCloseMessage", () => {
 describe("createCommErrorAction", () => {
   it("creates a COMM_ERROR action with an error", () => {
     const err = new Error();
-    return createCommErrorAction(err).toPromise().then(action => {
-      expect(action.type).to.equal(COMM_ERROR);
-      expect(action.payload).to.equal(err);
-      expect(action.error).to.be.true;
-    });
+    return createCommErrorAction(err)
+      .toPromise()
+      .then(action => {
+        expect(action.type).to.equal(COMM_ERROR);
+        expect(action.payload).to.equal(err);
+        expect(action.error).to.be.true;
+      });
   });
 });
 
@@ -166,28 +168,30 @@ describe("commActionObservable", () => {
       }
     };
 
-    commActionObservable(newKernelAction).toArray().subscribe(
-      actions => {
-        expect(actions).to.deep.equal([
-          {
-            type: COMM_OPEN,
-            data: "DATA",
-            metadata: "0",
-            comm_id: "0123",
-            target_name: "daredevil",
-            target_module: "murdock",
-            buffers: new Uint8Array()
-          },
-          {
-            type: COMM_MESSAGE,
-            data: "DATA",
-            comm_id: "0123",
-            buffers: new Uint8Array()
-          }
-        ]);
-      },
-      err => expect.fail(err, null), // It should not error in the stream
-      () => done()
-    );
+    commActionObservable(newKernelAction)
+      .toArray()
+      .subscribe(
+        actions => {
+          expect(actions).to.deep.equal([
+            {
+              type: COMM_OPEN,
+              data: "DATA",
+              metadata: "0",
+              comm_id: "0123",
+              target_name: "daredevil",
+              target_module: "murdock",
+              buffers: new Uint8Array()
+            },
+            {
+              type: COMM_MESSAGE,
+              data: "DATA",
+              comm_id: "0123",
+              buffers: new Uint8Array()
+            }
+          ]);
+        },
+        err => expect.fail(err, null), // It should not error in the stream
+        () => done()
+      );
   });
 });

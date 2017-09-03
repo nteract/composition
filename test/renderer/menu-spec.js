@@ -218,7 +218,10 @@ describe("menu", () => {
 
       expect(store.dispatch.firstCall).to.be.calledWith({
         type: constants.CLEAR_OUTPUTS,
-        id: store.getState().document.getIn(["notebook", "cellOrder"]).first()
+        id: store
+          .getState()
+          .document.getIn(["notebook", "cellOrder"])
+          .first()
       });
     });
   });

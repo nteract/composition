@@ -198,11 +198,13 @@ export class Notebook extends React.PureComponent<Props> {
 
     return (
       <div className="cell-container" key={`cell-container-${id}`}>
-        {isStickied
-          ? <div className="cell-placeholder">
-              <span className="octicon octicon-link-external" />
-            </div>
-          : <CellComponent {...this.createCellProps(id, cell, transient)} />}
+        {isStickied ? (
+          <div className="cell-placeholder">
+            <span className="octicon octicon-link-external" />
+          </div>
+        ) : (
+          <CellComponent {...this.createCellProps(id, cell, transient)} />
+        )}
         <CellCreator key={`creator-${id}`} id={id} above={false} />
       </div>
     );

@@ -48,41 +48,43 @@ class CodeCell extends React.PureComponent<Props> {
   render(): ?React$Element<any> {
     return (
       <div className={this.props && this.props.running ? "cell-running" : ""}>
-        {!this.isInputHidden()
-          ? <div className="input-container">
-              <Inputs
-                executionCount={this.props.cell.get("execution_count")}
-                running={this.props.running}
-              />
-              <Editor
-                tip
-                completion
-                id={this.props.id}
-                input={this.props.cell.get("source")}
-                language={this.props.language}
-                cellFocused={this.props.cellFocused}
-                editorFocused={this.props.editorFocused}
+        {!this.isInputHidden() ? (
+          <div className="input-container">
+            <Inputs
+              executionCount={this.props.cell.get("execution_count")}
+              running={this.props.running}
+            />
+            <Editor
+              tip
+              completion
+              id={this.props.id}
+              input={this.props.cell.get("source")}
+              language={this.props.language}
+              cellFocused={this.props.cellFocused}
+              editorFocused={this.props.editorFocused}
+              theme={this.props.theme}
+              focusAbove={this.props.focusAbove}
+              focusBelow={this.props.focusBelow}
+            />
+          </div>
+        ) : (
+          <div className="input-container invisible" />
+        )}
+        {this.props.pagers && !this.props.pagers.isEmpty() ? (
+          <div className="pagers">
+            {this.props.pagers.map((pager, key) => (
+              <Pager
+                expanded
+                className="pager"
+                displayOrder={this.props.displayOrder}
+                transforms={this.props.transforms}
+                bundle={pager.get("data")}
                 theme={this.props.theme}
-                focusAbove={this.props.focusAbove}
-                focusBelow={this.props.focusBelow}
+                key={key}
               />
-            </div>
-          : <div className="input-container invisible" />}
-        {this.props.pagers && !this.props.pagers.isEmpty()
-          ? <div className="pagers">
-              {this.props.pagers.map((pager, key) =>
-                <Pager
-                  expanded
-                  className="pager"
-                  displayOrder={this.props.displayOrder}
-                  transforms={this.props.transforms}
-                  bundle={pager.get("data")}
-                  theme={this.props.theme}
-                  key={key}
-                />
-              )}
-            </div>
-          : null}
+            ))}
+          </div>
+        ) : null}
         <LatexRenderer>
           <div className="outputs">
             <Display

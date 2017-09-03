@@ -1,9 +1,6 @@
 {
   "lerna": "2.0.0",
-  "packages": [
-    "packages/*",
-    "packages/nbextension/nteract_on_jupyter"
-  ],
+  "packages": ["packages/*", "packages/nbextension/nteract_on_jupyter"],
   "version": "independent",
   "npmClient": "npm"
 }

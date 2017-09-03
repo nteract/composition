@@ -82,9 +82,7 @@ export class VegaEmbed extends React.Component<EmbedProps> {
     // Note: We hide vega-actions since they won't work in our environment
     return (
       <div>
-        <style>
-          {".vega-actions{ display: none; }"}
-        </style>
+        <style>{".vega-actions{ display: none; }"}</style>
         <div
           ref={el => {
             this.el = el;

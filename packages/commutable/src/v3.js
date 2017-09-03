@@ -215,7 +215,10 @@ function createImmutableHeadingCell(cell: HeadingCell): ImmutableMarkdownCell {
     source: Array.isArray(cell.source)
       ? demultiline(
           cell.source.map(line =>
-            Array(cell.level).join("#").concat(" ").concat(line)
+            Array(cell.level)
+              .join("#")
+              .concat(" ")
+              .concat(line)
           )
         )
       : cell.source,

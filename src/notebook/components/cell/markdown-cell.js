@@ -134,42 +134,42 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   }
 
   render(): ?React$Element<any> {
-    return this.state && this.state.view
-      ? <div
-          className="rendered"
-          onDoubleClick={this.openEditor}
-          onKeyDown={this.renderedKeyDown}
-          ref={rendered => {
-            this.rendered = rendered;
-          }}
-        >
-          <LatexRenderer>
-            {mdRender(
-              this.state.source
-                ? this.state.source
-                : "*Empty markdown cell, double click me to add content.*"
-            )}
-          </LatexRenderer>
+    return this.state && this.state.view ? (
+      <div
+        className="rendered"
+        onDoubleClick={this.openEditor}
+        onKeyDown={this.renderedKeyDown}
+        ref={rendered => {
+          this.rendered = rendered;
+        }}
+      >
+        <LatexRenderer>
+          {mdRender(
+            this.state.source
+              ? this.state.source
+              : "*Empty markdown cell, double click me to add content.*"
+          )}
+        </LatexRenderer>
+      </div>
+    ) : (
+      <div onKeyDown={this.editorKeyDown}>
+        <div className="input-container">
+          <div className="prompt" />
+          <Editor
+            language="markdown"
+            id={this.props.id}
+            input={this.state.source}
+            theme={this.props.theme}
+            focusAbove={this.props.focusAbove}
+            focusBelow={this.props.focusBelow}
+            cellFocused={this.props.cellFocused}
+            editorFocused={this.props.editorFocused}
+          />
         </div>
-      : <div onKeyDown={this.editorKeyDown}>
-          <div className="input-container">
-            <div className="prompt" />
-            <Editor
-              language="markdown"
-              id={this.props.id}
-              input={this.state.source}
-              theme={this.props.theme}
-              focusAbove={this.props.focusAbove}
-              focusBelow={this.props.focusBelow}
-              cellFocused={this.props.cellFocused}
-              editorFocused={this.props.editorFocused}
-            />
-          </div>
-          <div className="outputs">
-            <LatexRenderer>
-              {mdRender(this.state.source)}
-            </LatexRenderer>
-          </div>
-        </div>;
+        <div className="outputs">
+          <LatexRenderer>{mdRender(this.state.source)}</LatexRenderer>
+        </div>
+      </div>
+    );
   }
 }

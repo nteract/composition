@@ -7,11 +7,7 @@ export default props => {
       case "notebook":
         return <Notebook content={contents.content} />;
       default:
-        return (
-          <pre>
-            {JSON.stringify(contents, null, 2)}
-          </pre>
-        );
+        return <pre>{JSON.stringify(contents, null, 2)}</pre>;
     }
   }
 };

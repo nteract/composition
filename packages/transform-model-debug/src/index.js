@@ -22,12 +22,8 @@ class ModelDebug extends React.Component<Props> {
     const model = models.modelID || models;
     return (
       <div>
-        <h1>
-          {JSON.stringify(data, null, 2)}
-        </h1>
-        <pre>
-          {model ? JSON.stringify(model, null, 2) : null}
-        </pre>
+        <h1>{JSON.stringify(data, null, 2)}</h1>
+        <pre>{model ? JSON.stringify(model, null, 2) : null}</pre>
       </div>
     );
   }

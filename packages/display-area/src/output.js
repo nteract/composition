@@ -49,11 +49,7 @@ export default function Output(props: Props): ?React$Element<any> | null {
       switch (name) {
         case "stdout":
         case "stderr":
-          return (
-            <Ansi className={classPrefix + name}>
-              {text}
-            </Ansi>
-          );
+          return <Ansi className={classPrefix + name}>{text}</Ansi>;
         default:
           return null;
       }

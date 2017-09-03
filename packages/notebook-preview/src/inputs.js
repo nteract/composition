@@ -11,9 +11,5 @@ export default function Inputs(props: Props): ?React$Element<any> {
   const count = !executionCount ? " " : executionCount;
   const input = running ? "*" : count;
 
-  return (
-    <div className="prompt">
-      [{input}]
-    </div>
-  );
+  return <div className="prompt">[{input}]</div>;
 }

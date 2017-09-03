@@ -122,14 +122,14 @@ export default class VirtualizedGrid extends React.Component<Props, State> {
         : rowCount * rowHeight;
     return (
       <AutoSizer disableHeight>
-        {({ width }) =>
+        {({ width }) => (
           <ColumnSizer
             columnMaxWidth={this.props.columnMaxWidth}
             columnMinWidth={this.props.columnMinWidth}
             columnCount={this.state.schema.fields.length}
             width={width}
           >
-            {({ adjustedWidth, getColumnWidth, registerChild }) =>
+            {({ adjustedWidth, getColumnWidth, registerChild }) => (
               <MultiGrid
                 ref={registerChild}
                 cellRenderer={this.cellRenderer}
@@ -143,8 +143,10 @@ export default class VirtualizedGrid extends React.Component<Props, State> {
                 rowCount={rowCount}
                 rowHeight={rowHeight}
                 width={this.props.width || adjustedWidth}
-              />}
-          </ColumnSizer>}
+              />
+            )}
+          </ColumnSizer>
+        )}
       </AutoSizer>
     );
   }

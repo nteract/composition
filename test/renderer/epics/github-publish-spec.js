@@ -174,24 +174,26 @@ describe("publishEpic", () => {
   it("epics right", done => {
     const store = dummyStore();
     const action$ = ActionsObservable.of({ type: PUBLISH_USER_GIST });
-    publishEpic(action$, store).toArray().subscribe(actions => {
-      expect(actions).to.deep.equal([
-        {
-          field: "github_username",
-          type: "OVERWRITE_METADATA_FIELD",
-          value: "jdetle"
-        },
-        {
-          field: "gist_id",
-          type: "DELETE_METADATA_FIELD"
-        },
-        {
-          field: "gist_id",
-          type: "OVERWRITE_METADATA_FIELD",
-          value: 123
-        }
-      ]);
-      done();
-    });
+    publishEpic(action$, store)
+      .toArray()
+      .subscribe(actions => {
+        expect(actions).to.deep.equal([
+          {
+            field: "github_username",
+            type: "OVERWRITE_METADATA_FIELD",
+            value: "jdetle"
+          },
+          {
+            field: "gist_id",
+            type: "DELETE_METADATA_FIELD"
+          },
+          {
+            field: "gist_id",
+            type: "OVERWRITE_METADATA_FIELD",
+            value: 123
+          }
+        ]);
+        done();
+      });
   });
 });

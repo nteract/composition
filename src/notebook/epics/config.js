@@ -33,11 +33,11 @@ export const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
   * @return {ActionObservable}  ActionObservable for MERGE_CONFIG action
   */
 export const loadConfigEpic = actions =>
-  actions
-    .ofType(LOAD_CONFIG)
-    .switchMap(() =>
-      readFileObservable(CONFIG_FILE_PATH).map(JSON.parse).map(configLoaded)
-    );
+  actions.ofType(LOAD_CONFIG).switchMap(() =>
+    readFileObservable(CONFIG_FILE_PATH)
+      .map(JSON.parse)
+      .map(configLoaded)
+  );
 
 /**
   * An epic that saves the configuration if it has been changed.

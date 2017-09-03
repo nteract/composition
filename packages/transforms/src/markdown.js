@@ -22,11 +22,7 @@ export class MarkdownDisplay extends React.Component<Props> {
   }
 
   render(): ?React$Element<any> {
-    return (
-      <div>
-        {mdRender(this.props.data)}
-      </div>
-    );
+    return <div>{mdRender(this.props.data)}</div>;
   }
 }
 

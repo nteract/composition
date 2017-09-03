@@ -13,7 +13,7 @@ type State = {|
   show: boolean
 |};
 
-const renderActionButtons = ({ above, createCell, mergeCell }: Props) =>
+const renderActionButtons = ({ above, createCell, mergeCell }: Props) => (
   <div className="cell-creator">
     <button
       onClick={() => createCell("markdown")}
@@ -29,16 +29,17 @@ const renderActionButtons = ({ above, createCell, mergeCell }: Props) =>
     >
       <span className="octicon octicon-code" />
     </button>
-    {above
-      ? null
-      : <button
-          onClick={() => mergeCell()}
-          title="merge cells"
-          className="merge-cell"
-        >
-          <span className="octicon octicon-arrow-up" />
-        </button>}
-  </div>;
+    {above ? null : (
+      <button
+        onClick={() => mergeCell()}
+        title="merge cells"
+        className="merge-cell"
+      >
+        <span className="octicon octicon-arrow-up" />
+      </button>
+    )}
+  </div>
+);
 
 export default class CellCreator extends PureComponent<Props, State> {
   updateVisibility: (mouseEvent: MouseEvent) => void;
@@ -89,9 +90,9 @@ export default class CellCreator extends PureComponent<Props, State> {
             this.hoverElement = ref;
           }}
         >
-          {this.state.show || !this.props.id
-            ? renderActionButtons(this.props)
-            : null}
+          {this.state.show || !this.props.id ? (
+            renderActionButtons(this.props)
+          ) : null}
         </div>
       </div>
     );

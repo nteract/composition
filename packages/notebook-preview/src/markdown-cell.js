@@ -18,9 +18,7 @@ export default class MarkdownCell extends React.PureComponent<any> {
   render(): ?React$Element<any> {
     return (
       <div className="rendered">
-        <LatexRenderer>
-          {mdRender(this.props.cell.get("source"))}
-        </LatexRenderer>
+        <LatexRenderer>{mdRender(this.props.cell.get("source"))}</LatexRenderer>
       </div>
     );
   }
