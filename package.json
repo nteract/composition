@@ -62,7 +62,9 @@
     "dist:all": "npm run dist -- -mlw",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prettier":
+      "prettier --write '**/*.{js,json}' '!**/{lib,.git,flow-typed}/**'"
   },
   "build": {
     "electronVersion": "1.7.6",
@@ -176,7 +178,7 @@
     "mock-require": "^2.0.0",
     "nbschema": "^0.1.0",
     "nyc": "^11.0.3",
-    "prettier": "^1.5.3",
+    "prettier": "^1.6.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.5.1",
