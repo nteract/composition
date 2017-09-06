@@ -22,6 +22,38 @@ type Props = {
   sourceHidden: boolean
 };
 
+type PapermillMetadata = {
+  status?: "pending" | "running" | "completed"
+  // TODO: Acknowledge / use other papermill metadata
+};
+
+const PapermillView = (props: PapermillMetadata) => {
+  if (!props.status) {
+    return null;
+  }
+
+  if (props.status === "running") {
+    return (
+      <div
+        style={{
+          width: "100%",
+          backgroundColor: "#e8f2ff",
+          paddingLeft: "10px",
+          paddingTop: "1em",
+          paddingBottom: "1em",
+          paddingRight: "0",
+          marginRight: "0",
+          boxSizing: "border-box"
+        }}
+      >
+        Executing with Papermill...
+      </div>
+    );
+  }
+
+  return null;
+};
+
 class CodeCell extends React.PureComponent<Props> {
   static defaultProps = {
     running: false,
@@ -48,6 +80,11 @@ class CodeCell extends React.PureComponent<Props> {
   render(): ?React$Element<any> {
     return (
       <div className={this.props && this.props.running ? "cell-running" : ""}>
+        <PapermillView
+          {...this.props.cell
+            .getIn(["metadata", "papermill"], ImmutableMap())
+            .toJS()}
+        />
         {!this.isInputHidden() ? (
           <div className="input-container">
             <Inputs
