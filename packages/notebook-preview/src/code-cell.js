@@ -78,8 +78,11 @@ class CodeCell extends React.PureComponent<Props> {
   }
 
   render(): ?React$Element<any> {
+    const running =
+      this.props.running ||
+      this.props.cell.getIn(["metadata", "papermill", "status"]) === "running";
     return (
-      <div className={this.props && this.props.running ? "cell-running" : ""}>
+      <div className={running ? "cell-running" : ""}>
         <PapermillView
           {...this.props.cell
             .getIn(["metadata", "papermill"], ImmutableMap())
@@ -89,7 +92,7 @@ class CodeCell extends React.PureComponent<Props> {
           <div className="input-container">
             <Inputs
               executionCount={this.props.cell.get("execution_count")}
-              running={this.props.running}
+              running={running}
             />
             <Editor
               completion
