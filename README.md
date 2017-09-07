@@ -148,10 +148,6 @@ properly (mostly ad-hoc basic notebook loading and execution).
 
 Work on the nteract notebook is currently sponsored by
 
-[![Plotly](https://cloud.githubusercontent.com/assets/836375/13661288/0f1d6d8c-e657-11e5-897b-9d047cb30ef4.png)](https://plot.ly/)
-
-[![Domino Data Lab](https://cloud.githubusercontent.com/assets/836375/13661281/052c8506-e657-11e5-8e93-1497c6097519.png)](https://www.dominodatalab.com/)
-
 [![NumFocus](https://www.flipcause.com/uploads/thumb_NumFocus_2C_RGB.png)](http://www.numfocus.org/)
 
 We're on a common mission to build a great notebook experience. Feel free to
@@ -162,7 +158,7 @@ paying for additional work by seasoned designers and engineers.
 
 The nteract project was made possible with the support of
 
-[![Carina by Rackspace](https://657cea1304d5d92ee105-33ee89321dddef28209b83f19f06774f.ssl.cf1.rackcdn.com/carina-logo-69ecb9689d028f8d8f0db1caad4b95472040cb3af32104bbc98716fe2088dca4.svg)](https://getcarina.com).
+[![Netflix OSS](https://netflix.github.io/images/Netflix-OSS-Logo.png)](https://netflix.github.io/)
 
 If your employer allows you to work on nteract during the day and would like
 recognition, feel free to add them to the "Made possible by" list.
