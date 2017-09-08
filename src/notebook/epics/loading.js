@@ -93,7 +93,7 @@ export const convertRawNotebook = (filename: string, data: string) => ({
   *
   * @param  {ActionObservable}  A LOAD action with the notebook filename
   */
-export const loadEpic = (actions: ActionsObservable) =>
+export const loadEpic = (actions: ActionsObservable<*>) =>
   actions
     .ofType(LOAD)
     .do(action => {
@@ -126,7 +126,7 @@ export const loadEpic = (actions: ActionsObservable) =>
   *
   * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
   */
-export const newNotebookEpic = (action$: ActionsObservable) =>
+export const newNotebookEpic = (action$: ActionsObservable<*>) =>
   action$.ofType(NEW_NOTEBOOK).switchMap(action =>
     Observable.of(
       {

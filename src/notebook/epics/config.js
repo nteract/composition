@@ -1,8 +1,11 @@
+// @flow
 import { remote } from "electron";
 
 import { MERGE_CONFIG, SET_CONFIG_KEY, DONE_SAVING_CONFIG } from "../constants";
 
 import { readFileObservable, writeFileObservable } from "../../utils/fs";
+
+import type { ActionsObservable } from "redux-observable";
 
 const path = require("path");
 
@@ -17,7 +20,7 @@ export const SAVE_CONFIG = "SAVE_CONFIG";
 export const saveConfig = () => ({ type: SAVE_CONFIG });
 export const doneSavingConfig = () => ({ type: DONE_SAVING_CONFIG });
 
-export const configLoaded = config => ({
+export const configLoaded = (config: any) => ({
   type: MERGE_CONFIG,
   config
 });
@@ -32,7 +35,7 @@ export const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
   * @param  {ActionObservable}  actions ActionObservable for LOAD_CONFIG action
   * @return {ActionObservable}  ActionObservable for MERGE_CONFIG action
   */
-export const loadConfigEpic = actions =>
+export const loadConfigEpic = (actions: ActionsObservable<*>) =>
   actions.ofType(LOAD_CONFIG).switchMap(() =>
     readFileObservable(CONFIG_FILE_PATH)
       .map(JSON.parse)
@@ -45,7 +48,7 @@ export const loadConfigEpic = actions =>
   * @param  {ActionObservable}  actions ActionObservable for SET_CONFIG_KEY action
   * @return {ActionObservable}  ActionObservable with SAVE_CONFIG type
   */
-export const saveConfigOnChangeEpic = actions =>
+export const saveConfigOnChangeEpic = (actions: ActionsObservable<*>) =>
   actions.ofType(SET_CONFIG_KEY).mapTo({ type: SAVE_CONFIG });
 
 /**
@@ -54,7 +57,7 @@ export const saveConfigOnChangeEpic = actions =>
   * @param  {ActionObservable}  actions ActionObservable containing SAVE_CONFIG action
   * @return {ActionObservable}  ActionObservable for DONE_SAVING action
   */
-export const saveConfigEpic = (actions, store) =>
+export const saveConfigEpic = (actions: ActionsObservable<*>, store: any) =>
   actions
     .ofType(SAVE_CONFIG)
     .mergeMap(() =>

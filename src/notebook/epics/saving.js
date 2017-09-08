@@ -24,7 +24,10 @@ import "rxjs/add/operator/catch";
   *
   * @param  {ActionObservable}  action$ The SAVE action with the filename and notebook
   */
-export function saveEpic(action$: ActionsObservable, store: Store<any, any>) {
+export function saveEpic(
+  action$: ActionsObservable<*>,
+  store: Store<any, any>
+) {
   return action$
     .ofType(SAVE)
     .do(action => {
@@ -74,7 +77,7 @@ export function saveEpic(action$: ActionsObservable, store: Store<any, any>) {
   *
   * @param  {ActionObservable}  action$ The SAVE_AS action with the filename and notebook
   */
-export function saveAsEpic(action$: ActionsObservable) {
+export function saveAsEpic(action$: ActionsObservable<*>) {
   return action$
     .ofType(SAVE_AS)
     .mergeMap(action => [

@@ -1,3 +1,4 @@
+// @flow
 import { createMessage } from "../../../packages/messaging";
 
 import { Observable } from "rxjs/Observable";
@@ -27,6 +28,9 @@ import {
   clearOutputs
 } from "../actions";
 
+import type { Subject } from "rxjs/Subject";
+import type { ActionsObservable } from "redux-observable";
+
 import {
   NEW_KERNEL,
   REMOVE_CELL,
@@ -37,7 +41,7 @@ import {
 
 const Immutable = require("immutable");
 
-export const createErrorActionObservable = type => error =>
+export const createErrorActionObservable = (type: string) => (error: Error) =>
   Observable.of({
     type,
     payload: error,
@@ -51,7 +55,7 @@ export const createErrorActionObservable = type => error =>
  * @param {Object} msg - Message that has content which can be converted to nbformat
  * @return {Object} formattedMsg  - Message with the associated output type
  */
-export function msgSpecToNotebookFormat(msg) {
+export function msgSpecToNotebookFormat(msg: any) {
   return Object.assign({}, msg.content, {
     output_type: msg.header.msg_type
   });
@@ -63,7 +67,7 @@ export function msgSpecToNotebookFormat(msg) {
  * @param {String} code - Code to be executed in a message to the kernel.
  * @return {Object} msg - Message object containing the code to be sent.
  */
-export function createExecuteRequest(code) {
+export function createExecuteRequest(code: string) {
   const executeRequest = createMessage("execute_request");
   executeRequest.content = {
     code,
@@ -86,7 +90,7 @@ export function createExecuteRequest(code) {
  * @return {Observable<Action>} pagerDataStream - Observable stream containing
  * Pager data.
  */
-export function createPagerActions(id, payloadStream) {
+export function createPagerActions(id: string, payloadStream: Observable<*>) {
   return payloadStream
     .filter(p => p.source === "page")
     .scan((acc, pd) => acc.push(Immutable.fromJS(pd)), new Immutable.List())
@@ -102,11 +106,13 @@ export function createPagerActions(id, payloadStream) {
  * @param {Observable<Action>} setInputStream - Stream containing messages from the kernel.
  * @return {Observable<Action>} updateSourceStream - Stream with updateCellSource actions.
  */
-export function createSourceUpdateAction(id, setInputStream) {
+export function createSourceUpdateAction(
+  id: string,
+  setInputStream: Observable<*>
+) {
   return setInputStream
     .filter(x => x.replace)
-    .pluck("text")
-    .map(text => updateCellSource(id, text));
+    .map(c => updateCellSource(id, c.text));
 }
 
 /**
@@ -119,11 +125,13 @@ export function createSourceUpdateAction(id, setInputStream) {
  * @return {Immutable.List<Object>} updatedOutputs - Outputs with updated
  * changes.
  */
-export function createCellAfterAction(id, setInputStream) {
+export function createCellAfterAction(
+  id: string,
+  setInputStream: Observable<*>
+) {
   return setInputStream
     .filter(x => !x.replace)
-    .pluck("text")
-    .map(text => createCellAfter("code", id, text));
+    .map(c => createCellAfter("code", id, c.text));
 }
 
 /**
@@ -134,11 +142,17 @@ export function createCellAfterAction(id, setInputStream) {
  * @param {Observable<jmp.Message>} cellMessages - Messages to receive create cell status action.
  * @return {Observable<jmp.Message>} updatedCellMessages - Updated messages.
  */
-export function createCellStatusAction(id, cellMessages) {
-  return cellMessages
-    .ofMessageType(["status"])
-    .pluck("content", "execution_state")
-    .map(status => updateCellStatus(id, status));
+export function createCellStatusAction(
+  id: string,
+  cellMessages: Observable<*>
+) {
+  return (
+    cellMessages
+      // $FlowFixMe: We patched this onto the prototype
+      .ofMessageType(["status"])
+      .pluck("content", "execution_state")
+      .map(status => updateCellStatus(id, status))
+  );
 }
 
 /**
@@ -151,12 +165,18 @@ export function createCellStatusAction(id, cellMessages) {
  * @param {Observable<jmp.Message>} cellMessages - Messages to receive updates.
  * @return {Observable<jmp.Message>} cellMessages - Updated messages.
  */
-export function updateCellNumberingAction(id, cellMessages) {
-  return cellMessages
-    .ofMessageType(["execute_input"])
-    .pluck("content", "execution_count")
-    .first()
-    .map(ct => updateCellExecutionCount(id, ct));
+export function updateCellNumberingAction(
+  id: string,
+  cellMessages: Observable<*>
+) {
+  return (
+    cellMessages
+      // $FlowFixMe: We patched this onto the prototype
+      .ofMessageType(["execute_input"])
+      .pluck("content", "execution_count")
+      .first()
+      .map(ct => updateCellExecutionCount(id, ct))
+  );
 }
 
 /**
@@ -167,12 +187,23 @@ export function updateCellNumberingAction(id, cellMessages) {
  * @param {Observable} cellMessages - Set of sent cell messages.
  * @return {Observable<Action>} actions - Stream of APPEND_OUTPUT actions.
  */
-export function handleFormattableMessages(id, cellMessages) {
-  return cellMessages
-    .ofMessageType(["execute_result", "display_data", "stream", "error"])
-    .map(msgSpecToNotebookFormat)
-    .map(output => ({ type: "APPEND_OUTPUT", id, output }));
+export function handleFormattableMessages(
+  id: string,
+  cellMessages: Observable<*>
+) {
+  return (
+    cellMessages
+      // $FlowFixMe: We patched this onto the prototype
+      .ofMessageType(["execute_result", "display_data", "stream", "error"])
+      .map(msgSpecToNotebookFormat)
+      .map(output => ({ type: "APPEND_OUTPUT", id, output }))
+  );
 }
+
+type Channels = {
+  iopub: Subject<*>,
+  shell: Subject<*>
+};
 
 /**
  * Observe all the reactions to running code for cell with id.
@@ -184,7 +215,11 @@ export function handleFormattableMessages(id, cellMessages) {
  * @return {Observable<Action>} updatedOutputs - It returns an observable with
  * a stream of events that need to happen after a cell has been executed.
  */
-export function executeCellStream(channels, id, code) {
+export function executeCellStream(
+  channels: Channels,
+  id: string,
+  code: string
+) {
   if (!channels || !channels.iopub || !channels.shell) {
     return Observable.throw(new Error("kernel not connected"));
   }
@@ -195,6 +230,7 @@ export function executeCellStream(channels, id, code) {
 
   // Payload streams in general
   const payloadStream = shell
+    // $FlowFixMe: We patched this onto the prototype
     .childOf(executeRequest)
     .ofMessageType(["execute_reply"])
     .pluck("content", "payload")
@@ -207,6 +243,7 @@ export function executeCellStream(channels, id, code) {
   );
 
   // All child messages for the cell
+  // $FlowFixMe: We patched this onto the prototype
   const cellMessages = iopub.childOf(executeRequest);
 
   const cellAction$ = Observable.merge(
@@ -239,7 +276,12 @@ export function executeCellStream(channels, id, code) {
   });
 }
 
-export function createExecuteCellStream(action$, store, source, id) {
+export function createExecuteCellStream(
+  action$: ActionsObservable<*>,
+  store: any,
+  source: string,
+  id: string
+) {
   const state = store.getState();
   const channels = state.app.channels;
 
@@ -269,7 +311,7 @@ export function createExecuteCellStream(action$, store, source, id) {
  * the execute cell epic processes execute requests for all cells, creating
  * inner observable streams of the running execution responses
  */
-export function executeCellEpic(action$, store) {
+export function executeCellEpic(action$: ActionsObservable<*>, store: any) {
   return (
     action$
       .ofType("EXECUTE_CELL")
@@ -303,7 +345,7 @@ export function executeCellEpic(action$, store) {
   );
 }
 
-export const updateDisplayEpic = action$ =>
+export const updateDisplayEpic = (action$: ActionsObservable<*>) =>
   // Global message watcher so we need to set up a feed for each new kernel
   action$.ofType(NEW_KERNEL).switchMap(({ channels }) =>
     channels.iopub

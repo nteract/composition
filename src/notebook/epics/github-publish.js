@@ -1,3 +1,4 @@
+// @flow
 import { shell } from "electron";
 
 import { PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST } from "./../constants";
@@ -7,6 +8,9 @@ import { overwriteMetadata, deleteMetadata } from "../actions";
 import { toJS, stringifyNotebook } from "../../../packages/commutable";
 
 const path = require("path");
+
+import type { Observer } from "rxjs/Observer";
+import type { ActionsObservable } from "redux-observable";
 
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
@@ -23,7 +27,11 @@ const Github = require("github");
  * @param {object} notificationSystem - To be passed information for
  * notification of the user that the gist has been published.
  */
-export function notifyUser(filename, gistID, notificationSystem) {
+export function notifyUser(
+  filename: string,
+  gistID: string,
+  notificationSystem: any
+) {
   notificationSystem.addNotification({
     title: "Gist uploaded",
     message: `${filename} is ready`,
@@ -50,8 +58,12 @@ export function notifyUser(filename, gistID, notificationSystem) {
  * notification of the user that the gist has been published.
  * @return callbackFunction for use in publishNotebookObservable
  */
-export function createGistCallback(observer, filename, notificationSystem) {
-  return function gistCallback(err, response) {
+export function createGistCallback(
+  observer: Observer<*>,
+  filename: string,
+  notificationSystem: any
+) {
+  return function gistCallback(err: Error, response: any) {
     if (err) {
       observer.error(err);
       observer.complete();
@@ -75,11 +87,11 @@ export function createGistCallback(observer, filename, notificationSystem) {
  * notification of the user that the gist has been published.
  */
 export function publishNotebookObservable(
-  github,
-  notebook,
-  filepath,
-  notificationSystem,
-  publishAsUser
+  github: any,
+  notebook: any,
+  filepath: string,
+  notificationSystem: any,
+  publishAsUser: boolean
 ) {
   return Observable.create(observer => {
     const notebookString = stringifyNotebook(toJS(notebook));
@@ -134,7 +146,7 @@ export function publishNotebookObservable(
  * @param  {String} error - Error response to be parsed and handled.
  *
  */
-export function handleGistError(err) {
+export function handleGistError(err: Error) {
   return Observable.of({ type: "ERROR", payload: err, err: true });
 }
 
@@ -144,7 +156,7 @@ export function handleGistError(err) {
  * @param {store} reduxStore - The store containing state data.
  * return {Observable} publishNotebookObservable with appropriate parameters.
 */
-export function handleGistAction(store, action) {
+export function handleGistAction(store: any, action: any) {
   const github = new Github();
   const state = store.getState();
   const notebook = state.document.get("notebook");
@@ -169,7 +181,7 @@ export function handleGistAction(store, action) {
  * Epic to capture the end to end action of publishing and receiving the
  * response from the Github API.
  */
-export const publishEpic = (action$, store) => {
+export const publishEpic = (action$: ActionsObservable<*>, store: any) => {
   const boundHandleGistAction = handleGistAction.bind(null, store);
   return action$
     .ofType(PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST)

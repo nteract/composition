@@ -1,6 +1,9 @@
+// @flow
 import { saveEpic, saveAsEpic } from "./saving";
 
 import { loadEpic, newNotebookEpic } from "./loading";
+
+import type { ActionsObservable, Epic } from "redux-observable";
 
 import {
   newKernelEpic,
@@ -21,11 +24,11 @@ import {
   saveConfigOnChangeEpic
 } from "./config";
 
-export function retryAndEmitError(err, source) {
+export function retryAndEmitError(err: Error, source: ActionsObservable<*>) {
   return source.startWith({ type: "ERROR", payload: err, error: true });
 }
 
-export const wrapEpic = epic => (...args) =>
+export const wrapEpic = (epic: Epic<*, *, *>) => (...args: any) =>
   epic(...args).catch(retryAndEmitError);
 
 const epics = [

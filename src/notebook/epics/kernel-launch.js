@@ -128,7 +128,7 @@ export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
   *
   * @oaram  {ActionObservable}  action$ ActionObservable for NEW_KERNEL action
   */
-export const watchExecutionStateEpic = (action$: ActionsObservable) =>
+export const watchExecutionStateEpic = (action$: ActionsObservable<*>) =>
   action$
     .ofType(NEW_KERNEL)
     .switchMap(action =>
@@ -157,7 +157,7 @@ export const kernelSpecsObservable = Observable.create(observer => {
   *
   * @param  {ActionObservable}  The action type
   */
-export const acquireKernelInfoEpic = (action$: ActionsObservable) =>
+export const acquireKernelInfoEpic = (action$: ActionsObservable<*>) =>
   action$.ofType(NEW_KERNEL).switchMap(action => {
     /* istanbul ignore if -- used for interactive debugging */
     if (process.env.DEBUG) {
@@ -166,7 +166,7 @@ export const acquireKernelInfoEpic = (action$: ActionsObservable) =>
     return acquireKernelInfo(action.channels);
   });
 
-export const newKernelByNameEpic = (action$: ActionsObservable) =>
+export const newKernelByNameEpic = (action$: ActionsObservable<*>) =>
   action$
     .ofType(LAUNCH_KERNEL_BY_NAME)
     .do(action => {
@@ -185,7 +185,7 @@ export const newKernelByNameEpic = (action$: ActionsObservable) =>
   *
   * @param  {ActionObservable} action$  ActionObservable for LAUNCH_KERNEL action
   */
-export const newKernelEpic = (action$: ActionsObservable) =>
+export const newKernelEpic = (action$: ActionsObservable<*>) =>
   action$
     .ofType(LAUNCH_KERNEL)
     .do(action => {

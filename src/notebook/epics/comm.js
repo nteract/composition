@@ -1,3 +1,4 @@
+// @flow
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import "rxjs/add/observable/merge";
@@ -6,6 +7,8 @@ import "rxjs/add/operator/retry";
 import "rxjs/add/operator/switchMap";
 
 import { createMessage } from "../../../packages/messaging";
+
+import type { ActionsObservable } from "redux-observable";
 
 import { COMM_OPEN, COMM_MESSAGE, COMM_ERROR, NEW_KERNEL } from "../constants";
 
@@ -18,10 +21,10 @@ import { COMM_OPEN, COMM_MESSAGE, COMM_ERROR, NEW_KERNEL } from "../constants";
  * @return {jmp.Message}          Message ready to send on the shell channel
  */
 export function createCommOpenMessage(
-  comm_id,
-  target_name,
-  data = {},
-  target_module
+  comm_id: string,
+  target_name: string,
+  data: any = {},
+  target_module: string
 ) {
   const msg = createMessage("comm_open", {
     content: { comm_id, target_name, data }
@@ -40,9 +43,9 @@ export function createCommOpenMessage(
  * @return {jmp.Message}           jupyter message for comm_msg
  */
 export function createCommMessage(
-  comm_id,
-  data = {},
-  buffers = new Uint8Array()
+  comm_id: string,
+  data: any = {},
+  buffers: Uint8Array = new Uint8Array([])
 ) {
   return createMessage("comm_msg", { content: { comm_id, data }, buffers });
 }
@@ -54,7 +57,11 @@ export function createCommMessage(
  * @param  {Object}     data         any data to send for the comm
  * @return {jmp.Message}             jupyter message for comm_msg
  */
-export function createCommCloseMessage(parent_header, comm_id, data = {}) {
+export function createCommCloseMessage(
+  parent_header: any,
+  comm_id: string,
+  data: any = {}
+) {
   return createMessage("comm_close", {
     content: { comm_id, data },
     parent_header
@@ -66,7 +73,7 @@ export function createCommCloseMessage(parent_header, comm_id, data = {}) {
  * @param  {error} error any type of error to pass on
  * @return {Object}       Flux standard error action
  */
-export const createCommErrorAction = error =>
+export const createCommErrorAction = (error: Error) =>
   Observable.of({
     type: COMM_ERROR,
     payload: error,
@@ -78,7 +85,7 @@ export const createCommErrorAction = error =>
  * @param  {jmp.Message} a comm_open message
  * @return {Object}      COMM_OPEN action
  */
-export function commOpenAction(message) {
+export function commOpenAction(message: any) {
   // invariant: expects a comm_open message
   return {
     type: COMM_OPEN,
@@ -100,7 +107,7 @@ export function commOpenAction(message) {
  * @param  {jmp.Message} a comm_msg
  * @return {Object}      COMM_MESSAGE action
  */
-export function commMessageAction(message) {
+export function commMessageAction(message: any) {
   return {
     type: COMM_MESSAGE,
     comm_id: message.content.comm_id,
@@ -118,7 +125,7 @@ export function commMessageAction(message) {
  * @param  {Object} newKernelAction a NEW_KERNEL action
  * @return {ActionsObservable}          all actions resulting from comm messages on this kernel
  */
-export function commActionObservable(newKernelAction) {
+export function commActionObservable(newKernelAction: any) {
   const commOpenAction$ = newKernelAction.channels.iopub
     .ofMessageType(["comm_open"])
     .map(commOpenAction);
@@ -136,5 +143,5 @@ export function commActionObservable(newKernelAction) {
  * @param  {redux.Store} store   the redux store
  * @return {ActionsObservable}         Comm actions
  */
-export const commListenEpic = action$ =>
+export const commListenEpic = (action$: ActionsObservable<*>) =>
   action$.ofType(NEW_KERNEL).switchMap(commActionObservable); // We have a new channel

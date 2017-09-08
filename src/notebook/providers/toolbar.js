@@ -1,4 +1,3 @@
-/* eslint class-methods-use-this: 0 */
 // @flow
 import React, { Component } from "react";
 import { connect } from "react-redux";
