@@ -3,7 +3,10 @@ import { remote } from "electron";
 
 import { MERGE_CONFIG, SET_CONFIG_KEY, DONE_SAVING_CONFIG } from "../constants";
 
-import { readFileObservable, writeFileObservable } from "../../utils/fs";
+import {
+  readFileObservable,
+  writeFileObservable
+} from "../../../packages/fs-observable";
 
 import type { ActionsObservable } from "redux-observable";
 

@@ -1,7 +1,7 @@
 /* @flow */
 
 import { ActionsObservable } from "redux-observable"; /* eslint-disable no-unused-vars */
-import { writeFileObservable } from "../../utils/fs";
+import { writeFileObservable } from "../../../packages/fs-observable";
 import { SAVE, SAVE_AS } from "../constants";
 
 import { changeFilename, save, doneSaving } from "../actions";

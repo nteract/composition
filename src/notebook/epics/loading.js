@@ -10,7 +10,7 @@ import {
 
 import type { Notebook, ImmutableNotebook } from "../../../packages/commutable";
 
-import { readFileObservable } from "../../utils/fs";
+import { readFileObservable } from "../../../packages/fs-observable";
 import { newKernelByName, newKernel } from "../actions";
 
 const path = require("path");

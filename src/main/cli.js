@@ -1,10 +1,15 @@
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/merge";
+import "rxjs/add/observable/catch";
+import "rxjs/add/observable/flatMap";
 
 import { join } from "path";
 import { dialog } from "electron";
 import { spawn } from "spawn-rx";
-import { writeFileObservable, createSymlinkObservable } from "../utils/fs";
+import {
+  writeFileObservable,
+  createSymlinkObservable
+} from "../../packages/fs-observable";
 
 const fs = require("fs");
 

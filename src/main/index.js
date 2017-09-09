@@ -19,7 +19,7 @@ import {
   mkdirpObservable,
   readFileObservable,
   writeFileObservable
-} from "../utils/fs";
+} from "../../packages/fs-observable";
 
 import { launch, launchNewNotebook } from "./launch";
 

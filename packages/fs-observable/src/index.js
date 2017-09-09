@@ -1,3 +1,4 @@
+// @flow
 import * as fs from "fs";
 
 export const filesystem = fs;
@@ -6,7 +7,7 @@ const mkdirp = require("mkdirp");
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/bindNodeCallback";
 
-export const unlinkObservable = path =>
+export const unlinkObservable = (path: string) =>
   Observable.create(observer => {
     if (filesystem.existsSync(path)) {
       filesystem.unlink(path, error => {
@@ -27,7 +28,7 @@ export const createNewSymlinkObservable = Observable.bindNodeCallback(
   filesystem.symlink
 );
 
-export const createSymlinkObservable = (target, path) =>
+export const createSymlinkObservable = (target: string, path: string) =>
   unlinkObservable(path).flatMap(() =>
     createNewSymlinkObservable(target, path)
   );
