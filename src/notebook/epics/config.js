@@ -61,11 +61,10 @@ export const saveConfigOnChangeEpic = (actions: ActionsObservable<*>) =>
   * @return {ActionObservable}  ActionObservable for DONE_SAVING action
   */
 export const saveConfigEpic = (actions: ActionsObservable<*>, store: any) =>
-  actions
-    .ofType(SAVE_CONFIG)
-    .mergeMap(() =>
-      writeFileObservable(
-        CONFIG_FILE_PATH,
-        JSON.stringify(store.getState().config.toJS())
-      ).map(doneSavingConfig)
-    );
+  actions.ofType(SAVE_CONFIG).mergeMap(() =>
+    writeFileObservable(
+      CONFIG_FILE_PATH,
+      // $FlowFixMe: We're totally using this argument, not sure what's up here
+      JSON.stringify(store.getState().config.toJS())
+    ).map(doneSavingConfig)
+  );

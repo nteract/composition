@@ -40,6 +40,7 @@ export function saveEpic(
       action =>
         writeFileObservable(
           action.filename,
+          // $FlowFixMe: We're totally using this argument, not sure what's up here
           stringifyNotebook(
             toJS(
               action.notebook.setIn(
