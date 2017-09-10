@@ -5,7 +5,7 @@ import {
   unlinkObservable,
   createSymlinkObservable,
   filesystem
-} from "../../src/utils/fs";
+} from "../../packages/fs-observable";
 
 import "rxjs/add/operator/toArray";
 
