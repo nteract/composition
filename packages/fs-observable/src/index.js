@@ -6,6 +6,7 @@ const mkdirp = require("mkdirp");
 
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/bindNodeCallback";
+import "rxjs/add/operator/mergeMap";
 
 export const unlinkObservable = (path: string) =>
   Observable.create(observer => {
@@ -29,7 +30,7 @@ export const createNewSymlinkObservable = Observable.bindNodeCallback(
 );
 
 export const createSymlinkObservable = (target: string, path: string) =>
-  unlinkObservable(path).flatMap(() =>
+  unlinkObservable(path).mergeMap(() =>
     createNewSymlinkObservable(target, path)
   );
 

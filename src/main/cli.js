@@ -1,7 +1,7 @@
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/merge";
-import "rxjs/add/observable/catch";
-import "rxjs/add/observable/flatMap";
+import "rxjs/add/operator/catch";
+import "rxjs/add/operator/mergeMap";
 
 import { join } from "path";
 import { dialog } from "electron";
@@ -55,7 +55,7 @@ const installShellCommandsObservable = (exe, rootDir, binDir) => {
   return writeFileObservable(
     envFile,
     `NTERACT_EXE="${exe}"\nNTERACT_DIR="${rootDir}"`
-  ).flatMap(() => {
+  ).mergeMap(() => {
     const target = join(binDir, "nteract.sh");
     return createSymlinkObservable(
       target,
