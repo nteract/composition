@@ -13,7 +13,7 @@ import CellCreatorView from "../views/cell-creator";
 type Props = {|
   above: boolean,
   dispatch: Dispatch<*>,
-  id: string | null
+  id: string
 |};
 
 class CellCreator extends Component<Props> {
@@ -26,7 +26,7 @@ class CellCreator extends Component<Props> {
     this.mergeCell = this.mergeCell.bind(this);
   }
 
-  createCell(type: string): void {
+  createCell(type: "code" | "markdown"): void {
     const { dispatch, above, id } = this.props;
 
     if (!id) {

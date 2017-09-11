@@ -1,6 +1,18 @@
+// @flow
 import * as constants from "./constants";
 
-export function newKernel(kernelSpec, cwd) {
+import type {
+  ImmutableCell,
+  ImmutableNotebook,
+  CellID,
+  CellType,
+  ImmutableCellOrder,
+  ImmutableOutput,
+  ImmutableOutputs,
+  MimeBundle
+} from "../../packages/commutable/src/types";
+
+export function newKernel(kernelSpec: any, cwd: string) {
   return {
     type: constants.LAUNCH_KERNEL,
     kernelSpec,
@@ -8,7 +20,7 @@ export function newKernel(kernelSpec, cwd) {
   };
 }
 
-export function newKernelByName(kernelSpecName, cwd) {
+export function newKernelByName(kernelSpecName: any, cwd: string) {
   return {
     type: constants.LAUNCH_KERNEL_BY_NAME,
     kernelSpecName,
@@ -16,21 +28,22 @@ export function newKernelByName(kernelSpecName, cwd) {
   };
 }
 
-export function setNotebookKernelInfo(kernelInfo) {
+export function setNotebookKernelInfo(kernelInfo: any) {
   return {
     type: constants.SET_KERNEL_INFO,
     kernelInfo
   };
 }
 
-export function setExecutionState(executionState) {
+// TODO: Lock this type down to a proper enum
+export function setExecutionState(executionState: string) {
   return {
     type: constants.SET_EXECUTION_STATE,
     executionState
   };
 }
 
-export function updateCellSource(id, source) {
+export function updateCellSource(id: string, source: string) {
   return {
     type: constants.UPDATE_CELL_SOURCE,
     id,
@@ -38,14 +51,15 @@ export function updateCellSource(id, source) {
   };
 }
 
-export function clearOutputs(id) {
+export function clearOutputs(id: string) {
   return {
     type: constants.CLEAR_OUTPUTS,
     id
   };
 }
 
-export function moveCell(id, destinationId, above) {
+// TODO: above doesn't appear to get used for a MoveCellAction
+export function moveCell(id: string, destinationId: string, above: boolean) {
   return {
     type: constants.MOVE_CELL,
     id,
@@ -54,23 +68,27 @@ export function moveCell(id, destinationId, above) {
   };
 }
 
-export function removeCell(id) {
+export function removeCell(id: string) {
   return {
     type: constants.REMOVE_CELL,
     id
   };
 }
 
-export function createCellAfter(cellType, id, source) {
+export function createCellAfter(
+  cellType: CellType,
+  id: string,
+  source: string = ""
+) {
   return {
     type: constants.NEW_CELL_AFTER,
-    source: source || "",
+    source,
     cellType,
     id
   };
 }
 
-export function createCellBefore(cellType, id) {
+export function createCellBefore(cellType: CellType, id: string) {
   return {
     type: constants.NEW_CELL_BEFORE,
     cellType,
@@ -78,21 +96,21 @@ export function createCellBefore(cellType, id) {
   };
 }
 
-export function createCellAppend(cellType) {
+export function createCellAppend(cellType: CellType) {
   return {
     type: constants.NEW_CELL_APPEND,
     cellType
   };
 }
 
-export function mergeCellAfter(id) {
+export function mergeCellAfter(id: string) {
   return {
     type: constants.MERGE_CELL_AFTER,
     id
   };
 }
 
-export function updateCellExecutionCount(id, count) {
+export function updateCellExecutionCount(id: string, count: number) {
   return {
     type: constants.UPDATE_CELL_EXECUTION_COUNT,
     id,
@@ -100,21 +118,22 @@ export function updateCellExecutionCount(id, count) {
   };
 }
 
-export function changeOutputVisibility(id) {
+export function changeOutputVisibility(id: string) {
   return {
     type: constants.CHANGE_OUTPUT_VISIBILITY,
     id
   };
 }
 
-export function changeInputVisibility(id) {
+export function changeInputVisibility(id: string) {
   return {
     type: constants.CHANGE_INPUT_VISIBILITY,
     id
   };
 }
 
-export function updateCellPagers(id, pagers) {
+// TODO de-anyify this signature
+export function updateCellPagers(id: string, pagers: any) {
   return {
     type: constants.UPDATE_CELL_PAGERS,
     id,
@@ -122,7 +141,8 @@ export function updateCellPagers(id, pagers) {
   };
 }
 
-export function updateCellStatus(id, status) {
+// TODO de-anyify this signature
+export function updateCellStatus(id: string, status: any) {
   return {
     type: constants.UPDATE_CELL_STATUS,
     id,
@@ -130,14 +150,15 @@ export function updateCellStatus(id, status) {
   };
 }
 
-export function focusCell(id) {
+// TODO de-anyify this signature
+export function focusCell(id: string) {
   return {
     type: constants.FOCUS_CELL,
     id
   };
 }
 
-export function focusNextCell(id, createCellIfUndefined) {
+export function focusNextCell(id: string, createCellIfUndefined: boolean) {
   return {
     type: constants.FOCUS_NEXT_CELL,
     id,
@@ -145,42 +166,42 @@ export function focusNextCell(id, createCellIfUndefined) {
   };
 }
 
-export function focusPreviousCell(id) {
+export function focusPreviousCell(id: string) {
   return {
     type: constants.FOCUS_PREVIOUS_CELL,
     id
   };
 }
 
-export function focusCellEditor(id) {
+export function focusCellEditor(id: string) {
   return {
     type: constants.FOCUS_CELL_EDITOR,
     id
   };
 }
 
-export function focusNextCellEditor(id) {
+export function focusNextCellEditor(id: string) {
   return {
     type: constants.FOCUS_NEXT_CELL_EDITOR,
     id
   };
 }
 
-export function focusPreviousCellEditor(id) {
+export function focusPreviousCellEditor(id: string) {
   return {
     type: constants.FOCUS_PREVIOUS_CELL_EDITOR,
     id
   };
 }
 
-export function toggleStickyCell(id) {
+export function toggleStickyCell(id: string) {
   return {
     type: constants.TOGGLE_STICKY_CELL,
     id
   };
 }
 
-export function overwriteMetadata(field, value) {
+export function overwriteMetadata(field: string, value: any) {
   return {
     type: constants.OVERWRITE_METADATA_FIELD,
     field,
@@ -188,7 +209,7 @@ export function overwriteMetadata(field, value) {
   };
 }
 
-export function deleteMetadata(field) {
+export function deleteMetadata(field: string) {
   return {
     type: constants.DELETE_METADATA_FIELD,
     field
@@ -203,36 +224,21 @@ export const interruptKernel = {
   type: constants.INTERRUPT_KERNEL
 };
 
-export function setNotificationSystem(notificationSystem) {
+export function setNotificationSystem(notificationSystem: any) {
   return {
     type: constants.SET_NOTIFICATION_SYSTEM,
     notificationSystem
   };
 }
 
-export function setForwardCheckpoint(documentState) {
-  return {
-    type: constants.SET_FORWARD_CHECKPOINT,
-    documentState
-  };
-}
-
-export function setBackwardCheckpoint(documentState, clearFutureStack) {
-  return {
-    type: constants.SET_BACKWARD_CHECKPOINT,
-    documentState,
-    clearFutureStack
-  };
-}
-
-export function copyCell(id) {
+export function copyCell(id: CellID) {
   return {
     type: constants.COPY_CELL,
     id
   };
 }
 
-export function cutCell(id) {
+export function cutCell(id: CellID) {
   return {
     type: constants.CUT_CELL,
     id
@@ -245,7 +251,7 @@ export function pasteCell() {
   };
 }
 
-export function changeCellType(id, to) {
+export function changeCellType(id: CellID, to: CellType) {
   return {
     type: constants.CHANGE_CELL_TYPE,
     id,
@@ -253,14 +259,14 @@ export function changeCellType(id, to) {
   };
 }
 
-export function setGithubToken(githubToken) {
+export function setGithubToken(githubToken: string) {
   return {
     type: constants.SET_GITHUB_TOKEN,
     githubToken
   };
 }
 
-export function setConfigKey(key, value) {
+export function setConfigKey(key: string, value: any) {
   return {
     type: constants.SET_CONFIG_KEY,
     key,
@@ -268,15 +274,15 @@ export function setConfigKey(key, value) {
   };
 }
 
-export function setTheme(theme) {
-  return setConfigKey("theme", theme);
+export function setTheme(theme: string) {
+  return setConfigKey("theme", (theme: string));
 }
 
-export function setCursorBlink(value) {
+export function setCursorBlink(value: string) {
   return setConfigKey("cursorBlinkRate", value);
 }
 
-export function toggleOutputExpansion(id) {
+export function toggleOutputExpansion(id: string) {
   return {
     type: constants.TOGGLE_OUTPUT_EXPANSION,
     id
@@ -290,7 +296,7 @@ export function toggleOutputExpansion(id) {
  * @param {Object} source - Source code to executed.
  * @return {Object} executeCellAction - Action to be dispatched to reducer.
  */
-export function executeCell(id, source) {
+export function executeCell(id: string, source: string) {
   return {
     type: constants.EXECUTE_CELL,
     id,
@@ -298,14 +304,14 @@ export function executeCell(id, source) {
   };
 }
 
-export function changeFilename(filename) {
+export function changeFilename(filename: string) {
   return {
     type: constants.CHANGE_FILENAME,
     filename
   };
 }
 
-export function save(filename, notebook) {
+export function save(filename: string, notebook: any) {
   return {
     type: constants.SAVE,
     filename,
@@ -313,7 +319,7 @@ export function save(filename, notebook) {
   };
 }
 
-export function saveAs(filename, notebook) {
+export function saveAs(filename: string, notebook: any) {
   return {
     type: constants.SAVE_AS,
     filename,

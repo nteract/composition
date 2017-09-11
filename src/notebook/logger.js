@@ -1,4 +1,5 @@
-import Immutable from "immutable";
+// @flow
+import { Iterable } from "immutable";
 
 import { createLogger } from "redux-logger";
 
@@ -9,7 +10,7 @@ module.exports = function clogger() {
       Object.keys(state).reduce(
         (prev, key) =>
           Object.assign({}, prev, {
-            [key]: Immutable.Iterable.isIterable(state[key])
+            [key]: Iterable.isIterable(state[key])
               ? state[key].toJS()
               : state[key]
           }),

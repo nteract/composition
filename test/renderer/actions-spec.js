@@ -254,25 +254,6 @@ describe("overwriteMetadata", () => {
   });
 });
 
-describe("setForwardCheckpoint", () => {
-  it("creates a SET_FORWARD_CHECKPOINT", () => {
-    expect(actions.setForwardCheckpoint(dummyCommutable)).to.deep.equal({
-      type: constants.SET_FORWARD_CHECKPOINT,
-      documentState: dummyCommutable
-    });
-  });
-});
-
-describe("setBackwardCheckpoint", () => {
-  it("creates a SET_BACKWARD_CHECKPOINT", () => {
-    expect(actions.setBackwardCheckpoint(dummyCommutable, true)).to.deep.equal({
-      type: constants.SET_BACKWARD_CHECKPOINT,
-      documentState: dummyCommutable,
-      clearFutureStack: true
-    });
-  });
-});
-
 describe("copyCell", () => {
   it("creates a COPY_CELL action", () => {
     expect(actions.copyCell("235")).to.deep.equal({
