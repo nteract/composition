@@ -1,8 +1,11 @@
 {
+  "extends": ["prettier", "prettier/flowtype", "plugin:jsx-a11y/recommended"],
   "parser": "babel-eslint",
-  "extends": "airbnb-base",
-  "installedESLint": true,
-  "plugins": [
-    "import"
-  ]
+  "plugins": ["prettier", "flowtype", "jsx-a11y"],
+  "env": {
+    "browser": true,
+    "mocha": true,
+    "node": true,
+    "jest": true
+  }
 }

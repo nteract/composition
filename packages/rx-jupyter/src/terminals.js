@@ -1,17 +1,14 @@
 // @flow
 
-import { ajax } from 'rxjs/observable/dom/ajax';
-import Observable from 'rxjs/Observable';
+import { ajax } from "rxjs/observable/dom/ajax";
+import Observable from "rxjs/Observable";
 
-import { join as pathJoin } from 'path';
+import { join as pathJoin } from "path";
 
-import {
-  createAJAXSettings,
-  normalizeBaseURL,
-} from './base';
+import { createAJAXSettings, normalizeBaseURL } from "./base";
 
-function formURI(path : string) {
-  return pathJoin('/api/terminals/', path);
+function formURI(path: string) {
+  return pathJoin("/api/terminals/", path);
 }
 
 /**
@@ -19,10 +16,10 @@ function formURI(path : string) {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function list(serverConfig : Object) : Observable {
-  const uri = '/api/terminals/';
+export function list(serverConfig: Object): Observable {
+  const uri = "/api/terminals/";
   const opts = {
-    method: 'GET',
+    method: "GET"
   };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
@@ -32,10 +29,10 @@ export function list(serverConfig : Object) : Observable {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function create(serverConfig : Object) : Observable {
-  const uri = '/api/terminals/';
+export function create(serverConfig: Object): Observable {
+  const uri = "/api/terminals/";
   const opts = {
-    method: 'POST',
+    method: "POST"
   };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
@@ -46,10 +43,10 @@ export function create(serverConfig : Object) : Observable {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig : Object, id: string) : Observable {
+export function get(serverConfig: Object, id: string): Observable {
   const uri = formURI(id);
   const opts = {
-    method: 'GET',
+    method: "GET"
   };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
@@ -60,17 +57,16 @@ export function get(serverConfig : Object, id: string) : Observable {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return {AjaxObservable} An Observable with the request response
  */
-export function destroy(serverConfig : Object, id : string) : Observable {
+export function destroy(serverConfig: Object, id: string): Observable {
   const uri = formURI(id);
   const opts = {
-    method: 'DELETE',
+    method: "DELETE"
   };
   return ajax(createAJAXSettings(serverConfig, uri, opts));
 }
 
-
-export function formWebSocketURL(serverConfig : Object, id : string) : string {
+export function formWebSocketURL(serverConfig: Object, id: string): string {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}/terminals/websocket/${id}`;
-  return url.replace(/^http(s)?/, 'ws$1');
+  return url.replace(/^http(s)?/, "ws$1");
 }
