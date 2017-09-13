@@ -33,6 +33,17 @@ type LOAD_ACTION = {
   path: string
 };
 
+type LOAD_FAILED_ACTION = {
+  type: "LOAD_FAILED",
+  payload: any,
+  status: number
+};
+
+type LOADED_ACTION = {
+  type: "LOADED",
+  payload: any
+};
+
 function save(path: string, model: any): SAVE_ACTION {
   // NOTE: Model can be a notebook or any ol' file
   // TODO: Should serverConfig be passed everytime or yoinked from the store from within the epic (?)
@@ -50,7 +61,11 @@ function load(path: string): LOAD_ACTION {
   };
 }
 
-type CONTENTS_ACTION = SAVE_ACTION | LOAD_ACTION;
+type CONTENTS_ACTION =
+  | SAVE_ACTION
+  | LOAD_ACTION
+  | LOAD_FAILED_ACTION
+  | LOADED_ACTION;
 
 type ServerConfig = {
   endpoint: string,

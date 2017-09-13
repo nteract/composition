@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 
 declare type Action = {
-  type: string
+  +type: string
 };
 
 declare type Dispatch<A: Action> = (action: A) => A;
