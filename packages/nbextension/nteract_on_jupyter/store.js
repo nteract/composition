@@ -5,7 +5,6 @@ import { createEpicMiddleware, combineEpics } from "redux-observable";
 import { loadEpic } from "./epics/contents";
 
 const rootReducer = (state, action) => {
-  console.log("root reducer logger", action);
   switch (action.type) {
     case "LOADED":
       return Object.assign({}, state, { contents: action.payload });

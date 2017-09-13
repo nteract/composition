@@ -23,8 +23,6 @@ type JupyterConfigData = {
 
 function createApp(jupyterConfigData: JupyterConfigData) {
   const store = configureStore({ config: jupyterConfigData });
-
-  console.log("The store is available as window.store");
   window.store = store;
 
   class App extends React.Component<*> {
