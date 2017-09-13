@@ -104,17 +104,24 @@ export const fileSubMenus = {
         )
       },
       {
-        label: "&Plotlyr",
+        label: "&Plotly (R)",
         click: launch.bind(
           null,
           path.join(exampleNotebooksDirectory, "plotlyr.ipynb")
         )
       },
       {
-        label: "&Altair",
+        label: "&Vegalite (Python)",
         click: launch.bind(
           null,
           path.join(exampleNotebooksDirectory, "altair.ipynb")
+        )
+      },
+      {
+        label: "&Vegalite (R)",
+        click: launch.bind(
+          null,
+          path.join(exampleNotebooksDirectory, "vegalite-for-r.ipynb")
         )
       },
       {
@@ -136,6 +143,13 @@ export const fileSubMenus = {
         click: launch.bind(
           null,
           path.join(exampleNotebooksDirectory, "display-updates.ipynb")
+        )
+      },
+      {
+        label: "VDOMmable updates with emojis",
+        click: launch.bind(
+          null,
+          path.join(exampleNotebooksDirectory, "vdom.ipynb")
         )
       },
       {
