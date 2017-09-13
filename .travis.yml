@@ -6,10 +6,10 @@ node_js:
 - "8"
 env:
   matrix:
-  - GROUP=coverage
-  - GROUP=packages
+  - GROUP=coverage BUILD=build
+  - GROUP=packages BUILD=build:packages
   - GROUP=lint
-  - GROUP=flow
+  - GROUP=flow BUILD=build:packages
   - GROUP=conformance
 
 cache:
@@ -23,10 +23,11 @@ before_install:
 before_script:
 - export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start
 - greenkeeper-lockfile-update
-- chmod +x node_modules/flow-bin/flow-linux64-v0.54.0/flow
 install:
 - npm install
-script: npm run test:$GROUP
+script:
+- 'if [ -n "${BUILD}" ]; then npm run $BUILD; fi'
+- npm run test:$GROUP
 after_script: greenkeeper-lockfile-upload
 after_success:
   - 'if [[ $GROUP == coverage* ]]; then bash <(curl -s https://codecov.io/bash); fi'
