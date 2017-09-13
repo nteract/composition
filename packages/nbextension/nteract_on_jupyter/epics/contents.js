@@ -61,6 +61,14 @@ function load(path: string): LOAD_ACTION {
   };
 }
 
+function loadFailed(ajaxError: any): LOAD_FAILED_ACTION {
+  return {
+    type: "LOAD_FAILED",
+    payload: ajaxError.response,
+    status: ajaxError.status
+  };
+}
+
 type CONTENTS_ACTION =
   | SAVE_ACTION
   | LOAD_ACTION
@@ -93,13 +101,9 @@ export function loadEpic(
       };
 
       // TODO: make params optional in rx-jupyter
-      return contents.get(serverConfig, action.path, {}).catch(ajaxError => {
-        return {
-          type: "LOAD_FAILED",
-          payload: ajaxError.response,
-          status: ajaxError.status
-        };
-      });
+      return contents
+        .get(serverConfig, action.path, {})
+        .catch((xhrError: any) => Observable.of(loadFailed(xhrError)));
     })
     .map(xhr => {
       if (xhr.status === 200) {
