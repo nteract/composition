@@ -2,7 +2,7 @@
 import { createStore, applyMiddleware } from "redux";
 import { createEpicMiddleware, combineEpics } from "redux-observable";
 
-import { loadEpic } from "./epics/contents";
+import epics from "./epics";
 
 const rootReducer = (state, action) => {
   switch (action.type) {
@@ -15,7 +15,7 @@ const rootReducer = (state, action) => {
 type AppState = {};
 
 export default function configureStore(initialState: AppState = {}) {
-  const rootEpic = combineEpics(loadEpic);
+  const rootEpic = combineEpics(...epics);
   const middlewares = [createEpicMiddleware(rootEpic)];
 
   return createStore(

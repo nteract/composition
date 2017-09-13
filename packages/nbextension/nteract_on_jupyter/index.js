@@ -33,7 +33,6 @@ function createApp(jupyterConfigData: JupyterConfigData) {
     }
 
     render(): React$Element<any> {
-      // eslint-disable-line class-methods-use-this
       return (
         <Provider store={store}>
           <div>

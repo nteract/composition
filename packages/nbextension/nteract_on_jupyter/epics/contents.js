@@ -1,11 +1,6 @@
 /* @flow */
 
-// import { SAVE, SAVE_AS } from "../constants";
-// import { changeFilename, save, doneSaving } from "../actions";
-
 import { contents } from "rx-jupyter";
-
-global.contents = contents;
 
 import { toJS, stringifyNotebook } from "@nteract/commutable";
 
@@ -103,19 +98,17 @@ export function loadEpic(
       // TODO: make params optional in rx-jupyter
       return contents
         .get(serverConfig, action.path, {})
+        .do(xhr => {
+          if (xhr.status !== 200) {
+            throw new Error(xhr.response);
+          }
+        })
+        .map(xhr => {
+          return {
+            type: "LOADED",
+            payload: xhr.response
+          };
+        })
         .catch((xhrError: any) => Observable.of(loadFailed(xhrError)));
-    })
-    .map(xhr => {
-      if (xhr.status === 200) {
-        return {
-          type: "LOADED",
-          payload: xhr.response
-        };
-      } else {
-        return {
-          type: "LOAD_FAILED",
-          payload: xhr.response
-        };
-      }
     });
 }

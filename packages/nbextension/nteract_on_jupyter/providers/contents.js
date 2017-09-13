@@ -21,9 +21,6 @@ class Contents extends Component<ContentsProps> {
       ...this.props
     };
 
-    console.log("in contents");
-    console.log(props);
-
     return <ContentsView {...props} />;
   }
 }
