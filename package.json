@@ -29,7 +29,8 @@
     "build": "npm run build:packages && npm run build:webpack",
     "build:webpack": "webpack --progress --colors",
     "build:webpack:watch": "npm run build:webpack -- --watch",
-    "build:packages": "lerna run build --ignore @nteract/notebook-preview-demo",
+    "build:packages":
+      "lerna run build:lib --ignore @nteract/notebook-preview-demo",
     "build:packages:watch": "lerna run build:lib:watch --stream",
     "build:icon":
       "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
