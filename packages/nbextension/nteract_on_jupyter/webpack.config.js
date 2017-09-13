@@ -7,20 +7,14 @@ module.exports = {
     app: "./index.js",
     vendor: [
       "react",
-      "react-dnd",
-      "react-dnd-html5-backend",
       "react-dom",
       "react-redux",
-      "react-simple-dropdown",
       "redux",
-      "redux-logger",
       "redux-observable",
       "immutable",
       "rxjs",
       "codemirror",
-      "commonmark",
-      "commonmark-react-renderer",
-      "date-fns"
+      "jquery"
     ]
   },
   target: "web",

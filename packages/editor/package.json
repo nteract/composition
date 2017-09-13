@@ -19,7 +19,9 @@
   "dependencies": {
     "@nteract/messaging": "^1.2.0",
     "@nteract/transforms": "^2.4.1",
+    "classnames": "^2.2.5",
     "codemirror": "^5.28.0",
+    "create-react-class": "^15.6.0",
     "exenv": "^1.2.2",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
