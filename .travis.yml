@@ -19,15 +19,12 @@ cache:
 
 before_install:
 - npm install -g npm@5
-- npm install -g greenkeeper-lockfile@1
 before_script:
 - export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start
-- greenkeeper-lockfile-update
 install:
 - npm install
 script:
 - 'if [ -n "${BUILD}" ]; then npm run $BUILD; fi'
 - npm run test:$GROUP
-after_script: greenkeeper-lockfile-upload
 after_success:
   - 'if [[ $GROUP == coverage* ]]; then bash <(curl -s https://codecov.io/bash); fi'
