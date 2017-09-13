@@ -12,10 +12,10 @@ import { createAJAXSettings } from "./base";
  *
  * @return  {Object}  An Observable with the request response
  */
-export function list(serverConfig: Object): Observable {
+export function list(serverConfig: Object): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, "/api/kernelspecs"));
 }
 
-export function get(serverConfig: Object, name: string): Observable {
+export function get(serverConfig: Object, name: string): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, `/api/kernelspecs/${name}`));
 }

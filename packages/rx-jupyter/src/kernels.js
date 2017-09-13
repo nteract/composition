@@ -13,7 +13,7 @@ import { createAJAXSettings } from "./base";
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function list(serverConfig: Object): Observable {
+export function list(serverConfig: Object): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, "/api/kernels"));
 }
 
@@ -25,7 +25,7 @@ export function list(serverConfig: Object): Observable {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig: Object, id: string): Observable {
+export function get(serverConfig: Object, id: string): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, `/api/kernels/${id}`));
 }
 
@@ -42,7 +42,7 @@ export function start(
   serverConfig: Object,
   name: string,
   path: string
-): Observable {
+): Observable<*> {
   const startSettings = createAJAXSettings(serverConfig, "/api/kernels", {
     headers: {
       "Content-Type": "application/json"
@@ -64,7 +64,7 @@ export function start(
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function kill(serverConfig: Object, id: string): Observable {
+export function kill(serverConfig: Object, id: string): Observable<*> {
   return ajax(
     createAJAXSettings(serverConfig, `/api/kernels/${id}`, { method: "DELETE" })
   );
@@ -78,7 +78,7 @@ export function kill(serverConfig: Object, id: string): Observable {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function interrupt(serverConfig: Object, id: string): Observable {
+export function interrupt(serverConfig: Object, id: string): Observable<*> {
   return ajax(
     createAJAXSettings(serverConfig, `/api/kernels/${id}/interrupt`, {
       method: "POST"
@@ -94,7 +94,7 @@ export function interrupt(serverConfig: Object, id: string): Observable {
  *
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function restart(serverConfig: Object, id: string): Observable {
+export function restart(serverConfig: Object, id: string): Observable<*> {
   return ajax(
     createAJAXSettings(serverConfig, `/api/kernels/${id}/restart`, {
       method: "POST"
@@ -107,6 +107,6 @@ export function formWebSocketURL(serverConfig: Object, id: string): string {
   return url.replace(/^http(s)?/, "ws$1");
 }
 
-export function connect(serverConfig: Object, id: string): Observable {
+export function connect(serverConfig: Object, id: string): Observable<*> {
   return webSocket(formWebSocketURL(serverConfig, id));
 }

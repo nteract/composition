@@ -16,7 +16,7 @@ function formURI(path: string) {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function list(serverConfig: Object): Observable {
+export function list(serverConfig: Object): Observable<*> {
   const uri = "/api/terminals/";
   const opts = {
     method: "GET"
@@ -29,7 +29,7 @@ export function list(serverConfig: Object): Observable {
  * @param {Object} serverConfig  - The server configuration
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function create(serverConfig: Object): Observable {
+export function create(serverConfig: Object): Observable<*> {
   const uri = "/api/terminals/";
   const opts = {
     method: "POST"
@@ -43,7 +43,7 @@ export function create(serverConfig: Object): Observable {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return  {AjaxObservable}  An Observable with the request response
  */
-export function get(serverConfig: Object, id: string): Observable {
+export function get(serverConfig: Object, id: string): Observable<*> {
   const uri = formURI(id);
   const opts = {
     method: "GET"
@@ -57,7 +57,7 @@ export function get(serverConfig: Object, id: string): Observable {
  * @param  {string} id - ID of the terminal to be fetched.
  * @return {AjaxObservable} An Observable with the request response
  */
-export function destroy(serverConfig: Object, id: string): Observable {
+export function destroy(serverConfig: Object, id: string): Observable<*> {
   const uri = formURI(id);
   const opts = {
     method: "DELETE"

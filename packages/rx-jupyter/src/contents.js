@@ -42,7 +42,7 @@ function formCheckpointURI(path: string, checkpointID: string): string {
   *
   * @return {AjaxObservable}  An Observable with the request response
   */
-export function remove(serverConfig: Object, path: string): Observable {
+export function remove(serverConfig: Object, path: string): Observable<*> {
   const uri = formURI(path);
   const opts = {
     method: "DELETE"
@@ -66,7 +66,7 @@ export function get(
   serverConfig: Object,
   path: string,
   params: Object
-): Observable {
+): Observable<*> {
   let uri = formURI(path);
   const query = querystring.stringify(params);
   if (query.length > 0) {
@@ -87,7 +87,7 @@ export function update(
   serverConfig: Object,
   path: string,
   model: Object
-): Observable {
+): Observable<*> {
   const uri = formURI(path);
   const opts = {
     headers: {
@@ -112,7 +112,7 @@ export function create(
   serverConfig: Object,
   path: string,
   model: Object
-): Observable {
+): Observable<*> {
   const uri = formURI(path);
   const opts = {
     headers: {
@@ -136,7 +136,7 @@ export function save(
   serverConfig: Object,
   path: string,
   model: Object
-): Observable {
+): Observable<*> {
   const uri = formURI(path);
   const opts = {
     headers: {
@@ -157,7 +157,7 @@ export function save(
 export function listCheckpoints(
   serverConfig: Object,
   path: string
-): Observable {
+): Observable<*> {
   const uri = formCheckpointURI(path, "");
   const opts = {
     method: "GET"
@@ -177,7 +177,7 @@ export function listCheckpoints(
 export function createCheckpoint(
   serverConfig: Object,
   path: string
-): Observable {
+): Observable<*> {
   const uri = formCheckpointURI(path, "");
   const opts = {
     method: "POST"
@@ -196,7 +196,7 @@ export function deleteCheckpoint(
   serverConfig: Object,
   path: string,
   checkpointID: string
-): Observable {
+): Observable<*> {
   const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: "DELETE"
@@ -215,7 +215,7 @@ export function restoreFromCheckpoint(
   serverConfig: Object,
   path: string,
   checkpointID: string
-): Observable {
+): Observable<*> {
   const uri = formCheckpointURI(path, checkpointID);
   const opts = {
     method: "POST"
