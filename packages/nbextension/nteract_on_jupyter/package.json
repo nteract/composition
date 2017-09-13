@@ -18,7 +18,7 @@
     "@nteract/transforms": "^2.4.1",
     "@nteract/commutable": "^2.1.1",
     "redux-observable": "^0.16.0",
-    "rx-jupyter": "^1.1.0",
+    "rx-jupyter": "^1.2.0",
     "anser": "^1.4.1",
     "codemirror": "^5.28.0",
     "isomorphic-fetch": "^2.2.1",
