@@ -39,6 +39,7 @@ export function launch(filename) {
   let actuallyExit = false;
 
   win.on("close", e => {
+    actuallyExit = true;
     if (!actuallyExit) {
       e.preventDefault();
       dialog.showMessageBox(
