@@ -16,6 +16,7 @@
   "scripts": {
     "postinstall": "npm run lerna",
     "start": "lerna run start --scope @nteract/desktop",
+    "spawn": "lerna run spawn --scope @nteract/desktop",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lerna": "lerna bootstrap --hoist rxjs --hoist uuid",

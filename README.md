@@ -77,8 +77,7 @@ As you make changes, close the entire app (cmd-q on OS X, or ctrl-c at the termi
 In separate terminals run:
 
 ```
-npm run build:main
-npm run build:renderer:watch
+npm run build:desktop:watch
 ```
 
 and
@@ -102,7 +101,7 @@ And then opening `docs/index.html` in your favorite browser.
 
 > I upgraded my developer installation and things are broken!
 
-- Try `npm run reinstall`
+- Try `git clean -xdf && npm i`
 
 > I want to debug redux actions and state changes.
 
