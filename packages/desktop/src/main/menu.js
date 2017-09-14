@@ -12,7 +12,7 @@ import { installShellCommand } from "./cli";
 
 function getExampleNotebooksDir() {
   if (process.env.NODE_ENV === "development") {
-    return path.resolve(path.join(__dirname, "..", "..", "example-notebooks"));
+    return path.resolve(path.join(__dirname, "..", "example-notebooks"));
   }
   return path.join(process.resourcesPath, "example-notebooks");
 }
