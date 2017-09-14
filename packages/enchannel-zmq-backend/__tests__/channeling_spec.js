@@ -1,8 +1,6 @@
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 import uuidv4 from "uuid/v4";
 
-import { expect } from "chai";
-
 import {
   createChannels,
   createChannelSubject,
@@ -23,11 +21,11 @@ describe("createChannels", () => {
     };
     const s = createChannels(uuidv4(), config);
 
-    expect(s).to.be.an("object");
-    expect(s.shell).to.be.an("object");
-    expect(s.stdin).to.be.an("object");
-    expect(s.control).to.be.an("object");
-    expect(s.iopub).to.be.an("object");
+    expect(typeof s).toBe("object");
+    expect(typeof s.shell).toBe("object");
+    expect(typeof s.stdin).toBe("object");
+    expect(typeof s.control).toBe("object");
+    expect(typeof s.iopub).toBe("object");
 
     s.shell.complete();
     s.stdin.complete();
@@ -46,9 +44,9 @@ describe("createChannelSubject", () => {
       iopub_port: 19009
     };
     const s = createChannelSubject("iopub", uuidv4(), config);
-    expect(s.next).to.be.a("function");
-    expect(s.complete).to.be.a("function");
-    expect(s.subscribe).to.be.a("function");
+    expect(typeof s.next).toBe("function");
+    expect(typeof s.complete).toBe("function");
+    expect(typeof s.subscribe).toBe("function");
     s.complete();
   });
 });

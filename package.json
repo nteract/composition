@@ -35,7 +35,8 @@
     "test:coverage": "npm run coverage",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
-    "test:packages": "jest",
+    "test:packages":
+      "lerna exec --scope enchannel-zmq-backend -- npm rebuild && jest",
     "test:desktop": "lerna run test:unit --scope @nteract/desktop --stream",
     "precoverage":
       "mkdirp coverage && nyc lerna run test:unit --scope @nteract/desktop --stream",

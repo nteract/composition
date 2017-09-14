@@ -1,11 +1,5 @@
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 
-const chai = require("chai");
-const sinon = require("sinon");
-const sinonChai = require("sinon-chai");
-const expect = chai.expect;
-chai.use(sinonChai);
-
 const uuidv4 = require("uuid/v4");
 
 import { EventEmitter } from "events";
@@ -24,45 +18,45 @@ import {
 describe("createSubscriber", () => {
   it("creates a subscriber from a socket", () => {
     const hokeySocket = {
-      send: sinon.spy(),
-      removeAllListeners: sinon.spy(),
-      close: sinon.spy()
+      send: jest.fn(),
+      removeAllListeners: jest.fn(),
+      close: jest.fn()
     };
 
     const ob = createSubscriber(hokeySocket);
     const message = { content: { x: 2 } };
     ob.next(message);
-    expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
+    expect(hokeySocket.send).toBeCalledWith(new jmp.Message(message));
   });
   it("removes all listeners and closes the socket on complete()", () => {
     const hokeySocket = {
-      send: sinon.spy(),
-      removeAllListeners: sinon.spy(),
-      close: sinon.spy()
+      send: jest.fn(),
+      removeAllListeners: jest.fn(),
+      close: jest.fn()
     };
 
     const ob = createSubscriber(hokeySocket);
     ob.complete();
-    expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
-    expect(hokeySocket.close).to.have.been.calledWith();
+    expect(hokeySocket.removeAllListeners).toBeCalled();
+    expect(hokeySocket.close).toBeCalled();
   });
   it("should only close once", () => {
     const hokeySocket = {
-      send: sinon.spy(),
-      removeAllListeners: sinon.spy(),
-      close: sinon.spy()
+      send: jest.fn(),
+      removeAllListeners: jest.fn(),
+      close: jest.fn()
     };
 
     const ob = createSubscriber(hokeySocket);
     ob.complete();
-    expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
-    expect(hokeySocket.close).to.have.been.calledWith();
+    expect(hokeySocket.removeAllListeners).toBeCalled();
+    expect(hokeySocket.close).toBeCalled();
 
-    hokeySocket.removeAllListeners = sinon.spy();
-    hokeySocket.close = sinon.spy();
+    hokeySocket.removeAllListeners = jest.fn();
+    hokeySocket.close = jest.fn();
     ob.complete();
-    expect(hokeySocket.removeAllListeners).to.not.have.been.calledWith();
-    expect(hokeySocket.close).to.not.have.been.calledWith();
+    expect(hokeySocket.removeAllListeners).not.toBeCalled();
+    expect(hokeySocket.close).not.toBeCalled();
   });
 });
 
@@ -72,7 +66,7 @@ describe("createObservable", () => {
     const obs = createObservable(emitter);
 
     obs.subscribe(msg => {
-      expect(msg).to.deep.equal({
+      expect(msg).toEqual({
         content: {
           success: true
         },
@@ -96,22 +90,22 @@ describe("createSubject", () => {
     // created properly
     const hokeySocket = new EventEmitter();
 
-    hokeySocket.removeAllListeners = sinon.spy();
-    hokeySocket.send = sinon.spy();
-    hokeySocket.close = sinon.spy();
+    hokeySocket.removeAllListeners = jest.fn();
+    hokeySocket.send = jest.fn();
+    hokeySocket.close = jest.fn();
 
     const s = createSubject(hokeySocket);
 
     s.subscribe(msg => {
-      expect(msg).to.deep.equal({
+      expect(msg).toEqual({
         content: {
           success: true
         },
         blobs: []
       });
       s.complete();
-      expect(hokeySocket.removeAllListeners).to.have.been.calledWith();
-      expect(hokeySocket.close).to.have.been.calledWith();
+      expect(hokeySocket.removeAllListeners).toBeCalled();
+      expect(hokeySocket.close).toBeCalled();
       done();
     });
     const msg = {
@@ -124,7 +118,7 @@ describe("createSubject", () => {
 
     const message = { content: { x: 2 } };
     s.next(message);
-    expect(hokeySocket.send).to.have.been.calledWith(new jmp.Message(message));
+    expect(hokeySocket.send).toBeCalledWith(new jmp.Message(message));
 
     hokeySocket.emit("message", msg);
   });
@@ -142,9 +136,9 @@ describe("createSocket", () => {
     const identity = uuidv4();
 
     const socket = createSocket("iopub", identity, config);
-    expect(socket).to.not.be.null;
-    expect(socket.identity).to.equal(identity);
-    expect(socket.type).to.equal(constants.ZMQType.frontend.iopub);
+    expect(socket).not.toBeNull();
+    expect(socket.identity).toBe(identity);
+    expect(socket.type).toBe(constants.ZMQType.frontend.iopub);
     socket.close();
   });
 });
