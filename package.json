@@ -49,7 +49,10 @@
     "pack": "lerna run pack --scope @nteract/desktop --stream"
   },
   "jest": {
-    "setupFiles": ["./scripts/mockument"]
+    "setupFiles": ["./scripts/mockument"],
+    "moduleNameMapper": {
+      "uuid": "<rootDir>/packages/commutable/node_modules/uuid/"
+    }
   },
   "lint-staged": {
     "*.js": ["prettier --write", "git add"],
