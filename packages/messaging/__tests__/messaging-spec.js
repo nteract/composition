@@ -6,7 +6,23 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/count";
 import "rxjs/add/operator/toPromise";
 
-require("../src/index");
+import { createMessage, getUsername } from "../";
+
+describe("createMessage", () => {
+  it("makes a msg", () => {
+    const msg = createMessage("a", {
+      parent_header: { msg_id: "100" },
+      content: { data: { foo: "bar" } }
+    });
+    expect(typeof msg).toBe("object");
+    expect(typeof msg.header).toBe("object");
+    expect(typeof msg.content).toBe("object");
+    expect(msg.header.username).toBe(getUsername());
+    expect(msg.header.msg_type).toBe("a");
+    expect(msg.parent_header.msg_id).toBe("100");
+    expect(msg.content.data.foo).toBe("bar");
+  });
+});
 
 describe("childOf", () => {
   it("filters messages that have the same parent", () =>
