@@ -15,6 +15,7 @@
   },
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
+    "clean": "rimraf lib dist",
     "postinstall": "electron-builder install-app-deps",
     "prestart": "npm run build",
     "start": "npm run spawn",
