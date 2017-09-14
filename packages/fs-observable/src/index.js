@@ -1,7 +1,6 @@
 // @flow
 import * as fs from "fs";
 
-export const filesystem = fs;
 const mkdirp = require("mkdirp");
 
 import { Observable } from "rxjs/Observable";
@@ -10,8 +9,8 @@ import "rxjs/add/operator/mergeMap";
 
 export const unlinkObservable = (path: string) =>
   Observable.create(observer => {
-    if (filesystem.existsSync(path)) {
-      filesystem.unlink(path, error => {
+    if (fs.existsSync(path)) {
+      fs.unlink(path, error => {
         if (error) {
           observer.error(error);
         } else {
@@ -26,7 +25,7 @@ export const unlinkObservable = (path: string) =>
   });
 
 export const createNewSymlinkObservable = Observable.bindNodeCallback(
-  filesystem.symlink
+  fs.symlink
 );
 
 export const createSymlinkObservable = (target: string, path: string) =>
@@ -34,12 +33,8 @@ export const createSymlinkObservable = (target: string, path: string) =>
     createNewSymlinkObservable(target, path)
   );
 
-export const readFileObservable = Observable.bindNodeCallback(
-  filesystem.readFile
-);
+export const readFileObservable = Observable.bindNodeCallback(fs.readFile);
 
-export const writeFileObservable = Observable.bindNodeCallback(
-  filesystem.writeFile
-);
+export const writeFileObservable = Observable.bindNodeCallback(fs.writeFile);
 
 export const mkdirpObservable = Observable.bindNodeCallback(mkdirp);
