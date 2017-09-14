@@ -36,7 +36,7 @@ dist/
 
 test/*.ipynb
 
-bin/nteract-env
+packages/desktop/bin/nteract-env
 
 # Ignore lerna lock
 packages/*/yarn.lock
