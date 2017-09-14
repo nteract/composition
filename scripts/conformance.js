@@ -8,7 +8,13 @@ const glob = require("glob");
 const fs = require("fs");
 const path = require("path");
 
-const notebookDir = path.join(__dirname, "..", "example-notebooks");
+const notebookDir = path.join(
+  __dirname,
+  "..",
+  "packages",
+  "desktop",
+  "example-notebooks"
+);
 const files = glob.sync(path.join(notebookDir, "*.ipynb"));
 
 let numFailed = 0;
