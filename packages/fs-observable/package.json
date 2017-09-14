@@ -32,5 +32,8 @@
   },
   "peerDependencies": {
     "rxjs": "^5.4.1"
+  },
+  "dependencies": {
+    "mkdirp": "^0.5.1"
   }
 }

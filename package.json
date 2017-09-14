@@ -72,7 +72,6 @@
     "chai": "^4.0.0",
     "chai-immutable": "^1.6.0",
     "enzyme": "^2.7.1",
-    "enzyme-to-json": "^1.5.1",
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "^4.4.1",
     "eslint-config-prettier": "^2.1.1",
@@ -84,9 +83,11 @@
     "husky": "^0.14.0",
     "jest": "^20.0.4",
     "jsdom": "^11.0.0",
+    "json-loader": "^0.5.4",
     "jsonschema": "^1.2.0",
     "lerna": "^2.0.0",
     "lint-staged": "^4.0.0",
+    "lodash-webpack-plugin": "^0.11.4",
     "mkdirp": "^0.5.1",
     "mocha": "^3.4.2",
     "mock-require": "^2.0.0",
@@ -96,6 +97,7 @@
     "react-addons-test-utils": "^15.5.1",
     "react-test-renderer": "^15.6.1",
     "sinon": "^3.2.0",
-    "sinon-chai": "^2.10.0"
+    "sinon-chai": "^2.10.0",
+    "webpack": "^3.5.5"
   }
 }

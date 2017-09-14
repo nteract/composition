@@ -120,13 +120,11 @@
     "escape-carriage": "^1.2.0",
     "fs-observable": "1.0.0",
     "jsdom": "^11.0.0",
-    "json-loader": "^0.5.4",
     "jsontableschema": "^0.2.2",
     "jupyter-paths": "^2.0.0",
     "kernelspecs": "^2.0.0",
     "leaflet": "^1.0.3",
     "lodash": "^4.17.4",
-    "lodash-webpack-plugin": "^0.11.4",
     "prop-types": "^15.5.10",
     "react-addons-test-utils": "^15.5.1",
     "react-dnd": "^2.4.0",
@@ -148,7 +146,6 @@
     "spawn-rx": "^2.0.11",
     "spawnteract": "^4.0.0",
     "watch": "^1.0.0",
-    "yargs": "^8.0.1",
-    "webpack": "^3.5.5"
+    "yargs": "^8.0.1"
   }
 }
