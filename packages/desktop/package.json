@@ -49,6 +49,7 @@
   "build": {
     "electronVersion": "1.7.6",
     "appId": "io.nteract.nteract",
+    "productName": "nteract",
     "fileAssociations": {
       "ext": "ipynb",
       "name": "ipynb"

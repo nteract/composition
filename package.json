@@ -19,7 +19,7 @@
     "spawn": "lerna run spawn --scope @nteract/desktop",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lerna": "lerna bootstrap --hoist rxjs --hoist uuid",
+    "lerna": "lerna bootstrap --hoist rxjs",
     "build": "npm run build:packages && npm run build:desktop",
     "build:desktop": "lerna run build --scope @nteract/desktop --stream",
     "build:desktop:watch":
@@ -44,7 +44,9 @@
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged",
     "prettier":
-      "prettier --write '**/*.{js,json}' '!**/{lib,.git,flow-typed}/**'"
+      "prettier --write '**/*.{js,json}' '!**/{lib,.git,flow-typed}/**'",
+    "dist": "lerna run dist --scope @nteract/desktop --stream",
+    "pack": "lerna run pack --scope @nteract/desktop --stream"
   },
   "jest": {
     "setupFiles": ["./scripts/mockument"]
