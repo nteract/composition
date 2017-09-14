@@ -6,10 +6,10 @@ node_js:
 - "8"
 env:
   matrix:
-  - GROUP=coverage BUILD=build
-  - GROUP=packages BUILD=build:packages
+  - GROUP=coverage BUILD=build:desktop
+  - GROUP=packages
   - GROUP=lint
-  - GROUP=flow BUILD=build:packages
+  - GROUP=flow
   - GROUP=conformance
 
 cache:
