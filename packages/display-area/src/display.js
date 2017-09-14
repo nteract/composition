@@ -43,11 +43,11 @@ export default class Display extends React.PureComponent<Props> {
             overflowY: "auto"
           }}
         >
-          {outputs ? (
-            outputs.map((output, index) => (
-              <Output key={index} output={output} {...props} />
-            ))
-          ) : null}
+          {outputs
+            ? outputs.map((output, index) => (
+                <Output key={index} output={output} {...props} />
+              ))
+            : null}
         </div>
       );
     }

@@ -27,7 +27,8 @@ export function tildify(p) {
   const s = path.normalize(p) + path.sep;
   return (s.indexOf(HOME) === 0
     ? s.replace(HOME + path.sep, `~${path.sep}`)
-    : s).slice(0, -1);
+    : s
+  ).slice(0, -1);
 }
 
 export function setTitleFromAttributes(attributes) {

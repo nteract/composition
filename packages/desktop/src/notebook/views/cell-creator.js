@@ -90,9 +90,9 @@ export default class CellCreator extends PureComponent<Props, State> {
             this.hoverElement = ref;
           }}
         >
-          {this.state.show || !this.props.id ? (
-            renderActionButtons(this.props)
-          ) : null}
+          {this.state.show || !this.props.id
+            ? renderActionButtons(this.props)
+            : null}
         </div>
       </div>
     );

@@ -91,13 +91,9 @@ export default class VirtualizedTable extends React.Component<Props, State> {
             //   outline: 0
             // }}
             height={
-              this.props.expanded ? (
-                EXPANDED_HEIGHT
-              ) : height < COLLAPSED_HEIGHT ? (
-                height
-              ) : (
-                COLLAPSED_HEIGHT
-              )
+              this.props.expanded
+                ? EXPANDED_HEIGHT
+                : height < COLLAPSED_HEIGHT ? height : COLLAPSED_HEIGHT
             }
             // noRowsRenderer={this._noRowsRenderer}
             // overscanRowCount={overscanRowCount}
