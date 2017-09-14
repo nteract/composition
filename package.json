@@ -18,7 +18,7 @@
     "start": "lerna run start --scope @nteract/desktop",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lerna": "lerna bootstrap --hoist rxjs",
+    "lerna": "lerna bootstrap --hoist rxjs --hoist uuid",
     "build": "npm run build:packages && npm run build:desktop",
     "build:desktop": "lerna run build --scope @nteract/desktop",
     "build:desktop:watch":
