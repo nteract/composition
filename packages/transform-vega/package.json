@@ -17,6 +17,7 @@
     "access": "public"
   },
   "dependencies": {
+    "d3": "^3.5.17",
     "lodash": "^4.17.4",
     "vega": "^2.6.5",
     "vega-embed": "^2.2.0",
