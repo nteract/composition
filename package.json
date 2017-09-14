@@ -15,17 +15,17 @@
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
     "postinstall": "npm run lerna",
-    "start": "lerna run start --scope @nteract/desktop",
+    "start": "lerna run start --scope @nteract/desktop --stream",
     "spawn": "lerna run spawn --scope @nteract/desktop",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lerna": "lerna bootstrap --hoist rxjs --hoist uuid",
     "build": "npm run build:packages && npm run build:desktop",
-    "build:desktop": "lerna run build --scope @nteract/desktop",
+    "build:desktop": "lerna run build --scope @nteract/desktop --stream",
     "build:desktop:watch":
       "lerna run build:watch --scope @nteract/desktop --stream",
-    "build:packages": "lerna run build:lib",
-    "build:packages:watch": "lerna run build:lib:watch --stream",
+    "build:packages": "lerna run build --parallel",
+    "build:packages:watch": "lerna run build:lib:watch --parallel",
     "build:icon":
       "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",
