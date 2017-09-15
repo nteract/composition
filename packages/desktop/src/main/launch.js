@@ -36,14 +36,14 @@ export function launch(filename) {
   const index = path.join(__dirname, "..", "static", "index.html");
   win.loadURL(`file://${index}`);
 
-  win.on("close", e => {
+  win.webContents.on("will-prevent-unload", e => {
     const response = dialog.showMessageBox({
       type: "question",
       buttons: ["Yes", "No"],
       title: "Confirm",
       message: "Unsaved data will be lost. Are you sure you want to quit?"
     });
-    if (response == 1) {
+    if (response == 0) {
       e.preventDefault();
     }
   });

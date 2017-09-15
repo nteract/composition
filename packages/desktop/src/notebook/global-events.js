@@ -3,6 +3,8 @@
 import type { Store } from "redux";
 import type { AppState } from "./records";
 
+import { dialog } from "electron";
+import { is } from "immutable";
 import { forceShutdownKernel } from "./kernel/shutdown";
 
 export function unload(store: Store<AppState, Action>) {
@@ -15,6 +17,19 @@ export function unload(store: Store<AppState, Action>) {
   forceShutdownKernel(kernel);
 }
 
+export function beforeUnload(store: Store<AppState, Action>, e: any) {
+  const state = store.getState();
+  const saved = is(
+    state.document.get("notebook"),
+    state.document.get("savedNotebook")
+  );
+  if (!saved) {
+    // Will prevent closing "will-prevent-unload"
+    e.returnValue = true;
+  }
+}
+
 export function initGlobalHandlers(store: Store<AppState, Action>) {
-  global.window.onunload = unload.bind(null, store);
+  window.onbeforeunload = beforeUnload.bind(null, store);
+  window.onunload = unload.bind(null, store);
 }

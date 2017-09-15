@@ -77,6 +77,7 @@ export function dummyStore(config) {
     {
       document: DocumentRecord({
         notebook: dummyNotebook,
+        savedNotebook: config && config.saved === true ? dummyNotebook : null,
         cellPagers: new Immutable.Map(),
         stickyCells: new Immutable.Map(),
         outputStatuses: new Immutable.Map(),
