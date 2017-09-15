@@ -58,13 +58,15 @@ export function saveEpic(
             })
           )
           .map(() => {
-            const state = store.getState();
-            const notificationSystem = state.app.get("notificationSystem");
-            notificationSystem.addNotification({
-              title: "Save successful!",
-              autoDismiss: 2,
-              level: "success"
-            });
+            if (process.platform !== "darwin") {
+              const state = store.getState();
+              const notificationSystem = state.app.get("notificationSystem");
+              notificationSystem.addNotification({
+                title: "Save successful!",
+                autoDismiss: 2,
+                level: "success"
+              });
+            }
             return doneSaving(action.notebook);
           })
       // .startWith({ type: START_SAVING })
