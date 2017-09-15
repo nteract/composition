@@ -60,7 +60,7 @@ describe("setTitleFromAttributes", () => {
 });
 
 describe("createTitleFeed", () => {
-  it("creates an observable that updates title attributes", done => {
+  it("creates an observable that updates title attributes for modified notebook", done => {
     const notebook = new Immutable.Map().setIn(
       ["metadata", "kernelspec", "display_name"],
       "python3000"
@@ -68,6 +68,41 @@ describe("createTitleFeed", () => {
     const state = {
       document: DocumentRecord({
         notebook
+      }),
+      app: AppRecord({
+        executionState: "not connected"
+      }),
+      metadata: MetadataRecord({
+        filename: "titled.ipynb"
+      })
+    };
+
+    const state$ = Observable.from([state]);
+
+    const allAttributes = [];
+    nativeWindow.createTitleFeed(state$).subscribe(attributes => {
+      allAttributes.push(attributes);
+    }, null, () => {
+      expect(allAttributes).to.deep.equal([
+        {
+          modified: (process.platform === "darwin") ? true : false,
+          fullpath: "titled.ipynb",
+          executionState: "not connected"
+        }
+      ]);
+      done();
+    });
+  });
+
+  it("creates an observable that updates title attributes", done => {
+    const notebook = new Immutable.Map().setIn(
+      ["metadata", "kernelspec", "display_name"],
+      "python3000"
+    );
+    const state = {
+      document: DocumentRecord({
+        notebook,
+        savedNotebook: notebook
       }),
       app: AppRecord({
         executionState: "not connected"
