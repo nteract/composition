@@ -10,7 +10,7 @@ npm install @nteract/display-area
 ## Usage
 
 ```jsx
-import Display from '@nteract/display-area`
+import Display from '@nteract/display-area'
 <Display outputs={outputs} />
 ```
 
