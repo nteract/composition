@@ -153,6 +153,7 @@ export type Document = {
 
 export const DocumentRecord = Immutable.Record({
   notebook: null,
+  savedNotebook: null,
   // $FlowFixMe: Immutable
   transient: new Immutable.Map({
     keyPathsForDisplays: new Immutable.Map()

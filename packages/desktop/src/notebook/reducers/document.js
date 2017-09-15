@@ -128,6 +128,17 @@ function setNotebook(state: DocumentState, action: SetNotebookAction) {
     .setIn(["transient", "cellMap"], new Immutable.Map());
 }
 
+type SetNotebookCheckpointAction = {
+  type: "DONE_SAVING",
+  notebook: ImmutableNotebook
+};
+function setNotebookCheckpoint(
+  state: DocumentState,
+  action: SetNotebookCheckpointAction
+) {
+  return state.set("savedNotebook", action.notebook);
+}
+
 type FocusCellAction = { type: "FOCUS_CELL", id: CellID };
 function focusCell(state: DocumentState, action: FocusCellAction) {
   return state.set("cellFocused", action.id);
@@ -698,6 +709,8 @@ function handleDocument(
   switch (action.type) {
     case constants.SET_NOTEBOOK:
       return setNotebook(state, action);
+    case constants.DONE_SAVING:
+      return setNotebookCheckpoint(state, action);
     case constants.FOCUS_CELL:
       return focusCell(state, action);
     case constants.CLEAR_OUTPUTS:

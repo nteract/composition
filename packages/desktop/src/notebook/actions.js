@@ -327,8 +327,9 @@ export function saveAs(filename: string, notebook: any) {
   };
 }
 
-export function doneSaving() {
+export function doneSaving(notebook: any) {
   return {
-    type: constants.DONE_SAVING
+    type: constants.DONE_SAVING,
+    notebook
   };
 }

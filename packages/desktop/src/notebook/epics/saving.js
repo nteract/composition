@@ -65,7 +65,7 @@ export function saveEpic(
               autoDismiss: 2,
               level: "success"
             });
-            return doneSaving();
+            return doneSaving(action.notebook);
           })
       // .startWith({ type: START_SAVING })
       // since SAVE effectively acts as the same as START_SAVING

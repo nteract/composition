@@ -325,3 +325,28 @@ describe("toggleOutputExpansion", () => {
     });
   });
 });
+
+describe("save", () => {
+  it("creates a SAVE action", () => {
+    expect(actions.save("foo.ipynb", dummyCommutable)).to.deep.equal({
+      type: constants.SAVE,
+      filename: "foo.ipynb",
+      notebook: dummyCommutable
+    });
+  });
+
+  it("creates a SAVE_AS action", () => {
+    expect(actions.saveAs("foo.ipynb", dummyCommutable)).to.deep.equal({
+      type: constants.SAVE_AS,
+      filename: "foo.ipynb",
+      notebook: dummyCommutable
+    });
+  });
+
+  it("creates a SAVE_AS action", () => {
+    expect(actions.doneSaving(dummyCommutable)).to.deep.equal({
+      type: constants.DONE_SAVING,
+      notebook: dummyCommutable
+    });
+  });
+});

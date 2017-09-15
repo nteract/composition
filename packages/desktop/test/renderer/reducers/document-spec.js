@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { List, Map, Set } from "immutable";
+import { List, Map, Set, is } from "immutable";
 
 import { expect } from "chai";
 
@@ -156,6 +156,22 @@ describe("setNotebook", () => {
       notebook
     });
     expect(state.document.getIn(["notebook", "nbformat"])).to.equal(4);
+  });
+});
+
+describe("setNotebookCheckpoint", () => {
+  it("stores saved notebook", () => {
+    const initialState = {
+      app: new Map(),
+      document: initialDocument
+    };
+
+    const state = reducers(initialState, {
+      type: constants.DONE_SAVING,
+      notebook: dummyCommutable
+    });
+    expect(is(state.document.get("notebook")), initialDocument.get("notebook")).to.equal(true);
+    expect(is(state.document.get("savedNotebook"), dummyCommutable)).to.equal(true);
   });
 });
 

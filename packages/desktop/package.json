@@ -34,9 +34,9 @@
       "npm run test:functional:launch && npm run test:functional:launchNewNotebook",
     "test:coverage": "npm run coverage",
     "test:unit":
-      "mocha -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
+      "mocha -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\"",
     "test:debug":
-      "mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\" \"test/utils/**/*.js\"",
+      "mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register \"test/renderer/**/*.js\"",
     "test:unit:individual":
       "mocha -r test/setup.js --compilers js:babel-core/register ",
     "test:watch": "watch 'npm run test' test/",
