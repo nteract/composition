@@ -85,7 +85,7 @@ describe("createTitleFeed", () => {
     }, null, () => {
       expect(allAttributes).to.deep.equal([
         {
-          modified: (process.platform === "darwin") ? true : false,
+          modified: process.platform === "darwin" ? true : false,
           fullpath: "titled.ipynb",
           executionState: "not connected"
         }
