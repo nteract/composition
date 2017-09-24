@@ -38,9 +38,9 @@ type VDOMEl = {
   key: number | string | null
 };
 
-type ReactArray = Array<React$Element<*> | ReactArray | string>;
-
 type VDOMNode = VDOMEl | string | Array<VDOMNode>;
+
+type ReactArray = Array<React$Element<*> | ReactArray | string>;
 
 /**
  * Convert an object to React element(s).
@@ -67,6 +67,12 @@ export function objectToReactElement(
 
   // `React.createElement` 1st argument: type
   args[0] = obj.tagName;
+
+  const allDataPathSetters = Object.keys(obj.attributes).filter(attr =>
+    attr.startsWith("data-path-set")
+  );
+
+  // allDataPathSetters.reduce();
 
   const model_path = obj.attributes["model_path"];
   delete obj.attributes["model_path"];
