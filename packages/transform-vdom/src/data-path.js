@@ -5,7 +5,7 @@ const DATA_PATH_FOR_CHILDREN = "data-path-for-children";
 // Given a collection of attributes and a model that (hopefully) contains
 // those paths, return a new collection of attributes that replaces them
 // according to the model.
-function modelReplaceAttributes(model, obj) {
+export function modelReplaceAttributes(model, obj) {
   const changes = _.reduce(
     // Iterate over all the attributes
     obj.attributes,
@@ -42,17 +42,3 @@ function modelReplaceAttributes(model, obj) {
     { children: childrenChanges }
   );
 }
-
-var attributes = {
-  "data-path-for-value": "what",
-  "data-path-meh": 12,
-  "data-path-for-children": "mine",
-  value: 3
-};
-
-model = {
-  what: 40,
-  mine: "Hear ye, hear ye"
-};
-
-modelReplaceAttributes(model, { attributes: attributes, children: null });
