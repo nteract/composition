@@ -21,17 +21,16 @@ function modelReplaceAttributes(model, obj) {
     {}
   );
 
-  return changes;
+  const childrenChanges = {};
 
-  const attributes = Object.assign({}, changes, obj.attributes);
-  let children = obj.children;
-
-  // Special case children & data- attributes
-  if (obj.attributes[DATA_PATH_FOR_CHILDREN]) {
-    children = _.get(model, obj.attributes[DATA_PATH_FOR_CHILDREN]);
+  // If there are any changes to children, they belong at the top level,
+  // so we ensure they don't end up at the attribute level
+  if (changes["children"]) {
+    childrenChanges["children"] = changes["children"];
+    delete changes["children"];
   }
 
-  return Object.assign({}, { children, attributes }, obj);
+  return Object.assign({}, obj, childrenChanges, { attributes: changes });
 }
 
 /**
@@ -49,7 +48,5 @@ model = {
 }
 
 modelReplaceAttributes(model, { attributes: attributes, children: null })
-
-
 
  */
