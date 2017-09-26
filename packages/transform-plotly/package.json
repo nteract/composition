@@ -21,7 +21,7 @@
     "lodash": "^4.17.4"
   },
   "peerDependencies": {
-    "react": "^15.6.1"
+    "react": "^16.0.0"
   },
   "license": "BSD-3-Clause"
 }

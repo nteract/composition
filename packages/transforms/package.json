@@ -35,6 +35,6 @@
     "react-json-tree": "^0.10.9"
   },
   "peerDependencies": {
-    "react": "^15.6.1"
+    "react": "^16.0.0"
   }
 }

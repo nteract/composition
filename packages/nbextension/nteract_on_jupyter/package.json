@@ -28,8 +28,8 @@
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.2.1",
     "plotly.js": "^1.29.3",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "babel": {
     "presets": ["next/babel"],

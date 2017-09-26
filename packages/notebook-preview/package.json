@@ -26,11 +26,11 @@
     "mathjax-electron": "^2.0.1"
   },
   "devDependencies": {
-    "enzyme-to-json": "^1.5.1"
+    "enzyme-to-json": "^2.0.1"
   },
   "peerDependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.6.1"
+    "react": "^16.0.0"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
