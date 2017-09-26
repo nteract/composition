@@ -50,7 +50,7 @@
     "pack": "lerna run pack --scope @nteract/desktop --stream"
   },
   "jest": {
-    "setupFiles": ["./scripts/mockument"],
+    "setupFiles": ["raf/polyfill", "./scripts/mockument"],
     "moduleNameMapper": {
       "uuid": "<rootDir>/packages/commutable/node_modules/uuid/"
     }
@@ -102,6 +102,7 @@
     "nbschema": "^0.1.0",
     "nyc": "^11.0.3",
     "prettier": "^1.7.0",
+    "raf": "^3.3.2",
     "react-test-renderer": "^16.0.0",
     "sinon": "^3.2.0",
     "sinon-chai": "^2.10.0",
