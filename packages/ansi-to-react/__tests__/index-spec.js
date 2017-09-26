@@ -2,6 +2,11 @@ const Ansi = require("../src/index");
 const React = require("react");
 const enzyme = require("enzyme");
 
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+
+configure({ adapter: new Adapter() });
+
 const GREEN_FG = "\u001b[32m";
 const YELLOW_BG = "\u001b[43m";
 const RESET = "\u001b[0;m";
