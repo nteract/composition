@@ -136,7 +136,7 @@ describe("commMessageAction", () => {
 });
 
 describe("commActionObservable", () => {
-  it("emits COMM_OPEN and COMM_MESSAGE given the right messages", done => {
+  it.skip("emits COMM_OPEN and COMM_MESSAGE given the right messages", done => {
     const commOpenMessage = {
       header: {
         msg_type: "comm_open"
