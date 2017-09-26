@@ -26,7 +26,7 @@
     "mathjax-electron": "^2.0.1"
   },
   "devDependencies": {
-    "enzyme-to-json": "^2.0.1"
+    "enzyme-to-json": "^3.0.0"
   },
   "peerDependencies": {
     "immutable": "^3.8.1",

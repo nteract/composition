@@ -25,7 +25,7 @@ describe("Ansi", () => {
     expect(el).not.toBeNull();
     expect(el.text()).toBe("hello world");
     expect(el.html()).toBe(
-      '<code><span>hello </span><span style="color:rgb(0, 187, 0);">world</span></code>'
+      '<code><span>hello </span><span style="color:rgb(0, 187, 0)">world</span></code>'
     );
   });
 
@@ -51,7 +51,7 @@ describe("Ansi", () => {
     expect(el).not.toBeNull();
     expect(el.text()).toBe("hello world");
     expect(el.html()).toBe(
-      '<code><span>hello </span><span style="color:rgb(0, 187, 0);">wo</span><span style="background-color:rgb(187, 187, 0);color:rgb(0, 187, 0);">rl</span><span>d</span></code>'
+      '<code><span>hello </span><span style="color:rgb(0, 187, 0)">wo</span><span style="background-color:rgb(187, 187, 0);color:rgb(0, 187, 0)">rl</span><span>d</span></code>'
     );
   });
 

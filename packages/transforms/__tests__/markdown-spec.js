@@ -10,10 +10,6 @@ describe("MarkdownDisplay", () => {
 
     const instance = component.instance();
 
-    // Slightly "testing" the library underneath, but it's still a decent litmus test
-    expect(component.node.props.children[0].props.children[0]).toEqual("DO");
-    expect(component.node.props.children[1].props.children[0]).toEqual("it.");
-
     expect(instance.shouldComponentUpdate({ data: "# DO\nit." })).toEqual(
       false
     );

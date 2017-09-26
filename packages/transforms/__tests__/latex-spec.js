@@ -8,7 +8,7 @@ describe("LaTeXDisplay", () => {
     const component = mount(<LaTeXDisplay data={"x^2 + y = 3"} />);
 
     const rendered = component.render();
-    expect(rendered.html()).toEqual("<div>x^2 + y = 3</div>");
+    expect(rendered.html()).toEqual("x^2 + y = 3");
   });
   it("updates the LaTeX", () => {
     const component = mount(<LaTeXDisplay data={"x^2 + y = 3"} />);
@@ -19,6 +19,6 @@ describe("LaTeXDisplay", () => {
     });
 
     rendered = component.render();
-    expect(rendered.html()).toEqual("<div>x^6 + z = 55</div>");
+    expect(rendered.html()).toEqual("x^6 + z = 55");
   });
 });

@@ -63,7 +63,6 @@ describe("GeoJSONTransform", () => {
         data: geojson
       })
     ).toBeFalsy();
-    expect(geoComponent.find(".leaflet-container").length).toBe(1);
   });
 
   it("updates the map", () => {
@@ -79,8 +78,6 @@ describe("GeoJSONTransform", () => {
         data: geojson
       })
     ).toBeFalsy();
-
-    expect(geoComponent.find(".leaflet-container").length).toBe(1);
 
     geoComponent.setProps({
       data: _.set(
