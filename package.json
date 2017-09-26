@@ -60,6 +60,7 @@
     "*.json": ["prettier --write", "git add"]
   },
   "dependencies": {
+    "enzyme-adapter-react-16": "^1.0.0",
     "immutable": "^3.8.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
