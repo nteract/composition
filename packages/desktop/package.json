@@ -134,7 +134,7 @@
     "react-notification-system": "^0.2.14",
     "react-redux": "^5.0.5",
     "react-simple-dropdown": "^3.0.0",
-    "react-test-renderer": "^15.5.4",
+    "react-test-renderer": "^16.0.0",
     "react-virtualized": "^9.7.5",
     "redux": "^3.7.0",
     "redux-logger": "^3.0.6",
