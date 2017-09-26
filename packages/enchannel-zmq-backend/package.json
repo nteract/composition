@@ -25,9 +25,12 @@
     "url": "https://github.com/nteract/enchannel-zmq-backend/issues"
   },
   "homepage": "https://github.com/nteract/enchannel-zmq-backend#readme",
+  "devDependencies": {
+    "mkdirp": "*"
+  },
   "dependencies": {
     "jmp": "^0.7.5",
-    "rxjs": "^5.4.1",
+    "rxjs": "^5.5.0-beta.0",
     "uuid": "^3.1.0"
   }
 }

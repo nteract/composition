@@ -29,6 +29,9 @@
     "anser": "^1.4.1",
     "escape-carriage": "^1.2.0"
   },
+  "devDependencies": {
+    "mkdirp": "*"
+  },
   "peerDependencies": {
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
