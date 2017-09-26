@@ -18,8 +18,9 @@
     <script>
       window.onload = function deferredLoad() {
         if (process.env.NODE_ENV === 'development') {
-            var rdev = require('electron-react-devtools');
-            rdev.install();
+          // TODO:
+          // Provide some helpers to instantiate following the process in
+          // https://github.com/electron/electron/blob/master/docs/tutorial/devtools-extension.md
         } else {
             // Force production by default for the sake of packaging
             process.env.NODE_ENV = 'production';

@@ -116,7 +116,6 @@
     "electron-context-menu": "^0.9.1",
     "electron-log": "^2.2.6",
     "electron-mocha": "^4.0.0",
-    "electron-react-devtools": "^0.4.0",
     "enchannel": "^3.1.1",
     "enchannel-zmq-backend": "^4.0.2",
     "escape-carriage": "^1.2.0",
