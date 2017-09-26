@@ -79,6 +79,7 @@
     "chai": "^4.0.0",
     "chai-immutable": "^1.6.0",
     "enzyme": "^3.0.0",
+    "enzyme-react-adapter-16": "^1.0.0",
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "^4.4.1",
     "eslint-config-prettier": "^2.1.1",

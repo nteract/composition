@@ -1,6 +1,9 @@
 /* eslint-disable arrow-body-style, max-len */
 // From https://github.com/airbnb/enzyme/blob/master/docs/guides/jsdom.md
 
+import { configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
