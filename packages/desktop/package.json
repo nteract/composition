@@ -119,6 +119,7 @@
     "enchannel": "^3.1.1",
     "enchannel-zmq-backend": "^4.0.2",
     "escape-carriage": "^1.2.0",
+    "flow-bin": "^0.55.0",
     "fs-observable": "1.0.0",
     "jsdom": "^11.0.0",
     "jsontableschema": "^0.2.2",
