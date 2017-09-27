@@ -60,10 +60,10 @@
     "*.json": ["prettier --write", "git add"]
   },
   "dependencies": {
-    "enzyme-adapter-react-16": "^1.0.0",
     "immutable": "^3.8.1",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "rxjs": "^5.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -104,6 +104,7 @@
     "prettier": "^1.7.0",
     "raf": "^3.3.2",
     "react-test-renderer": "^16.0.0",
+    "enzyme-adapter-react-16": "^1.0.0",
     "sinon": "^3.2.0",
     "sinon-chai": "^2.10.0",
     "webpack": "^3.5.5"
