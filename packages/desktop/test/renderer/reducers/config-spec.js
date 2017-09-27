@@ -7,11 +7,7 @@ import reducers from "../../../src/notebook/reducers";
 
 describe("setKey", () => {
   it("sets the keys in the config", () => {
-    const initialState = {
-      config: new Map({
-        theme: null
-      })
-    };
+    const initialState = { config: new Map({ theme: null }) };
 
     const state = reducers(initialState, {
       type: constants.SET_CONFIG_KEY,
@@ -24,9 +20,7 @@ describe("setKey", () => {
 
 describe("mergeConfig", () => {
   it("sets the config", () => {
-    const initialState = {
-      config: new Map()
-    };
+    const initialState = { config: new Map() };
 
     const config = { theme: "dark" };
     const state = reducers(initialState, {

@@ -8,17 +8,17 @@ import { shutdownKernel } from "../kernel/shutdown";
 import { AppRecord } from "../records";
 
 declare class AppState {
-  channels: Channels,
-  spawn: ChildProcess,
-  connectionFile: string,
-  kernelSpecName: string,
-  kernelSpecDisplayName: string,
-  kernelSpec: Object,
-  executionState: string,
-  token: string,
-  notificationSystem: Object,
-  set(string, any): AppState,
-  withMutations(any): AppState
+  channels: Channels;
+  spawn: ChildProcess;
+  connectionFile: string;
+  kernelSpecName: string;
+  kernelSpecDisplayName: string;
+  kernelSpec: Object;
+  executionState: string;
+  token: string;
+  notificationSystem: Object;
+  set(string, any): AppState;
+  withMutations(any): AppState;
 }
 
 function cleanupKernel(state: AppState): AppState {

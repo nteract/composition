@@ -53,31 +53,25 @@ const metadata = { expanded: true };
 
 describe("GeoJSONTransform", () => {
   it("renders a map", () => {
-    const geoComponent = mount(
-      <GeoJSONTransform data={geojson} metadata={metadata} />
-    );
+    const geoComponent = mount(<GeoJSONTransform data={geojson} metadata={metadata} />);
 
-    expect(
-      geoComponent.instance().shouldComponentUpdate({
-        theme: "light",
-        data: geojson
-      })
-    ).toBeFalsy();
+    expect(geoComponent
+        .instance()
+        .shouldComponentUpdate({
+          theme: "light",
+          data: geojson
+        })).toBeFalsy();
   });
 
   it("updates the map", () => {
-    const geoComponent = mount(
-      <GeoJSONTransform data={geojson} metadata={metadata} />
-    );
+    const geoComponent = mount(<GeoJSONTransform data={geojson} metadata={metadata} />);
 
     const instance = geoComponent.instance();
 
-    expect(
-      instance.shouldComponentUpdate({
+    expect(instance.shouldComponentUpdate({
         theme: "light",
         data: geojson
-      })
-    ).toBeFalsy();
+      })).toBeFalsy();
 
     geoComponent.setProps({
       data: _.set(

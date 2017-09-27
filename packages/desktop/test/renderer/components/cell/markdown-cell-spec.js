@@ -20,12 +20,7 @@ chai.use(sinonChai);
 
 describe("MarkdownCell", () => {
   it("can be rendered", () => {
-    const cell = shallow(
-      <MarkdownCell
-        cell={emptyMarkdownCell}
-        {...{ displayOrder, transforms }}
-      />
-    );
+    const cell = shallow(<MarkdownCell cell={emptyMarkdownCell} {...{ displayOrder, transforms }} />);
     expect(cell).to.not.be.null;
   });
 
@@ -63,12 +58,7 @@ describe("MarkdownCell", () => {
   });
 
   it("sets the state of the text based on cell source", () => {
-    const cell = mount(
-      <MarkdownCell
-        cell={emptyMarkdownCell}
-        {...{ displayOrder, transforms }}
-      />
-    );
+    const cell = mount(<MarkdownCell cell={emptyMarkdownCell} {...{ displayOrder, transforms }} />);
 
     cell.setProps({ cell: emptyMarkdownCell.set("source", "test") });
     expect(cell.state("source")).to.equal("test");

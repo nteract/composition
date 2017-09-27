@@ -10,9 +10,9 @@ describe("MarkdownDisplay", () => {
 
     const instance = component.instance();
 
-    expect(instance.shouldComponentUpdate({ data: "# DO\nit." })).toEqual(
-      false
-    );
+    expect(instance.shouldComponentUpdate({
+        data: "# DO\nit."
+      })).toEqual(false);
     expect(instance.shouldComponentUpdate({ data: "#WOO" })).toEqual(true);
   });
 });

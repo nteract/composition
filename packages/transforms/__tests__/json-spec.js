@@ -21,9 +21,7 @@ describe("JsonDisplay", () => {
 
   it("should expand json tree if expanded metadata is true", () => {
     const metadata = { expanded: true };
-    const component = shallow(
-      <JsonDisplay data={baseData} theme="light" metadata={metadata} />
-    );
+    const component = shallow(<JsonDisplay data={baseData} theme="light" metadata={metadata} />);
     const instance = component.instance();
     expect(instance.shouldExpandNode()).toBeTruthy();
   });
@@ -31,9 +29,10 @@ describe("JsonDisplay", () => {
   it("shouldComponentUpdate returns false if theme doesn't change", () => {
     const component = shallow(<JsonDisplay data={baseData} theme="light" />);
     const instance = component.instance();
-    expect(
-      instance.shouldComponentUpdate({ theme: "light", data: baseData })
-    ).toBeFalsy();
+    expect(instance.shouldComponentUpdate({
+        theme: "light",
+        data: baseData
+      })).toBeFalsy();
   });
 
   it("shouldComponentUpdate returns true if theme changes", () => {

@@ -21,9 +21,7 @@ describe("JavascriptDisplay", () => {
   });
 
   it("creates a nice little error area with a stack", () => {
-    const component = mount(
-      <JavascriptDisplay data={'throw new Error("a fit")'} />
-    );
+    const component = mount(<JavascriptDisplay data={'throw new Error("a fit")'} />);
     const instance = component.instance();
     expect(instance.el.firstChild.localName).toEqual("pre");
     expect(instance.el.firstChild.textContent).toContain("Error: a fit");

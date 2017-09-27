@@ -14,8 +14,6 @@ describe("constants", () => {
 
     expect(constants.ZMQType.frontend[constants.SHELL]).toBe(constants.DEALER);
 
-    expect(constants.ZMQType.frontend[constants.CONTROL]).toBe(
-      constants.DEALER
-    );
+    expect(constants.ZMQType.frontend[constants.CONTROL]).toBe(constants.DEALER);
   });
 });

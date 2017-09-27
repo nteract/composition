@@ -34,71 +34,33 @@ const dummyCellStatuses = dummyCommutable
 // Boilerplate test to make sure the testing setup is configured
 describe("Notebook", () => {
   it("accepts an Immutable.List of cells", () => {
-    const component = shallow(
-      <Notebook
-        notebook={dummyCommutable}
-        transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
-        cellPagers={new Immutable.Map()}
-        cellStatuses={new Immutable.Map()}
-        stickyCells={new Immutable.Map()
+    const component = shallow(<Notebook notebook={dummyCommutable} transient={new Immutable.Map(
+            { cellMap: new Immutable.Map() }
+          )} cellPagers={new Immutable.Map()} cellStatuses={new Immutable.Map()} stickyCells={new Immutable.Map()
           // Sticky the first cell of the notebook so that the sticky code gets
           // triggered.
-          .set(dummyCommutable.getIn(["cellOrder", 0]), true)}
-        CellComponent={Cell}
-      />
-    );
+          .set(dummyCommutable.getIn([
+              "cellOrder",
+              0
+            ]), true)} CellComponent={Cell} />);
     expect(component).to.not.be.null;
   });
   it("implements the correct css spec", () => {
-    const component = mount(
-      <Provider store={dummyStore()}>
-        <Notebook
-          notebook={dummyCommutable}
-          transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
-          cellPagers={new Immutable.Map()}
-          cellStatuses={dummyCellStatuses}
-          stickyCells={new Immutable.Map()}
-          displayOrder={displayOrder}
-          transforms={transforms}
-          CellComponent={Cell}
-          models={new Immutable.Map({})}
-        />
-      </Provider>
-    );
+    const component = mount(<Provider store={dummyStore()}>
+        <Notebook notebook={dummyCommutable} transient={new Immutable.Map({
+              cellMap: new Immutable.Map()
+            })} cellPagers={new Immutable.Map()} cellStatuses={dummyCellStatuses} stickyCells={new Immutable.Map()} displayOrder={displayOrder} transforms={transforms} CellComponent={Cell} models={new Immutable.Map({})} />
+      </Provider>);
     expect(component.find(".notebook").length).to.be.above(0, ".notebook");
-    expect(component.find(".notebook .cell").length).to.be.above(
-      0,
-      ".notebook .cell"
-    );
-    expect(component.find(".notebook .cell.text").length).to.be.above(
-      0,
-      ".notebook .cell.text"
-    );
-    expect(component.find(".notebook .cell.code").length).to.be.above(
-      0,
-      ".notebook .cell.code"
-    );
-    expect(component.find(".notebook .cell.unknown").length).to.equal(
-      0,
-      ".notebook .cell.unknown does not exist"
-    );
-    expect(component.find(".notebook .cell.text .rendered").length).to.be.above(
-      0,
-      ".notebook .cell.text .rendered"
-    );
-    expect(
-      component.find(".notebook .cell.code .input-container").length
-    ).to.be.above(0, ".notebook .cell.code .input-container");
-    expect(
-      component.find(".notebook .cell.code .input-container .prompt").length
-    ).to.be.above(0, ".notebook .cell.code .input-container .prompt");
-    expect(
-      component.find(".notebook .cell.code .input-container .input").length
-    ).to.be.above(0, ".notebook .cell.code .input-container .input");
-    expect(component.find(".notebook .cell.code .outputs").length).to.be.above(
-      0,
-      ".notebook .cell.code .outputs"
-    );
+    expect(component.find(".notebook .cell").length).to.be.above(0, ".notebook .cell");
+    expect(component.find(".notebook .cell.text").length).to.be.above(0, ".notebook .cell.text");
+    expect(component.find(".notebook .cell.code").length).to.be.above(0, ".notebook .cell.code");
+    expect(component.find(".notebook .cell.unknown").length).to.equal(0, ".notebook .cell.unknown does not exist");
+    expect(component.find(".notebook .cell.text .rendered").length).to.be.above(0, ".notebook .cell.text .rendered");
+    expect(component.find(".notebook .cell.code .input-container").length).to.be.above(0, ".notebook .cell.code .input-container");
+    expect(component.find(".notebook .cell.code .input-container .prompt").length).to.be.above(0, ".notebook .cell.code .input-container .prompt");
+    expect(component.find(".notebook .cell.code .input-container .input").length).to.be.above(0, ".notebook .cell.code .input-container .input");
+    expect(component.find(".notebook .cell.code .outputs").length).to.be.above(0, ".notebook .cell.code .outputs");
   });
 
   describe("getLanguageMode", () => {
@@ -106,12 +68,7 @@ describe("Notebook", () => {
       const lang = getLanguageMode(dummyCommutable);
       expect(lang).to.equal("ipython");
 
-      const lang2 = getLanguageMode(
-        dummyCommutable.setIn(
-          ["metadata", "language_info", "codemirror_mode", "name"],
-          "r"
-        )
-      );
+      const lang2 = getLanguageMode(dummyCommutable.setIn(["metadata", "language_info", "codemirror_mode", "name"], "r"));
       expect(lang2).to.equal("r");
     });
   });
@@ -120,9 +77,7 @@ describe("Notebook", () => {
     it("detects a cell execution keypress", () => {
       const focusedCell = dummyCommutable.getIn(["cellOrder", 1]);
 
-      const context = {
-        store: dummyStore()
-      };
+      const context = { store: dummyStore() };
 
       context.store.dispatch = sinon.spy();
 
@@ -156,9 +111,7 @@ describe("Notebook", () => {
     it("detects a focus to next cell keypress", () => {
       const focusedCell = dummyCommutable.getIn(["cellOrder", 1]);
 
-      const context = {
-        store: dummyStore()
-      };
+      const context = { store: dummyStore() };
 
       context.store.dispatch = sinon.spy();
 

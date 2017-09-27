@@ -8,17 +8,13 @@ const Github = require("github");
 
 describe("cleanupKernel", () => {
   it("nullifies entries for the kernel in originalState", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.KILL_KERNEL
-    };
+    const action = { type: constants.KILL_KERNEL };
 
     const state = reducers(originalState, action);
     expect(state.app.channels).to.be.null;
@@ -29,34 +25,25 @@ describe("cleanupKernel", () => {
 
 describe("setNotificationSystem", () => {
   it("returns the same originalState if notificationSystem is undefined", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.SET_NOTIFICATION_SYSTEM
-    };
+    const action = { type: constants.SET_NOTIFICATION_SYSTEM };
 
     const state = reducers(originalState, action);
     expect(state.app.notificationSystem).to.be.undefined;
   });
   it("sets the notificationSystem if given", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.SET_NOTIFICATION_SYSTEM,
-      notificationSystem: ""
-    };
+    const action = { type: constants.SET_NOTIFICATION_SYSTEM, notificationSystem: "" };
 
     const state = reducers(originalState, action);
     expect(state.app.notificationSystem).to.equal("");
@@ -65,17 +52,13 @@ describe("setNotificationSystem", () => {
 
 describe("startSaving", () => {
   it("should set isSaving to false", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.START_SAVING
-    };
+    const action = { type: constants.START_SAVING };
 
     const state = reducers(originalState, action);
     expect(state.app.isSaving).to.be.true;
@@ -84,17 +67,13 @@ describe("startSaving", () => {
 
 describe("doneSaving", () => {
   it("should set isSaving to false", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.DONE_SAVING
-    };
+    const action = { type: constants.DONE_SAVING };
 
     const state = reducers(originalState, action);
     expect(state.app.isSaving).to.be.false;
@@ -103,18 +82,13 @@ describe("doneSaving", () => {
 
 describe("setExecutionState", () => {
   it("should set the exeuction state to the given value", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.SET_EXECUTION_STATE,
-      executionState: "idle"
-    };
+    const action = { type: constants.SET_EXECUTION_STATE, executionState: "idle" };
 
     const state = reducers(originalState, action);
     expect(state.app.executionState, "idle");
@@ -123,17 +97,13 @@ describe("setExecutionState", () => {
 
 describe("alertKernelNotConnected", () => {
   it("sets an error on the app state", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.ERROR_KERNEL_NOT_CONNECTED
-    };
+    const action = { type: constants.ERROR_KERNEL_NOT_CONNECTED };
 
     const state = reducers(originalState, action);
     expect(state.app.error).to.not.be.null;
@@ -143,17 +113,13 @@ describe("alertKernelNotConnected", () => {
 
 describe("killKernel", () => {
   it("clears out kernel configuration", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.KILL_KERNEL
-    };
+    const action = { type: constants.KILL_KERNEL };
 
     const state = reducers(originalState, action);
     expect(state.app.channels).to.be.null;
@@ -164,19 +130,15 @@ describe("killKernel", () => {
 
 describe("interruptKernel", () => {
   it("sends a SIGINT and clears the kernel", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: {
           kill: () => {}
         },
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.INTERRUPT_KERNEL
-    };
+    const action = { type: constants.INTERRUPT_KERNEL };
 
     const state = reducers(originalState, action);
     expect(state.app).to.deep.equal(originalState.app);
@@ -185,22 +147,13 @@ describe("interruptKernel", () => {
 
 describe("newKernel", () => {
   it("creates a new kernel", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.NEW_KERNEL,
-      channels: "test_channels",
-      spawn: "test_spawn",
-      kernelSpecName: "test_name",
-      kernelSpec: { spec: { display_name: "Test Name" } },
-      executionState: "starting"
-    };
+    const action = { type: constants.NEW_KERNEL, channels: "test_channels", spawn: "test_spawn", kernelSpecName: "test_name", kernelSpec: { spec: { display_name: "Test Name" } }, executionState: "starting" };
 
     const state = reducers(originalState, action);
     expect(state.app.executionState).to.equal("starting");
@@ -216,17 +169,12 @@ describe("newKernel", () => {
 
 describe("setGithubToken", () => {
   it("calls setGithubToken", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         github: new Github(),
         token: null
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.SET_GITHUB_TOKEN,
-      token: "TOKEN"
-    };
+    const action = { type: constants.SET_GITHUB_TOKEN, token: "TOKEN" };
 
     const state = reducers(originalState, action);
     // this is a crappy way of testing this
@@ -237,17 +185,13 @@ describe("setGithubToken", () => {
 
 describe("exit", () => {
   it("calls cleanupKernel", () => {
-    const originalState = {
-      app: new AppRecord({
+    const originalState = { app: new AppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.EXIT
-    };
+    const action = { type: constants.EXIT };
 
     const state = reducers(originalState, action);
     expect(state.app.channels).to.be.null;
@@ -260,15 +204,9 @@ describe("exit", () => {
 
 describe("doneSavingConfig", () => {
   it("updates when the config was saved", () => {
-    const originalState = {
-      app: new AppRecord({
-        configLastSaved: null
-      })
-    };
+    const originalState = { app: new AppRecord({ configLastSaved: null }) };
 
-    const action = {
-      type: constants.DONE_SAVING_CONFIG
-    };
+    const action = { type: constants.DONE_SAVING_CONFIG };
 
     const state = reducers(originalState, action);
     expect(state.app.configLastSaved).to.be.a("Date");

@@ -47,15 +47,12 @@ describe("saveEpic", () => {
       expect(error.message).to.equal("save needs a filename");
       return Observable.of({ type: SAVE });
     });
-    responseActions.subscribe(
-      // Every action that goes through should get stuck on an array
-      x => actionBuffer.push(x.type),
-      err => expect.fail(err, null), // It should not error in the stream
-      () => {
+    responseActions.subscribe(// Every action that goes through should get stuck on an array
+      x => actionBuffer.push(x.type), err => expect.fail(err, null), () => {
+        // It should not error in the stream
         expect(actionBuffer).to.deep.equal([SAVE]);
         done();
-      }
-    );
+      });
   });
   it("works when passed filename and notebook", done => {
     const input$ = Observable.of(save("filename", dummyCommutable));
@@ -63,15 +60,12 @@ describe("saveEpic", () => {
     const actionBuffer = [];
     const store = dummyStore();
     const responseActions = saveEpic(action$, store);
-    responseActions.subscribe(
-      // Every action that goes through should get stuck on an array
-      x => actionBuffer.push(x.type),
-      err => expect.fail(err, null), // It should not error in the stream
-      () => {
+    responseActions.subscribe(// Every action that goes through should get stuck on an array
+      x => actionBuffer.push(x.type), err => expect.fail(err, null), () => {
+        // It should not error in the stream
         expect(actionBuffer).to.deep.equal([DONE_SAVING]);
         done();
-      }
-    );
+      });
   });
 });
 
@@ -81,16 +75,13 @@ describe("saveAsEpic", () => {
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
     const responseActions = saveAsEpic(action$);
-    responseActions.subscribe(
-      // Every action that goes through should get stuck on an array
-      x => actionBuffer.push(x.type),
-      () => {
+    responseActions.subscribe(// Every action that goes through should get stuck on an array
+      x => actionBuffer.push(x.type), () => {
         expect.fail();
-      }, // It should not error in the stream
-      () => {
+      }, () => {
+        // It should not error in the stream
         expect(actionBuffer).to.deep.equal([CHANGE_FILENAME, SAVE]);
         done();
-      }
-    );
+      });
   });
 });

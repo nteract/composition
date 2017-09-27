@@ -9,8 +9,8 @@ type Props = {
 };
 
 declare class PlotlyHTMLElement extends HTMLElement {
-  data: Object,
-  layout: Object
+  data: Object;
+  layout: Object;
 }
 
 const MIMETYPE = "application/vnd.plotly.v1+json";

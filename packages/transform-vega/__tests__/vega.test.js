@@ -42,9 +42,7 @@ describe("VegaLite", () => {
 describe("VegaEmbed", () => {
   it("embeds vega", () => {
     const spy = sinon.spy();
-    const wrapper = mount(
-      <VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />
-    );
+    const wrapper = mount(<VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />);
 
     const element = wrapper.instance();
 
@@ -53,9 +51,7 @@ describe("VegaEmbed", () => {
 
   it("embeds vega and handles updates", () => {
     const spy = sinon.spy();
-    const wrapper = mount(
-      <VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />
-    );
+    const wrapper = mount(<VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />);
     wrapper.render();
 
     const spy2 = sinon.spy();

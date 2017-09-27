@@ -17,30 +17,21 @@ initialDocument.set(
 
 describe("changeFilename", () => {
   it("returns the same originalState if filename is undefined", () => {
-    const originalState = {
-      metadata: new MetadataRecord({
+    const originalState = { metadata: new MetadataRecord({
         filename: "original.ipynb"
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.CHANGE_FILENAME
-    };
+    const action = { type: constants.CHANGE_FILENAME };
 
     const state = reducers(originalState, action);
     expect(state.metadata.filename).to.equal("original.ipynb");
   });
   it("sets the filename if given a valid one", () => {
-    const originalState = {
-      metadata: new MetadataRecord({
+    const originalState = { metadata: new MetadataRecord({
         filename: "original.ipynb"
-      })
-    };
+      }) };
 
-    const action = {
-      type: constants.CHANGE_FILENAME,
-      filename: "test.ipynb"
-    };
+    const action = { type: constants.CHANGE_FILENAME, filename: "test.ipynb" };
 
     const state = reducers(originalState, action);
     expect(state.metadata.filename).to.equal("test.ipynb");

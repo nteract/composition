@@ -45,12 +45,7 @@ describe("createCommOpenMessage", () => {
     });
   });
   it("can specify a target_module", () => {
-    const commMessage = createCommOpenMessage(
-      "0001",
-      "myTarget",
-      { hey: "is for horses" },
-      "Dr. Pepper"
-    );
+    const commMessage = createCommOpenMessage("0001", "myTarget", { hey: "is for horses" }, "Dr. Pepper");
 
     expect(commMessage.content).to.deep.equal({
       comm_id: "0001",
@@ -91,16 +86,7 @@ describe("createCommErrorAction", () => {
 
 describe("commOpenAction", () => {
   it("creates a COMM_OPEN action", () => {
-    const message = {
-      content: {
-        data: "DATA",
-        metadata: "0",
-        comm_id: "0123",
-        target_name: "daredevil",
-        target_module: "murdock"
-      },
-      buffers: new Uint8Array()
-    };
+    const message = { content: { data: "DATA", metadata: "0", comm_id: "0123", target_name: "daredevil", target_module: "murdock" }, buffers: new Uint8Array() };
     const action = commOpenAction(message);
 
     expect(action).to.deep.equal({
@@ -117,13 +103,7 @@ describe("commOpenAction", () => {
 
 describe("commMessageAction", () => {
   it("creates a COMM_MESSAGE action", () => {
-    const message = {
-      content: {
-        data: "DATA",
-        comm_id: "0123"
-      },
-      buffers: new Uint8Array()
-    };
+    const message = { content: { data: "DATA", comm_id: "0123" }, buffers: new Uint8Array() };
     const action = commMessageAction(message);
 
     expect(action).to.deep.equal({
@@ -137,41 +117,15 @@ describe("commMessageAction", () => {
 
 describe("commActionObservable", () => {
   it.skip("emits COMM_OPEN and COMM_MESSAGE given the right messages", done => {
-    const commOpenMessage = {
-      header: {
-        msg_type: "comm_open"
-      },
-      content: {
-        data: "DATA",
-        metadata: "0",
-        comm_id: "0123",
-        target_name: "daredevil",
-        target_module: "murdock"
-      },
-      buffers: new Uint8Array()
-    };
+    const commOpenMessage = { header: { msg_type: "comm_open" }, content: { data: "DATA", metadata: "0", comm_id: "0123", target_name: "daredevil", target_module: "murdock" }, buffers: new Uint8Array() };
 
-    const commMessage = {
-      header: {
-        msg_type: "comm_msg"
-      },
-      content: {
-        data: "DATA",
-        comm_id: "0123"
-      },
-      buffers: new Uint8Array()
-    };
+    const commMessage = { header: { msg_type: "comm_msg" }, content: { data: "DATA", comm_id: "0123" }, buffers: new Uint8Array() };
 
-    const newKernelAction = {
-      channels: {
-        iopub: Observable.of(commOpenMessage, commMessage)
-      }
-    };
+    const newKernelAction = { channels: { iopub: Observable.of(commOpenMessage, commMessage) } };
 
     commActionObservable(newKernelAction)
       .toArray()
-      .subscribe(
-        actions => {
+      .subscribe(actions => {
           expect(actions).to.deep.equal([
             {
               type: COMM_OPEN,
@@ -189,9 +143,6 @@ describe("commActionObservable", () => {
               buffers: new Uint8Array()
             }
           ]);
-        },
-        err => expect.fail(err, null), // It should not error in the stream
-        () => done()
-      );
+        }, err => expect.fail(err, null), () => done()); // It should not error in the stream
   });
 });

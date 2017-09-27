@@ -9,16 +9,7 @@ import {
 
 describe("createChannels", () => {
   it("creates the channels per enchannel spec", () => {
-    const config = {
-      signature_scheme: "hmac-sha256",
-      key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
-      ip: "127.0.0.1",
-      transport: "tcp",
-      shell_port: 19009,
-      stdin_port: 19010,
-      control_port: 19011,
-      iopub_port: 19012
-    };
+    const config = { signature_scheme: "hmac-sha256", key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade", ip: "127.0.0.1", transport: "tcp", shell_port: 19009, stdin_port: 19010, control_port: 19011, iopub_port: 19012 };
     const s = createChannels(uuidv4(), config);
 
     expect(typeof s).toBe("object");
@@ -36,13 +27,7 @@ describe("createChannels", () => {
 
 describe("createChannelSubject", () => {
   it("creates a subject for the channel", () => {
-    const config = {
-      signature_scheme: "hmac-sha256",
-      key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
-      ip: "127.0.0.1",
-      transport: "tcp",
-      iopub_port: 19009
-    };
+    const config = { signature_scheme: "hmac-sha256", key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade", ip: "127.0.0.1", transport: "tcp", iopub_port: 19009 };
     const s = createChannelSubject("iopub", uuidv4(), config);
     expect(typeof s.next).toBe("function");
     expect(typeof s.complete).toBe("function");
@@ -53,13 +38,7 @@ describe("createChannelSubject", () => {
 
 describe("createIOPubSubject", () => {
   it("creates a subject with the default iopub subscription", () => {
-    const config = {
-      signature_scheme: "hmac-sha256",
-      key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
-      ip: "127.0.0.1",
-      transport: "tcp",
-      iopub_port: 19011
-    };
+    const config = { signature_scheme: "hmac-sha256", key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade", ip: "127.0.0.1", transport: "tcp", iopub_port: 19011 };
     const s = createIOPubSubject(uuidv4(), config);
     s.complete();
   });

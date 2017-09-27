@@ -9,15 +9,7 @@ describe("CellCreatorView", () => {
   const createCell = sinon.spy();
   const mergeCell = sinon.spy();
 
-  const setup = id =>
-    shallow(
-      <CellCreator
-        createCell={createCell}
-        mergeCell={mergeCell}
-        above={false}
-        id={id}
-      />
-    );
+  const setup = id => shallow(<CellCreator createCell={createCell} mergeCell={mergeCell} above={false} id={id} />);
 
   it("can be constructed", () => {
     const component = setup("test");

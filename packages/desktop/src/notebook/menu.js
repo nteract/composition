@@ -312,7 +312,8 @@ export function exportPDF(
 
   remote.getCurrentWindow().webContents.printToPDF({
     printBackground: true
-  }, (error, data) => {
+  },
+  (error, data) => {
     if (error) throw error;
 
     // Restore the modified cells to their unexpanded state.

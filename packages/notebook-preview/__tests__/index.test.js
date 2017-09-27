@@ -21,28 +21,12 @@ jest.mock("uuid", () => {
 
 describe("Notebook", () => {
   it("accepts an Immutable.List of cells", () => {
-    const component = shallow(
-      <NotebookPreview
-        notebook={dummyCommutable}
-        theme="light"
-        tip
-        displayOrder={displayOrder}
-        transforms={transforms}
-      />
-    );
+    const component = shallow(<NotebookPreview notebook={dummyCommutable} theme="light" tip displayOrder={displayOrder} transforms={transforms} />);
     expect(toJson(component)).toMatchSnapshot();
   });
 
   it("accepts an Object of cells", () => {
-    const component = shallow(
-      <NotebookPreview
-        notebook={dummyJSON}
-        theme="light"
-        tip
-        displayOrder={displayOrder}
-        transforms={transforms}
-      />
-    );
+    const component = shallow(<NotebookPreview notebook={dummyJSON} theme="light" tip displayOrder={displayOrder} transforms={transforms} />);
     expect(toJson(component)).toMatchSnapshot();
   });
 });

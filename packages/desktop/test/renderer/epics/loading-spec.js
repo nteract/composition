@@ -65,8 +65,9 @@ describe("convertRawNotebook", () => {
     expect(converted.filename).to.equal("/tmp/test.ipynb");
 
     const notebook = converted.notebook;
-    expect(dummyCommutable.get("metadata").equals(notebook.get("metadata"))).to
-      .be.true;
+    expect(dummyCommutable
+        .get("metadata")
+        .equals(notebook.get("metadata"))).to.be.true;
   });
 });
 
@@ -74,28 +75,20 @@ describe("loadingEpic", () => {
   it("errors without a filename", done => {
     const action$ = ActionsObservable.of({ type: LOAD });
     const responseActions = loadEpic(action$);
-    responseActions.subscribe(
-      _ => _,
-      err => {
+    responseActions.subscribe(_ => _, err => {
         expect(err.message).to.equal("load needs a filename");
         done();
-      },
-      () => {
+      }, () => {
         expect.fail();
-      }
-    );
+      });
   });
   it("errors when file cant be read", done => {
     const action$ = ActionsObservable.of({ type: LOAD, filename: "file" });
     const responseActions = loadEpic(action$);
-    responseActions.toArray().subscribe(
-      actions => {
+    responseActions.toArray().subscribe(actions => {
         const types = actions.map(({ type }) => type);
         expect(types).to.deep.equal(["ERROR"]);
-      },
-      () => expect.fail(),
-      () => done()
-    );
+      }, () => expect.fail(), () => done());
   });
 });
 
@@ -103,13 +96,9 @@ describe("newNotebookEpic", () => {
   it("calls new Kernel after creating a new notebook", done => {
     const action$ = ActionsObservable.of({ type: NEW_NOTEBOOK });
     const responseActions = newNotebookEpic(action$);
-    responseActions.toArray().subscribe(
-      actions => {
+    responseActions.toArray().subscribe(actions => {
         const types = actions.map(({ type }) => type);
         expect(types).to.deep.equal([SET_NOTEBOOK, "LAUNCH_KERNEL"]);
-      },
-      () => expect.fail(),
-      () => done()
-    );
+      }, () => expect.fail(), () => done());
   });
 });

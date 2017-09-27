@@ -239,13 +239,11 @@ describe("menu", () => {
 
       expect(store.dispatch.calledThrice).to.equal(true);
       markdownCells.forEach(cellId => {
-        expect(
-          store.dispatch.neverCalledWith({
+        expect(store.dispatch.neverCalledWith({
             type: "EXECUTE_CELL",
             id: cellId,
             source: ""
-          })
-        ).to.equal(true);
+          })).to.equal(true);
       });
     });
   });
@@ -391,32 +389,11 @@ describe("menu", () => {
       const store = dummyStore();
       const ipcOn = sinon.spy(ipc, "on");
       menu.initMenuHandlers(store);
-      [
-        "menu:new-kernel",
-        "menu:run-all",
-        "menu:clear-all",
-        "menu:unhide-all",
-        "menu:save",
-        "menu:save-as",
-        "menu:new-code-cell",
-        "menu:copy-cell",
-        "menu:cut-cell",
-        "menu:paste-cell",
-        "menu:kill-kernel",
-        "menu:interrupt-kernel",
-        "menu:restart-kernel",
-        "menu:restart-and-clear-all",
-        "menu:publish:gist",
-        "menu:github:auth",
-        "menu:zoom-in",
-        "menu:zoom-out",
-        "menu:theme",
-        "menu:set-blink-rate",
-        "main:load",
-        "main:new"
-      ].forEach(name => {
-        expect(ipcOn).to.have.been.calledWith(name);
-      });
+      ["menu:new-kernel", "menu:run-all", "menu:clear-all", "menu:unhide-all", "menu:save", "menu:save-as", "menu:new-code-cell", "menu:copy-cell", "menu:cut-cell", "menu:paste-cell", "menu:kill-kernel", "menu:interrupt-kernel", "menu:restart-kernel", "menu:restart-and-clear-all", "menu:publish:gist", "menu:github:auth", "menu:zoom-in", "menu:zoom-out", "menu:theme", "menu:set-blink-rate", "main:load", "main:new"].forEach(
+        name => {
+          expect(ipcOn).to.have.been.calledWith(name);
+        }
+      );
     });
   });
 
@@ -472,8 +449,9 @@ describe("menu", () => {
     it("triggers notification when not saved", () => {
       const config = { noFilename: true };
       const store = dummyStore(config);
-      const addNotification = store.getState().app.get("notificationSystem")
-        .addNotification;
+      const addNotification = store
+        .getState()
+        .app.get("notificationSystem").addNotification;
       menu.storeToPDF(store);
       expect(addNotification).to.have.been.calledWithMatch({
         title: "File has not been saved!",
@@ -489,8 +467,9 @@ describe("menu", () => {
     it("calls export PDF when filename exists", () => {
       // const exportStub = sinon.spy(menu.exportPDF);
       const store = dummyStore();
-      const addNotification = store.getState().app.get("notificationSystem")
-        .addNotification;
+      const addNotification = store
+        .getState()
+        .app.get("notificationSystem").addNotification;
       menu.storeToPDF(store);
       expect(addNotification).to.have.been.calledWithMatch({
         title: "PDF exported",

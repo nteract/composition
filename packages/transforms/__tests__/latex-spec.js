@@ -14,9 +14,7 @@ describe("LaTeXDisplay", () => {
     const component = mount(<LaTeXDisplay data={"x^2 + y = 3"} />);
     let rendered = component.render();
 
-    component.setProps({
-      data: "x^6 + z = 55"
-    });
+    component.setProps({ data: "x^6 + z = 55" });
 
     rendered = component.render();
     expect(rendered.html()).toEqual("x^6 + z = 55");

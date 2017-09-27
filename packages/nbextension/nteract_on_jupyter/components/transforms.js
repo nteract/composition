@@ -7,8 +7,8 @@ type Props = {
 };
 
 declare class PlotlyHTMLElement extends HTMLElement {
-  data: Object,
-  layout: ?Object
+  data: Object;
+  layout: ?Object;
 }
 
 const NULL_MIMETYPE = "text/vnd.plotly.v1+html";

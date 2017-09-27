@@ -21,9 +21,7 @@ describe("epics", () => {
 
 describe("retryAndEmitError", () => {
   it("returns the source observable, emitting an error action first", () => {
-    const source = {
-      startWith: sinon.stub()
-    };
+    const source = { startWith: sinon.stub() };
     source.startWith.returns(source);
     const err = new Error("Oh no!");
     const newSource = retryAndEmitError(err, source);

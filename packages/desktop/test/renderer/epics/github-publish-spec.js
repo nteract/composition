@@ -42,91 +42,51 @@ describe("publishNotebookObservable", () => {
   it("returns an observable", () => {
     const store = dummyStore();
     const notificationSystem = NotificationSystem();
-    const publishNotebookObs = publishNotebookObservable(
-      new GitHub(),
-      dummyCommutable,
-      "./test.ipynb",
-      notificationSystem,
-      false,
-      store
-    );
+    const publishNotebookObs = publishNotebookObservable(new GitHub(), dummyCommutable, "./test.ipynb", notificationSystem, false, store);
     expect(publishNotebookObs.subscribe).to.not.be.null;
   });
 
   it("renders a notification popup", done => {
     const store = dummyStore();
     const notificationSystem = NotificationSystem();
-    const publishNotebookObs = publishNotebookObservable(
-      new GitHub(),
-      dummyCommutable,
-      "./test.ipynb",
-      notificationSystem,
-      false,
-      store
-    );
+    const publishNotebookObs = publishNotebookObservable(new GitHub(), dummyCommutable, "./test.ipynb", notificationSystem, false, store);
     const addNotification = sinon.spy(notificationSystem, "addNotification");
-    publishNotebookObs.subscribe(
-      () => {},
-      () => {
+    publishNotebookObs.subscribe(() => {}, () => {
         expect.fail();
-      },
-      () => {
+      }, () => {
         expect(addNotification).to.be.called;
         done();
-      }
-    );
+      });
   });
 
   it("calls create gist", done => {
     const github = new GitHub();
     const store = dummyStore();
     const notificationSystem = NotificationSystem();
-    const publishNotebookObs = publishNotebookObservable(
-      github,
-      dummyCommutable,
-      "./test.ipynb",
-      notificationSystem,
-      false,
-      store
-    );
+    const publishNotebookObs = publishNotebookObservable(github, dummyCommutable, "./test.ipynb", notificationSystem, false, store);
     const create = sinon.spy(github.gists, "create");
-    publishNotebookObs.subscribe(
-      () => {},
-      () => {
+    publishNotebookObs.subscribe(() => {}, () => {
         expect.fail();
-      },
-      () => {
+      }, () => {
         expect(create).to.be.called;
         done();
-      }
-    );
+      });
   });
   it("edits gist that is already made", done => {
     const github = new GitHub();
     const store = dummyStore();
     const notebook = dummyCommutable.setIn(["metadata", "gist_id"], "ID123");
     const notificationSystem = NotificationSystem();
-    const publishNotebookObs = publishNotebookObservable(
-      github,
-      notebook,
-      "./test.ipynb",
-      notificationSystem,
-      false,
-      store
-    );
+    const publishNotebookObs = publishNotebookObservable(github, notebook, "./test.ipynb", notificationSystem, false, store);
     const edit = sinon.spy(github.gists, "edit");
-    publishNotebookObs.subscribe(
-      x => {
+    publishNotebookObs.subscribe(x => {
         expect(x.type).to.equal("OVERWRITE_METADATA_FIELD");
-      },
-      () => {
+      }, () => {
         expect.fail();
-      },
-      () => {
+      }, () => {
         expect(edit).to.be.called;
         done();
-      }
-    );
+      });
   });
 });
 
@@ -135,20 +95,8 @@ describe("createGistCallback", () => {
     const store = dummyStore();
     const github = new GitHub();
     const notificationSystem = NotificationSystem();
-    const publishNotebookObs = publishNotebookObservable(
-      github,
-      dummyCommutable,
-      "./test.ipynb",
-      notificationSystem,
-      false,
-      store
-    );
-    const callback = createGistCallback(
-      store,
-      publishNotebookObs,
-      "./test.ipynb",
-      notificationSystem
-    );
+    const publishNotebookObs = publishNotebookObservable(github, dummyCommutable, "./test.ipynb", notificationSystem, false, store);
+    const callback = createGistCallback(store, publishNotebookObs, "./test.ipynb", notificationSystem);
     expect(typeof callback).to.equal("function");
   });
 });
@@ -156,8 +104,7 @@ describe("createGistCallback", () => {
 describe("notifyUser", () => {
   it("notifies a user that gist has been uploaded", () => {
     const store = dummyStore();
-    const notification = store.getState().app.notificationSystem
-      .addNotification;
+    const notification = store.getState().app.notificationSystem.addNotification;
     const notificationSystem = store.getState().app.notificationSystem;
     notifyUser("filename", "gistID", notificationSystem);
     expect(notification).to.be.calledWithMatch({

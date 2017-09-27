@@ -13,19 +13,15 @@ import {
 describe("EditorProvider", () => {
   const store = dummyStore();
 
-  const setup = (id, cellFocused = true) =>
-    mount(
-      <Provider store={store}>
+  const setup = (id, cellFocused = true) => mount(<Provider store={store}>
         <Editor id={id} cellFocused={cellFocused} />
-      </Provider>
-    );
+      </Provider>);
 
   it("can be constructed", () => {
     const component = setup("test");
     expect(component).to.not.be.null;
   });
-  it("onChange updates cell source", () =>
-    new Promise(resolve => {
+  it("onChange updates cell source", () => new Promise(resolve => {
       const dispatch = action => {
         expect(action.id).to.equal("test");
         expect(action.source).to.equal("i love nteract");
@@ -40,8 +36,7 @@ describe("EditorProvider", () => {
         .prop("onChange");
       onChange("i love nteract");
     }));
-  it("onFocusChange can update editor focus", () =>
-    new Promise(resolve => {
+  it("onFocusChange can update editor focus", () => new Promise(resolve => {
       const dispatch = action => {
         expect(action.id).to.equal("test");
         expect(action.type).to.equal(FOCUS_CELL_EDITOR);

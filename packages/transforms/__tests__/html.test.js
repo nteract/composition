@@ -13,9 +13,9 @@ describe("HTMLDisplay", () => {
 
     const component = wrapper.instance();
     expect(component.shouldComponentUpdate({ data: "<b>woo</b>" })).toBeFalsy();
-    expect(
-      component.shouldComponentUpdate({ data: "<b>womp</b>" })
-    ).toBeTruthy();
+    expect(component.shouldComponentUpdate({
+        data: "<b>womp</b>"
+      })).toBeTruthy();
   });
   it("updates the underlying HTML when data changes", () => {
     const wrapper = mount(<HTMLDisplay data={"<b>woo</b>"} />);

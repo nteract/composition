@@ -25,8 +25,7 @@ describe("createMessage", () => {
 });
 
 describe("childOf", () => {
-  it("filters messages that have the same parent", () =>
-    Observable.from([
+  it("filters messages that have the same parent", () => Observable.from([
       { parent_header: { msg_id: "100" } },
       { parent_header: { msg_id: "100" } },
       { parent_header: { msg_id: "200" } },
@@ -39,23 +38,19 @@ describe("childOf", () => {
       .then(val => {
         expect(val).toEqual(3);
       }));
-  it("throws an error if msg_id is not present", done =>
-    Observable.from([
+  it("throws an error if msg_id is not present", done => Observable.from([
       { parent_header: { msg_id_bad: "100" } },
       { parent_header: { msg_id_test: "100" } },
       { parent_header: { msg_id_invalid: "200" } },
       { parent_header: { msg_id_invalid: "300" } }
     ])
       .childOf({ header: { msg_id: "100" } })
-      .subscribe(
-        () => {
+      .subscribe(() => {
           throw new Error("Subscription was unexpectedly fulfilled.");
-        },
-        error => {
+        }, error => {
           expect(error).not.toBe(null);
           done();
-        }
-      ));
+        }));
 });
 
 describe("ofMessageType", () => {
@@ -78,21 +73,17 @@ describe("ofMessageType", () => {
         expect(val).toEqual(4);
       });
   });
-  it("throws an error in msg_type is not present", done =>
-    Observable.from([
+  it("throws an error in msg_type is not present", done => Observable.from([
       { header: { msg_type_invalid: "a" } },
       { header: { msg_type_invalid: "d" } },
       { header: {} },
       { header: { msg_type: "a" } }
     ])
       .ofMessageType(["a", "d"])
-      .subscribe(
-        () => {
+      .subscribe(() => {
           throw new Error("Subscription was unexpectedly fulfilled.");
-        },
-        error => {
+        }, error => {
           expect(error).not.toBe(null);
           done();
-        }
-      ));
+        }));
 });

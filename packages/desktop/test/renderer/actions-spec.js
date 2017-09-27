@@ -77,7 +77,9 @@ describe("updateCellExecutionCount", () => {
 
 describe("updateCellPagers", () => {
   it("creates a UPDATE_CELL_PAGERS action", () => {
-    expect(actions.updateCellPagers("1234", { data: "woo" })).to.deep.equal({
+    expect(actions.updateCellPagers("1234", {
+        data: "woo"
+      })).to.deep.equal({
       type: constants.UPDATE_CELL_PAGERS,
       id: "1234",
       pagers: { data: "woo" }
@@ -187,14 +189,14 @@ describe("createCellAfter", () => {
     });
   });
   it("creates a NEW_CELL_AFTER action with provided source string", () => {
-    expect(
-      actions.createCellAfter("code", "1234", 'print("woo")')
-    ).to.deep.equal({
-      type: constants.NEW_CELL_AFTER,
-      source: 'print("woo")',
-      cellType: "code",
-      id: "1234"
-    });
+    expect(actions.createCellAfter("code", "1234", 'print("woo")')).to.deep.equal(
+      {
+        type: constants.NEW_CELL_AFTER,
+        source: 'print("woo")',
+        cellType: "code",
+        id: "1234"
+      }
+    );
   });
 });
 
@@ -246,7 +248,9 @@ describe("setNotificationSystem", () => {
 
 describe("overwriteMetadata", () => {
   it("creates an OVERWRITE_METADATA_FIELD", () => {
-    expect(actions.overwriteMetadata("foo", { bar: 3 })).to.deep.equal({
+    expect(actions.overwriteMetadata("foo", {
+        bar: 3
+      })).to.deep.equal({
       type: constants.OVERWRITE_METADATA_FIELD,
       field: "foo",
       value: { bar: 3 }
@@ -292,9 +296,7 @@ describe("changeInputVisibility", () => {
 
 describe("pasteCell", () => {
   it("creates a PASTE_CELL action", () => {
-    expect(actions.pasteCell()).to.deep.equal({
-      type: constants.PASTE_CELL
-    });
+    expect(actions.pasteCell()).to.deep.equal({ type: constants.PASTE_CELL });
   });
 });
 

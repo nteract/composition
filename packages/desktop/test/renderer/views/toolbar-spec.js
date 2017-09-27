@@ -24,25 +24,19 @@ describe("Toolbar View", () => {
   });
   it("changeInputVisibility can be clicked", () => {
     const dummyFunc = sinon.spy();
-    const toolbar = mount(
-      <Toolbar type={"code"} changeInputVisibility={dummyFunc} />
-    );
+    const toolbar = mount(<Toolbar type={"code"} changeInputVisibility={dummyFunc} />);
     toolbar.find(".inputVisibility").simulate("click");
     expect(dummyFunc).to.have.been.called;
   });
   it("changeOutputVisibility can be clicked", () => {
     const dummyFunc = sinon.spy();
-    const toolbar = mount(
-      <Toolbar type={"code"} changeOutputVisibility={dummyFunc} />
-    );
+    const toolbar = mount(<Toolbar type={"code"} changeOutputVisibility={dummyFunc} />);
     toolbar.find(".outputVisibility").simulate("click");
     expect(dummyFunc).to.have.been.called;
   });
   it("toggleOutputExpaned can be clicked", () => {
     const dummyFunc = sinon.spy();
-    const toolbar = mount(
-      <Toolbar type={"code"} toggleOutputExpansion={dummyFunc} />
-    );
+    const toolbar = mount(<Toolbar type={"code"} toggleOutputExpansion={dummyFunc} />);
     toolbar.find(".outputExpanded").simulate("click");
     expect(dummyFunc).to.have.been.called;
   });
