@@ -36,6 +36,7 @@
     "test:flow": "npm run flow",
     "test:packages":
       "lerna exec --scope enchannel-zmq-backend -- npm rebuild && jest",
+    "jest:update": "jest --updateSnapshot",
     "test:desktop": "lerna run test:unit --scope nteract --stream",
     "precoverage":
       "mkdirp coverage && nyc lerna run test:unit --scope nteract --stream",
@@ -70,7 +71,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.0.0",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -82,16 +83,17 @@
     "chai": "^4.0.0",
     "chai-immutable": "^1.6.0",
     "enzyme": "^3.0.0",
+    "enzyme-adapter-react-16": "^1.0.0",
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "^4.4.1",
     "eslint-config-prettier": "^2.1.1",
     "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^2.2.0",
-    "flow-bin": "^0.54.0",
+    "flow-bin": "^0.55.0",
     "flow-copy-source": "^1.1.0",
     "husky": "^0.14.0",
-    "jest": "^20.0.4",
+    "jest": "^21.2.0",
     "jsdom": "^11.0.0",
     "json-loader": "^0.5.4",
     "jsonschema": "^1.2.0",
@@ -106,8 +108,7 @@
     "prettier": "^1.7.0",
     "raf": "^3.3.2",
     "react-test-renderer": "^16.0.0",
-    "enzyme-adapter-react-16": "^1.0.0",
-    "sinon": "^3.2.0",
+    "sinon": "^4.0.0",
     "sinon-chai": "^2.10.0",
     "webpack": "^3.5.5"
   }
