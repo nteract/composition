@@ -10,7 +10,10 @@ import "rxjs/add/operator/publishReplay";
 const env$ = Observable.fromPromise(shellEnv())
   .first()
   .do(env => {
-    Object.assign(process.env, env);
+    // no need to change the env if started from the terminal on Mac
+    if (process.platform !== "darwin" || !process.env.TERM) {
+      Object.assign(process.env, env);
+    }
   })
   .publishReplay(1);
 
