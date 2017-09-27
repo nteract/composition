@@ -1,6 +1,6 @@
 {
-  "name": "nteract",
-  "version": "0.2.0",
+  "name": "nteract-monorepo",
+  "version": "0.0.0",
   "description": "Interactive literate coding notebook!",
   "repository": {
     "type": "git",
@@ -15,39 +15,41 @@
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
     "postinstall": "npm run lerna",
-    "start": "lerna run start --scope @nteract/desktop --stream",
-    "spawn": "lerna run spawn --scope @nteract/desktop",
+    "start": "lerna run start --scope nteract --stream",
+    "spawn": "lerna run spawn --scope nteract",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lerna": "lerna bootstrap --hoist rxjs",
     "build": "npm run build:packages && npm run build:desktop",
-    "build:desktop": "lerna run build --scope @nteract/desktop --stream",
-    "build:desktop:watch":
-      "lerna run build:watch --scope @nteract/desktop --stream",
+    "build:desktop": "lerna run build --scope nteract --stream",
+    "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
     "build:packages": "lerna run build --parallel",
     "build:packages:watch": "lerna run build:lib:watch --parallel",
     "build:icon":
       "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",
     "test":
-      "lerna run test:unit --scope @nteract/desktop && npm run test:packages && npm run test:lint",
+      "lerna run test:unit --scope nteract && npm run test:packages && npm run test:lint",
     "test:conformance": "node scripts/conformance.js",
     "test:coverage": "npm run coverage",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
     "test:packages":
       "lerna exec --scope enchannel-zmq-backend -- npm rebuild && jest",
-    "test:desktop": "lerna run test:unit --scope @nteract/desktop --stream",
+    "test:desktop": "lerna run test:unit --scope nteract --stream",
     "precoverage":
-      "mkdirp coverage && nyc lerna run test:unit --scope @nteract/desktop --stream",
+      "mkdirp coverage && nyc lerna run test:unit --scope nteract --stream",
     "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged",
     "prettier":
       "prettier --write '**/*.{js,json}' '!**/{lib,.git,flow-typed}/**'",
-    "dist": "lerna run dist --scope @nteract/desktop --stream",
-    "pack": "lerna run pack --scope @nteract/desktop --stream"
+    "dist": "lerna run dist --scope nteract --stream",
+    "pack": "lerna run pack --scope nteract --stream",
+    "publish": "lerna run publish --scope nteract --stream",
+    "dist:all": "lerna run dist:all --scope nteract --stream",
+    "publish:all": "lerna run publish:all --scope nteract --stream"
   },
   "jest": {
     "setupFiles": ["raf/polyfill", "./scripts/mockument"],

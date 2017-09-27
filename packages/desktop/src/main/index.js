@@ -22,6 +22,7 @@ import {
 } from "fs-observable";
 
 import { launch, launchNewNotebook } from "./launch";
+import { initAutoUpdater } from "./auto-updater.js";
 
 import { loadFullMenu } from "./menu";
 
@@ -62,6 +63,8 @@ ipc.on("new-kernel", (event, k) => {
 ipc.on("open-notebook", (event, filename) => {
   launch(resolve(filename));
 });
+
+app.on("ready", initAutoUpdater);
 
 const electronReady$ = Observable.fromEvent(app, "ready");
 

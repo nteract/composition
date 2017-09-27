@@ -1,29 +1,40 @@
-Let's package a release!
+# :package: Let's package a release!
 
-# All platform precursor
+## All platform precursor
 
-Cut a release using the `npm` workflow:
-
+To be able to publish a release you'll need to generate a GitHub access token by going to <https://github.com/settings/tokens/new>.  The access token should have the `repo` scope/permission.  Once you have the token, assign it to an environment variable (on macOS/linux):
+```bash
+export GH_TOKEN="<YOUR_TOKEN_HERE>"
 ```
+
+## macOS
+
+In order to build a signed copy with working auto-update, you will need to join the Apple developer program and get a certificate. The [Electron docs have a document on submitting your app to the app store](https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md), you only have to get through to the certificate step.
+
+## Release Process
+
+1. Make sure the release is working by running `npm run dist` and testing the built app inside the `./packages/desktop/dist/` folder. You can build for all platforms using `npm run dist:all`.
+
+2. If everything works as expected, bump the version number using `npm`:
+```bash
 npm version {major, minor, patch}
 npm publish
 git push
 git push --tags
 ```
+or manually by editing the version in `./packages/desktop/package.json` and pushing the changes to GitHub.
 
-Now, from GitHub go to [nteract's releases](https://github.com/nteract/nteract/releases) and make a release from the version you just published above. The name should follow our [naming guidelines](https://github.com/nteract/naming), namely that we use the last name of the next scientist in the list with an adjective in front.
+3. Run `npm run publish` on macOS, Windows and Linux or run `npm run publish:all` to build everything on a single machine. This will draft a new release on GitHub and will upload all necessary assets.
 
+4. From GitHub go to [nteract's releases](https://github.com/nteract/nteract/releases), verify everything works and edit the release notes. The name should follow our [naming guidelines](https://github.com/nteract/naming), namely that we use the last name of the next scientist in the list with an adjective in front.
 Example:
-
-```
+```bash
 Last release: Avowed Avogadro
 Next Scientist: Babbage
 Next release: Babbling Babbage
 ```
-
 My favorite way to pick the alliterative adjectives is using the local dictionary and our friend `grep`:
-
-```
+```bash
 $ cat /usr/share/dict/words | grep "^babb"
 babbitt
 babbitter
@@ -39,13 +50,6 @@ babblishly
 babbly
 babby
 ```
+*To ensure that auto-update works, it is best to not modify the name of the release directly, instead just add the chosen one to the release notes.*
 
-## macOS
-
-In order to build a signed copy, you will need to join the Apple developer program and get a certificate. The [Electron docs have a document on submitting your app to the app store](https://github.com/electron/electron/blob/master/docs/tutorial/mac-app-store-submission-guide.md), you only have to get through to the certificate step.
-
-Once your certificate is all set up and your nteract dev environment is ready:
-
-* Run `npm run dist:osx`
-
-https://github.com/nteract/naming
+5. Once you're ready click "Publish release". On Mac and Windows the update will be automatically downloaded and installed.
