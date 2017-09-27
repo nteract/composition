@@ -36,6 +36,7 @@
     "test:flow": "npm run flow",
     "test:packages":
       "lerna exec --scope enchannel-zmq-backend -- npm rebuild && jest",
+    "jest:update": "jest --updateSnapshot",
     "test:desktop": "lerna run test:unit --scope nteract --stream",
     "precoverage":
       "mkdirp coverage && nyc lerna run test:unit --scope nteract --stream",

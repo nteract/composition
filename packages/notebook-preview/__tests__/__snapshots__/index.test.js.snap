@@ -19,69 +19,67 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
   }
   notebook={
     Immutable.Map {
-      cellOrder: Immutable.List [
+      "cellOrder": Immutable.List [
         4,
         5,
       ],
-      cellMap: Immutable.Map {
+      "cellMap": Immutable.Map {
         4: Immutable.Map {
-          cell_type: "markdown",
-          source: "## The Notable Nteract Notebook
-          
-          **It's a notebook!**
-          ",
-          metadata: Immutable.Map {
-          },
+          "cell_type": "markdown",
+          "source": "## The Notable Nteract Notebook
+
+**It's a notebook!**
+",
+          "metadata": Immutable.Map {},
         },
         5: Immutable.Map {
-          cell_type: "code",
-          source: "import IPython
-          
-          from IPython.display import HTML
-          from IPython.display import Markdown
-          from IPython.display import display
-          
-          display(HTML('<h1>Multiple</h1>'))
-          display(HTML('<p>Display Elements</p>'))
-          display(Markdown('**awesome**'))
-          
-          print('hey')
-          42",
-          outputs: Immutable.List [
+          "cell_type": "code",
+          "source": "import IPython
+
+from IPython.display import HTML
+from IPython.display import Markdown
+from IPython.display import display
+
+display(HTML('<h1>Multiple</h1>'))
+display(HTML('<p>Display Elements</p>'))
+display(Markdown('**awesome**'))
+
+print('hey')
+42",
+          "outputs": Immutable.List [
             Immutable.Map {
-              output_type: "display_data",
-              data: Immutable.Map {
-                text/plain: "<IPython.core.display.HTML object>",
+              "output_type": "display_data",
+              "data": Immutable.Map {
+                "text/plain": "<IPython.core.display.HTML object>",
               },
-              metadata: Immutable.Map {
-              },
+              "metadata": Immutable.Map {},
             },
           ],
-          execution_count: 11,
-          metadata: Immutable.Map {
-            collapsed: false,
+          "execution_count": 11,
+          "metadata": Immutable.Map {
+            "collapsed": false,
           },
         },
       },
-      nbformat_minor: 0,
-      nbformat: 4,
-      metadata: Immutable.Map {
-        kernelspec: Immutable.Map {
-          display_name: "Python 3",
-          language: "python",
-          name: "python3",
+      "nbformat_minor": 0,
+      "nbformat": 4,
+      "metadata": Immutable.Map {
+        "kernelspec": Immutable.Map {
+          "display_name": "Python 3",
+          "language": "python",
+          "name": "python3",
         },
-        language_info: Immutable.Map {
-          codemirror_mode: Immutable.Map {
-            name: "ipython",
-            version: 3,
+        "language_info": Immutable.Map {
+          "codemirror_mode": Immutable.Map {
+            "name": "ipython",
+            "version": 3,
           },
-          file_extension: ".py",
-          mimetype: "text/x-python",
-          name: "python",
-          nbconvert_exporter: "python",
-          pygments_lexer: "ipython3",
-          version: "3.5.1",
+          "file_extension": ".py",
+          "mimetype": "text/x-python",
+          "name": "python",
+          "nbconvert_exporter": "python",
+          "pygments_lexer": "ipython3",
+          "version": "3.5.1",
         },
       },
     }
@@ -124,69 +122,67 @@ exports[`Notebook accepts an Object of cells 1`] = `
   }
   notebook={
     Immutable.Map {
-      cellOrder: Immutable.List [
+      "cellOrder": Immutable.List [
         6,
         7,
       ],
-      cellMap: Immutable.Map {
+      "cellMap": Immutable.Map {
         6: Immutable.Map {
-          cell_type: "markdown",
-          source: "## The Notable Nteract Notebook
-          
-          **It's a notebook!**
-          ",
-          metadata: Immutable.Map {
-          },
+          "cell_type": "markdown",
+          "source": "## The Notable Nteract Notebook
+
+**It's a notebook!**
+",
+          "metadata": Immutable.Map {},
         },
         7: Immutable.Map {
-          cell_type: "code",
-          source: "import IPython
-          
-          from IPython.display import HTML
-          from IPython.display import Markdown
-          from IPython.display import display
-          
-          display(HTML('<h1>Multiple</h1>'))
-          display(HTML('<p>Display Elements</p>'))
-          display(Markdown('**awesome**'))
-          
-          print('hey')
-          42",
-          outputs: Immutable.List [
+          "cell_type": "code",
+          "source": "import IPython
+
+from IPython.display import HTML
+from IPython.display import Markdown
+from IPython.display import display
+
+display(HTML('<h1>Multiple</h1>'))
+display(HTML('<p>Display Elements</p>'))
+display(Markdown('**awesome**'))
+
+print('hey')
+42",
+          "outputs": Immutable.List [
             Immutable.Map {
-              output_type: "display_data",
-              data: Immutable.Map {
-                text/plain: "<IPython.core.display.HTML object>",
+              "output_type": "display_data",
+              "data": Immutable.Map {
+                "text/plain": "<IPython.core.display.HTML object>",
               },
-              metadata: Immutable.Map {
-              },
+              "metadata": Immutable.Map {},
             },
           ],
-          execution_count: 11,
-          metadata: Immutable.Map {
-            collapsed: false,
+          "execution_count": 11,
+          "metadata": Immutable.Map {
+            "collapsed": false,
           },
         },
       },
-      nbformat_minor: 0,
-      nbformat: 4,
-      metadata: Immutable.Map {
-        kernelspec: Immutable.Map {
-          display_name: "Python 3",
-          language: "python",
-          name: "python3",
+      "nbformat_minor": 0,
+      "nbformat": 4,
+      "metadata": Immutable.Map {
+        "kernelspec": Immutable.Map {
+          "display_name": "Python 3",
+          "language": "python",
+          "name": "python3",
         },
-        language_info: Immutable.Map {
-          codemirror_mode: Immutable.Map {
-            name: "ipython",
-            version: 3,
+        "language_info": Immutable.Map {
+          "codemirror_mode": Immutable.Map {
+            "name": "ipython",
+            "version": 3,
           },
-          file_extension: ".py",
-          mimetype: "text/x-python",
-          name: "python",
-          nbconvert_exporter: "python",
-          pygments_lexer: "ipython3",
-          version: "3.5.1",
+          "file_extension": ".py",
+          "mimetype": "text/x-python",
+          "name": "python",
+          "nbconvert_exporter": "python",
+          "pygments_lexer": "ipython3",
+          "version": "3.5.1",
         },
       },
     }
