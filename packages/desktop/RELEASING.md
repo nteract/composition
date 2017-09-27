@@ -15,14 +15,7 @@ In order to build a signed copy with working auto-update, you will need to join 
 
 1. Make sure the release is working by running `npm run dist` and testing the built app inside the `./packages/desktop/dist/` folder. You can build for all platforms using `npm run dist:all`.
 
-2. If everything works as expected, bump the version number using `npm`:
-```bash
-npm version {major, minor, patch}
-npm publish
-git push
-git push --tags
-```
-or manually by editing the version in `./packages/desktop/package.json` and pushing the changes to GitHub.
+2. If everything works as expected, bump the version number in `./packages/desktop/package.json` and push the changes to GitHub.
 
 3. Run `npm run publish` on macOS, Windows and Linux or run `npm run publish:all` to build everything on a single machine. This will draft a new release on GitHub and will upload all necessary assets.
 
@@ -50,6 +43,5 @@ babblishly
 babbly
 babby
 ```
-*To ensure that auto-update works, it is best to not modify the name of the release directly, instead just add the chosen one to the release notes.*
 
 5. Once you're ready click "Publish release". On Mac and Windows the update will be automatically downloaded and installed.
