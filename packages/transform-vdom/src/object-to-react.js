@@ -4,6 +4,11 @@
  * The original copy of this comes from
  * https://github.com/remarkablemark/REON/blob/1f126e71c17f96daad518abffdb2c53b66b8b792/lib/object-to-react.js
  *
+ * This version is heavily modified to:
+ * 
+ *   * Match the application/vdom.v1+json spec
+ *   * Not mutate the data
+ *
  * MIT License
  *
  * Copyright (c) 2016 Menglin "Mark" Xu <mark@remarkablemark.org>
@@ -104,11 +109,20 @@ export function arrayToReactChildren(arr: Array<VDOMNode>): ReactArray {
     const item = arr[i];
     if (Array.isArray(item)) {
       result.push(arrayToReactChildren(item));
-    } else if (typeof item === "string") {
+    } else if (typeof item === "string" || item === null) {
       result.push(item);
     } else if (typeof item === "object") {
-      const keyedItem = item;
-      item.key = i;
+      // Create a new object so that if we have to set the key, we are not
+      // mutating the original object
+      const keyedItem = {
+        tagName: item.tagName,
+        attributes: item.attributes,
+        children: item.children,
+        key: i
+      };
+      if (item.attributes && item.attributes.key) {
+        keyedItem.key = item.attributes.key;
+      }
       result.push(objectToReactElement(keyedItem));
     } else {
       console.warn("invalid vdom data passed", item);

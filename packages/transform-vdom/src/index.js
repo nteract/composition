@@ -8,6 +8,9 @@ type Props = {
   data: Object
 };
 
+// Provide object-to-react as an available helper on the library
+export { objectToReactElement };
+
 export default class VDOM extends React.Component<Props> {
   static MIMETYPE = "application/vdom.v1+json";
 
