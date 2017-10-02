@@ -4,8 +4,8 @@ import * as fs from "fs";
 const mkdirp = require("mkdirp");
 
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/bindNodeCallback";
-import "rxjs/add/operator/mergeMap";
+import { bindNodeCallback } from "rxjs/observable/bindNodeCallback";
+import { mergeMap } from "rxjs/operators";
 
 export const unlinkObservable = (path: string) =>
   Observable.create(observer => {
@@ -24,17 +24,15 @@ export const unlinkObservable = (path: string) =>
     }
   });
 
-export const createNewSymlinkObservable = Observable.bindNodeCallback(
-  fs.symlink
-);
+export const createNewSymlinkObservable = bindNodeCallback(fs.symlink);
 
 export const createSymlinkObservable = (target: string, path: string) =>
-  unlinkObservable(path).mergeMap(() =>
-    createNewSymlinkObservable(target, path)
+  unlinkObservable(path).pipe(
+    mergeMap(() => createNewSymlinkObservable(target, path))
   );
 
-export const readFileObservable = Observable.bindNodeCallback(fs.readFile);
+export const readFileObservable = bindNodeCallback(fs.readFile);
 
-export const writeFileObservable = Observable.bindNodeCallback(fs.writeFile);
+export const writeFileObservable = bindNodeCallback(fs.writeFile);
 
-export const mkdirpObservable = Observable.bindNodeCallback(mkdirp);
+export const mkdirpObservable = bindNodeCallback(mkdirp);

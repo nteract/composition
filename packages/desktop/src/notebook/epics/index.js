@@ -1,4 +1,5 @@
 // @flow
+import { catchError } from "rxjs/operators";
 import { saveEpic, saveAsEpic } from "./saving";
 
 import { loadEpic, newNotebookEpic } from "./loading";
@@ -29,7 +30,7 @@ export function retryAndEmitError(err: Error, source: ActionsObservable<*>) {
 }
 
 export const wrapEpic = (epic: Epic<*, *, *>) => (...args: any) =>
-  epic(...args).catch(retryAndEmitError);
+  epic(...args).pipe(catchError(retryAndEmitError));
 
 const epics = [
   commListenEpic,

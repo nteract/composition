@@ -3,17 +3,18 @@ import { resolve, join } from "path";
 import { existsSync } from "fs";
 
 import { Subscriber } from "rxjs/Subscriber";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/fromEvent";
-import "rxjs/add/observable/forkJoin";
-import "rxjs/add/observable/zip";
-
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/takeUntil";
-import "rxjs/add/operator/skipUntil";
-import "rxjs/add/operator/buffer";
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/toPromise";
+import { fromEvent } from "rxjs/observable/fromEvent";
+import { forkJoin } from "rxjs/observable/forkJoin";
+import { zip } from "rxjs/observable/zip";
+import {
+  mergeMap,
+  takeUntil,
+  skipUntil,
+  buffer,
+  catchError,
+  toPromise,
+  first
+} from "rxjs/operators";
 
 import {
   mkdirpObservable,
@@ -66,40 +67,43 @@ ipc.on("open-notebook", (event, filename) => {
 
 app.on("ready", initAutoUpdater);
 
-const electronReady$ = Observable.fromEvent(app, "ready");
+const electronReady$ = fromEvent(app, "ready");
 
-const fullAppReady$ = Observable.zip(electronReady$, prepareEnv).first();
+const fullAppReady$ = zip(electronReady$, prepareEnv).pipe(first());
 
 const jupyterConfigDir = path.join(app.getPath("home"), ".jupyter");
 const nteractConfigFilename = path.join(jupyterConfigDir, "nteract.json");
 
-const prepJupyterObservable = prepareEnv
-  .mergeMap(() =>
+const prepJupyterObservable = prepareEnv.pipe(
+  mergeMap(() =>
     // Create all the directories we need in parallel
-    Observable.forkJoin(
+    forkJoin(
       // Ensure the runtime Dir is setup for kernels
       mkdirpObservable(jupyterPaths.runtimeDir()),
       // Ensure the config directory is all set up
       mkdirpObservable(jupyterConfigDir)
     )
-  )
+  ),
   // Set up our configuration file
-  .mergeMap(() =>
-    readFileObservable(nteractConfigFilename).catch(err => {
-      if (err.code === "ENOENT") {
-        return writeFileObservable(
-          nteractConfigFilename,
-          JSON.stringify({
-            theme: "light"
-          })
-        );
-      }
-      throw err;
-    })
-  );
+  mergeMap(() =>
+    readFileObservable(nteractConfigFilename).pipe(
+      catchError(err => {
+        if (err.code === "ENOENT") {
+          return writeFileObservable(
+            nteractConfigFilename,
+            JSON.stringify({
+              theme: "light"
+            })
+          );
+        }
+        throw err;
+      })
+    )
+  )
+);
 
 const kernelSpecsPromise = prepJupyterObservable
-  .toPromise()
+  .pipe(toPromise())
   .then(() => kernelspecs.findAll())
   .then(specs => initializeKernelSpecs(specs));
 
@@ -138,14 +142,13 @@ export function createSplashSubscriber() {
   );
 }
 
-const appAndKernelSpecsReady = Observable.zip(
-  fullAppReady$,
-  kernelSpecsPromise
-);
+const appAndKernelSpecsReady = zip(fullAppReady$, kernelSpecsPromise);
 
 electronReady$
-  // TODO: Take until first window is shown
-  .takeUntil(appAndKernelSpecsReady)
+  .pipe(
+    // TODO: Take until first window is shown
+    takeUntil(appAndKernelSpecsReady)
+  )
   .subscribe(createSplashSubscriber());
 
 function closeAppOnNonDarwin() {
@@ -154,12 +157,12 @@ function closeAppOnNonDarwin() {
     app.quit();
   }
 }
-const windowAllClosed = Observable.fromEvent(app, "window-all-closed");
+const windowAllClosed = fromEvent(app, "window-all-closed");
 windowAllClosed
-  .skipUntil(appAndKernelSpecsReady)
+  .pipe(skipUntil(appAndKernelSpecsReady))
   .subscribe(closeAppOnNonDarwin);
 
-const openFile$ = Observable.fromEvent(app, "open-file", (event, filename) => ({
+const openFile$ = fromEvent(app, "open-file", (event, filename) => ({
   event,
   filename
 }));
@@ -172,45 +175,42 @@ function openFileFromEvent({ event, filename }) {
 // Since we can't launch until app is ready
 // and macOS will send the open-file events early,
 // buffer those that come early.
-openFile$
-  .buffer(fullAppReady$)
-  .first()
-  .subscribe(buffer => {
-    // Form an array of open-file events from before app-ready // Should only be the first
-    // Now we can choose whether to open the default notebook
-    // based on if arguments went through argv or through open-file events
-    if (notebooks.length <= 0 && buffer.length <= 0) {
-      log.info("launching an empty notebook by default");
-      kernelSpecsPromise.then(specs => {
-        let kernel;
+openFile$.pipe(buffer(fullAppReady$), first()).subscribe(buffer => {
+  // Form an array of open-file events from before app-ready // Should only be the first
+  // Now we can choose whether to open the default notebook
+  // based on if arguments went through argv or through open-file events
+  if (notebooks.length <= 0 && buffer.length <= 0) {
+    log.info("launching an empty notebook by default");
+    kernelSpecsPromise.then(specs => {
+      let kernel;
 
-        if (argv.kernel in specs) {
-          kernel = argv.kernel;
-        } else if ("python2" in specs) {
-          kernel = "python2";
-        } else {
-          const specList = Object.keys(specs);
-          specList.sort();
-          kernel = specList[0];
-        }
+      if (argv.kernel in specs) {
+        kernel = argv.kernel;
+      } else if ("python2" in specs) {
+        kernel = "python2";
+      } else {
+        const specList = Object.keys(specs);
+        specList.sort();
+        kernel = specList[0];
+      }
 
-        launchNewNotebook(specs[kernel]);
-      });
-    } else {
-      notebooks.forEach(f => {
-        try {
-          launch(resolve(f));
-        } catch (e) {
-          log.error(e);
-          console.error(e);
-        }
-      });
-    }
-    buffer.forEach(openFileFromEvent);
-  });
+      launchNewNotebook(specs[kernel]);
+    });
+  } else {
+    notebooks.forEach(f => {
+      try {
+        launch(resolve(f));
+      } catch (e) {
+        log.error(e);
+        console.error(e);
+      }
+    });
+  }
+  buffer.forEach(openFileFromEvent);
+});
 
 // All open file events after app is ready
-openFile$.skipUntil(fullAppReady$).subscribe(openFileFromEvent);
+openFile$.pipe(skipUntil(fullAppReady$)).subscribe(openFileFromEvent);
 
 fullAppReady$.subscribe(() => {
   kernelSpecsPromise

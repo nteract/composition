@@ -16,9 +16,8 @@ import {
 
 const chai = require("chai");
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/operator/toArray";
+import { of } from "rxjs/observable/of";
+import { toArray, toPromise } from "rxjs/operators";
 
 const expect = chai.expect;
 
@@ -80,7 +79,7 @@ describe("createCommErrorAction", () => {
   it("creates a COMM_ERROR action with an error", () => {
     const err = new Error();
     return createCommErrorAction(err)
-      .toPromise()
+      .pipe(toPromise())
       .then(action => {
         expect(action.type).to.equal(COMM_ERROR);
         expect(action.payload).to.equal(err);
@@ -133,7 +132,7 @@ describe("commMessageAction", () => {
 });
 
 describe("commActionObservable", () => {
-  it.skip("emits COMM_OPEN and COMM_MESSAGE given the right messages", done => {
+  it("emits COMM_OPEN and COMM_MESSAGE given the right messages", done => {
     const commOpenMessage = {
       header: { msg_type: "comm_open" },
       content: {
@@ -153,11 +152,11 @@ describe("commActionObservable", () => {
     };
 
     const newKernelAction = {
-      channels: { iopub: Observable.of(commOpenMessage, commMessage) }
+      channels: { iopub: of(commOpenMessage, commMessage) }
     };
 
     commActionObservable(newKernelAction)
-      .toArray()
+      .pipe(toArray())
       .subscribe(
         actions => {
           expect(actions).to.deep.equal([

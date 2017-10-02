@@ -1,10 +1,8 @@
 import { Subscriber } from "rxjs/Subscriber";
-import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 
-import "rxjs/add/observable/fromEvent";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/publish";
+import { fromEvent } from "rxjs/observable/fromEvent";
+import { map, publish, refCount } from "rxjs/operators";
 
 import * as jmp from "jmp";
 
@@ -53,15 +51,16 @@ export function createSubscriber(socket) {
  * @return {Rx.Observable} an Observable that publishes kernel channel messages
  */
 export function createObservable(socket) {
-  return Observable.fromEvent(socket, "message")
-    .map(msg => {
+  return fromEvent(socket, "message").pipe(
+    map(msg => {
       // Conform to same message format as notebook websockets
       // See https://github.com/n-riesco/jmp/issues/10
       delete msg.idents;
       return msg;
-    })
-    .publish()
-    .refCount();
+    }),
+    publish(),
+    refCount()
+  );
 }
 
 /**

@@ -1,21 +1,20 @@
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/pluck";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/map";
+import { pluck, first, map } from "rxjs/operators";
 
-import { createMessage } from "@nteract/messaging";
+import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
 
 import { js_idx_to_char_idx } from "./surrogate";
 
 export function tooltipObservable(channels, editor, message) {
-  const tip$ = channels.shell
-    .childOf(message)
-    .ofMessageType(["inspect_reply"])
-    .pluck("content")
-    .first()
-    .map(results => ({
+  const tip$ = channels.shell.pipe(
+    childOf(message),
+    ofMessageType(["inspect_reply"]),
+    pluck("content"),
+    first(),
+    map(results => ({
       dict: results.data
-    }));
+    }))
+  );
   // On subscription, send the message
   return Observable.create(observer => {
     const subscription = tip$.subscribe(observer);

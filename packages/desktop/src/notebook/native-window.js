@@ -3,16 +3,16 @@ import { is } from "immutable";
 
 import path from "path";
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/combineLatest";
+import { of } from "rxjs/observable/of";
+import { combineLatest } from "rxjs/observable/combineLatest";
+import { from } from "rxjs/observable/from";
 
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/distinctUntilChanged";
-import "rxjs/add/operator/scan";
-import "rxjs/add/operator/pluck";
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/debounceTime";
+import {
+  map,
+  distinctUntilChanged,
+  debounceTime,
+  switchMap
+} from "rxjs/operators";
 
 const HOME = remote.app.getPath("home");
 
@@ -57,8 +57,8 @@ export function setTitleFromAttributes(attributes) {
 }
 
 export function createTitleFeed(state$) {
-  const modified$ = state$
-    .map(
+  const modified$ = state$.pipe(
+    map(
       state =>
         process.platform === "darwin"
           ? !is(
@@ -66,18 +66,20 @@ export function createTitleFeed(state$) {
               state.document.get("notebook")
             )
           : false
-    )
-    .distinctUntilChanged();
-
-  const fullpath$ = state$.map(
-    state => state.metadata.get("filename") || "Untitled"
+    ),
+    distinctUntilChanged()
   );
 
-  const executionState$ = state$
-    .map(state => state.app.get("executionState"))
-    .debounceTime(200);
+  const fullpath$ = state$.pipe(
+    map(state => state.metadata.get("filename") || "Untitled")
+  );
 
-  return Observable.combineLatest(
+  const executionState$ = state$.pipe(
+    map(state => state.app.get("executionState")),
+    debounceTime(200)
+  );
+
+  return combineLatest(
     modified$,
     fullpath$,
     executionState$,
@@ -86,13 +88,11 @@ export function createTitleFeed(state$) {
       fullpath,
       executionState
     })
-  )
-    .distinctUntilChanged()
-    .switchMap(i => Observable.of(i));
+  ).pipe(distinctUntilChanged(), switchMap(i => of(i)));
 }
 
 export function initNativeHandlers(store) {
-  const state$ = Observable.from(store);
+  const state$ = from(store);
 
   return createTitleFeed(state$).subscribe(setTitleFromAttributes, err =>
     console.error(err)

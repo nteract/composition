@@ -1,5 +1,12 @@
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/empty";
+import { empty } from "rxjs/observable/empty";
+import {
+  mapTo,
+  filter,
+  catchError,
+  map,
+  mergeAll,
+  toArray
+} from "rxjs/operators";
 
 import { spawn } from "spawn-rx";
 
@@ -12,10 +19,13 @@ const path = require("path");
  */
 export function ipyKernelTryObservable(env) {
   const executable = path.join(env.prefix, "bin", "python");
-  return spawn(executable, ["-m", "ipykernel", "--version"], { split: true })
-    .filter(x => x.source && x.source === "stdout")
-    .mapTo(env)
-    .catch(() => Observable.empty());
+  return spawn(executable, ["-m", "ipykernel", "--version"], {
+    split: true
+  }).pipe(
+    filter(x => x.source && x.source === "stdout"),
+    mapTo(env),
+    catchError(() => empty())
+  );
 }
 
 /**
@@ -24,7 +34,7 @@ export function ipyKernelTryObservable(env) {
   * @returns {Observable}  JSON parsed information
   */
 export function condaInfoObservable() {
-  return spawn("conda", ["info", "--json"]).map(info => JSON.parse(info));
+  return spawn("conda", ["info", "--json"]).pipe(map(info => JSON.parse(info)));
 }
 
 /**
@@ -34,25 +44,26 @@ export function condaInfoObservable() {
   * @returns {Observable}  List of envionmental variables
   */
 export function condaEnvsObservable(condaInfo$) {
-  return condaInfo$
-    .map(info => {
+  return condaInfo$.pipe(
+    map(info => {
       const envs = info.envs.map(env => ({
         name: path.basename(env),
         prefix: env
       }));
       envs.push({ name: "root", prefix: info.root_prefix });
       return envs;
-    })
-    .map(envs => envs.map(ipyKernelTryObservable))
-    .mergeAll()
-    .mergeAll()
-    .toArray();
+    }),
+    map(envs => envs.map(ipyKernelTryObservable)),
+    mergeAll(),
+    mergeAll(),
+    toArray()
+  );
 }
 
 /**
   * createKernelSpecsFromEnvs generates a dictionary with the supported langauge
   * paths.
-  * @param {Observable} envs - Environmental elements
+  * @param {Object} envs - Environmental elements
   * @returns {Object}   Dictionary containing supported langauges paths.
   */
 export function createKernelSpecsFromEnvs(envs) {
@@ -83,7 +94,7 @@ export function createKernelSpecsFromEnvs(envs) {
   * @returns {Observable}  Supported language elements
   */
 export function condaKernelsObservable() {
-  return condaEnvsObservable(condaInfoObservable()).map(
-    createKernelSpecsFromEnvs
+  return condaEnvsObservable(condaInfoObservable()).pipe(
+    map(createKernelSpecsFromEnvs)
   );
 }

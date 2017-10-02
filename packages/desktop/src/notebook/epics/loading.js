@@ -11,14 +11,8 @@ import { newKernelByName, newKernel } from "../actions";
 
 const path = require("path");
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/catch";
+import { of } from "rxjs/observable/of";
+import { map, tap, mergeMap, switchMap, catchError } from "rxjs/operators";
 
 export const LOAD = "LOAD";
 export const SET_NOTEBOOK = "SET_NOTEBOOK";
@@ -90,32 +84,31 @@ export const convertRawNotebook = (filename: string, data: string) => ({
   * @param  {ActionObservable}  A LOAD action with the notebook filename
   */
 export const loadEpic = (actions: ActionsObservable<*>) =>
-  actions
-    .ofType(LOAD)
-    .do(action => {
+  actions.ofType(LOAD).pipe(
+    tap(action => {
       // If there isn't a filename, save-as it instead
       if (!action.filename) {
         throw new Error("load needs a filename");
       }
-    })
+    }),
     // Switch map since we want the last load request to be the lead
-    .switchMap(action =>
-      readFileObservable(action.filename)
-        .map(data => convertRawNotebook(action.filename, data))
-        .mergeMap(({ filename, notebook }) => {
+    switchMap(action =>
+      readFileObservable(action.filename).pipe(
+        map(data => convertRawNotebook(action.filename, data)),
+        mergeMap(({ filename, notebook }) => {
           const { cwd, kernelSpecName } = extractNewKernel(filename, notebook);
-          return Observable.of(
+          return of(
             notebookLoaded(filename, notebook),
             // Find kernel based on kernel name
             // NOTE: Conda based kernels and remote kernels will need
             // special handling
             newKernelByName(kernelSpecName, cwd)
           );
-        })
-        .catch(err =>
-          Observable.of({ type: "ERROR", payload: err, error: true })
-        )
-    );
+        }),
+        catchError(err => of({ type: "ERROR", payload: err, error: true }))
+      )
+    )
+  );
 
 /**
   * Sets a new empty notebook.
@@ -123,12 +116,14 @@ export const loadEpic = (actions: ActionsObservable<*>) =>
   * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
   */
 export const newNotebookEpic = (action$: ActionsObservable<*>) =>
-  action$.ofType(NEW_NOTEBOOK).switchMap(action =>
-    Observable.of(
-      {
-        type: "SET_NOTEBOOK",
-        notebook: monocellNotebook
-      },
-      newKernel(action.kernelSpec, action.cwd)
+  action$.ofType(NEW_NOTEBOOK).pipe(
+    switchMap(action =>
+      of(
+        {
+          type: "SET_NOTEBOOK",
+          notebook: monocellNotebook
+        },
+        newKernel(action.kernelSpec, action.cwd)
+      )
     )
   );

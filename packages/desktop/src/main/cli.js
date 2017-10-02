@@ -1,7 +1,5 @@
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/merge";
-import "rxjs/add/operator/catch";
-import "rxjs/add/operator/mergeMap";
+import { merge, catchError, mergeMap } from "rxjs/operators";
 
 import { join } from "path";
 import { dialog } from "electron";
@@ -37,10 +35,12 @@ const setWinPathObservable = (exe, rootDir, binDir) => {
     .filter((item, index, array) => array.indexOf(item) === index);
   env.push(binDir);
   const envPath = env.join(";");
-  return Observable.merge(
-    spawn("SETX", ["PATH", `${envPath}`]),
-    spawn("SETX", ["NTERACT_EXE", exe]),
-    spawn("SETX", ["NTERACT_DIR", rootDir])
+  return Observable.pipe(
+    merge(
+      spawn("SETX", ["PATH", `${envPath}`]),
+      spawn("SETX", ["NTERACT_EXE", exe]),
+      spawn("SETX", ["NTERACT_DIR", rootDir])
+    )
   );
 };
 
@@ -52,16 +52,17 @@ const installShellCommandsObservable = (exe, rootDir, binDir) => {
   return writeFileObservable(
     envFile,
     `NTERACT_EXE="${exe}"\nNTERACT_DIR="${rootDir}"`
-  ).mergeMap(() => {
-    const target = join(binDir, "nteract.sh");
-    return createSymlinkObservable(
-      target,
-      "/usr/local/bin/nteract"
-    ).catch(() => {
-      const dest = join(process.env.HOME, ".local/bin/nteract");
-      return createSymlinkObservable(target, dest);
-    });
-  });
+  ).pipe(
+    mergeMap(() => {
+      const target = join(binDir, "nteract.sh");
+      return createSymlinkObservable(target, "/usr/local/bin/nteract").pipe(
+        catchError(() => {
+          const dest = join(process.env.HOME, ".local/bin/nteract");
+          return createSymlinkObservable(target, dest);
+        })
+      );
+    })
+  );
 };
 
 export const installShellCommand = () => {

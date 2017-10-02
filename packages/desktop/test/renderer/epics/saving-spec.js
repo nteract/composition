@@ -14,8 +14,8 @@ import {
 
 import { saveEpic, saveAsEpic } from "../../../src/notebook/epics/saving";
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
+import { of } from "rxjs/observable/of";
+import { catchError } from "rxjs/operators";
 
 describe("save", () => {
   it("creates a SAVE action", () => {
@@ -39,14 +39,16 @@ describe("saveAs", () => {
 
 describe("saveEpic", () => {
   it("throws an error when no filename provided", done => {
-    const input$ = Observable.of({ type: SAVE });
+    const input$ = of({ type: SAVE });
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
     const store = dummyStore();
-    const responseActions = saveEpic(action$, store).catch(error => {
-      expect(error.message).to.equal("save needs a filename");
-      return Observable.of({ type: SAVE });
-    });
+    const responseActions = saveEpic(action$, store).pipe(
+      catchError(error => {
+        expect(error.message).to.equal("save needs a filename");
+        return of({ type: SAVE });
+      })
+    );
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => actionBuffer.push(x.type),
@@ -59,7 +61,7 @@ describe("saveEpic", () => {
     );
   });
   it("works when passed filename and notebook", done => {
-    const input$ = Observable.of(save("filename", dummyCommutable));
+    const input$ = of(save("filename", dummyCommutable));
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
     const store = dummyStore();
@@ -79,7 +81,7 @@ describe("saveEpic", () => {
 
 describe("saveAsEpic", () => {
   it("works when passed actions of type SAVE_AS", done => {
-    const input$ = Observable.of(saveAs("filename", dummyCommutable));
+    const input$ = of(saveAs("filename", dummyCommutable));
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
     const responseActions = saveAsEpic(action$);

@@ -41,12 +41,12 @@ export function createMessage(msg_type: string, fields: Object = {}) {
  * @param  {Object}  parentMessage Jupyter message protocol message
  * @return {Observable}               the resulting observable
  */
-export function childOf(parentMessage: Object) {
+export const childOf = (parentMessage: Object) => (
+  source: rxjs$Observable<*>
+) => {
   const parentMessageID = parentMessage.header.msg_id;
-  return Observable.create(subscriber => {
-    // since we're in an arrow function `this` is from the outer scope.
-    // save our inner subscription
-    const subscription = this.subscribe(
+  return new Observable(subscriber =>
+    source.subscribe(
       msg => {
         if (!msg.parent_header || !msg.parent_header.msg_id) {
           subscriber.error(new Error("no parent_header.msg_id on message"));
@@ -61,12 +61,9 @@ export function childOf(parentMessage: Object) {
       // send them along
       err => subscriber.error(err),
       () => subscriber.complete()
-    );
-
-    // to return now
-    return subscription;
-  });
-}
+    )
+  );
+};
 
 /**
  * ofMessageType is an Rx Operator that filters on msg.header.msg_type
@@ -74,11 +71,11 @@ export function childOf(parentMessage: Object) {
  * @param  {Array} messageTypes e.g. ['stream', 'error']
  * @return {Observable}                 the resulting observable
  */
-export function ofMessageType(messageTypes: Array<string>) {
-  return Observable.create(subscriber => {
-    // since we're in an arrow function `this` is from the outer scope.
-    // save our inner subscription
-    const subscription = this.subscribe(
+export const ofMessageType = (messageTypes: Array<string>) => (
+  source: rxjs$Observable<*>
+) =>
+  new Observable(subscriber =>
+    source.subscribe(
       msg => {
         if (!msg.header || !msg.header.msg_type) {
           subscriber.error(new Error("no header.msg_type on message"));
@@ -93,14 +90,5 @@ export function ofMessageType(messageTypes: Array<string>) {
       // send them along
       err => subscriber.error(err),
       () => subscriber.complete()
-    );
-
-    // to return now
-    return subscription;
-  });
-}
-
-// $FlowFixMe: RxJS
-Observable.prototype.childOf = childOf;
-// $FlowFixMe: RxJS
-Observable.prototype.ofMessageType = ofMessageType;
+    )
+  );

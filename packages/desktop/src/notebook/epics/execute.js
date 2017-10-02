@@ -1,23 +1,27 @@
 // @flow
-import { createMessage } from "@nteract/messaging";
+import { createMessage, ofMessageType, childOf } from "@nteract/messaging";
 
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/from";
-import "rxjs/add/observable/merge";
-import "rxjs/add/observable/throw";
+import { of } from "rxjs/observable/of";
+import { from } from "rxjs/observable/from";
+import { merge } from "rxjs/observable/merge";
+import { _throw } from "rxjs/observable/throw";
 
-import "rxjs/add/operator/pluck";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/groupBy";
-import "rxjs/add/operator/filter";
-import "rxjs/add/operator/scan";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/mergeAll";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/takeUntil";
-import "rxjs/add/operator/catch";
+import {
+  pluck,
+  first,
+  groupBy,
+  filter,
+  scan,
+  map,
+  mapTo,
+  switchMap,
+  mergeAll,
+  mergeMap,
+  takeUntil,
+  catchError,
+  tap
+} from "rxjs/operators";
 
 import {
   createCellAfter,
@@ -42,7 +46,7 @@ import {
 const Immutable = require("immutable");
 
 export const createErrorActionObservable = (type: string) => (error: Error) =>
-  Observable.of({
+  of({
     type,
     payload: error,
     error: true
@@ -91,10 +95,11 @@ export function createExecuteRequest(code: string) {
  * Pager data.
  */
 export function createPagerActions(id: string, payloadStream: Observable<*>) {
-  return payloadStream
-    .filter(p => p.source === "page")
-    .scan((acc, pd) => acc.push(Immutable.fromJS(pd)), new Immutable.List())
-    .map(pagerDatas => updateCellPagers(id, pagerDatas));
+  return payloadStream.pipe(
+    filter(p => p.source === "page"),
+    scan((acc, pd) => acc.push(Immutable.fromJS(pd)), new Immutable.List()),
+    map(pagerDatas => updateCellPagers(id, pagerDatas))
+  );
 }
 
 /**
@@ -110,9 +115,10 @@ export function createSourceUpdateAction(
   id: string,
   setInputStream: Observable<*>
 ) {
-  return setInputStream
-    .filter(x => x.replace)
-    .map(c => updateCellSource(id, c.text));
+  return setInputStream.pipe(
+    filter(x => x.replace),
+    map(c => updateCellSource(id, c.text))
+  );
 }
 
 /**
@@ -129,9 +135,10 @@ export function createCellAfterAction(
   id: string,
   setInputStream: Observable<*>
 ) {
-  return setInputStream
-    .filter(x => !x.replace)
-    .map(c => createCellAfter("code", id, c.text));
+  return setInputStream.pipe(
+    filter(x => !x.replace),
+    map(c => createCellAfter("code", id, c.text))
+  );
 }
 
 /**
@@ -146,12 +153,10 @@ export function createCellStatusAction(
   id: string,
   cellMessages: Observable<*>
 ) {
-  return (
-    cellMessages
-      // $FlowFixMe: We patched this onto the prototype
-      .ofMessageType(["status"])
-      .pluck("content", "execution_state")
-      .map(status => updateCellStatus(id, status))
+  return cellMessages.pipe(
+    ofMessageType(["status"]),
+    pluck("content", "execution_state"),
+    map(status => updateCellStatus(id, status))
   );
 }
 
@@ -169,13 +174,11 @@ export function updateCellNumberingAction(
   id: string,
   cellMessages: Observable<*>
 ) {
-  return (
-    cellMessages
-      // $FlowFixMe: We patched this onto the prototype
-      .ofMessageType(["execute_input"])
-      .pluck("content", "execution_count")
-      .first()
-      .map(ct => updateCellExecutionCount(id, ct))
+  return cellMessages.pipe(
+    ofMessageType(["execute_input"]),
+    pluck("content", "execution_count"),
+    first(),
+    map(ct => updateCellExecutionCount(id, ct))
   );
 }
 
@@ -191,12 +194,10 @@ export function handleFormattableMessages(
   id: string,
   cellMessages: Observable<*>
 ) {
-  return (
-    cellMessages
-      // $FlowFixMe: We patched this onto the prototype
-      .ofMessageType(["execute_result", "display_data", "stream", "error"])
-      .map(msgSpecToNotebookFormat)
-      .map(output => ({ type: "APPEND_OUTPUT", id, output }))
+  return cellMessages.pipe(
+    ofMessageType(["execute_result", "display_data", "stream", "error"]),
+    map(msgSpecToNotebookFormat),
+    map(output => ({ type: "APPEND_OUTPUT", id, output }))
   );
 }
 
@@ -221,7 +222,7 @@ export function executeCellStream(
   code: string
 ) {
   if (!channels || !channels.iopub || !channels.shell) {
-    return Observable.throw(new Error("kernel not connected"));
+    return _throw(new Error("kernel not connected"));
   }
 
   const executeRequest = createExecuteRequest(code);
@@ -229,35 +230,34 @@ export function executeCellStream(
   const { iopub, shell } = channels;
 
   // Payload streams in general
-  const payloadStream = shell
-    // $FlowFixMe: We patched this onto the prototype
-    .childOf(executeRequest)
-    .ofMessageType(["execute_reply"])
-    .pluck("content", "payload")
-    .filter(Boolean)
-    .mergeMap(payloads => Observable.from(payloads));
+  const payloadStream = shell.pipe(
+    childOf(executeRequest),
+    ofMessageType(["execute_reply"]),
+    pluck("content", "payload"),
+    filter(Boolean),
+    mergeMap(payloads => Observable.from(payloads))
+  );
 
   // Payload stream for setting the input, whether in place or "next"
-  const setInputStream = payloadStream.filter(
-    payload => payload.source === "set_next_input"
+  const setInputStream = payloadStream.pipe(
+    filter(payload => payload.source === "set_next_input")
   );
 
   // All child messages for the cell
-  // $FlowFixMe: We patched this onto the prototype
-  const cellMessages = iopub.childOf(executeRequest);
+  const cellMessages = iopub.pipe(childOf(executeRequest));
 
-  const cellAction$ = Observable.merge(
+  const cellAction$ = merge(
     // Clear cell outputs
-    Observable.of(clearOutputs(id)),
-    Observable.of(updateCellStatus(id, "busy")),
+    of(clearOutputs(id)),
+    of(updateCellStatus(id, "busy")),
     // clear_output display message
-    cellMessages.ofMessageType(["clear_output"]).mapTo(clearOutputs(id)),
+    cellMessages.pipe(ofMessageType(["clear_output"]), mapTo(clearOutputs(id))),
     // Inline %load
     createSourceUpdateAction(id, setInputStream),
     // %load for the cell _after_
     createCellAfterAction(id, setInputStream),
     // Clear any old pager
-    Observable.of(updateCellPagers(id, new Immutable.List())),
+    of(updateCellPagers(id, new Immutable.List())),
     // Update the doc/pager section with new bundles
     createPagerActions(id, payloadStream),
     // Set the cell status
@@ -293,17 +293,19 @@ export function createExecuteCellStream(
     );
 
   if (!kernelConnected) {
-    return Observable.of({
+    return of({
       type: ERROR_EXECUTING,
       payload: "Kernel not connected!",
       error: true
     });
   }
 
-  return executeCellStream(channels, id, source).takeUntil(
-    action$
-      .filter(laterAction => laterAction.id === id)
-      .ofType(ABORT_EXECUTION, REMOVE_CELL)
+  return executeCellStream(channels, id, source).pipe(
+    takeUntil(
+      action$
+        .pipe(filter(laterAction => laterAction.id === id))
+        .ofType(ABORT_EXECUTION, REMOVE_CELL)
+    )
   );
 }
 
@@ -312,47 +314,48 @@ export function createExecuteCellStream(
  * inner observable streams of the running execution responses
  */
 export function executeCellEpic(action$: ActionsObservable<*>, store: any) {
-  return (
-    action$
-      .ofType("EXECUTE_CELL")
-      .do(action => {
-        if (!action.id) {
-          throw new Error("execute cell needs an id");
-        }
-        if (typeof action.source !== "string") {
-          throw new Error("execute cell needs source string");
-        }
-      })
-      // Split stream by cell IDs
-      .groupBy(action => action.id)
-      // Work on each cell's stream
-      .map(cellActionStream =>
-        cellActionStream
-          // When a new EXECUTE_CELL comes in with the current ID, we create a
-          // a new stream and unsubscribe from the old one.
-          .switchMap(({ source, id }) =>
-            createExecuteCellStream(action$, store, source, id)
-          )
-      )
-      // Bring back all the inner Observables into one stream
-      .mergeAll()
-      .catch((err, source) =>
-        Observable.merge(
-          createErrorActionObservable(ERROR_EXECUTING)(err),
-          source
+  return action$.ofType("EXECUTE_CELL").pipe(
+    tap(action => {
+      if (!action.id) {
+        throw new Error("execute cell needs an id");
+      }
+      if (typeof action.source !== "string") {
+        throw new Error("execute cell needs source string");
+      }
+    }),
+    // Split stream by cell IDs
+    groupBy(action => action.id),
+    // Work on each cell's stream
+    map(cellActionStream =>
+      cellActionStream.pipe(
+        // When a new EXECUTE_CELL comes in with the current ID, we create a
+        // a new stream and unsubscribe from the old one.
+        switchMap(({ source, id }) =>
+          createExecuteCellStream(action$, store, source, id)
         )
       )
+    ),
+    // Bring back all the inner Observables into one stream
+    mergeAll(),
+    catchError((err, source) =>
+      merge(createErrorActionObservable(ERROR_EXECUTING)(err), source)
+    )
   );
 }
 
 export const updateDisplayEpic = (action$: ActionsObservable<*>) =>
   // Global message watcher so we need to set up a feed for each new kernel
-  action$.ofType(NEW_KERNEL).switchMap(({ channels }) =>
-    channels.iopub
-      .ofMessageType(["update_display_data"])
-      .map(msgSpecToNotebookFormat)
-      // Convert 'update_display_data' to 'display_data'
-      .map(output => Object.assign({}, output, { output_type: "display_data" }))
-      .map(output => ({ type: "UPDATE_DISPLAY", output }))
-      .catch(createErrorActionObservable(ERROR_UPDATE_DISPLAY))
+  action$.ofType(NEW_KERNEL).pipe(
+    switchMap(({ channels }) =>
+      channels.iopub.pipe(
+        ofMessageType(["update_display_data"]),
+        map(msgSpecToNotebookFormat),
+        // Convert 'update_display_data' to 'display_data'
+        map(output =>
+          Object.assign({}, output, { output_type: "display_data" })
+        ),
+        map(output => ({ type: "UPDATE_DISPLAY", output })),
+        catchError(createErrorActionObservable(ERROR_UPDATE_DISPLAY))
+      )
+    )
   );

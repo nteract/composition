@@ -13,10 +13,8 @@ import type { Observer } from "rxjs/Observer";
 import type { ActionsObservable } from "redux-observable";
 
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/catch";
+import { of } from "rxjs/observable/of";
+import { mergeMap, catchError } from "rxjs/operators";
 
 const Github = require("github");
 
@@ -147,7 +145,7 @@ export function publishNotebookObservable(
  *
  */
 export function handleGistError(err: Error) {
-  return Observable.of({ type: "ERROR", payload: err, err: true });
+  return of({ type: "ERROR", payload: err, err: true });
 }
 
 /**
@@ -185,6 +183,8 @@ export const publishEpic = (action$: ActionsObservable<*>, store: any) => {
   const boundHandleGistAction = handleGistAction.bind(null, store);
   return action$
     .ofType(PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST)
-    .mergeMap(action => boundHandleGistAction(action))
-    .catch(handleGistError);
+    .pipe(
+      mergeMap(action => boundHandleGistAction(action)),
+      catchError(handleGistError)
+    );
 };

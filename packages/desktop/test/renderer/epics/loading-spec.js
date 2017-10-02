@@ -17,7 +17,7 @@ import {
   newNotebookEpic
 } from "../../../src/notebook/epics/loading";
 
-import "rxjs/add/operator/toArray";
+import { toArray } from "rxjs/operators";
 
 const path = require("path");
 
@@ -88,7 +88,7 @@ describe("loadingEpic", () => {
   it("errors when file cant be read", done => {
     const action$ = ActionsObservable.of({ type: LOAD, filename: "file" });
     const responseActions = loadEpic(action$);
-    responseActions.toArray().subscribe(
+    responseActions.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
         expect(types).to.deep.equal(["ERROR"]);
@@ -103,7 +103,7 @@ describe("newNotebookEpic", () => {
   it("calls new Kernel after creating a new notebook", done => {
     const action$ = ActionsObservable.of({ type: NEW_NOTEBOOK });
     const responseActions = newNotebookEpic(action$);
-    responseActions.toArray().subscribe(
+    responseActions.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
         expect(types).to.deep.equal([SET_NOTEBOOK, "LAUNCH_KERNEL"]);

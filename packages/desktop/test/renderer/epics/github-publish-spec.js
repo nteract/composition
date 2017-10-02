@@ -6,7 +6,7 @@ import sinonChai from "sinon-chai";
 import { dummyCommutable } from "../dummy-nb";
 import { dummyStore } from "../../utils";
 
-import "rxjs/add/operator/toArray";
+import { toArray } from "rxjs/operators";
 
 import { PUBLISH_USER_GIST } from "../../../src/notebook/constants";
 import {
@@ -175,7 +175,7 @@ describe("publishEpic", () => {
     const store = dummyStore();
     const action$ = ActionsObservable.of({ type: PUBLISH_USER_GIST });
     publishEpic(action$, store)
-      .toArray()
+      .pipe(toArray())
       .subscribe(actions => {
         expect(actions).to.deep.equal([
           {

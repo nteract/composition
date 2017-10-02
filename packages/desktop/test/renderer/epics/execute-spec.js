@@ -28,13 +28,9 @@ import {
 
 const Immutable = require("immutable");
 
-import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/observable/from";
-import "rxjs/add/operator/toArray";
-import "rxjs/add/operator/share";
-import "rxjs/add/operator/toPromise";
-import "rxjs/add/operator/bufferCount";
+import { from } from "rxjs/observable/from";
+import { toArray, share, catchError, bufferCount } from "rxjs/operators";
 
 const sinon = require("sinon");
 const chai = require("chai");
@@ -57,7 +53,7 @@ describe("executeCell", () => {
 
 describe("executeCellStream", () => {
   // TODO: Refactor executeCelStream into separate testable observables
-  it.skip("is entirely too insane for me to test this well right this second", done => {
+  it("is entirely too insane for me to test this well right this second", done => {
     const frontendToShell = new Subject();
     const shellToFrontend = new Subject();
     const mockShell = Subject.create(frontendToShell, shellToFrontend);
@@ -73,7 +69,7 @@ describe("executeCellStream", () => {
 
     const action$ = executeCellStream(channels, "0", "import this");
 
-    action$.bufferCount(3).subscribe(messages => {
+    action$.pipe(bufferCount(3)).subscribe(messages => {
       expect(messages).to.deep.equal([
         // TODO: Order doesn't actually matter here
         { type: CLEAR_OUTPUTS, id: "0" },
@@ -119,7 +115,7 @@ describe("msgSpecToNotebookFormat", () => {
 
 describe("createPagerActions", () => {
   it("emits actions to set pagers", done => {
-    const msgObs = Observable.from([
+    const msgObs = from([
       {
         source: "page",
         data: { "text/html": "this is a test" }
@@ -141,7 +137,7 @@ describe("createPagerActions", () => {
 
 describe("createCellAfterAction", () => {
   it("emits a createCellAfter action", done => {
-    const msgObs = Observable.from([
+    const msgObs = from([
       {
         source: "set_next_input",
         text: "This is some test text.",
@@ -159,8 +155,8 @@ describe("createCellAfterAction", () => {
 });
 
 describe("createCellStatusAction", () => {
-  it.skip("emits an updateCellStatus action", done => {
-    const msgObs = Observable.from([
+  it("emits an updateCellStatus action", done => {
+    const msgObs = from([
       {
         header: {
           msg_id: "123",
@@ -185,8 +181,8 @@ describe("createCellStatusAction", () => {
 });
 
 describe("updateCellNumberingAction", () => {
-  it.skip("emits updateCellExecutionCount action", done => {
-    const msgObs = Observable.from([
+  it("emits updateCellExecutionCount action", done => {
+    const msgObs = from([
       {
         header: {
           msg_id: "123",
@@ -212,7 +208,7 @@ describe("updateCellNumberingAction", () => {
 
 describe("createSourceUpdateAction", () => {
   it("emits updateCellSource action", done => {
-    const msgObs = Observable.from([
+    const msgObs = from([
       {
         source: "set_next_input",
         text: "This is some test text.",
@@ -248,7 +244,7 @@ describe("createExecuteCellStream", () => {
     };
     const action$ = ActionsObservable.of({ type: EXECUTE_CELL });
     const observable = createExecuteCellStream(action$, store, "source", "id");
-    observable.toArray().subscribe(
+    observable.pipe(toArray()).subscribe(
       actions => {
         const payloads = actions.map(({ payload }) => payload);
         expect(payloads).to.deep.equal(["Kernel not connected!"]);
@@ -311,10 +307,14 @@ describe("executeCellEpic", () => {
   };
   it("Errors on a bad action", done => {
     // Make one hot action
-    const badAction$ = ActionsObservable.of({ type: EXECUTE_CELL }).share();
-    const responseActions = executeCellEpic(badAction$, store).catch(error => {
-      expect(error.message).to.equal("execute cell needs an id");
-    });
+    const badAction$ = ActionsObservable.of({ type: EXECUTE_CELL }).pipe(
+      share()
+    );
+    const responseActions = executeCellEpic(badAction$, store).pipe(
+      catchError(error => {
+        expect(error.message).to.equal("execute cell needs an id");
+      })
+    );
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => {
@@ -329,10 +329,12 @@ describe("executeCellEpic", () => {
     );
   });
   it("Errors on an action where source not a string", done => {
-    const badAction$ = ActionsObservable.of(executeCell("id", 2)).share();
-    const responseActions = executeCellEpic(badAction$, store).catch(error => {
-      expect(error.message).to.equal("execute cell needs source string");
-    });
+    const badAction$ = ActionsObservable.of(executeCell("id", 2)).pipe(share());
+    const responseActions = executeCellEpic(badAction$, store).pipe(
+      catchError(error => {
+        expect(error.message).to.equal("execute cell needs source string");
+      })
+    );
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => {
@@ -347,7 +349,9 @@ describe("executeCellEpic", () => {
     );
   });
   it("Informs about disconnected kernels, allows reconnection", done => {
-    const action$ = ActionsObservable.of(executeCell("id", "source")).share();
+    const action$ = ActionsObservable.of(executeCell("id", "source")).pipe(
+      share()
+    );
     const responseActions = executeCellEpic(action$, store);
     responseActions.subscribe(
       x => {
@@ -394,7 +398,7 @@ describe("updateDisplayEpic", () => {
       }
     ]; // Should not be processed // Should be processed
 
-    const channels = { iopub: Observable.from(messages) };
+    const channels = { iopub: from(messages) };
     const action$ = ActionsObservable.of({ type: NEW_KERNEL, channels });
 
     const epic = updateDisplayEpic(action$);

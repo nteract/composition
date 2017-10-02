@@ -19,7 +19,7 @@
     "spawn": "lerna run spawn --scope nteract",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lerna": "lerna bootstrap --hoist rxjs",
+    "lerna": "lerna bootstrap",
     "build": "npm run build:packages && npm run build:desktop",
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
@@ -64,8 +64,7 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "rxjs": "^5.4.1"
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

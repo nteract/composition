@@ -1,12 +1,9 @@
 // @flow
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/merge";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/retry";
-import "rxjs/add/operator/switchMap";
+import { of } from "rxjs/observable/of";
+import { merge } from "rxjs/observable/merge";
+import { map, retry, switchMap } from "rxjs/operators";
 
-import { createMessage } from "@nteract/messaging";
+import { createMessage, ofMessageType, childOf } from "@nteract/messaging";
 
 import type { ActionsObservable } from "redux-observable";
 
@@ -74,7 +71,7 @@ export function createCommCloseMessage(
  * @return {Object}       Flux standard error action
  */
 export const createCommErrorAction = (error: Error) =>
-  Observable.of({
+  of({
     type: COMM_ERROR,
     payload: error,
     error: true
@@ -126,15 +123,17 @@ export function commMessageAction(message: any) {
  * @return {ActionsObservable}          all actions resulting from comm messages on this kernel
  */
 export function commActionObservable(newKernelAction: any) {
-  const commOpenAction$ = newKernelAction.channels.iopub
-    .ofMessageType(["comm_open"])
-    .map(commOpenAction);
+  const commOpenAction$ = newKernelAction.channels.iopub.pipe(
+    ofMessageType(["comm_open"]),
+    map(commOpenAction)
+  );
 
-  const commMessageAction$ = newKernelAction.channels.iopub
-    .ofMessageType(["comm_msg"])
-    .map(commMessageAction);
+  const commMessageAction$ = newKernelAction.channels.iopub.pipe(
+    ofMessageType(["comm_msg"]),
+    map(commMessageAction)
+  );
 
-  return Observable.merge(commOpenAction$, commMessageAction$).retry();
+  return merge(commOpenAction$, commMessageAction$).pipe(retry());
 }
 
 /**
@@ -144,4 +143,4 @@ export function commActionObservable(newKernelAction: any) {
  * @return {ActionsObservable}         Comm actions
  */
 export const commListenEpic = (action$: ActionsObservable<*>) =>
-  action$.ofType(NEW_KERNEL).switchMap(commActionObservable); // We have a new channel
+  action$.ofType(NEW_KERNEL).pipe(switchMap(commActionObservable)); // We have a new channel

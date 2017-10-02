@@ -1,8 +1,7 @@
 import Immutable from "immutable";
 import { remote } from "electron";
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/from";
+import { from } from "rxjs/observable/from";
 
 import chai, { expect } from "chai";
 import sinon from "sinon";
@@ -75,7 +74,7 @@ describe("createTitleFeed", () => {
       metadata: MetadataRecord({ filename: "titled.ipynb" })
     };
 
-    const state$ = Observable.from([state]);
+    const state$ = from([state]);
 
     const allAttributes = [];
     nativeWindow.createTitleFeed(state$).subscribe(attributes => {
@@ -110,7 +109,7 @@ describe("createTitleFeed", () => {
       metadata: MetadataRecord({ filename: "titled.ipynb" })
     };
 
-    const state$ = Observable.from([state]);
+    const state$ = from([state]);
 
     const allAttributes = [];
     nativeWindow.createTitleFeed(state$).subscribe(attributes => {

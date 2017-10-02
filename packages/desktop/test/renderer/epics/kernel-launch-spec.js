@@ -14,10 +14,9 @@ import {
 
 import { createMessage } from "@nteract/messaging";
 
-import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/observable/of";
-import "rxjs/add/operator/toArray";
+import { of } from "rxjs/observable/of";
+import { toArray, share } from "rxjs/operators";
 
 describe("setLanguageInfo", () => {
   it("creates a SET_LANGUAGE_INFO action", () => {
@@ -73,14 +72,14 @@ describe("watchExecutionStateEpic", () => {
     const action$ = ActionsObservable.of({
       type: constants.NEW_KERNEL,
       channels: {
-        iopub: Observable.of({
+        iopub: of({
           header: { msg_type: "status" },
           content: { execution_state: "idle" }
         })
       }
     });
     const obs = watchExecutionStateEpic(action$);
-    obs.toArray().subscribe(
+    obs.pipe(toArray()).subscribe(
       // Every action that goes through should get stuck on an array
       actions => {
         const types = actions.map(({ type }) => type);
@@ -107,7 +106,7 @@ describe("newKernelEpic", () => {
     const actionBuffer = [];
     const action$ = ActionsObservable.of({
       type: constants.LAUNCH_KERNEL
-    }).share();
+    }).pipe(share());
     const obs = newKernelEpic(action$);
     obs.subscribe(
       x => {
@@ -156,7 +155,7 @@ describe("newKernelByNameEpic", () => {
       cwd: "~"
     });
     const obs = newKernelByNameEpic(action$);
-    obs.toArray().subscribe(
+    obs.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
         expect(types).to.deep.equal([constants.LAUNCH_KERNEL]);

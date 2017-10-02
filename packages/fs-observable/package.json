@@ -28,10 +28,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "rxjs": "^5.4.1"
+    "rxjs": "^5.5.0-beta.2"
   },
   "peerDependencies": {
-    "rxjs": "^5.4.1"
+    "rxjs": "^5.5.0-beta.2"
   },
   "dependencies": {
     "mkdirp": "^0.5.1"

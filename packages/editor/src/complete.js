@@ -1,10 +1,7 @@
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/pluck";
-import "rxjs/add/operator/first";
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/timeout";
+import { pluck, first, map, timeout } from "rxjs/operators";
 
-import { createMessage } from "@nteract/messaging";
+import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
 
 import { js_idx_to_char_idx, char_idx_to_js_idx } from "./surrogate";
 
@@ -101,13 +98,14 @@ export const expand_completions = editor => results => {
 };
 
 export function codeCompleteObservable(channels, editor, message) {
-  const completion$ = channels.shell
-    .childOf(message)
-    .ofMessageType(["complete_reply"])
-    .pluck("content")
-    .first()
-    .map(expand_completions(editor))
-    .timeout(2000); // 2s
+  const completion$ = channels.shell.pipe(
+    childOf(message),
+    ofMessageType(["complete_reply"]),
+    pluck("content"),
+    first(),
+    map(expand_completions(editor)),
+    timeout(2000)
+  ); // 2s
 
   // On subscription, send the message
   return Observable.create(observer => {

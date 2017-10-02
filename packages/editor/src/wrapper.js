@@ -3,10 +3,9 @@
 import React, { PureComponent } from "react";
 import ReactDOM from "react-dom";
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/fromEvent";
-import "rxjs/add/operator/switchMap";
+import { of } from "rxjs/observable/of";
+import { fromEvent } from "rxjs/observable/fromEvent";
+import { switchMap } from "rxjs/operators";
 
 import CodeMirror from "./codemirror";
 import { Map as ImmutableMap } from "immutable";
@@ -102,32 +101,30 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
       cm.on("topBoundary", focusAbove);
       cm.on("bottomBoundary", focusBelow);
 
-      const keyupEvents = Observable.fromEvent(cm, "keyup", (editor, ev) => ({
+      const keyupEvents = fromEvent(cm, "keyup", (editor, ev) => ({
         editor,
         ev
       }));
 
-      keyupEvents
-        .switchMap(i => Observable.of(i))
-        .subscribe(({ editor, ev }) => {
-          const cursor = editor.getDoc().getCursor();
-          const token = editor.getTokenAt(cursor);
+      keyupEvents.pipe(switchMap(i => of(i))).subscribe(({ editor, ev }) => {
+        const cursor = editor.getDoc().getCursor();
+        const token = editor.getTokenAt(cursor);
 
-          if (
-            !editor.state.completionActive &&
-            !excludedIntelliSenseTriggerKeys[
-              (ev.keyCode || ev.which).toString()
-            ] &&
-            (token.type === "tag" ||
-              token.type === "variable" ||
-              token.string === " " ||
-              token.string === "<" ||
-              token.string === "/") &&
-            executionState === "idle"
-          ) {
-            editor.execCommand("autocomplete", { completeSingle: false });
-          }
-        });
+        if (
+          !editor.state.completionActive &&
+          !excludedIntelliSenseTriggerKeys[
+            (ev.keyCode || ev.which).toString()
+          ] &&
+          (token.type === "tag" ||
+            token.type === "variable" ||
+            token.string === " " ||
+            token.string === "<" ||
+            token.string === "/") &&
+          executionState === "idle"
+        ) {
+          editor.execCommand("autocomplete", { completeSingle: false });
+        }
+      });
     }
 
     componentDidUpdate(prevProps: WrapperProps): void {

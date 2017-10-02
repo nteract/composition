@@ -4,16 +4,8 @@ import { contents } from "rx-jupyter";
 
 import { toJS, stringifyNotebook } from "@nteract/commutable";
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/merge";
-
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/switchMap";
-import "rxjs/add/operator/mapTo";
-import "rxjs/add/operator/catch";
+import { of } from "rxjs/observable/of";
+import { tap, map, switchMap, catchError } from "rxjs/operators";
 
 import type { ActionsObservable } from "redux-observable";
 
@@ -79,15 +71,14 @@ export function loadEpic(
   action$: ActionsObservable<CONTENTS_ACTION>,
   store: Store<*, *>
 ) {
-  return action$
-    .ofType("LOAD")
-    .do((action: LOAD_ACTION) => {
+  return action$.ofType("LOAD").pipe(
+    tap((action: LOAD_ACTION) => {
       // If there isn't a filename, save-as it instead
       if (!action.path) {
         throw new Error("load needs a path");
       }
-    })
-    .switchMap((action: LOAD_ACTION) => {
+    }),
+    switchMap((action: LOAD_ACTION) => {
       const config = store.getState().config;
       // Normalizing to match rx-jupyter vs. the jupyter server config
       const serverConfig = {
@@ -96,19 +87,20 @@ export function loadEpic(
       };
 
       // TODO: make params optional in rx-jupyter
-      return contents
-        .get(serverConfig, action.path, {})
-        .do(xhr => {
+      return contents.get(serverConfig, action.path, {}).pipe(
+        tap(xhr => {
           if (xhr.status !== 200) {
             throw new Error(xhr.response);
           }
-        })
-        .map(xhr => {
+        }),
+        map(xhr => {
           return {
             type: "LOADED",
             payload: xhr.response
           };
-        })
-        .catch((xhrError: any) => Observable.of(loadFailed(xhrError)));
-    });
+        }),
+        catchError((xhrError: any) => of(loadFailed(xhrError)))
+      );
+    })
+  );
 }

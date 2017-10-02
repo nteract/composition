@@ -146,7 +146,7 @@
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.16.0",
     "rimraf": "^2.6.1",
-    "rxjs": "^5.4.1",
+    "rxjs": "^5.5.0-beta.2",
     "shell-env": "^0.3.0",
     "sinon": "^3.2.0",
     "sinon-chai": "^2.10.0",

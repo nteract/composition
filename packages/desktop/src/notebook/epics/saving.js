@@ -10,14 +10,8 @@ import { toJS, stringifyNotebook } from "@nteract/commutable";
 
 import { remote } from "electron";
 
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
-import "rxjs/add/observable/merge";
-
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/do";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/catch";
+import { of } from "rxjs/observable/of";
+import { tap, mergeMap, catchError, map } from "rxjs/operators";
 
 /**
   * Cleans up the notebook document and saves the file.
@@ -28,51 +22,51 @@ export function saveEpic(
   action$: ActionsObservable<*>,
   store: Store<any, any>
 ) {
-  return action$
-    .ofType(SAVE)
-    .do(action => {
+  return action$.ofType(SAVE).pipe(
+    tap(action => {
       // If there isn't a filename, save-as it instead
       if (!action.filename) {
         throw new Error("save needs a filename");
       }
-    })
-    .mergeMap(
-      action =>
-        writeFileObservable(
-          action.filename,
-          // $FlowFixMe: We're totally using this argument, not sure what's up here
-          stringifyNotebook(
-            toJS(
-              action.notebook.setIn(
-                ["metadata", "nteract", "version"],
-                remote.app.getVersion()
-              )
+    }),
+    mergeMap(action =>
+      writeFileObservable(
+        action.filename,
+        // $FlowFixMe: We're totally using this argument, not sure what's up here
+        stringifyNotebook(
+          toJS(
+            action.notebook.setIn(
+              ["metadata", "nteract", "version"],
+              remote.app.getVersion()
             )
           )
         )
-          .catch((error: Error) =>
-            Observable.of({
-              type: "ERROR",
-              payload: error,
-              error: true
-            })
-          )
-          .map(() => {
-            if (process.platform !== "darwin") {
-              const state = store.getState();
-              const notificationSystem = state.app.get("notificationSystem");
-              notificationSystem.addNotification({
-                title: "Save successful!",
-                autoDismiss: 2,
-                level: "success"
-              });
-            }
-            return doneSaving(action.notebook);
+      ).pipe(
+        catchError((error: Error) =>
+          of({
+            type: "ERROR",
+            payload: error,
+            error: true
           })
-      // .startWith({ type: START_SAVING })
-      // since SAVE effectively acts as the same as START_SAVING
-      // you could just look for that in your reducers instead of START_SAVING
-    );
+        ),
+        map(() => {
+          if (process.platform !== "darwin") {
+            const state = store.getState();
+            const notificationSystem = state.app.get("notificationSystem");
+            notificationSystem.addNotification({
+              title: "Save successful!",
+              autoDismiss: 2,
+              level: "success"
+            });
+          }
+          return doneSaving(action.notebook);
+        })
+      )
+    )
+    // .startWith({ type: START_SAVING })
+    // since SAVE effectively acts as the same as START_SAVING
+    // you could just look for that in your reducers instead of START_SAVING
+  );
 }
 
 /**
@@ -83,8 +77,10 @@ export function saveEpic(
 export function saveAsEpic(action$: ActionsObservable<*>) {
   return action$
     .ofType(SAVE_AS)
-    .mergeMap(action => [
-      changeFilename(action.filename),
-      save(action.filename, action.notebook)
-    ]);
+    .pipe(
+      mergeMap(action => [
+        changeFilename(action.filename),
+        save(action.filename, action.notebook)
+      ])
+    );
 }

@@ -1,6 +1,6 @@
 import { unlinkObservable, createSymlinkObservable } from "./..";
 
-import "rxjs/add/operator/toArray";
+import { toArray } from "rxjs/operators";
 
 jest.mock("fs");
 const fs = require("fs");
@@ -28,7 +28,7 @@ describe("unlinkObservable", () => {
     fs.existsSync.mockImplementation(() => true);
     fs.unlink.mockImplementation(() => true);
     unlinkObservable("path2")
-      .toArray()
+      .pipe(toArray())
       .subscribe(() => {}, err => expect.fail(err, null), () => {});
     expect(fs.existsSync).toBeCalledWith("path2");
     expect(fs.unlink).toBeCalled();

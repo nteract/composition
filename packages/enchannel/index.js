@@ -1,8 +1,5 @@
-// Import the operators we use
-require("rxjs/add/operator/filter");
-require("rxjs/add/operator/map");
-
-const createMessage = require("@nteract/messaging").createMessage;
+const { map, filter } = require("rxjs/operators");
+const { createMessage, childOf } = require("@nteract/messaging");
 
 /**
  * Send a shutdown request message
@@ -17,10 +14,11 @@ function shutdownRequest(channels, restart) {
   const shutDownRequest = createMessage("shutdown_request");
   shutDownRequest.content = { restart: Boolean(restart) };
 
-  const shutDownReply = channels.shell
-    .childOf(shutDownRequest)
-    .filter(msg => msg.header.msg_type === "shutdown_reply")
-    .map(msg => msg.content);
+  const shutDownReply = channels.shell.pipe(
+    childOf(shutDownRequest),
+    filter(msg => msg.header.msg_type === "shutdown_reply"),
+    map(msg => msg.content)
+  );
 
   return new Promise(resolve => {
     shutDownReply.subscribe(content => {

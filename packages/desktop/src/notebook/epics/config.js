@@ -4,6 +4,7 @@ import { remote } from "electron";
 import { MERGE_CONFIG, SET_CONFIG_KEY, DONE_SAVING_CONFIG } from "../constants";
 
 import { readFileObservable, writeFileObservable } from "fs-observable";
+import { mapTo, mergeMap, map, switchMap } from "rxjs/operators";
 
 import type { ActionsObservable } from "redux-observable";
 
@@ -11,10 +12,6 @@ const path = require("path");
 
 export const LOAD_CONFIG = "LOAD_CONFIG";
 export const loadConfig = () => ({ type: LOAD_CONFIG });
-
-import "rxjs/add/operator/mapTo";
-import "rxjs/add/operator/mergeMap";
-import "rxjs/add/operator/map";
 
 export const SAVE_CONFIG = "SAVE_CONFIG";
 export const saveConfig = () => ({ type: SAVE_CONFIG });
@@ -36,11 +33,16 @@ export const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
   * @return {ActionObservable}  ActionObservable for MERGE_CONFIG action
   */
 export const loadConfigEpic = (actions: ActionsObservable<*>) =>
-  actions.ofType(LOAD_CONFIG).switchMap(() =>
-    readFileObservable(CONFIG_FILE_PATH)
-      .map(JSON.parse)
-      .map(configLoaded)
-  );
+  actions
+    .ofType(LOAD_CONFIG)
+    .pipe(
+      switchMap(() =>
+        readFileObservable(CONFIG_FILE_PATH).pipe(
+          map(JSON.parse),
+          map(configLoaded)
+        )
+      )
+    );
 
 /**
   * An epic that saves the configuration if it has been changed.
@@ -49,7 +51,7 @@ export const loadConfigEpic = (actions: ActionsObservable<*>) =>
   * @return {ActionObservable}  ActionObservable with SAVE_CONFIG type
   */
 export const saveConfigOnChangeEpic = (actions: ActionsObservable<*>) =>
-  actions.ofType(SET_CONFIG_KEY).mapTo({ type: SAVE_CONFIG });
+  actions.ofType(SET_CONFIG_KEY).pipe(mapTo({ type: SAVE_CONFIG }));
 
 /**
   * An epic that saves the configuration.
@@ -58,10 +60,12 @@ export const saveConfigOnChangeEpic = (actions: ActionsObservable<*>) =>
   * @return {ActionObservable}  ActionObservable for DONE_SAVING action
   */
 export const saveConfigEpic = (actions: ActionsObservable<*>, store: any) =>
-  actions.ofType(SAVE_CONFIG).mergeMap(() =>
-    writeFileObservable(
-      CONFIG_FILE_PATH,
-      // $FlowFixMe: We're totally using this argument, not sure what's up here
-      JSON.stringify(store.getState().config.toJS())
-    ).map(doneSavingConfig)
+  actions.ofType(SAVE_CONFIG).pipe(
+    mergeMap(() =>
+      writeFileObservable(
+        CONFIG_FILE_PATH,
+        // $FlowFixMe: We're totally using this argument, not sure what's up here
+        JSON.stringify(store.getState().config.toJS())
+      ).pipe(map(doneSavingConfig))
+    )
   );

@@ -4,9 +4,7 @@ function spoofChannels() {
   const shell = {
     next: jest.fn(),
     complete: jest.fn(),
-    filter: () => shell,
-    childOf: () => shell,
-    map: () => shell,
+    pipe: () => shell,
     subscribe: cb => cb.call(shell)
   };
   return {
