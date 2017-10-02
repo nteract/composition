@@ -28,6 +28,7 @@
     "build:icon":
       "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",
+    "jest:update": "jest --updateSnapshot",
     "test":
       "lerna run test:unit --scope nteract && npm run test:packages && npm run test:lint",
     "test:conformance": "node scripts/conformance.js",
@@ -62,14 +63,14 @@
     "*.json": ["prettier --write", "git add"]
   },
   "dependencies": {
-    "immutable": "^3.8.1",
+    "immutable": "^4.0.0-rc.3",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.0.0",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -88,7 +89,7 @@
     "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^2.3.1",
-    "flow-bin": "^0.54.0",
+    "flow-bin": "^0.56.0",
     "flow-copy-source": "^1.1.0",
     "husky": "^0.14.0",
     "jest": "^21.2.1",
