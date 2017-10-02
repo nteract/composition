@@ -22,3 +22,8 @@ Credits to [Tom MacWright](http://www.macwright.org/2015/05/18/practical-undo.ht
 ```
 npm install --save @nteract/commutable
 ```
+
+## Docs
+
+Check out our [docs](https://nteract.github.io/docs/commutable/) for getting started.
+
