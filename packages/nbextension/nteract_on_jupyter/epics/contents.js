@@ -9,27 +9,13 @@ import { tap, map, switchMap, catchError } from "rxjs/operators";
 
 import type { ActionsObservable } from "redux-observable";
 
-type SAVE_ACTION = {
-  type: "SAVE",
-  path: string,
-  model: any
-};
+import type { ALL_ACTIONS } from "../actions";
 
-type LOAD_ACTION = {
-  type: "LOAD",
-  path: string
-};
-
-type LOAD_FAILED_ACTION = {
-  type: "LOAD_FAILED",
-  payload: any,
-  status: number
-};
-
-type LOADED_ACTION = {
-  type: "LOADED",
-  payload: any
-};
+import type {
+  SAVE_ACTION,
+  LOAD_ACTION,
+  LOAD_FAILED_ACTION
+} from "../actions/contents";
 
 function save(path: string, model: any): SAVE_ACTION {
   // NOTE: Model can be a notebook or any ol' file
@@ -56,19 +42,13 @@ function loadFailed(ajaxError: any): LOAD_FAILED_ACTION {
   };
 }
 
-type CONTENTS_ACTION =
-  | SAVE_ACTION
-  | LOAD_ACTION
-  | LOAD_FAILED_ACTION
-  | LOADED_ACTION;
-
 type ServerConfig = {
   endpoint: string,
   crossDomain?: boolean
 };
 
 export function loadEpic(
-  action$: ActionsObservable<CONTENTS_ACTION>,
+  action$: ActionsObservable<ALL_ACTIONS>,
   store: Store<*, *>
 ) {
   return action$.ofType("LOAD").pipe(
