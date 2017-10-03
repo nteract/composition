@@ -8,6 +8,8 @@ const rootReducer = (state, action) => {
   switch (action.type) {
     case "LOADED":
       return Object.assign({}, state, { contents: action.payload });
+    case "KERNELSPECS_LISTED":
+      return Object.assign({}, state, { kernelspecs: action.payload });
   }
   return state;
 };
