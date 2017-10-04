@@ -128,6 +128,7 @@
     "enchannel": "^4.0.0",
     "enchannel-zmq-backend": "^5.0.0",
     "escape-carriage": "^1.2.0",
+    "flow-bin": "^0.54.0",
     "fs-observable": "^2.0.0",
     "jsdom": "^11.0.0",
     "jupyter-paths": "^2.0.0",
