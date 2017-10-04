@@ -476,6 +476,7 @@ body {
 .CodeMirror-scroll {
   overflow-x: auto !important;
   overflow-y: hidden !important;
+  width: 100%;
 }
 
 .CodeMirror-lines {
@@ -493,7 +494,7 @@ body {
 
 .CodeMirror pre {
   padding: 0;
-
+  white-space: nowrap;
   border: 0;
   border-radius: 0;
 }

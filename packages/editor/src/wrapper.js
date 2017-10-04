@@ -213,7 +213,6 @@ const CodeMirrorWrapper: CodeMirrorHOC = (EditorView, customOptions = null) =>
         autoCloseBrackets: true,
         mode: language || "python",
         lineNumbers: false,
-        lineWrapping: true,
         matchBrackets: true,
         theme: "composition",
         autofocus: false,
