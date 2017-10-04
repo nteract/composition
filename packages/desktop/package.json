@@ -22,7 +22,7 @@
     "spawn": "cross-env NODE_ENV=development electron .",
     "spawn:debug": "cross-env DEBUG=true NODE_ENV=development electron .",
     "prebuild": "rimraf lib",
-    "build": "webpack --progress --colors",
+    "build": "webpack --config webpack.dev.js --progress --colors",
     "build:watch": "npm run build -- --watch",
     "test": "npm run test:unit",
     "pretest:functional": "npm run build",
@@ -43,11 +43,11 @@
     "precoverage": "mkdirp coverage && nyc npm run test:unit",
     "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
     "pack":
-      "npm run clean && cross-env NODE_ENV=production webpack && electron-builder --dir",
+      "npm run clean && webpack --config webpack.prod.js && electron-builder --dir",
     "dist":
-      "npm run clean && cross-env NODE_ENV=production webpack && electron-builder",
+      "npm run clean && webpack --config webpack.prod.js && electron-builder",
     "publish":
-      "npm run clean && cross-env NODE_ENV=production webpack && electron-builder -p always",
+      "npm run clean && webpack --config webpack.prod.js && electron-builder -p always",
     "dist:all": "npm run dist -- -mlw",
     "publish:all": "npm run publish -- -mlw"
   },
