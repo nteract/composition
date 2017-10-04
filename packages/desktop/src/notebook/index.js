@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import ReactDOM from "react-dom";
+import { ipcRenderer as ipc } from "electron";
 
 import { Provider } from "react-redux";
 
@@ -48,6 +49,7 @@ class App extends React.PureComponent<Object, Object> {
 
   componentDidMount(): void {
     store.dispatch(setNotificationSystem(this.notificationSystem));
+    ipc.send("react-ready");
   }
 
   render(): ?React$Element<any> {

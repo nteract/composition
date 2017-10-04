@@ -6,47 +6,8 @@
     <script type="text/javascript" src="../node_modules/mathjax-electron/resources/MathJax/MathJax.js?config=electron"></script>
   </head>
   <body>
-    <div id="app">
-      Loading...
-    </div>
-    <script>
-      window.onload = function deferredLoad() {
-        if (process.env.NODE_ENV === 'development') {
-          // TODO:
-          // Provide some helpers to instantiate following the process in
-          // https://github.com/electron/electron/blob/master/docs/tutorial/devtools-extension.md
-        } else {
-            // Force production by default for the sake of packaging
-            process.env.NODE_ENV = 'production';
-        }
-        try {
-          require('../lib/vendor')
-          require('../lib/webpacked-notebook')
-        } catch(err) {
-          const el = document.querySelector('body');
-          el.innerHTML = '';
-
-          const headerEl = document.createElement('h3');
-          const msgContainer = document.createElement('div');
-
-          headerEl.textContent = err.message;
-
-          switch(err.code) {
-            case 'MODULE_NOT_FOUND':
-              const msgEl = document.createElement('pre');
-              msgEl.textContent = 'Do you need to npm install any new packages?';
-              msgContainer.appendChild(msgEl);
-              break;
-            default:
-              if(/Module version mismatch/.test(err.message)) {
-                msgContainer.innerHTML = `<p>nteract's native modules mismatch, try running <a href="https://github.com/nteract/nteract#troubleshooting"><pre>npm install</pre></a> from the root of the git clone</p>`;
-              }
-          }
-          el.appendChild(headerEl);
-          el.appendChild(msgContainer);
-          console.dir(err);
-        }
-      };
-    </script>
+    <div id="app"></div>
+    <script src="../lib/vendor.js"></script>
+    <script src="../lib/webpacked-notebook.js"></script>
   </body>
 </html>

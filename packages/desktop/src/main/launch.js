@@ -1,6 +1,6 @@
 import path from "path";
 
-import { shell, BrowserWindow, dialog } from "electron";
+import { shell, BrowserWindow, dialog, ipcMain as ipc } from "electron";
 
 let launchIpynb;
 
@@ -30,9 +30,13 @@ export function launch(filename) {
     width: 800,
     height: 1000,
     icon: iconPath,
-    title: "nteract"
+    title: "nteract",
+    show: false
   });
 
+  win.once("ready-to-show", () => {
+    win.show();
+  });
   const index = path.join(__dirname, "..", "static", "index.html");
   win.loadURL(`file://${index}`);
 

@@ -68,6 +68,7 @@ ipc.on("open-notebook", (event, filename) => {
 app.on("ready", initAutoUpdater);
 
 const electronReady$ = fromEvent(app, "ready");
+const windowReady$ = fromEvent(ipc, "react-ready");
 
 const fullAppReady$ = zip(electronReady$, prepareEnv).pipe(first());
 
@@ -142,13 +143,14 @@ export function createSplashSubscriber() {
   );
 }
 
-const appAndKernelSpecsReady = zip(fullAppReady$, kernelSpecsPromise);
+const appAndKernelSpecsReady = zip(
+  fullAppReady$,
+  windowReady$,
+  kernelSpecsPromise
+);
 
 electronReady$
-  .pipe(
-    // TODO: Take until first window is shown
-    takeUntil(appAndKernelSpecsReady)
-  )
+  .pipe(takeUntil(appAndKernelSpecsReady))
   .subscribe(createSplashSubscriber());
 
 function closeAppOnNonDarwin() {
