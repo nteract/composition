@@ -94,6 +94,7 @@
     "flow-bin": "^0.54.0",
     "flow-copy-source": "^1.1.0",
     "husky": "^0.14.0",
+    "ignore-styles": "^5.0.1",
     "jest": "^21.2.1",
     "jsdom": "^11.0.0",
     "json-loader": "^0.5.4",
