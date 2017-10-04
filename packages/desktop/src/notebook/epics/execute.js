@@ -235,7 +235,7 @@ export function executeCellStream(
     ofMessageType(["execute_reply"]),
     pluck("content", "payload"),
     filter(Boolean),
-    mergeMap(payloads => Observable.from(payloads))
+    mergeMap(payloads => from(payloads))
   );
 
   // Payload stream for setting the input, whether in place or "next"

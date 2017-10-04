@@ -2,7 +2,6 @@
 
 import { kernelspecs } from "rx-jupyter";
 
-import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/add/observable/of";
 import { merge } from "rxjs/add/observable/merge";
 
@@ -67,7 +66,7 @@ export function listKernelSpecsEpic(
             payload: xhr.response
           };
         }),
-        catchError((xhrError: any) => Observable.of(genericAjaxFail(xhrError)))
+        catchError((xhrError: any) => of(genericAjaxFail(xhrError)))
       );
     })
   );
