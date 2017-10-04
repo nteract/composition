@@ -23,7 +23,6 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "d3-time-format": "^2.0.5",
-    "jsontableschema": "^0.2.2",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "react-virtualized": "^9.7.5",
