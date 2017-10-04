@@ -1,4 +1,5 @@
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 
@@ -13,7 +14,25 @@ const options = {
   module: {
     rules: [
       { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-      { test: /\.json$/, loader: "json-loader" }
+      { test: /\.json$/, loader: "json-loader" },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 10000
+            }
+          }
+        ]
+      }
     ]
   },
   resolve: {
@@ -72,7 +91,7 @@ const rendererConfig = Object.assign({}, options, {
     new LodashModuleReplacementPlugin(),
     new webpack.optimize.ModuleConcatenationPlugin(),
 
-    new webpack.IgnorePlugin(/\.(css|less)$/),
+    new webpack.IgnorePlugin(/\.less$/),
 
     // build vendor bundle (including common code chunks used in other bundles)
     new webpack.optimize.CommonsChunkPlugin({
@@ -82,7 +101,8 @@ const rendererConfig = Object.assign({}, options, {
     new webpack.SourceMapDevToolPlugin({
       filename: "[name].js.map",
       exclude: ["vendor.js"]
-    })
+    }),
+    new ExtractTextPlugin("styles.css")
   ]
 });
 

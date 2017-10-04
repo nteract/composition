@@ -24,6 +24,8 @@ import {
   CommsRecord
 } from "./records";
 
+import "./main.css";
+
 const store = configureStore({
   app: AppRecord(),
   metadata: MetadataRecord(),
@@ -53,7 +55,6 @@ class App extends React.PureComponent<Object, Object> {
     return (
       <Provider store={store}>
         <div>
-          <link rel="stylesheet" href="../static/styles/main.css" />
           <Notebook />
           <NotificationSystem
             ref={notificationSystem => {
