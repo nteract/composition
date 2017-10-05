@@ -1,4 +1,5 @@
 import React from "react";
+import Immutable from "immutable";
 
 import { mount } from "enzyme";
 import Toolbar from "../../../src/notebook/views/toolbar";
@@ -58,5 +59,10 @@ describe("Toolbar View", () => {
     expect(toolbar.text()).toContain("Convert to Markdown Cell");
     toolbar.setProps({ type: "markdown" });
     expect(toolbar.text()).toContain("Convert to Code Cell");
+  });
+  test("renders tags", () => {
+    const cell = new Immutable.fromJS({ metadata: { tags: ["tag1", "tag2"] } });
+    const toolbar = mount(<Toolbar cell={cell} />);
+    expect(toolbar.find(".react-tagsinput-tag").length).toEqual(2);
   });
 });

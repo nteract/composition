@@ -140,6 +140,7 @@
     "react-notification-system": "^0.2.14",
     "react-redux": "^5.0.5",
     "react-simple-dropdown": "^3.0.0",
+    "react-tagsinput": "^3.18.0",
     "redux": "^3.7.0",
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.16.0",

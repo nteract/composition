@@ -319,6 +319,50 @@ body {
   color: var(--toolbar-button-hover);
 }
 
+/*
+  react-tagsinput
+*/
+
+.cell-toolbar-mask .react-tagsinput {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 400px;
+  display: flex;
+  justify-content: flex-end;
+  transform: translateY(-100%);
+  padding: 0 0 5px 0;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+.cell-toolbar-mask .react-tagsinput-tag {
+  background-color: var(--toolbar-button);
+  border-radius: 3px;
+  padding: 0 0 0 5px;
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+
+.cell-toolbar-mask .react-tagsinput-remove {
+  display: inline-flex;
+  cursor: pointer;
+  color: inherit;
+  padding: 0 5px;
+  margin: 0 0 0 5px;
+  border-left: 1px solid var(--toolbar-bg);
+}
+
+.cell-toolbar-mask .react-tagsinput-remove::before {
+  content: " \00D7";
+}
+
+.cell-toolbar-mask .react-tagsinput-input {
+  font-family: inherit;
+  color: var(--input-color);
+  width: 80px;
+}
+
 .cell.text .rendered {
   padding: 10px 10px 10px var(--prompt-width);
   outline: none;

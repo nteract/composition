@@ -646,6 +646,16 @@ function changeCellType(state: DocumentState, action: ChangeCellTypeAction) {
   );
 }
 
+type UpdateCellTagsAction = {
+  type: "UPDATE_CELL_TAGS",
+  id: CellID,
+  tags: Array<string>
+};
+function updateCellTags(state: DocumentState, action: UpdateCellTagsAction) {
+  const { id, tags } = action;
+  return state.setIn(["notebook", "cellMap", id, "metadata", "tags"], tags);
+}
+
 type ToggleCellExpansionAction = {
   type: "TOGGLE_OUTPUT_EXPANSION",
   id: CellID
@@ -771,6 +781,8 @@ function handleDocument(
       return pasteCell(state);
     case constants.CHANGE_CELL_TYPE:
       return changeCellType(state, action);
+    case constants.UPDATE_CELL_TAGS:
+      return updateCellTags(state, action);
     case constants.TOGGLE_OUTPUT_EXPANSION:
       return toggleOutputExpansion(state, action);
     default:
