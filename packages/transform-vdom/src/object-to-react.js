@@ -5,7 +5,7 @@
  * https://github.com/remarkablemark/REON/blob/1f126e71c17f96daad518abffdb2c53b66b8b792/lib/object-to-react.js
  *
  * This version is heavily modified to:
- * 
+ *
  *   * Match the application/vdom.v1+json spec
  *   * Not mutate the data
  *
@@ -99,17 +99,17 @@ export function objectToReactElement(obj: VDOMEl): React$Element<*> {
  * @return {Array}     - The array of mixed values.
  */
 export function arrayToReactChildren(arr: Array<VDOMNode>): ReactArray {
-  // similar to `props.children`
   var result = [];
-  // child of `props.children`
 
   // iterate through the `children`
   for (var i = 0, len = arr.length; i < len; i++) {
     // child can have mixed values: text, React element, or array
     const item = arr[i];
-    if (Array.isArray(item)) {
+    if (item === null) {
+      continue;
+    } else if (Array.isArray(item)) {
       result.push(arrayToReactChildren(item));
-    } else if (typeof item === "string" || item === null) {
+    } else if (typeof item === "string") {
       result.push(item);
     } else if (typeof item === "object") {
       // Create a new object so that if we have to set the key, we are not
