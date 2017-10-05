@@ -89,7 +89,7 @@
         "Type": "Application",
         "Categories": "Science;Development;"
       },
-      "category": "science",
+      "category": "Science",
       "packageCategory": "editors"
     },
     "files": ["lib/*.js", "lib/*.css", "lib/*.woff", "lib/*.woff2", "static"],
