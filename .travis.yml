@@ -6,8 +6,8 @@ node_js:
 - "8"
 env:
   matrix:
-  - GROUP=coverage BUILD=build:desktop
-  - GROUP=packages
+  - GROUP=coverage
+  - GROUP=desktop BUILD=build:desktop
   - GROUP=lint
   - GROUP=flow
   - GROUP=conformance
@@ -19,6 +19,7 @@ cache:
 
 before_install:
 - npm install -g npm@5
+- 'if [[ $GROUP == coverage* ]]; then npm install -g codecov; fi'
 before_script:
 - export DISPLAY=:99.0; sh -e /etc/init.d/xvfb start
 install:
@@ -27,4 +28,4 @@ script:
 - 'if [ -n "${BUILD}" ]; then npm run $BUILD; fi'
 - npm run test:$GROUP
 after_success:
-  - 'if [[ $GROUP == coverage* ]]; then bash <(curl -s https://codecov.io/bash); fi'
+  - 'if [[ $GROUP == coverage* ]]; then codecov; fi'

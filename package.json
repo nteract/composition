@@ -31,15 +31,12 @@
     "test":
       "lerna run test:unit --scope nteract && npm run test:packages && npm run test:lint",
     "test:conformance": "node scripts/conformance.js",
-    "test:coverage": "npm run coverage",
+    "test:coverage": "npm run test:unit -- --coverage",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
-    "test:packages":
+    "test:unit":
       "lerna exec --scope enchannel-zmq-backend -- npm rebuild && jest",
     "test:desktop": "lerna run test:unit --scope nteract --stream",
-    "precoverage":
-      "mkdirp coverage && nyc lerna run test:unit --scope nteract --stream",
-    "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged",
@@ -55,7 +52,8 @@
     "setupFiles": ["raf/polyfill", "./scripts/mockument"],
     "moduleNameMapper": {
       "uuid": "<rootDir>/packages/commutable/node_modules/uuid/"
-    }
+    },
+    "coveragePathIgnorePatterns": ["<rootDir>/scripts", "/node_modules/"]
   },
   "lint-staged": {
     "*.js": ["prettier --write", "git add"],
@@ -106,7 +104,6 @@
     "mocha": "^3.4.2",
     "mock-require": "^2.0.0",
     "nbschema": "^0.1.0",
-    "nyc": "^11.0.3",
     "prettier": "^1.7.1",
     "raf": "^3.3.2",
     "react-test-renderer": "^16.0.0",
