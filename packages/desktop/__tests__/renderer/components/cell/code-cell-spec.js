@@ -3,16 +3,15 @@ import React from "react";
 import { Provider } from "react-redux";
 import { shallow, mount } from "enzyme";
 import Immutable from "immutable";
-import { expect } from "chai";
 
-import { dummyStore } from "../../../utils";
+import { dummyStore } from "utils";
 import CodeCell from "../../../../src/notebook/components/cell/code-cell";
 import { emptyCodeCell } from "@nteract/commutable";
 import { displayOrder, transforms } from "@nteract/transforms-full";
 
 const sharedProps = { displayOrder, transforms };
 describe("CodeCell", () => {
-  it("can be rendered", () => {
+  test("can be rendered", () => {
     const cell = shallow(
       <CodeCell
         cell={emptyCodeCell}
@@ -25,9 +24,9 @@ describe("CodeCell", () => {
         models={new Immutable.Map({})}
       />
     );
-    expect(cell).to.not.be.null;
+    expect(cell).not.toBeNull();
   });
-  it("creates an editor", () => {
+  test("creates an editor", () => {
     const store = dummyStore();
 
     const cell = mount(
@@ -44,9 +43,9 @@ describe("CodeCell", () => {
         />
       </Provider>
     );
-    expect(cell.find(".input").length).to.be.greaterThan(0);
+    expect(cell.find(".input").length).toBeGreaterThan(0);
   });
-  it("creates a pager", () => {
+  test("creates a pager", () => {
     const store = dummyStore();
 
     const cell = mount(
@@ -64,6 +63,6 @@ describe("CodeCell", () => {
         />
       </Provider>
     );
-    expect(cell.find(".pagers").length).to.be.greaterThan(0);
+    expect(cell.find(".pagers").length).toBeGreaterThan(0);
   });
 });

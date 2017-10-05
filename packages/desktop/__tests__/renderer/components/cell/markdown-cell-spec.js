@@ -1,9 +1,6 @@
 import React from "react";
 
 import { shallow, mount } from "enzyme";
-import chai, { expect } from "chai";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
 
 import MarkdownCell from "../../../../src/notebook/components/cell/markdown-cell";
 import {
@@ -14,24 +11,22 @@ import {
 
 import { emptyMarkdownCell } from "@nteract/commutable";
 import { displayOrder, transforms } from "@nteract/transforms-full";
-import { dummyStore } from "../../../utils";
-
-chai.use(sinonChai);
+import { dummyStore } from "utils";
 
 describe("MarkdownCell", () => {
-  it("can be rendered", () => {
+  test("can be rendered", () => {
     const cell = shallow(
       <MarkdownCell
         cell={emptyMarkdownCell}
         {...{ displayOrder, transforms }}
       />
     );
-    expect(cell).to.not.be.null;
+    expect(cell).not.toBeNull();
   });
 
-  it("toggles view mode with key events", () => {
+  test("toggles view mode with key events", () => {
     const store = dummyStore();
-    store.dispatch = sinon.spy();
+    store.dispatch = jest.fn();
 
     const cell = mount(
       <MarkdownCell
@@ -44,25 +39,25 @@ describe("MarkdownCell", () => {
     );
 
     // Starts in view mode
-    expect(cell.state("view")).to.be.true;
+    expect(cell.state("view")).toBe(true);
 
     cell.simulate("keydown", { key: "Enter" });
-    expect(cell.state("view")).to.be.false;
-    expect(store.dispatch.firstCall).to.be.calledWith({
+    expect(cell.state("view")).toBe(false);
+    expect(store.dispatch).toHaveBeenCalledWith({
       type: "FOCUS_CELL_EDITOR",
       id: "1234"
     });
 
     cell.simulate("keydown", { key: "Enter", shiftKey: true });
     // Stays in view mode on shift enter
-    expect(cell.state("view")).to.be.true;
+    expect(cell.state("view")).toBe(true);
     // Enter key enters edit mode
     // Back to view mode
     cell.simulate("keydown", { key: "Enter", shiftKey: true });
-    expect(cell.state("view")).to.be.true;
+    expect(cell.state("view")).toBe(true);
   });
 
-  it("sets the state of the text based on cell source", () => {
+  test("sets the state of the text based on cell source", () => {
     const cell = mount(
       <MarkdownCell
         cell={emptyMarkdownCell}
@@ -71,12 +66,12 @@ describe("MarkdownCell", () => {
     );
 
     cell.setProps({ cell: emptyMarkdownCell.set("source", "test") });
-    expect(cell.state("source")).to.equal("test");
+    expect(cell.state("source")).toBe("test");
   });
 
-  it("navigates to the previous cell with the up arrow key", () => {
+  test("navigates to the previous cell with the up arrow key", () => {
     const store = dummyStore();
-    store.dispatch = sinon.spy();
+    store.dispatch = jest.fn();
 
     const cell = shallow(
       <MarkdownCell
@@ -90,15 +85,15 @@ describe("MarkdownCell", () => {
 
     cell.simulate("keydown", { key: "ArrowUp" });
 
-    expect(store.dispatch.firstCall).to.be.calledWith({
+    expect(store.dispatch).toHaveBeenCalledWith({
       type: "FOCUS_PREVIOUS_CELL",
       id: "1234"
     });
   });
 
-  it("navigates to the next cell with the down arrow key", () => {
+  test("navigates to the next cell with the down arrow key", () => {
     const store = dummyStore();
-    store.dispatch = sinon.spy();
+    store.dispatch = jest.fn();
 
     const cell = shallow(
       <MarkdownCell
@@ -112,7 +107,7 @@ describe("MarkdownCell", () => {
 
     cell.simulate("keydown", { key: "ArrowDown" });
 
-    expect(store.dispatch.firstCall).to.be.calledWith({
+    expect(store.dispatch).toHaveBeenCalledWith({
       type: "FOCUS_NEXT_CELL",
       id: "1234",
       createCellIfUndefined: true

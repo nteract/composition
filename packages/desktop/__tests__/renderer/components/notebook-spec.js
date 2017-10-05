@@ -11,15 +11,9 @@ import {
   getLanguageMode
 } from "../../../src/notebook/components/notebook";
 
-import { dummyStore } from "../../utils";
-import { dummyCommutable } from "../dummy-nb";
+import { dummyStore } from "utils";
+import { dummyCommutable } from "dummy-nb";
 
-const chai = require("chai");
-const sinon = require("sinon");
-const sinonChai = require("sinon-chai");
-
-chai.use(sinonChai);
-const expect = chai.expect;
 const dummyCellStatuses = dummyCommutable
   .get("cellOrder")
   .reduce(
@@ -33,7 +27,7 @@ const dummyCellStatuses = dummyCommutable
 
 // Boilerplate test to make sure the testing setup is configured
 describe("Notebook", () => {
-  it("accepts an Immutable.List of cells", () => {
+  test("accepts an Immutable.List of cells", () => {
     const component = shallow(
       <Notebook
         notebook={dummyCommutable}
@@ -47,9 +41,9 @@ describe("Notebook", () => {
         CellComponent={Cell}
       />
     );
-    expect(component).to.not.be.null;
+    expect(component).not.toBeNull();
   });
-  it("implements the correct css spec", () => {
+  test("implements the correct css spec", () => {
     const component = mount(
       <Provider store={dummyStore()}>
         <Notebook
@@ -69,46 +63,32 @@ describe("Notebook", () => {
         />
       </Provider>
     );
-    expect(component.find(".notebook").length).to.be.above(0, ".notebook");
-    expect(component.find(".notebook .cell").length).to.be.above(
-      0,
-      ".notebook .cell"
-    );
-    expect(component.find(".notebook .cell.text").length).to.be.above(
-      0,
-      ".notebook .cell.text"
-    );
-    expect(component.find(".notebook .cell.code").length).to.be.above(
-      0,
-      ".notebook .cell.code"
-    );
-    expect(component.find(".notebook .cell.unknown").length).to.equal(
-      0,
-      ".notebook .cell.unknown does not exist"
-    );
-    expect(component.find(".notebook .cell.text .rendered").length).to.be.above(
-      0,
-      ".notebook .cell.text .rendered"
-    );
+    expect(component.find(".notebook").length).toBeGreaterThan(0);
+    expect(component.find(".notebook .cell").length).toBeGreaterThan(0);
+    expect(component.find(".notebook .cell.text").length).toBeGreaterThan(0);
+    expect(component.find(".notebook .cell.code").length).toBeGreaterThan(0);
+    expect(component.find(".notebook .cell.unknown").length).toBe(0);
+    expect(
+      component.find(".notebook .cell.text .rendered").length
+    ).toBeGreaterThan(0);
     expect(
       component.find(".notebook .cell.code .input-container").length
-    ).to.be.above(0, ".notebook .cell.code .input-container");
+    ).toBeGreaterThan(0);
     expect(
       component.find(".notebook .cell.code .input-container .prompt").length
-    ).to.be.above(0, ".notebook .cell.code .input-container .prompt");
+    ).toBeGreaterThan(0);
     expect(
       component.find(".notebook .cell.code .input-container .input").length
-    ).to.be.above(0, ".notebook .cell.code .input-container .input");
-    expect(component.find(".notebook .cell.code .outputs").length).to.be.above(
-      0,
-      ".notebook .cell.code .outputs"
-    );
+    ).toBeGreaterThan(0);
+    expect(
+      component.find(".notebook .cell.code .outputs").length
+    ).toBeGreaterThan(0);
   });
 
   describe("getLanguageMode", () => {
-    it("determines the right language from the notebook metadata", () => {
+    test("determines the right language from the notebook metadata", () => {
       const lang = getLanguageMode(dummyCommutable);
-      expect(lang).to.equal("ipython");
+      expect(lang).toBe("ipython");
 
       const lang2 = getLanguageMode(
         dummyCommutable.setIn(
@@ -116,17 +96,17 @@ describe("Notebook", () => {
           "r"
         )
       );
-      expect(lang2).to.equal("r");
+      expect(lang2).toBe("r");
     });
   });
 
   describe("keyDown", () => {
-    it("detects a cell execution keypress", () => {
+    test("detects a cell execution keypress", () => {
       const focusedCell = dummyCommutable.getIn(["cellOrder", 1]);
 
       const context = { store: dummyStore() };
 
-      context.store.dispatch = sinon.spy();
+      context.store.dispatch = jest.fn();
 
       const component = shallow(
         <Notebook
@@ -149,18 +129,18 @@ describe("Notebook", () => {
 
       inst.keyDown(evt);
 
-      expect(context.store.dispatch.firstCall).to.have.been.calledWith({
+      expect(context.store.dispatch).toHaveBeenCalledWith({
         type: "EXECUTE_CELL",
         id: focusedCell,
         source: dummyCommutable.getIn(["cellMap", focusedCell, "source"])
       });
     });
-    it("detects a focus to next cell keypress", () => {
+    test("detects a focus to next cell keypress", () => {
       const focusedCell = dummyCommutable.getIn(["cellOrder", 1]);
 
       const context = { store: dummyStore() };
 
-      context.store.dispatch = sinon.spy();
+      context.store.dispatch = jest.fn();
 
       const component = shallow(
         <Notebook
@@ -183,7 +163,7 @@ describe("Notebook", () => {
 
       inst.keyDown(evt);
 
-      expect(context.store.dispatch.firstCall).to.have.been.calledWith({
+      expect(context.store.dispatch).toHaveBeenCalledWith({
         type: "FOCUS_NEXT_CELL",
         id: focusedCell,
         createCellIfUndefined: true

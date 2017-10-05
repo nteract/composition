@@ -1,10 +1,9 @@
 import React from "react";
-import { expect } from "chai";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 
 import Editor from "../../../src/notebook/providers/editor";
-import { dummyStore } from "../../utils";
+import { dummyStore } from "utils";
 import {
   UPDATE_CELL_SOURCE,
   FOCUS_CELL_EDITOR
@@ -20,16 +19,16 @@ describe("EditorProvider", () => {
       </Provider>
     );
 
-  it("can be constructed", () => {
+  test("can be constructed", () => {
     const component = setup("test");
-    expect(component).to.not.be.null;
+    expect(component).not.toBeNull();
   });
-  it("onChange updates cell source", () =>
+  test("onChange updates cell source", () =>
     new Promise(resolve => {
       const dispatch = action => {
-        expect(action.id).to.equal("test");
-        expect(action.source).to.equal("i love nteract");
-        expect(action.type).to.equal(UPDATE_CELL_SOURCE);
+        expect(action.id).toBe("test");
+        expect(action.source).toBe("i love nteract");
+        expect(action.type).toBe(UPDATE_CELL_SOURCE);
         resolve();
       };
       store.dispatch = dispatch;
@@ -40,11 +39,11 @@ describe("EditorProvider", () => {
         .prop("onChange");
       onChange("i love nteract");
     }));
-  it("onFocusChange can update editor focus", () =>
+  test("onFocusChange can update editor focus", () =>
     new Promise(resolve => {
       const dispatch = action => {
-        expect(action.id).to.equal("test");
-        expect(action.type).to.equal(FOCUS_CELL_EDITOR);
+        expect(action.id).toBe("test");
+        expect(action.type).toBe(FOCUS_CELL_EDITOR);
         resolve();
       };
       store.dispatch = dispatch;

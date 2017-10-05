@@ -1,10 +1,9 @@
 import React from "react";
-import { expect } from "chai";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 
 import Toolbar from "../../../src/notebook/providers/toolbar";
-import { dummyStore } from "../../utils";
+import { dummyStore } from "utils";
 
 import {
   TOGGLE_STICKY_CELL,
@@ -28,10 +27,10 @@ describe.skip("toolbar provider", () => {
       </Provider>
     );
 
-  it("toggle Sticky Cell works", done => {
+  test("toggle Sticky Cell works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.type).to.equal(TOGGLE_STICKY_CELL);
+      expect(action.id).toBe("cell");
+      expect(action.type).toBe(TOGGLE_STICKY_CELL);
       done();
     };
     store.dispatch = dispatch;
@@ -43,10 +42,10 @@ describe.skip("toolbar provider", () => {
       .toggleStickyCell();
   });
 
-  it("Remove Cell works", done => {
+  test("Remove Cell works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.type).to.equal(REMOVE_CELL);
+      expect(action.id).toBe("cell");
+      expect(action.type).toBe(REMOVE_CELL);
       done();
     };
     store.dispatch = dispatch;
@@ -58,11 +57,11 @@ describe.skip("toolbar provider", () => {
       .removeCell();
   });
 
-  it("execute cell works", done => {
+  test("execute cell works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.source).to.equal("source");
-      expect(action.type).to.equal(EXECUTE_CELL);
+      expect(action.id).toBe("cell");
+      expect(action.source).toBe("source");
+      expect(action.type).toBe(EXECUTE_CELL);
       done();
     };
     store.dispatch = dispatch;
@@ -76,10 +75,10 @@ describe.skip("toolbar provider", () => {
       .executeCell();
   });
 
-  it("clear outputs works", done => {
+  test("clear outputs works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.type).to.equal(CLEAR_OUTPUTS);
+      expect(action.id).toBe("cell");
+      expect(action.type).toBe(CLEAR_OUTPUTS);
       done();
     };
     store.dispatch = dispatch;
@@ -91,10 +90,10 @@ describe.skip("toolbar provider", () => {
       .clearOutputs(dropdown);
   });
 
-  it("change Input Visibility works", done => {
+  test("change Input Visibility works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.type).to.equal(CHANGE_INPUT_VISIBILITY);
+      expect(action.id).toBe("cell");
+      expect(action.type).toBe(CHANGE_INPUT_VISIBILITY);
       done();
     };
     store.dispatch = dispatch;
@@ -106,10 +105,10 @@ describe.skip("toolbar provider", () => {
       .changeInputVisibility(dropdown);
   });
 
-  it("change Output Visibility works", done => {
+  test("change Output Visibility works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.type).to.equal(CHANGE_OUTPUT_VISIBILITY);
+      expect(action.id).toBe("cell");
+      expect(action.type).toBe(CHANGE_OUTPUT_VISIBILITY);
       done();
     };
     store.dispatch = dispatch;
@@ -121,11 +120,11 @@ describe.skip("toolbar provider", () => {
       .changeOutputVisibility(dropdown);
   });
 
-  it("change Cell Type works", done => {
+  test("change Cell Type works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.to).to.equal("markdown");
-      expect(action.type).to.equal(CHANGE_CELL_TYPE);
+      expect(action.id).toBe("cell");
+      expect(action.to).toBe("markdown");
+      expect(action.type).toBe(CHANGE_CELL_TYPE);
       done();
     };
     store.dispatch = dispatch;
@@ -137,10 +136,10 @@ describe.skip("toolbar provider", () => {
       .changeCellType(dropdown);
   });
 
-  it("toggle output expansion works", done => {
+  test("toggle output expansion works", done => {
     const dispatch = action => {
-      expect(action.id).to.equal("cell");
-      expect(action.type).to.equal(TOGGLE_OUTPUT_EXPANSION);
+      expect(action.id).toBe("cell");
+      expect(action.type).toBe(TOGGLE_OUTPUT_EXPANSION);
       done();
     };
     store.dispatch = dispatch;
