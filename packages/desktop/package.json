@@ -118,7 +118,7 @@
     "cross-env": "^5.0.0",
     "date-fns": "^1.28.5",
     "electron": "~1.7.6",
-    "electron-builder": "^19.31.1",
+    "electron-builder": "19.33.0",
     "electron-context-menu": "^0.9.1",
     "electron-log": "^2.2.6",
     "electron-mocha": "^4.0.0",
