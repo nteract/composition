@@ -1,12 +1,10 @@
-import { expect } from "chai";
-
 import { Map } from "immutable";
 
 import * as constants from "../../../src/notebook/constants";
 import reducers from "../../../src/notebook/reducers";
 
 describe("setKey", () => {
-  it("sets the keys in the config", () => {
+  test("sets the keys in the config", () => {
     const initialState = { config: new Map({ theme: null }) };
 
     const state = reducers(initialState, {
@@ -14,12 +12,12 @@ describe("setKey", () => {
       key: "theme",
       value: "light"
     });
-    expect(state.config.get("theme")).to.equal("light");
+    expect(state.config.get("theme")).toBe("light");
   });
 });
 
 describe("mergeConfig", () => {
-  it("sets the config", () => {
+  test("sets the config", () => {
     const initialState = { config: new Map() };
 
     const config = { theme: "dark" };
@@ -27,6 +25,6 @@ describe("mergeConfig", () => {
       type: constants.MERGE_CONFIG,
       config
     });
-    expect(state.config.get("theme")).to.equal("dark");
+    expect(state.config.get("theme")).toBe("dark");
   });
 });

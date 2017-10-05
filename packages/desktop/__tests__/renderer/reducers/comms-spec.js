@@ -1,15 +1,8 @@
 import commsReducer from "../../../src/notebook/reducers/comms";
 import { CommsRecord } from "../../../src/notebook/records";
 
-const chai = require("chai");
-const chaiImmutable = require("chai-immutable");
-
-chai.use(chaiImmutable);
-
-const expect = chai.expect;
-
 describe("registerCommTarget", () => {
-  it("sets comm targets", () => {
+  test("sets comm targets", () => {
     const state = new CommsRecord();
 
     const action = {
@@ -19,12 +12,12 @@ describe("registerCommTarget", () => {
     };
 
     const nextState = commsReducer(state, action);
-    expect(nextState).to.deep.equal(state.setIn(["targets", "steve"], "?????"));
+    expect(nextState).toEqual(state.setIn(["targets", "steve"], "?????"));
   });
 });
 
 describe("comm reducers", () => {
-  it("process comm_open and comm_message actions", () => {
+  test("process comm_open and comm_message actions", () => {
     const state = new CommsRecord();
     const action = {
       type: "COMM_OPEN",
@@ -35,12 +28,12 @@ describe("comm reducers", () => {
     };
 
     const nextState = commsReducer(state, action);
-    expect(nextState.getIn(["info", 100]).toJS()).to.deep.equal({
+    expect(nextState.getIn(["info", 100]).toJS()).toEqual({
       target_module: "reducers",
       target_name: "setIn"
     });
 
-    expect(nextState.getIn(["models", 100]).toJS()).to.deep.equal({ a: 2 });
+    expect(nextState.getIn(["models", 100]).toJS()).toEqual({ a: 2 });
 
     const actionMessage = {
       type: "COMM_MESSAGE",
@@ -50,11 +43,11 @@ describe("comm reducers", () => {
 
     const afterMessageState = commsReducer(nextState, actionMessage);
 
-    expect(afterMessageState.getIn(["models", 100]).toJS()).to.deep.equal({
+    expect(afterMessageState.getIn(["models", 100]).toJS()).toEqual({
       a: 3
     });
   });
-  it("does a straight replacement for unknown comm messages", () => {
+  test("does a straight replacement for unknown comm messages", () => {
     const state = new CommsRecord();
 
     // Note that we're not starting with a COMM_OPEN in order to process
@@ -67,7 +60,7 @@ describe("comm reducers", () => {
 
     const nextState = commsReducer(state, action);
 
-    expect(nextState.getIn(["models", 101]).toJS()).to.deep.equal({
+    expect(nextState.getIn(["models", 101]).toJS()).toEqual({
       bagels: true,
       x: 5113
     });

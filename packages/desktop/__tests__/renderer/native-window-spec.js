@@ -3,10 +3,6 @@ import { remote } from "electron";
 
 import { from } from "rxjs/observable/from";
 
-import chai, { expect } from "chai";
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
-
 import * as nativeWindow from "../../src/notebook/native-window";
 import {
   AppRecord,
@@ -14,37 +10,34 @@ import {
   MetadataRecord
 } from "../../src/notebook/records";
 
-chai.use(sinonChai);
-
 const path = require("path");
 
-const electron = require("electron");
-
 describe("tildify", () => {
-  it("returns an empty string if given no path", () => {
-    expect(nativeWindow.tildify()).to.equal("");
+  test("returns an empty string if given no path", () => {
+    expect(nativeWindow.tildify()).toBe("");
   });
-  it("replaces the user directory with ~", () => {
+  test("replaces the user directory with ~", () => {
     const fixture = path.join(remote.app.getPath("home"), "test-notebooks");
     const result = nativeWindow.tildify(fixture);
     if (process.platform === "win32") {
-      expect(result).to.equal(fixture);
+      expect(result).toBe(fixture);
     } else {
-      expect(result).to.have.string("~");
+      expect(result).toContain("~");
     }
   });
 });
 
 describe("setTitleFromAttributes", () => {
-  it("sets the window title", () => {
+  test("sets the window title", () => {
     // Set up our "Electron window"
     const win = {
-      setRepresentedFilename: sinon.spy(),
-      setDocumentEdited: sinon.spy(),
-      setTitle: sinon.spy()
+      setRepresentedFilename: jest.fn(),
+      setDocumentEdited: jest.fn(),
+      setTitle: jest.fn()
     };
 
-    sinon.stub(electron.remote, "getCurrentWindow").callsFake(() => win);
+    remote.getCurrentWindow = jest.fn();
+    remote.getCurrentWindow.mockReturnValue(win);
 
     const titleObject = {
       fullpath: "/tmp/test.ipynb",
@@ -53,13 +46,12 @@ describe("setTitleFromAttributes", () => {
     };
     nativeWindow.setTitleFromAttributes(titleObject);
 
-    // TODO: stub doesn't seem to get setup
-    // expect(win.setTitle).to.have.been.called;
+    expect(win.setTitle).toBeCalled();
   });
 });
 
 describe("createTitleFeed", () => {
-  it("creates an observable that updates title attributes for modified notebook", done => {
+  test("creates an observable that updates title attributes for modified notebook", done => {
     const notebook = new Immutable.Map().setIn(
       ["metadata", "kernelspec", "display_name"],
       "python3000"
@@ -82,7 +74,7 @@ describe("createTitleFeed", () => {
     },
     null,
     () => {
-      expect(allAttributes).to.deep.equal([
+      expect(allAttributes).toEqual([
         {
           modified: process.platform === "darwin" ? true : false,
           fullpath: "titled.ipynb",
@@ -93,7 +85,7 @@ describe("createTitleFeed", () => {
     });
   });
 
-  it("creates an observable that updates title attributes", done => {
+  test("creates an observable that updates title attributes", done => {
     const notebook = new Immutable.Map().setIn(
       ["metadata", "kernelspec", "display_name"],
       "python3000"
@@ -117,7 +109,7 @@ describe("createTitleFeed", () => {
     },
     null,
     () => {
-      expect(allAttributes).to.deep.equal([
+      expect(allAttributes).toEqual([
         {
           modified: false,
           fullpath: "titled.ipynb",

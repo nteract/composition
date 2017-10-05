@@ -1,7 +1,6 @@
 import React from "react";
 
 import { shallow } from "enzyme";
-import { expect } from "chai";
 
 import DraggableCell from "../../../src/notebook/views/draggable-cell";
 
@@ -24,13 +23,13 @@ const dragDropManager = {
 
 const sharedProps = { displayOrder, transforms };
 describe("DraggableCell", () => {
-  it("can be rendered", () => {
+  test("can be rendered", () => {
     const cell = shallow(
       <DraggableCell cell={emptyMarkdownCell} {...sharedProps} />,
       {
         context: { dragDropManager }
       }
     );
-    expect(cell).to.not.be.null;
+    expect(cell).not.toBeNull();
   });
 });

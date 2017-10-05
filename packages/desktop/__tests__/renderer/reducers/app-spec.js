@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as constants from "../../../src/notebook/constants";
 import reducers from "../../../src/notebook/reducers";
 import { AppRecord } from "../../../src/notebook/records";
@@ -7,7 +5,7 @@ import { AppRecord } from "../../../src/notebook/records";
 const Github = require("github");
 
 describe("cleanupKernel", () => {
-  it("nullifies entries for the kernel in originalState", () => {
+  test("nullifies entries for the kernel in originalState", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -19,14 +17,14 @@ describe("cleanupKernel", () => {
     const action = { type: constants.KILL_KERNEL };
 
     const state = reducers(originalState, action);
-    expect(state.app.channels).to.be.null;
-    expect(state.app.spawn).to.be.null;
-    expect(state.app.connectionFile).to.be.null;
+    expect(state.app.channels).toBeNull();
+    expect(state.app.spawn).toBeNull();
+    expect(state.app.connectionFile).toBeNull();
   });
 });
 
 describe("setNotificationSystem", () => {
-  it("returns the same originalState if notificationSystem is undefined", () => {
+  test("returns the same originalState if notificationSystem is undefined", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -38,9 +36,9 @@ describe("setNotificationSystem", () => {
     const action = { type: constants.SET_NOTIFICATION_SYSTEM };
 
     const state = reducers(originalState, action);
-    expect(state.app.notificationSystem).to.be.undefined;
+    expect(state.app.notificationSystem).toBeUndefined();
   });
-  it("sets the notificationSystem if given", () => {
+  test("sets the notificationSystem if given", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -55,12 +53,12 @@ describe("setNotificationSystem", () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.app.notificationSystem).to.equal("");
+    expect(state.app.notificationSystem).toBe("");
   });
 });
 
 describe("startSaving", () => {
-  it("should set isSaving to false", () => {
+  test("should set isSaving to false", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -72,12 +70,12 @@ describe("startSaving", () => {
     const action = { type: constants.START_SAVING };
 
     const state = reducers(originalState, action);
-    expect(state.app.isSaving).to.be.true;
+    expect(state.app.isSaving).toBe(true);
   });
 });
 
 describe("doneSaving", () => {
-  it("should set isSaving to false", () => {
+  test("should set isSaving to false", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -89,12 +87,12 @@ describe("doneSaving", () => {
     const action = { type: constants.DONE_SAVING };
 
     const state = reducers(originalState, action);
-    expect(state.app.isSaving).to.be.false;
+    expect(state.app.isSaving).toBe(false);
   });
 });
 
 describe("setExecutionState", () => {
-  it("should set the exeuction state to the given value", () => {
+  test("should set the exeuction state to the given value", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -109,12 +107,12 @@ describe("setExecutionState", () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.app.executionState, "idle");
+    expect(state.app.executionState).toBe("idle");
   });
 });
 
 describe("alertKernelNotConnected", () => {
-  it("sets an error on the app state", () => {
+  test("sets an error on the app state", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -126,13 +124,13 @@ describe("alertKernelNotConnected", () => {
     const action = { type: constants.ERROR_KERNEL_NOT_CONNECTED };
 
     const state = reducers(originalState, action);
-    expect(state.app.error).to.not.be.null;
-    expect(state.app.error).to.contain("not connected to a runtime");
+    expect(state.app.error).not.toBeNull();
+    expect(state.app.error).toContain("not connected to a runtime");
   });
 });
 
 describe("killKernel", () => {
-  it("clears out kernel configuration", () => {
+  test("clears out kernel configuration", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -144,14 +142,14 @@ describe("killKernel", () => {
     const action = { type: constants.KILL_KERNEL };
 
     const state = reducers(originalState, action);
-    expect(state.app.channels).to.be.null;
-    expect(state.app.spawn).to.be.null;
-    expect(state.app.connectionFile).to.be.null;
+    expect(state.app.channels).toBeNull();
+    expect(state.app.spawn).toBeNull();
+    expect(state.app.connectionFile).toBeNull();
   });
 });
 
 describe("interruptKernel", () => {
-  it("sends a SIGINT and clears the kernel", () => {
+  test("sends a SIGINT and clears the kernel", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -165,12 +163,12 @@ describe("interruptKernel", () => {
     const action = { type: constants.INTERRUPT_KERNEL };
 
     const state = reducers(originalState, action);
-    expect(state.app).to.deep.equal(originalState.app);
+    expect(state.app).toEqual(originalState.app);
   });
 });
 
 describe("newKernel", () => {
-  it("creates a new kernel", () => {
+  test("creates a new kernel", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -189,19 +187,19 @@ describe("newKernel", () => {
     };
 
     const state = reducers(originalState, action);
-    expect(state.app.executionState).to.equal("starting");
-    expect(state.app.kernelSpecName).to.equal("test_name");
-    expect(state.app.kernelSpec).to.deep.equal({
+    expect(state.app.executionState).toBe("starting");
+    expect(state.app.kernelSpecName).toBe("test_name");
+    expect(state.app.kernelSpec).toEqual({
       spec: { display_name: "Test Name" }
     });
-    expect(state.app.kernelSpecDisplayName).to.equal("Test Name");
-    expect(state.app.spawn).to.equal("test_spawn");
-    expect(state.app.channels).to.equal("test_channels");
+    expect(state.app.kernelSpecDisplayName).toBe("Test Name");
+    expect(state.app.spawn).toBe("test_spawn");
+    expect(state.app.channels).toBe("test_channels");
   });
 });
 
 describe("setGithubToken", () => {
-  it("calls setGithubToken", () => {
+  test("calls setGithubToken", () => {
     const originalState = {
       app: new AppRecord({
         github: new Github(),
@@ -213,13 +211,13 @@ describe("setGithubToken", () => {
 
     const state = reducers(originalState, action);
     // this is a crappy way of testing this
-    expect(state.app.github).to.not.be.null;
-    expect(state.app.token).to.not.be.null;
+    expect(state.app.github).not.toBeNull();
+    expect(state.app.token).not.toBeNull();
   });
 });
 
 describe("exit", () => {
-  it("calls cleanupKernel", () => {
+  test("calls cleanupKernel", () => {
     const originalState = {
       app: new AppRecord({
         channels: false,
@@ -231,21 +229,21 @@ describe("exit", () => {
     const action = { type: constants.EXIT };
 
     const state = reducers(originalState, action);
-    expect(state.app.channels).to.be.null;
-    expect(state.app.spawn).to.be.null;
-    expect(state.app.connectionFile).to.be.null;
-    expect(state.app.kernelSpecName).to.be.null;
-    expect(state.app.executionState).to.equal("not connected");
+    expect(state.app.channels).toBeNull();
+    expect(state.app.spawn).toBeNull();
+    expect(state.app.connectionFile).toBeNull();
+    expect(state.app.kernelSpecName).toBeNull();
+    expect(state.app.executionState).toBe("not connected");
   });
 });
 
 describe("doneSavingConfig", () => {
-  it("updates when the config was saved", () => {
+  test("updates when the config was saved", () => {
     const originalState = { app: new AppRecord({ configLastSaved: null }) };
 
     const action = { type: constants.DONE_SAVING_CONFIG };
 
     const state = reducers(originalState, action);
-    expect(state.app.configLastSaved).to.be.a("Date");
+    expect(state.app.configLastSaved).toEqual(expect.any(Date));
   });
 });

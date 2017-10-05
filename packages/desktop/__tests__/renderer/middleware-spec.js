@@ -1,15 +1,7 @@
-import sinon from "sinon";
-import sinonChai from "sinon-chai";
-
 import { errorMiddleware } from "../../src/notebook/middlewares";
 
-const chai = require("chai");
-
-const expect = chai.expect;
-chai.use(sinonChai);
-
 describe("The error middleware", () => {
-  it("errors with a payload message when given one", () => {
+  test("errors with a payload message when given one", () => {
     const store = {
       getState() {
         return this.state;
@@ -22,17 +14,17 @@ describe("The error middleware", () => {
           get() {
             return this.notificationSystem;
           },
-          notificationSystem: { addNotification: sinon.spy() }
+          notificationSystem: { addNotification: jest.fn() }
         }
       },
-      reducer: sinon.spy()
+      reducer: jest.fn()
     };
     const next = action => store.dispatch(action);
     const action = { type: "ERROR", payload: "This is a payload", err: true };
     const notification = store.getState().app.notificationSystem
       .addNotification;
     errorMiddleware(store)(next)(action);
-    expect(notification).to.be.calledWith({
+    expect(notification).toBeCalledWith({
       title: "ERROR",
       message: JSON.stringify("This is a payload", 2, 2),
       dismissible: true,
@@ -40,9 +32,9 @@ describe("The error middleware", () => {
       level: "error"
     });
 
-    expect(store.reducer).to.be.called;
+    expect(store.reducer).toBeCalled();
   });
-  it("errors with action as message when no payload", () => {
+  test("errors with action as message when no payload", () => {
     const store = {
       getState() {
         return this.state;
@@ -55,23 +47,23 @@ describe("The error middleware", () => {
           get() {
             return this.notificationSystem;
           },
-          notificationSystem: { addNotification: sinon.spy() }
+          notificationSystem: { addNotification: jest.fn() }
         }
       },
-      reducer: sinon.spy()
+      reducer: jest.fn()
     };
     const next = action => store.dispatch(action);
     const action = { type: "ERROR", payloa: "typo", err: true };
     const notification = store.getState().app.notificationSystem
       .addNotification;
     errorMiddleware(store)(next)(action);
-    expect(notification).to.be.calledWith({
+    expect(notification).toBeCalledWith({
       title: "ERROR",
       message: JSON.stringify(action, 2, 2),
       dismissible: true,
       position: "tr",
       level: "error"
     });
-    expect(store.reducer).to.be.called;
+    expect(store.reducer).toBeCalled();
   });
 });

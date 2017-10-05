@@ -1,13 +1,11 @@
-import { expect } from "chai";
-
 import * as actions from "../../src/notebook/actions";
 import * as constants from "../../src/notebook/constants";
 
-import { dummyCommutable } from "./dummy-nb";
+import { dummyCommutable } from "dummy-nb";
 
 describe("setExecutionState", () => {
-  it("creates a SET_EXECUTION_STATE action", () => {
-    expect(actions.setExecutionState("idle")).to.deep.equal({
+  test("creates a SET_EXECUTION_STATE action", () => {
+    expect(actions.setExecutionState("idle")).toEqual({
       type: constants.SET_EXECUTION_STATE,
       executionState: "idle"
     });
@@ -15,8 +13,8 @@ describe("setExecutionState", () => {
 });
 
 describe("newKernel", () => {
-  it("creates a LAUNCH_KERNEL action", () => {
-    expect(actions.newKernel({ spec: "hokey" }, ".")).to.deep.equal({
+  test("creates a LAUNCH_KERNEL action", () => {
+    expect(actions.newKernel({ spec: "hokey" }, ".")).toEqual({
       type: constants.LAUNCH_KERNEL,
       kernelSpec: { spec: "hokey" },
       cwd: "."
@@ -25,8 +23,8 @@ describe("newKernel", () => {
 });
 
 describe("newKernelByName", () => {
-  it("creates a LAUNCH_KERNEL_BY_NAME action", () => {
-    expect(actions.newKernelByName("python2", ".")).to.deep.equal({
+  test("creates a LAUNCH_KERNEL_BY_NAME action", () => {
+    expect(actions.newKernelByName("python2", ".")).toEqual({
       type: constants.LAUNCH_KERNEL_BY_NAME,
       kernelSpecName: "python2",
       cwd: "."
@@ -35,9 +33,9 @@ describe("newKernelByName", () => {
 });
 
 describe("setNotebookKernelInfo", () => {
-  it("creates a SET_KERNEL_INFO action", () => {
+  test("creates a SET_KERNEL_INFO action", () => {
     const kernelInfo = { name: "japanese" };
-    expect(actions.setNotebookKernelInfo(kernelInfo)).to.deep.equal({
+    expect(actions.setNotebookKernelInfo(kernelInfo)).toEqual({
       type: constants.SET_KERNEL_INFO,
       kernelInfo: {
         name: "japanese"
@@ -47,8 +45,8 @@ describe("setNotebookKernelInfo", () => {
 });
 
 describe("updateCellSource", () => {
-  it("creates a UPDATE_CELL_SOURCE action", () => {
-    expect(actions.updateCellSource("1234", "# test")).to.deep.equal({
+  test("creates a UPDATE_CELL_SOURCE action", () => {
+    expect(actions.updateCellSource("1234", "# test")).toEqual({
       type: constants.UPDATE_CELL_SOURCE,
       id: "1234",
       source: "# test"
@@ -57,8 +55,8 @@ describe("updateCellSource", () => {
 });
 
 describe("clearOutputs", () => {
-  it("creates a CLEAR_OUTPUTS action", () => {
-    expect(actions.clearOutputs("woo")).to.deep.equal({
+  test("creates a CLEAR_OUTPUTS action", () => {
+    expect(actions.clearOutputs("woo")).toEqual({
       type: "CLEAR_OUTPUTS",
       id: "woo"
     });
@@ -66,8 +64,8 @@ describe("clearOutputs", () => {
 });
 
 describe("updateCellExecutionCount", () => {
-  it("creates a UPDATE_CELL_EXECUTION_COUNT action", () => {
-    expect(actions.updateCellExecutionCount("1234", 3)).to.deep.equal({
+  test("creates a UPDATE_CELL_EXECUTION_COUNT action", () => {
+    expect(actions.updateCellExecutionCount("1234", 3)).toEqual({
       type: constants.UPDATE_CELL_EXECUTION_COUNT,
       id: "1234",
       count: 3
@@ -76,12 +74,12 @@ describe("updateCellExecutionCount", () => {
 });
 
 describe("updateCellPagers", () => {
-  it("creates a UPDATE_CELL_PAGERS action", () => {
+  test("creates a UPDATE_CELL_PAGERS action", () => {
     expect(
       actions.updateCellPagers("1234", {
         data: "woo"
       })
-    ).to.deep.equal({
+    ).toEqual({
       type: constants.UPDATE_CELL_PAGERS,
       id: "1234",
       pagers: { data: "woo" }
@@ -90,8 +88,8 @@ describe("updateCellPagers", () => {
 });
 
 describe("updateCellStatus", () => {
-  it("creates an UPDATE_CELL_STATUS action", () => {
-    expect(actions.updateCellStatus("1234", "test")).to.deep.equal({
+  test("creates an UPDATE_CELL_STATUS action", () => {
+    expect(actions.updateCellStatus("1234", "test")).toEqual({
       type: constants.UPDATE_CELL_STATUS,
       id: "1234",
       status: "test"
@@ -100,8 +98,8 @@ describe("updateCellStatus", () => {
 });
 
 describe("moveCell", () => {
-  it("creates a MOVE_CELL action", () => {
-    expect(actions.moveCell("1234", "5678", true)).to.deep.equal({
+  test("creates a MOVE_CELL action", () => {
+    expect(actions.moveCell("1234", "5678", true)).toEqual({
       type: constants.MOVE_CELL,
       id: "1234",
       destinationId: "5678",
@@ -111,8 +109,8 @@ describe("moveCell", () => {
 });
 
 describe("removeCell", () => {
-  it("creates a REMOVE_CELL action", () => {
-    expect(actions.removeCell("1234")).to.deep.equal({
+  test("creates a REMOVE_CELL action", () => {
+    expect(actions.removeCell("1234")).toEqual({
       type: constants.REMOVE_CELL,
       id: "1234"
     });
@@ -120,8 +118,8 @@ describe("removeCell", () => {
 });
 
 describe("focusCell", () => {
-  it("creates a FOCUS_CELL action", () => {
-    expect(actions.focusCell("1234")).to.deep.equal({
+  test("creates a FOCUS_CELL action", () => {
+    expect(actions.focusCell("1234")).toEqual({
       type: constants.FOCUS_CELL,
       id: "1234"
     });
@@ -129,15 +127,15 @@ describe("focusCell", () => {
 });
 
 describe("focusNextCell", () => {
-  it("creates a FOCUS_NEXT_CELL action", () => {
-    expect(actions.focusNextCell("1234")).to.deep.equal({
+  test("creates a FOCUS_NEXT_CELL action", () => {
+    expect(actions.focusNextCell("1234")).toEqual({
       type: constants.FOCUS_NEXT_CELL,
       id: "1234",
       createCellIfUndefined: undefined
     });
   });
-  it("creates a FOCUS_NEXT_CELL action with cell creation flag", () => {
-    expect(actions.focusNextCell("1234", true)).to.deep.equal({
+  test("creates a FOCUS_NEXT_CELL action with cell creation flag", () => {
+    expect(actions.focusNextCell("1234", true)).toEqual({
       type: constants.FOCUS_NEXT_CELL,
       id: "1234",
       createCellIfUndefined: true
@@ -146,8 +144,8 @@ describe("focusNextCell", () => {
 });
 
 describe("focusPreviousCell", () => {
-  it("creates a FOCUS_PREVIOUS_CELL action", () => {
-    expect(actions.focusPreviousCell("1234")).to.deep.equal({
+  test("creates a FOCUS_PREVIOUS_CELL action", () => {
+    expect(actions.focusPreviousCell("1234")).toEqual({
       type: constants.FOCUS_PREVIOUS_CELL,
       id: "1234"
     });
@@ -155,8 +153,8 @@ describe("focusPreviousCell", () => {
 });
 
 describe("focusCellEditor", () => {
-  it("creates a FOCUS_CELL_EDITOR action", () => {
-    expect(actions.focusCellEditor("1234")).to.deep.equal({
+  test("creates a FOCUS_CELL_EDITOR action", () => {
+    expect(actions.focusCellEditor("1234")).toEqual({
       type: constants.FOCUS_CELL_EDITOR,
       id: "1234"
     });
@@ -164,8 +162,8 @@ describe("focusCellEditor", () => {
 });
 
 describe("focusPreviousCellEditor", () => {
-  it("creates a FOCUS_PREVIOUS_CELL_EDITOR action", () => {
-    expect(actions.focusPreviousCellEditor("1234")).to.deep.equal({
+  test("creates a FOCUS_PREVIOUS_CELL_EDITOR action", () => {
+    expect(actions.focusPreviousCellEditor("1234")).toEqual({
       type: constants.FOCUS_PREVIOUS_CELL_EDITOR,
       id: "1234"
     });
@@ -173,8 +171,8 @@ describe("focusPreviousCellEditor", () => {
 });
 
 describe("focusNextCellEditor", () => {
-  it("creates a FOCUS_NEXT_CELL_EDITOR action", () => {
-    expect(actions.focusNextCellEditor("1234")).to.deep.equal({
+  test("creates a FOCUS_NEXT_CELL_EDITOR action", () => {
+    expect(actions.focusNextCellEditor("1234")).toEqual({
       type: constants.FOCUS_NEXT_CELL_EDITOR,
       id: "1234"
     });
@@ -182,18 +180,16 @@ describe("focusNextCellEditor", () => {
 });
 
 describe("createCellAfter", () => {
-  it("creates a NEW_CELL_AFTER action with default empty source string", () => {
-    expect(actions.createCellAfter("markdown", "1234")).to.deep.equal({
+  test("creates a NEW_CELL_AFTER action with default empty source string", () => {
+    expect(actions.createCellAfter("markdown", "1234")).toEqual({
       type: constants.NEW_CELL_AFTER,
       source: "",
       cellType: "markdown",
       id: "1234"
     });
   });
-  it("creates a NEW_CELL_AFTER action with provided source string", () => {
-    expect(
-      actions.createCellAfter("code", "1234", 'print("woo")')
-    ).to.deep.equal({
+  test("creates a NEW_CELL_AFTER action with provided source string", () => {
+    expect(actions.createCellAfter("code", "1234", 'print("woo")')).toEqual({
       type: constants.NEW_CELL_AFTER,
       source: 'print("woo")',
       cellType: "code",
@@ -203,8 +199,8 @@ describe("createCellAfter", () => {
 });
 
 describe("createCellBefore", () => {
-  it("creates a NEW_CELL_BEFORE action", () => {
-    expect(actions.createCellBefore("markdown", "1234")).to.deep.equal({
+  test("creates a NEW_CELL_BEFORE action", () => {
+    expect(actions.createCellBefore("markdown", "1234")).toEqual({
       type: constants.NEW_CELL_BEFORE,
       cellType: "markdown",
       id: "1234"
@@ -213,8 +209,8 @@ describe("createCellBefore", () => {
 });
 
 describe("toggleStickyCell", () => {
-  it("creates a TOGGLE_STICKY_CELL action", () => {
-    expect(actions.toggleStickyCell("1234")).to.deep.equal({
+  test("creates a TOGGLE_STICKY_CELL action", () => {
+    expect(actions.toggleStickyCell("1234")).toEqual({
       type: constants.TOGGLE_STICKY_CELL,
       id: "1234"
     });
@@ -222,8 +218,8 @@ describe("toggleStickyCell", () => {
 });
 
 describe("createCellAppend", () => {
-  it("creates a NEW_CELL_APPEND action", () => {
-    expect(actions.createCellAppend("markdown")).to.deep.equal({
+  test("creates a NEW_CELL_APPEND action", () => {
+    expect(actions.createCellAppend("markdown")).toEqual({
       type: constants.NEW_CELL_APPEND,
       cellType: "markdown"
     });
@@ -231,8 +227,8 @@ describe("createCellAppend", () => {
 });
 
 describe("mergeCellAfter", () => {
-  it("creates a MERGE_CELL_AFTER action", () => {
-    expect(actions.mergeCellAfter("0121")).to.deep.equal({
+  test("creates a MERGE_CELL_AFTER action", () => {
+    expect(actions.mergeCellAfter("0121")).toEqual({
       type: constants.MERGE_CELL_AFTER,
       id: "0121"
     });
@@ -240,8 +236,8 @@ describe("mergeCellAfter", () => {
 });
 
 describe("setNotificationSystem", () => {
-  it("creates a SET_NOTIFICATION_SYSTEM action", () => {
-    expect(actions.setNotificationSystem(null)).to.deep.equal({
+  test("creates a SET_NOTIFICATION_SYSTEM action", () => {
+    expect(actions.setNotificationSystem(null)).toEqual({
       type: constants.SET_NOTIFICATION_SYSTEM,
       notificationSystem: null
     });
@@ -249,12 +245,12 @@ describe("setNotificationSystem", () => {
 });
 
 describe("overwriteMetadata", () => {
-  it("creates an OVERWRITE_METADATA_FIELD", () => {
+  test("creates an OVERWRITE_METADATA_FIELD", () => {
     expect(
       actions.overwriteMetadata("foo", {
         bar: 3
       })
-    ).to.deep.equal({
+    ).toEqual({
       type: constants.OVERWRITE_METADATA_FIELD,
       field: "foo",
       value: { bar: 3 }
@@ -263,8 +259,8 @@ describe("overwriteMetadata", () => {
 });
 
 describe("copyCell", () => {
-  it("creates a COPY_CELL action", () => {
-    expect(actions.copyCell("235")).to.deep.equal({
+  test("creates a COPY_CELL action", () => {
+    expect(actions.copyCell("235")).toEqual({
       type: constants.COPY_CELL,
       id: "235"
     });
@@ -272,8 +268,8 @@ describe("copyCell", () => {
 });
 
 describe("cutCell", () => {
-  it("creates a CUT_CELL action", () => {
-    expect(actions.cutCell("235")).to.deep.equal({
+  test("creates a CUT_CELL action", () => {
+    expect(actions.cutCell("235")).toEqual({
       type: constants.CUT_CELL,
       id: "235"
     });
@@ -281,8 +277,8 @@ describe("cutCell", () => {
 });
 
 describe("changeOutputVisibility", () => {
-  it("creates a CHANGE_OUTPUT_VISIBILITY action", () => {
-    expect(actions.changeOutputVisibility("235")).to.deep.equal({
+  test("creates a CHANGE_OUTPUT_VISIBILITY action", () => {
+    expect(actions.changeOutputVisibility("235")).toEqual({
       type: constants.CHANGE_OUTPUT_VISIBILITY,
       id: "235"
     });
@@ -290,8 +286,8 @@ describe("changeOutputVisibility", () => {
 });
 
 describe("changeInputVisibility", () => {
-  it("creates a CHANGE_INPUT_VISIBILITY action", () => {
-    expect(actions.changeInputVisibility("235")).to.deep.equal({
+  test("creates a CHANGE_INPUT_VISIBILITY action", () => {
+    expect(actions.changeInputVisibility("235")).toEqual({
       type: constants.CHANGE_INPUT_VISIBILITY,
       id: "235"
     });
@@ -299,14 +295,14 @@ describe("changeInputVisibility", () => {
 });
 
 describe("pasteCell", () => {
-  it("creates a PASTE_CELL action", () => {
-    expect(actions.pasteCell()).to.deep.equal({ type: constants.PASTE_CELL });
+  test("creates a PASTE_CELL action", () => {
+    expect(actions.pasteCell()).toEqual({ type: constants.PASTE_CELL });
   });
 });
 
 describe("changeCellType", () => {
-  it("creates a CHANGE_CELL_TYPE action", () => {
-    expect(actions.changeCellType("235", "markdown")).to.deep.equal({
+  test("creates a CHANGE_CELL_TYPE action", () => {
+    expect(actions.changeCellType("235", "markdown")).toEqual({
       type: constants.CHANGE_CELL_TYPE,
       id: "235",
       to: "markdown"
@@ -315,8 +311,8 @@ describe("changeCellType", () => {
 });
 
 describe("setGithubToken", () => {
-  it("creates a SET_GITHUB_TOKEN action", () => {
-    expect(actions.setGithubToken("token_string")).to.deep.equal({
+  test("creates a SET_GITHUB_TOKEN action", () => {
+    expect(actions.setGithubToken("token_string")).toEqual({
       type: constants.SET_GITHUB_TOKEN,
       githubToken: "token_string"
     });
@@ -324,8 +320,8 @@ describe("setGithubToken", () => {
 });
 
 describe("toggleOutputExpansion", () => {
-  it("creates a TOGGLE_OUTPUT_EXPANSION action", () => {
-    expect(actions.toggleOutputExpansion("235")).to.deep.equal({
+  test("creates a TOGGLE_OUTPUT_EXPANSION action", () => {
+    expect(actions.toggleOutputExpansion("235")).toEqual({
       type: constants.TOGGLE_OUTPUT_EXPANSION,
       id: "235"
     });
@@ -333,24 +329,24 @@ describe("toggleOutputExpansion", () => {
 });
 
 describe("save", () => {
-  it("creates a SAVE action", () => {
-    expect(actions.save("foo.ipynb", dummyCommutable)).to.deep.equal({
+  test("creates a SAVE action", () => {
+    expect(actions.save("foo.ipynb", dummyCommutable)).toEqual({
       type: constants.SAVE,
       filename: "foo.ipynb",
       notebook: dummyCommutable
     });
   });
 
-  it("creates a SAVE_AS action", () => {
-    expect(actions.saveAs("foo.ipynb", dummyCommutable)).to.deep.equal({
+  test("creates a SAVE_AS action", () => {
+    expect(actions.saveAs("foo.ipynb", dummyCommutable)).toEqual({
       type: constants.SAVE_AS,
       filename: "foo.ipynb",
       notebook: dummyCommutable
     });
   });
 
-  it("creates a SAVE_AS action", () => {
-    expect(actions.doneSaving(dummyCommutable)).to.deep.equal({
+  test("creates a SAVE_AS action", () => {
+    expect(actions.doneSaving(dummyCommutable)).toEqual({
       type: constants.DONE_SAVING,
       notebook: dummyCommutable
     });

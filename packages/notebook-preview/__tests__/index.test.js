@@ -6,10 +6,7 @@ import { displayOrder, transforms } from "@nteract/transforms";
 
 import NotebookPreview from "./../src";
 
-import {
-  dummyCommutable,
-  dummyJSON
-} from "../../desktop/test/renderer/dummy-nb";
+import { dummyCommutable, dummyJSON } from "../../desktop/__mocks__/dummy-nb";
 
 // In order to get reproducable snapshots we nee to mock the uuid package
 jest.mock("uuid", () => {
