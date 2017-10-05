@@ -29,7 +29,7 @@ const mainConfig = {
     ]
   },
   resolve: {
-    mainFields: ["nteractDesktop", "es2015", "jsnext:main", "main"],
+    mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
     extensions: [".js", ".jsx"]
   },
   plugins: [new webpack.IgnorePlugin(/\.(css|less)$/)]
@@ -87,7 +87,7 @@ const rendererConfig = {
     ]
   },
   resolve: {
-    mainFields: ["nteractDesktop", "es2015", "jsnext:main", "main"],
+    mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
     extensions: [".js", ".jsx"]
   },
   plugins: [
