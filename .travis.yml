@@ -11,6 +11,7 @@ env:
   - GROUP=lint
   - GROUP=flow
   - GROUP=conformance
+  - GROUP=dist
 
 cache:
   directories:

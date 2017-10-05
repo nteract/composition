@@ -37,6 +37,7 @@
     "test:packages":
       "lerna exec --scope enchannel-zmq-backend -- npm rebuild && jest",
     "test:desktop": "lerna run test:unit --scope nteract --stream",
+    "test:dist": "npm run dist:all",
     "precoverage":
       "mkdirp coverage && nyc lerna run test:unit --scope nteract --stream",
     "coverage": "nyc report --reporter=text-lcov > coverage/lcov.info",
