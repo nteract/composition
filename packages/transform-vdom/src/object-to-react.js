@@ -62,8 +62,12 @@ export function objectToReactElement(obj: VDOMEl): React$Element<*> {
   if (!obj.tagName || typeof obj.tagName !== "string") {
     throw new Error(`Invalid tagName on ${JSON.stringify(obj, null, 2)}`);
   }
-  if (!obj.attributes || typeof obj.attributes !== "object") {
-    throw new Error(`Attributes must exist on a VDOM Object`);
+  if (
+    !obj.attributes ||
+    Array.isArray(obj) ||
+    typeof obj.attributes !== "object"
+  ) {
+    throw new Error(`Attributes must exist on a VDOM Object as an object`);
   }
 
   // `React.createElement` 1st argument: type
