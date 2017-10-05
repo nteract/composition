@@ -1,8 +1,15 @@
 {
-  "presets": [
-    "es2015",
-    "react"
-  ],
+  "env": {
+    "test": {
+      "presets": ["es2015", "react"],
+      "plugins": [
+        "transform-class-properties",
+        "transform-flow-strip-types",
+        "transform-object-rest-spread"
+      ]
+    }
+  },
+  "presets": ["es2015", "react"],
   "plugins": [
     "lodash",
     "transform-class-properties",
