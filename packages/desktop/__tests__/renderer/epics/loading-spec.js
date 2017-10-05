@@ -1,8 +1,6 @@
 import { ActionsObservable } from "redux-observable";
 
-import { expect } from "chai";
-
-import { dummyCommutable, dummy } from "../dummy-nb";
+import { dummyCommutable, dummy } from "dummy-nb";
 
 import {
   load,
@@ -22,8 +20,8 @@ import { toArray } from "rxjs/operators";
 const path = require("path");
 
 describe("load", () => {
-  it("loads a notebook", () => {
-    expect(load("mytest.ipynb")).to.deep.equal({
+  test("loads a notebook", () => {
+    expect(load("mytest.ipynb")).toEqual({
       type: LOAD,
       filename: "mytest.ipynb"
     });
@@ -31,8 +29,8 @@ describe("load", () => {
 });
 
 describe("newNotebook", () => {
-  it("creates a new notebook", () => {
-    expect(newNotebook({ spec: "hokey" }, "/tmp")).to.deep.equal({
+  test("creates a new notebook", () => {
+    expect(newNotebook({ spec: "hokey" }, "/tmp")).toEqual({
       type: NEW_NOTEBOOK,
       kernelSpec: { spec: "hokey" },
       cwd: "/tmp"
@@ -41,8 +39,8 @@ describe("newNotebook", () => {
 });
 
 describe("notebookLoaded", () => {
-  it("sets a notebook", () => {
-    expect(notebookLoaded("test", dummyCommutable)).to.deep.equal({
+  test("sets a notebook", () => {
+    expect(notebookLoaded("test", dummyCommutable)).toEqual({
       type: SET_NOTEBOOK,
       filename: "test",
       notebook: dummyCommutable
@@ -51,8 +49,8 @@ describe("notebookLoaded", () => {
 });
 
 describe("extractNewKernel", () => {
-  it("extracts and launches the kernel from a notebook", () => {
-    expect(extractNewKernel("/tmp/test.ipynb", dummyCommutable)).to.deep.equal({
+  test("extracts and launches the kernel from a notebook", () => {
+    expect(extractNewKernel("/tmp/test.ipynb", dummyCommutable)).toEqual({
       kernelSpecName: "python3",
       cwd: path.resolve("/tmp")
     });
@@ -60,24 +58,25 @@ describe("extractNewKernel", () => {
 });
 
 describe("convertRawNotebook", () => {
-  it("converts a raw notebook", () => {
+  test("converts a raw notebook", () => {
     const converted = convertRawNotebook("/tmp/test.ipynb", dummy);
-    expect(converted.filename).to.equal("/tmp/test.ipynb");
+    expect(converted.filename).toBe("/tmp/test.ipynb");
 
     const notebook = converted.notebook;
-    expect(dummyCommutable.get("metadata").equals(notebook.get("metadata"))).to
-      .be.true;
+    expect(
+      dummyCommutable.get("metadata").equals(notebook.get("metadata"))
+    ).toBe(true);
   });
 });
 
 describe("loadingEpic", () => {
-  it("errors without a filename", done => {
+  test("errors without a filename", done => {
     const action$ = ActionsObservable.of({ type: LOAD });
     const responseActions = loadEpic(action$);
     responseActions.subscribe(
       _ => _,
       err => {
-        expect(err.message).to.equal("load needs a filename");
+        expect(err.message).toBe("load needs a filename");
         done();
       },
       () => {
@@ -85,13 +84,13 @@ describe("loadingEpic", () => {
       }
     );
   });
-  it("errors when file cant be read", done => {
+  test("errors when file cant be read", done => {
     const action$ = ActionsObservable.of({ type: LOAD, filename: "file" });
     const responseActions = loadEpic(action$);
     responseActions.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
-        expect(types).to.deep.equal(["ERROR"]);
+        expect(types).toEqual(["ERROR"]);
       },
       () => expect.fail(),
       () => done()
@@ -100,13 +99,13 @@ describe("loadingEpic", () => {
 });
 
 describe("newNotebookEpic", () => {
-  it("calls new Kernel after creating a new notebook", done => {
+  test("calls new Kernel after creating a new notebook", done => {
     const action$ = ActionsObservable.of({ type: NEW_NOTEBOOK });
     const responseActions = newNotebookEpic(action$);
     responseActions.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
-        expect(types).to.deep.equal([SET_NOTEBOOK, "LAUNCH_KERNEL"]);
+        expect(types).toEqual([SET_NOTEBOOK, "LAUNCH_KERNEL"]);
       },
       () => expect.fail(),
       () => done()
