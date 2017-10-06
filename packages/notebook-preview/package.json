@@ -25,9 +25,6 @@
     "commonmark-react-renderer": "^4.3.3",
     "mathjax-electron": "^2.0.1"
   },
-  "devDependencies": {
-    "enzyme-to-json": "^3.0.0"
-  },
   "peerDependencies": {
     "immutable": "^3.8.1",
     "react": "^16.0.0"

@@ -51,7 +51,8 @@
   "jest": {
     "setupFiles": ["raf/polyfill", "./scripts/mockument"],
     "moduleNameMapper": {
-      "uuid": "<rootDir>/packages/commutable/node_modules/uuid/"
+      "uuid": "<rootDir>/packages/commutable/node_modules/uuid/",
+      "\\.css$": "<rootDir>/scripts/noop-module.js"
     },
     "coveragePathIgnorePatterns": ["<rootDir>/scripts", "/node_modules/"]
   },
@@ -81,6 +82,7 @@
     "css-loader": "^0.28.7",
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.0.0",
+    "enzyme-to-json": "^3.0.0",
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "^4.4.1",
     "eslint-config-prettier": "^2.6.0",

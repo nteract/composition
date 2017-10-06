@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App renders app 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <div>
+    <Connect(DragDropContext(Notebook)) />
+    <Component
+      allowHTML={false}
+      noAnimation={false}
+      style={Object {}}
+    />
+  </div>
+</Provider>
+`;

@@ -27,3 +27,6 @@ global.window.document.createRange = function createRange() {
     createContextualFragment
   };
 };
+
+// HACK: To test index.js
+document.querySelector = () => document.createElement("div");

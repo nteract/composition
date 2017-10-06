@@ -44,7 +44,7 @@ initNativeHandlers(store);
 initMenuHandlers(store);
 initGlobalHandlers(store);
 
-class App extends React.PureComponent<Object, Object> {
+export default class App extends React.PureComponent<Object, Object> {
   notificationSystem: NotificationSystem;
 
   componentDidMount(): void {
