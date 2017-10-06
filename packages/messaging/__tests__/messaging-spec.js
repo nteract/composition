@@ -1,5 +1,5 @@
 import { from } from "rxjs/observable/from";
-import { pluck, tap, count, toPromise } from "rxjs/operators";
+import { pluck, tap, count } from "rxjs/operators";
 import { ofMessageType, childOf } from "../src/index";
 
 import { createMessage, getUsername } from "../";
@@ -29,7 +29,8 @@ describe("childOf", () => {
       { parent_header: { msg_id: "300" } },
       { parent_header: { msg_id: "100" } }
     ])
-      .pipe(childOf({ header: { msg_id: "100" } }), count(), toPromise())
+      .pipe(childOf({ header: { msg_id: "100" } }), count())
+      .toPromise()
       .then(val => {
         expect(val).toEqual(3);
       }));
@@ -67,9 +68,9 @@ describe("ofMessageType", () => {
           expect(val.header.msg_type === "a" || val.header.msg_type === "d");
         }),
         pluck("header", "msg_type"),
-        count(),
-        toPromise()
+        count()
       )
+      .toPromise()
       .then(val => {
         expect(val).toEqual(4);
       });

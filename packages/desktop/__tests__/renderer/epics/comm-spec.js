@@ -15,7 +15,7 @@ import {
 } from "../../../src/notebook/constants";
 
 import { of } from "rxjs/observable/of";
-import { toArray, toPromise } from "rxjs/operators";
+import { toArray } from "rxjs/operators";
 
 describe("createCommMessage", () => {
   test("creates a comm_msg", () => {
@@ -75,7 +75,7 @@ describe("createCommErrorAction", () => {
   test("creates a COMM_ERROR action with an error", () => {
     const err = new Error();
     return createCommErrorAction(err)
-      .pipe(toPromise())
+      .toPromise()
       .then(action => {
         expect(action.type).toBe(COMM_ERROR);
         expect(action.payload).toBe(err);

@@ -12,7 +12,6 @@ import {
   skipUntil,
   buffer,
   catchError,
-  toPromise,
   first
 } from "rxjs/operators";
 
@@ -104,7 +103,7 @@ const prepJupyterObservable = prepareEnv.pipe(
 );
 
 const kernelSpecsPromise = prepJupyterObservable
-  .pipe(toPromise())
+  .toPromise()
   .then(() => kernelspecs.findAll())
   .then(specs => initializeKernelSpecs(specs));
 
