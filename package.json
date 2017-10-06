@@ -28,8 +28,7 @@
     "build:icon":
       "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",
-    "test":
-      "lerna run test:unit --scope nteract && npm run test:packages && npm run test:lint",
+    "test": "npm run test:unit && npm run test:lint",
     "test:conformance": "node scripts/conformance.js",
     "test:coverage": "npm run test:unit -- --coverage",
     "test:lint": "npm run lint",
