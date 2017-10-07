@@ -26,10 +26,19 @@ export default class VDOM extends React.Component<Props> {
     } catch (err) {
       return (
         <div>
-          <pre>
+          <pre
+            style={{
+              backgroundColor: "ghostwhite",
+              color: "black",
+              fontWeight: "600",
+              display: "block",
+              padding: "10px",
+              marginBottom: "20px"
+            }}
+          >
             There was an error rendering VDOM data from the kernel or notebook
           </pre>
-          <code>{JSON.stringify(err, null, 2)}</code>
+          <code>{err.toString()}</code>
         </div>
       );
     }

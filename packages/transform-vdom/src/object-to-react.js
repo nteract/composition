@@ -7,7 +7,7 @@
  * This version is heavily modified to:
  *
  *   * Match the application/vdom.v1+json spec
- *   * Not mutate the data
+ *   * Not mutate data
  *
  * MIT License
  *
@@ -64,10 +64,23 @@ export function objectToReactElement(obj: VDOMEl): React$Element<*> {
   }
   if (
     !obj.attributes ||
-    Array.isArray(obj) ||
+    Array.isArray(obj.attributes) ||
     typeof obj.attributes !== "object"
   ) {
     throw new Error(`Attributes must exist on a VDOM Object as an object`);
+  }
+
+  // style must be an object (non-array)
+  if (obj.attributes.style === null || obj.attributes.style === undefined) {
+    // no worries here, style can be null or undefined, note that we don't want
+    // the falsy values to sneak through (NaN, "", 0, false)
+  } else if (
+    Array.isArray(obj.attributes.style) ||
+    typeof obj.attributes.style !== "object"
+  ) {
+    throw new Error(
+      `Style attribute must be an object like { 'backgroundColor': 'DeepPink' }`
+    );
   }
 
   // `React.createElement` 1st argument: type
@@ -88,7 +101,9 @@ export function objectToReactElement(obj: VDOMEl): React$Element<*> {
     } else if (typeof children === "object") {
       args[2] = objectToReactElement(children);
     } else {
-      console.warn("invalid vdom data passed", children);
+      throw new Error(
+        "children of a vdom element must be a string, object, null, or array of vdom nodes"
+      );
     }
   }
 
@@ -129,7 +144,7 @@ export function arrayToReactChildren(arr: Array<VDOMNode>): ReactArray {
       }
       result.push(objectToReactElement(keyedItem));
     } else {
-      console.warn("invalid vdom data passed", item);
+      throw new Error(`invalid vdom child: "${item}"`);
     }
   }
 
