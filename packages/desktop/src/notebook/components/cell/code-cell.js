@@ -78,7 +78,7 @@ class CodeCell extends React.PureComponent<Props> {
                 className="pager"
                 displayOrder={this.props.displayOrder}
                 transforms={this.props.transforms}
-                bundle={pager.get("data")}
+                bundle={pager}
                 theme={this.props.theme}
                 key={key}
               />

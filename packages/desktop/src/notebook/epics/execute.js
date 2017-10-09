@@ -97,7 +97,7 @@ export function createExecuteRequest(code: string) {
 export function createPagerActions(id: string, payloadStream: Observable<*>) {
   return payloadStream.pipe(
     filter(p => p.source === "page"),
-    scan((acc, pd) => acc.push(Immutable.fromJS(pd)), new Immutable.List()),
+    scan((acc, pd) => acc.push(pd.data), new Immutable.List()),
     map(pagerDatas => updateCellPagers(id, pagerDatas))
   );
 }
