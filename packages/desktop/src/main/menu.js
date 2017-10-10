@@ -478,6 +478,14 @@ const helpDraft = {
       }
     },
     {
+      label: `Release Notes (${app.getVersion()})`,
+      click: () => {
+        shell.openExternal(
+          `https://github.com/nteract/nteract/releases/tag/v${app.getVersion()}`
+        );
+      }
+    },
+    {
       label: "Install Additional Kernels",
       click: () => {
         shell.openExternal(
