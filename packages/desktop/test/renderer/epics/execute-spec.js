@@ -125,9 +125,7 @@ describe("createPagerActions", () => {
     const pagerAction$ = createPagerActions("1", msgObs);
 
     pagerAction$.subscribe(action => {
-      const expected = [
-        { source: "page", data: { "text/html": "this is a test" } }
-      ];
+      const expected = [{ "text/html": "this is a test" }];
       expect(action.id).to.equal("1");
       expect(action.pagers.toJS()).to.deep.equal(expected);
       done();

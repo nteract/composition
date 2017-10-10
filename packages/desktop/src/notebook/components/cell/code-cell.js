@@ -3,12 +3,10 @@ import React from "react";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import Inputs from "./inputs";
-import { Display } from "@nteract/display-area";
+import { Display, RichestMime } from "@nteract/display-area";
 
 import Editor from "../../providers/editor";
 import LatexRenderer from "../latex";
-
-import Pager from "./pager";
 
 type Props = {
   cell: ImmutableMap<string, any>,
@@ -73,7 +71,7 @@ class CodeCell extends React.PureComponent<Props> {
         {this.props.pagers && !this.props.pagers.isEmpty() ? (
           <div className="pagers">
             {this.props.pagers.map((pager, key) => (
-              <Pager
+              <RichestMime
                 expanded
                 className="pager"
                 displayOrder={this.props.displayOrder}
