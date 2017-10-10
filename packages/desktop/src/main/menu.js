@@ -472,6 +472,10 @@ const helpDraft = {
   role: "help",
   submenu: [
     {
+      label: "About nteract",
+      role: "about"
+    },
+    {
       label: "Learn More",
       click: () => {
         shell.openExternal("http://github.com/nteract/nteract");
