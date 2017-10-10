@@ -212,17 +212,7 @@ export function dispatchKillKernel(store) {
 }
 
 export function dispatchInterruptKernel(store) {
-  const state = store.getState();
-  const notificationSystem = state.app.get("notificationSystem");
-  if (process.platform === "win32") {
-    notificationSystem.addNotification({
-      title: "Not supported in Windows",
-      message: "Kernel interruption is currently not supported in Windows.",
-      level: "error"
-    });
-  } else {
-    store.dispatch(interruptKernel);
-  }
+  store.dispatch(interruptKernel);
 }
 
 export function dispatchRestartClearAll(store) {
@@ -289,8 +279,8 @@ export function dispatchNewNotebook(store, event, kernelSpec) {
 /**
  * Print the current notebook to PDF.
  * It will expand all cell outputs before printing and restore cells it expanded when complete.
- * 
- * @param {object} store - The Redux store 
+ *
+ * @param {object} store - The Redux store
  * @param {string} filename - filename of PDF to be saved.
  * @param {any} notificationSystem - reference to global notification system
  */
