@@ -11,6 +11,7 @@ import {
   changeOutputVisibility,
   changeInputVisibility,
   changeCellType,
+  updateCellTags,
   toggleOutputExpansion
 } from "../actions";
 
@@ -29,6 +30,7 @@ class Toolbar extends Component<Props> {
   changeInputVisibility: () => void;
   changeOutputVisibility: () => void;
   changeCellType: () => void;
+  updateCellTags: () => void;
   toggleOutputExpansion: () => void;
 
   constructor(props: Props): void {
@@ -40,6 +42,7 @@ class Toolbar extends Component<Props> {
     this.changeInputVisibility = this.changeInputVisibility.bind(this);
     this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
     this.changeCellType = this.changeCellType.bind(this);
+    this.updateCellTags = this.updateCellTags.bind(this);
     this.toggleOutputExpansion = this.toggleOutputExpansion.bind(this);
   }
 
@@ -79,6 +82,12 @@ class Toolbar extends Component<Props> {
     dispatch(changeCellType(this.props.id, to));
   }
 
+  updateCellTags(tags): void {
+    const { dispatch } = this.props;
+    const to = tags;
+    dispatch(updateCellTags(this.props.id, to));
+  }
+
   toggleOutputExpansion(): void {
     const { dispatch } = this.props;
     dispatch(toggleOutputExpansion(this.props.id));
@@ -93,8 +102,9 @@ class Toolbar extends Component<Props> {
       clearOutputs: this.clearOutputs,
       changeInputVisibility: this.changeInputVisibility,
       changeOutputVisibility: this.changeOutputVisibility,
-      toggleOutputExpansion: this.toggleOutputExpansion,
-      changeCellType: this.changeCellType
+      changeCellType: this.changeCellType,
+      updateCellTags: this.updateCellTags,
+      toggleOutputExpansion: this.toggleOutputExpansion
     };
 
     // $FlowFixMe: React

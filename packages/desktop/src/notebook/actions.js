@@ -259,6 +259,14 @@ export function changeCellType(id: CellID, to: CellType) {
   };
 }
 
+export function updateCellTags(id: CellID, tags: any) {
+  return {
+    type: constants.UPDATE_CELL_TAGS,
+    id,
+    tags
+  };
+}
+
 export function setGithubToken(githubToken: string) {
   return {
     type: constants.SET_GITHUB_TOKEN,

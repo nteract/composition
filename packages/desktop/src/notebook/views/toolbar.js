@@ -12,6 +12,8 @@ import Dropdown, {
   DropdownContent
 } from "react-simple-dropdown";
 
+import TagsInput from "react-tagsinput";
+
 declare type ToolbarProps = {|
   cell: any,
   id: string,
@@ -23,7 +25,8 @@ declare type ToolbarProps = {|
   changeInputVisibility: () => void,
   changeOutputVisibility: () => void,
   toggleOutputExpansion: () => void,
-  changeCellType: () => void
+  changeCellType: () => void,
+  updateCellTags: (tags: Array<string>) => void
 |};
 
 export default class Toolbar extends PureComponent<ToolbarProps> {
@@ -31,6 +34,7 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
   changeInputVisibility: () => void;
   changeOutputVisibility: () => void;
   changeCellType: () => void;
+  updateCellTags: (tags: Array<string>) => void;
   toggleOutputExpansion: () => void;
   renderToolbar: ToolbarProps => React$Element<any>;
   dropdown: any;
@@ -42,6 +46,7 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
     this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
     this.toggleOutputExpansion = this.toggleOutputExpansion.bind(this);
     this.changeCellType = this.changeCellType.bind(this);
+    this.updateCellTags = this.updateCellTags.bind(this);
   }
 
   renderToolbar({
@@ -149,6 +154,11 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
             </DropdownContent>
           </Dropdown>
         </div>
+        <TagsInput
+          value={this.getCellTags()}
+          onlyUnique
+          onChange={this.updateCellTags}
+        />
       </div>
     );
   }
@@ -177,6 +187,18 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
     this.dropdown.hide();
     this.props.changeCellType();
   }
+
+  updateCellTags(tags: Array<string>): void {
+    this.props.updateCellTags(tags);
+  }
+
+  getCellTags(): Array<string> {
+    if (this.props.cell) {
+      return this.props.cell.getIn(["metadata", "tags"], []);
+    }
+    return [];
+  }
+
   render(): React$Element<any> {
     return this.renderToolbar(this.props);
   }
