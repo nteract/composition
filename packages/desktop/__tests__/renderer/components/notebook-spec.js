@@ -169,5 +169,39 @@ describe("Notebook", () => {
         createCellIfUndefined: true
       });
     });
+    test("handles a focus to next cell keypress on a sticky cell", () => {
+      const focusedCell = dummyCommutable.getIn(["cellOrder", 1]);
+
+      const context = { store: dummyStore() };
+
+      context.store.dispatch = jest.fn();
+
+      const component = shallow(
+        <Notebook
+          notebook={dummyCommutable}
+          transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
+          cellPagers={new Immutable.Map()}
+          cellStatuses={dummyCellStatuses}
+          stickyCells={new Immutable.Set([focusedCell])}
+          CellComponent={Cell}
+          cellFocused={focusedCell}
+        />,
+        { context }
+      );
+
+      const inst = component.instance();
+
+      const evt = new window.CustomEvent("keydown");
+      evt.shiftKey = true;
+      evt.keyCode = 13;
+
+      inst.keyDown(evt);
+
+      expect(context.store.dispatch).not.toHaveBeenCalledWith({
+        type: "FOCUS_NEXT_CELL",
+        id: focusedCell,
+        createCellIfUndefined: true
+      });
+    });
   });
 });
