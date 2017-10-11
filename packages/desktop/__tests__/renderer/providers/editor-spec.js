@@ -27,8 +27,8 @@ describe("EditorProvider", () => {
     new Promise(resolve => {
       const dispatch = action => {
         expect(action.id).toBe("test");
-        expect(action.source).toBe("i love nteract");
-        expect(action.type).toBe(UPDATE_CELL_SOURCE);
+        expect(action.value).toBe("i love nteract");
+        expect(action.type).toBe("SET_IN_CELL");
         resolve();
       };
       store.dispatch = dispatch;

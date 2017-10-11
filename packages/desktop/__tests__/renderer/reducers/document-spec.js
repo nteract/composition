@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable max-len */
 import { List, Map, Set, is } from "immutable";
 
@@ -395,9 +396,10 @@ describe("updateExecutionCount", () => {
     const id = originalState.document.getIn(["notebook", "cellOrder"]).last();
 
     const action = {
-      type: constants.UPDATE_CELL_EXECUTION_COUNT,
+      type: "SET_IN_CELL",
       id,
-      count: 42
+      path: ["execution_count"],
+      value: 42
     };
 
     const state = reducers(originalState, action);
@@ -639,9 +641,10 @@ describe("updateSource", () => {
     const id = originalState.document.getIn(["notebook", "cellOrder"]).first();
 
     const action = {
-      type: constants.UPDATE_CELL_SOURCE,
+      type: "SET_IN_CELL",
       id,
-      source: "This is a test"
+      path: ["source"],
+      value: "This is a test"
     };
 
     const state = reducers(originalState, action);

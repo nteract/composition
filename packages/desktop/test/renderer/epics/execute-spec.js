@@ -198,7 +198,7 @@ describe("updateCellNumberingAction", () => {
 
     cellAction$.subscribe(action => {
       expect(action.id).to.equal("1");
-      expect(action.count).to.equal(3);
+      expect(action.value).to.equal(3);
       done();
     });
   });
@@ -217,7 +217,7 @@ describe("createSourceUpdateAction", () => {
     const cellAction$ = createSourceUpdateAction("1", msgObs);
 
     cellAction$.subscribe(action => {
-      expect(action.source).to.equal("This is some test text.");
+      expect(action.value).to.equal("This is some test text.");
       done();
     });
   });

@@ -1,3 +1,4 @@
+// @flow
 import * as actions from "../../src/notebook/actions";
 import * as constants from "../../src/notebook/constants";
 
@@ -47,9 +48,10 @@ describe("setNotebookKernelInfo", () => {
 describe("updateCellSource", () => {
   test("creates a UPDATE_CELL_SOURCE action", () => {
     expect(actions.updateCellSource("1234", "# test")).toEqual({
-      type: constants.UPDATE_CELL_SOURCE,
+      type: "SET_IN_CELL",
       id: "1234",
-      source: "# test"
+      path: ["source"],
+      value: "# test"
     });
   });
 });
@@ -66,9 +68,10 @@ describe("clearOutputs", () => {
 describe("updateCellExecutionCount", () => {
   test("creates a UPDATE_CELL_EXECUTION_COUNT action", () => {
     expect(actions.updateCellExecutionCount("1234", 3)).toEqual({
-      type: constants.UPDATE_CELL_EXECUTION_COUNT,
+      type: "SET_IN_CELL",
       id: "1234",
-      count: 3
+      path: ["execution_count"],
+      value: 3
     });
   });
 });
