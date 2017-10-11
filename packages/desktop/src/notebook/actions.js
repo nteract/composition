@@ -43,14 +43,6 @@ export function setExecutionState(executionState: string) {
   };
 }
 
-export function updateCellSource(id: string, source: string) {
-  return {
-    type: constants.UPDATE_CELL_SOURCE,
-    id,
-    source
-  };
-}
-
 export function clearOutputs(id: string) {
   return {
     type: constants.CLEAR_OUTPUTS,
@@ -110,6 +102,27 @@ export function mergeCellAfter(id: string) {
   };
 }
 
+/**
+ * setInCell can generically be used to set any attribute on a cell, including
+ * and especially for changing metadata per cell.
+ * @param {CellID} id    cell ID
+ * @param {Array<string>} path  path within a cell to set
+ * @param {any} value what to set it to
+ *
+ * Example:
+ *
+ * > action = setInCell('123', ['metadata', 'cool'], true)
+ * > documentReducer(state, action)
+ * {
+ *   ...
+ *   '123': {
+ *     'metadata': {
+ *       'cool': true
+ *     }
+ *   }
+ * }
+ *
+ */
 export function setInCell(id: CellID, path: Array<string>, value: any) {
   return {
     type: "SET_IN_CELL",
@@ -117,6 +130,10 @@ export function setInCell(id: CellID, path: Array<string>, value: any) {
     path,
     value
   };
+}
+
+export function updateCellSource(id: string, source: string) {
+  return setInCell(id, ["source"], source);
 }
 
 export function updateCellExecutionCount(id: string, count: number) {

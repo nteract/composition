@@ -461,10 +461,6 @@ function updateCellPagers(
   return state.setIn(["cellPagers", id], pagers);
 }
 
-////////////////////////////////////////////////////////////////////////
-/////// reducers destined to be merged into one SET_IN_CELL_DATA ///////
-////////////////////////////////////////////////////////////////////////
-
 type SetInCellAction = {
   type: "SET_IN_CELL",
   id: CellID,
@@ -478,31 +474,7 @@ function setInCell(state: DocumentState, action: SetInCellAction) {
   );
 }
 
-type UpdateExecutionCountAction = {
-  type: "UPDATE_CELL_EXECUTION_COUNT",
-  id: CellID,
-  count: number
-};
-function updateExecutionCount(
-  state: DocumentState,
-  action: UpdateExecutionCountAction
-) {
-  return state.setIn(
-    ["notebook", "cellMap", action.id, "execution_count"],
-    action.count
-  );
-}
-
-type UpdateSourceAction = {
-  type: "UPDATE_CELL_SOURCE",
-  id: CellID,
-  source: string
-};
-function updateSource(state: DocumentState, action: UpdateSourceAction) {
-  const { id, source } = action;
-  return state.setIn(["notebook", "cellMap", id, "source"], source);
-}
-
+// TODO: This should be called TOGGLE_OUTPUT_VISIBILITY
 type ChangeOutputVisibilityAction = {
   type: "CHANGE_OUTPUT_VISIBILITY",
   id: CellID
@@ -518,6 +490,7 @@ function changeOutputVisibility(
   );
 }
 
+// TODO: This should be called TOGGLE_INPUT_VISIBILITY
 type ChangeInputVisibilityAction = {
   type: "CHANGE_INPUT_VISIBILITY",
   id: CellID
@@ -545,8 +518,6 @@ function updateCellStatus(
   const { id, status } = action;
   return state.setIn(["transient", "cellMap", id, "status"], status);
 }
-
-///// END CELL SET
 
 type SetLanguageInfoAction = {
   type: "SET_LANGUAGE_INFO",
@@ -699,14 +670,12 @@ type DocumentAction =
   | ClearOutputsAction
   | AppendOutputAction
   | UpdateDisplayAction
-  | UpdateExecutionCountAction
   | MoveCellAction
   | RemoveCellAction
   | NewCellAfterAction
   | NewCellBeforeAction
   | NewCellAppendAction
   | MergeCellAfterAction
-  | UpdateSourceAction
   | ChangeOutputVisibilityAction
   | ChangeInputVisibilityAction
   | UpdateCellPagersAction
@@ -754,8 +723,6 @@ function handleDocument(
       return toggleStickyCell(state, action);
     case "SET_IN_CELL":
       return setInCell(state, action);
-    case constants.UPDATE_CELL_EXECUTION_COUNT:
-      return updateExecutionCount(state, action);
     case constants.MOVE_CELL:
       return moveCell(state, action);
     case constants.REMOVE_CELL:
@@ -768,8 +735,6 @@ function handleDocument(
       return mergeCellAfter(state, action);
     case constants.NEW_CELL_APPEND:
       return newCellAppend(state, action);
-    case constants.UPDATE_CELL_SOURCE:
-      return updateSource(state, action);
     case constants.CHANGE_OUTPUT_VISIBILITY:
       return changeOutputVisibility(state, action);
     case constants.CHANGE_INPUT_VISIBILITY:
