@@ -411,7 +411,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  pointer-events: none;
 }
 
 .cell-creator {
@@ -445,6 +444,14 @@ body {
 
 .cell-creator button span:hover {
   color: var(--toolbar-button-hover);
+}
+
+.cell-creator {
+  display: none;
+}
+
+.creator-hover-region:hover > .cell-creator {
+  display: block;
 }
 
 .cell code {

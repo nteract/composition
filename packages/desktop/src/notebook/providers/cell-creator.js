@@ -46,13 +46,13 @@ class CellCreator extends Component<Props> {
   }
 
   render(): React$Element<any> {
-    const props = {
-      ...this.props,
-      createCell: this.createCell,
-      mergeCell: this.mergeCell
-    };
-
-    return <CellCreatorView {...props} />;
+    return (
+      <CellCreatorView
+        above={this.props.above}
+        createCell={this.createCell}
+        mergeCell={this.mergeCell}
+      />
+    );
   }
 }
 

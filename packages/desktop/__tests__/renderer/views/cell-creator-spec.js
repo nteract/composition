@@ -26,11 +26,6 @@ describe("CellCreatorView", () => {
     const buttons = component.find(".cell-creator");
     expect(buttons).toHaveLength(1);
   });
-  test("does not create cell creator buttons if not hovered", () => {
-    const component = setup("test");
-    const buttons = component.find(".cell-creator");
-    expect(buttons).not.toHaveLength(1);
-  });
   test("has create text cell button", () => {
     const component = setup(null);
     expect(component.find(".add-text-cell").length).toBeGreaterThan(0);
