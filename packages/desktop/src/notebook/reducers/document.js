@@ -721,7 +721,7 @@ function handleDocument(
       return focusPreviousCellEditor(state, action);
     case constants.TOGGLE_STICKY_CELL:
       return toggleStickyCell(state, action);
-    case "SET_IN_CELL":
+    case constants.SET_IN_CELL:
       return setInCell(state, action);
     case constants.MOVE_CELL:
       return moveCell(state, action);

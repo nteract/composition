@@ -19,6 +19,8 @@ export const INTERRUPT_KERNEL = "INTERRUPT_KERNEL";
 
 export const EXIT = "EXIT";
 
+export const SET_IN_CELL = "SET_IN_CELL";
+
 export const SET_NOTEBOOK = "SET_NOTEBOOK";
 
 export const MOVE_CELL = "MOVE_CELL";

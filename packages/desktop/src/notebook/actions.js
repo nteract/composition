@@ -125,7 +125,7 @@ export function mergeCellAfter(id: string) {
  */
 export function setInCell(id: CellID, path: Array<string>, value: any) {
   return {
-    type: "SET_IN_CELL",
+    type: constants.SET_IN_CELL,
     id,
     path,
     value
