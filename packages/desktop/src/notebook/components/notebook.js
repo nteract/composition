@@ -144,7 +144,7 @@ export class Notebook extends React.PureComponent<Props> {
     const id = this.props.cellFocused;
     const cell = cellMap.get(id);
 
-    if (e.shiftKey) {
+    if (e.shiftKey && !this.props.stickyCells.has(id)) {
       this.context.store.dispatch(focusNextCell(this.props.cellFocused, true));
       this.context.store.dispatch(focusNextCellEditor(id));
     }
