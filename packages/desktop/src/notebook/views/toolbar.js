@@ -13,8 +13,6 @@ import Dropdown, {
 } from "react-simple-dropdown";
 
 declare type ToolbarProps = {|
-  cell: any,
-  id: string,
   type: string,
   executeCell: () => void,
   removeCell: () => void,
@@ -32,11 +30,9 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
   changeOutputVisibility: () => void;
   changeCellType: () => void;
   toggleOutputExpansion: () => void;
-  renderToolbar: ToolbarProps => React$Element<any>;
   dropdown: any;
   constructor(props: ToolbarProps) {
     super(props);
-    this.renderToolbar = this.renderToolbar.bind(this);
     this.clearOutputs = this.clearOutputs.bind(this);
     this.changeInputVisibility = this.changeInputVisibility.bind(this);
     this.changeOutputVisibility = this.changeOutputVisibility.bind(this);
@@ -44,12 +40,33 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
     this.changeCellType = this.changeCellType.bind(this);
   }
 
-  renderToolbar({
-    type,
-    executeCell,
-    removeCell,
-    toggleStickyCell
-  }: ToolbarProps) {
+  clearOutputs(): void {
+    this.dropdown.hide();
+    this.props.clearOutputs();
+  }
+
+  changeOutputVisibility(): void {
+    this.dropdown.hide();
+    this.props.changeOutputVisibility();
+  }
+
+  changeInputVisibility(): void {
+    this.dropdown.hide();
+    this.props.changeInputVisibility();
+  }
+
+  toggleOutputExpansion(): void {
+    this.dropdown.hide();
+    this.props.toggleOutputExpansion();
+  }
+
+  changeCellType(): void {
+    this.dropdown.hide();
+    this.props.changeCellType();
+  }
+  render(): React$Element<any> {
+    const { type, executeCell, removeCell, toggleStickyCell } = this.props;
+
     return (
       <div className="cell-toolbar-mask">
         <div className="cell-toolbar">
@@ -151,33 +168,5 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
         </div>
       </div>
     );
-  }
-
-  clearOutputs(): void {
-    this.dropdown.hide();
-    this.props.clearOutputs();
-  }
-
-  changeOutputVisibility(): void {
-    this.dropdown.hide();
-    this.props.changeOutputVisibility();
-  }
-
-  changeInputVisibility(): void {
-    this.dropdown.hide();
-    this.props.changeInputVisibility();
-  }
-
-  toggleOutputExpansion(): void {
-    this.dropdown.hide();
-    this.props.toggleOutputExpansion();
-  }
-
-  changeCellType(): void {
-    this.dropdown.hide();
-    this.props.changeCellType();
-  }
-  render(): React$Element<any> {
-    return this.renderToolbar(this.props);
   }
 }

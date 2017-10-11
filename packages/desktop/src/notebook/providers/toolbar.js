@@ -85,20 +85,19 @@ class Toolbar extends Component<Props> {
   }
 
   render(): ?React$Element<any> {
-    const props = {
-      ...this.props,
-      executeCell: this.executeCell,
-      removeCell: this.removeCell,
-      toggleStickyCell: this.toggleStickyCell,
-      clearOutputs: this.clearOutputs,
-      changeInputVisibility: this.changeInputVisibility,
-      changeOutputVisibility: this.changeOutputVisibility,
-      toggleOutputExpansion: this.toggleOutputExpansion,
-      changeCellType: this.changeCellType
-    };
-
-    // $FlowFixMe: React
-    return <ToolbarView {...props} />;
+    return (
+      <ToolbarView
+        type={this.props.type}
+        executeCell={this.executeCell}
+        removeCell={this.removeCell}
+        toggleStickyCell={this.toggleStickyCell}
+        clearOutputs={this.clearOutputs}
+        changeInputVisibility={this.changeInputVisibility}
+        changeOutputVisibility={this.changeOutputVisibility}
+        toggleOutputExpansion={this.toggleOutputExpansion}
+        changeCellType={this.changeCellType}
+      />
+    );
   }
 }
 
