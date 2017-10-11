@@ -163,6 +163,8 @@ function appendOutput(state: DocumentState, action: AppendOutputAction) {
   const output = action.output;
   const cellID = action.id;
 
+  // If it's display data and it doesn't have a display id, fold it in like non
+  // display data
   if (
     output.output_type !== "display_data" ||
     !(output && output.transient && output.transient.display_id)
@@ -343,21 +345,6 @@ function toggleStickyCell(
   return state.set("stickyCells", stickyCells.add(id));
 }
 
-type UpdateExecutionCountAction = {
-  type: "UPDATE_CELL_EXECUTION_COUNT",
-  id: CellID,
-  count: number
-};
-function updateExecutionCount(
-  state: DocumentState,
-  action: UpdateExecutionCountAction
-) {
-  return state.setIn(
-    ["notebook", "cellMap", action.id, "execution_count"],
-    action.count
-  );
-}
-
 type MoveCellAction = { type: "MOVE_CELL", id: CellID, destinationId: CellID };
 function moveCell(state: DocumentState, action: MoveCellAction) {
   return state.updateIn(
@@ -461,6 +448,51 @@ function newCellAppend(state: DocumentState, action: NewCellAppendAction) {
   return state.set("notebook", insertCellAt(notebook, cell, cellID, index));
 }
 
+type UpdateCellPagersAction = {
+  type: "UPDATE_CELL_PAGERS",
+  id: CellID,
+  pagers: Immutable.Map<string, Pager>
+};
+function updateCellPagers(
+  state: DocumentState,
+  action: UpdateCellPagersAction
+) {
+  const { id, pagers } = action;
+  return state.setIn(["cellPagers", id], pagers);
+}
+
+////////////////////////////////////////////////////////////////////////
+/////// reducers destined to be merged into one SET_IN_CELL_DATA ///////
+////////////////////////////////////////////////////////////////////////
+
+type SetInCellAction = {
+  type: "SET_IN_CELL",
+  id: CellID,
+  path: Array<string>,
+  value: any
+};
+function setInCell(state: DocumentState, action: SetInCellAction) {
+  return state.setIn(
+    ["notebook", "cellMap", action.id].concat(action.path),
+    action.value
+  );
+}
+
+type UpdateExecutionCountAction = {
+  type: "UPDATE_CELL_EXECUTION_COUNT",
+  id: CellID,
+  count: number
+};
+function updateExecutionCount(
+  state: DocumentState,
+  action: UpdateExecutionCountAction
+) {
+  return state.setIn(
+    ["notebook", "cellMap", action.id, "execution_count"],
+    action.count
+  );
+}
+
 type UpdateSourceAction = {
   type: "UPDATE_CELL_SOURCE",
   id: CellID,
@@ -501,19 +533,6 @@ function changeInputVisibility(
   );
 }
 
-type UpdateCellPagersAction = {
-  type: "UPDATE_CELL_PAGERS",
-  id: CellID,
-  pagers: Immutable.Map<string, Pager>
-};
-function updateCellPagers(
-  state: DocumentState,
-  action: UpdateCellPagersAction
-) {
-  const { id, pagers } = action;
-  return state.setIn(["cellPagers", id], pagers);
-}
-
 type UpdateCellStatusAction = {
   type: "UPDATE_CELL_STATUS",
   id: CellID,
@@ -526,6 +545,8 @@ function updateCellStatus(
   const { id, status } = action;
   return state.setIn(["transient", "cellMap", id, "status"], status);
 }
+
+///// END CELL SET
 
 type SetLanguageInfoAction = {
   type: "SET_LANGUAGE_INFO",
@@ -731,6 +752,8 @@ function handleDocument(
       return focusPreviousCellEditor(state, action);
     case constants.TOGGLE_STICKY_CELL:
       return toggleStickyCell(state, action);
+    case "SET_IN_CELL":
+      return setInCell(state, action);
     case constants.UPDATE_CELL_EXECUTION_COUNT:
       return updateExecutionCount(state, action);
     case constants.MOVE_CELL:

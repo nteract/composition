@@ -110,12 +110,17 @@ export function mergeCellAfter(id: string) {
   };
 }
 
-export function updateCellExecutionCount(id: string, count: number) {
+export function setInCell(id: CellID, path: Array<string>, value: any) {
   return {
-    type: constants.UPDATE_CELL_EXECUTION_COUNT,
+    type: "SET_IN_CELL",
     id,
-    count
+    path,
+    value
   };
+}
+
+export function updateCellExecutionCount(id: string, count: number) {
+  return setInCell(id, ["execution_count"], count);
 }
 
 export function changeOutputVisibility(id: string) {
