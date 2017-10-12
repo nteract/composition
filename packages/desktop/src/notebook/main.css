@@ -249,7 +249,6 @@ body {
 .cell a:visited {
   color: var(--link-color-visited);
 }
-
 .cell:hover {
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
 }
@@ -458,6 +457,14 @@ body {
   font-family: "Source Code Pro";
   white-space: pre-wrap;
   font-size: 14px;
+}
+
+.cell > .cell-toolbar {
+  display: none;
+}
+
+.cell:hover > .cell-toolbar {
+  display: block;
 }
 
 /*
