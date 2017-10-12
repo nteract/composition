@@ -36,16 +36,11 @@ export type CellProps = {
   models: ImmutableMap<string, any>
 };
 
-type State = {
-  hoverCell: boolean
-};
-
 export class Cell extends React.PureComponent<CellProps, State> {
   selectCell: () => void;
   focusAboveCell: () => void;
   focusBelowCell: () => void;
   focusCellEditor: () => void;
-  setCellHoverState: (mouseEvent: MouseEvent) => void;
   cellDiv: ?HTMLElement;
   scrollIntoViewIfNeeded: Function;
 
@@ -59,30 +54,25 @@ export class Cell extends React.PureComponent<CellProps, State> {
     this.focusCellEditor = this.focusCellEditor.bind(this);
     this.focusAboveCell = this.focusAboveCell.bind(this);
     this.focusBelowCell = this.focusBelowCell.bind(this);
-    this.setCellHoverState = this.setCellHoverState.bind(this);
     this.scrollIntoViewIfNeeded = this.scrollIntoViewIfNeeded.bind(this);
   }
-
-  state = {
-    hoverCell: false
-  };
 
   componentDidUpdate(prevProps: CellProps) {
     this.scrollIntoViewIfNeeded(prevProps.cellFocused);
   }
 
   componentDidMount(): void {
-    // Listen to the page level mouse move event and manually check for
-    // intersection because we don't want the hover region to actually capture
-    // any mouse events.  The hover region is an invisible element that
-    // describes the "hot region" that toggles the creator buttons.
-    document.addEventListener("mousemove", this.setCellHoverState, false);
-
     this.scrollIntoViewIfNeeded();
   }
 
   scrollIntoViewIfNeeded(prevCellFocused?: string): void {
     // If the previous cell that was focused was not us, we go ahead and scroll
+
+    // Check if the .cell div is being hovered over.
+    const hoverCell =
+      this.cellDiv &&
+      this.cellDiv.parentElement &&
+      this.cellDiv.parentElement.querySelector(":hover") === this.cellDiv;
 
     if (
       this.props.cellFocused &&
@@ -90,7 +80,7 @@ export class Cell extends React.PureComponent<CellProps, State> {
       prevCellFocused !== this.props.cellFocused &&
       // Don't scroll into view if already hovered over, this prevents
       // accidentally selecting text within the codemirror area
-      !this.state.hoverCell
+      !hoverCell
     ) {
       if (this.cellDiv && "scrollIntoViewIfNeeded" in this.cellDiv) {
         // $FlowFixMe: This is only valid in Chrome, WebKit
@@ -98,25 +88,6 @@ export class Cell extends React.PureComponent<CellProps, State> {
       } else {
         // TODO: Polyfill as best we can for the webapp version
       }
-    }
-  }
-
-  componentWillUnmount(): void {
-    document.removeEventListener("mousemove", this.setCellHoverState);
-  }
-
-  setCellHoverState(mouseEvent: MouseEvent): void {
-    if (!this.cellDiv) return;
-    const x = mouseEvent.clientX;
-    const y = mouseEvent.clientY;
-    const regionRect = this.cellDiv.getBoundingClientRect();
-    const hoverCell =
-      regionRect.left < x &&
-      x < regionRect.right &&
-      (regionRect.top < y && y < regionRect.bottom);
-
-    if (this.state.hoverCell !== hoverCell) {
-      this.setState({ hoverCell });
     }
   }
 
@@ -142,7 +113,6 @@ export class Cell extends React.PureComponent<CellProps, State> {
     const cell = this.props.cell;
     const type = cell.get("cell_type");
     const cellFocused = this.props.cellFocused === this.props.id;
-    const hoverCell = this.state.hoverCell;
     const editorFocused = this.props.editorFocused === this.props.id;
     return (
       <div
@@ -155,9 +125,7 @@ export class Cell extends React.PureComponent<CellProps, State> {
           this.cellDiv = el;
         }}
       >
-        {cellFocused || hoverCell ? (
-          <Toolbar type={type} cell={cell} id={this.props.id} />
-        ) : null}
+        <Toolbar type={type} cell={cell} id={this.props.id} />
         {type === "markdown" ? (
           <MarkdownCell
             focusAbove={this.focusAboveCell}

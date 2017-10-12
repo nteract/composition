@@ -268,6 +268,13 @@ body {
   background-color: var(--cell-bg-focus);
 }
 
+/* Show the cell toolbar if hovering on cell,
+   or cell was the last clicked (has .focused class). */
+.cell:hover .cell-toolbar,
+.cell.focused .cell-toolbar {
+  display: block;
+}
+
 .cell-toolbar-mask {
   position: absolute;
   top: 0px;
@@ -286,6 +293,7 @@ body {
 }
 
 .cell-toolbar {
+  display: none;
   background-color: var(--toolbar-bg);
   opacity: 0.4;
   transition: opacity 0.4s;
