@@ -37,8 +37,8 @@ const mdRender: MDRender = input => renderer.render(parser.parse(input));
 
 export default class MarkdownCell extends React.PureComponent<any, State> {
   openEditor: () => void;
-  editorKeyDown: (e: Object) => void;
-  renderedKeyDown: (e: Object) => boolean;
+  editorKeyDown: (e: SyntheticKeyboardEvent<*>) => void;
+  renderedKeyDown: (e: SyntheticKeyboardEvent<*>) => boolean;
   rendered: ?HTMLElement;
 
   static contextTypes = {
@@ -93,7 +93,12 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   /**
    * Handles when a keydown event occurs on the unrendered MD cell
    */
-  editorKeyDown(e: Object): void {
+  editorKeyDown(e: SyntheticKeyboardEvent<*>): void {
+    // TODO: ctrl-enter will set the state view mode, _however_
+    //       the focus is still set from above the editor
+    //       Suggestion: we need a `this.props.unfocusEditor`
+    //       It's either that or we should be setting `view` from
+    //       the outside
     const shift = e.shiftKey;
     const ctrl = e.ctrlKey;
     if ((shift || ctrl) && e.key === "Enter") {
@@ -109,7 +114,7 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   /**
    * Handles when a keydown event occurs on the rendered MD cell
    */
-  renderedKeyDown(e: Object): boolean {
+  renderedKeyDown(e: SyntheticKeyboardEvent<*>): boolean {
     const shift = e.shiftKey;
     const ctrl = e.ctrlKey;
     if ((shift || ctrl) && e.key === "Enter") {
