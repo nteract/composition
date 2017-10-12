@@ -36,7 +36,7 @@ export type CellProps = {
   models: ImmutableMap<string, any>
 };
 
-export class Cell extends React.PureComponent<CellProps, State> {
+export class Cell extends React.PureComponent<CellProps, *> {
   selectCell: () => void;
   focusAboveCell: () => void;
   focusBelowCell: () => void;
