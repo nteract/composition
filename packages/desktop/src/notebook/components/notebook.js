@@ -211,6 +211,7 @@ export class Notebook extends React.PureComponent<Props> {
   }
 
   createStickyCellElement(id: string): ?React$Element<any> {
+    const CellComponent = this.props.CellComponent;
     const cellMap = this.props.notebook.get("cellMap");
     const transient = this.props.transient.getIn(
       ["cellMap", id],
@@ -219,7 +220,7 @@ export class Notebook extends React.PureComponent<Props> {
     const cell = cellMap.get(id);
     return (
       <div key={`cell-container-${id}`}>
-        <Cell {...this.createCellProps(id, cell, transient)} />
+        <CellComponent {...this.createCellProps(id, cell, transient)} />
       </div>
     );
   }
