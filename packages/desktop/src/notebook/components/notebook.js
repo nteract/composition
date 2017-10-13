@@ -8,7 +8,6 @@ import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import { displayOrder, transforms } from "@nteract/transforms-full";
 
-import Cell from "./cell/cell";
 import DraggableCell from "../providers/draggable-cell";
 import CellCreator from "../providers/cell-creator";
 import StatusBar from "./status-bar";
