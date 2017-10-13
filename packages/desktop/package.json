@@ -87,7 +87,7 @@
         "Type": "Application",
         "Categories": "Science;Development;"
       },
-      "category": "science",
+      "category": "Science",
       "packageCategory": "editors"
     },
     "files": ["lib/*.js", "lib/*.css", "lib/*.woff", "lib/*.woff2", "static"],
@@ -116,11 +116,11 @@
     "cross-env": "^5.0.0",
     "date-fns": "^1.28.5",
     "electron": "~1.7.6",
-    "electron-builder": "19.33.0",
+    "electron-builder": "^19.37.1",
     "electron-context-menu": "^0.9.1",
     "electron-log": "^2.2.6",
     "electron-mocha": "^4.0.0",
-    "electron-updater": "^2.10.0",
+    "electron-updater": "^2.12.1",
     "enchannel": "^4.0.1",
     "enchannel-zmq-backend": "^5.0.1",
     "escape-carriage": "^1.2.0",
