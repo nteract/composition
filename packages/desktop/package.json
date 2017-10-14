@@ -1,6 +1,6 @@
 {
   "name": "nteract",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
   "repository": {
@@ -87,7 +87,7 @@
         "Type": "Application",
         "Categories": "Science;Development;"
       },
-      "category": "science",
+      "category": "Science",
       "packageCategory": "editors"
     },
     "files": ["lib/*.js", "lib/*.css", "lib/*.woff", "lib/*.woff2", "static"],
@@ -106,21 +106,21 @@
   },
   "devDependencies": {
     "@nteract/commutable": "^2.1.2",
-    "@nteract/display-area": "^3.0.1",
-    "@nteract/editor": "^3.0.1",
+    "@nteract/display-area": "^3.0.2",
+    "@nteract/editor": "^3.0.2",
     "@nteract/messaging": "^2.0.1",
-    "@nteract/transforms-full": "^3.0.1",
+    "@nteract/transforms-full": "^3.0.2",
     "codemirror": "^5.28.0",
     "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",
     "cross-env": "^5.0.0",
     "date-fns": "^1.28.5",
     "electron": "~1.7.6",
-    "electron-builder": "19.33.0",
+    "electron-builder": "^19.37.1",
     "electron-context-menu": "^0.9.1",
     "electron-log": "^2.2.6",
     "electron-mocha": "^4.0.0",
-    "electron-updater": "^2.10.0",
+    "electron-updater": "^2.12.1",
     "enchannel": "^4.0.1",
     "enchannel-zmq-backend": "^5.0.1",
     "escape-carriage": "^1.2.0",

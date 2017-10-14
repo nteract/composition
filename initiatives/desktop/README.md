@@ -30,7 +30,7 @@ usability of our notebook. It is expected that we'll make lots of pre-alpha
     * ~~Clipboard~~
 * Communication
     * Comm message handling (preliminary/provisional API)
-* ~~Testing coverage > 70%i~~
+* ~~Testing coverage > 70%~~
 
 A big part of the notebook is the ecosystem of libraries that rely on it. We need
 to make sure that we support many of the common libraries in use across Python,
@@ -54,10 +54,8 @@ enough for a wide class of users to trust with running their notebooks in.
 * Packaging and Installation
     * Bundled Python kernel
     * Installers for all platforms
-* Notebook Publishing
+* ~~Notebook Publishing~~
   * ~~gists~~
-  * Plotly
-  * Domino
 * Undo/redo stack
 
 ## Parking Lot

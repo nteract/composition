@@ -1,14 +1,14 @@
 {
   "name": "@nteract/notebook-preview-demo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
     "@nteract/commutable": "^2.1.2",
-    "@nteract/notebook-preview": "^3.0.1",
+    "@nteract/notebook-preview": "^3.0.2",
     "@nteract/transform-dataresource": "^2.0.1",
-    "@nteract/transforms": "^3.0.1",
+    "@nteract/transforms": "^3.0.2",
     "codemirror": "^5.28.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash.debounce": "^4.0.8",
