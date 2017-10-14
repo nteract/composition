@@ -1,0 +1,11 @@
+{
+  "name": "@nteract/play-app",
+  "version": "1.0.0",
+  "description": "Experimental playground for nteract, like play go",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}
