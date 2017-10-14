@@ -138,6 +138,10 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
     return true;
   }
 
+  addFocused() {
+    this.outputsDiv.className += " focused";
+  }
+
   render(): ?React$Element<any> {
     return this.state && this.state.view ? (
       <div
@@ -171,7 +175,11 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
             editorFocused={this.props.editorFocused}
           />
         </div>
-        <div className="outputs">
+        <div
+          className="outputs"
+          onClick={this.addFocused.bind(this)}
+          ref={el => (this.outputsDiv = el)}
+        >
           <LatexRenderer>{mdRender(this.state.source)}</LatexRenderer>
         </div>
       </div>

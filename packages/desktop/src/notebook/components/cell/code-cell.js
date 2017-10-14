@@ -43,6 +43,10 @@ class CodeCell extends React.PureComponent<Props> {
     return this.props.cell.getIn(["metadata", "outputExpanded"]);
   }
 
+  addFocused() {
+    this.outputsDiv.className += " focused";
+  }
+
   render(): ?React$Element<any> {
     return (
       <div className={this.props && this.props.running ? "cell-running" : ""}>
@@ -84,7 +88,11 @@ class CodeCell extends React.PureComponent<Props> {
           </div>
         ) : null}
         <LatexRenderer>
-          <div className="outputs">
+          <div
+            className="outputs"
+            onClick={this.addFocused.bind(this)}
+            ref={el => (this.outputsDiv = el)}
+          >
             <Display
               className="outputs-display"
               outputs={this.props.cell.get("outputs").toJS()}
