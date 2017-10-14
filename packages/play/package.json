@@ -4,8 +4,15 @@
   "description": "Experimental playground for nteract, like play go",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "next": "^4.0.3",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  }
 }
