@@ -18,6 +18,8 @@ type Props = {
   theme: string,
   focusAbove: () => void,
   focusBelow: () => void,
+  clickedOutputs: Function,
+  addFocused: Function,
   focusEditor: Function,
   cellFocused: boolean,
   editorFocused: boolean
@@ -59,6 +61,7 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
     this.openEditor = this.openEditor.bind(this);
     this.editorKeyDown = this.editorKeyDown.bind(this);
     this.renderedKeyDown = this.renderedKeyDown.bind(this);
+    this.addFocused = this.props.addFocused.bind(this);
   }
 
   componentDidMount(): void {
@@ -138,10 +141,6 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
     return true;
   }
 
-  addFocused() {
-    this.outputsDiv.className += " focused";
-  }
-
   render(): ?React$Element<any> {
     return this.state && this.state.view ? (
       <div
@@ -177,8 +176,8 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
         </div>
         <div
           className="outputs"
-          onClick={this.addFocused.bind(this)}
           ref={el => (this.outputsDiv = el)}
+          onClick={this.props.clickedOutputs.bind(this)}
         >
           <LatexRenderer>{mdRender(this.state.source)}</LatexRenderer>
         </div>
