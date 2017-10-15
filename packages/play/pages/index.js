@@ -223,15 +223,21 @@ class MainApp extends React.Component {
 
           .input {
             background-color: var(--cm-background);
+          }
+
+          textarea {
             min-width: 400px;
-            width: 50%;
           }
 
           .outputs {
+            width: 100%;
             padding-left: 10px;
             padding-top: 10px;
-            width: 50%;
             background-color: var(--cell-bg);
+          }
+
+          .outputs > * {
+            width: 100%;
           }
         `}</style>
       </div>
