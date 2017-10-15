@@ -155,15 +155,21 @@ class MainApp extends React.Component {
           </div>
         </div>
 
-        <style global jsx>
+        <style jsx global>
           {themes[this.state.theme]}
         </style>
 
-        <style global jsx>{`
+        <style jsx global>{`
           @import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,400i,600,600i,800,800i|Nunito:300,400,700,800,900");
+
+          html {
+            height: 100%;
+          }
 
           body {
             margin: 0;
+            height: 100%;
+            min-height: 100%;
             /* TODO: Include Nunito */
             font-family: Nunito, sans-serif;
             background-color: var(--main-bg-color);
@@ -227,6 +233,8 @@ class MainApp extends React.Component {
 
           textarea {
             min-width: 400px;
+            height: 100%;
+            resize: horizontal;
           }
 
           .outputs {
