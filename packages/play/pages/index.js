@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Display } from "@nteract/display-area";
+
 const Left = () => {
   return <div>left</div>;
 };
@@ -31,11 +33,32 @@ class MainApp extends React.Component {
   render() {
     return (
       <div>
-        <header onClick={this.toggleTheme}>Let's Play</header>
-        <div className="play-area">
-          <div className="input">left</div>
-          <div className="outputs">right</div>
+        <div className="container">
+          <header onClick={this.toggleTheme}>Let's Play</header>
+          <div className="play-area">
+            <div className="input">left</div>
+            <div className="outputs">
+              <Display
+                theme={this.state.theme}
+                outputs={[
+                  {
+                    output_type: "display_data",
+                    data: {
+                      "application/vdom.v1+json": {
+                        tagName: "h1",
+                        children: "It works",
+                        attributes: {}
+                      },
+                      "text/html": "<b>Woo</b>"
+                    },
+                    metadata: {}
+                  }
+                ]}
+              />
+            </div>
+          </div>
         </div>
+
         <style jsx global>
           {themes[this.state.theme]}
         </style>
@@ -58,9 +81,13 @@ class MainApp extends React.Component {
             padding: 12px;
           }
 
+          .container {
+            min-height: 100vh;
+          }
+
           .play-area {
             display: flex;
-            min-height: 80vh;
+            min-height: 100vh;
           }
 
           .play-area > div {
