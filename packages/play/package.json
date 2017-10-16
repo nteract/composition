@@ -11,11 +11,12 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@nteract/display-area": "^3.0.2",
+    "@nteract/editor": "^3.0.2",
+    "express": "^4.16.2",
     "next": "^4.0.3",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "styled-jsx": "^2.0.2",
-    "@nteract/display-area": "^3.0.2",
-    "@nteract/editor": "^3.0.2"
+    "styled-jsx": "^2.0.2"
   }
 }
