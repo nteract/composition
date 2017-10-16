@@ -411,22 +411,20 @@ body {
 }
 
 .creator-hover-region {
-  display: flex;
   position: relative;
   overflow: visible;
-  top: -30px;
+  top: -10px;
   height: 60px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
 }
 
 .cell-creator {
-  display: inline-block;
+  display: none;
   background: var(--main-bg-color);
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  margin-top: -15px;
   pointer-events: all;
+  position: relative;
+  top: -5px;
 }
 
 .cell-creator button {
@@ -454,12 +452,8 @@ body {
   color: var(--toolbar-button-hover);
 }
 
-.cell-creator {
-  display: none;
-}
-
 .creator-hover-region:hover > .cell-creator {
-  display: block;
+  display: inline-block;
 }
 
 .cell code {
