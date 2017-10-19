@@ -28,6 +28,11 @@ import { loadFullMenu } from "./menu";
 
 import prepareEnv from "./prepare-env";
 import initializeKernelSpecs from "./kernel-specs";
+import { setKernelSpecs } from "./actions";
+
+import configureStore from "./store";
+const store = configureStore();
+global.store = store;
 
 const log = require("electron-log");
 
@@ -217,7 +222,8 @@ fullAppReady$.subscribe(() => {
   kernelSpecsPromise
     .then(kernelSpecs => {
       if (Object.keys(kernelSpecs).length !== 0) {
-        const menu = loadFullMenu(kernelSpecs);
+        store.dispatch(setKernelSpecs(kernelSpecs));
+        const menu = loadFullMenu();
         Menu.setApplicationMenu(menu);
       } else {
         dialog.showMessageBox(

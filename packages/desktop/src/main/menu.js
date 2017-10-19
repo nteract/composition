@@ -61,260 +61,6 @@ export function authAndPublish(item, focusedWindow) {
   win.loadURL("https://oauth.nteract.io/github");
 }
 
-export const fileSubMenus = {
-  new: {
-    label: "&New",
-    accelerator: "CmdOrCtrl+N"
-  },
-  open: {
-    label: "&Open",
-    click: () => {
-      const opts = {
-        title: "Open a notebook",
-        filters: [{ name: "Notebooks", extensions: ["ipynb"] }],
-        properties: ["openFile"]
-      };
-      if (process.cwd() === "/") {
-        opts.defaultPath = app.getPath("home");
-      }
-
-      dialog.showOpenDialog(opts, fname => {
-        if (fname) {
-          launch(fname[0]);
-        }
-      });
-    },
-    accelerator: "CmdOrCtrl+O"
-  },
-  openExampleNotebooks: {
-    label: "&Open Example Notebook",
-    submenu: [
-      {
-        label: "&Intro",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "intro.ipynb")
-        )
-      },
-      {
-        label: "&Plotly",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "plotly.ipynb")
-        )
-      },
-      {
-        label: "&Plotly (R)",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "plotlyr.ipynb")
-        )
-      },
-      {
-        label: "&Vegalite (Python)",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "altair.ipynb")
-        )
-      },
-      {
-        label: "&Vegalite (R)",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "vegalite-for-r.ipynb")
-        )
-      },
-      {
-        label: "&Geojson",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "geojson.ipynb")
-        )
-      },
-      {
-        label: "&Pandas to GeoJSON",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "pandas-to-geojson.ipynb")
-        )
-      },
-      {
-        label: "&Named display updates",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "display-updates.ipynb")
-        )
-      },
-      {
-        label: "VDOMmable updates with emojis",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "vdom.ipynb")
-        )
-      },
-      {
-        label: "&Analyze nteract download metrics",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "download-stats.ipynb")
-        )
-      },
-      {
-        label: "&Exploring Custom Revival with JSON.parse",
-        click: launch.bind(
-          null,
-          path.join(exampleNotebooksDirectory, "immutable-revival.ipynb")
-        )
-      }
-    ]
-  },
-  save: {
-    label: "&Save",
-    click: createSender("menu:save"),
-    accelerator: "CmdOrCtrl+S"
-  },
-  saveAs: {
-    label: "Save &As",
-    click: (item, focusedWindow) => {
-      const opts = {
-        title: "Save Notebook As",
-        filters: [{ name: "Notebooks", extensions: ["ipynb"] }]
-      };
-
-      if (process.cwd() === "/") {
-        opts.defaultPath = app.getPath("home");
-      }
-
-      dialog.showSaveDialog(opts, filename => {
-        if (!filename) {
-          return;
-        }
-
-        const ext = path.extname(filename) === "" ? ".ipynb" : "";
-        send(focusedWindow, "menu:save-as", `${filename}${ext}`);
-      });
-    },
-    accelerator: "CmdOrCtrl+Shift+S"
-  },
-  publish: {
-    label: "&Publish",
-    submenu: [
-      {
-        label: "&User Gist",
-        click: authAndPublish
-      },
-      {
-        label: "&Anonymous Gist",
-        click: createSender("menu:publish:gist")
-      }
-    ]
-  },
-  exportPDF: {
-    label: "Export &PDF",
-    click: createSender("menu:exportPDF")
-  }
-};
-export const file = {
-  label: "&File",
-  submenu: [
-    fileSubMenus.new,
-    fileSubMenus.open,
-    fileSubMenus.openExampleNotebooks,
-    fileSubMenus.save,
-    fileSubMenus.saveAs,
-    fileSubMenus.publish,
-    fileSubMenus.exportPDF
-  ]
-};
-
-if (process.platform === "win32") {
-  file.submenu.push(
-    {
-      type: "separator"
-    },
-    {
-      label: "Exit",
-      accelerator: "Alt+F4",
-      role: "close"
-    }
-  );
-}
-
-export const edit = {
-  label: "Edit",
-  submenu: [
-    {
-      label: "Cut",
-      accelerator: "CmdOrCtrl+X",
-      role: "cut"
-    },
-    {
-      label: "Copy",
-      accelerator: "CmdOrCtrl+C",
-      role: "copy"
-    },
-    {
-      label: "Paste",
-      accelerator: "CmdOrCtrl+V",
-      role: "paste"
-    },
-    {
-      label: "Select All",
-      accelerator: "CmdOrCtrl+A",
-      role: "selectall"
-    },
-    {
-      type: "separator"
-    },
-    {
-      label: "New Code Cell",
-      accelerator: "CmdOrCtrl+Shift+N",
-      click: createSender("menu:new-code-cell")
-    },
-    {
-      label: "New Text Cell",
-      accelerator: "CmdOrCtrl+Shift+M",
-      click: createSender("menu:new-text-cell")
-    },
-    {
-      label: "Copy Cell",
-      accelerator: "CmdOrCtrl+Shift+C",
-      click: createSender("menu:copy-cell")
-    },
-    {
-      label: "Cut Cell",
-      accelerator: "CmdOrCtrl+Shift+X",
-      click: createSender("menu:cut-cell")
-    },
-    {
-      label: "Paste Cell",
-      accelerator: "CmdOrCtrl+Shift+V",
-      click: createSender("menu:paste-cell")
-    }
-  ]
-};
-
-export const cell = {
-  label: "Cell",
-  submenu: [
-    {
-      label: "Run All",
-      click: createSender("menu:run-all")
-    },
-    {
-      label: "Run All Below",
-      click: createSender("menu:run-all-below")
-    },
-    {
-      label: "Clear All Outputs",
-      click: createSender("menu:clear-all")
-    },
-    {
-      label: "Unhide All Outputs",
-      click: createSender("menu:unhide-all")
-    }
-  ]
-};
 const theme_menu = [
   {
     label: "Light",
@@ -363,73 +109,6 @@ if (month === 12) {
     click: createSender("menu:theme", "halloween")
   });
 }
-
-export const view = {
-  label: "View",
-  submenu: [
-    {
-      label: "Reload",
-      accelerator: "CmdOrCtrl+R",
-      click: (item, focusedWindow) => {
-        if (focusedWindow) {
-          focusedWindow.reload();
-        }
-      }
-    },
-    {
-      label: "Toggle Full Screen",
-      accelerator: (() => {
-        if (process.platform === "darwin") {
-          return "Ctrl+Command+F";
-        }
-        return "F11";
-      })(),
-      click: (item, focusedWindow) => {
-        if (focusedWindow) {
-          focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
-        }
-      }
-    },
-    {
-      label: "Toggle Developer Tools",
-      accelerator: (() => {
-        if (process.platform === "darwin") {
-          return "Alt+Command+I";
-        }
-        return "Ctrl+Shift+I";
-      })(),
-      click: (item, focusedWindow) => {
-        if (focusedWindow) {
-          focusedWindow.toggleDevTools();
-        }
-      }
-    },
-    {
-      label: "Actual Size",
-      accelerator: "CmdOrCtrl+0",
-      click: createSender("menu:zoom-reset")
-    },
-    {
-      label: "Zoom In",
-      accelerator: "CmdOrCtrl+=",
-      click: createSender("menu:zoom-in")
-    },
-    {
-      label: "Zoom Out",
-      accelerator: "CmdOrCtrl+-",
-      click: createSender("menu:zoom-out")
-    },
-    {
-      label: "Theme",
-      submenu: theme_menu
-    },
-
-    {
-      label: "Editor options",
-      submenu: blink_menu
-    }
-  ]
-};
 
 const windowDraft = {
   label: "Window",
@@ -552,25 +231,10 @@ export const named = {
   ]
 };
 
-export function generateDefaultTemplate() {
-  const template = [];
+export function loadFullMenu() {
+  const state = store.getState();
+  const kernelSpecs = state.kernelSpecs ? state.kernelSpecs : {};
 
-  if (process.platform === "darwin") {
-    template.push(named);
-  }
-
-  template.push(file);
-  template.push(edit);
-  template.push(view);
-  template.push(window);
-  template.push(help);
-
-  return template;
-}
-
-export const defaultMenu = Menu.buildFromTemplate(generateDefaultTemplate());
-
-export function loadFullMenu(kernelSpecs) {
   function generateSubMenu(kernelSpecName) {
     return {
       label: kernelSpecs[kernelSpecName].spec.display_name,
@@ -585,23 +249,371 @@ export function loadFullMenu(kernelSpecs) {
     click: () => launchNewNotebook(kernelSpecs[kernelSpecName])
   }));
 
+  const fileSubMenus = {
+    new: {
+      label: "&New",
+      accelerator: "CmdOrCtrl+N"
+    },
+    open: {
+      label: "&Open",
+      click: () => {
+        const opts = {
+          title: "Open a notebook",
+          filters: [{ name: "Notebooks", extensions: ["ipynb"] }],
+          properties: ["openFile"]
+        };
+        if (process.cwd() === "/") {
+          opts.defaultPath = app.getPath("home");
+        }
+
+        dialog.showOpenDialog(opts, fname => {
+          if (fname) {
+            launch(fname[0]);
+          }
+        });
+      },
+      accelerator: "CmdOrCtrl+O"
+    },
+    openExampleNotebooks: {
+      label: "&Open Example Notebook",
+      submenu: [
+        {
+          label: "&Intro",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "intro.ipynb")
+          )
+        },
+        {
+          label: "&Plotly",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "plotly.ipynb")
+          )
+        },
+        {
+          label: "&Plotly (R)",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "plotlyr.ipynb")
+          )
+        },
+        {
+          label: "&Vegalite (Python)",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "altair.ipynb")
+          )
+        },
+        {
+          label: "&Vegalite (R)",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "vegalite-for-r.ipynb")
+          )
+        },
+        {
+          label: "&Geojson",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "geojson.ipynb")
+          )
+        },
+        {
+          label: "&Pandas to GeoJSON",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "pandas-to-geojson.ipynb")
+          )
+        },
+        {
+          label: "&Named display updates",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "display-updates.ipynb")
+          )
+        },
+        {
+          label: "VDOMmable updates with emojis",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "vdom.ipynb")
+          )
+        },
+        {
+          label: "&Analyze nteract download metrics",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "download-stats.ipynb")
+          )
+        },
+        {
+          label: "&Exploring Custom Revival with JSON.parse",
+          click: launch.bind(
+            null,
+            path.join(exampleNotebooksDirectory, "immutable-revival.ipynb")
+          )
+        }
+      ]
+    },
+    save: {
+      label: "&Save",
+      enabled: BrowserWindow.getFocusedWindow() !== null,
+      click: createSender("menu:save"),
+      accelerator: "CmdOrCtrl+S"
+    },
+    saveAs: {
+      label: "Save &As",
+      enabled: BrowserWindow.getFocusedWindow() !== null,
+      click: (item, focusedWindow) => {
+        const opts = {
+          title: "Save Notebook As",
+          filters: [{ name: "Notebooks", extensions: ["ipynb"] }]
+        };
+
+        if (process.cwd() === "/") {
+          opts.defaultPath = app.getPath("home");
+        }
+
+        dialog.showSaveDialog(opts, filename => {
+          if (!filename) {
+            return;
+          }
+
+          const ext = path.extname(filename) === "" ? ".ipynb" : "";
+          send(focusedWindow, "menu:save-as", `${filename}${ext}`);
+        });
+      },
+      accelerator: "CmdOrCtrl+Shift+S"
+    },
+    publish: {
+      label: "&Publish",
+      enabled: BrowserWindow.getFocusedWindow() !== null,
+      submenu: [
+        {
+          label: "&User Gist",
+          enabled: BrowserWindow.getFocusedWindow() !== null,
+          click: authAndPublish
+        },
+        {
+          label: "&Anonymous Gist",
+          enabled: BrowserWindow.getFocusedWindow() !== null,
+          click: createSender("menu:publish:gist")
+        }
+      ]
+    },
+    exportPDF: {
+      label: "Export &PDF",
+      enabled: BrowserWindow.getFocusedWindow() !== null,
+      click: createSender("menu:exportPDF")
+    }
+  };
+
+  const file = {
+    label: "&File",
+    submenu: [
+      fileSubMenus.new,
+      fileSubMenus.open,
+      fileSubMenus.openExampleNotebooks,
+      fileSubMenus.save,
+      fileSubMenus.saveAs,
+      fileSubMenus.publish,
+      fileSubMenus.exportPDF
+    ]
+  };
+
+  if (process.platform === "win32") {
+    file.submenu.push(
+      {
+        type: "separator"
+      },
+      {
+        label: "Exit",
+        accelerator: "Alt+F4",
+        role: "close"
+      }
+    );
+  }
+
+  const edit = {
+    label: "Edit",
+    submenu: [
+      {
+        label: "Cut",
+        accelerator: "CmdOrCtrl+X",
+        role: "cut"
+      },
+      {
+        label: "Copy",
+        accelerator: "CmdOrCtrl+C",
+        role: "copy"
+      },
+      {
+        label: "Paste",
+        accelerator: "CmdOrCtrl+V",
+        role: "paste"
+      },
+      {
+        label: "Select All",
+        accelerator: "CmdOrCtrl+A",
+        role: "selectall"
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "New Code Cell",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+Shift+N",
+        click: createSender("menu:new-code-cell")
+      },
+      {
+        label: "New Text Cell",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+Shift+M",
+        click: createSender("menu:new-text-cell")
+      },
+      {
+        label: "Copy Cell",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+Shift+C",
+        click: createSender("menu:copy-cell")
+      },
+      {
+        label: "Cut Cell",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+Shift+X",
+        click: createSender("menu:cut-cell")
+      },
+      {
+        label: "Paste Cell",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+Shift+V",
+        click: createSender("menu:paste-cell")
+      }
+    ]
+  };
+
+  const cell = {
+    label: "Cell",
+    submenu: [
+      {
+        label: "Run All",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        click: createSender("menu:run-all")
+      },
+      {
+        label: "Run All Below",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        click: createSender("menu:run-all-below")
+      },
+      {
+        label: "Clear All Outputs",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        click: createSender("menu:clear-all")
+      },
+      {
+        label: "Unhide All Outputs",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        click: createSender("menu:unhide-all")
+      }
+    ]
+  };
+
+  const view = {
+    label: "View",
+    submenu: [
+      {
+        label: "Reload",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+R",
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.reload();
+          }
+        }
+      },
+      {
+        label: "Toggle Full Screen",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: (() => {
+          if (process.platform === "darwin") {
+            return "Ctrl+Command+F";
+          }
+          return "F11";
+        })(),
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.setFullScreen(!focusedWindow.isFullScreen());
+          }
+        }
+      },
+      {
+        label: "Toggle Developer Tools",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: (() => {
+          if (process.platform === "darwin") {
+            return "Alt+Command+I";
+          }
+          return "Ctrl+Shift+I";
+        })(),
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.toggleDevTools();
+          }
+        }
+      },
+      {
+        label: "Actual Size",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+0",
+        click: createSender("menu:zoom-reset")
+      },
+      {
+        label: "Zoom In",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+=",
+        click: createSender("menu:zoom-in")
+      },
+      {
+        label: "Zoom Out",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
+        accelerator: "CmdOrCtrl+-",
+        click: createSender("menu:zoom-out")
+      },
+      {
+        label: "Theme",
+        submenu: theme_menu
+      },
+
+      {
+        label: "Editor options",
+        submenu: blink_menu
+      }
+    ]
+  };
+
   const languageMenu = {
     label: "&Language",
     submenu: [
       {
         label: "&Kill Running Kernel",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
         click: createSender("menu:kill-kernel")
       },
       {
         label: "&Interrupt Running Kernel",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
         click: createSender("menu:interrupt-kernel")
       },
       {
         label: "Restart Running Kernel",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
         click: createSender("menu:restart-kernel")
       },
       {
         label: "Restart and Clear All Cells",
+        enabled: BrowserWindow.getFocusedWindow() !== null,
         click: createSender("menu:restart-and-clear-all")
       },
       {
