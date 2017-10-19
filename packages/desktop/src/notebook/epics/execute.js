@@ -45,13 +45,6 @@ import {
 
 const Immutable = require("immutable");
 
-export const createErrorActionObservable = (type: string) => (error: Error) =>
-  of({
-    type,
-    payload: error,
-    error: true
-  });
-
 /**
  * Create an object that adheres to the jupyter notebook specification.
  * http://jupyter-client.readthedocs.io/en/latest/messaging.html
@@ -338,7 +331,7 @@ export function executeCellEpic(action$: ActionsObservable<*>, store: any) {
     // Bring back all the inner Observables into one stream
     mergeAll(),
     catchError((err, source) =>
-      merge(createErrorActionObservable(ERROR_EXECUTING)(err), source)
+      merge(of({ type: ERROR_EXECUTING, payload: err, error: true }), source)
     )
   );
 }
@@ -355,7 +348,9 @@ export const updateDisplayEpic = (action$: ActionsObservable<*>) =>
           Object.assign({}, output, { output_type: "display_data" })
         ),
         map(output => ({ type: "UPDATE_DISPLAY", output })),
-        catchError(createErrorActionObservable(ERROR_UPDATE_DISPLAY))
+        catchError(err =>
+          of({ type: ERROR_UPDATE_DISPLAY, payload: err, error: true })
+        )
       )
     )
   );
