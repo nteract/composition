@@ -32,6 +32,7 @@ import { setKernelSpecs } from "./actions";
 
 import configureStore from "./store";
 const store = configureStore();
+// HACK: The main process store should not be stored in a global.
 global.store = store;
 
 const log = require("electron-log");
