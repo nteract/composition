@@ -3,18 +3,13 @@ import React from "react";
 import { Display } from "@nteract/display-area";
 
 // CSS and usage of this editor are not fun at the moment
-// switching to just a textarea for now
-
+// switching to just a textarea for now. Wish I could use our <Editor />
+// inline
 // import Editor from "@nteract/editor";
 
-const Left = () => {
-  return <div>left</div>;
-};
-
-const Right = () => {
-  return <div>right</div>;
-};
-
+// Trying out something a bit new with using styled-jsx inline
+// These are literally the styles from the main desktop app, as a string for
+// passing to styled-jsx
 import { light, dark } from "../styles";
 
 const themes = {
@@ -34,6 +29,18 @@ const defaultCode = JSON.stringify(
               tagName: "h1",
               children: "It works!",
               attributes: {}
+            },
+            {
+              tagName: "p",
+              children: "Quite well I might add",
+              attributes: {}
+            },
+            {
+              tagName: "img",
+              children: null,
+              attributes: {
+                src: "https://bit.ly/storybot-vdom"
+              }
             }
           ],
           attributes: {}
@@ -88,6 +95,7 @@ class MainApp extends React.Component {
   }
 
   onEditorKeyDown(event) {
+    // Hokey pokey editor faking since I couldn't get <Editor /> working
     if (event.key === "Tab") {
       const start = event.target.selectionStart;
       const end = event.target.selectionEnd;
@@ -129,7 +137,10 @@ class MainApp extends React.Component {
     return (
       <div>
         <div className="container">
-          <header onClick={this.toggleTheme}>Let's Play</header>
+          <header>
+            Let's Play
+            <button onClick={this.toggleTheme}>Swap Theme</button>
+          </header>
           <div className="play-area">
             <div className="input">
               <textarea
@@ -144,13 +155,21 @@ class MainApp extends React.Component {
           </div>
         </div>
 
-        <style global jsx>
+        <style jsx global>
           {themes[this.state.theme]}
         </style>
 
-        <style global jsx>{`
+        <style jsx global>{`
+          @import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,400i,600,600i,800,800i|Nunito:300,400,700,800,900");
+
+          html {
+            height: 100%;
+          }
+
           body {
             margin: 0;
+            height: 100%;
+            min-height: 100%;
             font-family: Nunito, sans-serif;
             background-color: var(--main-bg-color);
             color: var(--main-fg-color);
@@ -162,6 +181,16 @@ class MainApp extends React.Component {
             border-bottom: 0.5px solid var(--primary-border);
             margin: 0px auto;
             padding: 12px;
+          }
+
+          header h3 {
+            display: inline;
+            float: left;
+          }
+
+          header button {
+            float: right;
+            font-family: "Nunito", sans-serif;
           }
 
           .input textarea {
@@ -197,16 +226,25 @@ class MainApp extends React.Component {
             min-height: 100vh;
           }
 
-          .play-area > div {
-            width: 50%;
-          }
           .input {
             background-color: var(--cm-background);
           }
+
+          textarea {
+            min-width: 400px;
+            height: 100%;
+            resize: horizontal;
+          }
+
           .outputs {
+            width: 100%;
             padding-left: 10px;
             padding-top: 10px;
             background-color: var(--cell-bg);
+          }
+
+          .outputs > * {
+            width: 100%;
           }
         `}</style>
       </div>
