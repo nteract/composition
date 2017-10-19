@@ -102,6 +102,7 @@
     "ijavascript": "^5.0.17",
     "jmp": "^0.7.5",
     "mathjax-electron": "^2.0.1",
+    "redux-electron-store": "^0.4.1",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
