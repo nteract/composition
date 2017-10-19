@@ -1,6 +1,8 @@
 import path from "path";
 
-import { shell, BrowserWindow, dialog, ipcMain as ipc } from "electron";
+import { Menu, shell, BrowserWindow, dialog, ipcMain as ipc } from "electron";
+
+import { loadFullMenu } from "./menu";
 
 let launchIpynb;
 
@@ -53,6 +55,8 @@ export function launch(filename) {
   });
 
   win.webContents.on("did-finish-load", () => {
+    const menu = loadFullMenu();
+    Menu.setApplicationMenu(menu);
     if (filename) {
       win.webContents.send("main:load", filename);
     }
@@ -61,8 +65,20 @@ export function launch(filename) {
 
   win.webContents.on("will-navigate", deferURL);
 
+  win.on("focus", () => {
+    const menu = loadFullMenu();
+    Menu.setApplicationMenu(menu);
+  });
+
+  win.on("show", () => {
+    const menu = loadFullMenu();
+    Menu.setApplicationMenu(menu);
+  });
+
   // Emitted when the window is closed.
   win.on("closed", () => {
+    const menu = loadFullMenu();
+    Menu.setApplicationMenu(menu);
     win = null;
   });
   return win;
