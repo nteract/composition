@@ -231,7 +231,7 @@ export const named = {
   ]
 };
 
-export function loadFullMenu() {
+export function loadFullMenu(store = global.store) {
   const state = store.getState();
   const kernelSpecs = state.get("kernelSpecs") ? state.get("kernelSpecs") : {};
 
