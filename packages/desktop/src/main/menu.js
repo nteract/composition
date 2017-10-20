@@ -233,7 +233,7 @@ export const named = {
 
 export function loadFullMenu() {
   const state = store.getState();
-  const kernelSpecs = state.kernelSpecs ? state.kernelSpecs : {};
+  const kernelSpecs = state.get("kernelSpecs") ? state.get("kernelSpecs") : {};
 
   function generateSubMenu(kernelSpecName) {
     return {

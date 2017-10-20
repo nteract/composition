@@ -16,7 +16,6 @@ if (process.env.DEBUG === "true") {
 export default function configureStore() {
   return createStore(
     reducers,
-    applyMiddleware(...middlewares),
-    electronEnhancer()
+    compose(applyMiddleware(...middlewares), electronEnhancer())
   );
 }

@@ -1,10 +1,8 @@
 // @flow
 
-import { MainRecord } from "./records";
+import { Map } from "immutable";
 
-declare class MainState {
-  kernelSpecs: Object;
-}
+type MainState = Map<string, any>;
 
 type SetKernelSpecsAction = {
   type: "SET_KERNELSPECS",
@@ -16,10 +14,9 @@ function setKernelSpecs(state: MainState, action: SetKernelSpecsAction) {
 }
 
 type MainAction = SetKernelSpecsAction;
-const defaultMainState = MainRecord();
 
 export default function handleApp(
-  state: MainState = defaultMainState,
+  state: MainState = Map({ kernelSpecs: {} }),
   action: MainAction
 ) {
   switch (action.type) {
