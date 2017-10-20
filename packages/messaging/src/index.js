@@ -1,9 +1,29 @@
 // @flow
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 
-import * as uuid from "uuid";
-
 import { Observable } from "rxjs/Observable";
+import { of } from "rxjs/observable/of";
+import { from } from "rxjs/observable/from";
+import { merge } from "rxjs/observable/merge";
+import { _throw } from "rxjs/observable/throw";
+
+import {
+  pluck,
+  first,
+  groupBy,
+  filter,
+  scan,
+  map,
+  mapTo,
+  switchMap,
+  mergeAll,
+  mergeMap,
+  takeUntil,
+  catchError,
+  tap
+} from "rxjs/operators";
+
+import * as uuid from "uuid";
 
 export const session = uuid.v4();
 
@@ -34,6 +54,25 @@ export function createMessage(msg_type: string, fields: Object = {}) {
     },
     fields
   );
+}
+
+/**
+ * Insert the content requisite for a code request to a kernel message.
+ *
+ * @param {String} code - Code to be executed in a message to the kernel.
+ * @return {Object} msg - Message object containing the code to be sent.
+ */
+export function createExecuteRequest(code: string) {
+  const executeRequest = createMessage("execute_request");
+  executeRequest.content = {
+    code,
+    silent: false,
+    store_history: true,
+    user_expressions: {},
+    allow_stdin: false,
+    stop_on_error: false
+  };
+  return executeRequest;
 }
 
 /**
@@ -73,7 +112,7 @@ export const childOf = (parentMessage: Object) => (
  */
 export const ofMessageType = (messageTypes: Array<string>) => (
   source: rxjs$Observable<*>
-) =>
+): rxjs$Observable<*> =>
   new Observable(subscriber =>
     source.subscribe(
       msg => {
@@ -92,3 +131,87 @@ export const ofMessageType = (messageTypes: Array<string>) => (
       () => subscriber.complete()
     )
   );
+
+/**
+ * Create an object that adheres to the jupyter notebook specification.
+ * http://jupyter-client.readthedocs.io/en/latest/messaging.html
+ *
+ * @param {Object} msg - Message that has content which can be converted to nbformat
+ * @return {Object} formattedMsg  - Message with the associated output type
+ */
+export function convertOutputMessageToNotebookFormat(msg: any) {
+  return Object.assign({}, msg.content, {
+    output_type: msg.header.msg_type
+  });
+}
+
+/**
+ * Convert raw jupyter messages that are output messages into nbformat style
+ * outputs
+ *
+ * > o$ = iopub$.pipe(
+ *     childOf(originalMessage),
+ *     outputs()
+ *   )
+ */
+export const outputs = () => (source: rxjs$Observable<*>): rxjs$Observable<*> =>
+  source.pipe(
+    ofMessageType(["execute_result", "display_data", "stream", "error"]),
+    map(convertOutputMessageToNotebookFormat)
+  );
+
+export const updatedOutputs = () => (
+  source: rxjs$Observable<*>
+): rxjs$Observable<*> =>
+  source.pipe(
+    ofMessageType(["update_display_data"]),
+    map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))
+  );
+
+/**
+   * Get all the payload message content from an observable of jupyter messages
+   *
+   * > p$ = shell$.pipe(
+   *     childOf(originalMessage),
+   *     payloads()
+   *   )
+   */
+export const payloads = () => (
+  source: rxjs$Observable<*>
+): rxjs$Observable<*> =>
+  source.pipe(
+    ofMessageType(["execute_reply"]),
+    pluck("content", "payload"),
+    filter(Boolean),
+    mergeMap(p => from(p))
+  );
+
+/**
+ * Get all the execution counts from an observable of jupyter messages
+ */
+export const executionCounts = () => (
+  source: rxjs$Observable<*>
+): rxjs$Observable<*> =>
+  source.pipe(
+    ofMessageType(["execute_input"]),
+    pluck("content", "execution_count")
+  );
+
+/**
+ * Get the set_next_input payloads from a payload stream
+ *
+ * > sni$ = shell$.pipe(
+ *     childOf(originalMessage),
+ *     payloads(),
+ *     setNextInputs()
+ *   )
+ *
+ * NOTE: To keep the interface consistent, this is created as an operator function
+ */
+export const setNextInputs = () =>
+  filter(payload => payload.source === "set_next_input");
+
+export const executionStates = () => (
+  source: rxjs$Observable<*>
+): rxjs$Observable<*> =>
+  source.pipe(ofMessageType(["status"]), pluck("content", "execution_state"));

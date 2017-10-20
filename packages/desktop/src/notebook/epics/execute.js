@@ -1,5 +1,16 @@
 // @flow
-import { createMessage, ofMessageType, childOf } from "@nteract/messaging";
+import {
+  createMessage,
+  createExecuteRequest,
+  ofMessageType,
+  childOf,
+  updatedOutputs,
+  outputs,
+  payloads,
+  executionStates,
+  executionCounts,
+  setNextInputs
+} from "@nteract/messaging";
 
 import { Observable } from "rxjs/Observable";
 import { of } from "rxjs/observable/of";
@@ -8,16 +19,14 @@ import { merge } from "rxjs/observable/merge";
 import { _throw } from "rxjs/observable/throw";
 
 import {
-  pluck,
-  first,
   groupBy,
   filter,
   scan,
   map,
   mapTo,
   switchMap,
+  startWith,
   mergeAll,
-  mergeMap,
   takeUntil,
   catchError,
   tap
@@ -44,155 +53,6 @@ import {
 } from "../constants";
 
 const Immutable = require("immutable");
-
-/**
- * Create an object that adheres to the jupyter notebook specification.
- * http://jupyter-client.readthedocs.io/en/latest/messaging.html
- *
- * @param {Object} msg - Message that has content which can be converted to nbformat
- * @return {Object} formattedMsg  - Message with the associated output type
- */
-export function msgSpecToNotebookFormat(msg: any) {
-  return Object.assign({}, msg.content, {
-    output_type: msg.header.msg_type
-  });
-}
-
-/**
- * Insert the content requisite for a code request to a kernel message.
- *
- * @param {String} code - Code to be executed in a message to the kernel.
- * @return {Object} msg - Message object containing the code to be sent.
- */
-export function createExecuteRequest(code: string) {
-  const executeRequest = createMessage("execute_request");
-  executeRequest.content = {
-    code,
-    silent: false,
-    store_history: true,
-    user_expressions: {},
-    allow_stdin: false,
-    stop_on_error: false
-  };
-  return executeRequest;
-}
-
-/**
- * Reads a payloadStream and inspects it for pager data to be dispatched upon
- * specific cell executions.
- *
- * @param {String} id - Universally Unique ID of the cell message.
- * @param {Observable<Action>} payloadStream - Stream containing messages from the
- * kernel.
- * @return {Observable<Action>} pagerDataStream - Observable stream containing
- * Pager data.
- */
-export function createPagerActions(id: string, payloadStream: Observable<*>) {
-  return payloadStream.pipe(
-    filter(p => p.source === "page"),
-    scan((acc, pd) => acc.push(pd.data), new Immutable.List()),
-    map(pagerDatas => updateCellPagers(id, pagerDatas))
-  );
-}
-
-/**
- * Emits `createSourceUpdateAction` to update the source of a cell if the
- * kernel has requested so by setting `replace` to true.
- *
- * @param {String} id -  Universally Unique Identifier of cell receiving
- * messages.
- * @param {Observable<Action>} setInputStream - Stream containing messages from the kernel.
- * @return {Observable<Action>} updateSourceStream - Stream with updateCellSource actions.
- */
-export function createSourceUpdateAction(
-  id: string,
-  setInputStream: Observable<*>
-) {
-  return setInputStream.pipe(
-    filter(x => x.replace),
-    map(c => updateCellSource(id, c.text))
-  );
-}
-
-/**
- * Emits a `createCellAfter` action into a group of messages.
- *
- * @param {String} id -  Universally Unique Identifier of cell to have a cell
- * created after it.
- * @param {Object} setInputStream - Stream that contains a subset of messages
- * from the kernel that instruct the frontend what it should do.
- * @return {Immutable.List<Object>} updatedOutputs - Outputs with updated
- * changes.
- */
-export function createCellAfterAction(
-  id: string,
-  setInputStream: Observable<*>
-) {
-  return setInputStream.pipe(
-    filter(x => !x.replace),
-    map(c => createCellAfter("code", id, c.text))
-  );
-}
-
-/**
- * Emits a create cell status action into a group of messages.
- *
- * @param {String} id -  Universally Unique Identifier of cell receiving
- * an update in cell status.
- * @param {Observable<jmp.Message>} cellMessages - Messages to receive create cell status action.
- * @return {Observable<jmp.Message>} updatedCellMessages - Updated messages.
- */
-export function createCellStatusAction(
-  id: string,
-  cellMessages: Observable<*>
-) {
-  return cellMessages.pipe(
-    ofMessageType(["status"]),
-    pluck("content", "execution_state"),
-    map(status => updateCellStatus(id, status))
-  );
-}
-
-/**
- * Cells are numbered according to the order in which they were executed.
- * http://jupyter-client.readthedocs.io/en/latest/messaging.html#execution-counter-prompt-number
- * This code emits an action to update the cell execution count.
- *
- * @param {String} id -  Universally Unique Identifier of cell receiving an
- * update to the execution count.
- * @param {Observable<jmp.Message>} cellMessages - Messages to receive updates.
- * @return {Observable<jmp.Message>} cellMessages - Updated messages.
- */
-export function updateCellNumberingAction(
-  id: string,
-  cellMessages: Observable<*>
-) {
-  return cellMessages.pipe(
-    ofMessageType(["execute_input"]),
-    pluck("content", "execution_count"),
-    first(),
-    map(ct => updateCellExecutionCount(id, ct))
-  );
-}
-
-/**
- * Creates a stream of APPEND_OUTPUT actions from notebook formatable messages.
- *
- * @param {String} id - Universally Unique Identifier of cell receiving
- * messages.
- * @param {Observable} cellMessages - Set of sent cell messages.
- * @return {Observable<Action>} actions - Stream of APPEND_OUTPUT actions.
- */
-export function handleFormattableMessages(
-  id: string,
-  cellMessages: Observable<*>
-) {
-  return cellMessages.pipe(
-    ofMessageType(["execute_result", "display_data", "stream", "error"]),
-    map(msgSpecToNotebookFormat),
-    map(output => ({ type: "APPEND_OUTPUT", id, output }))
-  );
-}
 
 type Channels = {
   iopub: Subject<*>,
@@ -222,43 +82,58 @@ export function executeCellStream(
 
   const { iopub, shell } = channels;
 
-  // Payload streams in general
-  const payloadStream = shell.pipe(
-    childOf(executeRequest),
-    ofMessageType(["execute_reply"]),
-    pluck("content", "payload"),
-    filter(Boolean),
-    mergeMap(payloads => from(payloads))
-  );
+  // All the payload streams, intended for one user (since it's the shell channel)
+  const payloadStream = shell.pipe(childOf(executeRequest), payloads());
 
-  // Payload stream for setting the input, whether in place or "next"
-  const setInputStream = payloadStream.pipe(
-    filter(payload => payload.source === "set_next_input")
-  );
-
-  // All child messages for the cell
+  // All the streams intended for all frontends (since it's the iopub channel)
   const cellMessages = iopub.pipe(childOf(executeRequest));
 
   const cellAction$ = merge(
-    // Clear cell outputs
-    of(clearOutputs(id)),
-    of(updateCellStatus(id, "busy")),
-    // clear_output display message
-    cellMessages.pipe(ofMessageType(["clear_output"]), mapTo(clearOutputs(id))),
-    // Inline %load
-    createSourceUpdateAction(id, setInputStream),
-    // %load for the cell _after_
-    createCellAfterAction(id, setInputStream),
-    // Clear any old pager
-    of(updateCellPagers(id, new Immutable.List())),
-    // Update the doc/pager section with new bundles
-    createPagerActions(id, payloadStream),
-    // Set the cell status
-    createCellStatusAction(id, cellMessages),
+    // help menu in IPython
+    // TODO: This should let the reducer in redux do the clear and append instead
+    payloadStream.pipe(
+      filter(p => p.source === "page"),
+      // TODO: Switch to "APPEND_PAGER" action
+      scan((acc, pd) => acc.push(pd.data), new Immutable.List()),
+      map(pagerDatas => updateCellPagers(id, pagerDatas)),
+      // TODO: Switch to "CLEAR_PAGER" action
+      // TODO: Consider a RESET_CELL action that would clear out outputs, pagers, etc.
+      startWith(updateCellPagers(id, new Immutable.List()))
+    ),
+
+    // set_next_input
+    payloadStream.pipe(
+      filter(payload => payload.source === "set_next_input"),
+      map(
+        c =>
+          c.replace
+            ? updateCellSource(id, c.text)
+            : createCellAfter("code", id, c.text)
+      )
+    ),
+
+    // All actions for updating cell status
+    cellMessages.pipe(
+      executionStates(),
+      map(status => updateCellStatus(id, status)),
+      startWith(updateCellStatus(id, "busy"))
+    ),
+
     // Update the input numbering: `[ ]`
-    updateCellNumberingAction(id, cellMessages),
-    // Handle all nbformattable messages
-    handleFormattableMessages(id, cellMessages)
+    cellMessages.pipe(
+      executionCounts(),
+      map(ct => updateCellExecutionCount(id, ct))
+    ),
+
+    // All actions for new outputs
+    cellMessages.pipe(
+      outputs(),
+      map(output => ({ type: "APPEND_OUTPUT", id, output })),
+      startWith(clearOutputs(id))
+    ),
+
+    // clear_output display message
+    cellMessages.pipe(ofMessageType(["clear_output"]), mapTo(clearOutputs(id)))
   );
 
   // On subscription, send the message
@@ -338,19 +213,16 @@ export function executeCellEpic(action$: ActionsObservable<*>, store: any) {
 
 export const updateDisplayEpic = (action$: ActionsObservable<*>) =>
   // Global message watcher so we need to set up a feed for each new kernel
-  action$.ofType(NEW_KERNEL).pipe(
-    switchMap(({ channels }) =>
-      channels.iopub.pipe(
-        ofMessageType(["update_display_data"]),
-        map(msgSpecToNotebookFormat),
-        // Convert 'update_display_data' to 'display_data'
-        map(output =>
-          Object.assign({}, output, { output_type: "display_data" })
-        ),
-        map(output => ({ type: "UPDATE_DISPLAY", output })),
-        catchError(err =>
-          of({ type: ERROR_UPDATE_DISPLAY, payload: err, error: true })
+  action$
+    .ofType(NEW_KERNEL)
+    .pipe(
+      switchMap(({ channels }) =>
+        channels.iopub.pipe(
+          updatedOutputs(),
+          map(output => ({ type: "UPDATE_DISPLAY", output })),
+          catchError(err =>
+            of({ type: ERROR_UPDATE_DISPLAY, payload: err, error: true })
+          )
         )
       )
-    )
-  );
+    );
