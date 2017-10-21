@@ -2,7 +2,7 @@ import { from } from "rxjs/observable/from";
 import { pluck, tap, count } from "rxjs/operators";
 import { ofMessageType, childOf } from "../src/index";
 
-import { createMessage, getUsername } from "../";
+import { createMessage, getUsername, createExecuteRequest } from "../";
 
 describe("createMessage", () => {
   it("makes a msg", () => {
@@ -17,6 +17,16 @@ describe("createMessage", () => {
     expect(msg.header.msg_type).toBe("a");
     expect(msg.parent_header.msg_id).toBe("100");
     expect(msg.content.data.foo).toBe("bar");
+  });
+});
+
+describe("createExecuteRequest", () => {
+  it("creates an execute_request message", () => {
+    const code = 'print("test")';
+    const executeRequest = createExecuteRequest(code);
+
+    expect(executeRequest.content.code).toEqual(code);
+    expect(executeRequest.header.msg_type).toEqual("execute_request");
   });
 });
 
