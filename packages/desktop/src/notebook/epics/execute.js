@@ -8,8 +8,7 @@ import {
   outputs,
   payloads,
   executionStates,
-  executionCounts,
-  setNextInputs
+  executionCounts
 } from "@nteract/messaging";
 
 import { Observable } from "rxjs/Observable";

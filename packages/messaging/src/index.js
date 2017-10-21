@@ -197,20 +197,6 @@ export const executionCounts = () => (
     pluck("content", "execution_count")
   );
 
-/**
- * Get the set_next_input payloads from a payload stream
- *
- * > sni$ = shell$.pipe(
- *     childOf(originalMessage),
- *     payloads(),
- *     setNextInputs()
- *   )
- *
- * NOTE: To keep the interface consistent, this is created as an operator function
- */
-export const setNextInputs = () =>
-  filter(payload => payload.source === "set_next_input");
-
 export const executionStates = () => (
   source: rxjs$Observable<*>
 ): rxjs$Observable<*> =>
