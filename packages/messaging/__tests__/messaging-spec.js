@@ -157,15 +157,6 @@ describe("ofMessageType", () => {
   });
 });
 
-/**
- *   convertOutputMessageToNotebookFormat,
-   outputs,
-   payloads,
-   executionCounts,
-   executionStates
-
- */
-
 describe("convertOutputMessageToNotebookFormat", () => {
   it("ensures that fields end up notebook format style", () => {
     const message = {
@@ -191,5 +182,29 @@ describe("convertOutputMessageToNotebookFormat", () => {
     convertOutputMessageToNotebookFormat(message);
 
     expect(message).toEqual(copy);
+  });
+});
+
+describe("outputs", () => {
+  it("should be tested", () => {
+    expect(outputs()).toBeTruthy();
+  });
+});
+
+describe("payloads", () => {
+  it("should be tested", () => {
+    expect(payloads()).toBeTruthy();
+  });
+});
+
+describe("executionCounts", () => {
+  it("should be tested", () => {
+    expect(executionCounts()).toBeTruthy();
+  });
+});
+
+describe("executionStates", () => {
+  it("should be tested", () => {
+    expect(executionStates()).toBeTruthy();
   });
 });
