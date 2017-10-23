@@ -61,7 +61,7 @@ export type ExecuteMessageContent = {
   stop_on_error: boolean
 };
 
-export type ExecuteMessage = JupyterMessage<
+export type ExecuteRequest = JupyterMessage<
   "execute_request",
   ExecuteMessageContent
 >;
@@ -95,7 +95,7 @@ export function createMessage(
  * @param {String} code - Code to be executed in a message to the kernel.
  * @return {Object} msg - Message object containing the code to be sent.
  */
-export function createExecuteRequest(code: string = ""): ExecuteMessage {
+export function createExecuteRequest(code: string = ""): ExecuteRequest {
   const executeRequest = createMessage("execute_request");
   executeRequest.content = {
     code,
