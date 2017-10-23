@@ -2,7 +2,18 @@ import { from } from "rxjs/observable/from";
 import { pluck, tap, count } from "rxjs/operators";
 import { ofMessageType, childOf } from "../src/index";
 
-import { createMessage, getUsername, createExecuteRequest } from "../";
+import {
+  createMessage,
+  getUsername,
+  createExecuteRequest,
+  convertOutputMessageToNotebookFormat,
+  outputs,
+  payloads,
+  executionCounts,
+  executionStates
+} from "../";
+
+import { cloneDeep } from "lodash";
 
 describe("createMessage", () => {
   it("makes a msg", () => {
@@ -143,5 +154,42 @@ describe("ofMessageType", () => {
       .then(val => {
         expect(val).toEqual(4);
       });
+  });
+});
+
+/**
+ *   convertOutputMessageToNotebookFormat,
+   outputs,
+   payloads,
+   executionCounts,
+   executionStates
+
+ */
+
+describe("convertOutputMessageToNotebookFormat", () => {
+  it("ensures that fields end up notebook format style", () => {
+    const message = {
+      content: { yep: true },
+      header: { msg_type: "test", msg_id: "10", username: "rebecca" },
+      metadata: { purple: true }
+    };
+
+    expect(convertOutputMessageToNotebookFormat(message)).toEqual({
+      yep: true,
+      output_type: "test"
+    });
+  });
+
+  it("should not mutate the message", () => {
+    const message = {
+      content: { yep: true },
+      header: { msg_type: "test", msg_id: "10", username: "rebecca" },
+      metadata: { purple: true }
+    };
+
+    const copy = cloneDeep(message);
+    convertOutputMessageToNotebookFormat(message);
+
+    expect(message).toEqual(copy);
   });
 });

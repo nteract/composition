@@ -113,7 +113,7 @@ export function createExecuteRequest(code: string = ""): ExecuteRequest {
  * parentMessage's header
  */
 export const childOf = (parentMessage: JupyterMessage<*, *>) => (
-  source: rxjs$Observable<*>
+  source: rxjs$Observable<JupyterMessage<*, *>>
 ) => {
   const parentMessageID = parentMessage.header.msg_id;
   return new Observable(subscriber =>
@@ -150,7 +150,9 @@ export const ofMessageType = (
     return ofMessageType(...messageTypes[0]);
   }
 
-  return (source: rxjs$Observable<*>): rxjs$Observable<*> =>
+  return (
+    source: rxjs$Observable<JupyterMessage<*, *>>
+  ): rxjs$Observable<JupyterMessage<*, *>> =>
     new Observable(subscriber =>
       source.subscribe(
         msg => {
@@ -178,7 +180,9 @@ export const ofMessageType = (
  * @param {Object} msg - Message that has content which can be converted to nbformat
  * @return {Object} formattedMsg  - Message with the associated output type
  */
-export function convertOutputMessageToNotebookFormat(msg: any) {
+export function convertOutputMessageToNotebookFormat(
+  msg: JupyterMessage<*, *>
+) {
   return Object.assign({}, msg.content, {
     output_type: msg.header.msg_type
   });
@@ -193,7 +197,9 @@ export function convertOutputMessageToNotebookFormat(msg: any) {
  *     outputs()
  *   )
  */
-export const outputs = () => (source: rxjs$Observable<*>): rxjs$Observable<*> =>
+export const outputs = () => (
+  source: rxjs$Observable<JupyterMessage<*, *>>
+): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_result", "display_data", "stream", "error"),
     map(convertOutputMessageToNotebookFormat)
@@ -216,8 +222,8 @@ export const updatedOutputs = () => (
    *   )
    */
 export const payloads = () => (
-  source: rxjs$Observable<*>
-): rxjs$Observable<*> =>
+  source: rxjs$Observable<JupyterMessage<*, *>>
+): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_reply"),
     pluck("content", "payload"),
@@ -229,14 +235,14 @@ export const payloads = () => (
  * Get all the execution counts from an observable of jupyter messages
  */
 export const executionCounts = () => (
-  source: rxjs$Observable<*>
-): rxjs$Observable<*> =>
+  source: rxjs$Observable<JupyterMessage<*, *>>
+): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_input"),
     pluck("content", "execution_count")
   );
 
 export const executionStates = () => (
-  source: rxjs$Observable<*>
-): rxjs$Observable<*> =>
+  source: rxjs$Observable<JupyterMessage<*, *>>
+): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(ofMessageType("status"), pluck("content", "execution_state"));
