@@ -1,4 +1,5 @@
 import { from } from "rxjs/observable/from";
+import { of } from "rxjs/observable/of";
 import { pluck, tap, count } from "rxjs/operators";
 import { ofMessageType, childOf } from "../src/index";
 

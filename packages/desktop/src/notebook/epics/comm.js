@@ -124,12 +124,12 @@ export function commMessageAction(message: any) {
  */
 export function commActionObservable(newKernelAction: any) {
   const commOpenAction$ = newKernelAction.channels.iopub.pipe(
-    ofMessageType(["comm_open"]),
+    ofMessageType("comm_open"),
     map(commOpenAction)
   );
 
   const commMessageAction$ = newKernelAction.channels.iopub.pipe(
-    ofMessageType(["comm_msg"]),
+    ofMessageType("comm_msg"),
     map(commMessageAction)
   );
 

@@ -66,7 +66,7 @@ export function acquireKernelInfo(channels: Channels) {
 
   const obs = channels.shell.pipe(
     childOf(message),
-    ofMessageType(["kernel_info_reply"]),
+    ofMessageType("kernel_info_reply"),
     first(),
     pluck("content", "language_info"),
     map(setLanguageInfo)

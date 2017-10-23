@@ -132,7 +132,7 @@ export function executeCellStream(
     ),
 
     // clear_output display message
-    cellMessages.pipe(ofMessageType(["clear_output"]), mapTo(clearOutputs(id)))
+    cellMessages.pipe(ofMessageType("clear_output"), mapTo(clearOutputs(id)))
   );
 
   // On subscription, send the message
