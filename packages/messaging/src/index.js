@@ -27,57 +27,40 @@ import * as uuid from "uuid";
 
 export const session = uuid.v4();
 
-export function getUsername() {
+export function getUsername(): string {
   return (
     process.env.LOGNAME ||
     process.env.USER ||
     process.env.LNAME ||
-    process.env.USERNAME
+    process.env.USERNAME ||
+    ""
   );
 }
 
+import { message, executeRequest } from "./messages";
+
+// TODO: The current expectation of this library is that createMessage hides the
+//       fact that there is a session number and a username
+//       We'll keep a bound version of createMessage around here, using the
+//       more generic and declarative `message` and `executeRequest`
+const sessionInfo = {
+  username: getUsername(),
+  session
+};
+
 import type { JupyterMessage, ExecuteRequest } from "./types";
 
+// TODO: Deprecate
 export function createMessage(
   msg_type: string,
   fields: Object = {}
 ): JupyterMessage<*, *> {
-  const username = getUsername();
-  return Object.assign(
-    {
-      header: {
-        username,
-        session,
-        msg_type,
-        msg_id: uuid.v4(),
-        date: new Date(),
-        version: "5.0"
-      },
-      metadata: {},
-      parent_header: {},
-      content: {}
-    },
-    fields
-  );
+  return { ...message({ msg_type, ...sessionInfo }), ...fields };
 }
 
-/**
- * Initializes an execute message with defaults
- *
- * @param {String} code - Code to be executed in a message to the kernel.
- * @return {Object} msg - Message object containing the code to be sent.
- */
+// TODO: Deprecate
 export function createExecuteRequest(code: string = ""): ExecuteRequest {
-  const executeRequest = createMessage("execute_request");
-  executeRequest.content = {
-    code,
-    silent: false,
-    store_history: true,
-    user_expressions: {},
-    allow_stdin: false,
-    stop_on_error: false
-  };
-  return executeRequest;
+  return executeRequest(sessionInfo, code);
 }
 
 /**
