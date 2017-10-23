@@ -102,4 +102,46 @@ describe("ofMessageType", () => {
           done();
         }
       ));
+  it("handles both the legacy and current arguments for ofMessageType", () => {
+    from([
+      { header: { msg_type: "a" } },
+      { header: { msg_type: "d" } },
+      { header: { msg_type: "b" } },
+      { header: { msg_type: "a" } },
+      { header: { msg_type: "d" } }
+    ])
+      .pipe(
+        ofMessageType(["a", "d"]),
+        tap(val => {
+          expect(val.header.msg_type === "a" || val.header.msg_type === "d");
+        }),
+        pluck("header", "msg_type"),
+        count()
+      )
+      .toPromise()
+      .then(val => {
+        expect(val).toEqual(4);
+      });
+
+    from([
+      { header: { msg_type: "a" } },
+      { header: { msg_type: "d" } },
+      { header: { msg_type: "b" } },
+      { header: { msg_type: "a" } },
+      { header: { msg_type: "d" } }
+    ])
+      .pipe(
+        // Note the lack of array brackets on the arguments
+        ofMessageType("a", "d"),
+        tap(val => {
+          expect(val.header.msg_type === "a" || val.header.msg_type === "d");
+        }),
+        pluck("header", "msg_type"),
+        count()
+      )
+      .toPromise()
+      .then(val => {
+        expect(val).toEqual(4);
+      });
+  });
 });

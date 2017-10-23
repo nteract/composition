@@ -8,7 +8,7 @@ import { js_idx_to_char_idx } from "./surrogate";
 export function tooltipObservable(channels, editor, message) {
   const tip$ = channels.shell.pipe(
     childOf(message),
-    ofMessageType(["inspect_reply"]),
+    ofMessageType("inspect_reply"),
     pluck("content"),
     first(),
     map(results => ({

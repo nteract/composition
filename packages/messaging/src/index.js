@@ -36,7 +36,40 @@ export function getUsername() {
   );
 }
 
-export function createMessage(msg_type: string, fields: Object = {}) {
+export type JupyterMessageHeader<MT> = {
+  msg_id: string,
+  username: string,
+  date: string, // ISO 8601 timestamp
+  msg_type: MT, // this could be an enum
+  version: string // this could be an enum
+};
+
+export type JupyterMessage<MT, C> = {
+  header: JupyterMessageHeader<MT>,
+  parent_header: JupyterMessageHeader<*>,
+  metadata: Object,
+  content: C,
+  buffers?: Array<any> | null
+};
+
+export type ExecuteMessageContent = {
+  code: string,
+  silent: boolean,
+  store_history: boolean,
+  user_expressions: Object,
+  allow_stdin: boolean,
+  stop_on_error: boolean
+};
+
+export type ExecuteMessage = JupyterMessage<
+  "execute_request",
+  ExecuteMessageContent
+>;
+
+export function createMessage(
+  msg_type: string,
+  fields: Object = {}
+): JupyterMessage<*, *> {
   const username = getUsername();
   return Object.assign(
     {
@@ -57,12 +90,12 @@ export function createMessage(msg_type: string, fields: Object = {}) {
 }
 
 /**
- * Insert the content requisite for a code request to a kernel message.
+ * Initializes an execute message with defaults
  *
  * @param {String} code - Code to be executed in a message to the kernel.
  * @return {Object} msg - Message object containing the code to be sent.
  */
-export function createExecuteRequest(code: string) {
+export function createExecuteRequest(code: string = ""): ExecuteMessage {
   const executeRequest = createMessage("execute_request");
   executeRequest.content = {
     code,
@@ -76,11 +109,10 @@ export function createExecuteRequest(code: string) {
 }
 
 /**
- * childOf filters out messages that don't have the parent header matching parentMessage
- * @param  {Object}  parentMessage Jupyter message protocol message
- * @return {Observable}               the resulting observable
+ * operator for getting all messages that declare their parent header as
+ * parentMessage's header
  */
-export const childOf = (parentMessage: Object) => (
+export const childOf = (parentMessage: JupyterMessage<*, *>) => (
   source: rxjs$Observable<*>
 ) => {
   const parentMessageID = parentMessage.header.msg_id;
@@ -110,27 +142,34 @@ export const childOf = (parentMessage: Object) => (
  * @param  {Array} messageTypes e.g. ['stream', 'error']
  * @return {Observable}                 the resulting observable
  */
-export const ofMessageType = (messageTypes: Array<string>) => (
-  source: rxjs$Observable<*>
-): rxjs$Observable<*> =>
-  new Observable(subscriber =>
-    source.subscribe(
-      msg => {
-        if (!msg.header || !msg.header.msg_type) {
-          subscriber.error(new Error("no header.msg_type on message"));
-          return;
-        }
+export const ofMessageType = (
+  ...messageTypes: Array<string> | [Array<string>]
+) => {
+  // Switch to the splat mode
+  if (messageTypes.length === 1 && Array.isArray(messageTypes[0])) {
+    return ofMessageType(...messageTypes[0]);
+  }
 
-        if (messageTypes.indexOf(msg.header.msg_type) !== -1) {
-          subscriber.next(msg);
-        }
-      },
-      // be sure to handle errors and completions as appropriate and
-      // send them along
-      err => subscriber.error(err),
-      () => subscriber.complete()
-    )
-  );
+  return (source: rxjs$Observable<*>): rxjs$Observable<*> =>
+    new Observable(subscriber =>
+      source.subscribe(
+        msg => {
+          if (!msg.header || !msg.header.msg_type) {
+            subscriber.error(new Error("no header.msg_type on message"));
+            return;
+          }
+
+          if (messageTypes.indexOf(msg.header.msg_type) !== -1) {
+            subscriber.next(msg);
+          }
+        },
+        // be sure to handle errors and completions as appropriate and
+        // send them along
+        err => subscriber.error(err),
+        () => subscriber.complete()
+      )
+    );
+};
 
 /**
  * Create an object that adheres to the jupyter notebook specification.
@@ -156,7 +195,7 @@ export function convertOutputMessageToNotebookFormat(msg: any) {
  */
 export const outputs = () => (source: rxjs$Observable<*>): rxjs$Observable<*> =>
   source.pipe(
-    ofMessageType(["execute_result", "display_data", "stream", "error"]),
+    ofMessageType("execute_result", "display_data", "stream", "error"),
     map(convertOutputMessageToNotebookFormat)
   );
 
@@ -164,7 +203,7 @@ export const updatedOutputs = () => (
   source: rxjs$Observable<*>
 ): rxjs$Observable<*> =>
   source.pipe(
-    ofMessageType(["update_display_data"]),
+    ofMessageType("update_display_data"),
     map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))
   );
 
@@ -180,7 +219,7 @@ export const payloads = () => (
   source: rxjs$Observable<*>
 ): rxjs$Observable<*> =>
   source.pipe(
-    ofMessageType(["execute_reply"]),
+    ofMessageType("execute_reply"),
     pluck("content", "payload"),
     filter(Boolean),
     mergeMap(p => from(p))
@@ -193,11 +232,11 @@ export const executionCounts = () => (
   source: rxjs$Observable<*>
 ): rxjs$Observable<*> =>
   source.pipe(
-    ofMessageType(["execute_input"]),
+    ofMessageType("execute_input"),
     pluck("content", "execution_count")
   );
 
 export const executionStates = () => (
   source: rxjs$Observable<*>
 ): rxjs$Observable<*> =>
-  source.pipe(ofMessageType(["status"]), pluck("content", "execution_state"));
+  source.pipe(ofMessageType("status"), pluck("content", "execution_state"));
