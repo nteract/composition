@@ -239,7 +239,19 @@ describe("executionCounts", () => {
 });
 
 describe("executionStates", () => {
-  it("should be tested", () => {
-    expect(executionStates()).toBeTruthy();
+  it("extracts all the execution states from status messages", () => {
+    return of(
+      status("starting"),
+      status("idle"),
+      status("busy"),
+      displayData({ data: { "text/plain": "woo" } }),
+      displayData({ data: { "text/plain": "hoo" } }),
+      status("idle")
+    )
+      .pipe(executionStates(), toArray())
+      .toPromise()
+      .then(arr => {
+        expect(arr).toEqual(["starting", "idle", "busy", "idle"]);
+      });
   });
 });
