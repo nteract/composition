@@ -253,3 +253,16 @@ export function clearOutput(
     content
   );
 }
+
+export function executeInput(
+  content: { code: string, execution_count: number },
+  sessionInfo?: SessionInfo
+) {
+  return message(
+    {
+      msg_type: "execute_input",
+      ...sessionInfo
+    },
+    content
+  );
+}

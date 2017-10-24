@@ -15,6 +15,7 @@ import {
 } from "../";
 
 import {
+  executeInput,
   displayData,
   updateDisplayData,
   executeResult,
@@ -233,8 +234,28 @@ describe("payloads", () => {
 });
 
 describe("executionCounts", () => {
-  it("should be tested", () => {
-    expect(executionCounts()).toBeTruthy();
+  it("extracts all execution counts from a session", () => {
+    return of(
+      status("starting"),
+      status("idle"),
+      status("busy"),
+      executeInput({
+        code: "display('woo')\ndisplay('hoo')",
+        execution_count: 0
+      }),
+      displayData({ data: { "text/plain": "woo" } }),
+      displayData({ data: { "text/plain": "hoo" } }),
+      executeInput({
+        code: "",
+        execution_count: 1
+      }),
+      status("idle")
+    )
+      .pipe(executionCounts(), toArray())
+      .toPromise()
+      .then(arr => {
+        expect(arr).toEqual([0, 1]);
+      });
   });
 });
 
