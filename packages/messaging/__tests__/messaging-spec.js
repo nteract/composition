@@ -21,7 +21,9 @@ import {
   executeResult,
   error,
   stream,
-  status
+  status,
+  executeReply,
+  message
 } from "../src/messages";
 
 import { cloneDeep } from "lodash";
@@ -228,7 +230,20 @@ describe("outputs", () => {
 });
 
 describe("payloads", () => {
-  it("should be tested", () => {
+  it("extracts payloads from execute_reply messages", () => {
+    return of(
+      status("idle"),
+      status("busy"),
+      executeReply({ payload: [{ c: "d" }] }),
+      executeReply({ payload: [{ a: "b" }, { g: "6" }] }),
+      executeReply({ status: "ok" }),
+      message({ msg_type: "fake" }, { payload: [{ should: "not be in it" }] })
+    )
+      .pipe(payloads(), toArray())
+      .toPromise()
+      .then(arr => {
+        expect(arr).toEqual([{ c: "d" }, { a: "b" }, { g: "6" }]);
+      });
     expect(payloads()).toBeTruthy();
   });
 });
