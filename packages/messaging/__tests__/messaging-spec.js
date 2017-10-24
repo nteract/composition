@@ -196,7 +196,7 @@ describe("convertOutputMessageToNotebookFormat", () => {
 });
 
 describe("outputs", () => {
-  it("should be tested", () => {
+  it("extracts outputs as nbformattable contents", () => {
     const hacking = of(
       status("busy"),
       displayData({ data: { "text/plain": "woo" } }),
