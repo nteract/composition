@@ -60,7 +60,7 @@ export function createMessage(
 
 // TODO: Deprecate
 export function createExecuteRequest(code: string = ""): ExecuteRequest {
-  return executeRequest(sessionInfo, code);
+  return executeRequest(code, {}, sessionInfo);
 }
 
 /**
