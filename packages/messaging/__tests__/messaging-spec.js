@@ -1,6 +1,6 @@
 import { from } from "rxjs/observable/from";
 import { of } from "rxjs/observable/of";
-import { pluck, tap, count } from "rxjs/operators";
+import { pluck, tap, count, toArray } from "rxjs/operators";
 import { ofMessageType, childOf } from "../src/index";
 
 import {
@@ -13,6 +13,15 @@ import {
   executionCounts,
   executionStates
 } from "../";
+
+import {
+  displayData,
+  updateDisplayData,
+  executeResult,
+  error,
+  stream,
+  status
+} from "../src/messages";
 
 import { cloneDeep } from "lodash";
 
@@ -188,7 +197,32 @@ describe("convertOutputMessageToNotebookFormat", () => {
 
 describe("outputs", () => {
   it("should be tested", () => {
-    expect(outputs()).toBeTruthy();
+    const hacking = of(
+      status("busy"),
+      displayData({ data: { "text/plain": "woo" } }),
+      displayData({ data: { "text/plain": "hoo" } }),
+      status("idle")
+    );
+
+    return hacking
+      .pipe(outputs(), toArray())
+      .toPromise()
+      .then(arr => {
+        expect(arr).toEqual([
+          {
+            data: { "text/plain": "woo" },
+            output_type: "display_data",
+            metadata: {},
+            transient: {}
+          },
+          {
+            data: { "text/plain": "hoo" },
+            output_type: "display_data",
+            metadata: {},
+            transient: {}
+          }
+        ]);
+      });
   });
 });
 
