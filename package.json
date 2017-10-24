@@ -33,8 +33,8 @@
     "test:coverage": "npm run test:unit -- --coverage",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
-    "test:unit":
-      "lerna exec --scope enchannel-zmq-backend -- npm rebuild && jest",
+    "pretest:unit": "lerna exec --scope enchannel-zmq-backend -- npm rebuild",
+    "test:unit": "jest",
     "test:desktop": "lerna run test:unit --scope nteract --stream",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
