@@ -40,6 +40,21 @@
   .cell.focused .prompt {
     background: var(--pager-bg) !important;
   }
+  .draggable-cell
+  {
+    padding: 0px !important;
+  }
+  .cell-drag-handle
+  {
+    display: none !important;
+  }
+  .cell-toolbar-mask {
+    display: none !important;
+  }
+  .invisible
+  {
+    display: none !important;
+  }
 }
 
 #app {
