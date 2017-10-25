@@ -11,7 +11,8 @@ import {
   outputs,
   payloads,
   executionCounts,
-  executionStates
+  executionStates,
+  bufferedOutputs
 } from "../";
 
 import {
@@ -224,6 +225,53 @@ describe("outputs", () => {
             metadata: {},
             transient: {}
           }
+        ]);
+      });
+  });
+});
+
+describe("bufferedOutputs", () => {
+  it("will combine stream data within a bufferTimeSpan", () => {
+    const hacking = of(
+      displayData({ data: { "text/plain": "woo" } }),
+      stream({ name: "stdout", text: "Eleanor" }),
+      stream({ name: "stdout", text: " Rigby\n" }),
+      stream({ name: "stdout", text: " died in a chur" }),
+      stream({ name: "stdout", text: "ch and was buried along with her name" }),
+      displayData({ data: { "text/plain": "hoo" } }),
+      stream({ name: "stdout", text: "nobody came" })
+    );
+
+    return hacking
+      .pipe(bufferedOutputs(), toArray())
+      .toPromise()
+      .then(arr => {
+        expect(arr).toEqual([
+          [
+            {
+              data: { "text/plain": "woo" },
+              output_type: "display_data",
+              metadata: {},
+              transient: {}
+            },
+            {
+              output_type: "stream",
+              name: "stdout",
+              text:
+                "Eleanor Rigby\n died in a church and was buried along with her name"
+            },
+            {
+              data: { "text/plain": "hoo" },
+              output_type: "display_data",
+              metadata: {},
+              transient: {}
+            },
+            {
+              output_type: "stream",
+              name: "stdout",
+              text: "nobody came"
+            }
+          ]
         ]);
       });
   });

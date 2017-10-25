@@ -20,7 +20,8 @@ import {
   mergeMap,
   takeUntil,
   catchError,
-  tap
+  tap,
+  bufferTime
 } from "rxjs/operators";
 
 import * as uuid from "uuid";
@@ -167,6 +168,41 @@ export const updatedOutputs = () => (
     ofMessageType("update_display_data"),
     map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))
   );
+
+// TODO: Strongly type as jupyter outputs
+function simpleOutputReduction(outputs: Array<*>) {
+  return outputs.reduce((acc, output) => {
+    if (acc.length === 0) {
+      acc.push(output);
+      return acc;
+    }
+
+    var last = acc[acc.length - 1];
+
+    if (last.output_type !== "stream" || output.output_type !== "stream") {
+      acc.push(output);
+      return acc;
+    }
+
+    // NOTE: This will combine stdout and stderr
+    const combinedOutput = Object.assign({}, last, {
+      text: last.text + output.text
+    });
+    acc[acc.length - 1] = combinedOutput;
+    return acc;
+  }, []);
+}
+
+/**
+ * Creates batches of output messages rather than single output messages individually.
+ */
+export const bufferedOutputs = (
+  bufferTimeSpan: number = 100,
+  reducer = simpleOutputReduction
+) => (
+  source: rxjs$Observable<JupyterMessage<*, *>>
+): rxjs$Observable<JupyterMessage<*, *>> =>
+  source.pipe(outputs(), bufferTime(bufferTimeSpan), map(reducer));
 
 /**
    * Get all the payload message content from an observable of jupyter messages
