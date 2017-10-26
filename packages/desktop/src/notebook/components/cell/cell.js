@@ -109,6 +109,24 @@ export class Cell extends React.PureComponent<CellProps, *> {
     this.context.store.dispatch(focusNextCellEditor(this.props.id));
   }
 
+  addFocused(e): void {
+    // Remove the focused class and event listener
+    // if the user doesn't click a child of the .outputs div
+    if (!this.outputsDiv.contains(e.target)) {
+      this.outputsDiv.classList.remove("focused");
+      window.removeEventListener("click", this.addFocused);
+    }
+  }
+
+  clickedOutputs(outputsDiv): void {
+    // Only add class and set event listener if they haven't been set yet
+    if (!this.outputsDiv.classList.contains("focused")) {
+      this.outputsDiv.classList.add("focused");
+      // No need to bind because it is binded to this in child
+      window.addEventListener("click", this.addFocused);
+    }
+  }
+
   render(): ?React$Element<any> {
     const cell = this.props.cell;
     const type = cell.get("cell_type");
@@ -128,6 +146,8 @@ export class Cell extends React.PureComponent<CellProps, *> {
         <Toolbar type={type} cell={cell} id={this.props.id} />
         {type === "markdown" ? (
           <MarkdownCell
+            clickedOutputs={this.clickedOutputs}
+            addFocused={this.addFocused}
             focusAbove={this.focusAboveCell}
             focusBelow={this.focusBelowCell}
             focusEditor={this.focusCellEditor}
@@ -139,6 +159,8 @@ export class Cell extends React.PureComponent<CellProps, *> {
           />
         ) : type === "code" ? (
           <CodeCell
+            clickedOutputs={this.clickedOutputs}
+            addFocused={this.addFocused}
             focusAbove={this.focusAboveCell}
             focusBelow={this.focusBelowCell}
             cellFocused={cellFocused}

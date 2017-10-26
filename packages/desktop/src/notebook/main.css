@@ -379,10 +379,23 @@ body {
   word-wrap: break-word;
 }
 
+.outputs {
+  /* Used 300px + .cell-display padding top/bottom */
+  max-height: 320px;
+  overflow-y: hidden;
+}
+
+.outputs.focused > div {
+  overflow-y: auto !important;
+}
+
 .outputs > div {
   word-wrap: break-word;
   padding: 10px 10px 10px calc(var(--prompt-width) + 10px);
-  overflow-y: auto;
+  overflow-y: hidden !important;
+  height: 100%;
+  /* This should match the max height of .outputs - padding top/bottom */
+  max-height: 300px !important;
 }
 
 .outputs > div:empty {

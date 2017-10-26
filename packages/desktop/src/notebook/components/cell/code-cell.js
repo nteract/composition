@@ -21,6 +21,8 @@ type Props = {
   running: boolean,
   focusAbove: () => void,
   focusBelow: () => void,
+  clickedOutputs: Function,
+  addFocused: Function,
   models: ImmutableMap<string, any>
 };
 
@@ -30,6 +32,11 @@ class CodeCell extends React.PureComponent<Props> {
     running: false,
     tabSize: 4
   };
+
+  constructor(props: Props): void {
+    super(props);
+    this.addFocused = this.props.addFocused.bind(this);
+  }
 
   isOutputHidden(): any {
     return this.props.cell.getIn(["metadata", "outputHidden"]);
@@ -84,7 +91,11 @@ class CodeCell extends React.PureComponent<Props> {
           </div>
         ) : null}
         <LatexRenderer>
-          <div className="outputs">
+          <div
+            className="outputs"
+            ref={el => (this.outputsDiv = el)}
+            onClick={this.props.clickedOutputs.bind(this)}
+          >
             <Display
               className="outputs-display"
               outputs={this.props.cell.get("outputs").toJS()}
