@@ -1,6 +1,8 @@
 /* @flow */
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { createEpicMiddleware, combineEpics } from "redux-observable";
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 import epics from "./epics";
 
@@ -23,6 +25,6 @@ export default function configureStore(initialState: AppState = {}) {
   return createStore(
     rootReducer,
     initialState,
-    applyMiddleware(...middlewares)
+    composeEnhancers(applyMiddleware(...middlewares))
   );
 }
