@@ -170,7 +170,7 @@ export const updatedOutputs = () => (
   );
 
 // TODO: Strongly type as jupyter outputs
-function simpleOutputReduction(outputs: Array<*>) {
+function simpleOutputReduction(outputs: Array<*>): Array<*> {
   return outputs.reduce((acc, output) => {
     if (acc.length === 0) {
       acc.push(output);
@@ -193,12 +193,15 @@ function simpleOutputReduction(outputs: Array<*>) {
   }, []);
 }
 
+// TODO: Strongly type as jupyter outputs
+type OutputReducer = (outputArray: Array<*>) => Array<*>;
+
 /**
  * Creates batches of output messages rather than single output messages individually.
  */
 export const bufferedOutputs = (
   bufferTimeSpan: number = 100,
-  reducer = simpleOutputReduction
+  reducer: OutputReducer = simpleOutputReduction
 ) => (
   source: rxjs$Observable<JupyterMessage<*, *>>
 ): rxjs$Observable<JupyterMessage<*, *>> =>
