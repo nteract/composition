@@ -205,7 +205,18 @@ export const bufferedOutputs = (
 ) => (
   source: rxjs$Observable<JupyterMessage<*, *>>
 ): rxjs$Observable<JupyterMessage<*, *>> =>
-  source.pipe(outputs(), bufferTime(bufferTimeSpan), map(reducer));
+  source.pipe(
+    ofMessageType(
+      "execute_result",
+      "display_data",
+      "stream",
+      "error",
+      "update_display_data"
+    ),
+    map(convertOutputMessageToNotebookFormat),
+    bufferTime(bufferTimeSpan),
+    map(reducer)
+  );
 
 /**
    * Get all the payload message content from an observable of jupyter messages

@@ -6,6 +6,7 @@ import {
   childOf,
   updatedOutputs,
   outputs,
+  bufferedOutputs,
   payloads,
   executionStates,
   executionCounts
@@ -126,8 +127,8 @@ export function executeCellStream(
 
     // All actions for new outputs
     cellMessages.pipe(
-      outputs(),
-      map(output => ({ type: "APPEND_OUTPUT", id, output })),
+      bufferedOutputs(),
+      map(outputs => ({ type: "APPEND_BATCHED_OUTPUTS", id, outputs })),
       startWith(clearOutputs(id))
     ),
 

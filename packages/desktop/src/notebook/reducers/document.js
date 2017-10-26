@@ -158,6 +158,35 @@ function clearOutputs(state: DocumentState, action: ClearOutputsAction) {
   return state;
 }
 
+type AppendBatchedOutputsAction = {
+  type: "APPEND_BATCHED_OUTPUTS",
+  id: CellID,
+  outputs: Array<Output>
+};
+function appendBatchedOutputs(
+  state: DocumentState,
+  action: AppendBatchedOutputsAction
+) {
+  return action.outputs.reduce((state, output) => {
+    if (output.output_type === "update_display_data") {
+      // We create a copy because we need to set it
+      const displayableOutput = Object.assign({}, output, {
+        output_type: "display_data"
+      });
+      return updateDisplay(state, {
+        type: "UPDATE_DISPLAY",
+        output: displayableOutput
+      });
+    }
+
+    return appendOutput(state, {
+      type: "APPEND_OUTPUT",
+      id: action.id,
+      output
+    });
+  }, state);
+}
+
 type AppendOutputAction = { type: "APPEND_OUTPUT", id: CellID, output: Output };
 function appendOutput(state: DocumentState, action: AppendOutputAction) {
   const output = action.output;
@@ -664,6 +693,7 @@ type FocusCellActionType =
   | FocusCellAction;
 
 type DocumentAction =
+  | AppendBatchedOutputsAction
   | ToggleStickyCellAction
   | FocusCellActionType
   | SetNotebookAction
@@ -705,6 +735,8 @@ function handleDocument(
       return focusCell(state, action);
     case constants.CLEAR_OUTPUTS:
       return clearOutputs(state, action);
+    case "APPEND_BATCHED_OUTPUTS":
+      return appendBatchedOutputs(state, action);
     case constants.APPEND_OUTPUT:
       return appendOutput(state, action);
     case constants.UPDATE_DISPLAY:
