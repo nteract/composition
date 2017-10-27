@@ -9,10 +9,4 @@ export type KERNELSPECS_LISTED = {
   payload: any
 };
 
-export type GENERIC_AJAX_FAIL = {
-  type: "GENERIC_AJAX_FAIL",
-  payload: any,
-  status: number
-};
-
 export type KERNELSPECS_ACTIONS = LIST_KERNELSPECS | KERNELSPECS_LISTED;
