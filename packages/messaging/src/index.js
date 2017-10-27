@@ -39,6 +39,7 @@ export function getUsername(): string {
 }
 
 import { message, executeRequest } from "./messages";
+import { Output } from "./types";
 
 // TODO: The current expectation of this library is that createMessage hides the
 //       fact that there is a session number and a username
@@ -169,8 +170,7 @@ export const updatedOutputs = () => (
     map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))
   );
 
-// TODO: Strongly type as jupyter outputs
-function simpleOutputReduction(outputs: Array<*>): Array<*> {
+function simpleOutputReduction(outputs: Array<Output>): Array<Output> {
   return outputs.reduce((acc, output) => {
     if (acc.length === 0) {
       acc.push(output);
@@ -193,8 +193,7 @@ function simpleOutputReduction(outputs: Array<*>): Array<*> {
   }, []);
 }
 
-// TODO: Strongly type as jupyter outputs
-type OutputReducer = (outputArray: Array<*>) => Array<*>;
+type OutputReducer = (outputArray: Array<Output>) => Array<Output>;
 
 /**
  * Creates batches of output messages rather than single output messages individually.
