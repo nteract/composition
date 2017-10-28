@@ -33,9 +33,10 @@ Optional coverage:
 To install `rx-jupyter` for development, do the following:
 
 ```
-git clone https://github.com/nteract/rx-jupyter.git
-cd rx-jupyter
-npm install
+git clone https://github.com/nteract/nteract.git
+cd nteract
+npm i
+# Note that rx-jupyter is in packages/rx-jupyter
 ```
 ## Testing
 
