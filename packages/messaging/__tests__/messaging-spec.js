@@ -13,7 +13,7 @@ import {
   executionCounts,
   executionStates,
   bufferedOutputs
-} from "../";
+} from "../src";
 
 import {
   executeInput,
@@ -48,6 +48,7 @@ describe("createMessage", () => {
 describe("createExecuteRequest", () => {
   it("creates an execute_request message", () => {
     const code = 'print("test")';
+    console.log("createExecuteRequest:", createExecuteRequest);
     const executeRequest = createExecuteRequest(code);
 
     expect(executeRequest.content.code).toEqual(code);

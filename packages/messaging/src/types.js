@@ -28,6 +28,9 @@ export type ExecuteRequest = JupyterMessage<
   ExecuteMessageContent
 >;
 
+export type ImmutableJSONMap = Immutable.Map<string, ImmutableJSON>;
+export type ImmutableJSONList = Immutable.List<ImmutableJSON>;
+
 export type ImmutableJSON =
   | string
   | number
@@ -35,8 +38,6 @@ export type ImmutableJSON =
   | null
   | ImmutableJSONMap
   | ImmutableJSONList; // eslint-disable-line no-use-before-define
-export type ImmutableJSONMap = Immutable.Map<string, ImmutableJSON>;
-export type ImmutableJSONList = Immutable.List<ImmutableJSON>;
 
 export type ExecutionCount = number | null;
 
