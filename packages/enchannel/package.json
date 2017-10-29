@@ -7,17 +7,14 @@
   "scripts": {
     "test": "mocha"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nteract/nteract.git"
-  },
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/enchannel",
   "keywords": ["enchannel", "jupyter"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/nteract/nteract/issues"
   },
-  "homepage": "https://github.com/nteract/nteract#readme",
   "dependencies": {
     "@nteract/messaging": "^2.0.1",
     "rxjs": "^5.5.0"

@@ -3,17 +3,15 @@
   "version": "0.3.4",
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nteract/nteract.git"
-  },
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/desktop",
   "keywords": ["jupyter", "electron", "notebook", "nteract", "data"],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/nteract/nteract/issues"
   },
-  "homepage": "https://github.com/nteract/nteract",
+  "homepage": "https://nteract.io",
   "scripts": {
     "clean": "rimraf lib dist",
     "postinstall": "electron-builder install-app-deps",

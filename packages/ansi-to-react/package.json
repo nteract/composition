@@ -16,11 +16,7 @@
     "build:es5": "babel src --out-dir lib/ --source-maps",
     "clean": "rimraf lib/*"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nteract/nteract.git"
-  },
-  "homepage":
+  "repository":
     "https://github.com/nteract/nteract/tree/master/packages/ansi-to-react",
   "keywords": ["ansi", "react"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",

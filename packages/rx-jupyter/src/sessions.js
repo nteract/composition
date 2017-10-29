@@ -40,7 +40,10 @@ export function get(serverConfig: Object, sessionID: string): Observable<*> {
  *
  * @return {Object} - An Observable with the request/response
  */
-export function destroy(serverConfig: Object, sessionID: string): Observable<*> {
+export function destroy(
+  serverConfig: Object,
+  sessionID: string
+): Observable<*> {
   return ajax(
     createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
       method: "DELETE"

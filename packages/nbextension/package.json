@@ -8,6 +8,8 @@
     "prebuild:python": "rimraf dist",
     "publish": "echo 'not really publishing'"
   },
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/nbextension",
   "publishConfig": {
     "access": "public",
     "dry-run": true

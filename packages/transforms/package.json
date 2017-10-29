@@ -12,17 +12,14 @@
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "build:lib:watch": "npm run build:lib -- --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nteract/nteract.git"
-  },
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/transforms",
   "keywords": ["nteract", "transforms", "notebook"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/nteract/nteract/issues"
   },
-  "homepage": "https://github.com/nteract/nteract#readme",
   "publishConfig": {
     "access": "public"
   },

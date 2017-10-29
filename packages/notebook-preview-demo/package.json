@@ -4,6 +4,8 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/notebook-preview-demo",
   "dependencies": {
     "@nteract/commutable": "^2.1.2",
     "@nteract/notebook-preview": "^3.0.2",

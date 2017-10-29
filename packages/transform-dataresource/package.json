@@ -13,6 +13,8 @@
     "build:lib:watch": "npm run build:lib -- --watch"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/transform-dataresource",
   "publishConfig": {
     "access": "public"
   },
