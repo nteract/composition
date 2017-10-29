@@ -20,7 +20,8 @@ import {
   mergeMap,
   takeUntil,
   catchError,
-  tap
+  tap,
+  bufferTime
 } from "rxjs/operators";
 
 import * as uuid from "uuid";
@@ -38,6 +39,7 @@ export function getUsername(): string {
 }
 
 import { message, executeRequest } from "./messages";
+import { Output } from "./types";
 
 // TODO: The current expectation of this library is that createMessage hides the
 //       fact that there is a session number and a username
@@ -166,6 +168,53 @@ export const updatedOutputs = () => (
   source.pipe(
     ofMessageType("update_display_data"),
     map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))
+  );
+
+function simpleOutputReduction(outputs: Array<Output>): Array<Output> {
+  return outputs.reduce((acc, output) => {
+    if (acc.length === 0) {
+      acc.push(output);
+      return acc;
+    }
+
+    var last = acc[acc.length - 1];
+
+    if (last.output_type !== "stream" || output.output_type !== "stream") {
+      acc.push(output);
+      return acc;
+    }
+
+    // NOTE: This will combine stdout and stderr
+    const combinedOutput = Object.assign({}, last, {
+      text: last.text + output.text
+    });
+    acc[acc.length - 1] = combinedOutput;
+    return acc;
+  }, []);
+}
+
+type OutputReducer = (outputArray: Array<Output>) => Array<Output>;
+
+/**
+ * Creates batches of output messages rather than single output messages individually.
+ */
+export const bufferedOutputs = (
+  bufferTimeSpan: number = 100,
+  reducer: OutputReducer = simpleOutputReduction
+) => (
+  source: rxjs$Observable<JupyterMessage<*, *>>
+): rxjs$Observable<JupyterMessage<*, *>> =>
+  source.pipe(
+    ofMessageType(
+      "execute_result",
+      "display_data",
+      "stream",
+      "error",
+      "update_display_data"
+    ),
+    map(convertOutputMessageToNotebookFormat),
+    bufferTime(bufferTimeSpan),
+    map(reducer)
   );
 
 /**
