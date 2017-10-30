@@ -18,29 +18,33 @@ export default class VDOM extends React.Component<Props> {
     return nextProps.data !== this.props.data;
   }
 
+  componentDidCatch(error, info) {
+    return (
+      <div>
+        <pre
+          style={{
+            backgroundColor: "ghostwhite",
+            color: "black",
+            fontWeight: "600",
+            display: "block",
+            padding: "10px",
+            marginBottom: "20px"
+          }}
+        >
+          There was an error rendering VDOM data from the kernel or notebook
+        </pre>
+        <code>{error.toString()}</code>
+      </div>
+    );
+  }
+
   render(): React$Element<any> {
     try {
       // objectToReactElement is mutatitve so we'll clone our object
       var obj = cloneDeep(this.props.data);
       return objectToReactElement(obj);
     } catch (err) {
-      return (
-        <div>
-          <pre
-            style={{
-              backgroundColor: "ghostwhite",
-              color: "black",
-              fontWeight: "600",
-              display: "block",
-              padding: "10px",
-              marginBottom: "20px"
-            }}
-          >
-            There was an error rendering VDOM data from the kernel or notebook
-          </pre>
-          <code>{err.toString()}</code>
-        </div>
-      );
+      return componentDidCatch(err, "");
     }
   }
 }
