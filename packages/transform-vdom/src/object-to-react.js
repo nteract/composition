@@ -34,6 +34,7 @@
  */
 
 const React = require("react");
+const _ = require("lodash");
 
 type VDOMEl = {
   tagName: string, // Could be an enum honestly
@@ -42,9 +43,9 @@ type VDOMEl = {
   key: number | string | null
 };
 
-type ReactArray = Array<React$Element<*> | ReactArray | string>;
-
 type VDOMNode = VDOMEl | string | Array<VDOMNode>;
+
+type ReactArray = Array<React$Element<*> | ReactArray | string>;
 
 /**
  * Convert an object to React element(s).
@@ -55,7 +56,10 @@ type VDOMNode = VDOMEl | string | Array<VDOMNode>;
  * @param  {Object}       obj - The element object.
  * @return {ReactElement}
  */
-export function objectToReactElement(obj: VDOMEl): React$Element<*> {
+export function objectToReactElement(
+  obj: VDOMEl,
+  model: any = {}
+): React$Element<*> {
   // Pack args for React.createElement
   var args = [];
 
@@ -85,7 +89,26 @@ export function objectToReactElement(obj: VDOMEl): React$Element<*> {
 
   // `React.createElement` 1st argument: type
   args[0] = obj.tagName;
-  args[1] = obj.attributes;
+
+  const allDataPathSetters = Object.keys(obj.attributes).filter(attr =>
+    attr.startsWith("data-path-set")
+  );
+
+  // allDataPathSetters.reduce();
+
+  const model_path = obj.attributes["model_path"];
+  delete obj.attributes["model_path"];
+
+  if (model_path) {
+    args[1] = Object.assign({}, _.get(model, model_path), obj.attributes);
+  } else {
+    args[1] = obj.attributes;
+  }
+
+  // $FlowFixMe: fuck it, let's go
+  args[1]["onChange"] = event => {
+    // console.log(args[0], event.target.name, event.target.value);
+  };
 
   const children = obj.children;
 
@@ -106,6 +129,8 @@ export function objectToReactElement(obj: VDOMEl): React$Element<*> {
       );
     }
   }
+
+  console.log(args);
 
   // $FlowFixMe: React
   return React.createElement.apply({}, args);

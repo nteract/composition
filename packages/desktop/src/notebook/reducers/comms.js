@@ -53,6 +53,14 @@ function processCommMessage(
   if (
     commInfo &&
     commInfo.get("target_module") === "reducers" &&
+    commInfo.get("target_name") === "reacttraining"
+  ) {
+    return state;
+  }
+
+  if (
+    commInfo &&
+    commInfo.get("target_module") === "reducers" &&
     commInfo.get("target_name") === "setIn"
   ) {
     const path: Array<string | number> = data.path;

@@ -29,8 +29,8 @@ export default function Output(props: Props): ?React$Element<any> | null {
 
     // falls through
     case "display_data": {
-      const bundle = output.data;
-      const metadata = output.metadata;
+      const bundle = output.data || {};
+      const metadata = output.metadata || {};
       return (
         <RichestMime
           expanded={props.expanded}

@@ -50,8 +50,8 @@ export default class RichestMime extends React.Component<Props> {
     }
 
     const Transform = this.props.transforms[mimetype];
-    const data = this.props.bundle[mimetype];
-    const metadata = this.props.metadata[mimetype];
+    const data = this.props.bundle[mimetype] || {};
+    const metadata = this.props.metadata[mimetype] || {};
     return (
       <Transform
         expanded={this.props.expanded}

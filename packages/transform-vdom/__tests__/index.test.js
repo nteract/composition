@@ -2,6 +2,8 @@ import React from "react";
 import TransformVDOM from "../src";
 import renderer from "react-test-renderer";
 
+import { modelReplaceAttributes } from "../src/data-path";
+
 test("VDOM Transform is cool", () => {
   const component = renderer.create(
     <TransformVDOM
@@ -20,4 +22,35 @@ test("VDOM Transform is cool", () => {
       }}
     />
   );
+});
+
+test("data-path is sweet and I should write a better test description", () => {
+  const attributes = {
+    "data-path-for-value": "what",
+    "data-path-meh": 12,
+    "data-path-for-children": "mine",
+    value: 3
+  };
+
+  const model = {
+    what: 40,
+    mine: "Hear ye, hear ye"
+  };
+
+  const obje = modelReplaceAttributes(model, {
+    attributes: attributes,
+    children: null
+  });
+
+  expect(obje).toEqual({
+    attributes: {
+      "data-path-for-children": "mine",
+      "data-path-for-value": "what",
+      "data-path-meh": 12,
+      value: 40
+    },
+    children: {
+      children: "Hear ye, hear ye"
+    }
+  });
 });
