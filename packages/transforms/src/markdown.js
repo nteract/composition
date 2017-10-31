@@ -2,6 +2,7 @@
 import React from "react";
 import CommonMark from "commonmark";
 import MarkdownRenderer from "commonmark-react-renderer";
+import MimeWrapper from "./mimewrapper";
 
 type Props = {
   data: string
@@ -22,7 +23,11 @@ export class MarkdownDisplay extends React.Component<Props> {
   }
 
   render(): ?React$Element<any> {
-    return <div>{mdRender(this.props.data)}</div>;
+    return (
+      <MimeWrapper>
+        <div>{mdRender(this.props.data)}</div>
+      </MimeWrapper>
+    );
   }
 }
 

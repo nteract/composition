@@ -1,5 +1,6 @@
 /* @flow */
 import React from "react";
+import MimeWrapper from "./mimewrapper";
 
 type TopProps = {
   data: string,
@@ -21,7 +22,13 @@ export default function ImageDisplay(props: TopProps): ?React$Element<any> {
   }
 
   return (
-    <img alt="" src={`data:${props.mimetype};base64,${props.data}`} {...size} />
+    <MimeWrapper>
+      <img
+        alt=""
+        src={`data:${props.mimetype};base64,${props.data}`}
+        {...size}
+      />
+    </MimeWrapper>
   );
 }
 

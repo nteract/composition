@@ -1,6 +1,7 @@
 // @flow
 import React from "react";
 import JSONTree from "react-json-tree";
+import MimeWrapper from "./mimewrapper";
 
 const defaultTheme = {
   base00: "transparent",
@@ -78,12 +79,14 @@ export default class JsonDisplay extends React.Component<Props> {
   render(): ?React$Element<any> {
     const theme = getTheme(this.props.theme);
     return (
-      <JSONTree
-        data={this.props.data}
-        theme={theme}
-        invertTheme={false}
-        shouldExpandNode={this.shouldExpandNode}
-      />
+      <MimeWrapper>
+        <JSONTree
+          data={this.props.data}
+          theme={theme}
+          invertTheme={false}
+          shouldExpandNode={this.shouldExpandNode}
+        />
+      </MimeWrapper>
     );
   }
 }

@@ -1,5 +1,6 @@
 /* @flow */
 import React from "react";
+import MimeWrapper from "./mimewrapper";
 
 type Props = {
   data: string
@@ -51,12 +52,14 @@ export default class HTMLDisplay extends React.Component<Props> {
 
   render(): ?React$Element<any> {
     return (
-      <div
-        dangerouslySetInnerHTML={{ __html: this.props.data }}
-        ref={el => {
-          this.el = el;
-        }}
-      />
+      <MimeWrapper>
+        <div
+          dangerouslySetInnerHTML={{ __html: this.props.data }}
+          ref={el => {
+            this.el = el;
+          }}
+        />
+      </MimeWrapper>
     );
   }
 }
