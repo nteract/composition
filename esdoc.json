@@ -2,4 +2,5 @@
   "source": "./src",
   "destination": "./docs/",
   "lint": true
+  
 }
