@@ -18,7 +18,7 @@ export default class VDOM extends React.Component<Props> {
     return nextProps.data !== this.props.data;
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: React.ErrorInfo) {
     return (
       <div>
         <pre
