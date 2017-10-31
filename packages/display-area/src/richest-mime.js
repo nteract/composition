@@ -13,10 +13,6 @@ type Props = {
   models?: Object
 };
 
-type ErrorProps = {
-  children?: React$Node
-};
-
 type ErrorInfo = {
   componentStack: string
 };
@@ -50,8 +46,8 @@ const Fallback = ({ componentStack, error }: FallbackProps) => (
   </div>
 );
 
-class ErrorBoundary extends React.Component<ErrorProps, State> {
-  constructor(props: ErrorProps) {
+export default class RichestMime extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       error: null,
@@ -63,20 +59,6 @@ class ErrorBoundary extends React.Component<ErrorProps, State> {
     this.setState({ error, info });
   }
 
-  render() {
-    if (this.state.error) {
-      return (
-        <Fallback
-          componentStack={this.state.info ? this.state.info.componentStack : ""}
-          error={this.state.error}
-        />
-      );
-    }
-    return this.props.children;
-  }
-}
-
-export default class RichestMime extends React.Component<Props> {
   static defaultProps = {
     transforms,
     displayOrder,
@@ -101,6 +83,15 @@ export default class RichestMime extends React.Component<Props> {
   }
 
   render(): ?React$Element<any> | null {
+    if (this.state.error) {
+      return (
+        <Fallback
+          componentStack={this.state.info ? this.state.info.componentStack : ""}
+          error={this.state.error}
+        />
+      );
+    }
+
     const mimetype = richestMimetype(
       this.props.bundle,
       this.props.displayOrder,
@@ -116,15 +107,13 @@ export default class RichestMime extends React.Component<Props> {
     const data = this.props.bundle[mimetype];
     const metadata = this.props.metadata[mimetype];
     return (
-      <ErrorBoundary>
-        <Transform
-          expanded={this.props.expanded}
-          data={data}
-          metadata={metadata}
-          theme={this.props.theme}
-          models={this.props.models}
-        />
-      </ErrorBoundary>
+      <Transform
+        expanded={this.props.expanded}
+        data={data}
+        metadata={metadata}
+        theme={this.props.theme}
+        models={this.props.models}
+      />
     );
   }
 }
