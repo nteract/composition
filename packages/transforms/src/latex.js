@@ -1,6 +1,7 @@
 /* @flow */
 import React from "react";
 import mathjaxHelper from "mathjax-electron";
+import MimeWrapper from "./mimewrapper";
 
 type Props = {
   data: string
@@ -27,12 +28,15 @@ export default class LaTeXDisplay extends React.Component<Props> {
   }
 
   render(): ?React$Element<any> {
+    // throw new Error("anything");
     return (
-      <div
-        ref={el => {
-          this.el = el;
-        }}
-      />
+      <MimeWrapper>
+        <div
+          ref={el => {
+            this.el = el;
+          }}
+        />
+      </MimeWrapper>
     );
   }
 }

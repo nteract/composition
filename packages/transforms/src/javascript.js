@@ -1,5 +1,6 @@
 /* @flow */
 import React from "react";
+import MimeWrapper from "./mimewrapper";
 
 type Props = {
   data: string
@@ -42,11 +43,13 @@ export default class JavaScript extends React.Component<Props> {
 
   render(): ?React$Element<any> {
     return (
-      <div
-        ref={el => {
-          this.el = el;
-        }}
-      />
+      <MimeWrapper>
+        <div
+          ref={el => {
+            this.el = el;
+          }}
+        />
+      </MimeWrapper>
     );
   }
 }
