@@ -28,7 +28,7 @@ export default class MimeWrapper extends React.Component<Props> {
 
   render(): ?React$Element<any> {
     try {
-      return <div>{this.props.children}</div>;
+      return this.props.children;
     } catch (err) {
       return componentDidCatch(err, "");
     }
