@@ -13,6 +13,28 @@ type Props = {
   models?: Object
 };
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: false };
+  }
+  componentDidCatch(error, info) {
+    this.setState({ error, info });
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div>
+          <p> Error: {this.state.error.toString()}</p>
+          <p> {this.state.info.toString()} </p>
+          <p> {this.state.info.componentStack.toString()} </p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 export default class RichestMime extends React.Component<Props> {
   static defaultProps = {
     transforms,
@@ -53,13 +75,15 @@ export default class RichestMime extends React.Component<Props> {
     const data = this.props.bundle[mimetype];
     const metadata = this.props.metadata[mimetype];
     return (
-      <Transform
-        expanded={this.props.expanded}
-        data={data}
-        metadata={metadata}
-        theme={this.props.theme}
-        models={this.props.models}
-      />
+      <ErrorBoundary>
+        <Transform
+          expanded={this.props.expanded}
+          data={data}
+          metadata={metadata}
+          theme={this.props.theme}
+          models={this.props.models}
+        />
+      </ErrorBoundary>
     );
   }
 }
