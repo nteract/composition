@@ -1,40 +1,11 @@
 /* @flow */
 import React from "react";
 import mathjaxHelper from "mathjax-electron";
+import MimeWrapper from "./mimewrapper";
 
 type Props = {
   data: string
 };
-
-export class DumbWrapper extends React.Component<Props> {
-  componentDidCatch(error, info) {
-    return (
-      <div>
-        <pre
-          style={{
-            backgroundColor: "ghostwhite",
-            color: "black",
-            fontWeight: "600",
-            display: "block",
-            padding: "10px",
-            marginBottom: "20px"
-          }}
-        >
-          There was an error rendering LaTeX data from the kernel or notebook
-        </pre>
-        <code>{error.toString()}</code>
-      </div>
-    );
-  }
-
-  render(): ?React$Element<any> {
-    try {
-      return <div>{this.props.children}</div>;
-    } catch (err) {
-      return componentDidCatch(err, "");
-    }
-  }
-}
 
 export default class LaTeXDisplay extends React.Component<Props> {
   el: ?HTMLElement;
@@ -59,14 +30,14 @@ export default class LaTeXDisplay extends React.Component<Props> {
   render(): ?React$Element<any> {
     // throw new Error("anything");
     return (
-      <DumbWrapper>
+      <MimeWrapper>
         <div
           ref={el => {
             throw new Error("anything");
             this.el = el;
           }}
         />
-      </DumbWrapper>
+      </MimeWrapper>
     );
   }
 }
