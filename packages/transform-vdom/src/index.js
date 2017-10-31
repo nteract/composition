@@ -44,7 +44,7 @@ export default class VDOM extends React.Component<Props> {
       var obj = cloneDeep(this.props.data);
       return objectToReactElement(obj);
     } catch (err) {
-      return componentDidCatch(err, "");
+      return this.componentDidCatch(err, "");
     }
   }
 }
