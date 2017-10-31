@@ -1,5 +1,5 @@
 // @flow
-import * as React from "react";
+import React from "react";
 
 import { richestMimetype, transforms, displayOrder } from "@nteract/transforms";
 
@@ -14,37 +14,62 @@ type Props = {
 };
 
 type ErrorProps = {
-  children?: React.Node
+  children?: React$Node
+};
+
+type ErrorInfo = {
+  componentStack: string
 };
 
 type State = {
-  error?: Error | boolean,
-  info?: Object
+  error: ?Error,
+  info: ?ErrorInfo
 };
+
+type FallbackProps = {
+  componentStack: string,
+  error: Error
+};
+
+const Fallback = ({ componentStack, error }: FallbackProps) => (
+  <div
+    style={{
+      backgroundColor: "ghostwhite",
+      color: "black",
+      fontWeight: "600",
+      display: "block",
+      padding: "10px",
+      marginBottom: "20px"
+    }}
+  >
+    <h3> Error: {error.toString()}</h3>
+    <details>
+      <summary>stack trace</summary>
+      <pre>{componentStack}</pre>
+    </details>
+  </div>
+);
 
 class ErrorBoundary extends React.Component<ErrorProps, State> {
   constructor(props: ErrorProps) {
     super(props);
     this.state = {
-      error: false,
-      info: {}
+      error: null,
+      info: null
     };
   }
 
-  componentDidCatch(error: Error, info: Object) {
+  componentDidCatch(error: Error, info: ErrorInfo) {
     this.setState({ error, info });
   }
 
   render() {
     if (this.state.error) {
       return (
-        <div>
-          <p> Error: {this.state.error.toString()}</p>
-          <p> {this.state.info ? this.state.info.toString() : ""} </p>
-          <p>
-            {this.state.info ? this.state.info.componentStack.toString() : ""}
-          </p>
-        </div>
+        <Fallback
+          componentStack={this.state.info ? this.state.info.componentStack : ""}
+          error={this.state.error}
+        />
       );
     }
     return this.props.children;
