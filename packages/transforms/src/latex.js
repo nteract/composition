@@ -33,7 +33,6 @@ export default class LaTeXDisplay extends React.Component<Props> {
       <MimeWrapper>
         <div
           ref={el => {
-            throw new Error("anything");
             this.el = el;
           }}
         />
