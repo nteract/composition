@@ -1,7 +1,7 @@
 /* @flow */
 
 import type { Store } from "redux";
-import type { AppState } from "./records";
+import type { AppState } from "@nteract/core/records";
 
 import { dialog } from "electron";
 import { is } from "immutable";

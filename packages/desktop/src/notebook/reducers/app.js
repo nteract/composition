@@ -5,7 +5,7 @@ import type { Channels } from "../kernel/shutdown";
 
 import { shutdownKernel } from "../kernel/shutdown";
 
-import { AppRecord } from "../records";
+import { AppRecord } from "@nteract/core/records";
 
 declare class AppState {
   channels: Channels;

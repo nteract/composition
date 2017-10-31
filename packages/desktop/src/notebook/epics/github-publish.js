@@ -1,9 +1,12 @@
 // @flow
 import { shell } from "electron";
 
-import { PUBLISH_USER_GIST, PUBLISH_ANONYMOUS_GIST } from "./../constants";
+import {
+  PUBLISH_USER_GIST,
+  PUBLISH_ANONYMOUS_GIST
+} from "@nteract/core/constants";
 
-import { overwriteMetadata, deleteMetadata } from "../actions";
+import { overwriteMetadata, deleteMetadata } from "@nteract/core/actions";
 
 import { toJS, stringifyNotebook } from "@nteract/commutable";
 

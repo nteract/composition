@@ -30,7 +30,11 @@ import {
   createShellSubject
 } from "enchannel-zmq-backend";
 
-import type { LanguageInfoMetadata, KernelInfo, Channels } from "../records";
+import type {
+  LanguageInfoMetadata,
+  KernelInfo,
+  Channels
+} from "@nteract/core/records";
 
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
 
@@ -38,7 +42,7 @@ import {
   setExecutionState,
   setNotebookKernelInfo,
   newKernel
-} from "../actions";
+} from "@nteract/core/actions";
 
 import {
   NEW_KERNEL,
@@ -46,7 +50,7 @@ import {
   LAUNCH_KERNEL_BY_NAME,
   SET_LANGUAGE_INFO,
   ERROR_KERNEL_LAUNCH_FAILED
-} from "../constants";
+} from "@nteract/core/constants";
 
 export function setLanguageInfo(langInfo: LanguageInfoMetadata) {
   return {

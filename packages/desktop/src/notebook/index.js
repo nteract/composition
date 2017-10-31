@@ -12,7 +12,7 @@ import NotificationSystem from "react-notification-system";
 import configureStore from "./store";
 import Notebook from "./components/notebook";
 
-import { setNotificationSystem } from "./actions";
+import { setNotificationSystem } from "@nteract/core/actions";
 
 import { initMenuHandlers } from "./menu";
 import { initNativeHandlers } from "./native-window";
@@ -23,7 +23,7 @@ import {
   DocumentRecord,
   MetadataRecord,
   CommsRecord
-} from "./records";
+} from "@nteract/core/records";
 
 import "./main.css";
 

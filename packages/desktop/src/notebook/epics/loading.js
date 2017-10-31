@@ -7,7 +7,7 @@ import { monocellNotebook, fromJS, parseNotebook } from "@nteract/commutable";
 import type { Notebook, ImmutableNotebook } from "@nteract/commutable";
 
 import { readFileObservable } from "fs-observable";
-import { newKernelByName, newKernel } from "../actions";
+import { newKernelByName, newKernel } from "@nteract/core/actions";
 
 const path = require("path");
 

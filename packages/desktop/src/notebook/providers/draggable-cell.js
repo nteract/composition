@@ -2,7 +2,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import { focusCell } from "../actions";
+import { focusCell } from "@nteract/core/actions";
 
 import DraggableCellView from "../views/draggable-cell";
 

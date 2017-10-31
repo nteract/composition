@@ -2,9 +2,9 @@
 
 import { ActionsObservable } from "redux-observable"; /* eslint-disable no-unused-vars */
 import { writeFileObservable } from "fs-observable";
-import { SAVE, SAVE_AS } from "../constants";
+import { SAVE, SAVE_AS } from "@nteract/core/constants";
 
-import { changeFilename, save, doneSaving } from "../actions";
+import { changeFilename, save, doneSaving } from "@nteract/core/actions";
 
 import { toJS, stringifyNotebook } from "@nteract/commutable";
 

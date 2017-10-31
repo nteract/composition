@@ -1,7 +1,11 @@
 // @flow
 import { remote } from "electron";
 
-import { MERGE_CONFIG, SET_CONFIG_KEY, DONE_SAVING_CONFIG } from "../constants";
+import {
+  MERGE_CONFIG,
+  SET_CONFIG_KEY,
+  DONE_SAVING_CONFIG
+} from "@nteract/core/constants";
 
 import { readFileObservable, writeFileObservable } from "fs-observable";
 import { mapTo, mergeMap, map, switchMap } from "rxjs/operators";

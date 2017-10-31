@@ -28,7 +28,7 @@ import {
   setGithubToken,
   setTheme,
   toggleOutputExpansion
-} from "./actions";
+} from "@nteract/core/actions";
 
 import { defaultPathFallback, cwdKernelFallback } from "./path";
 
@@ -289,8 +289,8 @@ export function dispatchNewNotebook(store, event, kernelSpec) {
 /**
  * Print the current notebook to PDF.
  * It will expand all cell outputs before printing and restore cells it expanded when complete.
- * 
- * @param {object} store - The Redux store 
+ *
+ * @param {object} store - The Redux store
  * @param {string} filename - filename of PDF to be saved.
  * @param {any} notificationSystem - reference to global notification system
  */

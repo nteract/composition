@@ -1,0 +1,1 @@
+:warning: This package is under construction and will change interfaces on you. If you want to use it, you need to get involved in contributing to it as it's core to the desktop app and all web apps that are part of the nteract monorepo :warning:

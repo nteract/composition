@@ -38,7 +38,7 @@ import {
   updateCellPagers,
   updateCellStatus,
   clearOutputs
-} from "../actions";
+} from "@nteract/core/actions";
 
 import type { Subject } from "rxjs/Subject";
 import type { ActionsObservable } from "redux-observable";
@@ -49,7 +49,7 @@ import {
   ABORT_EXECUTION,
   ERROR_EXECUTING,
   ERROR_UPDATE_DISPLAY
-} from "../constants";
+} from "@nteract/core/constants";
 
 const Immutable = require("immutable");
 

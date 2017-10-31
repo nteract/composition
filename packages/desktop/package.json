@@ -101,9 +101,11 @@
     "jmp": "^0.7.5",
     "mathjax-electron": "^2.0.1",
     "redux-electron-store": "^0.4.1",
+
     "uuid": "^3.1.0"
   },
   "devDependencies": {
+    "@nteract/core": "^0.0.1-beta",
     "@nteract/commutable": "^2.1.2",
     "@nteract/display-area": "^3.0.2",
     "@nteract/editor": "^3.0.2",

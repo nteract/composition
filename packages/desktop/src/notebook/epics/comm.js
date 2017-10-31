@@ -7,7 +7,12 @@ import { createMessage, ofMessageType, childOf } from "@nteract/messaging";
 
 import type { ActionsObservable } from "redux-observable";
 
-import { COMM_OPEN, COMM_MESSAGE, COMM_ERROR, NEW_KERNEL } from "../constants";
+import {
+  COMM_OPEN,
+  COMM_MESSAGE,
+  COMM_ERROR,
+  NEW_KERNEL
+} from "@nteract/core/constants";
 
 /**
  * creates a comm open message
