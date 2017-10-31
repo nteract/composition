@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 
 import { richestMimetype, transforms, displayOrder } from "@nteract/transforms";
 
@@ -13,21 +13,37 @@ type Props = {
   models?: Object
 };
 
-class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
+type ErrorProps = {
+  children?: React.Node
+};
+
+type State = {
+  error?: Error | boolean,
+  info?: Object
+};
+
+class ErrorBoundary extends React.Component<ErrorProps, State> {
+  constructor(props: ErrorProps) {
     super(props);
-    this.state = { error: false };
+    this.state = {
+      error: false,
+      info: {}
+    };
   }
-  componentDidCatch(error: Error, info: React.ErrorInfo) {
+
+  componentDidCatch(error: Error, info: Object) {
     this.setState({ error, info });
   }
+
   render() {
     if (this.state.error) {
       return (
         <div>
           <p> Error: {this.state.error.toString()}</p>
-          <p> {this.state.info.toString()} </p>
-          <p> {this.state.info.componentStack.toString()} </p>
+          <p> {this.state.info ? this.state.info.toString() : ""} </p>
+          <p>
+            {this.state.info ? this.state.info.componentStack.toString() : ""}
+          </p>
         </div>
       );
     }
