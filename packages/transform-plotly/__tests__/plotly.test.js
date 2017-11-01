@@ -50,7 +50,7 @@ describe("PlotlyTransform", () => {
 
     expect(instance.shouldComponentUpdate({ data: "" })).toBeTruthy();
     expect(plotly.newPlot).lastCalledWith(
-      instance.el,
+      instance.plotDiv,
       [
         { x: [1999, 2000, 2001, 2002], y: [10, 15, 13, 17], type: "scatter" },
         { x: [1999, 2000, 2001, 2002], y: [16, 5, 11, 9], type: "scatter" }
@@ -73,7 +73,7 @@ describe("PlotlyTransform", () => {
 
     expect(instance.shouldComponentUpdate({ data: "" })).toBeTruthy();
     expect(plotly.newPlot).lastCalledWith(
-      instance.el,
+      instance.plotDiv,
       [
         { x: [1999, 2000, 2001, 2002], y: [10, 15, 13, 17], type: "scatter" },
         { x: [1999, 2000, 2001, 2002], y: [16, 5, 11, 9], type: "scatter" }
@@ -96,8 +96,8 @@ describe("PlotlyTransform", () => {
       data: _.set(_.cloneDeep(figure), ["data", 0, "type"], "bar")
     });
 
-    expect(instance.el.data[0].type).toEqual("bar");
+    expect(instance.plotDiv.data[0].type).toEqual("bar");
 
-    expect(plotly.redraw).lastCalledWith(instance.el);
+    expect(plotly.redraw).lastCalledWith(instance.plotDiv);
   });
 });

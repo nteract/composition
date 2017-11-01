@@ -2,7 +2,9 @@
  * Thus begins our path for custom mimetypes and future extensions
  */
 
-import PlotlyTransform from "@nteract/transform-plotly";
+import PlotlyTransform, {
+  PlotlyNullTransform
+} from "@nteract/transform-plotly";
 import GeoJSONTransform from "@nteract/transform-geojson";
 
 import ModelDebug from "@nteract/transform-model-debug";
@@ -21,6 +23,7 @@ import {
 const additionalTransforms = [
   DataResourceTransform,
   ModelDebug,
+  PlotlyNullTransform,
   PlotlyTransform,
   GeoJSONTransform,
   VegaLite,
