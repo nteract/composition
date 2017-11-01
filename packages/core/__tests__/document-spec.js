@@ -2,7 +2,8 @@
 /* eslint-disable max-len */
 import { List, Map, Set, is } from "immutable";
 
-import * as constants from "../../../src/notebook/constants";
+import * as constants from "../src/constants";
+import reducers from "../src/reducers";
 
 import {
   emptyCodeCell,
@@ -11,11 +12,7 @@ import {
   appendCellToNotebook
 } from "@nteract/commutable";
 
-import reducers from "../../../src/notebook/reducers";
-import {
-  reduceOutputs,
-  cleanCellTransient
-} from "../../../src/notebook/reducers/document";
+import { reduceOutputs, cleanCellTransient } from "../src/reducers/document";
 
 import { dummyJSON, dummyCommutable } from "dummy-nb";
 

@@ -1,5 +1,5 @@
-import commsReducer from "../../../src/notebook/reducers/comms";
-import { CommsRecord } from "../../../src/notebook/records";
+import commsReducer from "../src/reducers/comms";
+import { CommsRecord } from "../src/records";
 
 describe("registerCommTarget", () => {
   test("sets comm targets", () => {

@@ -1,4 +1,4 @@
-import * as constants from "../../../src/notebook/constants";
+import * as constants from "@nteract/core/constants";
 import reducers from "../../../src/notebook/reducers";
 import { AppRecord } from "../../../src/notebook/records";
 

@@ -1,7 +1,7 @@
 import { Map } from "immutable";
 
-import * as constants from "../../../src/notebook/constants";
-import reducers from "../../../src/notebook/reducers";
+import * as constants from "../src/constants";
+import reducers from "../src/reducers";
 
 describe("setKey", () => {
   test("sets the keys in the config", () => {
