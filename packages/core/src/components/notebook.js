@@ -259,6 +259,7 @@ export class Notebook extends React.PureComponent<Props> {
         />
         <link
           rel="stylesheet"
+          // TODO: Tear this out or switch to styled-jsx for the inline setting here
           href={`../static/styles/theme-${this.props.theme}.css`}
         />
       </div>
