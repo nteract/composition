@@ -12,7 +12,7 @@ import {
   changeInputVisibility,
   changeCellType,
   toggleOutputExpansion
-} from "@nteract/core/actions";
+} from "../actions";
 
 type Props = {
   cell: any,

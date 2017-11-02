@@ -17,7 +17,7 @@ import {
   focusCellEditor,
   focusPreviousCellEditor,
   focusNextCellEditor
-} from "@nteract/core/actions";
+} from "../../actions";
 
 // NOTE: PropTypes are required for the sake of contextTypes
 const PropTypes = require("prop-types");

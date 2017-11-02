@@ -16,7 +16,7 @@ import {
   focusNextCellEditor,
   moveCell,
   executeCell
-} from "@nteract/core/actions";
+} from "../actions";
 import type { CellProps } from "./cell/cell";
 
 // NOTE: PropTypes are required for the sake of contextTypes

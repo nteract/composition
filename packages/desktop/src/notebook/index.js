@@ -10,7 +10,7 @@ import { Map as ImmutableMap } from "immutable";
 import NotificationSystem from "react-notification-system";
 
 import configureStore from "./store";
-import Notebook from "./components/notebook";
+import { Notebook } from "@nteract/core/components";
 
 import { setNotificationSystem } from "@nteract/core/actions";
 

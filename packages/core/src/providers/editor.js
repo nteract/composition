@@ -2,13 +2,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import {
-  focusCell,
-  focusCellEditor,
-  updateCellSource
-} from "@nteract/core/actions";
+import { focusCell, focusCellEditor, updateCellSource } from "../actions";
 
-import EditorView from "@nteract/editor/";
+import EditorView from "@nteract/editor";
 
 type Props = {
   dispatch: Dispatch<*>,

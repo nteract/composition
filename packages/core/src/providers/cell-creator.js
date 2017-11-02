@@ -7,7 +7,7 @@ import {
   createCellAppend,
   createCellBefore,
   mergeCellAfter
-} from "@nteract/core/actions";
+} from "../actions";
 import CellCreatorView from "../views/cell-creator";
 
 type Props = {|
