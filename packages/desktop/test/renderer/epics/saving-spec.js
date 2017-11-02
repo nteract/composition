@@ -3,7 +3,7 @@ import { expect } from "chai";
 import { dummyCommutable } from "../dummy-nb";
 import { dummyStore } from "../../utils";
 
-import { save, saveAs } from "../../../src/notebook/actions";
+import { save, saveAs } from "@nteract/core/actions";
 
 import {
   SAVE,

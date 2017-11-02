@@ -10,7 +10,7 @@ import {
   NEW_KERNEL
 } from "@nteract/core/constants";
 
-import { executeCell } from "../../../src/notebook/actions";
+import { executeCell } from "@nteract/core/actions";
 import {
   executeCellStream,
   executeCellEpic,
