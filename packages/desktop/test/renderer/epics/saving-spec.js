@@ -10,7 +10,7 @@ import {
   SAVE_AS,
   DONE_SAVING,
   CHANGE_FILENAME
-} from "../../../src/notebook/constants";
+} from "@nteract/core/contstants";
 
 import { saveEpic, saveAsEpic } from "../../../src/notebook/epics/saving";
 

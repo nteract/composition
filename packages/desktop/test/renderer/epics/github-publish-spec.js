@@ -8,7 +8,7 @@ import { dummyStore } from "../../utils";
 
 import { toArray } from "rxjs/operators";
 
-import { PUBLISH_USER_GIST } from "../../../src/notebook/constants";
+import { PUBLISH_USER_GIST } from "@nteract/core/contstants";
 import {
   publishNotebookObservable,
   createGistCallback,

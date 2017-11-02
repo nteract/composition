@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ActionsObservable } from "redux-observable";
 
-import * as constants from "../../../src/notebook/constants";
+import * as constants from "@nteract/core/contstants";
 
 import {
   setLanguageInfo,
