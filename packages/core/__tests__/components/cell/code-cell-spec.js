@@ -5,7 +5,8 @@ import { shallow, mount } from "enzyme";
 import Immutable from "immutable";
 
 import { dummyStore } from "utils";
-import CodeCell from "../../../../src/notebook/components/cell/code-cell";
+import CodeCell from "../../../src/components/cell/code-cell";
+
 import { emptyCodeCell } from "@nteract/commutable";
 import { displayOrder, transforms } from "@nteract/transforms-full";
 

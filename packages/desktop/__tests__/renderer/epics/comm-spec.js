@@ -8,11 +8,7 @@ import {
   commActionObservable
 } from "../../../src/notebook/epics/comm";
 
-import {
-  COMM_OPEN,
-  COMM_MESSAGE,
-  COMM_ERROR
-} from "../../../src/notebook/constants";
+import { COMM_OPEN, COMM_MESSAGE, COMM_ERROR } from "@nteract/core/constants";
 
 import { of } from "rxjs/observable/of";
 import { toArray } from "rxjs/operators";

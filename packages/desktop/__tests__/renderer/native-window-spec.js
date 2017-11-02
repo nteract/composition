@@ -8,7 +8,7 @@ import {
   AppRecord,
   DocumentRecord,
   MetadataRecord
-} from "../../src/notebook/records";
+} from "@nteract/core/records";
 
 const path = require("path");
 

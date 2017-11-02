@@ -5,11 +5,8 @@ import { Provider } from "react-redux";
 import { shallow, mount } from "enzyme";
 
 import { displayOrder, transforms } from "@nteract/transforms-full";
-import Cell from "../../../src/notebook/components/cell/cell";
-import {
-  Notebook,
-  getLanguageMode
-} from "../../../src/notebook/components/notebook";
+import Cell from "../../src/components/cell/cell";
+import { Notebook, getLanguageMode } from "../../src/components/notebook";
 
 import { dummyStore } from "utils";
 import { dummyCommutable } from "dummy-nb";

@@ -1,6 +1,6 @@
 import * as constants from "@nteract/core/constants";
 import reducers from "../../../src/notebook/reducers";
-import { AppRecord } from "../../../src/notebook/records";
+import { AppRecord } from "@nteract/core/records";
 
 const Github = require("github");
 

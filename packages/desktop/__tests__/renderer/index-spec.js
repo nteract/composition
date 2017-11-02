@@ -1,5 +1,5 @@
 import App from "./../../src/notebook/index.js";
-import * as actions from "./../../src/notebook/actions";
+import * as actions from "@nteract/core/actions";
 
 import React from "react";
 import { shallow } from "enzyme";

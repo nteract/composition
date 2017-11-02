@@ -2,12 +2,12 @@ import React from "react";
 
 import { shallow, mount } from "enzyme";
 
-import MarkdownCell from "../../../../src/notebook/components/cell/markdown-cell";
+import MarkdownCell from "../../../src/components/cell/markdown-cell";
 import {
   focusCellEditor,
   focusPreviousCell,
   focusNextCell
-} from "../../../../src/notebook/actions";
+} from "../../../actions";
 
 import { emptyMarkdownCell } from "@nteract/commutable";
 import { displayOrder, transforms } from "@nteract/transforms-full";
