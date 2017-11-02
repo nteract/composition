@@ -6,9 +6,12 @@ type Action = {
   type: string
 };
 
-export const errorMiddleware = (store: any) => (next: any) => (
-  action: Action
-) => {
+// Get the type
+type Console = typeof console;
+
+export const errorMiddleware = (store: any, console: Console = console) => (
+  next: any
+) => (action: Action) => {
   if (!action.type.includes("ERROR")) {
     return next(action);
   }

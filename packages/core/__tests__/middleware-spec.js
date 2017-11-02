@@ -1,4 +1,8 @@
-import { errorMiddleware } from "../../src/notebook/middlewares";
+import { errorMiddleware } from "../src/middlewares";
+
+const fakeConsole = {
+  error: msg => {}
+};
 
 describe("The error middleware", () => {
   test("errors with a payload message when given one", () => {
@@ -21,9 +25,14 @@ describe("The error middleware", () => {
     };
     const next = action => store.dispatch(action);
     const action = { type: "ERROR", payload: "This is a payload", err: true };
+
+    const fakeConsole = {
+      error: msg => {}
+    };
+
     const notification = store.getState().app.notificationSystem
       .addNotification;
-    errorMiddleware(store)(next)(action);
+    errorMiddleware(store, fakeConsole)(next)(action);
     expect(notification).toBeCalledWith({
       title: "ERROR",
       message: JSON.stringify("This is a payload", 2, 2),
@@ -56,7 +65,7 @@ describe("The error middleware", () => {
     const action = { type: "ERROR", payloa: "typo", err: true };
     const notification = store.getState().app.notificationSystem
       .addNotification;
-    errorMiddleware(store)(next)(action);
+    errorMiddleware(store, fakeConsole)(next)(action);
     expect(notification).toBeCalledWith({
       title: "ERROR",
       message: JSON.stringify(action, 2, 2),
