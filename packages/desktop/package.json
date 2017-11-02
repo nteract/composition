@@ -3,8 +3,7 @@
   "version": "0.3.4",
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
-  "repository":
-    "https://github.com/nteract/nteract/tree/master/packages/desktop",
+  "repository": "nteract/nteract",
   "keywords": ["jupyter", "electron", "notebook", "nteract", "data"],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
