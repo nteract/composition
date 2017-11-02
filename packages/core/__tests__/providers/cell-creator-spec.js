@@ -2,14 +2,14 @@ import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 
-import CellCreator from "../../../src/notebook/providers/cell-creator";
-import { dummyStore } from "utils";
+import CellCreator from "../../src/providers/cell-creator";
+import { dummyStore } from "../../__mocks__/utils";
 import {
   NEW_CELL_AFTER,
   NEW_CELL_BEFORE,
   NEW_CELL_APPEND,
   MERGE_CELL_AFTER
-} from "../../../src/notebook/constants";
+} from "../../constants";
 
 describe("CellCreatorProvider", () => {
   const store = dummyStore();

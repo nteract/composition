@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable no-plusplus */
 
 import Immutable from "immutable";
@@ -15,7 +16,7 @@ import {
   AppRecord,
   DocumentRecord,
   MetadataRecord
-} from "../src/notebook/records";
+} from "@nteract/core/records";
 
 const sinon = require("sinon");
 

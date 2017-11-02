@@ -2,12 +2,9 @@ import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 
-import Editor from "../../../src/notebook/providers/editor";
-import { dummyStore } from "utils";
-import {
-  UPDATE_CELL_SOURCE,
-  FOCUS_CELL_EDITOR
-} from "../../../src/notebook/constants";
+import Editor from "../../src/providers/editor";
+import { dummyStore } from "../../__mocks__/utils";
+import { UPDATE_CELL_SOURCE, FOCUS_CELL_EDITOR } from "../../src/constants";
 
 describe("EditorProvider", () => {
   const store = dummyStore();

@@ -1,6 +1,6 @@
 // @flow
-import * as actions from "../../src/notebook/actions";
-import * as constants from "../../src/notebook/constants";
+import * as actions from "../actions";
+import * as constants from "../constants";
 
 import { dummyCommutable } from "dummy-nb";
 

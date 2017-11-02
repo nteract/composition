@@ -1,9 +1,10 @@
+// @flow
 import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 
-import Toolbar from "../../../src/notebook/providers/toolbar";
-import { dummyStore } from "utils";
+import Toolbar from "../../src/providers/toolbar";
+import { dummyStore } from "../../__mocks__/utils";
 
 import {
   TOGGLE_STICKY_CELL,
@@ -14,7 +15,7 @@ import {
   CHANGE_OUTPUT_VISIBILITY,
   CHANGE_CELL_TYPE,
   TOGGLE_OUTPUT_EXPANSION
-} from "../../../src/notebook/constants";
+} from "../../src/constants";
 
 describe.skip("toolbar provider", () => {
   const store = dummyStore();

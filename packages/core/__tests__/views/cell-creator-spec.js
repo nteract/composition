@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import CellCreator from "../../../src/notebook/views/cell-creator";
+import CellCreator from "../../src/views/cell-creator";
 
 describe("CellCreatorView", () => {
   const createCell = jest.fn();

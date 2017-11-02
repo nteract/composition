@@ -1,5 +1,5 @@
 /* @flow */
-import { createStore, applyMiddleware, combineReducers } from "redux";
+import { createStore, applyMiddleware } from "redux";
 
 import type { AppState } from "@nteract/core/records";
 
