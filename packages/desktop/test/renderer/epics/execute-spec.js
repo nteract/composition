@@ -8,7 +8,7 @@ import {
   UPDATE_CELL_PAGERS,
   UPDATE_DISPLAY,
   NEW_KERNEL
-} from "@nteract/core/contstants";
+} from "@nteract/core/constants";
 
 import { executeCell } from "../../../src/notebook/actions";
 import {
