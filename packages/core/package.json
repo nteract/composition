@@ -10,7 +10,8 @@
     "build:clean": "rimraf lib",
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
-    "build:lib:watch": "npm run build:lib -- --watch"
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
     "@nteract/commutable": "^2.1.2",
@@ -33,5 +34,8 @@
   },
   "keywords": ["nteract", "ohgodamonomoduleinamonorepo"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@storybook/react": "^3.2.14"
+  }
 }
