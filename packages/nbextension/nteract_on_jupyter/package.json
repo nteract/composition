@@ -12,6 +12,7 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@nteract/core": "^0.0.1-beta",
     "@nteract/commutable": "^2.1.2",
     "@nteract/notebook-preview": "^3.0.2",
     "@nteract/transform-dataresource": "^2.0.1",
