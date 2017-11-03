@@ -29,7 +29,6 @@
       "npm run sublaunch -- test/main/launchNewNotebook.js",
     "test:functional":
       "npm run test:functional:launch && npm run test:functional:launchNewNotebook",
-    "test:coverage": "npm run coverage",
     "test:unit":
       "mocha -r test/setup.js --compilers js:babel-core/register --require ignore-styles \"test/renderer/**/*.js\"",
     "test:debug":
