@@ -8,8 +8,7 @@ import { displayOrder, transforms } from "@nteract/transforms-full";
 import Cell from "../../src/components/cell/cell";
 import { Notebook, getLanguageMode } from "../../src/components/notebook";
 
-import { dummyStore } from "utils";
-import { dummyCommutable } from "dummy-nb";
+import { dummyStore, dummyCommutable } from "../../src/dummy";
 
 const dummyCellStatuses = dummyCommutable
   .get("cellOrder")

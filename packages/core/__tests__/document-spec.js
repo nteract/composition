@@ -14,7 +14,7 @@ import {
 
 import { reduceOutputs, cleanCellTransient } from "../src/reducers/document";
 
-import { dummyJSON, dummyCommutable } from "dummy-nb";
+import { dummyJSON, dummyCommutable } from "../src/dummy";
 
 const Immutable = require("immutable");
 

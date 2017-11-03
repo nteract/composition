@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { shallow, mount } from "enzyme";
 import Immutable from "immutable";
 
-import { dummyStore } from "utils";
+import { dummyStore } from "../../../src/dummy";
 import CodeCell from "../../../src/components/cell/code-cell";
 
 import { emptyCodeCell } from "@nteract/commutable";

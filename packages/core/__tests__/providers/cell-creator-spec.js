@@ -1,9 +1,10 @@
+// @flow
 import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 
 import CellCreator from "../../src/providers/cell-creator";
-import { dummyStore } from "../../__mocks__/utils";
+import { dummyStore } from "../../src/dummy";
 import {
   NEW_CELL_AFTER,
   NEW_CELL_BEFORE,

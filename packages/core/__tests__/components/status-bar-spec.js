@@ -3,7 +3,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import StatusBar from "../../src/components/status-bar";
-import { dummyCommutable } from "dummy-nb";
+import { dummyCommutable } from "../../src/dummy";
 
 describe("StatusBar", () => {
   test("can render on a dummyNotebook", () => {

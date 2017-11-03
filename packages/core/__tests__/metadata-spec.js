@@ -3,7 +3,7 @@ import { MetadataRecord } from "../src/records";
 
 import { appendCellToNotebook, emptyCodeCell } from "@nteract/commutable";
 
-import { dummyCommutable } from "dummy-nb";
+import { dummyCommutable } from "../src/dummy";
 
 import { metadata as reducers } from "../src/reducers";
 

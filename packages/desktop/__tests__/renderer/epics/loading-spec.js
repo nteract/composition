@@ -1,6 +1,6 @@
 import { ActionsObservable } from "redux-observable";
 
-import { dummyCommutable, dummy } from "dummy-nb";
+import { dummyCommutable, dummy } from "@nteract/core/lib/dummy";
 
 import {
   load,

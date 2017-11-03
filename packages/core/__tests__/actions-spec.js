@@ -2,7 +2,7 @@
 import * as actions from "../actions";
 import * as constants from "../constants";
 
-import { dummyCommutable } from "dummy-nb";
+import { dummyCommutable } from "../src/dummy";
 
 describe("setExecutionState", () => {
   test("creates a SET_EXECUTION_STATE action", () => {

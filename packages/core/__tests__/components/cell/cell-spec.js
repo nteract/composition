@@ -3,7 +3,7 @@ import Immutable from "immutable";
 
 import { mount } from "enzyme";
 
-import { dummyStore } from "utils";
+import { dummyStore } from "../../../src/dummy";
 import { Cell } from "../../../src/components/cell/cell";
 
 import { emptyCodeCell, emptyMarkdownCell } from "@nteract/commutable";

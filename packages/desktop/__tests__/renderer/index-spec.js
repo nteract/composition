@@ -6,7 +6,7 @@ import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
 import { ipcRenderer as ipc } from "electron";
 
-import { dummyCommutable, dummyJSON } from "dummy-nb";
+import { dummyCommutable, dummyJSON } from "@nteract/core/lib/dummy";
 
 describe("App", () => {
   it("renders app", () => {

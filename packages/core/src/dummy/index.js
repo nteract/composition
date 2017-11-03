@@ -13,7 +13,10 @@ import {
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { document, metadata, comms, config } from "../reducers";
 
+export { dummyCommutable, dummy, dummyJSON } from "./dummy-nb";
+
 const rootReducer = combineReducers({
+  // Fake out app, since it comes from
   app: (state = AppRecord(), action) => state,
   metadata,
   document,
@@ -21,7 +24,7 @@ const rootReducer = combineReducers({
   config
 });
 
-import type { AppState } from "../src/records";
+import type { AppState } from "../records";
 
 /**
 function configureStore(initialState: AppState) {

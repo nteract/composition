@@ -4,7 +4,7 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 
 import Toolbar from "../../src/providers/toolbar";
-import { dummyStore } from "../../__mocks__/utils";
+import { dummyStore } from "../../src/dummy";
 
 import {
   TOGGLE_STICKY_CELL,

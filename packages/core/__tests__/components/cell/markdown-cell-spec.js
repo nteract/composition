@@ -11,7 +11,7 @@ import {
 
 import { emptyMarkdownCell } from "@nteract/commutable";
 import { displayOrder, transforms } from "@nteract/transforms-full";
-import { dummyStore } from "utils";
+import { dummyStore } from "../../../src/dummy";
 
 describe("MarkdownCell", () => {
   test("can be rendered", () => {
