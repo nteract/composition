@@ -124,27 +124,34 @@ export type Notebook = {
   metadata: NotebookMetadata
 };
 
+// Parts of AppRecord should become
+// ElectronAppRecord
+// Basically, anything that's only for desktop should have its own record & reducers
+
 export const AppRecord = Immutable.Record({
   executionState: "not connected",
-  token: null,
-  channels: null,
-  spawn: null,
-  connectionFile: null,
-  notificationSystem: null,
-  kernelSpecName: null,
-  kernelSpecDisplayName: null,
-  kernelSpec: null,
-  isSaving: false,
-  lastSaved: null,
-  configLastSaved: null,
-  error: null
+
+  token: null, // Electron specific (ish...)
+  channels: null, // Electron, though we hope to adapt these...
+  spawn: null, // Very Electron
+  connectionFile: null, // Electron
+  notificationSystem: null, // Should be available for all I assume
+  kernelSpecName: null, // All
+  kernelSpecDisplayName: null, // All
+  kernelSpec: null, // All
+  isSaving: false, // All -- ?
+  lastSaved: null, // All
+  configLastSaved: null, // ?
+  error: null // All
 });
 
 export type Document = {
   notebook: Notebook,
-  transient: Immutable.Map<string, any>,
+  transient: Immutable.Map<string, any>, // has the keypaths for updating displays
+  // transient should be more fully typed (be a record itself)
+  // right now it's keypaths and then it looks like it's able to handle any per
+  // cell transient data that will be deleted when the kernel is restarted
   cellPagers: any,
-  outputStatuses: Immutable.Map<string, any>,
   stickyCells: Immutable.Set<any>,
   editorFocused: any,
   cellFocused: any,
@@ -159,7 +166,6 @@ export const DocumentRecord = Immutable.Record({
     keyPathsForDisplays: new Immutable.Map()
   }),
   cellPagers: new Immutable.Map(),
-  outputStatuses: new Immutable.Map(),
   stickyCells: new Immutable.Set(),
   editorFocused: null,
   cellFocused: null,

@@ -99,7 +99,6 @@ export function dummyStore(config: *) {
       savedNotebook: config && config.saved === true ? dummyNotebook : null,
       cellPagers: new Immutable.Map(),
       stickyCells: new Immutable.Map(),
-      outputStatuses: new Immutable.Map(),
       cellFocused:
         config && config.codeCellCount > 1
           ? dummyNotebook.get("cellOrder").get(1)
