@@ -173,8 +173,6 @@ export const DocumentRecord = Immutable.Record({
 });
 
 export const MetadataRecord = Immutable.Record({
-  past: new Immutable.List(),
-  future: new Immutable.List(),
   filename: ""
 });
 

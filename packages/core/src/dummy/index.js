@@ -113,9 +113,7 @@ export function dummyStore(config: *) {
       channels: "channelInfo"
     }),
     metadata: MetadataRecord({
-      filename: config && config.noFilename ? "" : "dummy-store-nb.ipynb",
-      past: new Immutable.List(),
-      future: new Immutable.List()
+      filename: config && config.noFilename ? "" : "dummy-store-nb.ipynb"
     }),
     config: Immutable.Map({
       theme: "light"
