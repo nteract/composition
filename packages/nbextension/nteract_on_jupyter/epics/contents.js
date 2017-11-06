@@ -59,7 +59,7 @@ export function loadEpic(
       }
     }),
     switchMap((action: LOAD_ACTION) => {
-      const config = store.getState().config;
+      const config = store.getState().webApp.config;
       // Normalizing to match rx-jupyter vs. the jupyter server config
       const serverConfig = {
         endpoint: config.baseUrl,

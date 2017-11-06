@@ -46,7 +46,7 @@ export function listKernelSpecsEpic(
 ) {
   return action$.ofType("LIST_KERNELSPECS").pipe(
     switchMap((action: LIST_KERNELSPECS) => {
-      const config = store.getState().config;
+      const config = store.getState().webApp.config;
       // Normalizing to match rx-jupyter vs. the jupyter server config
       const serverConfig = {
         endpoint: config.baseUrl,

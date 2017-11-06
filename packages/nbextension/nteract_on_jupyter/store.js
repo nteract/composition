@@ -1,12 +1,23 @@
 /* @flow */
-import { createStore, applyMiddleware, compose } from "redux";
+import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import { createEpicMiddleware, combineEpics } from "redux-observable";
+
+import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+import { document, metadata, comms, config } from "@nteract/core/reducers";
+
+import {
+  AppRecord,
+  MetadataRecord,
+  DocumentRecord,
+  CommsRecord
+} from "@nteract/core/records";
+
 import epics from "./epics";
 
-const rootReducer = (state, action) => {
+const webAppReducer = (state = {}, action) => {
   switch (action.type) {
     case "LOADED":
       return Object.assign({}, state, { contents: action.payload });
@@ -16,9 +27,37 @@ const rootReducer = (state, action) => {
   return state;
 };
 
-type AppState = {};
+export type AppState = {
+  app: AppRecord,
+  metadata: MetadataRecord,
+  document: DocumentRecord,
+  comms: CommsRecord,
+  config: ImmutableMap<string, any>,
+  contents: any
+};
 
-export default function configureStore(initialState: AppState = {}) {
+const rootReducer = combineReducers({
+  webApp: webAppReducer,
+  app: (state = {}) => state,
+  metadata,
+  document,
+  comms,
+  config
+});
+
+const defaultState = {
+  app: AppRecord(),
+  metadata: MetadataRecord(),
+  document: DocumentRecord(),
+  comms: CommsRecord(),
+  config: ImmutableMap({
+    theme: "light"
+  })
+};
+
+export default function configureStore(config: any) {
+  const initialState = Object.assign({}, { webApp: config }, defaultState);
+
   const rootEpic = combineEpics(...epics);
   const middlewares = [createEpicMiddleware(rootEpic)];
 

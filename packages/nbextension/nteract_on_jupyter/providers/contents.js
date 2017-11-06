@@ -11,7 +11,7 @@ type ContentsProps = {
 // TODO: Declare state type
 function mapStateToProps(state: Object): ContentsProps {
   return {
-    contents: state.contents
+    contents: state.webApp.contents
   };
 }
 
