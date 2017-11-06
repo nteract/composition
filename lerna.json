@@ -2,7 +2,8 @@
   "lerna": "2.1.2",
   "packages": ["packages/*", "packages/nbextension/nteract_on_jupyter"],
   "version": "independent",
-  "npmClient": "npm",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "commands": {
     "publish": {
       "ignore": [
