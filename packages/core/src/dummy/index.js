@@ -107,7 +107,7 @@ export function dummyStore(config: *) {
     app: AppRecord({
       executionState: "not connected",
       notificationSystem: {
-        addNotification: jest.fn()
+        addNotification: () => {} // most of the time you'll want to mock this
       },
       token: "TOKEN",
       channels: "channelInfo"
