@@ -3,8 +3,7 @@ import NotificationSystem from "react-notification-system";
 import sinon from "sinon";
 import sinonChai from "sinon-chai";
 
-import { dummyCommutable } from "../dummy-nb";
-import { dummyStore } from "../../utils";
+import { dummyStore, dummyCommutable } from "@nteract/core/lib/dummy";
 
 import { toArray } from "rxjs/operators";
 

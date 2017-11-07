@@ -1,7 +1,7 @@
 import { ActionsObservable } from "redux-observable";
 import { expect } from "chai";
 import { dummyCommutable } from "../dummy-nb";
-import { dummyStore } from "../../utils";
+import { dummyStore } from "@nteract/core/lib/dummy";
 
 import { save, saveAs } from "@nteract/core/actions";
 
