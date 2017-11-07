@@ -460,10 +460,12 @@ describe("menu", () => {
     test("triggers notification when not saved", () => {
       const config = { noFilename: true };
       const store = dummyStore(config);
-      const addNotification = store.getState().app.get("notificationSystem")
-        .addNotification;
+      const notificationSystem = store.getState().app.get("notificationSystem");
+
+      notificationSystem.addNotification = jest.fn();
+
       menu.storeToPDF(store);
-      expect(addNotification).toHaveBeenCalledWith({
+      expect(notificationSystem.addNotification).toHaveBeenCalledWith({
         action: { callback: expect.any(Function), label: "Save As" },
         title: "File has not been saved!",
         message: [

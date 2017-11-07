@@ -155,11 +155,12 @@ describe("createGistCallback", () => {
 describe("notifyUser", () => {
   it("notifies a user that gist has been uploaded", () => {
     const store = dummyStore();
-    const notification = store.getState().app.notificationSystem
-      .addNotification;
     const notificationSystem = store.getState().app.notificationSystem;
+
+    const addNotification = sinon.spy(notificationSystem, "addNotification");
+
     notifyUser("filename", "gistID", notificationSystem);
-    expect(notification).to.be.calledWithMatch({
+    expect(addNotification).to.be.calledWithMatch({
       title: "Gist uploaded",
       message: "filename is ready",
       dismissible: true,
