@@ -16,7 +16,7 @@
     "@nteract/commutable": "^2.1.2",
     "@nteract/display-area": "^3.0.2",
     "@nteract/editor": "^3.0.2",
-    "@nteract/transforms-full": "^3.0.2",
+    "@nteract/transforms": "^3.0.2",
     "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",
     "escape-carriage": "^1.2.0",
@@ -25,6 +25,7 @@
     "react-dnd-html5-backend": "^2.4.1",
     "react-redux": "^5.0.5",
     "react-simple-dropdown": "^3.0.0",
+    "react-syntax-highlighter": "^5.8.0",
     "rxjs": "^5.5.0",
     "uuid": "^3.1.0"
   },

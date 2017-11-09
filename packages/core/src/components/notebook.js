@@ -6,7 +6,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
-import { displayOrder, transforms } from "@nteract/transforms-full";
+import { displayOrder, transforms } from "@nteract/transforms";
 
 import DraggableCell from "../providers/draggable-cell";
 import CellCreator from "../providers/cell-creator";

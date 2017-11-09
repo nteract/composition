@@ -1,3 +1,5 @@
 import Notebook from "./notebook";
 
-export { Notebook };
+const _nextgen = require("./ng");
+
+export { Notebook, _nextgen };

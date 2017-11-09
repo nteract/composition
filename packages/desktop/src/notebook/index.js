@@ -14,6 +14,8 @@ import { Notebook } from "@nteract/core/components";
 
 import { setNotificationSystem } from "@nteract/core/actions";
 
+import { displayOrder, transforms } from "@nteract/transforms-full";
+
 import { initMenuHandlers } from "./menu";
 import { initNativeHandlers } from "./native-window";
 import { initGlobalHandlers } from "./global-events";
@@ -57,7 +59,7 @@ export default class App extends React.PureComponent<Object, Object> {
     return (
       <Provider store={store}>
         <div>
-          <Notebook />
+          <Notebook transforms={transforms} displayOrder={displayOrder} />
           <NotificationSystem
             ref={notificationSystem => {
               this.notificationSystem = notificationSystem;
