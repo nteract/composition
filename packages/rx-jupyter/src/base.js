@@ -11,12 +11,16 @@ export function createAJAXSettings(
 ): Object {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}${uri}`;
+  const headers = {
+    Authorization: `token ${serverConfig.token ? serverConfig.token : ""}`
+  };
   // Merge in our typical settings for responseType, allow setting additional options
   // like the method
   const settings = Object.assign(
     {
       url,
-      responseType: "json"
+      responseType: "json",
+      headers
     },
     serverConfig,
     opts
