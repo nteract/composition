@@ -40,3 +40,5 @@ packages/desktop/bin/nteract-env
 
 # Ignore lerna lock
 packages/*/yarn.lock
+
+.next
