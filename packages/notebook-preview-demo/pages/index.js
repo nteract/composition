@@ -13,13 +13,13 @@ import {
 
 const additionalTransforms = [DataResourceTransform];
 
-const {
-  transforms,
-  displayOrder
-} = additionalTransforms.reduce(registerTransform, {
-  transforms: standardTransforms,
-  displayOrder: standardDisplayOrder
-});
+const { transforms, displayOrder } = additionalTransforms.reduce(
+  registerTransform,
+  {
+    transforms: standardTransforms,
+    displayOrder: standardDisplayOrder
+  }
+);
 
 import NotebookPreview from "@nteract/notebook-preview";
 

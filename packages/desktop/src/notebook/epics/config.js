@@ -31,11 +31,11 @@ const HOME = remote.app.getPath("home");
 export const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
 
 /**
-  * An epic that loads the configuration.
-  *
-  * @param  {ActionObservable}  actions ActionObservable for LOAD_CONFIG action
-  * @return {ActionObservable}  ActionObservable for MERGE_CONFIG action
-  */
+ * An epic that loads the configuration.
+ *
+ * @param  {ActionObservable}  actions ActionObservable for LOAD_CONFIG action
+ * @return {ActionObservable}  ActionObservable for MERGE_CONFIG action
+ */
 export const loadConfigEpic = (actions: ActionsObservable<*>) =>
   actions
     .ofType(LOAD_CONFIG)
@@ -49,20 +49,20 @@ export const loadConfigEpic = (actions: ActionsObservable<*>) =>
     );
 
 /**
-  * An epic that saves the configuration if it has been changed.
-  *
-  * @param  {ActionObservable}  actions ActionObservable for SET_CONFIG_KEY action
-  * @return {ActionObservable}  ActionObservable with SAVE_CONFIG type
-  */
+ * An epic that saves the configuration if it has been changed.
+ *
+ * @param  {ActionObservable}  actions ActionObservable for SET_CONFIG_KEY action
+ * @return {ActionObservable}  ActionObservable with SAVE_CONFIG type
+ */
 export const saveConfigOnChangeEpic = (actions: ActionsObservable<*>) =>
   actions.ofType(SET_CONFIG_KEY).pipe(mapTo({ type: SAVE_CONFIG }));
 
 /**
-  * An epic that saves the configuration.
-  *
-  * @param  {ActionObservable}  actions ActionObservable containing SAVE_CONFIG action
-  * @return {ActionObservable}  ActionObservable for DONE_SAVING action
-  */
+ * An epic that saves the configuration.
+ *
+ * @param  {ActionObservable}  actions ActionObservable containing SAVE_CONFIG action
+ * @return {ActionObservable}  ActionObservable for DONE_SAVING action
+ */
 export const saveConfigEpic = (actions: ActionsObservable<*>, store: any) =>
   actions.ofType(SAVE_CONFIG).pipe(
     mergeMap(() =>

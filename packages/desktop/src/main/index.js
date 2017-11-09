@@ -58,9 +58,9 @@ const argv = yargs()
 
 log.info("args", argv);
 
-const notebooks = argv._
-  .filter(x => /(.ipynb)$/.test(x))
-  .filter(x => existsSync(resolve(x)));
+const notebooks = argv._.filter(x => /(.ipynb)$/.test(x)).filter(x =>
+  existsSync(resolve(x))
+);
 
 ipc.on("new-kernel", (event, k) => {
   launchNewNotebook(k);

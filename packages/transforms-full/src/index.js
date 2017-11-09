@@ -30,12 +30,12 @@ const additionalTransforms = [
   Vega
 ];
 
-const {
-  transforms,
-  displayOrder
-} = additionalTransforms.reduce(registerTransform, {
-  transforms: standardTransforms,
-  displayOrder: standardDisplayOrder
-});
+const { transforms, displayOrder } = additionalTransforms.reduce(
+  registerTransform,
+  {
+    transforms: standardTransforms,
+    displayOrder: standardDisplayOrder
+  }
+);
 
 export { displayOrder, transforms, richestMimetype, registerTransform };

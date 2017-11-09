@@ -169,13 +169,13 @@ export const updatedOutputs = () => (
   );
 
 /**
-   * Get all the payload message content from an observable of jupyter messages
-   *
-   * > p$ = shell$.pipe(
-   *     childOf(originalMessage),
-   *     payloads()
-   *   )
-   */
+ * Get all the payload message content from an observable of jupyter messages
+ *
+ * > p$ = shell$.pipe(
+ *     childOf(originalMessage),
+ *     payloads()
+ *   )
+ */
 export const payloads = () => (
   source: rxjs$Observable<JupyterMessage<*, *>>
 ): rxjs$Observable<JupyterMessage<*, *>> =>

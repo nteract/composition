@@ -156,7 +156,7 @@ export function handleGistError(err: Error) {
  * @param {action} action - The action being processed by the epic.
  * @param {store} reduxStore - The store containing state data.
  * return {Observable} publishNotebookObservable with appropriate parameters.
-*/
+ */
 export function handleGistAction(store: any, action: any) {
   const github = new Github();
   const state = store.getState();

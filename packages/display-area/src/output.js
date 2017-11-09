@@ -58,9 +58,9 @@ export default function Output(props: Props): ?React$Element<any> | null {
       const traceback = output.traceback;
       if (!traceback) {
         return (
-          <Ansi
-            className={classPrefix + "traceback"}
-          >{`${output.ename}: ${output.evalue}`}</Ansi>
+          <Ansi className={classPrefix + "traceback"}>{`${output.ename}: ${
+            output.evalue
+          }`}</Ansi>
         );
       }
       return (

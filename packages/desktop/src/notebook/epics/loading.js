@@ -42,13 +42,13 @@ export const notebookLoaded = (filename: string, notebook: Notebook) => ({
 });
 
 /**
-  * Creates a new kernel based on the language info in the notebook.
-  *
-  * @param  {String}  filename  The filename of the notebook being loaded
-  * @param  {Immutable<Map>}  notebook  The notebook to extract langauge info from
-  *
-  * @returns  {ActionObservable}  ActionObservable for a NEW_KERNEL action
-  */
+ * Creates a new kernel based on the language info in the notebook.
+ *
+ * @param  {String}  filename  The filename of the notebook being loaded
+ * @param  {Immutable<Map>}  notebook  The notebook to extract langauge info from
+ *
+ * @returns  {ActionObservable}  ActionObservable for a NEW_KERNEL action
+ */
 export const extractNewKernel = (
   filename: string,
   notebook: ImmutableNotebook
@@ -66,23 +66,23 @@ export const extractNewKernel = (
 };
 
 /**
-  * Converts a notebook from JSON to an Immutable.Map.
-  *
-  * @param  {String}  filename The filename of the notebook to convert
-  * @param  {String}  data  The raw JSON of the notebook
-  *
-  * @returns  {Object}  The filename and notebook in Immutable.Map form
-  */
+ * Converts a notebook from JSON to an Immutable.Map.
+ *
+ * @param  {String}  filename The filename of the notebook to convert
+ * @param  {String}  data  The raw JSON of the notebook
+ *
+ * @returns  {Object}  The filename and notebook in Immutable.Map form
+ */
 export const convertRawNotebook = (filename: string, data: string) => ({
   filename,
   notebook: fromJS(parseNotebook(data))
 });
 
 /**
-  * Loads a notebook and launches its kernel.
-  *
-  * @param  {ActionObservable}  A LOAD action with the notebook filename
-  */
+ * Loads a notebook and launches its kernel.
+ *
+ * @param  {ActionObservable}  A LOAD action with the notebook filename
+ */
 export const loadEpic = (actions: ActionsObservable<*>) =>
   actions.ofType(LOAD).pipe(
     tap(action => {
@@ -111,10 +111,10 @@ export const loadEpic = (actions: ActionsObservable<*>) =>
   );
 
 /**
-  * Sets a new empty notebook.
-  *
-  * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
-  */
+ * Sets a new empty notebook.
+ *
+ * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
+ */
 export const newNotebookEpic = (action$: ActionsObservable<*>) =>
   action$.ofType(NEW_NOTEBOOK).pipe(
     switchMap(action =>

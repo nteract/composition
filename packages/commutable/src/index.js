@@ -54,7 +54,9 @@ function fromJS(notebookJSON: Notebook): ImmutableNotebook {
 
   if (notebookJSON.nbformat) {
     throw new TypeError(
-      `nbformat v${notebookJSON.nbformat}.${notebookJSON.nbformat_minor} not recognized`
+      `nbformat v${notebookJSON.nbformat}.${
+        notebookJSON.nbformat_minor
+      } not recognized`
     );
   }
 

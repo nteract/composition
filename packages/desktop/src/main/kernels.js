@@ -29,20 +29,20 @@ export function ipyKernelTryObservable(env) {
 }
 
 /**
-  * condaInfoObservable executes the conda info --json command and maps the
-  * result to an observable that parses through the environmental informaiton.
-  * @returns {Observable}  JSON parsed information
-  */
+ * condaInfoObservable executes the conda info --json command and maps the
+ * result to an observable that parses through the environmental informaiton.
+ * @returns {Observable}  JSON parsed information
+ */
 export function condaInfoObservable() {
   return spawn("conda", ["info", "--json"]).pipe(map(info => JSON.parse(info)));
 }
 
 /**
-  * condaEnvsObservable will return an observable that emits the environmental
-  * paths of the passed in observable.
-  * @param {Observable} condaInfo$ - Environmental information
-  * @returns {Observable}  List of envionmental variables
-  */
+ * condaEnvsObservable will return an observable that emits the environmental
+ * paths of the passed in observable.
+ * @param {Observable} condaInfo$ - Environmental information
+ * @returns {Observable}  List of envionmental variables
+ */
 export function condaEnvsObservable(condaInfo$) {
   return condaInfo$.pipe(
     map(info => {
@@ -61,11 +61,11 @@ export function condaEnvsObservable(condaInfo$) {
 }
 
 /**
-  * createKernelSpecsFromEnvs generates a dictionary with the supported langauge
-  * paths.
-  * @param {Object} envs - Environmental elements
-  * @returns {Object}   Dictionary containing supported langauges paths.
-  */
+ * createKernelSpecsFromEnvs generates a dictionary with the supported langauge
+ * paths.
+ * @param {Object} envs - Environmental elements
+ * @returns {Object}   Dictionary containing supported langauges paths.
+ */
 export function createKernelSpecsFromEnvs(envs) {
   const displayPrefix = "Python"; // Or R
   const languageKey = "py"; // or r
@@ -89,10 +89,10 @@ export function createKernelSpecsFromEnvs(envs) {
 }
 
 /**
-  * condaKernelObservable generates an observable containing the supported languages
-  * environmental elements.
-  * @returns {Observable}  Supported language elements
-  */
+ * condaKernelObservable generates an observable containing the supported languages
+ * environmental elements.
+ * @returns {Observable}  Supported language elements
+ */
 export function condaKernelsObservable() {
   return condaEnvsObservable(condaInfoObservable()).pipe(
     map(createKernelSpecsFromEnvs)

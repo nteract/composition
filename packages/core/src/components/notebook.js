@@ -102,8 +102,9 @@ export class Notebook extends React.PureComponent<Props> {
     if (this.stickyCellsPlaceholder && this.stickyCellContainer) {
       // Make sure the document is vertically shifted so the top non-stickied
       // cell is always visible.
-      this.stickyCellsPlaceholder.style.height = `${this.stickyCellContainer
-        .clientHeight}px`;
+      this.stickyCellsPlaceholder.style.height = `${
+        this.stickyCellContainer.clientHeight
+      }px`;
     }
   }
 

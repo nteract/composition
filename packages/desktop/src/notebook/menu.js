@@ -310,33 +310,35 @@ export function exportPDF(
   // Expand unexpanded cells
   unexpandedCells.map(cellID => store.dispatch(toggleOutputExpansion(cellID)));
 
-  remote.getCurrentWindow().webContents.printToPDF({
-    printBackground: true
-  },
-  (error, data) => {
-    if (error) throw error;
+  remote.getCurrentWindow().webContents.printToPDF(
+    {
+      printBackground: true
+    },
+    (error, data) => {
+      if (error) throw error;
 
-    // Restore the modified cells to their unexpanded state.
-    unexpandedCells.map(cellID =>
-      store.dispatch(toggleOutputExpansion(cellID))
-    );
+      // Restore the modified cells to their unexpanded state.
+      unexpandedCells.map(cellID =>
+        store.dispatch(toggleOutputExpansion(cellID))
+      );
 
-    fs.writeFile(`${filename}.pdf`, data, error_fs => {
-      notificationSystem.addNotification({
-        title: "PDF exported",
-        message: `Notebook ${filename} has been exported as a pdf.`,
-        dismissible: true,
-        position: "tr",
-        level: "success",
-        action: {
-          label: "Open PDF",
-          callback: function openPDF() {
-            shell.openItem(`${filename}.pdf`);
+      fs.writeFile(`${filename}.pdf`, data, error_fs => {
+        notificationSystem.addNotification({
+          title: "PDF exported",
+          message: `Notebook ${filename} has been exported as a pdf.`,
+          dismissible: true,
+          position: "tr",
+          level: "success",
+          action: {
+            label: "Open PDF",
+            callback: function openPDF() {
+              shell.openItem(`${filename}.pdf`);
+            }
           }
-        }
+        });
       });
-    });
-  });
+    }
+  );
 }
 
 export function triggerSaveAsPDF(store) {

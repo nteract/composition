@@ -116,9 +116,9 @@ export class Cell extends React.PureComponent<CellProps, *> {
     const editorFocused = this.props.editorFocused === this.props.id;
     return (
       <div
-        className={`cell ${type === "markdown" || type === "raw"
-          ? "text"
-          : "code"} ${cellFocused ? "focused" : ""}`}
+        className={`cell ${
+          type === "markdown" || type === "raw" ? "text" : "code"
+        } ${cellFocused ? "focused" : ""}`}
         onClick={this.selectCell}
         role="presentation"
         ref={el => {

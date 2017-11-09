@@ -60,11 +60,11 @@ export function setLanguageInfo(langInfo: LanguageInfoMetadata) {
 }
 
 /**
-  * Send a kernel_info_request to the kernel.
-  *
-  * @param  {Object}  channels  A object containing the kernel channels
-  * @returns  {Observable}  The reply from the server
-  */
+ * Send a kernel_info_request to the kernel.
+ *
+ * @param  {Object}  channels  A object containing the kernel channels
+ * @returns  {Observable}  The reply from the server
+ */
 export function acquireKernelInfo(channels: Channels) {
   const message = createMessage("kernel_info_request");
 
@@ -84,11 +84,11 @@ export function acquireKernelInfo(channels: Channels) {
 }
 
 /**
-  * Instantiate a connection to a new kernel.
-  *
-  * @param  {KernelInfo}  kernelSpec The kernel specs - name,language, etc
-  * @param  {String}  cwd The working directory to launch the kernel in
-  */
+ * Instantiate a connection to a new kernel.
+ *
+ * @param  {KernelInfo}  kernelSpec The kernel specs - name,language, etc
+ * @param  {String}  cwd The working directory to launch the kernel in
+ */
 export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
   const spec = kernelSpec.spec;
 
@@ -133,10 +133,10 @@ export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
 }
 
 /**
-  * Sets the execution state after a kernel has been launched.
-  *
-  * @oaram  {ActionObservable}  action$ ActionObservable for NEW_KERNEL action
-  */
+ * Sets the execution state after a kernel has been launched.
+ *
+ * @oaram  {ActionObservable}  action$ ActionObservable for NEW_KERNEL action
+ */
 export const watchExecutionStateEpic = (action$: ActionsObservable<*>) =>
   action$
     .ofType(NEW_KERNEL)
@@ -152,10 +152,10 @@ export const watchExecutionStateEpic = (action$: ActionsObservable<*>) =>
       )
     );
 /**
-  * Get kernel specs from main process
-  *
-  * @returns  {Observable}  The reply from main process
-  */
+ * Get kernel specs from main process
+ *
+ * @returns  {Observable}  The reply from main process
+ */
 export const kernelSpecsObservable = Observable.create(observer => {
   ipc.on("kernel_specs_reply", (event, specs) => {
     observer.next(specs);
@@ -165,10 +165,10 @@ export const kernelSpecsObservable = Observable.create(observer => {
 });
 
 /**
-  * Gets information about newly launched kernel.
-  *
-  * @param  {ActionObservable}  The action type
-  */
+ * Gets information about newly launched kernel.
+ *
+ * @param  {ActionObservable}  The action type
+ */
 export const acquireKernelInfoEpic = (action$: ActionsObservable<*>) =>
   action$.ofType(NEW_KERNEL).pipe(
     switchMap(action => {
@@ -197,10 +197,10 @@ export const newKernelByNameEpic = (action$: ActionsObservable<*>) =>
   );
 
 /**
-  * Launches a new kernel.
-  *
-  * @param  {ActionObservable} action$  ActionObservable for LAUNCH_KERNEL action
-  */
+ * Launches a new kernel.
+ *
+ * @param  {ActionObservable} action$  ActionObservable for LAUNCH_KERNEL action
+ */
 export const newKernelEpic = (action$: ActionsObservable<*>) =>
   action$.ofType(LAUNCH_KERNEL).pipe(
     tap(action => {

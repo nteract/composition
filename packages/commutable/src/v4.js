@@ -50,7 +50,7 @@ export type MimeBundle = { [key: string]: string | Array<string> | Object };
 // like git and GitHub. They get converted to strings for the in-memory format.
 export type MultiLineString = string | Array<string>;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                             Output Types
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 export type ExecuteResult = {|
@@ -81,7 +81,7 @@ export type ErrorOutput = {|
 
 export type Output = ExecuteResult | DisplayData | StreamOutput | ErrorOutput;
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+/** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                              Cell Types
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 export type CodeCell = {|

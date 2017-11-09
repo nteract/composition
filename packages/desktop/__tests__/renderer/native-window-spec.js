@@ -69,20 +69,22 @@ describe("createTitleFeed", () => {
     const state$ = from([state]);
 
     const allAttributes = [];
-    nativeWindow.createTitleFeed(state$).subscribe(attributes => {
-      allAttributes.push(attributes);
-    },
-    null,
-    () => {
-      expect(allAttributes).toEqual([
-        {
-          modified: process.platform === "darwin" ? true : false,
-          fullpath: "titled.ipynb",
-          executionState: "not connected"
-        }
-      ]);
-      done();
-    });
+    nativeWindow.createTitleFeed(state$).subscribe(
+      attributes => {
+        allAttributes.push(attributes);
+      },
+      null,
+      () => {
+        expect(allAttributes).toEqual([
+          {
+            modified: process.platform === "darwin" ? true : false,
+            fullpath: "titled.ipynb",
+            executionState: "not connected"
+          }
+        ]);
+        done();
+      }
+    );
   });
 
   test("creates an observable that updates title attributes", done => {
@@ -104,19 +106,21 @@ describe("createTitleFeed", () => {
     const state$ = from([state]);
 
     const allAttributes = [];
-    nativeWindow.createTitleFeed(state$).subscribe(attributes => {
-      allAttributes.push(attributes);
-    },
-    null,
-    () => {
-      expect(allAttributes).toEqual([
-        {
-          modified: false,
-          fullpath: "titled.ipynb",
-          executionState: "not connected"
-        }
-      ]);
-      done();
-    });
+    nativeWindow.createTitleFeed(state$).subscribe(
+      attributes => {
+        allAttributes.push(attributes);
+      },
+      null,
+      () => {
+        expect(allAttributes).toEqual([
+          {
+            modified: false,
+            fullpath: "titled.ipynb",
+            executionState: "not connected"
+          }
+        ]);
+        done();
+      }
+    );
   });
 });

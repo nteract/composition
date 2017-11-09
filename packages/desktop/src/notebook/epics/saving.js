@@ -14,10 +14,10 @@ import { of } from "rxjs/observable/of";
 import { tap, mergeMap, catchError, map } from "rxjs/operators";
 
 /**
-  * Cleans up the notebook document and saves the file.
-  *
-  * @param  {ActionObservable}  action$ The SAVE action with the filename and notebook
-  */
+ * Cleans up the notebook document and saves the file.
+ *
+ * @param  {ActionObservable}  action$ The SAVE action with the filename and notebook
+ */
 export function saveEpic(
   action$: ActionsObservable<*>,
   store: Store<any, any>
@@ -70,10 +70,10 @@ export function saveEpic(
 }
 
 /**
-  * Sets the filename for a notebook before saving.
-  *
-  * @param  {ActionObservable}  action$ The SAVE_AS action with the filename and notebook
-  */
+ * Sets the filename for a notebook before saving.
+ *
+ * @param  {ActionObservable}  action$ The SAVE_AS action with the filename and notebook
+ */
 export function saveAsEpic(action$: ActionsObservable<*>) {
   return action$
     .ofType(SAVE_AS)

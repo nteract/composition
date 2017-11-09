@@ -29,8 +29,7 @@ const getStartCommand = () => {
 
 const setWinPathObservable = (exe, rootDir, binDir) => {
   // Remove duplicates because SETX throws a error if path is to long
-  const env = process.env.PATH
-    .split(";")
+  const env = process.env.PATH.split(";")
     .filter(item => !/nteract/.test(item))
     .filter((item, index, array) => array.indexOf(item) === index);
   env.push(binDir);

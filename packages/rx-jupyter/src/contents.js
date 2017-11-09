@@ -35,13 +35,13 @@ function formCheckpointURI(path: string, checkpointID: string): string {
  */
 
 /**
-  * Creates an AjaxObservable for removing content
-  *
-  * @param {Object} serverConfig  - The server configuration
-  * @param {string} path  - The path to the content
-  *
-  * @return {AjaxObservable}  An Observable with the request response
-  */
+ * Creates an AjaxObservable for removing content
+ *
+ * @param {Object} serverConfig  - The server configuration
+ * @param {string} path  - The path to the content
+ *
+ * @return {AjaxObservable}  An Observable with the request response
+ */
 export function remove(serverConfig: Object, path: string): Observable<*> {
   const uri = formURI(path);
   const opts = {

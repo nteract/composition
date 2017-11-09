@@ -6,7 +6,13 @@
     "type": "git",
     "url": "https://github.com/nteract/nteract.git"
   },
-  "keywords": ["jupyter", "electron", "notebook", "nteract", "data"],
+  "keywords": [
+    "jupyter",
+    "electron",
+    "notebook",
+    "nteract",
+    "data"
+  ],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -25,8 +31,7 @@
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
     "build:packages": "lerna run build --parallel",
     "build:packages:watch": "lerna run build:lib:watch --parallel",
-    "build:icon":
-      "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
+    "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",
     "test": "npm run test:unit && npm run test:lint",
     "test:conformance": "node scripts/conformance.js",
@@ -39,8 +44,7 @@
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged",
-    "prettier":
-      "prettier --write '**/*.{js,json}' '!**/{lib,.git,flow-typed}/**'",
+    "prettier": "prettier --write '**/*.{js,json}' '!**/{lib,.git,flow-typed}/**'",
     "dist": "lerna run dist --scope nteract --stream",
     "pack": "lerna run pack --scope nteract --stream",
     "publish": "lerna run publish --scope nteract --stream",
@@ -48,16 +52,28 @@
     "publish:all": "lerna run publish:all --scope nteract --stream"
   },
   "jest": {
-    "setupFiles": ["raf/polyfill", "./scripts/mockument"],
+    "setupFiles": [
+      "raf/polyfill",
+      "./scripts/mockument"
+    ],
     "moduleNameMapper": {
       "uuid": "<rootDir>/packages/commutable/node_modules/uuid/",
       "\\.css$": "<rootDir>/scripts/noop-module.js"
     },
-    "coveragePathIgnorePatterns": ["<rootDir>/scripts", "/node_modules/"]
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/scripts",
+      "/node_modules/"
+    ]
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"],
-    "*.json": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.json,!package.json": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "immutable": "^3.8.1",
@@ -84,7 +100,7 @@
     "enzyme-to-json": "^3.0.0",
     "esdoc": "^1.0.0-alpha.1",
     "eslint": "^4.4.1",
-    "eslint-config-prettier": "^2.6.0",
+    "eslint-config-prettier": "^2.7.0",
     "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-prettier": "^2.3.1",
@@ -105,7 +121,7 @@
     "mocha": "^3.4.2",
     "mock-require": "^2.0.0",
     "nbschema": "^0.1.0",
-    "prettier": "^1.7.1",
+    "prettier": "^1.8.2",
     "raf": "^3.3.2",
     "react-test-renderer": "^16.0.0",
     "sinon": "^3.2.0",
