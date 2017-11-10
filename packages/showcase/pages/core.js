@@ -152,7 +152,10 @@ const cells: Cells = {
   gru: {
     code: "harry_plotter(df)",
     outputs: (
-      <img src="http://i.dailymail.co.uk/i/pix/2016/07/08/00/360EA41C00000578-3679510-image-m-4_1467934667802.jpg" />
+      <img
+        src="http://i.dailymail.co.uk/i/pix/2016/07/08/00/360EA41C00000578-3679510-image-m-4_1467934667802.jpg"
+        alt="harry plotter of the deathly hallows"
+      />
     ),
     running: false,
     queued: true,
@@ -246,6 +249,7 @@ const ExampleCell = () => (
       <img
         src="https://i.ytimg.com/vi/YFNsRogBqb0/maxresdefault.jpg"
         width="200"
+        alt="'Yer a wizard Harry' -- Hagrid"
       />
       <h2>yer a wizard harry</h2>
     </Outputs>
