@@ -16,23 +16,14 @@ import {
 
 import type { ActionsObservable } from "redux-observable";
 
-import type { ALL_ACTIONS } from "../actions/";
+import type { ALL_ACTIONS, GENERIC_AJAX_FAIL } from "../actions/";
 
-import type {
-  LIST_KERNELSPECS,
-  GENERIC_AJAX_FAIL
-} from "../actions/kernelspecs";
+import type { LIST_KERNELSPECS } from "../actions/kernelspecs";
+
+import { genericAjaxFail } from "../actions";
 
 function listKernelSpecs(): LIST_KERNELSPECS {
   return { type: "LIST_KERNELSPECS" };
-}
-
-function genericAjaxFail(ajaxError: any): GENERIC_AJAX_FAIL {
-  return {
-    type: "GENERIC_AJAX_FAIL",
-    payload: ajaxError.response,
-    status: ajaxError.status
-  };
 }
 
 type ServerConfig = {
