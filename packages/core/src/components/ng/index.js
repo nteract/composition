@@ -1,7 +1,5 @@
 // @flow
-import React from "react";
-
-import typeof { Children } from "react";
+import * as React from "react";
 
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { idea } from "react-syntax-highlighter/dist/styles";
@@ -9,7 +7,7 @@ import { idea } from "react-syntax-highlighter/dist/styles";
 export const Output = () => <pre>I am output</pre>;
 
 export type OutputsProps = {
-  children: React$Node,
+  children: React.Node,
   hidden: boolean
 };
 
@@ -92,7 +90,7 @@ export class Prompt extends React.Component<PromptProps> {
 
 export type EditorProps = {
   language: string,
-  children: string | React$Element<any>,
+  children: string | React.Element<any>,
   className?: string
 };
 
@@ -104,6 +102,7 @@ export class Editor extends React.Component<EditorProps> {
   };
 
   render() {
+    // Build in a default renderer when they pass a plain string
     if (typeof this.props.children === "string") {
       return (
         <SyntaxHighlighter
@@ -120,12 +119,13 @@ export class Editor extends React.Component<EditorProps> {
         </SyntaxHighlighter>
       );
     }
+    // Otherwise assume they have their own editor component
     return this.props.children;
   }
 }
 
 export type InputProps = {
-  children: React$Node,
+  children: React.Node,
   hidden: boolean
 };
 
@@ -179,7 +179,11 @@ export class Input extends React.Component<InputProps> {
   }
 }
 
-export const Cell = (props: { isSelected: boolean, children?: React$Node }) => {
+export const Cell = (props: {
+  isSelected: boolean,
+  children?: React.Node,
+  id?: string
+}) => {
   const children = props.children;
   return (
     <div className={`cell ${props.isSelected ? "focused" : ""}`}>
@@ -217,12 +221,13 @@ export const Cell = (props: { isSelected: boolean, children?: React$Node }) => {
 
 Cell.defaultProps = {
   isSelected: false,
-  children: null
+  children: null,
+  id: null
 };
 
 // For
 export const Notebook = (props: {
-  children: Children<Cell>,
+  children: React.ChildrenArray<React.Element<typeof Cell>>,
   selected: string | null
 }) => {
   const children = React.Children.map(props.children, child =>
