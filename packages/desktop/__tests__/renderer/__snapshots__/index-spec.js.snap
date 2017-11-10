@@ -13,7 +13,52 @@ exports[`App renders app 1`] = `
   }
 >
   <div>
-    <Connect(DragDropContext(Notebook)) />
+    <Connect(DragDropContext(Notebook))
+      displayOrder={
+        Array [
+          "application/vnd.vega.v2+json",
+          "application/vnd.vegalite.v1+json",
+          "application/geo+json",
+          "application/vnd.plotly.v1+json",
+          "text/vnd.plotly.v1+html",
+          "application/x-nteract-model-debug+json",
+          "application/vnd.dataresource+json",
+          "application/vdom.v1+json",
+          "application/json",
+          "application/javascript",
+          "text/html",
+          "text/markdown",
+          "text/latex",
+          "image/svg+xml",
+          "image/gif",
+          "image/png",
+          "image/jpeg",
+          "text/plain",
+        ]
+      }
+      transforms={
+        Object {
+          "application/geo+json": [Function],
+          "application/javascript": [Function],
+          "application/json": [Function],
+          "application/vdom.v1+json": [Function],
+          "application/vnd.dataresource+json": [Function],
+          "application/vnd.plotly.v1+json": [Function],
+          "application/vnd.vega.v2+json": [Function],
+          "application/vnd.vegalite.v1+json": [Function],
+          "application/x-nteract-model-debug+json": [Function],
+          "image/gif": [Function],
+          "image/jpeg": [Function],
+          "image/png": [Function],
+          "image/svg+xml": [Function],
+          "text/html": [Function],
+          "text/latex": [Function],
+          "text/markdown": [Function],
+          "text/plain": [Function],
+          "text/vnd.plotly.v1+html": [Function],
+        }
+      }
+    />
     <Component
       allowHTML={false}
       noAnimation={false}
