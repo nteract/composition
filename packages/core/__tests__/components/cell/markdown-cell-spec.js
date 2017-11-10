@@ -10,7 +10,7 @@ import {
 } from "../../../actions";
 
 import { emptyMarkdownCell } from "@nteract/commutable";
-import { displayOrder, transforms } from "@nteract/transforms-full";
+import { displayOrder, transforms } from "@nteract/transforms";
 import { dummyStore } from "../../../src/dummy";
 
 describe("MarkdownCell", () => {

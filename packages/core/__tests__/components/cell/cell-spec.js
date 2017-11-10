@@ -8,7 +8,7 @@ import { Cell } from "../../../src/components/cell/cell";
 
 import { emptyCodeCell, emptyMarkdownCell } from "@nteract/commutable";
 
-import { displayOrder, transforms } from "@nteract/transforms-full";
+import { displayOrder, transforms } from "@nteract/transforms";
 
 const sharedProps = { displayOrder, transforms };
 describe("Cell", () => {

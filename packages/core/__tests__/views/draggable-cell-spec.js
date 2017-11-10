@@ -6,7 +6,7 @@ import DraggableCell from "../../src/views/draggable-cell";
 
 import { emptyMarkdownCell } from "@nteract/commutable";
 
-import { displayOrder, transforms } from "@nteract/transforms-full";
+import { displayOrder, transforms } from "@nteract/transforms";
 
 // Spoof DND manager for tests.
 const dragDropManager = {

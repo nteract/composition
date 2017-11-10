@@ -4,7 +4,7 @@ import Immutable from "immutable";
 import { Provider } from "react-redux";
 import { shallow, mount } from "enzyme";
 
-import { displayOrder, transforms } from "@nteract/transforms-full";
+import { displayOrder, transforms } from "@nteract/transforms";
 import Cell from "../../src/components/cell/cell";
 import { Notebook, getLanguageMode } from "../../src/components/notebook";
 

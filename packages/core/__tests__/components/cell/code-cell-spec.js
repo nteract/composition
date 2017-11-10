@@ -8,7 +8,7 @@ import { dummyStore } from "../../../src/dummy";
 import CodeCell from "../../../src/components/cell/code-cell";
 
 import { emptyCodeCell } from "@nteract/commutable";
-import { displayOrder, transforms } from "@nteract/transforms-full";
+import { displayOrder, transforms } from "@nteract/transforms";
 
 const sharedProps = { displayOrder, transforms };
 describe("CodeCell", () => {
