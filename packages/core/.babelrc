@@ -1,0 +1,18 @@
+{
+  "env": {
+    "test": {
+      "presets": ["styled-jsx/babel", "es2015", "react"],
+      "plugins": [
+        "transform-class-properties",
+        "transform-flow-strip-types",
+        "transform-object-rest-spread"
+      ]
+    }
+  },
+  "presets": ["styled-jsx/babel", "es2015", "react"],
+  "plugins": [
+    "transform-class-properties",
+    "transform-flow-strip-types",
+    "transform-object-rest-spread"
+  ]
+}

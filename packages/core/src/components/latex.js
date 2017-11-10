@@ -6,9 +6,8 @@ type Props = {
   children?: React$Node
 };
 
-const MathJax: global = window ? window.MathJax : null;
-
 function isMathJaxOkYet(): boolean {
+  const MathJax: global = window ? window.MathJax : null;
   return (
     !window.disableMathJax &&
     typeof MathJax !== "undefined" &&
@@ -21,7 +20,7 @@ export default class LatexRenderer extends React.PureComponent<Props> {
   rendered: ?HTMLElement;
 
   componentDidMount(): void {
-    if (isMathJaxOkYet()) typesetMath(this.rendered);
+    if (window && isMathJaxOkYet()) typesetMath(this.rendered);
   }
 
   componentDidUpdate(): void {
