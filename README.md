@@ -113,35 +113,18 @@ And then opening `docs/index.html` in your favorite browser.
 
 ## For maintainers: Creating a release
 
-### Bump the version
+### Individual packages
+
+Allow lerna to publish all of `packages/*`
 
 ```
-npm version {major, minor, patch}
-git push
-git push --tags
-npm publish
+$ lerna publish
+... follow prompts to publish any packages, choosing the appropriate semver
 ```
 
-### Create the package
+### Desktop application
 
-It is recommended to run `npm run reinstall` before packaging a release.
-
-To package a release for your current platform run:
-```
-npm run dist
-```
-
-To package a release for all platforms run:
-```
-npm run dist:all
-```
-Make sure you have the [required dependencies](https://github.com/electron-userland/electron-builder/wiki/Multi-Platform-Build) for a multi platform build installed.
-
-The OS X release has to be signed with an Apple developer key. Currently only
-Kyle (@rgbkrk) has this set up.
-
-Then verify that the copy of nteract in `dist/` works
-properly (mostly ad-hoc basic notebook loading and execution).
+Follow instructions in [Releasing the Desktop application](https://github.com/nteract/nteract/blob/master/packages/desktop/RELEASING.md).
 
 ## Sponsors
 
