@@ -6,7 +6,7 @@ type Props = {
   children?: React$Node
 };
 
-const MathJax: global = window.MathJax;
+const MathJax: global = window ? window.MathJax : null;
 
 function isMathJaxOkYet(): boolean {
   return (
