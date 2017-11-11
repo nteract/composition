@@ -24,6 +24,7 @@
     "react-dnd": "^2.4.0",
     "react-dnd-html5-backend": "^2.4.1",
     "react-redux": "^5.0.5",
+    "redux": "^3.7.0",
     "react-simple-dropdown": "^3.0.0",
     "react-syntax-highlighter": "^5.8.0",
     "rxjs": "^5.5.0",
