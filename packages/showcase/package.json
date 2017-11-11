@@ -15,6 +15,7 @@
     "react-dom": "^16.0.0",
     "react-markdown": "^2.5.0",
     "react-syntax-highlighter": "^5.8.0",
+    "@nteract/notebook-preview": "^3.0.2",
     "@nteract/core": "0.0.1-beta",
     "@nteract/commutable": "^2.1.2",
     "@nteract/display-area": "^3.0.2",

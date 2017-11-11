@@ -232,7 +232,8 @@ export const Notebook = (props: {
 }) => {
   const children = React.Children.map(props.children, child =>
     React.cloneElement(child, {
-      isSelected: child.props.id === props.selected
+      // If there's a selection and it matches the cell's ID, mark isSelected
+      isSelected: props.selected && child.props.id === props.selected
     })
   );
   return (
