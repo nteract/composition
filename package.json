@@ -23,6 +23,7 @@
     "postinstall": "npm run lerna",
     "start": "lerna run start --scope nteract --stream",
     "spawn": "lerna run spawn --scope nteract",
+    "showcase": "lerna run dev --scope @nteract/showcase --stream",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lerna": "lerna bootstrap",
