@@ -3,7 +3,6 @@
     "test": {
       "presets": ["es2015", "react"],
       "plugins": [
-        "styled-jsx/babel",
         "transform-class-properties",
         "transform-flow-strip-types",
         "transform-object-rest-spread"
@@ -12,7 +11,6 @@
   },
   "presets": ["es2015", "react"],
   "plugins": [
-    "styled-jsx/babel",
     "transform-class-properties",
     "transform-flow-strip-types",
     "transform-object-rest-spread"
