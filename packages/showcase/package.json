@@ -9,20 +9,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "@nteract/commutable": "^2.1.2",
+    "@nteract/core": "0.0.1-beta",
+    "@nteract/display-area": "^3.0.2",
+    "@nteract/editor": "^3.0.2",
+    "@nteract/notebook-preview": "^3.0.2",
     "@nteract/transforms": "^3.0.2",
+    "@nteract/transforms-full": "^3.0.2",
     "next": "^4.1.4",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-markdown": "^2.5.0",
-    "react-syntax-highlighter": "^5.8.0",
-    "@nteract/notebook-preview": "^3.0.2",
-    "@nteract/core": "0.0.1-beta",
-    "@nteract/commutable": "^2.1.2",
-    "@nteract/display-area": "^3.0.2",
-    "@nteract/editor": "^3.0.2",
-    "@nteract/transforms-full": "^3.0.2",
     "react-redux": "^5.0.5",
-    "rxjs": "^5.5.0",
+    "react-syntax-highlighter": "^5.8.0",
+    "rxjs": "^5.5.2",
     "uuid": "^3.1.0"
   },
   "publishConfig": {

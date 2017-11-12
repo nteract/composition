@@ -99,7 +99,7 @@ export default class RichestMime extends React.Component<Props, State> {
     );
 
     if (!mimetype) {
-      // If no mimetype is supported, don't return a component
+      // If no mimetype is supported, don't return an element
       return null;
     }
 
