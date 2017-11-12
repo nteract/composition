@@ -91,6 +91,7 @@ print('hey')
         }
         expanded={false}
         isHidden={false}
+        models={Immutable.Map {}}
         outputs={
           Array [
             Object {
@@ -102,6 +103,7 @@ print('hey')
             },
           ]
         }
+        theme="light"
         transforms={
           Object {
             "application/javascript": [Function],

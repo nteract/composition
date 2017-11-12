@@ -3,6 +3,8 @@ import React from "react";
 
 import { transforms, displayOrder } from "@nteract/transforms";
 
+import * as Immutable from "immutable";
+
 import Output from "./output";
 
 type Props = {
@@ -18,14 +20,13 @@ type Props = {
 export const DEFAULT_SCROLL_HEIGHT = 600;
 
 export default class Display extends React.PureComponent<Props> {
-  el: ?HTMLElement;
-  recomputeStyle: () => void;
-
   static defaultProps = {
     transforms,
     displayOrder,
     isHidden: false,
-    expanded: false
+    expanded: false,
+    theme: "light",
+    models: Immutable.Map()
   };
 
   render() {
@@ -35,9 +36,6 @@ export default class Display extends React.PureComponent<Props> {
       return (
         <div
           className="cell_display"
-          ref={el => {
-            this.el = el;
-          }}
           style={{
             maxHeight: props.expanded ? "100%" : `${DEFAULT_SCROLL_HEIGHT}px`,
             overflowY: "auto"
