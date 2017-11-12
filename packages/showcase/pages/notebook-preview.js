@@ -31,7 +31,9 @@ function fetchFromGist(gistId = "038c4061d5a562d5f24605b93dcffdb6") {
           return createFrozenNotebook(fileResponse.content);
         }
       }
-    });
+    })
+    .then(nb => fromJS(nb))
+    .catch(err => emptyNotebook);
 }
 
 class StaticNotebookApp extends React.Component {
@@ -54,8 +56,8 @@ class StaticNotebookApp extends React.Component {
   }
 
   componentDidMount() {
-    return fetchFromGist(this.props.gistID).then(nb => {
-      this.setState({ notebook: fromJS(nb) });
+    return fetchFromGist(this.props.gistID).then(notebook => {
+      this.setState({ notebook });
     });
   }
 

@@ -37,10 +37,95 @@ export class Outputs extends React.Component<OutputsProps> {
               display: none;
             }
 
-            .outputs :global(pre)) {
+            .outputs :global(code) {
+              font-family: "Source Code Pro";
+              white-space: pre-wrap;
+              font-size: 14px;
+            }
+
+            .outputs :global(pre) {
               white-space: pre-wrap;
               font-size: 14px;
               word-wrap: break-word;
+            }
+
+            .outputs :global(img) {
+              display: block;
+              max-width: 100%;
+            }
+
+            .outputs :global(table) {
+              border-collapse: collapse;
+            }
+
+            .outputs :global(th),
+            .outputs :global(td) {
+              padding: 0.5em 1em;
+              border: 1px solid var(--primary-border);
+            }
+
+            .outputs :global(th) {
+              text-align: left;
+            }
+
+            .outputs :global(blockquote) {
+              padding: 0.75em 0.5em 0.75em 1em;
+              background: var(--main-bg-color);
+              border-left: 0.5em solid #ddd;
+            }
+
+            .outputs :global(.blockquote::before) {
+              display: block;
+              height: 0;
+              content: "“";
+              margin-left: -0.95em;
+              font: italic 400%/1 Open Serif, Georgia, "Times New Roman", serif;
+              color: solid var(--primary-border);
+            }
+
+            /* for nested paragraphs in block quotes */
+            .outputs :global(blockquote) p {
+              display: inline;
+            }
+
+            .outputs :global(dd) {
+              display: block;
+              -webkit-margin-start: 40px;
+            }
+            .outputs :global(dl) {
+              display: block;
+              -webkit-margin-before: 1__qem;
+              -webkit-margin-after: 1em;
+              -webkit-margin-start: 0;
+              -webkit-margin-end: 0;
+            }
+
+            .outputs :global(dt) {
+              display: block;
+            }
+
+            .outputs :global(dl) {
+              width: 100%;
+              overflow: hidden;
+              padding: 0;
+              margin: 0;
+            }
+
+            .outputs :global(dt) {
+              font-weight: bold;
+              float: left;
+              width: 20%;
+              /* adjust the width; make sure the total of both is 100% */
+              padding: 0;
+              margin: 0;
+            }
+
+            .outputs :global(dd) {
+              float: left;
+              width: 80%;
+              /* adjust the width; make sure the total of both is 100% */
+              padding: 0;
+              margin: 0;
             }
           `}</style>
         </div>
