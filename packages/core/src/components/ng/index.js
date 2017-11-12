@@ -61,7 +61,7 @@ export class Outputs extends React.Component<OutputsProps> {
             .outputs :global(th),
             .outputs :global(td) {
               padding: 0.5em 1em;
-              border: 1px solid var(--primary-border);
+              border: 1px solid var(--primary-border, #cbcbcb);
             }
 
             .outputs :global(th) {
@@ -70,7 +70,7 @@ export class Outputs extends React.Component<OutputsProps> {
 
             .outputs :global(blockquote) {
               padding: 0.75em 0.5em 0.75em 1em;
-              background: var(--main-bg-color);
+              background: var(--main-bg-color, white);
               border-left: 0.5em solid #ddd;
             }
 
@@ -80,7 +80,7 @@ export class Outputs extends React.Component<OutputsProps> {
               content: "“";
               margin-left: -0.95em;
               font: italic 400%/1 Open Serif, Georgia, "Times New Roman", serif;
-              color: solid var(--primary-border);
+              color: solid var(--primary-border, #cbcbcb);
             }
 
             /* for nested paragraphs in block quotes */
@@ -197,7 +197,7 @@ export class Editor extends React.Component<EditorProps> {
           customStyle={{
             padding: "10px 0px 10px 10px",
             margin: "0px",
-            backgroundColor: "var(--cm-background)"
+            backgroundColor: "var(--cm-background, #fafafa)"
           }}
         >
           {this.props.children}
