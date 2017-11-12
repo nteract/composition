@@ -2,105 +2,125 @@
 
 exports[`Notebook accepts an Immutable.List of cells 1`] = `
 <Notebook
-  displayOrder={
-    Array [
-      "application/vdom.v1+json",
-      "application/json",
-      "application/javascript",
-      "text/html",
-      "text/markdown",
-      "text/latex",
-      "image/svg+xml",
-      "image/gif",
-      "image/png",
-      "image/jpeg",
-      "text/plain",
-    ]
-  }
-  notebook={
-    Immutable.Map {
-      "cellOrder": Immutable.List [
-        4,
-        5,
-      ],
-      "cellMap": Immutable.Map {
-        4: Immutable.Map {
-          "cell_type": "markdown",
-          "source": "## The Notable Nteract Notebook
-
-**It's a notebook!**
-",
-          "metadata": Immutable.Map {},
-        },
-        5: Immutable.Map {
-          "cell_type": "code",
-          "source": "import IPython
+  selected={null}
+>
+  <Cell
+    id={null}
+    isSelected={false}
+    key="6"
+  >
+    <div
+      className="jsx-1970217516 jsx-1970217516 content-margin"
+    >
+      <LatexRenderer>
+        <Heading
+          key="1:1-1:311"
+          level={2}
+          literal={null}
+          nodeKey="1:1-1:311"
+        >
+          The Notable Nteract Notebook
+        </Heading>
+        <p
+          key="3:1-3:206"
+        >
+          <strong
+            key="3:1-3:205"
+          >
+            It's a notebook!
+          </strong>
+        </p>
+      </LatexRenderer>
+    </div>
+    <JSXStyle
+      css=".content-margin.jsx-1970217516{padding-left:calc(var(--prompt-width,50px) + 10px);padding-top:10px;padding-bottom:10px;padding-right:10px;}"
+      styleId="1970217516"
+    />
+  </Cell>
+  <Cell
+    id={null}
+    isSelected={false}
+    key="7"
+  >
+    <PapermillView />
+    <Input
+      hidden={false}
+    >
+      <Prompt
+        counter={null}
+        queued={false}
+        running={false}
+      />
+      <Editor
+        className="input"
+        language="ipython"
+      >
+        import IPython
 
 from IPython.display import HTML
 from IPython.display import Markdown
 from IPython.display import display
 
-display(HTML('<h1>Multiple</h1>'))
-display(HTML('<p>Display Elements</p>'))
+display(HTML('&lt;h1&gt;Multiple&lt;/h1&gt;'))
+display(HTML('&lt;p&gt;Display Elements&lt;/p&gt;'))
 display(Markdown('**awesome**'))
 
 print('hey')
-42",
-          "outputs": Immutable.List [
-            Immutable.Map {
-              "output_type": "display_data",
-              "data": Immutable.Map {
+42
+      </Editor>
+    </Input>
+    <Outputs
+      expanded={true}
+      hidden={false}
+    >
+      <Display
+        displayOrder={
+          Array [
+            "application/vdom.v1+json",
+            "application/json",
+            "application/javascript",
+            "text/html",
+            "text/markdown",
+            "text/latex",
+            "image/svg+xml",
+            "image/gif",
+            "image/png",
+            "image/jpeg",
+            "text/plain",
+          ]
+        }
+        expanded={false}
+        isHidden={false}
+        outputs={
+          Array [
+            Object {
+              "data": Object {
                 "text/plain": "<IPython.core.display.HTML object>",
               },
-              "metadata": Immutable.Map {},
+              "metadata": Object {},
+              "output_type": "display_data",
             },
-          ],
-          "execution_count": 11,
-          "metadata": Immutable.Map {
-            "collapsed": false,
-          },
-        },
-      },
-      "nbformat_minor": 0,
-      "nbformat": 4,
-      "metadata": Immutable.Map {
-        "kernelspec": Immutable.Map {
-          "display_name": "Python 3",
-          "language": "python",
-          "name": "python3",
-        },
-        "language_info": Immutable.Map {
-          "codemirror_mode": Immutable.Map {
-            "name": "ipython",
-            "version": 3,
-          },
-          "file_extension": ".py",
-          "mimetype": "text/x-python",
-          "name": "python",
-          "nbconvert_exporter": "python",
-          "pygments_lexer": "ipython3",
-          "version": "3.5.1",
-        },
-      },
-    }
-  }
-  theme="light"
-  transforms={
-    Object {
-      "application/javascript": [Function],
-      "application/json": [Function],
-      "application/vdom.v1+json": [Function],
-      "image/gif": [Function],
-      "image/jpeg": [Function],
-      "image/png": [Function],
-      "image/svg+xml": [Function],
-      "text/html": [Function],
-      "text/latex": [Function],
-      "text/markdown": [Function],
-      "text/plain": [Function],
-    }
-  }
-/>
+          ]
+        }
+        transforms={
+          Object {
+            "application/javascript": [Function],
+            "application/json": [Function],
+            "application/vdom.v1+json": [Function],
+            "image/gif": [Function],
+            "image/jpeg": [Function],
+            "image/png": [Function],
+            "image/svg+xml": [Function],
+            "text/html": [Function],
+            "text/latex": [Function],
+            "text/markdown": [Function],
+            "text/plain": [Function],
+          }
+        }
+      />
+    </Outputs>
+  </Cell>
+</Notebook>
 `;
 
 exports[`Notebook accepts an Object of cells 1`] = `
