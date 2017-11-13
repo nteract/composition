@@ -4,9 +4,7 @@
   "description": "showcase of nteract components",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "dev": "next"
   },
   "dependencies": {
     "@nteract/commutable": "^2.1.2",
@@ -29,10 +27,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "nteract",
-    "ohgodamonomoduleinamonorepo"
-  ],
+  "keywords": ["nteract", "ohgodamonomoduleinamonorepo"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }
