@@ -17,6 +17,7 @@ module.exports = `
 
   --pager-bg: #111;
   --input-color: #fafafa;
+  --prompt-bg: var(--pager-bg);
 
   --cm-background: #111;
   --cm-color: #ecf0f1;

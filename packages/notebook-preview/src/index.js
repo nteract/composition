@@ -26,6 +26,8 @@ const {
   Notebook
 } = _nextgen;
 
+const themes = require("@nteract/core/themes");
+
 type MDRender = (input: string) => string;
 
 const parser = new CommonMark.Parser();
@@ -98,7 +100,9 @@ export class NotebookPreview extends React.PureComponent<Props> {
                     />
                     <Input hidden={sourceHidden}>
                       <Prompt />
-                      <Editor language={language}>{source}</Editor>
+                      <Editor language={language} theme={this.props.theme}>
+                        {source}
+                      </Editor>
                     </Input>
                     <Outputs
                       hidden={outputHidden}
@@ -122,7 +126,6 @@ export class NotebookPreview extends React.PureComponent<Props> {
                       {/* TODO: embed mathjax on the page here, otherwise LaTeX
                               rendering doesn't actually happen
                     */}
-
                       <LatexRenderer>{mdRender(source)}</LatexRenderer>
                     </div>
                     <style jsx>{`
@@ -166,14 +169,14 @@ export class NotebookPreview extends React.PureComponent<Props> {
             }
           })}
         </Notebook>
-        <style>{`
-          :root {
+        <style>{`:root {
+          ${themes[this.props.theme]}
             --cell-shadow-hover-1: none;
             --cell-shadow-hover-2: none;
             --cell-shadow-focus-1: none;
             --cell-shadow-focus-2: none;
-            --cell-bg-hover: var(--prompt-bg, #fafafa);
-            --cell-bg-focus: var(--prompt-bg, #fafafa);
+            --cell-bg-hover: var(--prompt-bg);
+            --cell-bg-focus: var(--prompt-bg);
           }
         `}</style>
       </div>

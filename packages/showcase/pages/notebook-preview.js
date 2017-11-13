@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import * as Immutable from "immutable";
+
 import NotebookPreview from "@nteract/notebook-preview";
 import { emptyNotebook, fromJS } from "@nteract/commutable";
 
@@ -40,13 +41,18 @@ function fetchFromGist(gistId = "038c4061d5a562d5f24605b93dcffdb6") {
 
 class StaticNotebookApp extends React.Component<
   { gistID: string },
-  { notebook: any }
+  { notebook: any, theme: "light" | "dark" }
 > {
   constructor(props: { gistID: string }) {
     super(props);
     this.state = {
-      notebook: emptyNotebook
+      notebook: emptyNotebook,
+      theme: "light"
     };
+  }
+
+  toggleTheme() {
+    this.setState({ theme: this.state.theme === "light" ? "dark" : "light" });
   }
 
   static defaultProps = {
@@ -70,12 +76,57 @@ class StaticNotebookApp extends React.Component<
     if (this.state.notebook) {
       return (
         <div>
-          <NotebookPreview notebook={this.state.notebook} />
-          <style>{`
-            :root {
-              ${dark}
+          <button onClick={() => this.toggleTheme()} className="theme-toggle">
+            Toggle Theme
+          </button>
+          <NotebookPreview
+            notebook={this.state.notebook}
+            theme={this.state.theme}
+          />
+          <style jsx>{`
+            /* Dark Button CSS */
+            .theme-toggle {
+              position: absolute;
+              z-index: 1000;
+              right: 20px;
+
+              /* prettier-ignore */
+              font-family:  "Source Sans Pro", Helvetica Neue, Helvetica, Arial, sans-serif;
+              outline: 0;
+              padding: 5px 12px;
+              display: block;
+              color: #9fa8b0;
+              font-weight: bold;
+              text-shadow: 1px 1px #1f272b;
+              border: 1px solid #1c252b;
+              border-radius: 3px;
+              -moz-border-radius: 3px;
+              -webkit-border-radius: 3px;
+              background: #232b30; /* old browsers */
+              box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); /* CSS3 */
             }
-            `}</style>
+            .theme-toggle:hover {
+              color: #fff;
+              background: #4c5a64; /* old browsers */
+            }
+            .theme-toggle:active {
+              color: #fff;
+              padding: 6px 12px 4px;
+              background: #20282d; /* old browsers */
+              box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.1); /* CSS3 */
+            }
+          `}</style>
+          <style jsx global>{`
+            body {
+              background-color: ${this.state.theme === "light"
+                ? "white"
+                : "black"};
+            }
+
+            .theme-toggle {
+              background-color: "black";
+            }
+          `}</style>
         </div>
       );
     }

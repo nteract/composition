@@ -2,7 +2,7 @@
 import * as React from "react";
 
 import SyntaxHighlighter from "react-syntax-highlighter";
-import { idea } from "react-syntax-highlighter/dist/styles";
+import { idea, agate } from "react-syntax-highlighter/dist/styles";
 
 export const Output = () => <pre>I am output</pre>;
 
@@ -176,14 +176,27 @@ export class Prompt extends React.Component<PromptProps> {
 export type EditorProps = {
   language: string,
   children: string | React.Element<any>,
-  className?: string
+  className?: string,
+  theme: "light" | "dark"
 };
+
+function selectHighlighterStyle(theme: string = "light") {
+  switch (theme) {
+    case "light":
+      return idea;
+    case "dark":
+      return agate;
+    default:
+      return idea;
+  }
+}
 
 export class Editor extends React.Component<EditorProps> {
   static defaultProps = {
     children: "",
     language: "python",
-    className: "input"
+    className: "input",
+    theme: "light"
   };
 
   render() {
@@ -191,7 +204,7 @@ export class Editor extends React.Component<EditorProps> {
     if (typeof this.props.children === "string") {
       return (
         <SyntaxHighlighter
-          style={idea}
+          style={selectHighlighterStyle(this.props.theme)}
           language={this.props.language}
           className={this.props.className}
           customStyle={{
@@ -346,6 +359,8 @@ export const Notebook = (props: {
           font-size: 16px;
           background-color: var(--main-bg-color, white);
           color: var(--main-fg-color, rgb(51, 51, 51));
+
+          padding-bottom: 10px;
         }
       `}</style>
       {children}
