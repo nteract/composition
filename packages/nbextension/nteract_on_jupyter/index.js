@@ -4,10 +4,6 @@ import ReactDOM from "react-dom";
 
 import { Provider } from "react-redux";
 
-import "codemirror/lib/codemirror.css";
-import "@nteract/notebook-preview/styles/main.css";
-import "@nteract/notebook-preview/styles/theme-light.css";
-
 import NotificationSystem from "react-notification-system";
 
 import configureStore from "./store";

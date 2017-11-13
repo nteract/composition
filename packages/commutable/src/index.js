@@ -5,6 +5,8 @@ import type { Notebook as v3Notebook } from "./v3";
 
 import type { ImmutableNotebook, JSONType } from "./types";
 
+import * as Immutable from "immutable";
+
 type PlaceholderNotebook = {
   nbformat: number,
   nbformat_minor: number
@@ -40,7 +42,15 @@ function parseNotebook(notebookString: string): Notebook {
   return JSON.parse(notebookString, freezeReviver);
 }
 
-function fromJS(notebookJSON: Notebook): ImmutableNotebook {
+function fromJS(notebook: Notebook | ImmutableNotebook): ImmutableNotebook {
+  if (Immutable.Map.isMap(notebook)) {
+    // $FlowFixMe: Immutable
+    return notebook;
+  }
+
+  // $FlowFixMe: Immutable
+  const notebookJSON: Notebook = notebook;
+
   if (notebookJSON.nbformat === 4 && notebookJSON.nbformat_minor >= 0) {
     if (
       Array.isArray(notebookJSON.cells) &&

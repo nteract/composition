@@ -8,7 +8,11 @@ import MarkdownRenderer from "commonmark-react-renderer";
 import { Display } from "@nteract/display-area";
 import { displayOrder, transforms } from "@nteract/transforms";
 
-import { emptyNotebook, appendCellToNotebook } from "@nteract/commutable";
+import {
+  emptyNotebook,
+  appendCellToNotebook,
+  fromJS
+} from "@nteract/commutable";
 import { createCodeCell } from "@nteract/commutable/lib/structures";
 
 import { _nextgen } from "@nteract/core/components";
@@ -42,21 +46,39 @@ type Props = {
   theme: string
 };
 
-export class NotebookPreview extends React.PureComponent<Props> {
+type State = {
+  notebook: any
+};
+
+export class NotebookPreview extends React.PureComponent<Props, State> {
   static defaultProps = {
     displayOrder,
     transforms,
     notebook: appendCellToNotebook(
       emptyNotebook,
-      createCodeCell().set("source", "test")
+      createCodeCell().set("source", "# where's the content?")
     ),
     theme: "light"
   };
 
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      notebook: fromJS(props.notebook)
+    };
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.notebook !== this.props.notebook) {
+      this.setState({ notebook: fromJS(nextProps.notebook) });
+    }
+  }
+
   render(): ?React$Element<any> {
     // TODO: Rely on setState to convert notebook from plain JS to commutable format
 
-    const notebook = this.props.notebook;
+    const notebook = this.state.notebook;
 
     // Propagated from the hide_(all)_input nbextension
     const allSourceHidden = notebook.getIn(["metadata", "hide_input"], false);
