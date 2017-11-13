@@ -45,7 +45,13 @@ function parseNotebook(notebookString: string): Notebook {
 function fromJS(notebook: Notebook | ImmutableNotebook): ImmutableNotebook {
   if (Immutable.Map.isMap(notebook)) {
     // $FlowFixMe: Immutable
-    return notebook;
+    const immNotebook: ImmutableNotebook = notebook;
+    if (immNotebook.has("cellOrder") && immNotebook.has("cellMap")) {
+      return immNotebook;
+    }
+    throw new TypeError(
+      `commutable was passed an Immutable.Map structure that is not a notebook`
+    );
   }
 
   // $FlowFixMe: Immutable
