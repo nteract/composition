@@ -343,6 +343,9 @@ export const Notebook = (props: {
         .cells {
           font-family: "Source Sans Pro", Helvetica Neue, Helvetica, Arial,
             sans-serif;
+          font-size: 16px;
+          background-color: var(--main-bg-color, white);
+          color: var(--main-fg-color, rgb(51, 51, 51));
         }
       `}</style>
       {children}

@@ -4,6 +4,8 @@ import * as Immutable from "immutable";
 import NotebookPreview from "@nteract/notebook-preview";
 import { emptyNotebook, fromJS } from "@nteract/commutable";
 
+import { light, dark } from "@nteract/core/themes";
+
 import { ajax } from "rxjs/observable/dom/ajax";
 
 function frozenReviver(key, value) {
@@ -36,8 +38,11 @@ function fetchFromGist(gistId = "038c4061d5a562d5f24605b93dcffdb6") {
     .catch(err => emptyNotebook);
 }
 
-class StaticNotebookApp extends React.Component {
-  constructor(props) {
+class StaticNotebookApp extends React.Component<
+  { gistID: string },
+  { notebook: any }
+> {
+  constructor(props: { gistID: string }) {
     super(props);
     this.state = {
       notebook: emptyNotebook
@@ -63,7 +68,16 @@ class StaticNotebookApp extends React.Component {
 
   render() {
     if (this.state.notebook) {
-      return <NotebookPreview notebook={this.state.notebook} />;
+      return (
+        <div>
+          <NotebookPreview notebook={this.state.notebook} />
+          <style>{`
+            :root {
+              ${dark}
+            }
+            `}</style>
+        </div>
+      );
     }
     return <div>loading...</div>;
   }

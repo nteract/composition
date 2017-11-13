@@ -23,7 +23,7 @@
   },
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "nobuild": "next build",
     "start": "next start"
   }
 }
