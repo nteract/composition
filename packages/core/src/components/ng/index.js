@@ -279,14 +279,26 @@ export const Cell = (props: {
           transition: all 0.1s ease-in-out;
         }
 
+        /*
+         TODO: Create a "cell-hover-shadow" var and cell-focused-shadow var
+         For now, assume that it will have to be overridden somehow.
+
+         One issue we currently have is that these are each two properties.
+
+         Basically it's
+         --cell-shadow-hover-1 and --cell--shadow-hover-2
+         */
+
         .cell:hover {
-          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12),
-            -1px -1px 3px rgba(0, 0, 0, 0.12);
+          /* prettier-ignore */
+          box-shadow: var(--cell-shadow-hover-1,  1px  1px 3px rgba(0, 0, 0, 0.12)),
+                      var(--cell-shadow-hover-2, -1px -1px 3px rgba(0, 0, 0, 0.12));
         }
 
         .cell.focused {
-          box-shadow: 3px 3px 9px rgba(0, 0, 0, 0.12),
-            -3px -3px 9px rgba(0, 0, 0, 0.12);
+          /* prettier-ignore */
+          box-shadow: var(--cell-focus-hover-1,  3px  3px 9px rgba(0, 0, 0, 0.12)),
+                      var(--cell-focus-hover-2, -3px -3px 9px rgba(0, 0, 0, 0.12));
         }
 
         .cell:hover :global(.prompt),
