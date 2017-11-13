@@ -1,61 +1,65 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Notebook accepts an Immutable.List of cells 1`] = `
-<Notebook
-  selected={null}
+<div
+  className="notebook-preview"
 >
-  <Cell
-    id={null}
-    isSelected={false}
-    key="6"
+  <Notebook
+    selected={null}
   >
-    <div
-      className="jsx-1970217516 jsx-1970217516 content-margin"
+    <Cell
+      id={null}
+      isSelected={false}
+      key="6"
     >
-      <LatexRenderer>
-        <Heading
-          key="1:1-1:311"
-          level={2}
-          literal={null}
-          nodeKey="1:1-1:311"
-        >
-          The Notable Nteract Notebook
-        </Heading>
-        <p
-          key="3:1-3:206"
-        >
-          <strong
-            key="3:1-3:205"
-          >
-            It's a notebook!
-          </strong>
-        </p>
-      </LatexRenderer>
-    </div>
-    <JSXStyle
-      css=".content-margin.jsx-1970217516{padding-left:calc(var(--prompt-width,50px) + 10px);padding-top:10px;padding-bottom:10px;padding-right:10px;}"
-      styleId="1970217516"
-    />
-  </Cell>
-  <Cell
-    id={null}
-    isSelected={false}
-    key="7"
-  >
-    <PapermillView />
-    <Input
-      hidden={false}
-    >
-      <Prompt
-        counter={null}
-        queued={false}
-        running={false}
-      />
-      <Editor
-        className="input"
-        language="ipython"
+      <div
+        className="jsx-2299737332 jsx-2299737332 content-margin"
       >
-        import IPython
+        <LatexRenderer>
+          <Heading
+            key="1:1-1:311"
+            level={2}
+            literal={null}
+            nodeKey="1:1-1:311"
+          >
+            The Notable Nteract Notebook
+          </Heading>
+          <p
+            key="3:1-3:206"
+          >
+            <strong
+              key="3:1-3:205"
+            >
+              It's a notebook!
+            </strong>
+          </p>
+        </LatexRenderer>
+      </div>
+      <JSXStyle
+        css=".content-margin.jsx-2299737332{padding-left:calc(var(--prompt-width,50px) + 10px);padding-top:10px;padding-bottom:10px;padding-right:10px;}"
+        styleId="2299737332"
+      />
+    </Cell>
+    <Cell
+      id={null}
+      isSelected={false}
+      key="7"
+    >
+      <PapermillView />
+      <Input
+        hidden={false}
+      >
+        <Prompt
+          counter={null}
+          queued={false}
+          running={false}
+        />
+        <Editor
+          className="input"
+          language="ipython"
+          theme="light"
+        >
+          import IPython
 
 from IPython.display import HTML
 from IPython.display import Markdown
@@ -67,163 +71,311 @@ display(Markdown('**awesome**'))
 
 print('hey')
 42
-      </Editor>
-    </Input>
-    <Outputs
-      expanded={true}
-      hidden={false}
-    >
-      <Display
-        displayOrder={
-          Array [
-            "application/vdom.v1+json",
-            "application/json",
-            "application/javascript",
-            "text/html",
-            "text/markdown",
-            "text/latex",
-            "image/svg+xml",
-            "image/gif",
-            "image/png",
-            "image/jpeg",
-            "text/plain",
-          ]
-        }
-        expanded={false}
-        isHidden={false}
-        models={Immutable.Map {}}
-        outputs={
-          Array [
-            Object {
-              "data": Object {
-                "text/plain": "<IPython.core.display.HTML object>",
-              },
-              "metadata": Object {},
-              "output_type": "display_data",
-            },
-          ]
-        }
-        theme="light"
-        transforms={
-          Object {
-            "application/javascript": [Function],
-            "application/json": [Function],
-            "application/vdom.v1+json": [Function],
-            "image/gif": [Function],
-            "image/jpeg": [Function],
-            "image/png": [Function],
-            "image/svg+xml": [Function],
-            "text/html": [Function],
-            "text/latex": [Function],
-            "text/markdown": [Function],
-            "text/plain": [Function],
+        </Editor>
+      </Input>
+      <Outputs
+        expanded={true}
+        hidden={false}
+      >
+        <Display
+          displayOrder={
+            Array [
+              "application/vdom.v1+json",
+              "application/json",
+              "application/javascript",
+              "text/html",
+              "text/markdown",
+              "text/latex",
+              "image/svg+xml",
+              "image/gif",
+              "image/png",
+              "image/jpeg",
+              "text/plain",
+            ]
           }
-        }
-      />
-    </Outputs>
-  </Cell>
-</Notebook>
+          expanded={false}
+          isHidden={false}
+          models={Immutable.Map {}}
+          outputs={
+            Array [
+              Object {
+                "data": Object {
+                  "text/plain": "<IPython.core.display.HTML object>",
+                },
+                "metadata": Object {},
+                "output_type": "display_data",
+              },
+            ]
+          }
+          theme="light"
+          transforms={
+            Object {
+              "application/javascript": [Function],
+              "application/json": [Function],
+              "application/vdom.v1+json": [Function],
+              "image/gif": [Function],
+              "image/jpeg": [Function],
+              "image/png": [Function],
+              "image/svg+xml": [Function],
+              "text/html": [Function],
+              "text/latex": [Function],
+              "text/markdown": [Function],
+              "text/plain": [Function],
+            }
+          }
+        />
+      </Outputs>
+    </Cell>
+  </Notebook>
+  <style>
+    :root {
+          
+  --main-bg-color: white;
+  --main-fg-color: rgb(51, 51, 51);
+
+  --primary-border: #cbcbcb;
+
+  --cell-bg: white;
+  --cell-bg-hover: #eeedee;
+  --cell-bg-focus: #e2dfe3;
+
+  --toolbar-bg: rgba(255, 255, 255, 0.5);
+  --toolbar-button: #aaa;
+  --toolbar-button-hover: #555;
+
+  --dropdown-content: var(--cell-bg-hover);
+  --dropdown-content-hover: var(--cell-bg-focus);
+
+  --pager-bg: #fafafa;
+  --input-color: #8c8a8e;
+  --prompt-bg: var(--pager-bg);
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--main-bg-color);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --cell-shadow-hover-1: none;
+            --cell-shadow-hover-2: none;
+            --cell-shadow-focus-1: none;
+            --cell-shadow-focus-2: none;
+            --cell-bg-hover: var(--prompt-bg);
+            --cell-bg-focus: var(--prompt-bg);
+          }
+        
+  </style>
+</div>
 `;
 
 exports[`Notebook accepts an Object of cells 1`] = `
-<Notebook
-  displayOrder={
-    Array [
-      "application/vdom.v1+json",
-      "application/json",
-      "application/javascript",
-      "text/html",
-      "text/markdown",
-      "text/latex",
-      "image/svg+xml",
-      "image/gif",
-      "image/png",
-      "image/jpeg",
-      "text/plain",
-    ]
-  }
-  notebook={
-    Immutable.Map {
-      "cellOrder": Immutable.List [
-        6,
-        7,
-      ],
-      "cellMap": Immutable.Map {
-        6: Immutable.Map {
-          "cell_type": "markdown",
-          "source": "## The Notable Nteract Notebook
-
-**It's a notebook!**
-",
-          "metadata": Immutable.Map {},
-        },
-        7: Immutable.Map {
-          "cell_type": "code",
-          "source": "import IPython
+<div
+  className="notebook-preview"
+>
+  <Notebook
+    selected={null}
+  >
+    <Cell
+      id={null}
+      isSelected={false}
+      key="8"
+    >
+      <div
+        className="jsx-2299737332 jsx-2299737332 content-margin"
+      >
+        <LatexRenderer>
+          <Heading
+            key="1:1-1:311"
+            level={2}
+            literal={null}
+            nodeKey="1:1-1:311"
+          >
+            The Notable Nteract Notebook
+          </Heading>
+          <p
+            key="3:1-3:206"
+          >
+            <strong
+              key="3:1-3:205"
+            >
+              It's a notebook!
+            </strong>
+          </p>
+        </LatexRenderer>
+      </div>
+      <JSXStyle
+        css=".content-margin.jsx-2299737332{padding-left:calc(var(--prompt-width,50px) + 10px);padding-top:10px;padding-bottom:10px;padding-right:10px;}"
+        styleId="2299737332"
+      />
+    </Cell>
+    <Cell
+      id={null}
+      isSelected={false}
+      key="9"
+    >
+      <PapermillView />
+      <Input
+        hidden={false}
+      >
+        <Prompt
+          counter={null}
+          queued={false}
+          running={false}
+        />
+        <Editor
+          className="input"
+          language="ipython"
+          theme="light"
+        >
+          import IPython
 
 from IPython.display import HTML
 from IPython.display import Markdown
 from IPython.display import display
 
-display(HTML('<h1>Multiple</h1>'))
-display(HTML('<p>Display Elements</p>'))
+display(HTML('&lt;h1&gt;Multiple&lt;/h1&gt;'))
+display(HTML('&lt;p&gt;Display Elements&lt;/p&gt;'))
 display(Markdown('**awesome**'))
 
 print('hey')
-42",
-          "outputs": Immutable.List [
-            Immutable.Map {
-              "output_type": "display_data",
-              "data": Immutable.Map {
-                "text/plain": "<IPython.core.display.HTML object>",
+42
+        </Editor>
+      </Input>
+      <Outputs
+        expanded={true}
+        hidden={false}
+      >
+        <Display
+          displayOrder={
+            Array [
+              "application/vdom.v1+json",
+              "application/json",
+              "application/javascript",
+              "text/html",
+              "text/markdown",
+              "text/latex",
+              "image/svg+xml",
+              "image/gif",
+              "image/png",
+              "image/jpeg",
+              "text/plain",
+            ]
+          }
+          expanded={false}
+          isHidden={false}
+          models={Immutable.Map {}}
+          outputs={
+            Array [
+              Object {
+                "data": Object {
+                  "text/plain": "<IPython.core.display.HTML object>",
+                },
+                "metadata": Object {},
+                "output_type": "display_data",
               },
-              "metadata": Immutable.Map {},
-            },
-          ],
-          "execution_count": 11,
-          "metadata": Immutable.Map {
-            "collapsed": false,
-          },
-        },
-      },
-      "nbformat_minor": 0,
-      "nbformat": 4,
-      "metadata": Immutable.Map {
-        "kernelspec": Immutable.Map {
-          "display_name": "Python 3",
-          "language": "python",
-          "name": "python3",
-        },
-        "language_info": Immutable.Map {
-          "codemirror_mode": Immutable.Map {
-            "name": "ipython",
-            "version": 3,
-          },
-          "file_extension": ".py",
-          "mimetype": "text/x-python",
-          "name": "python",
-          "nbconvert_exporter": "python",
-          "pygments_lexer": "ipython3",
-          "version": "3.5.1",
-        },
-      },
-    }
-  }
-  theme="light"
-  transforms={
-    Object {
-      "application/javascript": [Function],
-      "application/json": [Function],
-      "application/vdom.v1+json": [Function],
-      "image/gif": [Function],
-      "image/jpeg": [Function],
-      "image/png": [Function],
-      "image/svg+xml": [Function],
-      "text/html": [Function],
-      "text/latex": [Function],
-      "text/markdown": [Function],
-      "text/plain": [Function],
-    }
-  }
-/>
+            ]
+          }
+          theme="light"
+          transforms={
+            Object {
+              "application/javascript": [Function],
+              "application/json": [Function],
+              "application/vdom.v1+json": [Function],
+              "image/gif": [Function],
+              "image/jpeg": [Function],
+              "image/png": [Function],
+              "image/svg+xml": [Function],
+              "text/html": [Function],
+              "text/latex": [Function],
+              "text/markdown": [Function],
+              "text/plain": [Function],
+            }
+          }
+        />
+      </Outputs>
+    </Cell>
+  </Notebook>
+  <style>
+    :root {
+          
+  --main-bg-color: white;
+  --main-fg-color: rgb(51, 51, 51);
+
+  --primary-border: #cbcbcb;
+
+  --cell-bg: white;
+  --cell-bg-hover: #eeedee;
+  --cell-bg-focus: #e2dfe3;
+
+  --toolbar-bg: rgba(255, 255, 255, 0.5);
+  --toolbar-button: #aaa;
+  --toolbar-button-hover: #555;
+
+  --dropdown-content: var(--cell-bg-hover);
+  --dropdown-content-hover: var(--cell-bg-focus);
+
+  --pager-bg: #fafafa;
+  --input-color: #8c8a8e;
+  --prompt-bg: var(--pager-bg);
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--main-bg-color);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --cell-shadow-hover-1: none;
+            --cell-shadow-hover-2: none;
+            --cell-shadow-focus-1: none;
+            --cell-shadow-focus-2: none;
+            --cell-bg-hover: var(--prompt-bg);
+            --cell-bg-focus: var(--prompt-bg);
+          }
+        
+  </style>
+</div>
 `;
