@@ -9,7 +9,7 @@ platform:
 build: off
 
 cache:
-  - node_modules           # local npm modules
+  - node_modules -> package.json # local npm modules
   - '%APPDATA%\npm-cache'  # npm cache
 
 install:
