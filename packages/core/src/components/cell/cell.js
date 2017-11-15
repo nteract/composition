@@ -7,6 +7,9 @@ import React from "react";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 import Editor from "../../providers/editor";
 
+import LatexRenderer from "../latex";
+import { Display, RichestMime } from "@nteract/display-area";
+
 import CodeCell from "./code-cell";
 import MarkdownCell from "./markdown-cell";
 import Toolbar from "../../providers/toolbar";
@@ -114,21 +117,24 @@ export class Cell extends React.PureComponent<CellProps, *> {
 
   render(): ?React$Element<any> {
     const cell = this.props.cell;
-    const type = cell.get("cell_type");
+    const cellType = cell.get("cell_type");
     const cellFocused = this.props.cellFocused === this.props.id;
     const editorFocused = this.props.editorFocused === this.props.id;
 
     // TODO: Split the code vs. markdown bits
-
     const sourceHidden =
       cell.getIn(["metadata", "inputHidden"], false) ||
       cell.getIn(["metadata", "hide_input"], false);
+    const outputHidden =
+      cell.get("outputs").size === 0 ||
+      cell.getIn(["metadata", "outputHidden"]);
+    const outputExpanded = cell.getIn(["metadata", "outputExpanded"]);
 
     return (
       <NextGen.Cell id={this.props.id}>
         <div
           className={`cell ${
-            type === "markdown" || type === "raw" ? "text" : "code"
+            cellType === "markdown" || cellType === "raw" ? "text" : "code"
           } ${cellFocused ? "focused" : ""}`}
           onClick={this.selectCell}
           role="presentation"
@@ -136,29 +142,9 @@ export class Cell extends React.PureComponent<CellProps, *> {
             this.cellDiv = el;
           }}
         >
-          <NextGen.Input hidden={sourceHidden}>
-            <NextGen.Prompt
-              counter={this.props.cell.get("execution_count")}
-              running={this.props.running}
-            />
-            <NextGen.Editor>
-              <Editor
-                tip
-                completion
-                id={this.props.id}
-                input={this.props.cell.get("source")}
-                language={this.props.language}
-                cellFocused={cellFocused}
-                editorFocused={editorFocused}
-                theme={this.props.theme}
-                focusAbove={this.focusAboveCell}
-                focusBelow={this.focusBelowCell}
-              />
-            </NextGen.Editor>
-          </NextGen.Input>
+          <Toolbar type={cellType} cell={cell} id={this.props.id} />
 
-          <Toolbar type={type} cell={cell} id={this.props.id} />
-          {type === "markdown" ? (
+          {cellType === "markdown" ? (
             <MarkdownCell
               focusAbove={this.focusAboveCell}
               focusBelow={this.focusBelowCell}
@@ -169,23 +155,82 @@ export class Cell extends React.PureComponent<CellProps, *> {
               id={this.props.id}
               theme={this.props.theme}
             />
-          ) : type === "code" ? (
-            <CodeCell
-              focusAbove={this.focusAboveCell}
-              focusBelow={this.focusBelowCell}
-              cellFocused={cellFocused}
-              editorFocused={editorFocused}
-              cell={cell}
-              id={this.props.id}
-              theme={this.props.theme}
-              language={this.props.language}
-              displayOrder={this.props.displayOrder}
-              transforms={this.props.transforms}
-              pagers={this.props.pagers}
-              running={this.props.running}
-              models={this.props.models}
-            />
+          ) : cellType === "code" ? (
+            <div>
+              <pre>NEW CELL</pre>
+              <NextGen.Input hidden={sourceHidden}>
+                <NextGen.Prompt
+                  counter={this.props.cell.get("execution_count")}
+                  running={this.props.running}
+                />
+                <NextGen.Editor>
+                  <Editor
+                    tip
+                    completion
+                    id={this.props.id}
+                    input={this.props.cell.get("source")}
+                    language={this.props.language}
+                    cellFocused={cellFocused}
+                    editorFocused={editorFocused}
+                    theme={this.props.theme}
+                    focusAbove={this.focusAboveCell}
+                    focusBelow={this.focusBelowCell}
+                  />
+                </NextGen.Editor>
+              </NextGen.Input>
+              {this.props.pagers && !this.props.pagers.isEmpty() ? (
+                <div className="pagers">
+                  {this.props.pagers.map((pager, key) => (
+                    <RichestMime
+                      expanded
+                      className="pager"
+                      displayOrder={this.props.displayOrder}
+                      transforms={this.props.transforms}
+                      bundle={pager}
+                      theme={this.props.theme}
+                      key={key}
+                    />
+                  ))}
+                </div>
+              ) : null}
+              <LatexRenderer>
+                <NextGen.Outputs
+                  hidden={outputHidden}
+                  expanded={cell.getIn(["metadata", "outputExpanded"], true)}
+                >
+                  <Display
+                    className="outputs-display"
+                    outputs={this.props.cell.get("outputs").toJS()}
+                    displayOrder={this.props.displayOrder}
+                    transforms={this.props.transforms}
+                    theme={this.props.theme}
+                    expanded={outputExpanded}
+                    isHidden={outputHidden}
+                    models={this.props.models.toJS()}
+                  />
+                </NextGen.Outputs>
+              </LatexRenderer>
+
+              <pre>OLD CELL</pre>
+
+              <CodeCell
+                focusAbove={this.focusAboveCell}
+                focusBelow={this.focusBelowCell}
+                cellFocused={cellFocused}
+                editorFocused={editorFocused}
+                cell={cell}
+                id={this.props.id}
+                theme={this.props.theme}
+                language={this.props.language}
+                displayOrder={this.props.displayOrder}
+                transforms={this.props.transforms}
+                pagers={this.props.pagers}
+                running={this.props.running}
+                models={this.props.models}
+              />
+            </div>
           ) : (
+            // Raw cell
             <pre>{cell.get("source")}</pre>
           )}
         </div>
