@@ -5,10 +5,13 @@
 
 import React from "react";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
+import Editor from "../../providers/editor";
 
 import CodeCell from "./code-cell";
 import MarkdownCell from "./markdown-cell";
 import Toolbar from "../../providers/toolbar";
+
+import * as NextGen from "../ng";
 
 import {
   focusCell,
@@ -114,49 +117,79 @@ export class Cell extends React.PureComponent<CellProps, *> {
     const type = cell.get("cell_type");
     const cellFocused = this.props.cellFocused === this.props.id;
     const editorFocused = this.props.editorFocused === this.props.id;
+
+    // TODO: Split the code vs. markdown bits
+
+    const sourceHidden =
+      cell.getIn(["metadata", "inputHidden"], false) ||
+      cell.getIn(["metadata", "hide_input"], false);
+
     return (
-      <div
-        className={`cell ${
-          type === "markdown" || type === "raw" ? "text" : "code"
-        } ${cellFocused ? "focused" : ""}`}
-        onClick={this.selectCell}
-        role="presentation"
-        ref={el => {
-          this.cellDiv = el;
-        }}
-      >
-        <Toolbar type={type} cell={cell} id={this.props.id} />
-        {type === "markdown" ? (
-          <MarkdownCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            focusEditor={this.focusCellEditor}
-            cellFocused={cellFocused}
-            editorFocused={editorFocused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-          />
-        ) : type === "code" ? (
-          <CodeCell
-            focusAbove={this.focusAboveCell}
-            focusBelow={this.focusBelowCell}
-            cellFocused={cellFocused}
-            editorFocused={editorFocused}
-            cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-            language={this.props.language}
-            displayOrder={this.props.displayOrder}
-            transforms={this.props.transforms}
-            pagers={this.props.pagers}
-            running={this.props.running}
-            models={this.props.models}
-          />
-        ) : (
-          <pre>{cell.get("source")}</pre>
-        )}
-      </div>
+      <NextGen.Cell id={this.props.id}>
+        <div
+          className={`cell ${
+            type === "markdown" || type === "raw" ? "text" : "code"
+          } ${cellFocused ? "focused" : ""}`}
+          onClick={this.selectCell}
+          role="presentation"
+          ref={el => {
+            this.cellDiv = el;
+          }}
+        >
+          <NextGen.Input hidden={sourceHidden}>
+            <NextGen.Prompt
+              counter={this.props.cell.get("execution_count")}
+              running={this.props.running}
+            />
+            <NextGen.Editor>
+              <Editor
+                tip
+                completion
+                id={this.props.id}
+                input={this.props.cell.get("source")}
+                language={this.props.language}
+                cellFocused={cellFocused}
+                editorFocused={editorFocused}
+                theme={this.props.theme}
+                focusAbove={this.focusAboveCell}
+                focusBelow={this.focusBelowCell}
+              />
+            </NextGen.Editor>
+          </NextGen.Input>
+
+          <Toolbar type={type} cell={cell} id={this.props.id} />
+          {type === "markdown" ? (
+            <MarkdownCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              focusEditor={this.focusCellEditor}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+            />
+          ) : type === "code" ? (
+            <CodeCell
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              cell={cell}
+              id={this.props.id}
+              theme={this.props.theme}
+              language={this.props.language}
+              displayOrder={this.props.displayOrder}
+              transforms={this.props.transforms}
+              pagers={this.props.pagers}
+              running={this.props.running}
+              models={this.props.models}
+            />
+          ) : (
+            <pre>{cell.get("source")}</pre>
+          )}
+        </div>
+      </NextGen.Cell>
     );
   }
 }

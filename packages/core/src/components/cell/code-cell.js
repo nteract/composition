@@ -46,7 +46,7 @@ class CodeCell extends React.PureComponent<Props> {
   render(): ?React$Element<any> {
     return (
       <div className={this.props && this.props.running ? "cell-running" : ""}>
-        {!this.isInputHidden() ? (
+        {/* {!this.isInputHidden() ? (
           <div className="input-container">
             <Inputs
               executionCount={this.props.cell.get("execution_count")}
@@ -67,7 +67,7 @@ class CodeCell extends React.PureComponent<Props> {
           </div>
         ) : (
           <div className="input-container invisible" />
-        )}
+        )} */}
         {this.props.pagers && !this.props.pagers.isEmpty() ? (
           <div className="pagers">
             {this.props.pagers.map((pager, key) => (

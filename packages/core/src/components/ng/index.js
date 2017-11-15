@@ -173,9 +173,11 @@ export class Prompt extends React.Component<PromptProps> {
   }
 }
 
+type EditorChildren = string | React.Element<any> | Array<EditorChildren>;
+
 export type EditorProps = {
   language: string,
-  children: string | React.Element<any>,
+  children: EditorChildren,
   className?: string,
   theme: "light" | "dark"
 };
