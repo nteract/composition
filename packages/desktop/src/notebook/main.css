@@ -7,7 +7,6 @@
 @import "../../node_modules/codemirror/addon/dialog/dialog.css";
 @import "../../node_modules/nteract-assets/fonts/source-sans-pro/source-sans-pro.css";
 @import "../../node_modules/nteract-assets/fonts/source-code-pro/source-code-pro.css";
-@import "../../node_modules/nteract-assets/fonts/octicons/octicons.css";
 
 :root {
   --prompt-width: 50px;
