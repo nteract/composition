@@ -50,7 +50,8 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
   scrollIntoViewIfNeeded: Function;
 
   static defaultProps = {
-    pagers: new ImmutableList()
+    pagers: new ImmutableList(),
+    models: new ImmutableMap()
   };
 
   static contextTypes = {
