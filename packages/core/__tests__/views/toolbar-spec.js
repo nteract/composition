@@ -1,7 +1,7 @@
 import React from "react";
 
 import { mount } from "enzyme";
-import Toolbar from "../../src/views/toolbar";
+import Toolbar from "../../src/components/toolbar";
 
 describe("Toolbar View", () => {
   test("should be able to render a toolbar", () => {

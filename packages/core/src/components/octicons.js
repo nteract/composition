@@ -60,3 +60,33 @@ export const DownArrowOcticon = (props: any) => (
     <path fillRule="evenodd" d="M5 3L0 9h3v4h4V9h3z" />
   </SVGWrapper>
 );
+
+export const PinOcticon = (props: any) => (
+  <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
+    <path
+      fillRule="evenodd"
+      d="M10 1.2V2l.5 1L6 6H2.2c-.44 0-.67.53-.34.86L5 10l-4 5 5-4 3.14 3.14a.5.5 0 0 0 .86-.34V10l3-4.5 1 .5h.8c.44 0 .67-.53.34-.86L10.86.86a.5.5 0 0 0-.86.34z"
+    />
+  </SVGWrapper>
+);
+
+export const TrashOcticon = (props: any) => (
+  <SVGWrapper width={12} height={16} viewBox="0 0 12 16" outerProps={props}>
+    <path
+      fillRule="evenodd"
+      d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"
+    />
+  </SVGWrapper>
+);
+
+export const TriangleRightOcticon = (props: any) => (
+  <SVGWrapper width={6} height={16} viewBox="0 0 6 16" outerProps={props}>
+    <path fillRule="evenodd" d="M0 14l6-6-6-6z" />
+  </SVGWrapper>
+);
+
+export const ChevronDownOcticon = (props: any) => (
+  <SVGWrapper width={10} height={16} viewBox="0 0 10 16" outerProps={props}>
+    <path fillRule="evenodd" d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z" />
+  </SVGWrapper>
+);

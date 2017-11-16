@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import ToolbarView from "../views/toolbar";
+import ToolbarView from "../components/toolbar";
 
 import {
   executeCell,

@@ -12,6 +12,13 @@ import Dropdown, {
   DropdownContent
 } from "react-simple-dropdown";
 
+import {
+  PinOcticon,
+  TrashOcticon,
+  ChevronDownOcticon,
+  TriangleRightOcticon
+} from "./octicons";
+
 declare type ToolbarProps = {|
   type: string,
   executeCell: () => void,
@@ -77,7 +84,9 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
                 title="execute cell"
                 className="executeButton"
               >
-                <span className="octicon octicon-triangle-right" />
+                <span className="octicon">
+                  <TriangleRightOcticon />
+                </span>
               </button>
             </div>
           )}
@@ -87,7 +96,9 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
               title="pin cell"
               className="stickyButton"
             >
-              <span className="octicon octicon-pin" />
+              <span className="octicon">
+                <PinOcticon />
+              </span>
             </button>
           </div>
           <div>
@@ -96,7 +107,9 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
               title="delete cell"
               className="deleteButton"
             >
-              <span className="octicon octicon-trashcan" />
+              <span className="octicon">
+                <TrashOcticon />
+              </span>
             </button>
           </div>
           <Dropdown
@@ -106,7 +119,9 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
           >
             <DropdownTrigger>
               <button title="show additional actions">
-                <span className="octicon octicon-chevron-down" />
+                <span className="octicon">
+                  <ChevronDownOcticon />
+                </span>
               </button>
             </DropdownTrigger>
             <DropdownContent>
@@ -166,6 +181,64 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
             </DropdownContent>
           </Dropdown>
         </div>
+
+        <style jsx>{`
+          .cell-toolbar > div {
+            display: inline-block;
+          }
+
+          .cell-toolbar {
+            background-color: var(--toolbar-bg);
+            opacity: 0.4;
+            transition: opacity 0.4s;
+          }
+
+          .cell-toolbar:hover {
+            opacity: 1;
+          }
+
+          .cell-toolbar button {
+            display: inline-block;
+
+            width: 22px;
+            height: 20px;
+            padding: 0px 4px;
+
+            text-align: center;
+
+            border: none;
+            outline: none;
+            background: none;
+          }
+
+          .cell-toolbar button span {
+            font-size: 15px;
+            line-height: 1;
+            color: var(--toolbar-button);
+          }
+
+          .cell-toolbar button span:hover {
+            color: var(--toolbar-button-hover);
+          }
+
+          .cell-toolbar-mask {
+            display: none;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            z-index: 99;
+            height: 34px;
+
+            /* Set the left padding to 50px to give users extra room to move their
+              mouse to the toolbar without causing the cell to go out of focus and thus
+              hide the toolbar before they get there. */
+            padding: 0px 0px 0px 50px;
+          }
+
+          .octicon {
+            transition: color 0.5s;
+          }
+        `}</style>
       </div>
     );
   }
