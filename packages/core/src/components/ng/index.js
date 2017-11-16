@@ -4,7 +4,40 @@ import * as React from "react";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { idea, agate } from "react-syntax-highlighter/dist/styles";
 
-export const Output = () => <pre>I am output</pre>;
+export type PagersProps = {
+  children: React.Node,
+  hidden: boolean
+};
+
+export class Pagers extends React.Component<PagersProps> {
+  static defaultProps = {
+    children: null,
+    hidden: false
+  };
+
+  render(): React.Node {
+    if (
+      this.props.hidden ||
+      this.props.children === null ||
+      React.Children.count(this.props.children) === 0
+    ) {
+      return null;
+    }
+    return (
+      <div className="pagers">
+        {this.props.children}
+        <style jsx>{`
+          .pagers {
+            padding: 10px var(--prompt-width, 50px) 10px
+              var(--prompt-width, 50px);
+            background-color: var(--pager-bg, #fafafa);
+            word-wrap: break-word;
+          }
+        `}</style>
+      </div>
+    );
+  }
+}
 
 export type OutputsProps = {
   children: React.Node,

@@ -10,7 +10,6 @@ import Editor from "../../providers/editor";
 import LatexRenderer from "../latex";
 import { Display, RichestMime } from "@nteract/display-area";
 
-import CodeCell from "./code-cell";
 import MarkdownCell from "./markdown-cell";
 import Toolbar from "../../providers/toolbar";
 
@@ -49,6 +48,10 @@ export class Cell extends React.PureComponent<CellProps, *> {
   focusCellEditor: () => void;
   cellDiv: ?HTMLElement;
   scrollIntoViewIfNeeded: Function;
+
+  static defaultProps = {
+    pagers: new ImmutableList()
+  };
 
   static contextTypes = {
     store: PropTypes.object
@@ -156,8 +159,8 @@ export class Cell extends React.PureComponent<CellProps, *> {
               theme={this.props.theme}
             />
           ) : cellType === "code" ? (
-            <div>
-              <pre>NEW CELL</pre>
+            [
+              // Trying out returning as array here ;)
               <NextGen.Input hidden={sourceHidden}>
                 <NextGen.Prompt
                   counter={this.props.cell.get("execution_count")}
@@ -177,22 +180,20 @@ export class Cell extends React.PureComponent<CellProps, *> {
                     focusBelow={this.focusBelowCell}
                   />
                 </NextGen.Editor>
-              </NextGen.Input>
-              {this.props.pagers && !this.props.pagers.isEmpty() ? (
-                <div className="pagers">
-                  {this.props.pagers.map((pager, key) => (
-                    <RichestMime
-                      expanded
-                      className="pager"
-                      displayOrder={this.props.displayOrder}
-                      transforms={this.props.transforms}
-                      bundle={pager}
-                      theme={this.props.theme}
-                      key={key}
-                    />
-                  ))}
-                </div>
-              ) : null}
+              </NextGen.Input>,
+              <NextGen.Pagers>
+                {this.props.pagers.map((pager, key) => (
+                  <RichestMime
+                    expanded
+                    className="pager"
+                    displayOrder={this.props.displayOrder}
+                    transforms={this.props.transforms}
+                    bundle={pager}
+                    theme={this.props.theme}
+                    key={key}
+                  />
+                ))}
+              </NextGen.Pagers>,
               <LatexRenderer>
                 <NextGen.Outputs
                   hidden={outputHidden}
@@ -210,25 +211,7 @@ export class Cell extends React.PureComponent<CellProps, *> {
                   />
                 </NextGen.Outputs>
               </LatexRenderer>
-
-              <pre>OLD CELL</pre>
-
-              <CodeCell
-                focusAbove={this.focusAboveCell}
-                focusBelow={this.focusBelowCell}
-                cellFocused={cellFocused}
-                editorFocused={editorFocused}
-                cell={cell}
-                id={this.props.id}
-                theme={this.props.theme}
-                language={this.props.language}
-                displayOrder={this.props.displayOrder}
-                transforms={this.props.transforms}
-                pagers={this.props.pagers}
-                running={this.props.running}
-                models={this.props.models}
-              />
-            </div>
+            ]
           ) : (
             // Raw cell
             <pre>{cell.get("source")}</pre>
