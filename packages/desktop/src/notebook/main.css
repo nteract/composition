@@ -154,10 +154,6 @@ div#loading {
 
 /* end completion type color and content */
 
-.octicon {
-  transition: color 0.5s;
-}
-
 .cell pre {
   font-size: 14px;
   line-height: 1.21429em;

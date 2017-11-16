@@ -7,7 +7,7 @@ type Props = {
   mergeCell: () => void
 };
 
-/** TODO: Octicons as svgs **/
+import { CodeOcticon, MarkdownOcticon, DownArrowOcticon } from "./octicons";
 
 export default (props: Props) => (
   <div className="creator-hover-mask">
@@ -18,14 +18,18 @@ export default (props: Props) => (
           title="create text cell"
           className="add-text-cell"
         >
-          <span className="octicon octicon-markdown" />
+          <span className="octicon">
+            <MarkdownOcticon />
+          </span>
         </button>
         <button
           onClick={() => props.createCell("code")}
           title="create code cell"
           className="add-code-cell"
         >
-          <span className="octicon octicon-code" />
+          <span className="octicon">
+            <CodeOcticon />
+          </span>
         </button>
         {props.above ? null : (
           <button
@@ -33,7 +37,9 @@ export default (props: Props) => (
             title="merge cells"
             className="merge-cell"
           >
-            <span className="octicon octicon-arrow-up" />
+            <span className="octicon">
+              <DownArrowOcticon />
+            </span>
           </button>
         )}
       </div>
@@ -90,6 +96,10 @@ export default (props: Props) => (
 
       .creator-hover-region:hover > .cell-creator {
         display: inline-block;
+      }
+
+      .octicon {
+        transition: color 0.5s;
       }
     `}</style>
   </div>
