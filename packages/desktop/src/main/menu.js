@@ -358,13 +358,13 @@ export function loadFullMenu(store = global.store) {
     },
     save: {
       label: "&Save",
-      enabled: BrowserWindow.getFocusedWindow() !== null,
+      enabled: BrowserWindow.getAllWindows().length > 0,
       click: createSender("menu:save"),
       accelerator: "CmdOrCtrl+S"
     },
     saveAs: {
       label: "Save &As",
-      enabled: BrowserWindow.getFocusedWindow() !== null,
+      enabled: BrowserWindow.getAllWindows().length > 0,
       click: (item, focusedWindow) => {
         const opts = {
           title: "Save Notebook As",
@@ -388,23 +388,23 @@ export function loadFullMenu(store = global.store) {
     },
     publish: {
       label: "&Publish",
-      enabled: BrowserWindow.getFocusedWindow() !== null,
+      enabled: BrowserWindow.getAllWindows().length > 0,
       submenu: [
         {
           label: "&User Gist",
-          enabled: BrowserWindow.getFocusedWindow() !== null,
+          enabled: BrowserWindow.getAllWindows().length > 0,
           click: authAndPublish
         },
         {
           label: "&Anonymous Gist",
-          enabled: BrowserWindow.getFocusedWindow() !== null,
+          enabled: BrowserWindow.getAllWindows().length > 0,
           click: createSender("menu:publish:gist")
         }
       ]
     },
     exportPDF: {
       label: "Export &PDF",
-      enabled: BrowserWindow.getFocusedWindow() !== null,
+      enabled: BrowserWindow.getAllWindows().length > 0,
       click: createSender("menu:exportPDF")
     }
   };
@@ -463,31 +463,31 @@ export function loadFullMenu(store = global.store) {
       },
       {
         label: "New Code Cell",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+Shift+N",
         click: createSender("menu:new-code-cell")
       },
       {
         label: "New Text Cell",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+Shift+M",
         click: createSender("menu:new-text-cell")
       },
       {
         label: "Copy Cell",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+Shift+C",
         click: createSender("menu:copy-cell")
       },
       {
         label: "Cut Cell",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+Shift+X",
         click: createSender("menu:cut-cell")
       },
       {
         label: "Paste Cell",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+Shift+V",
         click: createSender("menu:paste-cell")
       }
@@ -499,22 +499,22 @@ export function loadFullMenu(store = global.store) {
     submenu: [
       {
         label: "Run All",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:run-all")
       },
       {
         label: "Run All Below",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:run-all-below")
       },
       {
         label: "Clear All Outputs",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:clear-all")
       },
       {
         label: "Unhide All Outputs",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:unhide-all")
       }
     ]
@@ -525,7 +525,7 @@ export function loadFullMenu(store = global.store) {
     submenu: [
       {
         label: "Reload",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+R",
         click: (item, focusedWindow) => {
           if (focusedWindow) {
@@ -535,7 +535,7 @@ export function loadFullMenu(store = global.store) {
       },
       {
         label: "Toggle Full Screen",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: (() => {
           if (process.platform === "darwin") {
             return "Ctrl+Command+F";
@@ -550,7 +550,7 @@ export function loadFullMenu(store = global.store) {
       },
       {
         label: "Toggle Developer Tools",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: (() => {
           if (process.platform === "darwin") {
             return "Alt+Command+I";
@@ -565,19 +565,19 @@ export function loadFullMenu(store = global.store) {
       },
       {
         label: "Actual Size",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+0",
         click: createSender("menu:zoom-reset")
       },
       {
         label: "Zoom In",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+=",
         click: createSender("menu:zoom-in")
       },
       {
         label: "Zoom Out",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+-",
         click: createSender("menu:zoom-out")
       },
@@ -598,22 +598,22 @@ export function loadFullMenu(store = global.store) {
     submenu: [
       {
         label: "&Kill Running Kernel",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:kill-kernel")
       },
       {
         label: "&Interrupt Running Kernel",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:interrupt-kernel")
       },
       {
         label: "Restart Running Kernel",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:restart-kernel")
       },
       {
         label: "Restart and Clear All Cells",
-        enabled: BrowserWindow.getFocusedWindow() !== null,
+        enabled: BrowserWindow.getAllWindows().length > 0,
         click: createSender("menu:restart-and-clear-all")
       },
       {
