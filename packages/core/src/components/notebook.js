@@ -19,6 +19,8 @@ import {
 } from "../actions";
 import type { CellProps } from "./cell/cell";
 
+import { LinkExternalOcticon } from "./octicons";
+
 // NOTE: PropTypes are required for the sake of contextTypes
 const PropTypes = require("prop-types");
 
@@ -200,7 +202,9 @@ export class Notebook extends React.PureComponent<Props> {
       <div className="cell-container" key={`cell-container-${id}`}>
         {isStickied ? (
           <div className="cell-placeholder">
-            <span className="octicon octicon-link-external" />
+            <span className="octicon">
+              <LinkExternalOcticon />
+            </span>
           </div>
         ) : (
           <CellComponent {...this.createCellProps(id, cell, transient)} />
