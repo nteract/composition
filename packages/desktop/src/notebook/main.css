@@ -40,19 +40,16 @@
   .cell.focused .prompt {
     background: var(--pager-bg) !important;
   }
-  .draggable-cell
-  {
+  .draggable-cell {
     padding: 0px !important;
   }
-  .cell-drag-handle
-  {
+  .cell-drag-handle {
     display: none !important;
   }
   .cell-toolbar-mask {
     display: none !important;
   }
-  .invisible
-  {
+  .invisible {
     display: none !important;
   }
 }
@@ -416,59 +413,6 @@ body {
 .cell .input-container .input {
   flex: 1 1 auto;
   overflow: auto;
-}
-
-.creator-hover-mask {
-  display: block;
-  position: relative;
-  overflow: visible;
-  height: 0px;
-}
-
-.creator-hover-region {
-  position: relative;
-  overflow: visible;
-  top: -10px;
-  height: 60px;
-  text-align: center;
-}
-
-.cell-creator {
-  display: none;
-  background: var(--main-bg-color);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  pointer-events: all;
-  position: relative;
-  top: -5px;
-}
-
-.cell-creator button {
-  display: inline-block;
-
-  width: 22px;
-  height: 20px;
-  padding: 0px 4px;
-
-  text-align: center;
-
-  border: none;
-  outline: none;
-  background: none;
-}
-
-.cell-creator button span {
-  font-size: 15px;
-  line-height: 1;
-
-  color: var(--toolbar-button);
-}
-
-.cell-creator button span:hover {
-  color: var(--toolbar-button-hover);
-}
-
-.creator-hover-region:hover > .cell-creator {
-  display: inline-block;
 }
 
 .cell code {

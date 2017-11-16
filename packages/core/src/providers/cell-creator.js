@@ -8,7 +8,7 @@ import {
   createCellBefore,
   mergeCellAfter
 } from "../actions";
-import CellCreatorView from "../views/cell-creator";
+import CellCreatorView from "../components/cell-creator";
 
 type Props = {|
   above: boolean,
