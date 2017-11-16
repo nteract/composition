@@ -13,18 +13,16 @@ import { Outputs, PromptBuffer, Input } from "../ng";
 
 type Props = {
   cell: any,
-  id: string,
-  theme: string,
   focusAbove: () => void,
   focusBelow: () => void,
   focusEditor: Function,
   cellFocused: boolean,
-  editorFocused: boolean
+  editorFocused: boolean,
+  children: React$Element<*>
 };
 
 type State = {
-  view: boolean,
-  source: string
+  view: boolean
 };
 
 type MDRender = (input: string) => string;
@@ -47,9 +45,7 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   constructor(props: Props): void {
     super(props);
     this.state = {
-      view: true,
-      // HACK: We'll need to handle props and state change better here
-      source: this.props.cell.get("source")
+      view: true
     };
     this.openEditor = this.openEditor.bind(this);
     this.editorKeyDown = this.editorKeyDown.bind(this);
@@ -62,8 +58,7 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
 
   componentWillReceiveProps(nextProps: Props): void {
     this.setState({
-      view: !nextProps.editorFocused,
-      source: nextProps.cell.get("source")
+      view: !nextProps.editorFocused
     });
   }
 
@@ -134,6 +129,8 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   }
 
   render(): ?React$Element<any> {
+    const source = this.props.cell.get("source");
+
     return this.state && this.state.view ? (
       <div
         onDoubleClick={this.openEditor}
@@ -145,8 +142,8 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
         <Outputs>
           <LatexRenderer>
             {mdRender(
-              this.state.source
-                ? this.state.source
+              source
+                ? source
                 : "*Empty markdown cell, double click me to add content.*"
             )}
           </LatexRenderer>
@@ -156,19 +153,11 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
       <div onKeyDown={this.editorKeyDown}>
         <Input>
           <PromptBuffer />
-          <Editor
-            language="markdown"
-            id={this.props.id}
-            input={this.state.source}
-            theme={this.props.theme}
-            focusAbove={this.props.focusAbove}
-            focusBelow={this.props.focusBelow}
-            cellFocused={this.props.cellFocused}
-            editorFocused={this.props.editorFocused}
-          />
+          {/* The editor */}
+          {this.props.children}
         </Input>
-        <Outputs hidden={this.state.source === ""}>
-          <LatexRenderer>{mdRender(this.state.source)}</LatexRenderer>
+        <Outputs hidden={source === ""}>
+          <LatexRenderer>{mdRender(source)}</LatexRenderer>
         </Outputs>
       </div>
     );

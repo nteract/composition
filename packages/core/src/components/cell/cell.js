@@ -203,9 +203,18 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
             cellFocused={cellFocused}
             editorFocused={editorFocused}
             cell={cell}
-            id={this.props.id}
-            theme={this.props.theme}
-          />
+          >
+            <CodeMirror
+              language="markdown"
+              id={this.props.id}
+              input={this.props.cell.get("source")}
+              theme={this.props.theme}
+              focusAbove={this.focusAboveCell}
+              focusBelow={this.focusBelowCell}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+            />
+          </MarkdownCell>
         );
         break;
 
