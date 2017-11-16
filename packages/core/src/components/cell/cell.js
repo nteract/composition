@@ -214,14 +214,8 @@ export class Cell extends React.PureComponent<CellProps, *> {
     }
 
     return (
-      <NextGen.Cell
-        id={this.props.id}
-        isSelected={this.props.cellFocused === this.props.id}
-      >
+      <NextGen.Cell id={this.props.id} isSelected={cellFocused}>
         <div
-          className={`cell ${
-            cellType === "markdown" || cellType === "raw" ? "text" : "code"
-          } ${cellFocused ? "focused" : ""}`}
           onClick={this.selectCell}
           role="presentation"
           ref={el => {

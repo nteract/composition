@@ -309,6 +309,7 @@ export class Input extends React.Component<InputProps> {
           .input-container :global(.prompt) {
             font-family: monospace;
             font-size: 12px;
+            line-height: 22px;
 
             width: var(--prompt-width, 50px);
             padding: 9px 0;
