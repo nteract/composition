@@ -9,8 +9,7 @@ import MarkdownRenderer from "commonmark-react-renderer";
 import Editor from "../../providers/editor";
 import LatexRenderer from "../latex";
 
-// TODO: Remove after provider refactor finished
-const PropTypes = require("prop-types");
+import { Outputs, PromptBuffer, Input } from "../ng";
 
 type Props = {
   cell: any,
@@ -40,10 +39,6 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   editorKeyDown: (e: SyntheticKeyboardEvent<*>) => void;
   renderedKeyDown: (e: SyntheticKeyboardEvent<*>) => boolean;
   rendered: ?HTMLElement;
-
-  static contextTypes = {
-    store: PropTypes.object
-  };
 
   static defaultProps = {
     cellFocused: false
@@ -139,27 +134,32 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   }
 
   render(): ?React$Element<any> {
+    if (this.state.error) {
+      return <pre>{JSON.stringify(this.state, null, 2)}</pre>;
+    }
+
     return this.state && this.state.view ? (
       <div
-        className="rendered"
         onDoubleClick={this.openEditor}
         onKeyDown={this.renderedKeyDown}
         ref={rendered => {
           this.rendered = rendered;
         }}
       >
-        <LatexRenderer>
-          {mdRender(
-            this.state.source
-              ? this.state.source
-              : "*Empty markdown cell, double click me to add content.*"
-          )}
-        </LatexRenderer>
+        <Outputs>
+          <LatexRenderer>
+            {mdRender(
+              this.state.source
+                ? this.state.source
+                : "*Empty markdown cell, double click me to add content.*"
+            )}
+          </LatexRenderer>
+        </Outputs>
       </div>
     ) : (
       <div onKeyDown={this.editorKeyDown}>
-        <div className="input-container">
-          <div className="prompt" />
+        <Input>
+          <PromptBuffer />
           <Editor
             language="markdown"
             id={this.props.id}
@@ -170,10 +170,10 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
             cellFocused={this.props.cellFocused}
             editorFocused={this.props.editorFocused}
           />
-        </div>
-        <div className="outputs">
+        </Input>
+        <Outputs hidden={this.state.source === ""}>
           <LatexRenderer>{mdRender(this.state.source)}</LatexRenderer>
-        </div>
+        </Outputs>
       </div>
     );
   }
