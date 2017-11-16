@@ -64,6 +64,15 @@ export class Outputs extends React.Component<OutputsProps> {
               padding: 10px 10px 10px calc(var(--prompt-width, 50px) + 10px);
               word-wrap: break-word;
               overflow-y: auto;
+              outline: none;
+            }
+
+            .outputs :global(a) {
+              color: var(--link-color-unvisited, blue);
+            }
+
+            .outputs :global(a:visited) {
+              color: var(--link-color-visited, blue);
             }
 
             .outputs > :global(div:empty) {
@@ -92,7 +101,9 @@ export class Outputs extends React.Component<OutputsProps> {
             }
 
             .outputs :global(th),
-            .outputs :global(td) {
+            .outputs :global(td),
+            .outputs :global(.th),
+            /* for legacy output handling */ .outputs :global(.td) {
               padding: 0.5em 1em;
               border: 1px solid var(--primary-border, #cbcbcb);
             }
@@ -160,6 +171,15 @@ export class Outputs extends React.Component<OutputsProps> {
               padding: 0;
               margin: 0;
             }
+
+            /** Adaptation for the R kernel's inline lists **/
+            .outputs :global(.list-inline) li {
+              display: inline;
+              padding-right: 20px;
+              text-align: center;
+            }
+
+            /** Note omission of the li:only-child styling **/
           `}</style>
         </div>
       );

@@ -134,10 +134,6 @@ export default class MarkdownCell extends React.PureComponent<any, State> {
   }
 
   render(): ?React$Element<any> {
-    if (this.state.error) {
-      return <pre>{JSON.stringify(this.state, null, 2)}</pre>;
-    }
-
     return this.state && this.state.view ? (
       <div
         onDoubleClick={this.openEditor}

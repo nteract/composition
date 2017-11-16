@@ -15,6 +15,10 @@
   --link-color-visited: var(--link-color-unvisited);
 }
 
+/**
+ * TODO: Bring these styles into our nextgen components directly as part of
+ *       their inline styled-jsx
+ */
 @media print {
   * {
     box-shadow: none !important;
@@ -153,62 +157,12 @@ div#loading {
 
 /* end completion type color and content */
 
-.cell pre {
-  font-size: 14px;
-  line-height: 1.21429em;
-
-  word-wrap: break-word;
-}
-
 body {
   font-family: "Source Sans Pro";
   font-size: 16px;
   line-height: 22px;
   background-color: var(--main-bg-color);
   color: var(--main-fg-color);
-}
-
-.cell img {
-  display: block;
-  max-width: 100%;
-}
-
-.cell table,
-.cell .table {
-  border-collapse: collapse;
-}
-
-.cell th,
-.cell td,
-.cell .th,
-.cell .td {
-  padding: 0.5em 1em;
-  border: 1px solid var(--primary-border);
-}
-
-.cell th,
-.cell .th {
-  text-align: left;
-}
-
-.cell blockquote {
-  padding: 0.75em 0.5em 0.75em 1em;
-  background: var(--main-bg-color);
-  border-left: 0.5em solid #ddd;
-}
-
-.cell blockquote::before {
-  display: block;
-  height: 0;
-  content: "“";
-  margin-left: -0.95em;
-  font: italic 400%/1 Open Serif, Georgia, "Times New Roman", serif;
-  color: solid var(--primary-border);
-}
-
-/* for nested paragraphs in block quotes */
-.cell blockquote p {
-  display: inline;
 }
 
 /*
@@ -243,47 +197,11 @@ body {
   cursor: move;
 }
 
-.cell {
-  position: relative;
-  background: var(--cell-bg);
-  transition: all 0.1s ease-in-out;
-}
-
-.cell a {
-  color: var(--link-color-unvisited);
-}
-
-.cell a:visited {
-  color: var(--link-color-visited);
-}
-
-.cell:hover {
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
-}
-
-.cell.focused {
-  box-shadow: 3px 3px 9px rgba(0, 0, 0, 0.12), -3px -3px 9px rgba(0, 0, 0, 0.12);
-}
-
-.cell:hover .prompt,
-.cell:active .prompt {
-  background-color: var(--cell-bg-hover);
-}
-
-.cell:focus .prompt,
-.cell.focused .prompt {
-  background-color: var(--cell-bg-focus);
-}
-
 /* Show the cell-toolbar-mask if hovering on cell,
    or cell was the last clicked (has .focused class). */
 .cell:hover .cell-toolbar-mask,
 .cell.focused .cell-toolbar-mask {
   display: block;
-}
-.cell.text .rendered {
-  padding: 10px 10px 10px var(--prompt-width);
-  outline: none;
 }
 
 .cell-placeholder {
@@ -312,55 +230,9 @@ body {
   display: none;
 }
 
-.pagers {
-  padding: 10px var(--prompt-width) 10px var(--prompt-width);
-  background-color: var(--pager-bg);
-  word-wrap: break-word;
-}
-
-.outputs > div {
-  word-wrap: break-word;
-  padding: 10px 10px 10px calc(var(--prompt-width) + 10px);
-  overflow-y: auto;
-}
-
-.outputs > div:empty {
-  display: none;
-}
-
-.cell .input-container {
-  display: flex;
-  flex-direction: row;
-}
-
+/** TODO: Recover this in the styling -- this likely relates to pinned cells */
 .cell .input-container.invisible {
   height: 34px;
-}
-
-.cell .prompt {
-  font-family: monospace;
-  font-size: 12px;
-
-  width: var(--prompt-width);
-  padding: 9px 0;
-
-  text-align: center;
-
-  color: var(--input-color);
-  background-color: var(--pager-bg);
-
-  flex: 0 0 auto;
-}
-
-.cell .input-container .input {
-  flex: 1 1 auto;
-  overflow: auto;
-}
-
-.cell code {
-  font-family: "Source Code Pro";
-  white-space: pre-wrap;
-  font-size: 14px;
 }
 
 /*
@@ -543,62 +415,6 @@ li.CodeMirror-hint-active {
 .dropdown--active .dropdown__content {
   display: inline-block;
   opacity: 1;
-}
-
-/*
- * The following were written to help with the R kernel formatting. We need to
- * write something general for nested HTML like the R kernel does for data
- */
-
-.cell dd {
-  display: block;
-  -webkit-margin-start: 40px;
-}
-.cell dl {
-  display: block;
-  -webkit-margin-before: 1__qem;
-  -webkit-margin-after: 1em;
-  -webkit-margin-start: 0;
-  -webkit-margin-end: 0;
-}
-
-.cell dt {
-  display: block;
-}
-
-.cell dl {
-  width: 100%;
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-}
-
-.cell dt {
-  font-weight: bold;
-  float: left;
-  width: 20%;
-  /* adjust the width; make sure the total of both is 100% */
-  padding: 0;
-  margin: 0;
-}
-
-.cell dd {
-  float: left;
-  width: 80%;
-  /* adjust the width; make sure the total of both is 100% */
-  padding: 0;
-  margin: 0;
-}
-
-/* No dangling (1.) */
-.cell li:only-child {
-  list-style-type: none;
-}
-
-.list-inline li {
-  display: inline;
-  padding-right: 20px;
-  text-align: center;
 }
 
 /* End R Kernel adaptations */
