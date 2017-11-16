@@ -5,7 +5,7 @@
 
 import React from "react";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
-import Editor from "../../providers/editor";
+import CodeMirror from "../../providers/editor";
 
 import LatexRenderer from "../latex";
 import { Display, RichestMime } from "@nteract/display-area";
@@ -13,7 +13,7 @@ import { Display, RichestMime } from "@nteract/display-area";
 import MarkdownCell from "./markdown-cell";
 import Toolbar from "../../providers/toolbar";
 
-import * as NextGen from "../ng";
+import { Input, Prompt, Editor, Pagers, Outputs, Cell } from "../ng";
 
 import {
   focusCell,
@@ -41,7 +41,7 @@ export type CellProps = {
   models: ImmutableMap<string, any>
 };
 
-export class Cell extends React.PureComponent<CellProps, *> {
+export class ConnectedCell extends React.PureComponent<CellProps, *> {
   selectCell: () => void;
   focusAboveCell: () => void;
   focusBelowCell: () => void;
@@ -139,13 +139,13 @@ export class Cell extends React.PureComponent<CellProps, *> {
 
         element = (
           <div>
-            <NextGen.Input hidden={sourceHidden}>
-              <NextGen.Prompt
+            <Input hidden={sourceHidden}>
+              <Prompt
                 counter={this.props.cell.get("execution_count")}
                 running={this.props.running}
               />
-              <NextGen.Editor>
-                <Editor
+              <Editor>
+                <CodeMirror
                   tip
                   completion
                   id={this.props.id}
@@ -157,9 +157,9 @@ export class Cell extends React.PureComponent<CellProps, *> {
                   focusAbove={this.focusAboveCell}
                   focusBelow={this.focusBelowCell}
                 />
-              </NextGen.Editor>
-            </NextGen.Input>
-            <NextGen.Pagers>
+              </Editor>
+            </Input>
+            <Pagers>
               {this.props.pagers.map((pager, key) => (
                 <RichestMime
                   expanded
@@ -171,9 +171,9 @@ export class Cell extends React.PureComponent<CellProps, *> {
                   key={key}
                 />
               ))}
-            </NextGen.Pagers>
+            </Pagers>
             <LatexRenderer>
-              <NextGen.Outputs
+              <Outputs
                 hidden={outputHidden}
                 expanded={cell.getIn(["metadata", "outputExpanded"], true)}
               >
@@ -187,7 +187,7 @@ export class Cell extends React.PureComponent<CellProps, *> {
                   isHidden={outputHidden}
                   models={this.props.models.toJS()}
                 />
-              </NextGen.Outputs>
+              </Outputs>
             </LatexRenderer>
           </div>
         );
@@ -214,7 +214,7 @@ export class Cell extends React.PureComponent<CellProps, *> {
     }
 
     return (
-      <NextGen.Cell id={this.props.id} isSelected={cellFocused}>
+      <Cell id={this.props.id} isSelected={cellFocused}>
         <div
           onClick={this.selectCell}
           role="presentation"
@@ -225,9 +225,9 @@ export class Cell extends React.PureComponent<CellProps, *> {
           <Toolbar type={cellType} cell={cell} id={this.props.id} />
           {element}
         </div>
-      </NextGen.Cell>
+      </Cell>
     );
   }
 }
 
-export default Cell;
+export default ConnectedCell;
