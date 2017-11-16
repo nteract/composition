@@ -39,47 +39,6 @@ describe("Notebook", () => {
     );
     expect(component).not.toBeNull();
   });
-  test("implements the correct css spec", () => {
-    const component = mount(
-      <Provider store={dummyStore()}>
-        <Notebook
-          notebook={dummyCommutable}
-          transient={
-            new Immutable.Map({
-              cellMap: new Immutable.Map()
-            })
-          }
-          cellPagers={new Immutable.Map()}
-          cellStatuses={dummyCellStatuses}
-          stickyCells={new Immutable.Map()}
-          displayOrder={displayOrder}
-          transforms={transforms}
-          CellComponent={Cell}
-          models={new Immutable.Map({})}
-        />
-      </Provider>
-    );
-    expect(component.find(".notebook").length).toBeGreaterThan(0);
-    expect(component.find(".notebook .cell").length).toBeGreaterThan(0);
-    expect(component.find(".notebook .cell.text").length).toBeGreaterThan(0);
-    expect(component.find(".notebook .cell.code").length).toBeGreaterThan(0);
-    expect(component.find(".notebook .cell.unknown").length).toBe(0);
-    expect(
-      component.find(".notebook .cell.text .rendered").length
-    ).toBeGreaterThan(0);
-    expect(
-      component.find(".notebook .cell.code .input-container").length
-    ).toBeGreaterThan(0);
-    expect(
-      component.find(".notebook .cell.code .input-container .prompt").length
-    ).toBeGreaterThan(0);
-    expect(
-      component.find(".notebook .cell.code .input-container .input").length
-    ).toBeGreaterThan(0);
-    expect(
-      component.find(".notebook .cell.code .outputs").length
-    ).toBeGreaterThan(0);
-  });
 
   describe("getLanguageMode", () => {
     test("determines the right language from the notebook metadata", () => {
