@@ -2,7 +2,7 @@
   --main-bg-color: #1b2a3e;
   --main-fg-color: #edf3f7;
 
-  --primary-border: #495F7D;
+  --primary-border: #495f7d;
 
   --cell-bg: #334863;
   --cell-bg-hover: var(--primary-border);
@@ -17,23 +17,24 @@
 
   --pager-bg: #354a66;
   --input-color: #fafafa;
+  --prompt-bg: var(--pager-bg);
 
-  --cm-background: #23354C;
-  --cm-color: rgba(255,255,255,0.4);
+  --cm-background: #23354c;
+  --cm-color: rgba(255, 255, 255, 0.4);
 
   --cm-gutter-bg: #777;
 
   --cm-comment: inherit;
-  --cm-keyword: #43F3C5;
+  --cm-keyword: #43f3c5;
   --cm-string: #43d4f3;
-  --cm-builtin: #FFF66E;
+  --cm-builtin: #fff66e;
   --cm-special: #1abc9c;
   --cm-variable: inherit;
   --cm-number: #ff9bc6;
   --cm-meta: #95a5a6;
   --cm-link: var(--cm-keyword);
   --cm-operator: inherit;
-  --cm-def: #D77BFB;
+  --cm-def: #d77bfb;
 
   --cm-activeline-bg: #e8f2ff;
   --cm-matchingbracket-outline: grey;
@@ -48,11 +49,9 @@
 
   --border-radius: 5px;
 
-  --large-shadow: 0 10px 20px rgba(0,0,0,0.19),
-                  0 6px 6px rgba(0,0,0,0.23);
+  --large-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 
-  --small-shadow: 0 3px 6px rgba(0,0,0,0.16),
-                  0 3px 6px rgba(0,0,0,0.23);
+  --small-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 /*
@@ -67,45 +66,38 @@
 
 .cell,
 .notebook .cell:focus,
-.notebook .cell.focused
-{
+.notebook .cell.focused {
   box-shadow: var(--small-shadow);
 }
 
-.notebook .cell:hover
-{
+.notebook .cell:hover {
   box-shadow: var(--large-shadow);
 }
 
 .cell:focus .cm-s-composition.CodeMirror,
 .cell.focused .cm-s-composition.CodeMirror,
-.cell.focused .rendered
-{
+.cell.focused .rendered {
   background: var(--cell-bg);
 }
 
 .outputs,
-.CodeMirror-lines
-{
+.CodeMirror-lines {
   opacity: 0.75;
 }
 
-.cell .rendered
-{
+.cell .rendered {
   background: var(--cm-background);
 }
 
 .cell:focus .CodeMirror-lines,
 .cell.focused .CodeMirror-lines,
 .cell.focused .outputs,
-.cell.focused .rendered
-{
+.cell.focused .rendered {
   opacity: 1;
   color: var(--main-fg-color);
 }
 
-.cell.focused .input-container
-{
+.cell.focused .input-container {
   box-shadow: var(--small-shadow);
 }
 
@@ -113,25 +105,21 @@
 /* CodeMirror Colors & Styles */
 /* -------------------------- */
 
-.cm-property
-{
-  color: #9CAFEA;
+.cm-property {
+  color: #9cafea;
 }
 
-.cm-comment
-{
+.cm-comment {
   font-style: italic;
   opacity: 0.3;
 }
 
 .CodeMirror-selected,
-.CodeMirror-focused .CodeMirror-selected
-{
-  background: rgba(0,0,0,0.3);
+.CodeMirror-focused .CodeMirror-selected {
+  background: rgba(0, 0, 0, 0.3);
 }
 
-.cm-s-composition span.cm-string.cm-url
-{
+.cm-s-composition span.cm-string.cm-url {
   color: var(--cm-link);
   opacity: 0.5;
 }
@@ -139,30 +127,25 @@
 /* Override Inline Styles */
 /* These styles are used for code errors in the CodeMirror output */
 
-span[style="color: rgb(187, 0, 0);"]
-{
+span[style="color: rgb(187, 0, 0);"] {
   color: var(--cm-keyword) !important;
   font-weight: bold;
 }
 
-span[style="color: rgb(0, 187, 0);"]
-{
+span[style="color: rgb(0, 187, 0);"] {
   color: var(--cm-string) !important;
 }
 
-span[style="color: rgb(0, 187, 187);"]
-{
+span[style="color: rgb(0, 187, 187);"] {
   color: var(--main-fg-color) !important;
 }
 
-span[style="color: rgb(0, 0, 187);"]
-{
+span[style="color: rgb(0, 0, 187);"] {
   color: inherit !important;
 }
 
-span[style="color: rgb(0, 255, 0);"]
-{
-  color: rgba(255,255,255,0.3) !important;
+span[style="color: rgb(0, 255, 0);"] {
+  color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* ---------------------- */
@@ -170,50 +153,47 @@ span[style="color: rgb(0, 255, 0);"]
 /* ---------------------- */
 
 .outputs a,
-.rendered a
-{
+.rendered a {
   color: var(--cm-link);
 }
 
-.outputs > div
-{
-  background-color: rgba(29,49,76,0.7);
+.outputs > div {
+  background-color: rgba(29, 49, 76, 0.7);
 }
 
 /* Tables */
 
-th, .th
-{
-  background: rgba(0,0,0,0.25);
+th,
+.th {
+  background: rgba(0, 0, 0, 0.25);
 }
 
-tr:nth-of-type(even), .tr:nth-of-type(even)
-{
-  background: rgba(255,255,255,0.075);
+tr:nth-of-type(even),
+.tr:nth-of-type(even) {
+  background: rgba(255, 255, 255, 0.075);
 }
 
-tr:hover, .tr:hover,
-{
-  background: rgba(0,0,0,0.4);
+tr:hover,
+.tr:hover {
+  background: rgba(0, 0, 0, 0.4);
 }
 
 /* Blockquotes */
 
-.notebook blockquote::before
-{
-  content: '';
+.notebook blockquote::before {
+  content: "";
   background-color: var(--cm-special);
   background-size: 10px 10px;
   background-image: linear-gradient(
-                    45deg,
-                    rgba(27, 42, 62, 0.2) 25%,
-                    transparent 25%,
-                    transparent 50%,
-                    rgba(27, 42, 62, 0.2) 50%,
-                    rgba(27, 42, 62, 0.2) 75%,
-                    transparent 75%,
-                    transparent
-                  );
+    45deg,
+    rgba(27, 42, 62, 0.2) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(27, 42, 62, 0.2) 50%,
+    rgba(27, 42, 62, 0.2) 75%,
+    transparent 75%,
+    transparent
+  );
   width: 0.75rem;
   height: 100%;
   display: block;
@@ -223,8 +203,7 @@ tr:hover, .tr:hover,
   top: 0;
 }
 
-.notebook blockquote
-{
+.notebook blockquote {
   position: relative;
   border: 0;
   margin-left: 0;
@@ -233,14 +212,12 @@ tr:hover, .tr:hover,
 
 /* Lists */
 
-ul li
-{
+ul li {
   list-style: none;
 }
 
-ul li::before
-{
-  content: '\f078';
+ul li::before {
+  content: "\f078";
   font: normal normal normal 16px/1 octicons;
   display: inline-block;
   text-decoration: none;
@@ -260,26 +237,22 @@ ul li::before
 /* --------------------------- */
 
 .notebook .cell-creator,
-.cell-toolbar
-{
+.cell-toolbar {
   padding: 0.125em 0.25em;
   box-shadow: var(--small-shadow);
 }
 
 .notebook .cell-creator:hover,
-.cell-toolbar:hover
-{
+.cell-toolbar:hover {
   box-shadow: var(--large-shadow);
 }
 
-.notebook .cell-creator
-{
+.notebook .cell-creator {
   background: var(--toolbar-bg);
   border-radius: var(--border-radius);
 }
 
-.cell-toolbar
-{
+.cell-toolbar {
   border-radius: 0 0 0 var(--border-radius);
   padding: 0.125em 0.25em;
 }
@@ -288,28 +261,24 @@ ul li::before
 /* Sticky Cells */
 /* ------------ */
 
-.notebook .sticky-cell-container
-{
+.notebook .sticky-cell-container {
   padding-top: 0;
   padding-bottom: 0;
   box-shadow: var(--large-shadow);
   z-index: 2000;
 }
 
-.sticky-cell-container > div ~ div
-{
+.sticky-cell-container > div ~ div {
   margin-top: 2rem;
 }
 
 /* The container itself has a shadow, so let's kill the shadow on the last box */
 
-.sticky-cell-container .cell:last-of-type
-{
+.sticky-cell-container .cell:last-of-type {
   box-shadow: none !important;
 }
 
-.sticky-cell-container .stickyButton span
-{
+.sticky-cell-container .stickyButton span {
   color: var(--cm-special);
 }
 
@@ -317,10 +286,13 @@ ul li::before
 /* Running Cells */
 /* ------------- */
 
-@keyframes striperunner
-{
-  from { background-position: 0 0; }
-  to   { background-position: 60px 30px; }
+@keyframes striperunner {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 60px 30px;
+  }
 }
 
 /*
@@ -328,23 +300,21 @@ ul li::before
   set on .cell-running .prompt AFTER the gradient is applied, resulting in
   huge stripes
 */
-.cell .prompt
-{
+.cell .prompt {
   background-size: 30px 30px;
 }
 
-.cell-running .prompt
-{
+.cell-running .prompt {
   background-image: linear-gradient(
-                    45deg,
-                    rgba(255, 255, 255, 0.1) 25%,
-                    transparent 25%,
-                    transparent 50%,
-                    rgba(255, 255, 255, 0.1) 50%,
-                    rgba(255, 255, 255, 0.1) 75%,
-                    transparent 75%,
-                    transparent
-                  );
+    45deg,
+    rgba(255, 255, 255, 0.1) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    transparent 75%,
+    transparent
+  );
   animation: striperunner 1.5s linear infinite;
 }
 
@@ -372,7 +342,7 @@ ul li::before
 @media print {
   .cell:focus .cm-s-composition.CodeMirror,
   .cell.focused .cm-s-composition.CodeMirror,
-  .cell.focused .rendered{
+  .cell.focused .rendered {
     background: var(--cm-background);
   }
 }
@@ -381,33 +351,37 @@ ul li::before
 /* Miscellaneous Styles */
 /* -------------------- */
 
-
 .cell .prompt,
 .notebook .cell-creator,
 button,
 a,
-tr
-{
+tr {
   transition: all 0.1s ease-in-out;
 }
 
 /*custom scrollbar for notebook cells and hint box*/
-div::-webkit-scrollbar, ul::-webkit-scrollbar {
-      width: 11px;
-      height: 11px;
+div::-webkit-scrollbar,
+ul::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
 }
-div::-webkit-scrollbar-track, ul::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+div::-webkit-scrollbar-track,
+ul::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
-div::-webkit-scrollbar-thumb, ul::-webkit-scrollbar-thumb {
-      background-color: rgba(237, 243, 247, .6)
+div::-webkit-scrollbar-thumb,
+ul::-webkit-scrollbar-thumb {
+  background-color: rgba(237, 243, 247, 0.6);
 }
-div::-webkit-scrollbar-thumb:hover, ul::-webkit-scrollbar-thumb:hover {
-      background-color: rgba(237, 243, 247, .7);
+div::-webkit-scrollbar-thumb:hover,
+ul::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(237, 243, 247, 0.7);
 }
-div::-webkit-scrollbar-thumb:active, ul::-webkit-scrollbar-thumb:active {
-      background-color: rgba(237, 243, 247, .9);
+div::-webkit-scrollbar-thumb:active,
+ul::-webkit-scrollbar-thumb:active {
+  background-color: rgba(237, 243, 247, 0.9);
 }
-div::-webkit-scrollbar-corner, ul::-webkit-scrollbar-corner {
-      background-color:transparent;
+div::-webkit-scrollbar-corner,
+ul::-webkit-scrollbar-corner {
+  background-color: transparent;
 }
