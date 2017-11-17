@@ -153,7 +153,7 @@ class DraggableCellView extends React.PureComponent<Props, State> {
           .cell-drag-handle {
             position: absolute;
             z-index: 200;
-            width: var(--prompt-width);
+            width: var(--prompt-width, 50px);
             height: 100%;
             cursor: move;
           }

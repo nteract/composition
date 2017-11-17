@@ -13,6 +13,7 @@ import Cell from "../components/cell/cell";
 import DraggableCell from "./draggable-cell";
 import CellCreator from "../providers/cell-creator";
 import StatusBar from "./status-bar";
+
 import {
   focusNextCell,
   focusNextCellEditor,
@@ -20,7 +21,6 @@ import {
   focusCell,
   executeCell
 } from "../actions";
-import type { CellProps } from "./cell/cell";
 
 import { LinkExternalOcticon } from "./octicons";
 
@@ -79,7 +79,6 @@ export class Notebook extends React.PureComponent<Props> {
   selectCell: (id: string) => void;
   stickyCellsPlaceholder: ?HTMLElement;
   stickyCellContainer: ?HTMLElement;
-  cellElements: ImmutableMap<string, any>;
 
   static defaultProps = {
     displayOrder,
@@ -98,7 +97,6 @@ export class Notebook extends React.PureComponent<Props> {
     this.keyDown = this.keyDown.bind(this);
     this.moveCell = this.moveCell.bind(this);
     this.selectCell = this.selectCell.bind(this);
-    this.cellElements = new ImmutableMap();
   }
 
   componentDidMount(): void {
@@ -163,37 +161,6 @@ export class Notebook extends React.PureComponent<Props> {
     if (cell.get("cell_type") === "code") {
       this.context.store.dispatch(executeCell(id, cell.get("source")));
     }
-  }
-
-  createCellProps(id: string, cell: any, transient: any): CellProps {
-    return {
-      id,
-      cell,
-      language: getLanguageMode(this.props.notebook),
-      key: id,
-      ref: el => {
-        this.cellElements = this.cellElements.set(id, el);
-      },
-      displayOrder: this.props.displayOrder,
-      transforms: this.props.transforms,
-      moveCell: this.moveCell,
-      pagers: this.props.cellPagers.get(id),
-      // TODO: This prop should likely be id === this.props.cellFocused
-      //       so that computation is not done by all the cells.
-      //       They just need to know if they're focused.
-      //       Then again... It does feel like scroll behavior belongs in the
-      //       notebook itself, would require fixing up refs passing with connect()
-      //
-      //       Then again, having the previous focusedCellID (cellFocused) is useful
-      //       for within the cell doing scrolling
-      cellFocused: this.props.cellFocused,
-      editorFocused: this.props.editorFocused,
-      running: transient.get("status") === "busy",
-      // Theme is passed through to let the Editor component know when to
-      // tell CodeMirror to remeasure
-      theme: this.props.theme,
-      models: this.props.models
-    };
   }
 
   createCellElement(id: string): ?React$Element<any> {
