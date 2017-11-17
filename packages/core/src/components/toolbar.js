@@ -188,7 +188,7 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
           }
 
           .cell-toolbar {
-            background-color: var(--toolbar-bg);
+            background-color: var(--toolbar-bg, rgba(255, 255, 255, 0.5));
             opacity: 0.4;
             transition: opacity 0.4s;
           }
@@ -214,11 +214,11 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
           .cell-toolbar button span {
             font-size: 15px;
             line-height: 1;
-            color: var(--toolbar-button);
+            color: var(--toolbar-button, #aaa);
           }
 
           .cell-toolbar button span:hover {
-            color: var(--toolbar-button-hover);
+            color: var(--toolbar-button-hover, #555);
           }
 
           .cell-toolbar-mask {
@@ -237,6 +237,47 @@ export default class Toolbar extends PureComponent<ToolbarProps> {
 
           .octicon {
             transition: color 0.5s;
+          }
+
+          .cell-toolbar :global(.dropdown) {
+            display: inline-block;
+          }
+
+          .cell-toolbar :global(.dropdown__content) {
+            display: none;
+            opacity: 1;
+            position: absolute;
+            top: 0.2em;
+            right: 0;
+            border-style: none;
+            padding: 0;
+            font-family: "Source Sans Pro";
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 20px 0;
+            background-color: var(--dropdown-content, #eeedee);
+          }
+
+          .cell-toolbar :global(.dropdown__content ul) {
+            list-style: none;
+            text-align: left;
+            padding: 0;
+            margin: 0;
+            opacity: 1;
+          }
+
+          .cell-toolbar :global(.dropdown__content li) {
+            padding: 0.5rem;
+          }
+
+          .cell-toolbar :global(.dropdown__content li:hover) {
+            background-color: var(--dropdown-content-hover, #e2dfe3);
+            cursor: pointer;
+          }
+
+          .cell-toolbar :global(.dropdown--active .dropdown__content) {
+            display: inline-block;
+            opacity: 1;
           }
         `}</style>
       </div>

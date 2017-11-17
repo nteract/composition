@@ -382,46 +382,6 @@ li.CodeMirror-hint-active {
   color: var(--cm-hint-color-active);
 }
 
-.dropdown {
-  display: inline-block;
-}
-
-.dropdown__content {
-  display: none;
-  opacity: 1;
-  position: absolute;
-  top: 0.2em;
-  right: 0;
-  border-style: none;
-  padding: 0;
-  font-size: 11px;
-  line-height: 1.5;
-  margin: 20px 0;
-  background-color: var(--dropdown-content);
-}
-
-.dropdown__content ul {
-  list-style: none;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-  opacity: 1;
-}
-
-.dropdown__content li {
-  padding: 0.5rem;
-}
-
-.dropdown__content li:hover {
-  background-color: var(--dropdown-content-hover);
-  cursor: pointer;
-}
-
-.dropdown--active .dropdown__content {
-  display: inline-block;
-  opacity: 1;
-}
-
 /* Styling for status bar */
 .pull-right {
   float: right;
