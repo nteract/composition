@@ -4,7 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { focusCell } from "../actions";
 
-import DraggableCellView from "../views/draggable-cell";
+import DraggableCellView from "../components/draggable-cell";
 
 type Props = {|
   dispatch: Dispatch<*>,

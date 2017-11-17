@@ -4,9 +4,6 @@
 
 import * as React from "react";
 import { DragSource, DropTarget } from "react-dnd";
-import { List as ImmutableList, Map as ImmutableMap } from "immutable";
-
-import Cell from "../components/cell/cell";
 
 type Props = {|
   connectDragPreview: (img: Image) => void,

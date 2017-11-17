@@ -10,13 +10,14 @@ import { displayOrder, transforms } from "@nteract/transforms";
 
 import Cell from "../components/cell/cell";
 
-import DraggableCell from "../providers/draggable-cell";
+import DraggableCell from "./draggable-cell";
 import CellCreator from "../providers/cell-creator";
 import StatusBar from "./status-bar";
 import {
   focusNextCell,
   focusNextCellEditor,
   moveCell,
+  focusCell,
   executeCell
 } from "../actions";
 import type { CellProps } from "./cell/cell";
@@ -75,6 +76,7 @@ export class Notebook extends React.PureComponent<Props> {
   createStickyCellElement: (s: string) => ?React$Element<any>;
   keyDown: (e: KeyboardEvent) => void;
   moveCell: (source: string, dest: string, above: boolean) => void;
+  selectCell: (id: string) => void;
   stickyCellsPlaceholder: ?HTMLElement;
   stickyCellContainer: ?HTMLElement;
   cellElements: ImmutableMap<string, any>;
@@ -95,6 +97,7 @@ export class Notebook extends React.PureComponent<Props> {
     this.createStickyCellElement = this.createStickyCellElement.bind(this);
     this.keyDown = this.keyDown.bind(this);
     this.moveCell = this.moveCell.bind(this);
+    this.selectCell = this.selectCell.bind(this);
     this.cellElements = new ImmutableMap();
   }
 
@@ -118,6 +121,10 @@ export class Notebook extends React.PureComponent<Props> {
 
   moveCell(sourceId: string, destinationId: string, above: boolean): void {
     this.context.store.dispatch(moveCell(sourceId, destinationId, above));
+  }
+
+  selectCell(id: string): void {
+    this.context.store.dispatch(focusCell(id));
   }
 
   keyDown(e: KeyboardEvent): void {
@@ -209,7 +216,11 @@ export class Notebook extends React.PureComponent<Props> {
             </span>
           </div>
         ) : (
-          <DraggableCell moveCell={this.moveCell} id={id}>
+          <DraggableCell
+            moveCell={this.moveCell}
+            id={id}
+            selectCell={this.selectCell}
+          >
             <Cell
               cell={cell}
               displayOrder={this.props.displayOrder}
