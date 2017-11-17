@@ -2,7 +2,7 @@ import React from "react";
 
 import { shallow } from "enzyme";
 
-import DraggableCell from "../../src/views/draggable-cell";
+import DraggableCell from "../../src/components/draggable-cell";
 
 import { emptyMarkdownCell } from "@nteract/commutable";
 
