@@ -38,6 +38,28 @@ export default class StatusBar extends React.Component<Props> {
             {name} | {this.props.executionState}
           </p>
         </span>
+        <style jsx>{`
+          .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 12px;
+            line-height: 0.5em;
+            background: var(--status-bar);
+            z-index: 99;
+          }
+
+          .pull-right {
+            float: right;
+            padding-right: 10px;
+          }
+
+          .pull-left {
+            display: block;
+            padding-left: 10px;
+          }
+        `}</style>
       </div>
     );
   }
