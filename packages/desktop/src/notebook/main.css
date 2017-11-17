@@ -189,19 +189,6 @@ body {
   Cell
  */
 
-.draggable-cell {
-  position: relative;
-  padding: 10px;
-}
-
-.cell-drag-handle {
-  position: absolute;
-  z-index: 200;
-  width: var(--prompt-width);
-  height: 100%;
-  cursor: move;
-}
-
 /* Show the cell-toolbar-mask if hovering on cell,
    or cell was the last clicked (has .focused class). */
 .cell:hover .cell-toolbar-mask,
