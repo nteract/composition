@@ -2,15 +2,13 @@
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 
-import React from "react";
+import * as React from "react";
 import { DragSource, DropTarget } from "react-dnd";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import Cell from "../components/cell/cell";
 
 type Props = {|
-  cell: ImmutableMap<string, any>,
-  displayOrder: Array<string>,
   connectDragPreview: (img: Image) => void,
   connectDragSource: (el: ?React$Element<any>) => void,
   connectDropTarget: (el: ?React$Element<any>) => void,
@@ -18,16 +16,8 @@ type Props = {|
   id: string,
   isDragging: boolean,
   isOver: boolean,
-  cellFocused: string,
-  editorFocused: string,
-  transforms: ImmutableMap<string, any>,
-  language: string,
-  running: boolean,
-  theme: string,
-  cursorBlinkRate: number,
-  pagers: ImmutableList<any>,
   moveCell: (source: string, dest: string, above: boolean) => Object,
-  models: ImmutableMap<string, any>
+  children: React.Node
 |};
 
 type State = {|
@@ -148,22 +138,7 @@ class DraggableCellView extends React.PureComponent<Props, State> {
             role="presentation"
           />
         )}
-        <div>
-          <Cell
-            cell={this.props.cell}
-            displayOrder={this.props.displayOrder}
-            id={this.props.id}
-            cellFocused={this.props.cellFocused}
-            editorFocused={this.props.editorFocused}
-            language={this.props.language}
-            running={this.props.running}
-            theme={this.props.theme}
-            cursorBlinkRate={this.props.cursorBlinkRate}
-            pagers={this.props.pagers}
-            transforms={this.props.transforms}
-            models={this.props.models}
-          />
-        </div>
+        <div>{this.props.children}</div>
       </div>
     );
   }

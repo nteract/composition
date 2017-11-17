@@ -8,6 +8,8 @@ import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 import { displayOrder, transforms } from "@nteract/transforms";
 
+import Cell from "../components/cell/cell";
+
 import DraggableCell from "../providers/draggable-cell";
 import CellCreator from "../providers/cell-creator";
 import StatusBar from "./status-bar";
@@ -207,7 +209,21 @@ export class Notebook extends React.PureComponent<Props> {
             </span>
           </div>
         ) : (
-          <CellComponent {...this.createCellProps(id, cell, transient)} />
+          <DraggableCell moveCell={this.moveCell} id={id}>
+            <Cell
+              cell={cell}
+              displayOrder={this.props.displayOrder}
+              id={id}
+              cellFocused={this.props.cellFocused}
+              editorFocused={this.props.editorFocused}
+              language={getLanguageMode(this.props.notebook)}
+              running={transient.get("status") === "busy"}
+              theme={this.props.theme}
+              pagers={this.props.cellPagers.get(id)}
+              transforms={this.props.transforms}
+              models={this.props.models}
+            />
+          </DraggableCell>
         )}
         <CellCreator key={`creator-${id}`} id={id} above={false} />
       </div>
@@ -224,7 +240,19 @@ export class Notebook extends React.PureComponent<Props> {
     const cell = cellMap.get(id);
     return (
       <div key={`cell-container-${id}`}>
-        <CellComponent {...this.createCellProps(id, cell, transient)} />
+        <Cell
+          cell={cell}
+          displayOrder={this.props.displayOrder}
+          id={id}
+          cellFocused={this.props.cellFocused}
+          editorFocused={this.props.editorFocused}
+          language={getLanguageMode(this.props.notebook)}
+          running={transient.get("status") === "busy"}
+          theme={this.props.theme}
+          pagers={this.props.cellPagers.get(id)}
+          transforms={this.props.transforms}
+          models={this.props.models}
+        />
       </div>
     );
   }
