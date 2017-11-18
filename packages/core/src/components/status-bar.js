@@ -3,7 +3,6 @@ import React from "react";
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
 
 type Props = {
-  notebook: any,
   lastSaved: Date,
   kernelSpecDisplayName: string,
   executionState: string
@@ -12,7 +11,6 @@ type Props = {
 export default class StatusBar extends React.Component<Props> {
   shouldComponentUpdate(nextProps: Props): boolean {
     if (
-      this.props.notebook !== nextProps.notebook ||
       this.props.lastSaved !== nextProps.lastSaved ||
       this.props.executionState !== nextProps.executionState
     ) {

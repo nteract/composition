@@ -29,7 +29,9 @@ const PropTypes = require("prop-types");
 
 type Props = {
   displayOrder: Array<string>,
-  notebook: any,
+  // TODO: Make types stricter, we have definitions _somewhere_
+  cellOrder: ImmutableList<any>,
+  cellMap: ImmutableMap<string, any>,
   transforms: Object,
   cellPagers: ImmutableMap<string, any>,
   stickyCells: ImmutableMap<string, any>,
@@ -64,17 +66,13 @@ const PinnedPlaceHolderCell = () => (
   </div>
 );
 
-export function getLanguageMode(notebook: ImmutableMap<*, *>): string {
-  if (!notebook) {
-    return "text";
-  }
-
+export function getLanguageMode(metadata: ImmutableMap<*, *>): string {
   // First try codemirror_mode, then name, and fallback to 'text'
-  const language = notebook.getIn(
-    ["metadata", "language_info", "codemirror_mode", "name"],
-    notebook.getIn(
-      ["metadata", "language_info", "codemirror_mode"],
-      notebook.getIn(["metadata", "language_info", "name"], "text")
+  const language = metadata.getIn(
+    ["language_info", "codemirror_mode", "name"],
+    metadata.getIn(
+      ["language_info", "codemirror_mode"],
+      metadata.getIn(["language_info", "name"], "text")
     )
   );
   return language;
@@ -84,7 +82,8 @@ const mapStateToProps = (state: Object) => ({
   theme: state.config.get("theme"),
   lastSaved: state.app.get("lastSaved"),
   kernelSpecDisplayName: state.app.get("kernelSpecDisplayName"),
-  notebook: state.document.get("notebook", ImmutableMap()),
+  cellOrder: state.document.getIn(["notebook", "cellOrder"], ImmutableList()),
+  cellMap: state.document.getIn(["notebook", "cellMap"], ImmutableMap()),
   transient: state.document.get("transient"),
   cellPagers: state.document.get("cellPagers"),
   cellFocused: state.document.get("cellFocused"),
@@ -92,7 +91,9 @@ const mapStateToProps = (state: Object) => ({
   stickyCells: state.document.get("stickyCells"),
   executionState: state.app.get("executionState"),
   models: state.comms.get("models"),
-  language: getLanguageMode(state.document.get("notebook", ImmutableMap()))
+  language: getLanguageMode(
+    state.document.getIn(["notebook", "metadata"], ImmutableMap())
+  )
 });
 
 export class Notebook extends React.PureComponent<Props> {
@@ -175,7 +176,7 @@ export class Notebook extends React.PureComponent<Props> {
 
     e.preventDefault();
 
-    const cellMap = this.props.notebook.get("cellMap");
+    const cellMap = this.props.cellMap;
     const id = this.props.cellFocused;
     const cell = cellMap.get(id);
 
@@ -190,7 +191,7 @@ export class Notebook extends React.PureComponent<Props> {
   }
 
   renderStickyCells(): React.Node {
-    const cellOrder = this.props.notebook.get("cellOrder", ImmutableList());
+    const cellOrder = this.props.cellOrder;
     // TODO: This could be part of map state to props
     const stickyCells = cellOrder.filter(id => this.props.stickyCells.get(id));
 
@@ -235,8 +236,7 @@ export class Notebook extends React.PureComponent<Props> {
   }
 
   renderCell(id: string): React$Element<any> {
-    const cellMap = this.props.notebook.get("cellMap");
-    const cell = cellMap.get(id);
+    const cell = this.props.cellMap.get(id);
     const transient = this.props.transient.getIn(
       ["cellMap", id],
       new ImmutableMap()
@@ -289,20 +289,15 @@ export class Notebook extends React.PureComponent<Props> {
   }
 
   render(): ?React$Element<any> {
-    if (!this.props.notebook) {
-      return <div className="notebook" />;
-    }
-    const cellOrder = this.props.notebook.get("cellOrder");
     return (
       <div>
         <div className="notebook">
           {this.renderStickyCells()}
-          <CellCreator id={cellOrder.get(0, null)} above />
+          <CellCreator id={this.props.cellOrder.get(0, null)} above />
           {/* Actual cells! */}
-          {cellOrder.map(this.createCellElement)}
+          {this.props.cellOrder.map(this.createCellElement)}
         </div>
         <StatusBar
-          notebook={this.props.notebook}
           lastSaved={this.props.lastSaved}
           kernelSpecDisplayName={this.props.kernelSpecDisplayName}
           executionState={this.props.executionState}
