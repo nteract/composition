@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 /* @flow */
-import React from "react";
+import * as React from "react";
 import { DragDropContext as dragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
@@ -39,14 +39,37 @@ type Props = {
   theme: string,
   lastSaved: Date,
   kernelSpecDisplayName: string,
-  CellComponent: any,
   executionState: string,
-  models: ImmutableMap<string, any>
+  models: ImmutableMap<string, any>,
+  language: string
 };
 
-export function getLanguageMode(notebook: any): string {
-  // The syntax highlighting language should be set in the language info
-  // object.  First try codemirror_mode, then name, and fallback on 'null'.
+const PinnedPlaceHolderCell = () => (
+  <div className="cell-placeholder">
+    <span className="octicon">
+      <LinkExternalOcticon />
+    </span>
+    <style jsx>{`
+      .cell-placeholder {
+        text-align: center;
+        color: var(--main-fg-color);
+        padding: 10px;
+        opacity: var(--cell-placeholder-opacity);
+      }
+
+      .octicon {
+        transition: color 0.5s;
+      }
+    `}</style>
+  </div>
+);
+
+export function getLanguageMode(notebook: ImmutableMap<*, *>): string {
+  if (!notebook) {
+    return "text";
+  }
+
+  // First try codemirror_mode, then name, and fallback to 'text'
   const language = notebook.getIn(
     ["metadata", "language_info", "codemirror_mode", "name"],
     notebook.getIn(
@@ -61,14 +84,15 @@ const mapStateToProps = (state: Object) => ({
   theme: state.config.get("theme"),
   lastSaved: state.app.get("lastSaved"),
   kernelSpecDisplayName: state.app.get("kernelSpecDisplayName"),
-  notebook: state.document.get("notebook"),
+  notebook: state.document.get("notebook", ImmutableMap()),
   transient: state.document.get("transient"),
   cellPagers: state.document.get("cellPagers"),
   cellFocused: state.document.get("cellFocused"),
   editorFocused: state.document.get("editorFocused"),
   stickyCells: state.document.get("stickyCells"),
   executionState: state.app.get("executionState"),
-  models: state.comms.get("models")
+  models: state.comms.get("models"),
+  language: getLanguageMode(state.document.get("notebook", ImmutableMap()))
 });
 
 export class Notebook extends React.PureComponent<Props> {
@@ -77,13 +101,14 @@ export class Notebook extends React.PureComponent<Props> {
   keyDown: (e: KeyboardEvent) => void;
   moveCell: (source: string, dest: string, above: boolean) => void;
   selectCell: (id: string) => void;
+  renderCell: (id: string) => React$Element<any>;
   stickyCellsPlaceholder: ?HTMLElement;
   stickyCellContainer: ?HTMLElement;
 
   static defaultProps = {
     displayOrder,
     transforms,
-    CellComponent: DraggableCell
+    language: "python"
   };
 
   static contextTypes = {
@@ -97,6 +122,7 @@ export class Notebook extends React.PureComponent<Props> {
     this.keyDown = this.keyDown.bind(this);
     this.moveCell = this.moveCell.bind(this);
     this.selectCell = this.selectCell.bind(this);
+    this.renderCell = this.renderCell.bind(this);
   }
 
   componentDidMount(): void {
@@ -163,44 +189,90 @@ export class Notebook extends React.PureComponent<Props> {
     }
   }
 
-  createCellElement(id: string): ?React$Element<any> {
+  renderStickyCells(): React.Node {
+    const cellOrder = this.props.notebook.get("cellOrder", ImmutableList());
+    // TODO: This could be part of map state to props
+    const stickyCells = cellOrder.filter(id => this.props.stickyCells.get(id));
+
+    return (
+      <div>
+        <div
+          className="sticky-cells-placeholder"
+          ref={ref => {
+            this.stickyCellsPlaceholder = ref;
+          }}
+        />
+        <div
+          className="sticky-cell-container"
+          ref={ref => {
+            this.stickyCellContainer = ref;
+          }}
+        >
+          {stickyCells.map(this.createStickyCellElement)}
+        </div>
+        <style jsx>{`
+          .sticky-cell-container {
+            background: var(--main-bg-color);
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+
+            top: 0px;
+            position: fixed;
+            z-index: 300;
+            width: 100%;
+            max-height: 50%;
+
+            padding-bottom: 10px;
+            padding-top: 20px;
+            overflow: auto;
+          }
+
+          .sticky-cell-container:empty {
+            display: none;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  renderCell(id: string): React$Element<any> {
     const cellMap = this.props.notebook.get("cellMap");
     const cell = cellMap.get(id);
     const transient = this.props.transient.getIn(
       ["cellMap", id],
       new ImmutableMap()
     );
-    const isStickied = this.props.stickyCells.get(id);
 
-    const CellComponent = this.props.CellComponent;
+    return (
+      <Cell
+        cell={cell}
+        displayOrder={this.props.displayOrder}
+        id={id}
+        cellFocused={this.props.cellFocused}
+        editorFocused={this.props.editorFocused}
+        language={this.props.language}
+        running={transient.get("status") === "busy"}
+        theme={this.props.theme}
+        pagers={this.props.cellPagers.get(id)}
+        transforms={this.props.transforms}
+        models={this.props.models}
+      />
+    );
+  }
+
+  createCellElement(id: string): ?React$Element<any> {
+    const isStickied = this.props.stickyCells.get(id);
 
     return (
       <div className="cell-container" key={`cell-container-${id}`}>
         {isStickied ? (
-          <div className="cell-placeholder">
-            <span className="octicon">
-              <LinkExternalOcticon />
-            </span>
-          </div>
+          <PinnedPlaceHolderCell />
         ) : (
           <DraggableCell
             moveCell={this.moveCell}
             id={id}
             selectCell={this.selectCell}
           >
-            <Cell
-              cell={cell}
-              displayOrder={this.props.displayOrder}
-              id={id}
-              cellFocused={this.props.cellFocused}
-              editorFocused={this.props.editorFocused}
-              language={getLanguageMode(this.props.notebook)}
-              running={transient.get("status") === "busy"}
-              theme={this.props.theme}
-              pagers={this.props.cellPagers.get(id)}
-              transforms={this.props.transforms}
-              models={this.props.models}
-            />
+            {this.renderCell(id)}
           </DraggableCell>
         )}
         <CellCreator key={`creator-${id}`} id={id} above={false} />
@@ -209,28 +281,9 @@ export class Notebook extends React.PureComponent<Props> {
   }
 
   createStickyCellElement(id: string): ?React$Element<any> {
-    const CellComponent = this.props.CellComponent;
-    const cellMap = this.props.notebook.get("cellMap");
-    const transient = this.props.transient.getIn(
-      ["cellMap", id],
-      new ImmutableMap()
-    );
-    const cell = cellMap.get(id);
     return (
-      <div key={`cell-container-${id}`}>
-        <Cell
-          cell={cell}
-          displayOrder={this.props.displayOrder}
-          id={id}
-          cellFocused={this.props.cellFocused}
-          editorFocused={this.props.editorFocused}
-          language={getLanguageMode(this.props.notebook)}
-          running={transient.get("status") === "busy"}
-          theme={this.props.theme}
-          pagers={this.props.cellPagers.get(id)}
-          transforms={this.props.transforms}
-          models={this.props.models}
-        />
+      <div className="cell-container" key={`cell-container-${id}`}>
+        {this.renderCell(id)}
       </div>
     );
   }
@@ -243,23 +296,9 @@ export class Notebook extends React.PureComponent<Props> {
     return (
       <div>
         <div className="notebook">
-          <div
-            className="sticky-cells-placeholder"
-            ref={ref => {
-              this.stickyCellsPlaceholder = ref;
-            }}
-          />
-          <div
-            className="sticky-cell-container"
-            ref={ref => {
-              this.stickyCellContainer = ref;
-            }}
-          >
-            {cellOrder
-              .filter(id => this.props.stickyCells.get(id))
-              .map(this.createStickyCellElement)}
-          </div>
+          {this.renderStickyCells()}
           <CellCreator id={cellOrder.get(0, null)} above />
+          {/* Actual cells! */}
           {cellOrder.map(this.createCellElement)}
         </div>
         <StatusBar
