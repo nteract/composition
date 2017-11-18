@@ -6,9 +6,11 @@ import * as React from "react";
 import { DragSource, DropTarget } from "react-dnd";
 
 /**
-  Basically just
+  The cell drag preview image is just a little stylized version of
 
    [ ]
+
+  It matches nteract's default light theme
 
  */
 const cellDragPreviewImage = [
@@ -42,7 +44,7 @@ type Props = {|
   isDragging: boolean,
   isOver: boolean,
   moveCell: (source: string, dest: string, above: boolean) => Object,
-  children: React.Node
+  children: React.Element<any>
 |};
 
 type State = {|
@@ -143,7 +145,7 @@ class DraggableCellView extends React.PureComponent<Props, State> {
             role="presentation"
           />
         )}
-        <div>{this.props.children}</div>
+        {this.props.children}
         <style jsx>{`
           .draggable-cell {
             position: relative;
