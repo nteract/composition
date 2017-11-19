@@ -26,7 +26,8 @@ describe("Notebook", () => {
   test("accepts an Immutable.List of cells", () => {
     const component = shallow(
       <Notebook
-        notebook={dummyCommutable}
+        cellOrder={dummyCommutable.get("cellOrder")}
+        cellMap={dummyCommutable.get("cellMap")}
         transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
         cellPagers={new Immutable.Map()}
         cellStatuses={new Immutable.Map()}
@@ -42,14 +43,13 @@ describe("Notebook", () => {
 
   describe("getLanguageMode", () => {
     test("determines the right language from the notebook metadata", () => {
-      const lang = getLanguageMode(dummyCommutable);
+      const lang = getLanguageMode(dummyCommutable.get("metadata"));
       expect(lang).toBe("ipython");
 
       const lang2 = getLanguageMode(
-        dummyCommutable.setIn(
-          ["metadata", "language_info", "codemirror_mode", "name"],
-          "r"
-        )
+        dummyCommutable
+          .setIn(["metadata", "language_info", "codemirror_mode", "name"], "r")
+          .get("metadata")
       );
       expect(lang2).toBe("r");
     });
@@ -65,7 +65,8 @@ describe("Notebook", () => {
 
       const component = shallow(
         <Notebook
-          notebook={dummyCommutable}
+          cellOrder={dummyCommutable.get("cellOrder")}
+          cellMap={dummyCommutable.get("cellMap")}
           transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
@@ -99,7 +100,8 @@ describe("Notebook", () => {
 
       const component = shallow(
         <Notebook
-          notebook={dummyCommutable}
+          cellOrder={dummyCommutable.get("cellOrder")}
+          cellMap={dummyCommutable.get("cellMap")}
           transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
@@ -133,7 +135,8 @@ describe("Notebook", () => {
 
       const component = shallow(
         <Notebook
-          notebook={dummyCommutable}
+          cellOrder={dummyCommutable.get("cellOrder")}
+          cellMap={dummyCommutable.get("cellMap")}
           transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
