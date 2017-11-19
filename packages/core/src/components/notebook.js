@@ -291,13 +291,12 @@ export class Notebook extends React.PureComponent<Props> {
   render(): ?React$Element<any> {
     return (
       <div>
-        <div className="notebook">
-          {this.renderStickyCells()}
-          <div className="cells">
-            <CellCreator id={this.props.cellOrder.get(0, null)} above />
-            {/* Actual cells! */}
-            {this.props.cellOrder.map(this.createCellElement)}
-          </div>
+        {/* Sticky cells */}
+        {this.renderStickyCells()}
+        {/* Actual cells! */}
+        <div className="cells">
+          <CellCreator id={this.props.cellOrder.get(0, null)} above />
+          {this.props.cellOrder.map(this.createCellElement)}
         </div>
         <StatusBar
           lastSaved={this.props.lastSaved}
