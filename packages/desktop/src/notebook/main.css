@@ -310,6 +310,8 @@ body {
   font-size: 90%;
   font-family: "Source Code Pro", monospace;
 
+  z-index: 9001;
+
   overflow-y: auto;
 }
 
