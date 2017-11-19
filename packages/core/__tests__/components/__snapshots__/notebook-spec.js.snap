@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sticky Cell Container creates a container when there are children 1`] = `
+<div
+  className="jsx-1455849675 jsx-1455849675"
+>
+  <div
+    className="jsx-1455849675 jsx-1455849675 sticky-cells-placeholder"
+  />
+  <div
+    className="jsx-1455849675 jsx-1455849675 sticky-cell-container"
+  >
+    <div>
+      cell one
+    </div>
+    <div>
+      cell two
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Sticky Cell Container returns null when there are no children 1`] = `null`;
