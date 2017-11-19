@@ -67,6 +67,78 @@ export default class App extends React.PureComponent<Object, Object> {
               this.notificationSystem = notificationSystem;
             }}
           />
+          <style jsx global>{`
+            body {
+              font-family: "Source Sans Pro";
+              font-size: 16px;
+              line-height: 22px;
+              background-color: var(--main-bg-color);
+              color: var(--main-fg-color);
+              /* All the old theme setups declared this, putting it back for consistency */
+              line-height: 1.3 !important;
+            }
+
+            /**
+             * TODO: Bring these styles into our nextgen components directly as part of
+             *       their inline styled-jsx
+             */
+            @media print {
+              * {
+                box-shadow: none !important;
+              }
+              .status-bar {
+                display: none !important;
+              }
+              .notifications-wrapper {
+                display: none !important;
+              }
+              .cell-toolbar {
+                display: none !important;
+              }
+              .cell-creator {
+                display: none !important;
+              }
+              .cell.focused {
+                border: none;
+                background: var(--cell-bg) !important;
+              }
+              .cell:focus .prompt,
+              .cell.focused .prompt {
+                background: var(--pager-bg) !important;
+              }
+              .draggable-cell {
+                padding: 0px !important;
+              }
+              .cell-drag-handle {
+                display: none !important;
+              }
+              .cell-toolbar-mask {
+                display: none !important;
+              }
+              .invisible {
+                display: none !important;
+              }
+            }
+
+            #app {
+              padding-top: 20px;
+            }
+
+            @keyframes fadeOut {
+              from {
+                opacity: 1;
+              }
+              to {
+                opacity: 0;
+              }
+            }
+
+            div#loading {
+              animation-name: fadeOut;
+              animation-duration: 0.25s;
+              animation-fill-mode: forwards;
+            }
+          `}</style>
         </div>
       </Provider>
     );

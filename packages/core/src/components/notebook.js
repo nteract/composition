@@ -308,7 +308,21 @@ export class Notebook extends React.PureComponent<Props> {
             padding-top: 10px;
             padding-left: 10px;
             padding-right: 10px;
-            padding-bottom: calc(100vh - 110px);
+          }
+
+          @media not print {
+            .cells {
+              padding-bottom: calc(100vh - 110px);
+            }
+          }
+        `}</style>
+        <style jsx global>{`
+          /* Show the cell-toolbar-mask if hovering on cell,
+             or cell was the last clicked (has .focused class). */
+
+          .cell:hover .cell-toolbar-mask,
+          .cell.focused .cell-toolbar-mask {
+            display: block;
           }
         `}</style>
         <link
