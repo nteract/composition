@@ -12,7 +12,9 @@ exports[`App renders app 1`] = `
     }
   }
 >
-  <div>
+  <div
+    className="jsx-825914725 jsx-825914725"
+  >
     <Connect(DragDropContext(Notebook))
       displayOrder={
         Array [
@@ -63,6 +65,10 @@ exports[`App renders app 1`] = `
       allowHTML={false}
       noAnimation={false}
       style={Object {}}
+    />
+    <JSXStyle
+      css="body{font-family:\\"Source Sans Pro\\";font-size:16px;line-height:22px;background-color:var(--main-bg-color);color:var(--main-fg-color);line-height:1.3 !important;}#app{padding-top:20px;}@-webkit-keyframes fadeOut{from{opacity:1;}to{opacity:0;}}@keyframes fadeOut{from{opacity:1;}to{opacity:0;}}div#loading{-webkit-animation-name:fadeOut;animation-name:fadeOut;-webkit-animation-duration:0.25s;animation-duration:0.25s;-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards;}"
+      styleId="825914725"
     />
   </div>
 </Provider>
