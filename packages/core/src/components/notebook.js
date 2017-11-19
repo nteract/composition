@@ -46,7 +46,7 @@ type Props = {
   language: string
 };
 
-class StickyCellContainer extends React.Component<*, *> {
+export class StickyCellContainer extends React.Component<*, *> {
   stickyCellsPlaceholder: ?HTMLElement;
   stickyCellContainer: ?HTMLElement;
 
@@ -61,6 +61,13 @@ class StickyCellContainer extends React.Component<*, *> {
   }
 
   render() {
+    if (
+      !this.props.children ||
+      React.Children.count(this.props.children) === 0
+    ) {
+      return null;
+    }
+
     return (
       <div>
         <div
@@ -78,10 +85,6 @@ class StickyCellContainer extends React.Component<*, *> {
           {this.props.children}
         </div>
         <style jsx>{`
-          .sticky-cell {
-            padding-right: 20px;
-          }
-
           .sticky-cell-container {
             background: var(--main-bg-color, white);
             border-bottom: dashed var(--primary-border, #cbcbcb) 1px;
@@ -102,6 +105,10 @@ class StickyCellContainer extends React.Component<*, *> {
 
           .sticky-cell-container:empty {
             display: none;
+          }
+
+          .sticky-cell-container > :global(*) {
+            margin: 20px;
           }
         `}</style>
       </div>
@@ -250,6 +257,11 @@ export class Notebook extends React.PureComponent<Props> {
             {this.renderCell(id)}
           </div>
         ))}
+        <style jsx>{`
+          .sticky-cell {
+            padding-right: 20px;
+          }
+        `}</style>
       </StickyCellContainer>
     );
   }
