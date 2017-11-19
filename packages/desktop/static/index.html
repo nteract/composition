@@ -4,6 +4,55 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../lib/styles.css"/>
     <script type="text/javascript" src="../node_modules/mathjax-electron/resources/MathJax/MathJax.js?config=electron"></script>
+    <style>
+    /**
+     * styled-jsx can't handle nesting so these have to end up in an inline
+     * <style> as is, at the top of our setup
+     */
+    @media print {
+      * {
+        box-shadow: none !important;
+      }
+      .status-bar {
+        display: none !important;
+      }
+      .notifications-wrapper {
+        display: none !important;
+      }
+      .cell-toolbar {
+        display: none !important;
+      }
+      .cell-creator {
+        display: none !important;
+      }
+      .cell.focused {
+        border: none;
+        background: var(--cell-bg, white) !important;
+      }
+      .cell:focus .prompt,
+      .cell.focused .prompt {
+        background: var(--pager-bg, #fafafa) !important;
+      }
+      .draggable-cell {
+        padding: 0px !important;
+      }
+      .cell-drag-handle {
+        display: none !important;
+      }
+      .cell-toolbar-mask {
+        display: none !important;
+      }
+      .invisible {
+        display: none !important;
+      }
+    }
+
+    @media not print {
+      .cells {
+        padding-bottom: calc(100vh - 110px);
+      }
+    }
+  </style>
   </head>
   <body>
     <div id="app"></div>

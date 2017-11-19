@@ -8,13 +8,6 @@
 @import "../../node_modules/nteract-assets/fonts/source-sans-pro/source-sans-pro.css";
 @import "../../node_modules/nteract-assets/fonts/source-code-pro/source-code-pro.css";
 
-:root {
-  --prompt-width: 50px;
-  --cell-placeholder-opacity: 0.3;
-  --link-color-unvisited: blue;
-  --link-color-visited: var(--link-color-unvisited);
-}
-
 /* completions styles */
 
 .CodeMirror-hint {

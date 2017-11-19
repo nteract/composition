@@ -56,7 +56,7 @@ const PinnedPlaceHolderCell = () => (
         text-align: center;
         color: var(--main-fg-color);
         padding: 10px;
-        opacity: var(--cell-placeholder-opacity);
+        opacity: var(--cell-placeholder-opacity, 0.3);
       }
 
       .octicon {
@@ -308,21 +308,6 @@ export class Notebook extends React.PureComponent<Props> {
             padding-top: 10px;
             padding-left: 10px;
             padding-right: 10px;
-          }
-
-          @media not print {
-            .cells {
-              padding-bottom: calc(100vh - 110px);
-            }
-          }
-        `}</style>
-        <style jsx global>{`
-          /* Show the cell-toolbar-mask if hovering on cell,
-             or cell was the last clicked (has .focused class). */
-
-          .cell:hover .cell-toolbar-mask,
-          .cell.focused .cell-toolbar-mask {
-            display: block;
           }
         `}</style>
         <link

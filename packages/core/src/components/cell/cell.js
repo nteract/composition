@@ -235,6 +235,16 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
           <Toolbar type={cellType} cell={cell} id={this.props.id} />
           {element}
         </div>
+        <style jsx>{`
+          /*
+           * Show the cell-toolbar-mask if hovering on cell,
+           * or cell was the last clicked (has .focused class).
+           */
+          :global(.cell:hover .cell-toolbar-mask),
+          :global(.cell.focused .cell-toolbar-mask) {
+            display: block;
+          }
+        `}</style>
       </Cell>
     );
   }

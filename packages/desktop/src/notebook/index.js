@@ -78,48 +78,6 @@ export default class App extends React.PureComponent<Object, Object> {
               line-height: 1.3 !important;
             }
 
-            /**
-             * TODO: Bring these styles into our nextgen components directly as part of
-             *       their inline styled-jsx
-             */
-            @media print {
-              * {
-                box-shadow: none !important;
-              }
-              .status-bar {
-                display: none !important;
-              }
-              .notifications-wrapper {
-                display: none !important;
-              }
-              .cell-toolbar {
-                display: none !important;
-              }
-              .cell-creator {
-                display: none !important;
-              }
-              .cell.focused {
-                border: none;
-                background: var(--cell-bg) !important;
-              }
-              .cell:focus .prompt,
-              .cell.focused .prompt {
-                background: var(--pager-bg) !important;
-              }
-              .draggable-cell {
-                padding: 0px !important;
-              }
-              .cell-drag-handle {
-                display: none !important;
-              }
-              .cell-toolbar-mask {
-                display: none !important;
-              }
-              .invisible {
-                display: none !important;
-              }
-            }
-
             #app {
               padding-top: 20px;
             }
