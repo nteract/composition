@@ -98,7 +98,6 @@ const mapStateToProps = (state: Object) => ({
 
 export class Notebook extends React.PureComponent<Props> {
   createCellElement: (s: string) => ?React$Element<any>;
-  createStickyCellElement: (s: string) => ?React$Element<any>;
   keyDown: (e: KeyboardEvent) => void;
   moveCell: (source: string, dest: string, above: boolean) => void;
   selectCell: (id: string) => void;
@@ -119,7 +118,6 @@ export class Notebook extends React.PureComponent<Props> {
   constructor(): void {
     super();
     this.createCellElement = this.createCellElement.bind(this);
-    this.createStickyCellElement = this.createStickyCellElement.bind(this);
     this.keyDown = this.keyDown.bind(this);
     this.moveCell = this.moveCell.bind(this);
     this.selectCell = this.selectCell.bind(this);
@@ -192,7 +190,6 @@ export class Notebook extends React.PureComponent<Props> {
 
   renderStickyCells(): React.Node {
     const cellOrder = this.props.cellOrder;
-    // TODO: This could be part of map state to props
     const stickyCells = cellOrder.filter(id => this.props.stickyCells.get(id));
 
     return (
@@ -209,12 +206,20 @@ export class Notebook extends React.PureComponent<Props> {
             this.stickyCellContainer = ref;
           }}
         >
-          {stickyCells.map(this.createStickyCellElement)}
+          {stickyCells.map(id => (
+            <div key={`sticky-cell-container-${id}`} className="sticky-cell">
+              {this.renderCell(id)}
+            </div>
+          ))}
         </div>
         <style jsx>{`
+          .sticky-cell {
+            padding-right: 20px;
+          }
+
           .sticky-cell-container {
-            background: var(--main-bg-color);
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+            background: var(--main-bg-color, white);
+            border-bottom: dashed var(--primary-border, #cbcbcb) 1px;
 
             top: 0px;
             position: fixed;
@@ -222,8 +227,11 @@ export class Notebook extends React.PureComponent<Props> {
             width: 100%;
             max-height: 50%;
 
+            padding-left: 10px;
+            padding-right: 10px;
             padding-bottom: 10px;
             padding-top: 20px;
+
             overflow: auto;
           }
 
@@ -280,28 +288,30 @@ export class Notebook extends React.PureComponent<Props> {
     );
   }
 
-  createStickyCellElement(id: string): ?React$Element<any> {
-    return (
-      <div className="cell-container" key={`cell-container-${id}`}>
-        {this.renderCell(id)}
-      </div>
-    );
-  }
-
   render(): ?React$Element<any> {
     return (
       <div>
         <div className="notebook">
           {this.renderStickyCells()}
-          <CellCreator id={this.props.cellOrder.get(0, null)} above />
-          {/* Actual cells! */}
-          {this.props.cellOrder.map(this.createCellElement)}
+          <div className="cells">
+            <CellCreator id={this.props.cellOrder.get(0, null)} above />
+            {/* Actual cells! */}
+            {this.props.cellOrder.map(this.createCellElement)}
+          </div>
         </div>
         <StatusBar
           lastSaved={this.props.lastSaved}
           kernelSpecDisplayName={this.props.kernelSpecDisplayName}
           executionState={this.props.executionState}
         />
+        <style jsx>{`
+          .cells {
+            padding-top: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: calc(100vh - 110px);
+          }
+        `}</style>
         <link
           rel="stylesheet"
           // TODO: Tear this out or switch to styled-jsx for the inline setting here

@@ -163,26 +163,13 @@ body {
   line-height: 22px;
   background-color: var(--main-bg-color);
   color: var(--main-fg-color);
-}
-
-body {
   /* All the old theme setups declared this, putting it back for consistency */
   line-height: 1.3 !important;
 }
 
-/*
-  Notebook
- */
-
-.notebook {
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
 @media not print {
   .notebook .cell-container:last-child {
-    padding-bottom: calc(100vh - 110px);
+    /*padding-bottom: calc(100vh - 110px);*/
   }
 }
 /*
@@ -194,11 +181,6 @@ body {
 .cell:hover .cell-toolbar-mask,
 .cell.focused .cell-toolbar-mask {
   display: block;
-}
-
-/** TODO: Recover this in the styling -- this likely relates to pinned cells */
-.cell .input-container.invisible {
-  height: 34px;
 }
 
 /*
