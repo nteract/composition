@@ -1,4 +1,4 @@
-const complete = require("../src/complete");
+const complete = require("../src/jupyter/complete");
 
 describe("completionRequest", () => {
   it("creates a valid v5 message for complete_request", () => {
@@ -16,8 +16,6 @@ describe("formChangeObject", () => {
 
 describe("pick", () => {
   it("plucks the codemirror handle", () => {
-    // jest.unmock('../src/complete');
-    // no clue what to call this
     const handle = { pick: jest.fn() };
 
     complete.pick(null, handle);

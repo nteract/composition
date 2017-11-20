@@ -4,12 +4,12 @@ import { Subject } from "rxjs/Subject";
 import { mount } from "enzyme";
 
 import { createMessage } from "@nteract/messaging";
-import WrappedEditor from "../src/view";
+import Editor from "../src/";
 
-const complete = require("../src/complete");
-const tooltip = require("../src/tooltip");
+const complete = require("../src/jupyter/complete");
+const tooltip = require("../src/jupyter/tooltip");
 
-describe("WrappedEditor", () => {
+describe("Editor", () => {
   it.skip("reaches out for code completion", done => {
     const sent = new Subject();
     const received = new Subject();
@@ -18,9 +18,7 @@ describe("WrappedEditor", () => {
 
     const channels = { shell: mockSocket };
 
-    const editorWrapper = mount(
-      <WrappedEditor completion channels={channels} />
-    );
+    const editorWrapper = mount(<Editor completion channels={channels} />);
 
     expect(editorWrapper).not.toBeNull();
 
@@ -43,7 +41,7 @@ describe("WrappedEditor", () => {
   it("doesn't try for code completion when not set", () => {
     const channels = { shell: "turtle power" };
 
-    const editorWrapper = mount(<WrappedEditor channels={channels} />);
+    const editorWrapper = mount(<Editor channels={channels} />);
     expect(editorWrapper).not.toBeNull();
 
     const editor = editorWrapper.instance();
@@ -57,7 +55,7 @@ describe("WrappedEditor", () => {
     expect(callback).not.toHaveBeenCalled();
   });
   it("handles cursor blinkery changes", () => {
-    const editorWrapper = mount(<WrappedEditor cursorBlinkRate={530} />);
+    const editorWrapper = mount(<Editor cursorBlinkRate={530} />);
     const instance = editorWrapper.instance();
     const cm = instance.codemirror.getCodeMirror();
     expect(cm.options.cursorBlinkRate).toBe(530);

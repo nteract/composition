@@ -67,7 +67,7 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
     onScroll: () => {}
   };
 
-  textarea: ?HTMLElement;
+  textarea: ?HTMLTextAreaElement;
   codeMirror: CMI;
 
   constructor(props: CodeMirrorProps) {

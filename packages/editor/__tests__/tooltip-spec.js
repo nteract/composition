@@ -1,4 +1,4 @@
-const tooltip = require("../src/tooltip");
+const tooltip = require("../src/jupyter/tooltip");
 
 describe("tooltipRequest", () => {
   it("creates a valid v5 message for inspect_request", () => {
