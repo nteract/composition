@@ -32,25 +32,17 @@ type CodeMirrorProps = {
   defaultValue?: string,
 
   onChange: (value: string, change: EditorChange) => void,
-  onScroll: (scrollInfo: ScrollInfo) => any,
 
   options: any,
-  path?: string,
-  preserveScrollPosition: boolean
+  path?: string
 };
 
 class CodeMirror extends React.Component<CodeMirrorProps, *> {
-  static defaultProps = {
-    preserveScrollPosition: false,
-    onScroll: () => {}
-  };
-
   textarea: ?HTMLTextAreaElement;
   codeMirror: CMI;
 
   constructor(props: CodeMirrorProps) {
     super(props);
-    (this: any).scrollChanged = this.scrollChanged.bind(this);
     (this: any).codemirrorValueChanged = this.codemirrorValueChanged;
     (this: any).getCodeMirror = this.getCodeMirror;
   }
@@ -70,7 +62,6 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
       this.props.options
     );
     this.codeMirror.on("change", this.codemirrorValueChanged.bind(this));
-    this.codeMirror.on("scroll", this.scrollChanged.bind(this));
     this.codeMirror.setValue(this.props.defaultValue || this.props.value || "");
   }
 
@@ -112,10 +103,6 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
     return this.codeMirror;
   }
 
-  scrollChanged(cm: CMI) {
-    this.props.onScroll(cm.getScrollInfo());
-  }
-
   codemirrorValueChanged(doc: CMDoc, change: EditorChange) {
     if (this.props.onChange && change.origin !== "setValue") {
       this.props.onChange(doc.getValue(), change);
@@ -152,7 +139,9 @@ type WrapperProps = {
   executionState: "idle" | "starting" | "not connected",
   language: string,
   onChange: (text: string) => void,
-  onFocusChange: (focused: boolean) => void
+  onFocusChange: (focused: boolean) => void,
+  onScroll: (scrollInfo: ScrollInfo) => any,
+  preserveScrollPosition: boolean
 };
 
 type CodeMirrorEditorState = {
@@ -171,12 +160,18 @@ class CodeMirrorEditor extends React.Component<
   hint: (editor: Object, cb: Function) => void;
   tips: (editor: Object) => void;
 
+  static defaultProps = {
+    // Workaround a flow limitation
+    onScroll: () => {}
+  };
+
   constructor(props: WrapperProps): void {
-    super((props: WrapperProps));
+    super(props);
     this.hint = this.completions.bind(this);
     this.tips = this.tips.bind(this);
     this.hint.async = true;
 
+    (this: any).scrollChanged = this.scrollChanged.bind(this);
     (this: any).focusChanged = this.focusChanged;
 
     this.state = {
@@ -228,6 +223,7 @@ class CodeMirrorEditor extends React.Component<
 
     cm.on("focus", this.focusChanged.bind(this, true));
     cm.on("blur", this.focusChanged.bind(this, false));
+    cm.on("scroll", this.scrollChanged.bind(this));
 
     const keyupEvents = fromEvent(cm, "keyup", (editor, ev) => ({
       editor,
@@ -283,6 +279,10 @@ class CodeMirrorEditor extends React.Component<
       isFocused: focused
     });
     this.props.onFocusChange && this.props.onFocusChange(focused);
+  }
+
+  scrollChanged(cm: CMI) {
+    this.props.onScroll(cm.getScrollInfo());
   }
 
   completions(editor: Object, callback: Function): void {
