@@ -27,7 +27,7 @@ function normalizeLineEndings(str) {
   return str.replace(/\r\n|\r/g, "\n");
 }
 
-type WrapperProps = {
+export type CodeMirrorEditorProps = {
   id: string,
   editorFocused: boolean,
   cellFocused: boolean,
@@ -54,7 +54,7 @@ type CodeMirrorEditorState = {
 };
 
 class CodeMirrorEditor extends React.Component<
-  WrapperProps,
+  CodeMirrorEditorProps,
   CodeMirrorEditorState
 > {
   textarea: ?HTMLTextAreaElement;
@@ -68,10 +68,12 @@ class CodeMirrorEditor extends React.Component<
 
   static defaultProps = {
     // Workaround a flow limitation
-    onScroll: () => {}
+    onScroll: () => {},
+    preserveScrollPosition: false,
+    options: {}
   };
 
-  constructor(props: WrapperProps): void {
+  constructor(props: CodeMirrorEditorProps): void {
     super(props);
     this.hint = this.completions.bind(this);
     this.tips = this.tips.bind(this);
@@ -200,7 +202,7 @@ class CodeMirrorEditor extends React.Component<
     });
   }
 
-  componentDidUpdate(prevProps: WrapperProps): void {
+  componentDidUpdate(prevProps: CodeMirrorEditorProps): void {
     if (!this.cm) return;
     const { cursorBlinkRate, editorFocused, theme } = this.props;
 
@@ -224,7 +226,7 @@ class CodeMirrorEditor extends React.Component<
     }
   }
 
-  componentWillReceiveProps(nextProps: WrapperProps) {
+  componentWillReceiveProps(nextProps: CodeMirrorEditorProps) {
     if (
       this.cm &&
       nextProps.value !== undefined &&

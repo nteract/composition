@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from "react";
+import * as React from "react";
 import { connect } from "react-redux";
 
 import { focusCell, focusCellEditor, updateCellSource } from "../actions";
@@ -9,7 +9,7 @@ import EditorView from "@nteract/editor";
 type Props = {
   dispatch: Dispatch<*>,
   id: string,
-  input: any,
+  value: string,
   editorFocused: boolean,
   cellFocused: boolean,
   completion: boolean,
@@ -31,7 +31,7 @@ function mapStateToProps(state: Object): Object {
   };
 }
 
-class Editor extends Component<Props> {
+class Editor extends React.Component<Props> {
   onChange: (text: string) => void;
   onFocusChange: (focused: boolean) => void;
 
@@ -62,6 +62,7 @@ class Editor extends Component<Props> {
   render(): React$Element<any> {
     const props = {
       ...this.props,
+      value: this.props.value,
       onChange: this.onChange,
       onFocusChange: this.onFocusChange
     };

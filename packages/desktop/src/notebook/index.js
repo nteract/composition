@@ -12,7 +12,7 @@ import NotificationSystem from "react-notification-system";
 import configureStore from "./store";
 // TODO: This should pull from a regular import that webpack and jest will use to
 //       load the right copy
-import Notebook from "@nteract/core/lib/components/notebook";
+import Notebook from "@nteract/core/lib/components/notebook.js";
 
 import { setNotificationSystem } from "@nteract/core/actions";
 
