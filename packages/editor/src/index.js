@@ -20,6 +20,8 @@ import { debounce, merge } from "lodash";
 
 import type { EditorChange, ScrollInfo, CMI, CMDoc } from "./types";
 
+import styles from "./styles";
+
 function normalizeLineEndings(str) {
   if (!str) return str;
   return str.replace(/\r\n|\r/g, "\n");
@@ -372,6 +374,7 @@ class CodeMirrorEditor extends React.Component<
           autoComplete="off"
           className="CodeMirror-code initialTextAreaForCodeMirror"
         />
+        <style jsx>{styles}</style>
       </div>
     );
   }
