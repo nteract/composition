@@ -28,7 +28,6 @@ function normalizeLineEndings(str) {
 }
 
 type CodeMirrorProps = {
-  className: string,
   codeMirrorInstance?: any,
   defaultValue?: string,
   onChange: (value: string, change: EditorChange) => void,
@@ -51,10 +50,9 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
 
   constructor(props: CodeMirrorProps) {
     super(props);
-    (this: any).getCodeMirrorInstance = this.getCodeMirrorInstance.bind(this);
+    (this: any).getCodeMirrorLibrary = this.getCodeMirrorLibrary.bind(this);
     (this: any).scrollChanged = this.scrollChanged.bind(this);
     (this: any).focus = this.focus;
-    (this: any).focusChanged = this.focusChanged;
     (this: any).codemirrorValueChanged = this.codemirrorValueChanged;
     (this: any).getCodeMirror = this.getCodeMirror;
     this.state = {
@@ -71,15 +69,13 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
 
   componentDidMount() {
     const textareaNode = this.textarea;
-    const codeMirrorInstance = this.getCodeMirrorInstance();
+    const codeMirrorInstance = this.getCodeMirrorLibrary();
 
     this.codeMirror = codeMirrorInstance.fromTextArea(
       this.textarea,
       this.props.options
     );
     this.codeMirror.on("change", this.codemirrorValueChanged.bind(this));
-    this.codeMirror.on("focus", this.focusChanged.bind(this, true));
-    this.codeMirror.on("blur", this.focusChanged.bind(this, false));
     this.codeMirror.on("scroll", this.scrollChanged.bind(this));
     this.codeMirror.setValue(this.props.defaultValue || this.props.value || "");
   }
@@ -118,7 +114,7 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
     }
   }
 
-  getCodeMirrorInstance() {
+  getCodeMirrorLibrary() {
     return this.props.codeMirrorInstance || require("codemirror");
   }
 
@@ -132,13 +128,6 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
     }
   }
 
-  focusChanged(focused: boolean) {
-    this.setState({
-      isFocused: focused
-    });
-    this.props.onFocusChange && this.props.onFocusChange(focused);
-  }
-
   scrollChanged(cm: CMI) {
     this.props.onScroll(cm.getScrollInfo());
   }
@@ -150,26 +139,16 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
   }
 
   render() {
-    const editorClassName = classNames(
-      "ReactCodeMirror",
-      this.state.isFocused ? "ReactCodeMirror--focused" : null,
-      this.props.className
-    );
-
     return (
-      <div className={editorClassName}>
-        <div className="CodeMirror cm-s-composition CodeMirror-wrap">
-          <textarea
-            ref={ta => {
-              this.textarea = ta;
-            }}
-            name={this.props.path}
-            defaultValue={this.props.value}
-            autoComplete="off"
-            className="CodeMirror-code initialTextAreaForCodeMirror"
-          />
-        </div>
-      </div>
+      <textarea
+        ref={ta => {
+          this.textarea = ta;
+        }}
+        name={this.props.path}
+        defaultValue={this.props.value}
+        autoComplete="off"
+        className="CodeMirror-code initialTextAreaForCodeMirror"
+      />
     );
   }
 }
@@ -192,7 +171,14 @@ type WrapperProps = {
   onFocusChange: (focused: boolean) => void
 };
 
-class CodeMirrorEditor extends React.Component<WrapperProps> {
+type CodeMirrorEditorState = {
+  isFocused: boolean
+};
+
+class CodeMirrorEditor extends React.Component<
+  WrapperProps,
+  CodeMirrorEditorState
+> {
   codemirror: ?Object;
   getCodeMirrorOptions: (p: WrapperProps) => Object;
   goLineUpOrEmit: (editor: Object) => void;
@@ -201,11 +187,17 @@ class CodeMirrorEditor extends React.Component<WrapperProps> {
   hint: (editor: Object, cb: Function) => void;
   tips: (editor: Object) => void;
 
-  constructor(): void {
-    super();
+  constructor(props: WrapperProps): void {
+    super((props: WrapperProps));
     this.hint = this.completions.bind(this);
     this.tips = this.tips.bind(this);
     this.hint.async = true;
+
+    (this: any).focusChanged = this.focusChanged;
+
+    this.state = {
+      isFocused: false
+    };
   }
 
   componentDidMount(): void {
@@ -248,6 +240,9 @@ class CodeMirrorEditor extends React.Component<WrapperProps> {
 
     cm.on("topBoundary", focusAbove);
     cm.on("bottomBoundary", focusBelow);
+
+    cm.on("focus", this.focusChanged.bind(this, true));
+    cm.on("blur", this.focusChanged.bind(this, false));
 
     const keyupEvents = fromEvent(cm, "keyup", (editor, ev) => ({
       editor,
@@ -298,6 +293,13 @@ class CodeMirrorEditor extends React.Component<WrapperProps> {
         cm.focus();
       }
     }
+  }
+
+  focusChanged(focused: boolean) {
+    this.setState({
+      isFocused: focused
+    });
+    this.props.onFocusChange && this.props.onFocusChange(focused);
   }
 
   completions(editor: Object, callback: Function): void {
@@ -419,21 +421,30 @@ class CodeMirrorEditor extends React.Component<WrapperProps> {
     const { input, onChange, onFocusChange } = this.props;
     const options = this.getCodeMirrorOptions(this.props);
 
+    const editorClassName = classNames(
+      "ReactCodeMirror",
+      this.state.isFocused ? "ReactCodeMirror--focused" : null,
+      "cell_cm"
+    );
+
     return (
       <div className="input">
-        <CodeMirror
-          value={input}
-          ref={el => {
-            this.codemirror = el;
-          }}
-          className="cell_cm"
-          options={options}
-          onChange={onChange}
-          onClick={() => {
-            if (this.codemirror) this.codemirror.focus();
-          }}
-          onFocusChange={onFocusChange}
-        />
+        <div className={editorClassName}>
+          <div className="CodeMirror cm-s-composition CodeMirror-wrap">
+            <CodeMirror
+              value={input}
+              ref={el => {
+                this.codemirror = el;
+              }}
+              options={options}
+              onChange={onChange}
+              onClick={() => {
+                if (this.codemirror) this.codemirror.focus();
+              }}
+              onFocusChange={onFocusChange}
+            />
+          </div>
+        </div>
       </div>
     );
   }
