@@ -124,13 +124,6 @@
   border-bottom-left-radius: 2px;
 }
 
-.CodeMirror pre {
-  padding: 0;
-  white-space: pre;
-  border: 0;
-  border-radius: 0;
-}
-
 .cm-s-composition.CodeMirror {
   font-family: "Source Code Pro", monospace;
   letter-spacing: 0.3px;
