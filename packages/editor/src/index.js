@@ -13,8 +13,8 @@ import { Map as ImmutableMap } from "immutable";
 import { transforms } from "@nteract/transforms";
 
 import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
-import { codeComplete, pick } from "./complete";
-import { tool } from "./tooltip";
+import { codeComplete, pick } from "./jupyter/complete";
+import { tool } from "./jupyter/tooltip";
 
 type WrapperProps = {
   id: string,
@@ -79,7 +79,7 @@ class CodeMirrorEditor extends React.Component<WrapperProps> {
     require("codemirror/mode/markdown/markdown");
     require("codemirror/mode/gfm/gfm");
 
-    require("./codemirror-ipython");
+    require("./mode/ipython");
 
     const cm = this.codemirror.getCodeMirror();
 
