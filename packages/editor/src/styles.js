@@ -97,7 +97,7 @@ export default css`
   :global(.CodeMirror-cursor) {
     border-left-width: 1px;
     border-left-style: solid;
-    border-left-color: var(--cm-color);
+    border-left-color: var(--cm-color, black);
   }
 
   :global(.CodeMirror-scroll) {
@@ -123,8 +123,8 @@ export default css`
     font-family: "Source Code Pro", monospace;
     letter-spacing: 0.3px;
     word-spacing: 1px;
-    background: var(--cm-background);
-    color: var(--cm-color);
+    background: var(--cm-background, #fafafa);
+    color: var(--cm-color, black);
   }
   :global(.cm-s-composition .CodeMirror-lines) {
     padding: 10px;
@@ -132,58 +132,58 @@ export default css`
   :global(.cm-s-composition .CodeMirror-gutters) {
     box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
-    background-color: var(--cm-gutter-bg);
+    background-color: var(--cm-gutter-bg, white);
     padding-right: 10px;
     z-index: 3;
     border: none;
   }
 
   :global(.cm-s-composition span.cm-comment) {
-    color: var(--cm-comment);
+    color: var(--cm-comment, #a86);
   }
   :global(.cm-s-composition span.cm-keyword) {
     line-height: 1em;
     font-weight: bold;
-    color: var(--cm-keyword);
+    color: var(--cm-keyword, blue);
   }
   :global(.cm-s-composition span.cm-string) {
-    color: var(--cm-string);
+    color: var(--cm-string, #a22);
   }
   :global(.cm-s-composition span.cm-builtin) {
     line-height: 1em;
     font-weight: bold;
-    color: var(--cm-builtin);
+    color: var(--cm-builtin, #077);
   }
   :global(.cm-s-composition span.cm-special) {
     line-height: 1em;
     font-weight: bold;
-    color: var(--cm-special);
+    color: var(--cm-special, #0aa);
   }
   :global(.cm-s-composition span.cm-variable) {
-    color: var(--cm-variable);
+    color: var(--cm-variable, black);
   }
   :global(.cm-s-composition span.cm-number),
   :global(.cm-s-composition span.cm-atom) {
-    color: var(--cm-number);
+    color: var(--cm-number, #3a3);
   }
   :global(.cm-s-composition span.cm-meta) {
-    color: var(--cm-meta);
+    color: var(--cm-meta, #555);
   }
   :global(.cm-s-composition span.cm-link) {
-    color: var(--cm-link);
+    color: var(--cm-link, #3a3);
   }
   :global(.cm-s-composition span.cm-operator) {
-    color: var(--cm-operator);
+    color: var(--cm-operator, black);
   }
   :global(.cm-s-composition span.cm-def) {
-    color: var(--cm-def);
+    color: var(--cm-def, black);
   }
   :global(.cm-s-composition .CodeMirror-activeline-background) {
-    background: var(--cm-activeline-bg);
+    background: var(--cm-activeline-bg, #e8f2ff);
   }
   :global(.cm-s-composition .CodeMirror-matchingbracket) {
-    border-bottom: 1px solid var(--cm-matchingbracket-outline);
-    color: var(--cm-matchingbracket-color) !important;
+    border-bottom: 1px solid var(--cm-matchingbracket-outline, grey);
+    color: var(--cm-matchingbracket-color, black) !important;
   }
 
   /* Overwrite some of the hint Styling */
@@ -196,7 +196,7 @@ export default css`
     border: none;
     padding: 0;
 
-    background: var(--cm-hint-bg);
+    background: var(--cm-hint-bg, white);
     font-size: 90%;
     font-family: "Source Code Pro", monospace;
 
@@ -209,11 +209,11 @@ export default css`
     border-radius: 0px;
     white-space: pre;
     cursor: pointer;
-    color: var(--cm-hint-color);
+    color: var(--cm-hint-color, black);
   }
 
   :global(li.CodeMirror-hint-active) {
-    background: var(--cm-hint-bg-active);
-    color: var(--cm-hint-color-active);
+    background: var(--cm-hint-bg-active, #abd1ff);
+    color: var(--cm-hint-color-active, black);
   }
 `;
