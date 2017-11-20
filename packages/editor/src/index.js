@@ -16,8 +16,6 @@ import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
 import { codeComplete, pick } from "./jupyter/complete";
 import { tool } from "./jupyter/tooltip";
 
-import classNames from "classnames";
-
 import { debounce, merge } from "lodash";
 
 import type { EditorChange, ScrollInfo, CMI, CMDoc } from "./types";
