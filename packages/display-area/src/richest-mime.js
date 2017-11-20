@@ -62,6 +62,7 @@ export default class RichestMime extends React.Component<Props, State> {
   static defaultProps = {
     transforms,
     displayOrder,
+    expanded: false,
     theme: "light",
     metadata: {},
     bundle: {},

@@ -216,22 +216,4 @@ export default css`
     background: var(--cm-hint-bg-active);
     color: var(--cm-hint-color-active);
   }
-
-  /*Tooltip styling*/
-  :global(.bt) {
-    float: right;
-    display: inline-block;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-  }
-
-  :global(.tip) {
-    padding: 20px 20px 50px 20px;
-    margin: 30px 20px 50px 20px;
-    box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.2);
-    white-space: pre-wrap;
-    background-color: var(--main-bg-color);
-    z-index: 9999999;
-  }
 `;

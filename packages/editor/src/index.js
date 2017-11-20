@@ -9,7 +9,7 @@ import { switchMap } from "rxjs/operators";
 
 import { Map as ImmutableMap } from "immutable";
 
-import { transforms } from "@nteract/transforms";
+import { RichestMime } from "@nteract/display-area";
 
 import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
 
@@ -278,11 +278,12 @@ class CodeMirrorEditor extends React.Component<
     }
   }
 
-  // Could this be a component that uses the React Portal API? There might be a
-  // nice declarative compound interface we could use too...
+  // TODO: Rely on ReactDOM.createPortal, create a space for tooltips to go
   tips(editor: Object): void {
     const { tip, channels } = this.props;
-    const currentTip = document.getElementById("cl");
+    const currentTip = document.getElementById(
+      "tooltip-that-should-be-done-with-react-portals-now"
+    );
     const body = document.body;
     if (currentTip && body != null) {
       body.removeChild(currentTip);
@@ -291,33 +292,54 @@ class CodeMirrorEditor extends React.Component<
     }
     if (tip) {
       tool(channels, editor).subscribe(resp => {
-        const bundle = ImmutableMap(resp.dict);
-        if (bundle.size === 0) {
+        const bundle = resp.dict;
+
+        if (Object.keys(bundle).length === 0) {
           return;
         }
-        const mimetype = "text/plain";
-        // $FlowFixMe: until transforms refactored for new export interface GH #1488
-        const Transform = transforms.get(mimetype);
+
         const node = document.createElement("div");
-        node.className = "CodeMirror-hint tip";
-        node.id = "cl";
-        ReactDOM.render(<Transform data={bundle.get(mimetype)} />, node);
-        const node2 = document.createElement("button");
-        node2.className = "bt";
-        node2.id = "btnid";
-        node2.textContent = "\u2715";
-        node2.style.fontSize = "11.5px";
-        node.appendChild(node2);
-        node2.onclick = function removeButton() {
-          this.parentNode.parentNode.removeChild(this.parentNode);
-          return false;
-        };
+        node.id = "tooltip-that-should-be-done-with-react-portals-now";
+
+        function deleteTip() {
+          if (node.parentNode) {
+            node.parentNode.removeChild(node);
+          }
+        }
+
+        ReactDOM.render(
+          <div className="CodeMirror-hint tip">
+            <RichestMime bundle={bundle} expanded />
+            <button className="bt" onClick={deleteTip}>{`\u2715`}</button>
+            <style jsx>{`
+              .bt {
+                float: right;
+                display: inline-block;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                font-size: 11.5px;
+              }
+
+              .tip {
+                padding: 20px 20px 50px 20px;
+                margin: 30px 20px 50px 20px;
+                box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.2);
+                white-space: pre-wrap;
+                background-color: var(--main-bg-color);
+                z-index: 9999999;
+              }
+            `}</style>
+          </div>,
+          node
+        );
+
         editor.addWidget({ line: editor.getCursor().line, ch: 0 }, node, true);
-        const x = document.getElementById("cl");
-        if (x != null && body != null) {
-          const pos = x.getBoundingClientRect();
-          body.appendChild(x);
-          x.style.top = pos.top + "px";
+
+        if (node != null && body != null) {
+          const pos = node.getBoundingClientRect();
+          body.appendChild(node);
+          node.style.top = pos.top + "px";
         }
       });
     }
