@@ -150,7 +150,7 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
                   tip
                   completion
                   id={this.props.id}
-                  input={this.props.cell.get("source")}
+                  value={this.props.cell.get("source")}
                   language={this.props.language}
                   cellFocused={cellFocused}
                   editorFocused={editorFocused}
@@ -207,7 +207,7 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
             <CodeMirror
               language="markdown"
               id={this.props.id}
-              input={this.props.cell.get("source")}
+              value={this.props.cell.get("source")}
               theme={this.props.theme}
               focusAbove={this.focusAboveCell}
               focusBelow={this.focusBelowCell}

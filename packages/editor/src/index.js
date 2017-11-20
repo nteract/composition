@@ -18,7 +18,7 @@ import { tool } from "./jupyter/tooltip";
 
 import classNames from "classnames";
 
-import { debounce } from "lodash";
+import { debounce, merge } from "lodash";
 
 import type { EditorChange, ScrollInfo, CMI, CMDoc } from "./types";
 
@@ -27,94 +27,8 @@ function normalizeLineEndings(str) {
   return str.replace(/\r\n|\r/g, "\n");
 }
 
-type CodeMirrorProps = {
-  value: string,
-  defaultValue?: string,
-
-  options: any
-};
-
-class CodeMirror extends React.Component<CodeMirrorProps, *> {
-  textarea: ?HTMLTextAreaElement;
-  codeMirror: CMI;
-
-  constructor(props: CodeMirrorProps) {
-    super(props);
-    (this: any).getCodeMirror = this.getCodeMirror;
-  }
-
-  componentWillMount() {
-    (this: any).componentWillReceiveProps = debounce(
-      this.componentWillReceiveProps,
-      0
-    );
-  }
-
-  componentDidMount() {
-    const textareaNode = this.textarea;
-
-    this.codeMirror = require("codemirror").fromTextArea(
-      this.textarea,
-      this.props.options
-    );
-    this.codeMirror.setValue(this.props.defaultValue || this.props.value || "");
-  }
-
-  componentWillUnmount() {
-    // TODO: is there a lighter weight way to remove the codemirror instance
-    if (this.codeMirror) {
-      this.codeMirror.toTextArea();
-    }
-  }
-
-  componentWillReceiveProps(nextProps: CodeMirrorProps) {
-    if (
-      this.codeMirror &&
-      nextProps.value !== undefined &&
-      normalizeLineEndings(this.codeMirror.getValue()) !==
-        normalizeLineEndings(nextProps.value)
-    ) {
-      if (this.props.preserveScrollPosition) {
-        var prevScrollPosition = this.codeMirror.getScrollInfo();
-        this.codeMirror.setValue(nextProps.value);
-        this.codeMirror.scrollTo(
-          prevScrollPosition.left,
-          prevScrollPosition.top
-        );
-      } else {
-        this.codeMirror.setValue(nextProps.value);
-      }
-    }
-    if (typeof nextProps.options === "object") {
-      for (let optionName in nextProps.options) {
-        if (nextProps.options.hasOwnProperty(optionName)) {
-          this.codeMirror.setOption(optionName, nextProps.options[optionName]);
-        }
-      }
-    }
-  }
-
-  getCodeMirror() {
-    return this.codeMirror;
-  }
-
-  render() {
-    return (
-      <textarea
-        ref={ta => {
-          this.textarea = ta;
-        }}
-        defaultValue={this.props.value}
-        autoComplete="off"
-        className="CodeMirror-code initialTextAreaForCodeMirror"
-      />
-    );
-  }
-}
-
 type WrapperProps = {
   id: string,
-  input: any,
   editorFocused: boolean,
   cellFocused: boolean,
   completion: boolean,
@@ -129,7 +43,10 @@ type WrapperProps = {
   onChange: (value: string, change: EditorChange) => void,
   onFocusChange: (focused: boolean) => void,
   onScroll: (scrollInfo: ScrollInfo) => any,
-  preserveScrollPosition: boolean
+  preserveScrollPosition: boolean,
+  value: string,
+  defaultValue?: string,
+  options: any
 };
 
 type CodeMirrorEditorState = {
@@ -140,8 +57,9 @@ class CodeMirrorEditor extends React.Component<
   WrapperProps,
   CodeMirrorEditorState
 > {
-  codemirror: ?Object;
-  getCodeMirrorOptions: (p: WrapperProps) => Object;
+  textarea: ?HTMLTextAreaElement;
+  cm: CMI;
+  defaultOptions: Object;
   goLineUpOrEmit: (editor: Object) => void;
   goLineDownOrEmit: (editor: Object) => void;
   executeTab: (editor: Object) => void;
@@ -166,10 +84,48 @@ class CodeMirrorEditor extends React.Component<
     this.state = {
       isFocused: false
     };
+
+    // TODO: Merge in default options with custom options
+    // For now we'll do the old way of passing it in below
+    // Which means we likely won't respond to updates properly
+    this.defaultOptions = {
+      autoCloseBrackets: true,
+      mode: props.language || "python",
+      lineNumbers: false,
+      matchBrackets: true,
+      theme: "composition",
+      autofocus: false,
+      hintOptions: {
+        hint: this.hint,
+        completeSingle: false, // In automatic autocomplete mode we don't want override
+        extraKeys: {
+          Right: pick
+        }
+      },
+      extraKeys: {
+        "Ctrl-Space": "autocomplete",
+        Tab: this.executeTab,
+        "Shift-Tab": editor => editor.execCommand("indentLess"),
+        Up: this.goLineUpOrEmit,
+        Down: this.goLineDownOrEmit,
+        "Cmd-/": "toggleComment",
+        "Ctrl-/": "toggleComment",
+        "Cmd-.": this.tips,
+        "Ctrl-.": this.tips
+      },
+      indentUnit: 4,
+      cursorBlinkRate: props.cursorBlinkRate
+    };
+  }
+
+  componentWillMount() {
+    (this: any).componentWillReceiveProps = debounce(
+      this.componentWillReceiveProps,
+      0
+    );
   }
 
   componentDidMount(): void {
-    if (!this.codemirror) return;
     const {
       editorFocused,
       executionState,
@@ -185,6 +141,7 @@ class CodeMirrorEditor extends React.Component<
     require("codemirror/addon/edit/closebrackets");
     require("codemirror/addon/dialog/dialog");
     require("codemirror/addon/comment/comment.js");
+
     require("codemirror/mode/python/python");
     require("codemirror/mode/ruby/ruby");
     require("codemirror/mode/javascript/javascript");
@@ -199,23 +156,27 @@ class CodeMirrorEditor extends React.Component<
 
     require("./mode/ipython");
 
-    const cm = this.codemirror.getCodeMirror();
+    this.cm = require("codemirror").fromTextArea(
+      this.textarea,
+      merge({}, this.props.options, this.defaultOptions)
+    );
+
+    this.cm.setValue(this.props.defaultValue || this.props.value || "");
 
     // On first load, if focused, set codemirror to focus
-    if (editorFocused && this.codemirror) {
-      debugger;
-      cm.focus();
+    if (editorFocused) {
+      this.cm.focus();
     }
 
-    cm.on("topBoundary", focusAbove);
-    cm.on("bottomBoundary", focusBelow);
+    this.cm.on("topBoundary", focusAbove);
+    this.cm.on("bottomBoundary", focusBelow);
 
-    cm.on("focus", this.focusChanged.bind(this, true));
-    cm.on("blur", this.focusChanged.bind(this, false));
-    cm.on("scroll", this.scrollChanged.bind(this));
-    cm.on("change", this.codemirrorValueChanged.bind(this));
+    this.cm.on("focus", this.focusChanged.bind(this, true));
+    this.cm.on("blur", this.focusChanged.bind(this, false));
+    this.cm.on("scroll", this.scrollChanged.bind(this));
+    this.cm.on("change", this.codemirrorValueChanged.bind(this));
 
-    const keyupEvents = fromEvent(cm, "keyup", (editor, ev) => ({
+    const keyupEvents = fromEvent(this.cm, "keyup", (editor, ev) => ({
       editor,
       ev
     }));
@@ -240,27 +201,60 @@ class CodeMirrorEditor extends React.Component<
   }
 
   componentDidUpdate(prevProps: WrapperProps): void {
-    if (!this.codemirror) return;
-    const cm = this.codemirror.getCodeMirror();
+    if (!this.cm) return;
     const { cursorBlinkRate, editorFocused, theme } = this.props;
 
     if (prevProps.theme !== theme) {
-      cm.refresh();
+      this.cm.refresh();
     }
 
     if (prevProps.editorFocused !== editorFocused) {
-      editorFocused && this.codemirror ? cm.focus() : cm.getInputField().blur();
+      editorFocused ? this.cm.focus() : this.cm.getInputField().blur();
     }
 
     if (prevProps.cursorBlinkRate !== cursorBlinkRate) {
-      cm.setOption("cursorBlinkRate", cursorBlinkRate);
+      this.cm.setOption("cursorBlinkRate", cursorBlinkRate);
       if (editorFocused) {
         // code mirror doesn't change the blink rate immediately, we have to
         // move the cursor, or unfocus and refocus the editor to get the blink
         // rate to update - so here we do that (unfocus and refocus)
-        cm.getInputField().blur();
-        cm.focus();
+        this.cm.getInputField().blur();
+        this.cm.focus();
       }
+    }
+  }
+
+  componentWillReceiveProps(nextProps: WrapperProps) {
+    if (
+      this.cm &&
+      nextProps.value !== undefined &&
+      normalizeLineEndings(this.cm.getValue()) !==
+        normalizeLineEndings(nextProps.value)
+    ) {
+      if (this.props.preserveScrollPosition) {
+        var prevScrollPosition = this.cm.getScrollInfo();
+        this.cm.setValue(nextProps.value);
+        this.cm.scrollTo(prevScrollPosition.left, prevScrollPosition.top);
+      } else {
+        this.cm.setValue(nextProps.value);
+      }
+    }
+    if (typeof nextProps.options === "object") {
+      for (let optionName in nextProps.options) {
+        if (
+          nextProps.options.hasOwnProperty(optionName) &&
+          this.props.options[optionName] === nextProps.options[optionName]
+        ) {
+          this.cm.setOption(optionName, nextProps.options[optionName]);
+        }
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    // TODO: is there a lighter weight way to remove the codemirror instance?
+    if (this.cm) {
+      this.cm.toTextArea();
     }
   }
 
@@ -327,37 +321,6 @@ class CodeMirrorEditor extends React.Component<
     }
   }
 
-  getCodeMirrorOptions({ cursorBlinkRate, language }: WrapperProps): Object {
-    return {
-      autoCloseBrackets: true,
-      mode: language || "python",
-      lineNumbers: false,
-      matchBrackets: true,
-      theme: "composition",
-      autofocus: false,
-      hintOptions: {
-        hint: this.hint,
-        completeSingle: false, // In automatic autocomplete mode we don't want override
-        extraKeys: {
-          Right: pick
-        }
-      },
-      extraKeys: {
-        "Ctrl-Space": "autocomplete",
-        Tab: this.executeTab,
-        "Shift-Tab": editor => editor.execCommand("indentLess"),
-        Up: this.goLineUpOrEmit,
-        Down: this.goLineDownOrEmit,
-        "Cmd-/": "toggleComment",
-        "Ctrl-/": "toggleComment",
-        "Cmd-.": this.tips,
-        "Ctrl-.": this.tips
-      },
-      indentUnit: 4,
-      cursorBlinkRate
-    };
-  }
-
   goLineDownOrEmit(editor: Object): void {
     const cursor = editor.getCursor();
     const lastLineNumber = editor.lastLine();
@@ -399,9 +362,6 @@ class CodeMirrorEditor extends React.Component<
   }
 
   render(): React$Element<any> {
-    const { input, onChange, onFocusChange } = this.props;
-    const options = this.getCodeMirrorOptions(this.props);
-
     const editorClassName = classNames(
       "ReactCodeMirror",
       this.state.isFocused ? "ReactCodeMirror--focused" : null,
@@ -412,16 +372,13 @@ class CodeMirrorEditor extends React.Component<
       <div className="input">
         <div className={editorClassName}>
           <div className="CodeMirror cm-s-composition CodeMirror-wrap">
-            <CodeMirror
-              value={input}
-              ref={el => {
-                this.codemirror = el;
+            <textarea
+              ref={ta => {
+                this.textarea = ta;
               }}
-              options={options}
-              onChange={onChange}
-              onClick={() => {
-                if (this.codemirror) this.codemirror.focus();
-              }}
+              defaultValue={this.props.value}
+              autoComplete="off"
+              className="CodeMirror-code initialTextAreaForCodeMirror"
             />
           </div>
         </div>
