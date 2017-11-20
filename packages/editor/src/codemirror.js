@@ -6,6 +6,8 @@ const ReactDOM = require("react-dom");
 const className = require("classnames");
 const debounce = require("lodash").debounce;
 
+import type { EditorChange, ScrollInfo, CMI, CMDoc } from "./types";
+
 function normalizeLineEndings(str) {
   if (!str) return str;
   return str.replace(/\r\n|\r/g, "\n");
@@ -22,67 +24,6 @@ type CodeMirrorProps = {
   path?: string,
   value: string,
   preserveScrollPosition: boolean
-};
-
-// Declare CMI as the CodeMirror instance, even if we don't have it fully typed yet
-type CMI = any;
-
-declare class TextMarker {
-  changed(): void;
-  clear(): void;
-  find(): { from: Position, to: Position };
-}
-
-type TextMarkerOptions = {
-  atomic?: boolean,
-  className?: string,
-  css?: string,
-  readOnly?: boolean
-};
-
-type LineHandle = any;
-
-declare class CMDoc {
-  size: number; // undocumented (number of lines)
-  clearHistory(): void;
-  eachLine(f: (l: LineHandle) => void): void;
-  getCursor(start?: "anchor" | "from" | "to" | "head"): Position;
-  markClean(): void;
-  isClean(generation?: number): boolean;
-  setValue(string): void;
-  getValue(separator?: string): string;
-  markText(
-    from: Position,
-    to: Position,
-    options?: TextMarkerOptions
-  ): TextMarker;
-}
-
-type EditorChange = {
-  /** Position (in the pre-change coordinate system) where the change started. */
-  from: Position,
-  /** Position (in the pre-change coordinate system) where the change ended. */
-  to: Position,
-  /** Array of strings representing the text that replaced the changed range (split by line). */
-  text: Array<string>,
-  /**  Text that used to be between from and to, which is overwritten by this change. */
-  removed: Array<string>,
-  /**  String representing the origin of the change event and wether it can be merged with history */
-  origin: string
-};
-
-type ScrollInfo = {
-  top: number,
-  left: number,
-  width: number,
-  height: number,
-  clientWidth: number,
-  clientHeight: number
-};
-
-type Position = {
-  ch: number,
-  line: number
 };
 
 class CodeMirror extends React.Component<CodeMirrorProps, *> {

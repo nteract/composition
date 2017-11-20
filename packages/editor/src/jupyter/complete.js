@@ -1,3 +1,4 @@
+// @flow
 import { Observable } from "rxjs/Observable";
 import { pluck, first, map, timeout } from "rxjs/operators";
 
@@ -5,10 +6,12 @@ import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
 
 import { js_idx_to_char_idx, char_idx_to_js_idx } from "./surrogate";
 
-// Hint picker
-export const pick = (cm, handle) => handle.pick();
+import type { EditorChange, CMI, Channels } from "../types";
 
-export function formChangeObject(cm, change) {
+// Hint picker
+export const pick = (cm: any, handle: { pick: () => void }) => handle.pick();
+
+export function formChangeObject(cm: CMI, change: EditorChange) {
   return {
     cm,
     change
@@ -50,7 +53,7 @@ const _expand_experimental_completions = (editor, matches, cursor) => ({
 // duplicate of default codemirror rendering logic for completions,
 // except if the completion have a metadata._experimental key, dispatch to a new
 // completer for these new values.
-export const expand_completions = editor => results => {
+export const expand_completions = (editor: any) => (results: any) => {
   if ((results.metadata || {})._jupyter_types_experimental != undefined) {
     try {
       return _expand_experimental_completions(
@@ -97,10 +100,14 @@ export const expand_completions = editor => results => {
   };
 };
 
-export function codeCompleteObservable(channels, editor, message) {
+export function codeCompleteObservable(
+  channels: Channels,
+  editor: CMI,
+  message: Object
+) {
   const completion$ = channels.shell.pipe(
     childOf(message),
-    ofMessageType(["complete_reply"]),
+    ofMessageType("complete_reply"),
     pluck("content"),
     first(),
     map(expand_completions(editor)),
@@ -115,7 +122,7 @@ export function codeCompleteObservable(channels, editor, message) {
   });
 }
 
-export const completionRequest = (code, cursorPos) =>
+export const completionRequest = (code: string, cursorPos: number) =>
   createMessage("complete_request", {
     content: {
       code,
@@ -123,7 +130,7 @@ export const completionRequest = (code, cursorPos) =>
     }
   });
 
-export function codeComplete(channels, editor) {
+export function codeComplete(channels: Channels, editor: any) {
   const cursor = editor.getCursor();
   let cursorPos = editor.indexFromPos(cursor);
   const code = editor.getValue();

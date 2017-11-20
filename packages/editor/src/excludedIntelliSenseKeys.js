@@ -1,3 +1,4 @@
+// @flow
 /* eslint-disable quote-props */
 const excludedIntelliSenseTriggerKeys = {
   "8": "backspace",

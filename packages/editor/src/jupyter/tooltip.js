@@ -1,3 +1,4 @@
+// @flow
 import { Observable } from "rxjs/Observable";
 import { pluck, first, map } from "rxjs/operators";
 
@@ -5,7 +6,13 @@ import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
 
 import { js_idx_to_char_idx } from "./surrogate";
 
-export function tooltipObservable(channels, editor, message) {
+import type { Channels, CMI } from "../types";
+
+export function tooltipObservable(
+  channels: Channels,
+  editor: CMI,
+  message: Object
+) {
   const tip$ = channels.shell.pipe(
     childOf(message),
     ofMessageType("inspect_reply"),
@@ -23,7 +30,7 @@ export function tooltipObservable(channels, editor, message) {
   });
 }
 
-export const tooltipRequest = (code, cursorPos) =>
+export const tooltipRequest = (code: string, cursorPos: number) =>
   createMessage("inspect_request", {
     content: {
       code,
@@ -32,7 +39,7 @@ export const tooltipRequest = (code, cursorPos) =>
     }
   });
 
-export function tool(channels, editor) {
+export function tool(channels: Channels, editor: CMI) {
   const cursor = editor.getCursor();
   // Get position while handling surrogate pairs
   const cursorPos = js_idx_to_char_idx(

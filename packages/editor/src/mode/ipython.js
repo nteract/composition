@@ -1,3 +1,4 @@
+// @flow
 // https://github.com/nteract/nteract/issues/389
 import CodeMirror from "codemirror";
 
