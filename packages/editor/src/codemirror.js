@@ -1,3 +1,4 @@
+// @flow
 // Copied from https://github.com/JedWatson/react-codemirror/pull/97
 // TODO: Combine into wrapper.js
 // Since we're heavily customized anyways, I figured it was about time we
@@ -15,58 +16,103 @@ function normalizeLineEndings(str) {
   return str.replace(/\r\n|\r/g, "\n");
 }
 
-const CodeMirror = createReactClass({
-  propTypes: {
-    className: PropTypes.any,
-    codeMirrorInstance: PropTypes.func,
-    defaultValue: PropTypes.string,
-    onChange: PropTypes.func,
-    onFocusChange: PropTypes.func,
-    onScroll: PropTypes.func,
-    options: PropTypes.object,
-    path: PropTypes.string,
-    value: PropTypes.string,
-    preserveScrollPosition: PropTypes.bool
-  },
-  getDefaultProps() {
-    return {
-      preserveScrollPosition: false
-    };
-  },
-  getCodeMirrorInstance() {
-    return this.props.codeMirrorInstance || require("codemirror");
-  },
-  getInitialState() {
-    return {
+type CodeMirrorProps = {
+  className: string,
+  codeMirrorInstance?: any,
+  defaultValue?: string,
+  // TODO: de-anyify
+  onChange: any,
+  onFocusChange: any,
+  onScroll: (scrollInfo: ScrollInfo) => any,
+  options: any,
+  path?: string,
+  value: string,
+  preserveScrollPosition: boolean
+};
+
+// Declare CMI as the CodeMirror instance, even if we don't have it fully typed yet
+type CMI = any;
+type CMDoc = any;
+
+type EditorChange = {
+  /** Position (in the pre-change coordinate system) where the change started. */
+  from: Position,
+  /** Position (in the pre-change coordinate system) where the change ended. */
+  to: Position,
+  /** Array of strings representing the text that replaced the changed range (split by line). */
+  text: Array<string>,
+  /**  Text that used to be between from and to, which is overwritten by this change. */
+  removed: Array<string>,
+  /**  String representing the origin of the change event and wether it can be merged with history */
+  origin: string
+};
+
+type ScrollInfo = {
+  top: number,
+  left: number,
+  width: number,
+  height: number,
+  clientWidth: number,
+  clientHeight: number
+};
+
+type Position = {
+  ch: number,
+  line: number
+};
+
+class CodeMirror extends React.Component<CodeMirrorProps, *> {
+  static defaultProps = {
+    preserveScrollPosition: false,
+    onScroll: () => {}
+  };
+
+  textarea: ?HTMLElement;
+  codeMirror: CMI;
+
+  constructor(props: CodeMirrorProps) {
+    super(props);
+    (this: any).getCodeMirrorInstance = this.getCodeMirrorInstance.bind(this);
+    (this: any).scrollChanged = this.scrollChanged.bind(this);
+    (this: any).focus = this.focus;
+    (this: any).focusChanged = this.focusChanged;
+    (this: any).codemirrorValueChanged = this.codemirrorValueChanged;
+    (this: any).getCodeMirror = this.getCodeMirror;
+    this.state = {
       isFocused: false
     };
-  },
+  }
+
   componentWillMount() {
-    this.componentWillReceiveProps = debounce(
+    (this: any).componentWillReceiveProps = debounce(
       this.componentWillReceiveProps,
       0
     );
-  },
+  }
+
   componentDidMount() {
     const textareaNode = this.textarea;
     const codeMirrorInstance = this.getCodeMirrorInstance();
+
     this.codeMirror = codeMirrorInstance.fromTextArea(
-      textareaNode,
+      this.textarea,
       this.props.options
     );
-    this.codeMirror.on("change", this.codemirrorValueChanged);
+    this.codeMirror.on("change", this.codemirrorValueChanged.bind(this));
     this.codeMirror.on("focus", this.focusChanged.bind(this, true));
     this.codeMirror.on("blur", this.focusChanged.bind(this, false));
-    this.codeMirror.on("scroll", this.scrollChanged);
+    this.codeMirror.on("scroll", this.scrollChanged.bind(this));
     this.codeMirror.setValue(this.props.defaultValue || this.props.value || "");
-  },
+  }
+
   componentWillUnmount() {
-    // is there a lighter-weight way to remove the cm instance?
+    // TODO: is there a lighter weight way to remove the codemirror instance
     if (this.codeMirror) {
       this.codeMirror.toTextArea();
     }
-  },
-  componentWillReceiveProps: function(nextProps) {
+  }
+
+  componentWillReceiveProps(nextProps: CodeMirrorProps) {
     if (
       this.codeMirror &&
       nextProps.value !== undefined &&
@@ -91,29 +137,39 @@ const CodeMirror = createReactClass({
         }
       }
     }
-  },
+  }
+
+  getCodeMirrorInstance() {
+    return this.props.codeMirrorInstance || require("codemirror");
+  }
+
   getCodeMirror() {
     return this.codeMirror;
-  },
+  }
+
   focus() {
     if (this.codeMirror) {
       this.codeMirror.focus();
     }
-  },
-  focusChanged(focused) {
+  }
+
+  focusChanged(focused: boolean) {
     this.setState({
       isFocused: focused
     });
     this.props.onFocusChange && this.props.onFocusChange(focused);
-  },
-  scrollChanged(cm) {
-    this.props.onScroll && this.props.onScroll(cm.getScrollInfo());
-  },
-  codemirrorValueChanged(doc, change) {
+  }
+
+  scrollChanged(cm: CMI) {
+    this.props.onScroll(cm.getScrollInfo());
+  }
+
+  codemirrorValueChanged(doc: CMDoc, change: EditorChange) {
     if (this.props.onChange && change.origin !== "setValue") {
       this.props.onChange(doc.getValue(), change);
     }
-  },
+  }
+
   render() {
     const editorClassName = className(
       "ReactCodeMirror",
@@ -137,6 +193,6 @@ const CodeMirror = createReactClass({
       </div>
     );
   }
-});
+}
 
 module.exports = CodeMirror;
