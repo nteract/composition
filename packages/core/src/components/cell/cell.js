@@ -213,6 +213,10 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
               focusBelow={this.focusBelowCell}
               cellFocused={cellFocused}
               editorFocused={editorFocused}
+              options={{
+                // Markdown should always be line wrapped
+                lineWrapping: true
+              }}
             />
           </MarkdownCell>
         );
