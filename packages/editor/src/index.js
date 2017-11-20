@@ -31,8 +31,6 @@ type CodeMirrorProps = {
   value: string,
   defaultValue?: string,
 
-  onChange: (value: string, change: EditorChange) => void,
-
   options: any
 };
 
@@ -42,7 +40,6 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
 
   constructor(props: CodeMirrorProps) {
     super(props);
-    (this: any).codemirrorValueChanged = this.codemirrorValueChanged;
     (this: any).getCodeMirror = this.getCodeMirror;
   }
 
@@ -60,7 +57,6 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
       this.textarea,
       this.props.options
     );
-    this.codeMirror.on("change", this.codemirrorValueChanged.bind(this));
     this.codeMirror.setValue(this.props.defaultValue || this.props.value || "");
   }
 
@@ -102,12 +98,6 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
     return this.codeMirror;
   }
 
-  codemirrorValueChanged(doc: CMDoc, change: EditorChange) {
-    if (this.props.onChange && change.origin !== "setValue") {
-      this.props.onChange(doc.getValue(), change);
-    }
-  }
-
   render() {
     return (
       <textarea
@@ -136,7 +126,7 @@ type WrapperProps = {
   cursorBlinkRate: number,
   executionState: "idle" | "starting" | "not connected",
   language: string,
-  onChange: (text: string) => void,
+  onChange: (value: string, change: EditorChange) => void,
   onFocusChange: (focused: boolean) => void,
   onScroll: (scrollInfo: ScrollInfo) => any,
   preserveScrollPosition: boolean
@@ -171,6 +161,7 @@ class CodeMirrorEditor extends React.Component<
 
     (this: any).scrollChanged = this.scrollChanged.bind(this);
     (this: any).focusChanged = this.focusChanged;
+    (this: any).codemirrorValueChanged = this.codemirrorValueChanged;
 
     this.state = {
       isFocused: false
@@ -222,6 +213,7 @@ class CodeMirrorEditor extends React.Component<
     cm.on("focus", this.focusChanged.bind(this, true));
     cm.on("blur", this.focusChanged.bind(this, false));
     cm.on("scroll", this.scrollChanged.bind(this));
+    cm.on("change", this.codemirrorValueChanged.bind(this));
 
     const keyupEvents = fromEvent(cm, "keyup", (editor, ev) => ({
       editor,
@@ -398,6 +390,12 @@ class CodeMirrorEditor extends React.Component<
     editor.somethingSelected()
       ? editor.execCommand("indentMore")
       : editor.execCommand("insertSoftTab");
+  }
+
+  codemirrorValueChanged(doc: CMDoc, change: EditorChange) {
+    if (this.props.onChange && change.origin !== "setValue") {
+      this.props.onChange(doc.getValue(), change);
+    }
   }
 
   render(): React$Element<any> {
