@@ -1,15 +1,10 @@
 // @flow
-// Copied from https://github.com/JedWatson/react-codemirror/pull/97
-// TODO: Combine into wrapper.js
-// Since we're heavily customized anyways, I figured it was about time we
-// just run this simple setup ourselves, and manage the events ourselves too
+// Originally from https://github.com/JedWatson/react-codemirror/pull/97
 
 const React = require("react");
 const ReactDOM = require("react-dom");
-const PropTypes = require("prop-types");
 const className = require("classnames");
 const debounce = require("lodash").debounce;
-const createReactClass = require("create-react-class");
 
 function normalizeLineEndings(str) {
   if (!str) return str;
