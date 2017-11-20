@@ -364,26 +364,16 @@ class CodeMirrorEditor extends React.Component<
   }
 
   render(): React$Element<any> {
-    const editorClassName = classNames(
-      "ReactCodeMirror",
-      this.state.isFocused ? "ReactCodeMirror--focused" : null,
-      "cell_cm"
-    );
-
     return (
-      <div className="input">
-        <div className={editorClassName}>
-          <div className="CodeMirror cm-s-composition CodeMirror-wrap">
-            <textarea
-              ref={ta => {
-                this.textarea = ta;
-              }}
-              defaultValue={this.props.value}
-              autoComplete="off"
-              className="CodeMirror-code initialTextAreaForCodeMirror"
-            />
-          </div>
-        </div>
+      <div className="CodeMirror cm-s-composition ">
+        <textarea
+          ref={ta => {
+            this.textarea = ta;
+          }}
+          defaultValue={this.props.value}
+          autoComplete="off"
+          className="CodeMirror-code initialTextAreaForCodeMirror"
+        />
       </div>
     );
   }

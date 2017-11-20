@@ -273,7 +273,7 @@ export class Editor extends React.Component<EditorProps> {
       );
     }
     // Otherwise assume they have their own editor component
-    return this.props.children;
+    return <div className="input">{this.props.children}</div>;
   }
 }
 
