@@ -23,7 +23,7 @@ describe("RichestMime", () => {
       data: "THE DATA",
       theme: "light",
       metadata: "alright",
-      expanded: undefined,
+      expanded: false,
       models
     });
   });
