@@ -33,8 +33,7 @@ type CodeMirrorProps = {
 
   onChange: (value: string, change: EditorChange) => void,
 
-  options: any,
-  path?: string
+  options: any
 };
 
 class CodeMirror extends React.Component<CodeMirrorProps, *> {
@@ -115,7 +114,6 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
         ref={ta => {
           this.textarea = ta;
         }}
-        name={this.props.path}
         defaultValue={this.props.value}
         autoComplete="off"
         className="CodeMirror-code initialTextAreaForCodeMirror"
