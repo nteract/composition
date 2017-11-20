@@ -28,14 +28,14 @@ function normalizeLineEndings(str) {
 }
 
 type CodeMirrorProps = {
-  codeMirrorInstance?: any,
+  value: string,
   defaultValue?: string,
+
   onChange: (value: string, change: EditorChange) => void,
-  onFocusChange: (focused: boolean) => void,
   onScroll: (scrollInfo: ScrollInfo) => any,
+
   options: any,
   path?: string,
-  value: string,
   preserveScrollPosition: boolean
 };
 
@@ -50,14 +50,9 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
 
   constructor(props: CodeMirrorProps) {
     super(props);
-    (this: any).getCodeMirrorLibrary = this.getCodeMirrorLibrary.bind(this);
     (this: any).scrollChanged = this.scrollChanged.bind(this);
-    (this: any).focus = this.focus;
     (this: any).codemirrorValueChanged = this.codemirrorValueChanged;
     (this: any).getCodeMirror = this.getCodeMirror;
-    this.state = {
-      isFocused: false
-    };
   }
 
   componentWillMount() {
@@ -69,9 +64,8 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
 
   componentDidMount() {
     const textareaNode = this.textarea;
-    const codeMirrorInstance = this.getCodeMirrorLibrary();
 
-    this.codeMirror = codeMirrorInstance.fromTextArea(
+    this.codeMirror = require("codemirror").fromTextArea(
       this.textarea,
       this.props.options
     );
@@ -114,18 +108,8 @@ class CodeMirror extends React.Component<CodeMirrorProps, *> {
     }
   }
 
-  getCodeMirrorLibrary() {
-    return this.props.codeMirrorInstance || require("codemirror");
-  }
-
   getCodeMirror() {
     return this.codeMirror;
-  }
-
-  focus() {
-    if (this.codeMirror) {
-      this.codeMirror.focus();
-    }
   }
 
   scrollChanged(cm: CMI) {
@@ -235,7 +219,8 @@ class CodeMirrorEditor extends React.Component<
 
     // On first load, if focused, set codemirror to focus
     if (editorFocused && this.codemirror) {
-      this.codemirror.focus();
+      debugger;
+      cm.focus();
     }
 
     cm.on("topBoundary", focusAbove);
@@ -278,9 +263,7 @@ class CodeMirrorEditor extends React.Component<
     }
 
     if (prevProps.editorFocused !== editorFocused) {
-      editorFocused && this.codemirror
-        ? this.codemirror.focus()
-        : cm.getInputField().blur();
+      editorFocused && this.codemirror ? cm.focus() : cm.getInputField().blur();
     }
 
     if (prevProps.cursorBlinkRate !== cursorBlinkRate) {
@@ -309,6 +292,8 @@ class CodeMirrorEditor extends React.Component<
     }
   }
 
+  // Could this be a component that uses the React Portal API? There might be a
+  // nice declarative compound interface we could use too...
   tips(editor: Object): void {
     const { tip, channels } = this.props;
     const currentTip = document.getElementById("cl");
@@ -441,7 +426,6 @@ class CodeMirrorEditor extends React.Component<
               onClick={() => {
                 if (this.codemirror) this.codemirror.focus();
               }}
-              onFocusChange={onFocusChange}
             />
           </div>
         </div>
