@@ -20,9 +20,8 @@ type CodeMirrorProps = {
   className: string,
   codeMirrorInstance?: any,
   defaultValue?: string,
-  // TODO: de-anyify
-  onChange: any,
-  onFocusChange: any,
+  onChange: (value: string, change: EditorChange) => void,
+  onFocusChange: (focused: boolean) => void,
   onScroll: (scrollInfo: ScrollInfo) => any,
   options: any,
   path?: string,
@@ -32,7 +31,37 @@ type CodeMirrorProps = {
 
 // Declare CMI as the CodeMirror instance, even if we don't have it fully typed yet
 type CMI = any;
-type CMDoc = any;
+
+declare class TextMarker {
+  changed(): void;
+  clear(): void;
+  find(): { from: Position, to: Position };
+}
+
+type TextMarkerOptions = {
+  atomic?: boolean,
+  className?: string,
+  css?: string,
+  readOnly?: boolean
+};
+
+type LineHandle = any;
+
+declare class CMDoc {
+  size: number; // undocumented (number of lines)
+  clearHistory(): void;
+  eachLine(f: (l: LineHandle) => void): void;
+  getCursor(start?: "anchor" | "from" | "to" | "head"): Position;
+  markClean(): void;
+  isClean(generation?: number): boolean;
+  setValue(string): void;
+  getValue(separator?: string): string;
+  markText(
+    from: Position,
+    to: Position,
+    options?: TextMarkerOptions
+  ): TextMarker;
+}
 
 type EditorChange = {
   /** Position (in the pre-change coordinate system) where the change started. */
