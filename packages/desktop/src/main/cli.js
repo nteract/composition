@@ -1,5 +1,5 @@
-import { Observable } from "rxjs/Observable";
-import { merge, catchError, mergeMap } from "rxjs/operators";
+import { catchError, mergeMap } from "rxjs/operators";
+import { merge } from "rxjs/observable/merge";
 
 import { join } from "path";
 import { dialog } from "electron";
@@ -34,12 +34,10 @@ const setWinPathObservable = (exe, rootDir, binDir) => {
     .filter((item, index, array) => array.indexOf(item) === index);
   env.push(binDir);
   const envPath = env.join(";");
-  return Observable.pipe(
-    merge(
-      spawn("SETX", ["PATH", `${envPath}`]),
-      spawn("SETX", ["NTERACT_EXE", exe]),
-      spawn("SETX", ["NTERACT_DIR", rootDir])
-    )
+  return merge(
+    spawn("SETX", ["PATH", `${envPath}`]),
+    spawn("SETX", ["NTERACT_EXE", exe]),
+    spawn("SETX", ["NTERACT_DIR", rootDir])
   );
 };
 
