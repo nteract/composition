@@ -99,6 +99,43 @@ const channels = createChannels(identity, runtimeConfig)
 const { shell, iopub, stdin, control } = channels;
 ```
 
+`enchannel-zmq-backend` also gives access to all of the `channels` via a
+single multipled channel exposed via `createMainChannel`.
+
+```javascript
+import { createMainChannel } from 'enchannel-zmq-backend';
+```
+
+Similar to the `createChannels` function, the `createMainChannel` function
+accepts both an identity and a runtime object.
+
+```javascript
+const channel = createMainChannel(identity, runtimeConfig);
+```
+
+Messages that are sent via the mutliplexed channel need to define a `type`
+property that outlines which channel they should be sent under.
+
+```javascript
+const body = {
+    header: {
+        msg_id: `execute_9ed11a0f-707e-4f71-829c-a19b8ff8eed8`,
+        username: "rgbkrk",
+        session: "00000000-0000-0000-0000-000000000000",
+        msg_type: "execute_request",
+        version: "5.0"
+    },
+    content: {
+        code: 'print("woo")',
+        silent: false,
+        store_history: true,
+        user_expressions: {},
+        allow_stdin: false
+    }
+};
+const message = { type: "shell", body };
+```
+
 `enchannel-zmq-backend` also offers four convenience functions to
 easily create the messaging channels for `control`, `stdin`, `iopub`,
 and `shell` :

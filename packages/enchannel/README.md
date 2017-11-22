@@ -13,9 +13,9 @@ the implementation or how the communications are constructed or destructed.
 ### Background
 The core functionality of the notebook is to send messages from a frontend to
 a backend, and from a backend to a frontend ([or many
-frontends](https://github.com/nteract/jupyter-sidecar)). In the case of the
+        frontends](https://github.com/nteract/jupyter-sidecar)). In the case of the
 Jupyter/IPython notebook, it communicates over websockets (which in turn reach
-out to ØMQ on the backend).
+        out to ØMQ on the backend).
 
 ### What if...?
 What if you want to serve the same HTML and Javascript for the notebook
@@ -55,11 +55,11 @@ be between four and five channels:
 
 ```js
 const {
-  shell,
-  stdin,
-  control,
-  iopub,
-  heartbeat, // (optional)
+    shell,
+    stdin,
+    control,
+    iopub,
+    heartbeat, // (optional)
 } = channelsObject;  
 ```
 
@@ -69,31 +69,31 @@ Relying on RxJS's implementation of subjects means the streams can be handled
 like so:
 
 ```javascript
-iopub.filter(msg => msg.header.msg_type === 'execute_result')
-     .map(msg => msg.content.data)
-     .subscribe(x => { console.log(`DATA: ${util.inspect(x)}`)})
-```
+    iopub.filter(msg => msg.header.msg_type === 'execute_result')
+    .map(msg => msg.content.data)
+.subscribe(x => { console.log(`DATA: ${util.inspect(x)}`)})
+    ```
 
-As a benefit of subjects, we can go ahead and submit messages to the
-underlying transport:
+    As a benefit of subjects, we can go ahead and submit messages to the
+    underlying transport:
 
-```javascript
-var message = {
-  header: {
-    msg_id: `execute_${uuid.v4()}`,
-    username: '',
-    session: '00000000-0000-0000-0000-000000000000',
-    msg_type: 'execute_request',
-    version: '5.0',
-  },
-  content: {
-    code: 'print("woo")',
-    silent: false,
-    store_history: true,
-    user_expressions: {},
-    allow_stdin: false,
-  },
-};
+    ```javascript
+    var message = {
+header: {
+msg_id: `execute_${uuid.v4()}`,
+        username: '',
+        session: '00000000-0000-0000-0000-000000000000',
+        msg_type: 'execute_request',
+        version: '5.0',
+        },
+content: {
+code: 'print("woo")',
+      silent: false,
+      store_history: true,
+      user_expressions: {},
+      allow_stdin: false,
+         },
+    };
 
 shell.next(message); // send the message
 ```
@@ -107,9 +107,36 @@ is not included in the spec above primarily because it's an implementation
 by-product and may end up being deprecated based on the chosen development
 approach.
 
+## Mutliplexed enchannel
+`enchannel-zmq-backend` exposes a multiplexed subject that allows the developer
+communicate with all four channels via a single interface.
+
+```javascript
+const channel = e.createMainChannel(identity, kernel.config);
+const body = {
+    header: {
+        msg_id: `execute_9ed11a0f-707e-4f71-829c-a19b8ff8eed8`,
+        username: "rgbkrk",
+        session: "00000000-0000-0000-0000-000000000000",
+        msg_type: "execute_request",
+        version: "5.0"
+    },
+    content: {
+        code: 'print("woo")',
+        silent: false,
+        store_history: true,
+        user_expressions: {},
+        allow_stdin: false
+    }
+};
+const message = { type: "shell", body };
+channel.subscribe(console.log);
+channel.next(message);
+```
+
 ## Develop with us
 
- To contribute to the spec or convenience functions, clone this repo and
+To contribute to the spec or convenience functions, clone this repo and
 install it by running the following from the repo root:
 
 ```
