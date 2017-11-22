@@ -5,6 +5,17 @@ import { Observable } from "rxjs";
 import { createSubject, createSocket } from "./subjection";
 
 /**
+ * convertToMultiplex converts an enchannel multiplexed message to a
+ * Jupyter multiplexed message
+ *
+ * @param {Object}  message The enchannel message to convert
+ * @return  {Object}  Converted message
+ */
+export function convertToMultiplex(message) {
+  return Object.assign({}, message.body, { channel: message.type });
+}
+
+/**
  * createMainChannel creates a multiplexed set of channels
  * @param  {string} identity                UUID
  * @param  {Object} config                  Jupyter connection information
