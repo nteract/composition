@@ -22,6 +22,9 @@ import type { EditorChange, ScrollInfo, CMI, CMDoc } from "./types";
 
 import styles from "./styles";
 
+import codemirrorStyles from "./vendored/codemirror";
+import showHintStyles from "./vendored/show-hint";
+
 function normalizeLineEndings(str) {
   if (!str) return str;
   return str.replace(/\r\n|\r/g, "\n");
@@ -137,11 +140,10 @@ class CodeMirrorEditor extends React.Component<
 
     require("codemirror/addon/hint/show-hint");
     require("codemirror/addon/hint/anyword-hint");
-    require("codemirror/addon/search/search");
-    require("codemirror/addon/search/searchcursor");
+
     require("codemirror/addon/edit/matchbrackets");
     require("codemirror/addon/edit/closebrackets");
-    require("codemirror/addon/dialog/dialog");
+
     require("codemirror/addon/comment/comment.js");
 
     require("codemirror/mode/python/python");
@@ -396,6 +398,8 @@ class CodeMirrorEditor extends React.Component<
           autoComplete="off"
           className="CodeMirror-code initialTextAreaForCodeMirror"
         />
+        <style jsx>{showHintStyles}</style>
+        <style jsx>{codemirrorStyles}</style>
         <style jsx>{styles}</style>
       </div>
     );
