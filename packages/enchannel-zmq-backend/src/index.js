@@ -32,6 +32,11 @@ export function createMainChannel(identity, config, subscription = "") {
     config,
     subscription
   );
+  const main = createMainChannelFromChannels(shell, control, stdin, iopub);
+  return main;
+}
+
+export function createMainChannelFromChannels(shell, control, stdin, iopub) {
   const main = Subject.create(
     Subscriber.create({
       next: message => {
