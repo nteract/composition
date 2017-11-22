@@ -13,9 +13,11 @@ In order to build a signed copy with working auto-update, you will need to join 
 
 ## Release Process
 
+0. Run `lerna publish` to publish all the packages, or at the very least just this package, `nteract`.
+
 1. Make sure the release is working by running `npm run dist` and testing the built app inside the `./packages/desktop/dist/` folder. You can build for all platforms using `npm run dist:all`.
 
-2. If everything works as expected, bump the version number in `./packages/desktop/package.json` and push the changes to GitHub.
+2. If everything works as expected, bump the version number in `./packages/desktop/package.json` and push the changes to GitHub. NOTE: If you already ran `lerna publish` and updated the version for the `nteract` package, you've already bumped this number!
 
 3. Run `npm run publish` on macOS, Windows and Linux or run `npm run publish:all` to build everything on a single machine. This will draft a new release on GitHub and will upload all necessary assets.
 
