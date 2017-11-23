@@ -21,22 +21,7 @@ describe("the built version of enchannel-zmq-backend", () => {
 });
 
 describe("createMainChannel", () => {
-  it("creates a multiplexed channel", () => {
-    const config = {
-      signature_scheme: "hmac-sha256",
-      key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
-      ip: "127.0.0.1",
-      transport: "tcp",
-      shell_port: 19009,
-      stdin_port: 19010,
-      control_port: 19011,
-      iopub_port: 19012
-    };
-    const c = createMainChannel(uuidv4(), config);
-    expect(c).toBeDefined();
-  });
-
-  it("pipes messages from socket appropriately", async () => {
+  it("pipes messages from socket appropriately", () => {
     const sent = new Subject();
     const received = new Subject();
 
@@ -47,16 +32,18 @@ describe("createMainChannel", () => {
 
     const channel = createMainChannelFromChannels(shell, control, stdin, iopub);
 
-    let messages = await shell.pipe(first()).toPromise();
-    channel.send({ type: "SHELL", body: { a: "b" } });
+    let messages = shell.first();
+    channel.next({ type: "SHELL", body: { a: "b" } });
     expect(messages).toEqual({ a: "b" });
 
-    messages = await control.pipe(first()).toPromise();
-    channel.send({ type: "CONTROL", body: { c: "d" } });
+    messages = control.first();
+    channel.next({ type: "CONTROL", body: { c: "d" } });
     expect(messages).toEqual({ c: "d" });
 
-    messages = await stdin.pipe(first()).toPromise();
-    channel.send({ type: "STDIN", body: { e: "f" } });
+    messages = stdin.first();
+    channel.next({ type: "STDIN", body: { e: "f" } });
     expect(messages).toEqual({ e: "f" });
+
+    done();
   });
 });
