@@ -16,7 +16,7 @@ import {
 } from "../src/subjection";
 
 describe("createSubscriber", () => {
-  it("creates a subscriber from a socket", () => {
+  test("creates a subscriber from a socket", () => {
     const hokeySocket = {
       send: jest.fn(),
       removeAllListeners: jest.fn(),
@@ -28,7 +28,7 @@ describe("createSubscriber", () => {
     ob.next(message);
     expect(hokeySocket.send).toBeCalledWith(new jmp.Message(message));
   });
-  it("removes all listeners and closes the socket on complete()", () => {
+  test("removes all listeners and closes the socket on complete()", () => {
     const hokeySocket = {
       send: jest.fn(),
       removeAllListeners: jest.fn(),
@@ -40,7 +40,7 @@ describe("createSubscriber", () => {
     expect(hokeySocket.removeAllListeners).toBeCalled();
     expect(hokeySocket.close).toBeCalled();
   });
-  it("should only close once", () => {
+  test("should only close once", () => {
     const hokeySocket = {
       send: jest.fn(),
       removeAllListeners: jest.fn(),
@@ -61,7 +61,7 @@ describe("createSubscriber", () => {
 });
 
 describe("createObservable", () => {
-  it("publishes clean enchannel messages", done => {
+  test("publishes clean enchannel messages", done => {
     const emitter = new EventEmitter();
     const obs = createObservable(emitter);
 
@@ -75,7 +75,7 @@ describe("createObservable", () => {
 });
 
 describe("createSubject", () => {
-  it("creates a subject that can send and receive", done => {
+  test("creates a subject that can send and receive", done => {
     // This is largely captured above, we make sure that the subject gets
     // created properly
     const hokeySocket = new EventEmitter();
@@ -104,7 +104,7 @@ describe("createSubject", () => {
 });
 
 describe("createSocket", () => {
-  it("creates a JMP socket on the channel with identity", () => {
+  test("creates a JMP socket on the channel with identity", () => {
     const config = {
       signature_scheme: "hmac-sha256",
       key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",

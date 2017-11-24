@@ -8,7 +8,7 @@ import {
 } from "../src";
 
 describe("createChannels", () => {
-  it("creates the channels per enchannel spec", () => {
+  test("creates the channels per enchannel spec", () => {
     const config = {
       signature_scheme: "hmac-sha256",
       key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
@@ -35,7 +35,7 @@ describe("createChannels", () => {
 });
 
 describe("createChannelSubject", () => {
-  it("creates a subject for the channel", () => {
+  test("creates a subject for the channel", () => {
     const config = {
       signature_scheme: "hmac-sha256",
       key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
@@ -52,7 +52,7 @@ describe("createChannelSubject", () => {
 });
 
 describe("createIOPubSubject", () => {
-  it("creates a subject with the default iopub subscription", () => {
+  test("creates a subject with the default iopub subscription", () => {
     const config = {
       signature_scheme: "hmac-sha256",
       key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",

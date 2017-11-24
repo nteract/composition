@@ -11,7 +11,7 @@
     "build": "npm run build:es5",
     "build:es5": "babel src --out-dir lib/ --source-maps",
     "build:docs": "jsdoc -R README.md -d docs src/*.js",
-    "test": "mocha --compilers js:babel-core/register --recursive",
+    "test": "jest",
     "test:watch": "npm run test -- --watch",
     "clean": "rimraf lib/*"
   },

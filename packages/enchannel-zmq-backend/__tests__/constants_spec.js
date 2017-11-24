@@ -2,7 +2,7 @@ import * as constants from "../src/constants";
 
 // Solely testing the exported interface
 describe("constants", () => {
-  it("exports the standard Jupyter channels", () => {
+  test("exports the standard Jupyter channels", () => {
     expect(constants.IOPUB).toBe("iopub");
     expect(constants.STDIN).toBe("stdin");
     expect(constants.SHELL).toBe("shell");

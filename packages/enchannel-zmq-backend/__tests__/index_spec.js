@@ -12,7 +12,7 @@ import { createMainChannelFromChannels, createMainChannel } from "../src";
 
 // Solely testing the exported interface on the built ES5 JavaScript
 describe("the built version of enchannel-zmq-backend", () => {
-  it("exports create helpers for control, stdin, iopub, and shell", () => {
+  test("exports create helpers for control, stdin, iopub, and shell", () => {
     expect(createControlSubject).toBeDefined();
     expect(createStdinSubject).toBeDefined();
     expect(createIOPubSubject).toBeDefined();
@@ -21,7 +21,7 @@ describe("the built version of enchannel-zmq-backend", () => {
 });
 
 describe("createMainChannel", () => {
-  it("pipes messages from socket appropriately", () => {
+  test("pipes messages from socket appropriately", () => {
     const sent = new Subject();
     const received = new Subject();
 
@@ -32,18 +32,19 @@ describe("createMainChannel", () => {
 
     const channel = createMainChannelFromChannels(shell, control, stdin, iopub);
 
-    let messages = shell.first();
+    shell.subscribe(value => {
+      expect(value).toEqual({ a: "b" });
+    });
     channel.next({ type: "SHELL", body: { a: "b" } });
-    expect(messages).toEqual({ a: "b" });
 
-    messages = control.first();
+    control.subscribe(value => {
+      expect(value).toEqual({ c: "d" });
+    });
     channel.next({ type: "CONTROL", body: { c: "d" } });
-    expect(messages).toEqual({ c: "d" });
 
-    messages = stdin.first();
+    stdin.subscribe(value => {
+      expect(value).toEqual({ e: "f" });
+    });
     channel.next({ type: "STDIN", body: { e: "f" } });
-    expect(messages).toEqual({ e: "f" });
-
-    done();
   });
 });
