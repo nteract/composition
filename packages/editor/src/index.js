@@ -226,6 +226,10 @@ class CodeMirrorEditor extends React.Component<
         this.cm.focus();
       }
     }
+
+    if (prevProps.language !== this.props.language) {
+      this.cm.setOption("mode", this.props.language);
+    }
   }
 
   componentWillReceiveProps(nextProps: CodeMirrorEditorProps) {
