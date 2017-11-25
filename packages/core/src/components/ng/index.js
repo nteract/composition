@@ -25,15 +25,11 @@ export class Pagers extends React.Component<PagersProps> {
     }
     return (
       <div className="pagers">
-        {this.props.children}
-        <style jsx>{`
-          .pagers {
-            padding: 10px var(--prompt-width, 50px) 10px
-              var(--prompt-width, 50px);
-            background-color: var(--pager-bg, #fafafa);
-            word-wrap: break-word;
-          }
-        `}</style>
+        {/*
+          Implementation wise, the CSS _is_ the same as the outputs even
+          if these aren't actually outputs.
+         */}
+        <Outputs>{this.props.children}</Outputs>
       </div>
     );
   }
