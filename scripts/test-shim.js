@@ -3,11 +3,6 @@ global.Image = global.window.Image;
 
 global.Range = function Range() {};
 
-const enzyme = require("enzyme");
-const Adapter = require("enzyme-adapter-react-16");
-
-enzyme.configure({ adapter: new Adapter() });
-
 const createContextualFragment = html => {
   const div = document.createElement("div");
   div.innerHTML = html;

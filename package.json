@@ -6,13 +6,7 @@
     "type": "git",
     "url": "https://github.com/nteract/nteract.git"
   },
-  "keywords": [
-    "jupyter",
-    "electron",
-    "notebook",
-    "nteract",
-    "data"
-  ],
+  "keywords": ["jupyter", "electron", "notebook", "nteract", "data"],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -33,22 +27,27 @@
     "build": "npm run build:packages && npm run build:desktop",
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
-    "build:packages": "lerna run build --parallel --ignore @nteract/play --ignore @nteract/showcase",
-    "build:packages:watch": "lerna run build:lib:watch --parallel --ignore @nteract/play --ignore @nteract/showcase",
-    "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
+    "build:packages":
+      "lerna run build --parallel --ignore @nteract/play --ignore @nteract/showcase",
+    "build:packages:watch":
+      "lerna run build:lib:watch --parallel --ignore @nteract/play --ignore @nteract/showcase",
+    "build:icon":
+      "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:docs": "esdoc -c esdoc.json",
-    "test": "npm run test:unit && npm run test:lint",
-    "test:conformance": "node scripts/conformance.js",
+    "test": "jest",
+    "test:unit": "npm run test",
     "test:coverage": "npm run test:unit -- --coverage",
+    "test:conformance": "node scripts/conformance.js",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
-    "pretest:unit": "lerna exec --scope enchannel-zmq-backend -- npm rebuild",
-    "test:unit": "jest",
+    "// pretest": "ensure that zeromq is built for node",
+    "pretest": "lerna exec --scope enchannel-zmq-backend -- npm rebuild",
     "test:desktop": "lerna run test:unit --scope nteract --stream",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged",
-    "prettier": "prettier --write '**/*.{js,json}' '!**/{lib,.git,.next,package.json,flow-typed}/**'",
+    "prettier":
+      "prettier --write '**/*.{js,json}' '!**/{lib,.git,.next,package.json,flow-typed}/**'",
     "dist": "lerna run dist --scope nteract --stream",
     "pack": "lerna run pack --scope nteract --stream",
     "publish": "lerna run publish --scope nteract --stream",
@@ -58,26 +57,18 @@
   "jest": {
     "setupFiles": [
       "raf/polyfill",
-      "./scripts/mockument"
+      "./scripts/test-shim",
+      "./scripts/test-setup"
     ],
     "moduleNameMapper": {
       "uuid": "<rootDir>/packages/commutable/node_modules/uuid/",
       "\\.css$": "<rootDir>/scripts/noop-module.js"
     },
-    "coveragePathIgnorePatterns": [
-      "<rootDir>/scripts",
-      "/node_modules/"
-    ]
+    "coveragePathIgnorePatterns": ["<rootDir>/scripts", "/node_modules/"]
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.json,!package.json": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["prettier --write", "git add"],
+    "*.json,!package.json": ["prettier --write", "git add"]
   },
   "dependencies": {
     "immutable": "^3.8.1",
