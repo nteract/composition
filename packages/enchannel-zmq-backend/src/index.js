@@ -43,12 +43,16 @@ export function createMainChannelFromChannels(shell, control, stdin, iopub) {
         switch (message.type) {
           case SHELL:
             shell.next(message.body);
+            break;
           case CONTROL:
             control.next(message.body);
+            break;
           case STDIN:
             stdin.next(message.body);
+            break;
           case IOPUB:
             iopub.next(message.body);
+            break;
           default:
             return;
         }
