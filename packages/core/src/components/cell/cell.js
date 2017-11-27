@@ -35,6 +35,7 @@ export type CellProps = {
   editorFocused: string,
   language: string,
   running: boolean,
+  queued: boolean,
   theme: string,
   pagers: ImmutableList<any>,
   transforms: Object,
@@ -51,7 +52,9 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
 
   static defaultProps = {
     pagers: new ImmutableList(),
-    models: new ImmutableMap()
+    models: new ImmutableMap(),
+    queued: false,
+    running: false
   };
 
   static contextTypes = {
