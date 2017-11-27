@@ -41,8 +41,8 @@
     ]
   },
   "devDependencies": {
-    "css-loader": "^0.28.4",
-    "next": "^3.0.1-beta.8",
-    "style-loader": "^0.18.2"
+    "css-loader": "^0.28.7",
+    "next": "^4.1.4",
+    "style-loader": "^0.19.0"
   }
 }
