@@ -166,8 +166,6 @@ const mapStateToProps = (state: Object) => ({
   )
 });
 
-console.warn("INSIDE OF core/components/notebook");
-
 export class Notebook extends React.PureComponent<Props> {
   createCellElement: (s: string) => ?React$Element<any>;
   keyDown: (e: KeyboardEvent) => void;
