@@ -17,13 +17,9 @@
     "precoverage": "nyc npm run test:unit",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/rx-jupyter",
-  "keywords": [
-    "jupyter",
-    "rxjs",
-    "notebook",
-    "api"
-  ],
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/rx-jupyter",
+  "keywords": ["jupyter", "rxjs", "notebook", "api"],
   "author": "nteract Contributors",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -44,12 +40,8 @@
     "ws": "^3.2.0"
   },
   "babel": {
-    "presets": [
-      "es2015"
-    ],
-    "plugins": [
-      "transform-flow-strip-types"
-    ]
+    "presets": ["es2015"],
+    "plugins": ["transform-flow-strip-types"]
   },
   "dependencies": {
     "rxjs": "^5.5.0"
