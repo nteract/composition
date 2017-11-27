@@ -204,20 +204,22 @@ export class ConnectedCell extends React.PureComponent<CellProps, *> {
             editorFocused={editorFocused}
             cell={cell}
           >
-            <CodeMirror
-              language="markdown"
-              id={this.props.id}
-              value={this.props.cell.get("source")}
-              theme={this.props.theme}
-              focusAbove={this.focusAboveCell}
-              focusBelow={this.focusBelowCell}
-              cellFocused={cellFocused}
-              editorFocused={editorFocused}
-              options={{
-                // Markdown should always be line wrapped
-                lineWrapping: true
-              }}
-            />
+            <Editor>
+              <CodeMirror
+                language="markdown"
+                id={this.props.id}
+                value={this.props.cell.get("source")}
+                theme={this.props.theme}
+                focusAbove={this.focusAboveCell}
+                focusBelow={this.focusBelowCell}
+                cellFocused={cellFocused}
+                editorFocused={editorFocused}
+                options={{
+                  // Markdown should always be line wrapped
+                  lineWrapping: true
+                }}
+              />
+            </Editor>
           </MarkdownCell>
         );
         break;
