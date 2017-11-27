@@ -15,14 +15,15 @@
     "test:watch": "npm run test -- --watch",
     "clean": "rimraf lib/*"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/nteract/nteract/issues"
   },
   "dependencies": {
-    "jmp": "^0.7.5",
+    "jmp": "^1.0.0",
     "rxjs": "^5.5.0",
     "uuid": "^3.1.0"
   }
