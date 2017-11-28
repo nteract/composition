@@ -19,11 +19,14 @@ export function createAJAXSettings(
   const settings = Object.assign(
     {
       url,
-      responseType: "json",
-      headers
+      responseType: "json"
     },
     serverConfig,
-    opts
+    opts,
+    {
+      // Make sure we merge in the auth headers with user given headers
+      headers: Object.assign({}, headers, opts.headers)
+    }
   );
 
   delete settings.endpoint;
