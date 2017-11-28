@@ -14,8 +14,7 @@ cache:
 
 install:
   - ps: Install-Product node $env:nodejs_version $env:platform
-  - npm install -g npm@5.3
-  - npm install
+  - appveyor-retry npm install
 
 test_script:
   - node --version
