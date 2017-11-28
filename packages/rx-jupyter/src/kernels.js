@@ -6,6 +6,8 @@ import { Observable } from "rxjs/Observable";
 
 import { createAJAXSettings } from "./base";
 
+import { URLSearchParams } from "url";
+
 /**
  * Creates an AjaxObservable for listing running kernels.
  *
@@ -102,11 +104,29 @@ export function restart(serverConfig: Object, id: string): Observable<*> {
   );
 }
 
-export function formWebSocketURL(serverConfig: Object, id: string): string {
-  const url = `${serverConfig.endpoint}/api/kernels/${id}/channels`;
+export function formWebSocketURL(
+  serverConfig: Object,
+  kernelID: string,
+  sessionID: ?string
+): string {
+  const params = new URLSearchParams();
+  if (serverConfig.token) {
+    params.append("token", serverConfig.token);
+  }
+  if (sessionID) {
+    params.append("session_id", sessionID);
+  }
+
+  const q = params.toString();
+
+  const url = `${serverConfig.endpoint}/api/kernels/${kernelID}/channels?${q}`;
   return url.replace(/^http(s)?/, "ws$1");
 }
 
-export function connect(serverConfig: Object, id: string): Observable<*> {
-  return webSocket(formWebSocketURL(serverConfig, id));
+export function connect(
+  serverConfig: Object,
+  kernelID: string,
+  sessionID: ?string
+): Observable<*> {
+  return webSocket(formWebSocketURL(serverConfig, kernelID, sessionID));
 }
