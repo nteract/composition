@@ -201,3 +201,5 @@ export const executionStates = () => (
   source: rxjs$Observable<JupyterMessage<*, *>>
 ): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(ofMessageType("status"), pluck("content", "execution_state"));
+
+export { message, executeRequest };
