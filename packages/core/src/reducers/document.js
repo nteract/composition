@@ -151,7 +151,9 @@ function clearOutputs(state: DocumentState, action: ClearOutputsAction) {
 
   if (type === "code") {
     return cleanCellTransient(
-      state.setIn(["notebook", "cellMap", id, "outputs"], new Immutable.List()),
+      state
+        .setIn(["notebook", "cellMap", id, "outputs"], new Immutable.List())
+        .setIn(["notebook", "cellMap", id, "execution_count"], null),
       id
     );
   }
