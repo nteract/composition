@@ -12,6 +12,8 @@ import {
   appendCellToNotebook
 } from "@nteract/commutable";
 
+import { DocumentRecord } from "../src/records";
+
 import { reduceOutputs, cleanCellTransient } from "../src/reducers/document";
 
 import { dummyJSON, dummyCommutable } from "../src/dummy";
@@ -993,5 +995,28 @@ describe("cleanCellTransient", () => {
         5678: []
       })
     );
+  });
+});
+
+describe("changeFilename", () => {
+  test("returns the same originalState if filename is undefined", () => {
+    const originalState = new DocumentRecord({
+      filename: "original.ipynb"
+    });
+
+    const action = { type: constants.CHANGE_FILENAME };
+
+    const state = reducers(originalState, action);
+    expect(state.filename).toBe("original.ipynb");
+  });
+  test("sets the filename if given a valid one", () => {
+    const originalState = new DocumentRecord({
+      filename: "original.ipynb"
+    });
+
+    const action = { type: constants.CHANGE_FILENAME, filename: "test.ipynb" };
+
+    const state = reducers(originalState, action);
+    expect(state.filename).toBe("test.ipynb");
   });
 });

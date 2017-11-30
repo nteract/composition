@@ -326,7 +326,7 @@ describe("menu", () => {
 
       expect(store.dispatch).toHaveBeenCalledWith({
         type: "SAVE",
-        filename: store.getState().metadata.get("filename"),
+        filename: store.getState().document.get("filename"),
         notebook: store.getState().document.get("notebook")
       });
     });

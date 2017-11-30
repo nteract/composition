@@ -11,14 +11,13 @@ import {
 
 /* Our createStore */
 import { combineReducers, createStore, applyMiddleware } from "redux";
-import { document, metadata, comms, config } from "../reducers";
+import { document, comms, config } from "../reducers";
 
 export { dummyCommutable, dummy, dummyJSON } from "./dummy-nb";
 
 const rootReducer = combineReducers({
   // Fake out app, since it comes from
   app: (state = AppRecord(), action) => state,
-  metadata,
   document,
   comms,
   config
@@ -32,12 +31,7 @@ function configureStore(initialState: AppState) {
 }
 **/
 
-import {
-  AppRecord,
-  DocumentRecord,
-  MetadataRecord,
-  CommsRecord
-} from "../records";
+import { AppRecord, DocumentRecord, CommsRecord } from "../records";
 
 function hideCells(notebook) {
   return notebook.update("cellMap", cells =>
@@ -102,7 +96,8 @@ export function dummyStore(config: *) {
       cellFocused:
         config && config.codeCellCount > 1
           ? dummyNotebook.get("cellOrder").get(1)
-          : null
+          : null,
+      filename: config && config.noFilename ? "" : "dummy-store-nb.ipynb"
     }),
     app: AppRecord({
       executionState: "not connected",
@@ -111,9 +106,6 @@ export function dummyStore(config: *) {
       },
       token: "TOKEN",
       channels: "channelInfo"
-    }),
-    metadata: MetadataRecord({
-      filename: config && config.noFilename ? "" : "dummy-store-nb.ipynb"
     }),
     config: Immutable.Map({
       theme: "light"

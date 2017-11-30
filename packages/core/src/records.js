@@ -169,10 +169,7 @@ export const DocumentRecord = Immutable.Record({
   stickyCells: new Immutable.Set(),
   editorFocused: null,
   cellFocused: null,
-  copied: new Immutable.Map()
-});
-
-export const MetadataRecord = Immutable.Record({
+  copied: new Immutable.Map(),
   filename: ""
 });
 
@@ -184,7 +181,6 @@ export const CommsRecord = Immutable.Record({
 
 export type AppState = {
   app: AppRecord,
-  metadata: MetadataRecord,
   document: DocumentRecord,
   comms: CommsRecord,
   config: Immutable.Map<string, any>

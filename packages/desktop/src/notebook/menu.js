@@ -76,8 +76,8 @@ export function dispatchRestartKernel(store) {
   const notificationSystem = state.app.get("notificationSystem");
 
   let cwd = cwdKernelFallback();
-  if (state && state.document && state.metadata.get("filename")) {
-    cwd = path.dirname(path.resolve(state.metadata.filename));
+  if (state && state.document && state.document.get("filename")) {
+    cwd = path.dirname(path.resolve(state.document.filename));
   }
 
   store.dispatch(killKernel);
@@ -126,7 +126,7 @@ export function triggerSaveAs(store) {
 export function dispatchSave(store) {
   const state = store.getState();
   const notebook = state.document.get("notebook");
-  const filename = state.metadata.get("filename");
+  const filename = state.document.get("filename");
   if (!filename) {
     triggerSaveAs(store);
   } else {
@@ -137,8 +137,8 @@ export function dispatchSave(store) {
 export function dispatchNewKernel(store, evt, spec) {
   const state = store.getState();
   let cwd = cwdKernelFallback();
-  if (state && state.document && state.metadata.get("filename")) {
-    cwd = path.dirname(path.resolve(state.metadata.get("filename")));
+  if (state && state.document && state.document.get("filename")) {
+    cwd = path.dirname(path.resolve(state.document.get("filename")));
   }
   store.dispatch(newKernel(spec, cwd));
 }
@@ -357,7 +357,7 @@ export function triggerSaveAsPDF(store) {
 
 export function storeToPDF(store) {
   const state = store.getState();
-  let filename = path.basename(state.metadata.get("filename"), ".ipynb");
+  let filename = path.basename(state.document.get("filename"), ".ipynb");
   const notificationSystem = state.app.get("notificationSystem");
   if (filename === "") {
     notificationSystem.addNotification({
@@ -378,7 +378,7 @@ export function storeToPDF(store) {
     });
   } else {
     filename = path.join(
-      path.dirname(state.metadata.get("filename")),
+      path.dirname(state.document.get("filename")),
       filename
     );
     exportPDF(store, filename, notificationSystem);

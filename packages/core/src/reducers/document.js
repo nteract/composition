@@ -118,12 +118,17 @@ export function cleanCellTransient(state: DocumentState, id: string) {
 
 // It would probably be wise to make this JSON serializable and not be using
 // the immutable.js version of the notebook in the action
-type SetNotebookAction = { type: "SET_NOTEBOOK", notebook: ImmutableNotebook };
+type SetNotebookAction = {
+  type: "SET_NOTEBOOK",
+  notebook: ImmutableNotebook,
+  filename?: string
+};
 function setNotebook(state: DocumentState, action: SetNotebookAction) {
-  const { notebook } = action;
+  const { notebook, filename } = action;
 
   return state
     .set("notebook", notebook)
+    .update("filename", oldFilename => (filename ? filename : oldFilename))
     .set("cellFocused", notebook.getIn(["cellOrder", 0]))
     .setIn(["transient", "cellMap"], new Immutable.Map());
 }
@@ -655,6 +660,17 @@ function toggleOutputExpansion(
   );
 }
 
+type ChangeFilenameAction = {
+  type: "CHANGE_FILENAME",
+  filename: string
+};
+function changeFilename(state: DocumentState, action: ChangeFilenameAction) {
+  if (action.filename) {
+    return state.set("filename", action.filename);
+  }
+  return state;
+}
+
 type FocusCellActionType =
   | FocusPreviousCellEditorAction
   | FocusPreviousCellAction
@@ -761,6 +777,8 @@ function handleDocument(
       return changeCellType(state, action);
     case constants.TOGGLE_OUTPUT_EXPANSION:
       return toggleOutputExpansion(state, action);
+    case constants.CHANGE_FILENAME:
+      return changeFilename(state, action);
     default:
       return state;
   }

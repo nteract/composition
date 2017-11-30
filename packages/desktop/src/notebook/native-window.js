@@ -71,7 +71,7 @@ export function createTitleFeed(state$) {
   );
 
   const fullpath$ = state$.pipe(
-    map(state => state.metadata.get("filename") || "Untitled")
+    map(state => state.document.get("filename") || "Untitled")
   );
 
   const executionState$ = state$.pipe(

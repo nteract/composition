@@ -22,18 +22,12 @@ import { initMenuHandlers } from "./menu";
 import { initNativeHandlers } from "./native-window";
 import { initGlobalHandlers } from "./global-events";
 
-import {
-  AppRecord,
-  DocumentRecord,
-  MetadataRecord,
-  CommsRecord
-} from "@nteract/core/records";
+import { AppRecord, DocumentRecord, CommsRecord } from "@nteract/core/records";
 
 import "./main.css";
 
 const store = configureStore({
   app: AppRecord(),
-  metadata: MetadataRecord(),
   document: DocumentRecord(),
   comms: CommsRecord(),
   config: ImmutableMap({

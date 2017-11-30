@@ -4,11 +4,7 @@ import { remote } from "electron";
 import { from } from "rxjs/observable/from";
 
 import * as nativeWindow from "../../src/notebook/native-window";
-import {
-  AppRecord,
-  DocumentRecord,
-  MetadataRecord
-} from "@nteract/core/records";
+import { AppRecord, DocumentRecord } from "@nteract/core/records";
 
 const path = require("path");
 
@@ -58,12 +54,12 @@ describe("createTitleFeed", () => {
     );
     const state = {
       document: DocumentRecord({
-        notebook
+        notebook,
+        filename: "titled.ipynb"
       }),
       app: AppRecord({
         executionState: "not connected"
-      }),
-      metadata: MetadataRecord({ filename: "titled.ipynb" })
+      })
     };
 
     const state$ = from([state]);
@@ -95,12 +91,12 @@ describe("createTitleFeed", () => {
     const state = {
       document: DocumentRecord({
         notebook,
-        savedNotebook: notebook
+        savedNotebook: notebook,
+        filename: "titled.ipynb"
       }),
       app: AppRecord({
         executionState: "not connected"
-      }),
-      metadata: MetadataRecord({ filename: "titled.ipynb" })
+      })
     };
 
     const state$ = from([state]);
