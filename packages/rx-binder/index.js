@@ -1,6 +1,7 @@
 // @flow
-const PonyfillEventSource = require("eventsource");
 const { Observable } = require("rxjs/Observable");
+
+const EventSourcePolyfill = require("eventsource");
 
 const mybinderURL = "https://mybinder.org";
 
@@ -40,13 +41,14 @@ function formBinderURL(
 function binder(
   options /*: BinderOptions */,
   /** Allow overriding EventSource for testing and ponyfilling **/
-  EventSource = PonyfillEventSource
+  EventSourceDI /* :* */ = EventSourcePolyfill
 ) /*: Observable<*> */ {
   const url = formBinderURL(options);
-  return Observable.create(observer => {
-    const es = new EventSource(url);
 
-    es.onmessage = evt => {
+  return Observable.create(observer => {
+    const es = new EventSourceDI(url);
+
+    es.onmessage = function(evt) {
       const msg = JSON.parse(evt.data);
 
       // Pass messages onward, closing on "failed" or "ready"

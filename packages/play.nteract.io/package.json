@@ -1,0 +1,23 @@
+{
+  "name": "@nteract/play",
+  "version": "1.0.0",
+  "description": "a playground for execution",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "_build": "next build",
+    "start": "next start"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "next": "^4.1.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "rx-binder": "^1.0.2",
+    "rx-jupyter": "^2.1.0",
+    "rxjs": "^5.5.2",
+    "uuid": "^3.1.0"
+  }
+}

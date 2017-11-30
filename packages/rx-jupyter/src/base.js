@@ -19,7 +19,10 @@ export function createAJAXSettings(
   const settings = Object.assign(
     {
       url,
-      responseType: "json"
+      responseType: "json",
+      createXHR: function() {
+        return new XMLHttpRequest();
+      }
     },
     serverConfig,
     opts,

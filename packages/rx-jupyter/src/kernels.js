@@ -6,7 +6,7 @@ import { Observable } from "rxjs/Observable";
 
 import { createAJAXSettings } from "./base";
 
-import { URLSearchParams } from "url";
+const URLSearchParams = require("url-search-params");
 
 /**
  * Creates an AjaxObservable for listing running kernels.
