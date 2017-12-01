@@ -167,45 +167,7 @@ h1('woo')`,
 
     kernel.channels.next(JSON.stringify(kernelInfoRequest));
 
-    // Wait for the kernel info reply
     await kr;
-
-    /*
-    // Prep our handler for the kernel shutdown reply
-    const ks = kernel.channels
-      .pipe(
-        filter(m => m.header.msg_type === "shutdown_reply"),
-        first(),
-        timeout(100),
-        catchError(() => empty())
-      )
-      .toPromise();
-
-    kernel.channels.next(
-      JSON.stringify({
-        header: {
-          msg_id: uuid(),
-          username: "username",
-          session: kernel.session,
-          date: new Date().toISOString(),
-          msg_type: "shutdown_request",
-          version: "5.2"
-        },
-        channel: "shell",
-        parent_header: {},
-        metadata: {},
-        content: {},
-        buffers: []
-      })
-    );
-
-    await ks;
-
-    kernel.channels.complete();
-
-    console.log("** Killing kernel just to make it official **");
-    kernels.kill(this.state.serverConfig, kernel.id);
-    */
   }
 
   async getKernel(serverConfig, kernelName = "python3") {

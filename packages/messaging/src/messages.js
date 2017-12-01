@@ -266,3 +266,7 @@ export function executeInput(
     content
   );
 }
+
+export function kernelInfoRequest(sessionInfo?: SessionInfo) {
+  return message({ msg_type: "kernel_info_request" });
+}
