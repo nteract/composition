@@ -4,6 +4,9 @@ import css from "styled-jsx/css";
 
 export default css`
   /* completions styles */
+  :global(.CodeMirror) {
+    height: 100%;
+  }
 
   :global(.CodeMirror-hint) {
     padding-left: 0;
