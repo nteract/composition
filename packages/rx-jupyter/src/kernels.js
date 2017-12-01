@@ -4,6 +4,9 @@ import { ajax } from "rxjs/observable/dom/ajax";
 import { webSocket } from "rxjs/observable/dom/webSocket";
 import { Observable } from "rxjs/Observable";
 
+import { Subject } from "rxjs/Subject";
+import { Subscriber } from "rxjs/Subscriber";
+
 import { createAJAXSettings } from "./base";
 
 const URLSearchParams = require("url-search-params");
@@ -127,6 +130,45 @@ export function connect(
   serverConfig: Object,
   kernelID: string,
   sessionID: ?string
-): Observable<*> {
-  return webSocket(formWebSocketURL(serverConfig, kernelID, sessionID));
+): * {
+  const wsSubject = webSocket(
+    formWebSocketURL(serverConfig, kernelID, sessionID)
+  );
+
+  // Create a subject that does some of the handling inline for the session
+  // and ensuring it's serialized
+  return Subject.create(
+    Subscriber.create({
+      next: message => {
+        if (typeof message === "string") {
+          // Assume serialized
+          wsSubject.next(message);
+        } else if (typeof message === "object") {
+          const sessionizedMessage = Object.assign({}, message, {
+            header: Object.assign(
+              {},
+              {
+                session: sessionID
+              },
+              message.header
+            )
+          });
+
+          wsSubject.next(JSON.stringify(sessionizedMessage));
+        } else {
+          console.error(
+            "Message must be a string or object, app sent",
+            message
+          );
+        }
+      },
+      error: e => wsSubject.error(e),
+      complete: () => wsSubject.complete()
+    }), // Subscriber
+    // Subject.create takes a subscriber and an observable. We're only overriding
+    // the subscriber here so we pass the subject on as an observable as the
+    // second argument to Subject.create (since it's _also_ an observable)
+    // $FlowFixMe: update the flow definition to allow this
+    wsSubject
+  );
 }

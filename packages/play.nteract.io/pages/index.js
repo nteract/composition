@@ -75,13 +75,9 @@ h1('woo')`,
 
     await new Promise(resolve => this.setState({ outputs: [] }, resolve));
 
-    const message = executeRequest(
-      this.state.source,
-      {},
-      { session: this.state.kernel.session }
-    );
+    const message = executeRequest(this.state.source);
 
-    this.state.kernel.channels.next(JSON.stringify(message));
+    this.state.kernel.channels.next(message);
   }
 
   async kernelLifecycle(kernel) {
@@ -116,20 +112,18 @@ h1('woo')`,
       }
     });
 
-    kernel.channels.next(
-      JSON.stringify(kernelInfoRequest({ session: kernel.session }))
-    );
+    kernel.channels.next(kernelInfoRequest());
 
     await kernel.channels.pipe(ofMessageType("status"), first()).toPromise();
 
-    const kir = kernelInfoRequest({ session: kernel.session });
+    const kir = kernelInfoRequest();
 
     // Prep our handler for the kernel info reply
     const kr = kernel.channels
       .pipe(childOf(kir), ofMessageType("kernel_info_reply"), first())
       .toPromise();
 
-    kernel.channels.next(JSON.stringify(kernelInfoRequest));
+    kernel.channels.next(kernelInfoRequest());
 
     await kr;
   }
@@ -141,9 +135,11 @@ h1('woo')`,
       .start(serverConfig, kernelName, "")
       .pipe(
         map(aj => {
-          return Object.assign({}, aj.response, {
-            session: session,
-            channels: kernels.connect(serverConfig, aj.response.id, session)
+          const kernel = aj.response;
+          const wsSubject = kernels.connect(serverConfig, kernel.id, session);
+
+          return Object.assign({}, kernel, {
+            channels: wsSubject
           });
         })
       )
