@@ -10,17 +10,65 @@ import * as uuid from "uuid";
 
 type SessionInfo = { username: string, session: string };
 
+function whichChannel(messageType?: string) {
+  switch (messageType) {
+    case "execute_request":
+    case "inspect_request":
+    case "kernel_info_request":
+    case "complete_request":
+    case "history_request":
+    case "is_complete_request":
+    case "comm_info_request":
+      return "shell";
+    case "display_data":
+    case "stream":
+    case "update_display_data":
+    case "execute_input":
+    case "execute_result":
+    case "error":
+    case "status":
+    case "clear_output":
+      return "iopub";
+    case "input_request":
+    case "input_reply":
+      return "stdin";
+    default:
+      // We fallthrough to handle the comm messages separately as well as
+      // unknown message types
+      break;
+  }
+
+  // NOTE: The Kernel listens for COMM messages on the Shell channel,
+  //       and the Frontend listens for them on the IOPub channel.
+  // HACK: Since nteract is only frontends at the moment, no kernels implemented
+  //       we simply assume this is destined for a frontend. Revisit as needed.
+  if (
+    messageType === "comm_open" ||
+    messageType === "comm_msg" ||
+    messageType === "comm_close"
+  ) {
+    return "shell";
+  }
+
+  // Likely safe to assume the message goes on shell
+  // the developer can override this otherwise
+  return "shell";
+}
+
 export function message(
-  header?: { msg_type: string, username: string, session: string },
+  header: { msg_type?: string, username?: string, session?: string } = {},
   content?: Object = {}
 ): JupyterMessage<*, *> {
+  const channel = whichChannel(header.msg_type);
+
   return {
     header: {
       msg_id: uuid.v4(),
-      date: new Date(),
-      version: "5.1",
+      date: new Date().toISOString(),
+      version: "5.2",
 
       // These fields _should_ get overridden by those provided in `header`
+      // We supply them as a fallback here
       username: "nteract",
       msg_type: "__OVERWRITE_THE_MESSAGE_TYPE__",
       session: uuid.v4(),
@@ -29,14 +77,16 @@ export function message(
     },
     metadata: {},
     parent_header: {},
-    content
+    content,
+    channel,
+    buffers: []
   };
 }
 
 /**
  * An execute request creator
  *
- * > executeRequest({ username: 'kyle', session: '123' }, 'print("hey")', { 'allow_stdin': true })
+ * > executeRequest(print("hey")', { 'silent': true })
  * { header:
  *    { msg_id: 'f344cc6b-4308-4405-a8e8-a166b0345579',
  *      date: 2017-10-23T22:33:39.970Z,
@@ -268,5 +318,5 @@ export function executeInput(
 }
 
 export function kernelInfoRequest(sessionInfo?: SessionInfo) {
-  return message({ msg_type: "kernel_info_request" });
+  return message({ msg_type: "kernel_info_request", ...sessionInfo });
 }

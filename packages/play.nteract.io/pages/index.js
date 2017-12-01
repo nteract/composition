@@ -2,7 +2,12 @@ import * as React from "react";
 
 import CodeMirrorEditor from "@nteract/editor";
 import { Display } from "@nteract/display-area";
-import { executeRequest } from "@nteract/messaging";
+import {
+  executeRequest,
+  kernelInfoRequest,
+  childOf,
+  ofMessageType
+} from "@nteract/messaging";
 
 // TODO: finish making these our top level components
 import { _nextgen } from "@nteract/core/components";
@@ -76,13 +81,6 @@ h1('woo')`,
       { session: this.state.kernel.session }
     );
 
-    // TODO: These should get handled by our Rx.Subject directly
-    message.channel = "shell";
-    message.header.date = new Date().toISOString();
-    message.header.version = "5.2";
-    message.buffers = [];
-    message.header.username = "play.nteract.io";
-
     this.state.kernel.channels.next(JSON.stringify(message));
   }
 
@@ -119,50 +117,16 @@ h1('woo')`,
     });
 
     kernel.channels.next(
-      JSON.stringify({
-        header: {
-          msg_id: uuid(),
-          username: "username",
-          session: kernel.session,
-          date: new Date().toISOString(),
-          msg_type: "kernel_info_request",
-          version: "5.2"
-        },
-        channel: "shell",
-        parent_header: {},
-        metadata: {},
-        content: {},
-        buffers: []
-      })
+      JSON.stringify(kernelInfoRequest({ session: kernel.session }))
     );
 
-    await kernel.channels
-      .pipe(filter(m => m.header.msg_type === "status"), first())
-      .toPromise();
+    await kernel.channels.pipe(ofMessageType("status"), first()).toPromise();
 
-    const kernelInfoRequest = {
-      header: {
-        msg_id: uuid(),
-        username: "username",
-        session: kernel.session,
-        date: new Date().toISOString(),
-        msg_type: "kernel_info_request",
-        version: "5.2"
-      },
-      channel: "shell",
-      parent_header: {},
-      metadata: {},
-      content: {},
-      buffers: []
-    };
+    const kir = kernelInfoRequest({ session: kernel.session });
 
     // Prep our handler for the kernel info reply
     const kr = kernel.channels
-      .pipe(
-        filter(m => m.parent_header.msg_id === kernelInfoRequest.header.msg_id),
-        filter(m => m.header.msg_type === "kernel_info_reply"),
-        first()
-      )
+      .pipe(childOf(kir), ofMessageType("kernel_info_reply"), first())
       .toPromise();
 
     kernel.channels.next(JSON.stringify(kernelInfoRequest));
