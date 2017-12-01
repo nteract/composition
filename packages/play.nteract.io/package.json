@@ -11,6 +11,10 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@nteract/core": "^0.0.4",
+    "@nteract/editor": "^4.1.1",
+    "@nteract/display-area": "^3.1.0",
+    "@nteract/messaging": "^2.1.1",
     "lodash": "^4.17.4",
     "next": "^4.1.4",
     "react": "^16.2.0",
