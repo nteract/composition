@@ -22,7 +22,6 @@ const {
   Notebook
 } = _nextgen;
 
-import { Header } from "../components/header";
 import { BinderConsole } from "../components/consoles";
 
 const { binder } = require("rx-binder");
@@ -69,7 +68,8 @@ display(
         p('What will ', b('you'), ' create next?'),
     )
 )`,
-      outputs: []
+      outputs: [],
+      showPanel: false
     };
   }
 
@@ -206,32 +206,47 @@ display(
   render() {
     return (
       <div>
-        <Header kernelStatus={this.state.kernelStatus} />
-        <BinderConsole
-          logs={this.state.binderMessages}
-          expanded={!this.state.serverConfig}
-        />
+        <header>
+          <div className="left">
+            <img
+              src="https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/svg/nteract_logo_wide_purple_inverted.svg"
+              height="24px"
+              alt="nteract logo"
+            />
 
-        {this.state.kernel ? (
-          <button onClick={this.runSomeCode} className="play">
-            ▶
-          </button>
+            <button
+              onClick={this.runSomeCode}
+              className="play"
+              disabled={!this.state.kernel}
+            >
+              ▶ Run
+            </button>
+            <button
+              onClick={() =>
+                this.setState({ showPanel: !this.state.showPanel })
+              }
+            >
+              {this.state.showPanel ? "Hide" : "Show"} logs
+            </button>
+          </div>
+
+          <div className="kernel-data">
+            <div className="kernelInfo">
+              <span className="kernel">Runtime: </span>
+              {this.state.kernelStatus}
+            </div>
+          </div>
+        </header>
+
+        {this.state.showPanel ? (
+          <BinderConsole logs={this.state.binderMessages} />
         ) : null}
 
         <div className="play-editor">
           <CodeMirrorEditor
-            tip
-            completion
-            // id={this.props.id}
             value={this.state.source}
             language={"python"}
             onChange={this.onEditorChange}
-            // NOTE: A bunch of these are very notebook specific
-            // cellFocused={cellFocused}
-            // editorFocused={editorFocused}
-            // theme={this.props.theme}
-            // focusAbove={this.focusAboveCell}
-            // focusBelow={this.focusBelowCell}
           />
         </div>
 
@@ -242,50 +257,47 @@ display(
         </div>
 
         <style jsx>{`
-          .play {
-            border: none;
-            font-size: 50px;
+          header {
+            display: flex;
+            justify-content: space-between;
+            background-color: black;
+            padding: 10px;
+          }
 
-            outline: none;
-
-            text-transform: none;
-            overflow: visible;
-            margin: 0;
-
-            display: inline-block;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            padding: 0 10px;
+          header img,
+          header button,
+          header div {
             vertical-align: middle;
-            font-size: 14px;
-            min-width: 30px;
-            min-height: 30px;
+          }
+
+          header button {
+            border: none;
+            background-color: rgba(0, 0, 0, 0);
+            color: white;
+            height: 30px;
+          }
+
+          header button:hover {
+            color: #d7d7d7;
+          }
+
+          header img {
+            padding: 0px 20px 0px 10px;
+          }
+
+          .kernelInfo {
+            color: #f1f1f1;
             line-height: 30px;
-
-            box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2),
-              inset 0 -1px 0 rgba(16, 22, 26, 0.1);
-            background-color: #f8f8fa;
-            background-image: linear-gradient(
-              to bottom,
-              rgba(255, 255, 255, 0.8),
-              rgba(255, 255, 255, 0)
-            );
-            color: #181818;
+            font-family: Monaco, monospace, system-ui;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            vertical-align: middle;
+            display: table-cell;
+            padding-right: 10px;
           }
-
-          .play:active {
-            box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2),
-              inset 0 1px 2px rgba(16, 22, 26, 0.2);
-            background-color: #d8d8d8;
-            background-image: none;
-          }
-
-          .play:hover {
-            box-shadow: inset 0 0 0 1px rgba(16, 22, 26, 0.2),
-              inset 0 -1px 0 rgba(16, 22, 26, 0.1);
-            background-clip: padding-box;
-            background-color: #ebebeb;
+          .kernel {
+            color: #888;
           }
 
           .play-editor {
