@@ -29,6 +29,7 @@ export class BinderConsole extends React.Component {
         <style jsx>{`
           img {
             vertical-align: middle;
+            padding: 0 0 20px 20px;
           }
 
           .log {
@@ -64,7 +65,7 @@ export class BinderConsole extends React.Component {
           .binder-console {
             clear: left;
             min-height: 42px;
-            padding: 15px 0;
+            padding: 15px 0px 25px 0;
             color: #f1f1f1;
             font-family: Monaco, monospace;
             font-size: 12px;

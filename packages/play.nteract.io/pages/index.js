@@ -210,8 +210,8 @@ display(
           <div className="left">
             <img
               src="https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/svg/nteract_logo_wide_purple_inverted.svg"
-              height="24px"
               alt="nteract logo"
+              className="nteract-logo"
             />
 
             <button
@@ -257,11 +257,18 @@ display(
         </div>
 
         <style jsx>{`
+          --header-height: 42px;
+
           header {
             display: flex;
             justify-content: space-between;
             background-color: black;
-            padding: 10px;
+          }
+
+          header img {
+            height: calc(var(--header-height) - 16px);
+            width: 80px;
+            margin-left: 10px;
           }
 
           header img,
@@ -271,14 +278,28 @@ display(
           }
 
           header button {
+            padding: 0px 16px;
             border: none;
+            outline: none;
+            border-radius: unset;
             background-color: rgba(0, 0, 0, 0);
             color: white;
-            height: 30px;
+            height: var(--header-height);
+          }
+
+          header button:active,
+          header button:focus {
+            background-color: rgba(255, 255, 255, 0.1);
           }
 
           header button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
             color: #d7d7d7;
+          }
+
+          header button:disabled {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.1);
           }
 
           header img {
@@ -287,7 +308,7 @@ display(
 
           .kernelInfo {
             color: #f1f1f1;
-            line-height: 30px;
+            line-height: var(--header-height);
             font-family: Monaco, monospace, system-ui;
             font-size: 12px;
             white-space: pre-wrap;
