@@ -86,7 +86,7 @@ export function message(
 /**
  * An execute request creator
  *
- * > executeRequest(print("hey")', { 'silent': true })
+ * > executeRequest('print("hey")', { 'silent': true })
  * { header:
  *    { msg_id: 'f344cc6b-4308-4405-a8e8-a166b0345579',
  *      date: 2017-10-23T22:33:39.970Z,
