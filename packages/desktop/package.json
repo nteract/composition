@@ -4,13 +4,7 @@
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
   "repository": "nteract/nteract",
-  "keywords": [
-    "jupyter",
-    "electron",
-    "notebook",
-    "nteract",
-    "data"
-  ],
+  "keywords": ["jupyter", "electron", "notebook", "nteract", "data"],
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
   "bugs": {
@@ -31,15 +25,23 @@
     "pretest:functional": "npm run build",
     "sublaunch": "electron-mocha --compilers js:babel-core/register",
     "test:functional:launch": "npm run sublaunch -- test/main/launch.js",
-    "test:functional:launchNewNotebook": "npm run sublaunch -- test/main/launchNewNotebook.js",
-    "test:functional": "npm run test:functional:launch && npm run test:functional:launchNewNotebook",
-    "test:unit": "mocha -r test/setup.js --compilers js:babel-core/register --require ignore-styles \"test/renderer/**/*.js\"",
-    "test:debug": "mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register --require ignore-styles \"test/renderer/**/*.js\"",
-    "test:unit:individual": "mocha -r test/setup.js --compilers js:babel-core/register --require ignore-styles",
+    "test:functional:launchNewNotebook":
+      "npm run sublaunch -- test/main/launchNewNotebook.js",
+    "test:functional":
+      "npm run test:functional:launch && npm run test:functional:launchNewNotebook",
+    "test:unit":
+      "mocha -r test/setup.js --compilers js:babel-core/register --require ignore-styles \"test/renderer/**/*.js\"",
+    "test:debug":
+      "mocha --debug-brk --inspect -r test/setup.js --compilers js:babel-core/register --require ignore-styles \"test/renderer/**/*.js\"",
+    "test:unit:individual":
+      "mocha -r test/setup.js --compilers js:babel-core/register --require ignore-styles",
     "test:watch": "watch 'npm run test' test/",
-    "pack": "npm run clean && webpack --config webpack.prod.js && electron-builder --dir",
-    "dist": "npm run clean && webpack --config webpack.prod.js && electron-builder",
-    "publish": "npm run clean && webpack --config webpack.prod.js && electron-builder -p always",
+    "pack":
+      "npm run clean && webpack --config webpack.prod.js && electron-builder --dir",
+    "dist":
+      "npm run clean && webpack --config webpack.prod.js && electron-builder",
+    "publish":
+      "npm run clean && webpack --config webpack.prod.js && electron-builder -p always",
     "dist:all": "npm run dist -- -mlw",
     "publish:all": "npm run publish -- -mlw"
   },
@@ -57,28 +59,18 @@
     },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": [
-        "dmg",
-        "zip"
-      ]
+      "target": ["dmg", "zip"]
     },
     "nsis": {
       "perMachine": true,
       "oneClick": false
     },
     "win": {
-      "target": [
-        "nsis",
-        "zip"
-      ]
+      "target": ["nsis", "zip"]
     },
     "linux": {
       "maintainer": "nteract contributors <jupyter@googlegroups.com>",
-      "target": [
-        "deb",
-        "AppImage",
-        "tar.gz"
-      ],
+      "target": ["deb", "AppImage", "tar.gz"],
       "desktop": {
         "Comment": "Interactive literate coding notebook",
         "Exec": "/opt/nteract/nteract %U",
@@ -94,23 +86,12 @@
       "category": "Science",
       "packageCategory": "editors"
     },
-    "files": [
-      "lib/*.js",
-      "lib/*.css",
-      "lib/*.woff",
-      "lib/*.woff2",
-      "static"
-    ],
-    "extraResources": [
-      "bin",
-      "example-notebooks"
-    ],
+    "files": ["lib/*.js", "lib/*.css", "lib/*.woff", "lib/*.woff2", "static"],
+    "extraResources": ["bin", "example-notebooks"],
     "npmSkipBuildFromSource": true
   },
   "jest": {
-    "setupFiles": [
-      "./scripts/mockument"
-    ]
+    "setupFiles": ["./scripts/mockument"]
   },
   "dependencies": {
     "github": "^9.0.0",
@@ -122,7 +103,7 @@
   },
   "devDependencies": {
     "@nteract/commutable": "^2.2.0",
-    "@nteract/core": "^0.0.6",
+    "@nteract/core": "^0.0.7",
     "@nteract/display-area": "^3.1.0",
     "@nteract/editor": "^4.2.1",
     "@nteract/messaging": "^2.2.1",

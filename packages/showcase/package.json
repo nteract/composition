@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@nteract/commutable": "^2.2.0",
-    "@nteract/core": "^0.0.6",
+    "@nteract/core": "^0.0.7",
     "@nteract/display-area": "^3.1.0",
     "@nteract/editor": "^4.2.1",
     "@nteract/notebook-preview": "^4.1.4",
@@ -27,10 +27,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "nteract",
-    "ohgodamonomoduleinamonorepo"
-  ],
+  "keywords": ["nteract", "ohgodamonomoduleinamonorepo"],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }
