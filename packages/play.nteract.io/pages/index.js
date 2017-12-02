@@ -42,6 +42,27 @@ const { empty } = require("rxjs/observable/empty");
 
 const uuid = require("uuid");
 
+function detectPlatform(ctx) {
+  if (ctx.req && ctx.req.headers) {
+    // Server side
+    const ua = ctx.req.headers["user-agent"];
+    if (/Windows/.test(ua)) {
+      return "Windows";
+    } else if (/Linux/.test(ua)) {
+      return "Linux";
+    }
+    // Client side
+  } else if (navigator.platform) {
+    if (/Win/.test(navigator.platform)) {
+      return "Windows";
+    } else if (/Linux/.test(navigator.platform)) {
+      return "Linux";
+    }
+  }
+  // Else keep macOS default
+  return "macOS";
+}
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -49,6 +70,7 @@ export default class App extends React.Component {
     this.getServer = this.getServer.bind(this);
     this.runSomeCode = this.runSomeCode.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.state = {
       binderMessages: [],
@@ -71,6 +93,11 @@ display(
       outputs: [],
       showPanel: false
     };
+  }
+
+  static async getInitialProps(ctx: Context<EmptyQuery>): Promise<OSProps> {
+    const platform = detectPlatform(ctx);
+    return { platform };
   }
 
   onEditorChange(source) {
@@ -199,13 +226,25 @@ display(
     await this.kernelLifecycle(kernel);
   }
 
+  onKeyDown(e) {
+    // If enter is not pressed, do nothing
+    if (e.keyCode !== 13) {
+      return;
+    }
+
+    if (e.metaKey || e.ctrlKey || e.shiftKey) {
+      this.runSomeCode();
+    }
+    e.preventDefault();
+  }
+
   componentDidMount() {
     this.initialize();
   }
 
   render() {
     return (
-      <div>
+      <div onKeyDown={this.onKeyDown}>
         <header>
           <div className="left">
             <img
@@ -218,6 +257,9 @@ display(
               onClick={this.runSomeCode}
               className="play"
               disabled={!this.state.kernel}
+              title={`run cell (${
+                this.props.platform === "macOS" ? "⌘-" : "Ctrl-"
+              }⏎)`}
             >
               ▶ Run
             </button>
