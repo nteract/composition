@@ -1,4 +1,4 @@
-FROM node:6.5.0
+FROM node:8.9.1
 ADD . /nteract
 WORKDIR /nteract
 RUN npm i
