@@ -7,11 +7,13 @@ export class BinderConsole extends React.Component {
     const { logs } = this.props;
     return (
       <div className="binder-console">
-        <img
-          src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
-          alt="binder logo"
-          height="20px"
-        />
+        <a href="https://mybinder.org" target="_blank">
+          <img
+            src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
+            alt="binder logo"
+            height="20px"
+          />
+        </a>
         {logs.length > 0
           ? logs.map((log, index) => {
               return (

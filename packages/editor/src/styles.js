@@ -133,8 +133,6 @@ export default css`
     padding: 10px;
   }
   :global(.cm-s-composition .CodeMirror-gutters) {
-    box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
-    -webkit-box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.5);
     background-color: var(--cm-gutter-bg, white);
     padding-right: 10px;
     z-index: 3;

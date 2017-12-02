@@ -244,6 +244,7 @@ display(
 
         <div className="play-editor">
           <CodeMirrorEditor
+            options={{ lineNumbers: true }}
             value={this.state.source}
             language={"python"}
             onChange={this.onEditorChange}
@@ -258,6 +259,7 @@ display(
 
         <style jsx>{`
           --header-height: 42px;
+          --editor-width: 52%;
 
           header {
             display: flex;
@@ -315,21 +317,25 @@ display(
             word-wrap: break-word;
             vertical-align: middle;
             display: table-cell;
-            padding-right: 10px;
+            padding-right: 20px;
           }
           .kernel {
             color: #888;
           }
 
           .play-editor {
-            width: 50%;
+            width: var(--editor-width);
             position: absolute;
             left: 0;
             height: 100%;
           }
 
+          .play-editor :global(.CodeMirror) {
+            height: 100%;
+          }
+
           .play-outputs {
-            width: 50%;
+            width: calc(100% - var(--editor-width));
             position: absolute;
             right: 0;
             height: 100%;
@@ -342,11 +348,20 @@ display(
           .play-editor > :global(*) {
             height: 100%;
           }
+          :global(.CodeMirror) {
+            height: 100%;
+          }
         `}</style>
 
         <style jsx global>{`
           body {
             margin: 0;
+          }
+          .CodeMirror {
+            height: 100%;
+          }
+          .CodeMirror-gutters {
+            box-shadow: unset;
           }
         `}</style>
       </div>
