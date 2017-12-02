@@ -70,7 +70,6 @@ export default class App extends React.Component {
     this.getServer = this.getServer.bind(this);
     this.runSomeCode = this.runSomeCode.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.state = {
       binderMessages: [],
@@ -233,25 +232,13 @@ display(
     await this.kernelLifecycle(kernel);
   }
 
-  onKeyDown(e) {
-    // If enter is not pressed, do nothing
-    if (e.keyCode !== 13) {
-      return;
-    }
-
-    if (e.metaKey || e.ctrlKey || e.shiftKey) {
-      this.runSomeCode();
-    }
-    e.preventDefault();
-  }
-
   componentDidMount() {
     this.initialize();
   }
 
   render() {
     return (
-      <div onKeyDown={this.onKeyDown}>
+      <div>
         <header>
           <div className="left">
             <img
@@ -293,7 +280,13 @@ display(
 
         <div className="play-editor">
           <CodeMirrorEditor
-            options={{ lineNumbers: true }}
+            options={{
+              lineNumbers: true,
+              extraKeys: {
+                "Ctrl-Enter": this.runSomeCode,
+                "Cmd-Enter": this.runSomeCode
+              }
+            }}
             value={this.state.source}
             language={"python"}
             onChange={this.onEditorChange}
