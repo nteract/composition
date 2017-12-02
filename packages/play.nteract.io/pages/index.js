@@ -80,14 +80,21 @@ export default class App extends React.Component {
       kernel: null,
       error: null,
       source: `from IPython.display import display
-from vdom import h1, p, img, div, b
+from vdom import h1, p, img, div, b, span
 
 display(
     div(
-        h1('Our Incredibly Declarative Example'),
-        p('Can you believe we wrote this ', b('in Python'), '?'),
-        img(src="https://media.giphy.com/media/xUPGcguWZHRC2HyBRS/giphy.gif"),
-        p('What will ', b('you'), ' create next?'),
+        h1('Welcome to play.nteract.io'),
+        p('Run Python code via Binder & Jupyter'),
+        img(src="https://bit.ly/storybot-vdom"),
+        p('Change the code, click ',
+            span("▶ Run", style=dict(
+                color="white",
+                backgroundColor="black",
+                padding="10px"
+            )),
+          ' Up above'
+        )
     )
 )`,
       outputs: [],
