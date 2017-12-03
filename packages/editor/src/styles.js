@@ -218,8 +218,8 @@ export default css`
     color: var(--cm-hint-color-active, black);
   }
 
-  :global(.initialTextAreaForCodeMirror) {
-    font-family: "Source Code Pro";
+  .initialTextAreaForCodeMirror {
+    font-family: "Source Code Pro", "Monaco", monospace;
     font-size: 14px;
     line-height: 20px;
 
@@ -241,7 +241,7 @@ export default css`
     word-spacing: 1px;
   }
 
-  :global(.initialTextAreaForCodeMirror:focus) {
+  .initialTextAreaForCodeMirror:focus {
     outline: none;
     border: none;
   }

@@ -400,7 +400,7 @@ class CodeMirrorEditor extends React.Component<
           }}
           defaultValue={this.props.value}
           autoComplete="off"
-          className="CodeMirror-code initialTextAreaForCodeMirror"
+          className="initialTextAreaForCodeMirror"
         />
         <style jsx>{showHintStyles}</style>
         <style jsx>{codemirrorStyles}</style>

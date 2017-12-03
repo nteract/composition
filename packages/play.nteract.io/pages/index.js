@@ -399,11 +399,43 @@ display(
           body {
             margin: 0;
           }
+
+          /** In development mode, these aren't set right away so we set them
+          direct to start off. Same styled-jsx issue we typically run into with
+          our lerna app... */
           .CodeMirror {
             height: 100%;
           }
           .CodeMirror-gutters {
             box-shadow: unset;
+          }
+
+          .initialTextAreaForCodeMirror {
+            font-family: "Source Code Pro", "Monaco", monospace;
+            font-size: 14px;
+            line-height: 20px;
+
+            height: auto;
+
+            background: none;
+
+            border: none;
+            overflow: hidden;
+
+            -webkit-scrollbar: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            width: 100%;
+            resize: none;
+            padding: 10px 0 5px 10px;
+            letter-spacing: 0.3px;
+            word-spacing: 1px;
+          }
+
+          .initialTextAreaForCodeMirror:focus {
+            outline: none;
+            border: none;
           }
         `}</style>
       </div>
