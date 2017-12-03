@@ -217,4 +217,32 @@ export default css`
     background: var(--cm-hint-bg-active, #abd1ff);
     color: var(--cm-hint-color-active, black);
   }
+
+  :global(.initialTextAreaForCodeMirror) {
+    font-family: "Source Code Pro";
+    font-size: 14px;
+    line-height: 20px;
+
+    height: auto;
+
+    background: none;
+
+    border: none;
+    overflow: hidden;
+
+    -webkit-scrollbar: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    width: 100%;
+    resize: none;
+    padding: 10px 0 5px 10px;
+    letter-spacing: 0.3px;
+    word-spacing: 1px;
+  }
+
+  :global(.initialTextAreaForCodeMirror:focus) {
+    outline: none;
+    border: none;
+  }
 `;
