@@ -192,7 +192,7 @@ display(
 
   async getServer() {
     const serverConfig = await binder(
-      { repo: "nteract/vdom" },
+      { repo: "binder-examples/jupyter-stacks" },
       window.EventSource
     )
       .pipe(
