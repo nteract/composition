@@ -21,7 +21,10 @@
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
     "postinstall": "npm run lerna",
-    "start": "lerna run start --scope nteract --stream",
+    "app:desktop": "lerna run start --scope nteract --stream",
+    "app:play": "lerna run dev --scope @nteract/play --stream",
+    "app:showcase": "lerna run dev --scope @nteract/showcase --stream",
+    "start": "npm run app:desktop",
     "spawn": "lerna run spawn --scope nteract",
     "showcase": "lerna run dev --scope @nteract/showcase --stream",
     "lint": "eslint .",
