@@ -295,7 +295,7 @@ display(
 
         <div className="play-outputs">
           <Outputs>
-            <Display outputs={this.state.outputs} />
+            <Display outputs={this.state.outputs} expanded />
           </Outputs>
         </div>
 
@@ -380,7 +380,6 @@ display(
             width: calc(100% - var(--editor-width));
             position: absolute;
             right: 0;
-            height: 100%;
           }
 
           .play-outputs :global(*) {
