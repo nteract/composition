@@ -1,11 +1,7 @@
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 import uuidv4 from "uuid/v4";
 
-import {
-  createChannels,
-  createChannelSubject,
-  createIOPubSubject
-} from "../src";
+import { createChannels, createIOPubSubject } from "../src";
 
 describe("createChannels", () => {
   test("creates the channels per enchannel spec", () => {
@@ -31,23 +27,6 @@ describe("createChannels", () => {
     s.stdin.complete();
     s.control.complete();
     s.iopub.complete();
-  });
-});
-
-describe("createChannelSubject", () => {
-  test("creates a subject for the channel", () => {
-    const config = {
-      signature_scheme: "hmac-sha256",
-      key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
-      ip: "127.0.0.1",
-      transport: "tcp",
-      iopub_port: 19009
-    };
-    const s = createChannelSubject("iopub", uuidv4(), config);
-    expect(typeof s.next).toBe("function");
-    expect(typeof s.complete).toBe("function");
-    expect(typeof s.subscribe).toBe("function");
-    s.complete();
   });
 });
 

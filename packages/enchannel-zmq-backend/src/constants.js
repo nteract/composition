@@ -1,3 +1,4 @@
+// @flow
 export const IOPUB = "iopub";
 export const STDIN = "stdin";
 export const SHELL = "shell";

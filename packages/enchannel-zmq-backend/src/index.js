@@ -1,8 +1,16 @@
+// @flow
 import { SHELL, STDIN, IOPUB, CONTROL } from "./constants";
 import { Subject } from "rxjs/Subject";
 import { Subscriber } from "rxjs/Subscriber";
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
+
+import { merge } from "rxjs/observable/merge";
+
+import { map } from "rxjs/operators";
+
 import { createSubject, createSocket } from "./subjection";
+
+import type { JUPYTER_CONNECTION_INFO } from "./subjection";
 
 /**
  * convertToMultiplex converts an enchannel multiplexed message to a
@@ -11,7 +19,7 @@ import { createSubject, createSocket } from "./subjection";
  * @param {Object}  message The enchannel message to convert
  * @return  {Object}  Converted message
  */
-export function convertToMultiplex(message) {
+export function convertToMultiplex(message: any) {
   return Object.assign({}, message.body, { channel: message.type });
 }
 
@@ -26,7 +34,11 @@ export function convertToMultiplex(message) {
  * @param  {string} subscription            subscribed topic; defaults to all
  * @return {Subject} Subject containing multiplexed channels
  */
-export function createMainChannel(identity, config, subscription = "") {
+export function createMainChannel(
+  identity: string,
+  config: JUPYTER_CONNECTION_INFO,
+  subscription: string = ""
+) {
   const { shell, control, stdin, iopub } = createChannels(
     identity,
     config,
@@ -36,7 +48,12 @@ export function createMainChannel(identity, config, subscription = "") {
   return main;
 }
 
-export function createMainChannelFromChannels(shell, control, stdin, iopub) {
+export function createMainChannelFromChannels(
+  shell: *,
+  control: *,
+  stdin: *,
+  iopub: *
+) {
   const main = Subject.create(
     Subscriber.create({
       next: message => {
@@ -58,19 +75,27 @@ export function createMainChannelFromChannels(shell, control, stdin, iopub) {
         }
       }
     }),
-    Observable.merge(
-      shell.source.map(body => {
-        return { type: SHELL, body };
-      }),
-      stdin.source.map(body => {
-        return { type: STDIN, body };
-      }),
-      control.source.map(body => {
-        return { type: CONTROL, body };
-      }),
-      iopub.source.map(body => {
-        return { type: IOPUB, body };
-      })
+    merge(
+      shell.source.pipe(
+        map(body => {
+          return { type: SHELL, body };
+        })
+      ),
+      stdin.source.pipe(
+        map(body => {
+          return { type: STDIN, body };
+        })
+      ),
+      control.source.pipe(
+        map(body => {
+          return { type: CONTROL, body };
+        })
+      ),
+      iopub.source.pipe(
+        map(body => {
+          return { type: IOPUB, body };
+        })
+      )
     )
   );
   return main;
@@ -87,7 +112,11 @@ export function createMainChannelFromChannels(shell, control, stdin, iopub) {
  * @param  {string} subscription            subscribed topic; defaults to all
  * @return {object} channels object, per enchannel spec
  */
-export function createChannels(identity, config, subscription = "") {
+export function createChannels(
+  identity: string,
+  config: JUPYTER_CONNECTION_INFO,
+  subscription: string = ""
+) {
   return {
     shell: createShellSubject(identity, config),
     control: createControlSubject(identity, config),
@@ -96,87 +125,34 @@ export function createChannels(identity, config, subscription = "") {
   };
 }
 
-/**
- * createChannelSubject creates a subject for sending and receiving messages on
- * the given channel
- * @param  {string} channel                 iopub || shell || control || stdin
- * @param  {string} identity                UUID
- * @param  {Object} config                  Jupyter connection information
- * @param  {string} config.ip               IP address of the kernel
- * @param  {string} config.transport        Transport, e.g. TCP
- * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
- * @param  {number} config.shell_port       Port for shell channel
- * @return {Rx.Subject} subject for sending and receiving messages on the shell
- *                      channel
- */
-export function createChannelSubject(channel, identity, config) {
-  return createSubject(createSocket(channel, identity, config));
+export function createShellSubject(
+  identity: string,
+  config: JUPYTER_CONNECTION_INFO
+) {
+  return createSubject(createSocket("shell", identity, config));
 }
 
-/**
- * createShellSubject creates a subject for sending and receiving messages on a
- * kernel's shell channel
- * @param  {string} identity                UUID
- * @param  {Object} config                  Jupyter connection information
- * @param  {string} config.ip               IP address of the kernel
- * @param  {string} config.transport        Transport, e.g. TCP
- * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
- * @param  {number} config.shell_port       Port for shell channel
- * @return {Rx.Subject} subject for sending and receiving messages on the shell
- *                      channel
- */
-export function createShellSubject(identity, config) {
-  return createChannelSubject(SHELL, identity, config);
+export function createControlSubject(
+  identity: string,
+  config: JUPYTER_CONNECTION_INFO
+) {
+  return createSubject(createSocket("control", identity, config));
 }
 
-/**
- * createControlSubject creates a subject for sending and receiving on a
- * kernel's control channel
- * @param  {string} identity                UUID
- * @param  {Object} config                  Jupyter connection information
- * @param  {string} config.ip               IP address of the kernel
- * @param  {string} config.transport        Transport, e.g. TCP
- * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
- * @param  {number} config.control_port     Port for control channel
- * @return {Rx.Subject} subject for sending and receiving messages on the control
- *                      channel
- */
-export function createControlSubject(identity, config) {
-  return createChannelSubject(CONTROL, identity, config);
+export function createStdinSubject(
+  identity: string,
+  config: JUPYTER_CONNECTION_INFO
+) {
+  return createSubject(createSocket("stdin", identity, config));
 }
 
-/**
- * createStdinSubject creates a subject for sending and receiving messages on a
- * kernel's stdin channel
- * @param  {string} identity                UUID
- * @param  {Object} config                  Jupyter connection information
- * @param  {string} config.ip               IP address of the kernel
- * @param  {string} config.transport        Transport, e.g. TCP
- * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
- * @param  {number} config.stdin_port       Port for stdin channel
- * @return {Rx.Subject} subject for sending and receiving messages on the stdin
- *                      channel
- */
-export function createStdinSubject(identity, config) {
-  return createChannelSubject(STDIN, identity, config);
-}
-
-/**
- * createIOPubSubject creates a shell subject for receiving messages on a
- * kernel's iopub channel
- * @param  {string} identity                UUID
- * @param  {Object} config                  Jupyter connection information
- * @param  {string} config.ip               IP address of the kernel
- * @param  {string} config.transport        Transport, e.g. TCP
- * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
- * @param  {number} config.iopub_port       Port for iopub channel
- * @param  {string} subscription            subscribed topic; defaults to all
- * @return {Rx.Subject} subject for receiving messages on the shell_port
- *                      channel
- */
-export function createIOPubSubject(identity, config, subscription = "") {
+export function createIOPubSubject(
+  identity: string,
+  config: JUPYTER_CONNECTION_INFO,
+  subscription: string = ""
+) {
   const ioPubSocket = createSocket(IOPUB, identity, config);
-  // ZMQ PUB/SUB subscription (not an Rx subscription)
+  // NOTE: ZMQ PUB/SUB subscription (not an Rx subscription)
   ioPubSocket.subscribe(subscription);
-  return createSubject(ioPubSocket);
+  return createSubject(createSocket("iopub", identity, config));
 }

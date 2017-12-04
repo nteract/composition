@@ -1011,9 +1011,16 @@ declare class rxjs$Observer<T> {
   complete(): mixed;
 }
 
-// FIXME(samgoldman) should be `mixins rxjs$Observable<T>, rxjs$Observer<T>`
-// once Babel parsing support exists: https://phabricator.babeljs.io/T6821
-declare class rxjs$Subject<T> extends rxjs$Observable<T> {
+// NOTE: This is the nteract definition, for our subjects -- not that of flow-typed
+// Bring in the latest after https://github.com/flowtype/flow-typed/pull/1616 is
+// reviewed and merged.
+// prettier-ignore
+declare class rxjs$Subject<T> extends rxjs$Observable<T> mixins rxjs$Observer<T> {
+  static create<T>(
+    destination: rxjs$Observer<T>,
+    source: rxjs$Observable<T>
+  ): rxjs$AnonymousSubject<T>;
+
   asObservable(): rxjs$Observable<T>;
 
   observers: Array<rxjs$Observer<T>>;
@@ -1028,6 +1035,11 @@ declare class rxjs$Subject<T> extends rxjs$Observable<T> {
   // For use in subclasses only:
   _next(value: T): void;
   _subscribe(observer: rxjs$PartialObserver<T>): rxjs$Subscription;
+}
+
+declare class rxjs$AnonymousSubject<T> extends rxjs$Subject<T> {
+  destination: rxjs$Observer<T>;
+  source: rxjs$Observable<T>;
 }
 
 declare class rxjs$BehaviorSubject<T> extends rxjs$Subject<T> {

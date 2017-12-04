@@ -5,17 +5,18 @@
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
   "scripts": {
-    "repl": "babel-node scripts/repl.js",
-    "prepublish": "npm run build",
-    "prebuild": "mkdirp lib && npm run clean",
-    "build": "npm run build:es5",
-    "build:es5": "babel src --out-dir lib/ --source-maps",
-    "build:docs": "jsdoc -R README.md -d docs src/*.js",
+    "prepare": "npm run build",
+    "prebuild": "npm run build:clean",
+    "build": "npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
     "test": "jest",
-    "test:watch": "npm run test -- --watch",
-    "clean": "rimraf lib/*"
+    "test:watch": "npm run test -- --watch"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
