@@ -13,17 +13,6 @@ import { createSubject, createSocket } from "./subjection";
 import type { JUPYTER_CONNECTION_INFO } from "./subjection";
 
 /**
- * convertToMultiplex converts an enchannel multiplexed message to a
- * Jupyter multiplexed message
- *
- * @param {Object}  message The enchannel message to convert
- * @return  {Object}  Converted message
- */
-export function convertToMultiplex(message: any) {
-  return Object.assign({}, message.body, { channel: message.type });
-}
-
-/**
  * createMainChannel creates a multiplexed set of channels
  * @param  {string} identity                UUID
  * @param  {Object} config                  Jupyter connection information
@@ -57,43 +46,45 @@ export function createMainChannelFromChannels(
   const main = Subject.create(
     Subscriber.create({
       next: message => {
-        switch (message.type) {
+        switch (message.channel) {
           case SHELL:
-            shell.next(message.body);
+            shell.next(message);
             break;
           case CONTROL:
-            control.next(message.body);
+            control.next(message);
             break;
           case STDIN:
-            stdin.next(message.body);
+            stdin.next(message);
             break;
           case IOPUB:
-            iopub.next(message.body);
+            iopub.next(message);
             break;
           default:
+            // messages with no channel are dropped instead of bombing the stream
+            console.warn("message sent without channel", message);
             return;
         }
       }
     }),
     merge(
-      shell.source.pipe(
+      shell.pipe(
         map(body => {
-          return { type: SHELL, body };
+          return { ...body, channel: SHELL };
         })
       ),
-      stdin.source.pipe(
+      stdin.pipe(
         map(body => {
-          return { type: STDIN, body };
+          return { ...body, channel: STDIN };
         })
       ),
-      control.source.pipe(
+      control.pipe(
         map(body => {
-          return { type: CONTROL, body };
+          return { ...body, channel: CONTROL };
         })
       ),
-      iopub.source.pipe(
+      iopub.pipe(
         map(body => {
-          return { type: IOPUB, body };
+          return { ...body, channel: IOPUB };
         })
       )
     )

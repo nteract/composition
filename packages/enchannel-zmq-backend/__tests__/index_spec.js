@@ -33,18 +33,18 @@ describe("createMainChannel", () => {
     const channel = createMainChannelFromChannels(shell, control, stdin, iopub);
 
     shell.subscribe(value => {
-      expect(value).toEqual({ a: "b" });
+      expect(value).toEqual({ a: "b", channel: "shell" });
     });
-    channel.next({ type: "SHELL", body: { a: "b" } });
+    channel.next({ channel: "shell", a: "b" });
 
     control.subscribe(value => {
-      expect(value).toEqual({ c: "d" });
+      expect(value).toEqual({ c: "d", channel: "control" });
     });
-    channel.next({ type: "CONTROL", body: { c: "d" } });
+    channel.next({ channel: "control", c: "d" });
 
     stdin.subscribe(value => {
-      expect(value).toEqual({ e: "f" });
+      expect(value).toEqual({ e: "f", channel: "stdin" });
     });
-    channel.next({ type: "STDIN", body: { e: "f" } });
+    channel.next({ channel: "stdin", e: "f" });
   });
 });
