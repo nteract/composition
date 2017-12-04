@@ -151,8 +151,8 @@ export function createIOPubSubject(
   config: JUPYTER_CONNECTION_INFO,
   subscription: string = ""
 ) {
-  const ioPubSocket = createSocket(IOPUB, identity, config);
+  const ioPubSocket = createSocket("iopub", identity, config);
   // NOTE: ZMQ PUB/SUB subscription (not an Rx subscription)
   ioPubSocket.subscribe(subscription);
-  return createSubject(createSocket("iopub", identity, config));
+  return createSubject(ioPubSocket);
 }
