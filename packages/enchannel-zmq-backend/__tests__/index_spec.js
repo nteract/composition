@@ -21,8 +21,10 @@ describe("the built version of enchannel-zmq-backend", () => {
 });
 
 describe("createMainChannel", () => {
-  test("pipes messages from socket appropriately", () => {
+  test("pipes messages to socket appropriately", () => {
+    // outward to the socket
     const sent = new Subject();
+    // coming from the socket
     const received = new Subject();
 
     const shell = Subject.create(sent, received);
@@ -32,6 +34,7 @@ describe("createMainChannel", () => {
       { session: "1234", username: "jovyan" }
     );
 
+    // We test that our socket got the formed message
     sent.subscribe(value => {
       expect(value).toEqual({
         a: "b",
@@ -45,6 +48,35 @@ describe("createMainChannel", () => {
       channel: "shell",
       // msg_id should stay, session should get written over
       header: { msg_id: "789AB", session: "XYZ" }
+    });
+  });
+
+  test("routes messages appropriately", () => {
+    // outward to the socket
+    const sent = new Subject();
+    // coming from the socket
+    const received = new Subject();
+
+    const shell = Subject.create(sent, received);
+
+    const channel = createMainChannelFromChannels(
+      { shell },
+      { session: "1234", username: "jovyan" }
+    );
+
+    channel.subscribe(value => {
+      expect(value).toEqual({
+        a: "b",
+        // mostly checking that the right channel was set
+        channel: "shell",
+        header: { msg_id: "KERNEL_MESSAGE1", session: "HAPPY" }
+      });
+    });
+
+    // Live from the socket
+    received.next({
+      a: "b",
+      header: { msg_id: "KERNEL_MESSAGE1", session: "HAPPY" }
     });
   });
 });
