@@ -7,30 +7,18 @@ var { createMainChannel } = require("..");
 
 var { first } = require("rxjs/operators");
 
+var { executeRequest } = require("@nteract/messaging");
+
 const uuid = require("uuid");
 
 async function main() {
   var identity = uuid();
   const kernel = await launch("python3");
 
-  const channel = createMainChannel(identity, kernel.config);
-  const message = {
-    header: {
-      msg_id: `execute_9ed11a0f-707e-4f71-829c-a19b8ff8eed8`,
-      username: "rgbkrk",
-      session: "00000000-0000-0000-0000-000000000000",
-      msg_type: "execute_request",
-      version: "5.0"
-    },
-    content: {
-      code: 'print("woo")',
-      silent: false,
-      store_history: true,
-      user_expressions: {},
-      allow_stdin: false
-    },
-    channel: "shell"
-  };
+  const channel = createMainChannel(kernel.config);
+  const message = executeRequest('print("woo")');
+  console.log(message);
+
   channel.subscribe(console.log);
   channel.next(message);
 

@@ -12,6 +12,23 @@ import { createSubject, createSocket } from "./subjection";
 
 import type { JUPYTER_CONNECTION_INFO } from "./subjection";
 
+import { v4 as uuid } from "uuid";
+
+type SESSION_INFO = {
+  id: string,
+  username: string
+};
+
+export function getUsername(): string {
+  return (
+    process.env.LOGNAME ||
+    process.env.USER ||
+    process.env.LNAME ||
+    process.env.USERNAME ||
+    "username" // This is the fallback that the classic notebook uses
+  );
+}
+
 /**
  * createMainChannel creates a multiplexed set of channels
  * @param  {string} identity                UUID
@@ -24,68 +41,48 @@ import type { JUPYTER_CONNECTION_INFO } from "./subjection";
  * @return {Subject} Subject containing multiplexed channels
  */
 export function createMainChannel(
-  identity: string,
   config: JUPYTER_CONNECTION_INFO,
-  subscription: string = ""
+  subscription: string = "",
+  identity: string = uuid(),
+  session: SESSION_INFO = {
+    id: uuid(),
+    username: getUsername()
+  }
 ) {
-  const { shell, control, stdin, iopub } = createChannels(
-    identity,
-    config,
-    subscription
-  );
-  const main = createMainChannelFromChannels(shell, control, stdin, iopub);
+  const channels = createChannels(identity, config, subscription);
+  const main = createMainChannelFromChannels(channels, session);
   return main;
 }
 
 export function createMainChannelFromChannels(
-  shell: *,
-  control: *,
-  stdin: *,
-  iopub: *
+  channels: {
+    shell: *,
+    control: *,
+    stdin: *,
+    iopub: *
+  },
+  session: SESSION_INFO
 ) {
   const main = Subject.create(
     Subscriber.create({
       next: message => {
-        switch (message.channel) {
-          case SHELL:
-            shell.next(message);
-            break;
-          case CONTROL:
-            control.next(message);
-            break;
-          case STDIN:
-            stdin.next(message);
-            break;
-          case IOPUB:
-            iopub.next(message);
-            break;
-          default:
-            // messages with no channel are dropped instead of bombing the stream
-            console.warn("message sent without channel", message);
-            return;
+        const channel = channels[message.channel];
+        if (channel) {
+          channel.next({
+            ...message,
+            header: { ...message.header, ...session }
+          });
+        } else {
+          // messages with no channel are dropped instead of bombing the stream
+          console.warn("message sent without channel", message);
+          return;
         }
       }
     }),
     merge(
-      shell.pipe(
-        map(body => {
-          return { ...body, channel: SHELL };
-        })
-      ),
-      stdin.pipe(
-        map(body => {
-          return { ...body, channel: STDIN };
-        })
-      ),
-      control.pipe(
-        map(body => {
-          return { ...body, channel: CONTROL };
-        })
-      ),
-      iopub.pipe(
-        map(body => {
-          return { ...body, channel: IOPUB };
-        })
+      ...Object.keys(channels).map(name =>
+        // Route the message according to channel name
+        channels[name].pipe(map(body => ({ ...body, channel: name })))
       )
     )
   );
