@@ -14,8 +14,8 @@ import type { JUPYTER_CONNECTION_INFO } from "./subjection";
 
 import { v4 as uuid } from "uuid";
 
-type SESSION_INFO = {
-  id: string,
+type HEADER_FILLER = {
+  session: string,
   username: string
 };
 
@@ -44,13 +44,13 @@ export function createMainChannel(
   config: JUPYTER_CONNECTION_INFO,
   subscription: string = "",
   identity: string = uuid(),
-  session: SESSION_INFO = {
-    id: uuid(),
+  header: HEADER_FILLER = {
+    session: uuid(),
     username: getUsername()
   }
 ) {
   const channels = createChannels(identity, config, subscription);
-  const main = createMainChannelFromChannels(channels, session);
+  const main = createMainChannelFromChannels(channels, header);
   return main;
 }
 
@@ -58,7 +58,10 @@ export function createMainChannelFromChannels(
   channels: {
     [string]: rxjs$Subject<*>
   },
-  session: SESSION_INFO
+  header: HEADER_FILLER = {
+    session: uuid(),
+    username: getUsername()
+  }
 ) {
   const main = Subject.create(
     Subscriber.create({
@@ -67,7 +70,7 @@ export function createMainChannelFromChannels(
         if (channel) {
           channel.next({
             ...message,
-            header: { ...message.header, ...session }
+            header: { ...message.header, ...header }
           });
         } else {
           // messages with no channel are dropped instead of bombing the stream

@@ -27,11 +27,24 @@ describe("createMainChannel", () => {
 
     const shell = Subject.create(sent, received);
 
-    const channel = createMainChannelFromChannels({ shell });
+    const channel = createMainChannelFromChannels(
+      { shell },
+      { session: "1234", username: "jovyan" }
+    );
 
-    shell.subscribe(value => {
-      expect(value).toEqual({ a: "b", channel: "shell" });
+    sent.subscribe(value => {
+      expect(value).toEqual({
+        a: "b",
+        channel: "shell",
+        header: { session: "1234", username: "jovyan", msg_id: "789AB" }
+      });
     });
-    channel.next({ channel: "shell", a: "b" });
+
+    channel.next({
+      a: "b",
+      channel: "shell",
+      // msg_id should stay, session should get written over
+      header: { msg_id: "789AB", session: "XYZ" }
+    });
   });
 });
