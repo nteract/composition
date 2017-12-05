@@ -10,7 +10,14 @@ import { map, publish, refCount } from "rxjs/operators";
 
 import * as jmp from "jmp";
 
-import { ZMQType } from "./constants";
+export const ZMQType = {
+  frontend: {
+    iopub: "sub",
+    stdin: "dealer",
+    shell: "dealer",
+    control: "dealer"
+  }
+};
 
 import { v4 as uuid } from "uuid";
 
