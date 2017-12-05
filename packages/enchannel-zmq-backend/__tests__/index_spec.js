@@ -26,25 +26,12 @@ describe("createMainChannel", () => {
     const received = new Subject();
 
     const shell = Subject.create(sent, received);
-    const control = Subject.create(sent, received);
-    const stdin = Subject.create(sent, received);
-    const iopub = Subject.create(sent, received);
 
-    const channel = createMainChannelFromChannels(shell, control, stdin, iopub);
+    const channel = createMainChannelFromChannels({ shell });
 
     shell.subscribe(value => {
       expect(value).toEqual({ a: "b", channel: "shell" });
     });
     channel.next({ channel: "shell", a: "b" });
-
-    control.subscribe(value => {
-      expect(value).toEqual({ c: "d", channel: "control" });
-    });
-    channel.next({ channel: "control", c: "d" });
-
-    stdin.subscribe(value => {
-      expect(value).toEqual({ e: "f", channel: "stdin" });
-    });
-    channel.next({ channel: "stdin", e: "f" });
   });
 });

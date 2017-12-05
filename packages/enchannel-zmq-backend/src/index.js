@@ -56,10 +56,7 @@ export function createMainChannel(
 
 export function createMainChannelFromChannels(
   channels: {
-    shell: *,
-    control: *,
-    stdin: *,
-    iopub: *
+    [string]: rxjs$Subject<*>
   },
   session: SESSION_INFO
 ) {
