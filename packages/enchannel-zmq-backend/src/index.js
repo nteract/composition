@@ -149,6 +149,12 @@ export function createMainChannelFromSockets(
   const main = Subject.create(
     Subscriber.create({
       next: message => {
+        // There's always a chance that a bad message is sent, we'll ignore it
+        // instead of consuming it
+        if (!message || !message.channel) {
+          console.warn("message sent without a channel", message);
+          return;
+        }
         const socket = sockets[message.channel];
         if (socket) {
           socket.send(
@@ -159,12 +165,15 @@ export function createMainChannelFromSockets(
             })
           );
         } else {
-          // messages with no channel are dropped instead of bombing the stream
-          console.warn("message sent without channel", message);
+          // If, for some reason, a message is sent on a channel we don't have
+          // a socket for, warn about it but don't bomb the stream
+          console.warn("channel not understood for message", message);
           return;
         }
       },
       complete: () => {
+        // When the subject is completed / disposed, close all the event
+        // listeners and shutdown the socket
         Object.keys(sockets).forEach(name => {
           const socket = sockets[name];
           socket.removeAllListeners();
@@ -174,12 +183,16 @@ export function createMainChannelFromSockets(
     }),
     // Messages from kernel on the sockets
     merge(
+      // Form an Observable with each socket
       ...Object.keys(sockets).map(name => {
         const socket = sockets[name];
 
         return fromEvent(socket, "message").pipe(
           map(body => {
+            // Route the message for the frontend by setting the channel
             const msg = { ...body, channel: name };
+            // Conform to same message format as notebook websockets
+            // See https://github.com/n-riesco/jmp/issues/10
             delete msg.idents;
             return msg;
           }),
