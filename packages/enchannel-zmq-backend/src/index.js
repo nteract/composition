@@ -3,6 +3,7 @@ import { Subject } from "rxjs/Subject";
 import { Subscriber } from "rxjs/Subscriber";
 import { Observable } from "rxjs/Observable";
 
+import { empty } from "rxjs/observable/empty";
 import { merge } from "rxjs/observable/merge";
 
 import { fromEvent } from "rxjs/observable/fromEvent";
@@ -53,53 +54,6 @@ export function formConnectionString(
     throw new Error(`Port not found for channel "${channel}"`);
   }
   return `${config.transport}://${config.ip}${portDelimiter}${port}`;
-}
-
-/**
- * A RxJS wrapper around jmp sockets, that takes care of sending messages and
- * cleans up after itself
- * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
- * @return {Rx.Subscriber} a subscriber that allows sending messages on next()
- *                         and closes the underlying socket on complete()
- */
-export function createSubscriber(socket: jmp.Socket) {
-  return Subscriber.create({
-    next: messageObject => {
-      socket.send(new jmp.Message(messageObject));
-    },
-    complete: () => {
-      // tear it down, tear it *all* down
-      socket.removeAllListeners();
-      socket.close();
-    }
-  });
-}
-
-/**
- * Creates observable that behaves according to enchannel spec
- * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
- * @return {Rx.Observable} an Observable that publishes kernel channel messages
- */
-export function createObservable(socket: jmp.Socket) {
-  return fromEvent(socket, "message").pipe(
-    map(msg => {
-      // Conform to same message format as notebook websockets
-      // See https://github.com/n-riesco/jmp/issues/10
-      delete msg.idents;
-      return msg;
-    }),
-    publish(),
-    refCount()
-  );
-}
-
-/**
- * Helper function for creating a subject from a socket
- * @param {jmp.Socket} socket the jmp/zmq socket connection to a kernel channel
- * @return {Rx.Subject} subject for sending and receiving messages to kernels
- */
-export function createSubject(socket: jmp.Socket) {
-  return Subject.create(createSubscriber(socket), createObservable(socket));
 }
 
 /**
@@ -156,15 +110,36 @@ export function createMainChannel(
     session: uuid(),
     username: getUsername()
   }
-) {
-  const channels = createChannels(identity, config, subscription);
-  const main = createMainChannelFromChannels(channels, header);
+): rxjs$Subject<*> {
+  const sockets = createSockets(config, subscription, identity);
+  const main = createMainChannelFromSockets(sockets, header);
   return main;
 }
 
-export function createMainChannelFromChannels(
-  channels: {
-    [string]: rxjs$Subject<*>
+/**
+ * createSockets sets up the sockets for each of the jupyter channels
+ * @return {[type]}              [description]
+ */
+export function createSockets(
+  config: JUPYTER_CONNECTION_INFO,
+  subscription: string = "",
+  identity: string = uuid()
+) {
+  const ioPubSocket = createSocket("iopub", identity, config);
+  // NOTE: ZMQ PUB/SUB subscription (not an Rx subscription)
+  ioPubSocket.subscribe(subscription);
+
+  return {
+    shell: createSocket("shell", identity, config),
+    control: createSocket("control", identity, config),
+    stdin: createSocket("stdin", identity, config),
+    iopub: ioPubSocket
+  };
+}
+
+export function createMainChannelFromSockets(
+  sockets: {
+    [string]: jmp.Socket
   },
   header: HEADER_FILLER = {
     session: uuid(),
@@ -174,53 +149,45 @@ export function createMainChannelFromChannels(
   const main = Subject.create(
     Subscriber.create({
       next: message => {
-        const channel = channels[message.channel];
-        if (channel) {
-          channel.next({
-            ...message,
-            header: { ...message.header, ...header }
-          });
+        const socket = sockets[message.channel];
+        if (socket) {
+          socket.send(
+            new jmp.Message({
+              ...message,
+              // Fold in the setup header to ease usage of messages on channels
+              header: { ...message.header, ...header }
+            })
+          );
         } else {
           // messages with no channel are dropped instead of bombing the stream
           console.warn("message sent without channel", message);
           return;
         }
+      },
+      complete: () => {
+        Object.keys(sockets).forEach(name => {
+          const socket = sockets[name];
+          socket.removeAllListeners();
+          socket.close();
+        });
       }
     }),
+    // Messages from kernel on the sockets
     merge(
-      ...Object.keys(channels).map(name =>
-        // Route the message according to channel name
-        channels[name].pipe(map(body => ({ ...body, channel: name })))
-      )
+      ...Object.keys(sockets).map(name => {
+        const socket = sockets[name];
+
+        return fromEvent(socket, "message").pipe(
+          map(body => {
+            const msg = { ...body, channel: name };
+            delete msg.idents;
+            return msg;
+          }),
+          publish(),
+          refCount()
+        );
+      })
     )
   );
   return main;
-}
-
-/**
- * createChannels creates an enchannel spec channels object
- * @param  {string} identity                UUID
- * @param  {Object} config                  Jupyter connection information
- * @param  {string} config.ip               IP address of the kernel
- * @param  {string} config.transport        Transport, e.g. TCP
- * @param  {string} config.signature_scheme Hashing scheme, e.g. hmac-sha256
- * @param  {number} config.iopub_port       Port for iopub channel
- * @param  {string} subscription            subscribed topic; defaults to all
- * @return {object} channels object, per enchannel spec
- */
-export function createChannels(
-  identity: string,
-  config: JUPYTER_CONNECTION_INFO,
-  subscription: string = ""
-) {
-  const ioPubSocket = createSocket("iopub", identity, config);
-  // NOTE: ZMQ PUB/SUB subscription (not an Rx subscription)
-  ioPubSocket.subscribe(subscription);
-
-  return {
-    shell: createSubject(createSocket("shell", identity, config)),
-    control: createSubject(createSocket("control", identity, config)),
-    stdin: createSubject(createSocket("stdin", identity, config)),
-    iopub: createSubject(ioPubSocket)
-  };
 }
