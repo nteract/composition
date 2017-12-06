@@ -1,21 +1,13 @@
 /* @flow */
 import * as fs from "fs";
 
-import type { Subject } from "rxjs";
+const { map, filter } = require("rxjs/operators");
+const { createMessage, childOf, ofMessageType } = require("@nteract/messaging");
 
-import { shutdownRequest } from "enchannel";
-
-export const filesystem = fs;
-
-export type Channels = {
-  iopub: Subject<*>,
-  stdin: Subject<*>,
-  shell: Subject<*>,
-  control: Subject<*>
-};
+export type Channels = rxjs$Subject<*>;
 
 export type Kernel = {
-  channels: Channels,
+  channels: rxjs$Subject<*>,
   spawn: any, // ChildProcess,
   connectionFile: string
 };
@@ -23,10 +15,7 @@ export type Kernel = {
 export function cleanupKernel(kernel: Kernel, closeChannels: boolean): void {
   if (kernel.channels && closeChannels) {
     try {
-      kernel.channels.shell.complete();
-      kernel.channels.iopub.complete();
-      kernel.channels.stdin.complete();
-      kernel.channels.control.complete();
+      kernel.channels.complete();
     } catch (err) {
       console.warn(
         `Could not cleanup kernel channels, have they already
@@ -51,7 +40,7 @@ export function cleanupKernel(kernel: Kernel, closeChannels: boolean): void {
     }
   }
   if (kernel.connectionFile) {
-    filesystem.unlinkSync(kernel.connectionFile);
+    fs.unlinkSync(kernel.connectionFile);
   }
 }
 
@@ -63,7 +52,7 @@ export function forceShutdownKernel(kernel: Kernel): void {
   cleanupKernel(kernel, true);
 }
 
-export function shutdownKernel(kernel: Kernel): Promise<boolean> {
+export async function shutdownKernel(kernel: Kernel): Promise<boolean> {
   // Validate the input, do nothing if invalid kernel info is provided.
   if (!(kernel && (kernel.channels || kernel.spawn))) {
     return Promise.resolve(true);
@@ -79,17 +68,29 @@ export function shutdownKernel(kernel: Kernel): Promise<boolean> {
     forceShutdownKernel(kernel);
   }
 
+  const shutDownRequest = createMessage("shutdown_request");
+  shutDownRequest.content = { restart: false };
+
+  const shutDownReply = kernel.channels
+    .pipe(
+      childOf(shutDownRequest),
+      ofMessageType("shutdown_reply"),
+      map(msg => msg.content)
+    )
+    .toPromise();
+
+  kernel.channels.next(shutDownRequest);
   // Attempt to gracefully terminate the kernel.
+
   try {
-    return shutdownRequest(kernel.channels, false)
-      .then(() => {
-        // At this point, the kernel has cleaned up its resources.  Now we can
-        // terminate the process and cleanup handles by calling forceShutdownKernel
-        forceShutdownKernel(kernel);
-      })
-      .catch(handleShutdownFailure);
+    await shutDownReply;
+    // At this point, the kernel has cleaned up its resources.  Now we can
+    // terminate the process and cleanup handles by calling forceShutdownKernel
+    forceShutdownKernel(kernel);
+    kernel.channels.complete();
   } catch (err) {
     handleShutdownFailure(err);
-    return Promise.reject(err);
   }
+
+  return true;
 }

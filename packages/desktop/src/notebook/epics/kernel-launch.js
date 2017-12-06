@@ -23,18 +23,9 @@ import * as uuid from "uuid";
 
 import { ipcRenderer as ipc } from "electron";
 
-import {
-  createControlSubject,
-  createStdinSubject,
-  createIOPubSubject,
-  createShellSubject
-} from "enchannel-zmq-backend";
+import { createMainChannel } from "enchannel-zmq-backend";
 
-import type {
-  LanguageInfoMetadata,
-  KernelInfo,
-  Channels
-} from "@nteract/core/records";
+import type { LanguageInfoMetadata, KernelInfo } from "@nteract/core/records";
 
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
 
@@ -65,10 +56,10 @@ export function setLanguageInfo(langInfo: LanguageInfoMetadata) {
  * @param  {Object}  channels  A object containing the kernel channels
  * @returns  {Observable}  The reply from the server
  */
-export function acquireKernelInfo(channels: Channels) {
+export function acquireKernelInfo(channels: rxjs$Subject<*>) {
   const message = createMessage("kernel_info_request");
 
-  const obs = channels.shell.pipe(
+  const obs = channels.pipe(
     childOf(message),
     ofMessageType("kernel_info_reply"),
     first(),
@@ -78,7 +69,7 @@ export function acquireKernelInfo(channels: Channels) {
 
   return Observable.create(observer => {
     const subscription = obs.subscribe(observer);
-    channels.shell.next(message);
+    channels.next(message);
     return subscription;
   });
 }
@@ -97,16 +88,10 @@ export function newKernelObservable(kernelSpec: KernelInfo, cwd: string) {
       const { config, spawn, connectionFile } = c;
       const kernelSpecName = kernelSpec.name;
 
-      const identity = uuid.v4();
       // TODO: I'm realizing that we could trigger on when the underlying sockets
       //       are ready with these subjects to let us know when the kernels
       //       are *really* ready
-      const channels = {
-        shell: createShellSubject(identity, config),
-        iopub: createIOPubSubject(identity, config),
-        control: createControlSubject(identity, config),
-        stdin: createStdinSubject(identity, config)
-      };
+      const channels = createMainChannel(config);
       observer.next(setNotebookKernelInfo(kernelSpec));
 
       observer.next({
@@ -143,7 +128,7 @@ export const watchExecutionStateEpic = (action$: ActionsObservable<*>) =>
     .pipe(
       switchMap(action =>
         merge(
-          action.channels.iopub.pipe(
+          action.channels.pipe(
             filter(msg => msg.header.msg_type === "status"),
             map(msg => setExecutionState(msg.content.execution_state))
           ),

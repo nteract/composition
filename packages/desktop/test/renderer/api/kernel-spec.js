@@ -28,10 +28,7 @@ const emptyKernel = Object.freeze({
 
 function setupMockKernel(sandbox) {
   const kernel = Object.assign({}, emptyKernel);
-  kernel.channels.shell.complete = sandbox.spy();
-  kernel.channels.iopub.complete = sandbox.spy();
-  kernel.channels.control.complete = sandbox.spy();
-  kernel.channels.stdin.complete = sandbox.spy();
+  kernel.channels.complete = sandbox.spy();
 
   kernel.spawn.stdin.destroy = sandbox.spy();
   kernel.spawn.stdout.destroy = sandbox.spy();

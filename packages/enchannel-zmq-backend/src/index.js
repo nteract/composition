@@ -213,42 +213,14 @@ export function createChannels(
   config: JUPYTER_CONNECTION_INFO,
   subscription: string = ""
 ) {
-  return {
-    shell: createShellSubject(identity, config),
-    control: createControlSubject(identity, config),
-    stdin: createStdinSubject(identity, config),
-    iopub: createIOPubSubject(identity, config, subscription)
-  };
-}
-
-export function createShellSubject(
-  identity: string,
-  config: JUPYTER_CONNECTION_INFO
-) {
-  return createSubject(createSocket("shell", identity, config));
-}
-
-export function createControlSubject(
-  identity: string,
-  config: JUPYTER_CONNECTION_INFO
-) {
-  return createSubject(createSocket("control", identity, config));
-}
-
-export function createStdinSubject(
-  identity: string,
-  config: JUPYTER_CONNECTION_INFO
-) {
-  return createSubject(createSocket("stdin", identity, config));
-}
-
-export function createIOPubSubject(
-  identity: string,
-  config: JUPYTER_CONNECTION_INFO,
-  subscription: string = ""
-) {
   const ioPubSocket = createSocket("iopub", identity, config);
   // NOTE: ZMQ PUB/SUB subscription (not an Rx subscription)
   ioPubSocket.subscribe(subscription);
-  return createSubject(ioPubSocket);
+
+  return {
+    shell: createSubject(createSocket("shell", identity, config)),
+    control: createSubject(createSocket("control", identity, config)),
+    stdin: createSubject(createSocket("stdin", identity, config)),
+    iopub: createSubject(ioPubSocket)
+  };
 }

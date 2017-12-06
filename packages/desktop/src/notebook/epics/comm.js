@@ -128,12 +128,12 @@ export function commMessageAction(message: any) {
  * @return {ActionsObservable}          all actions resulting from comm messages on this kernel
  */
 export function commActionObservable(newKernelAction: any) {
-  const commOpenAction$ = newKernelAction.channels.iopub.pipe(
+  const commOpenAction$ = newKernelAction.channels.pipe(
     ofMessageType("comm_open"),
     map(commOpenAction)
   );
 
-  const commMessageAction$ = newKernelAction.channels.iopub.pipe(
+  const commMessageAction$ = newKernelAction.channels.pipe(
     ofMessageType("comm_msg"),
     map(commMessageAction)
   );

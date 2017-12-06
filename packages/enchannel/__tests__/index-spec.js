@@ -20,20 +20,13 @@ describe("shutdownRequest", () => {
   it("shutdowns channels", () => {
     const channels = spoofChannels();
     enchannel.shutdownRequest(channels);
-    expect(channels.shell.complete).toBeCalled();
-    expect(channels.iopub.complete).toBeCalled();
-    expect(channels.stdin.complete).toBeCalled();
-    expect(channels.control.complete).toBeCalled();
-    expect(channels.heartbeat.complete).toBeCalled();
+    expect(channels.complete).toBeCalled();
   });
   it("handles missing heartbeat", () => {
     const channels = spoofChannels();
     channels.heartbeat = undefined;
     enchannel.shutdownRequest(channels);
-    expect(channels.shell.complete).toBeCalled();
-    expect(channels.iopub.complete).toBeCalled();
-    expect(channels.stdin.complete).toBeCalled();
-    expect(channels.control.complete).toBeCalled();
+    expect(channels.complete).toBeCalled();
   });
   it("sends shutdownRequest but doesn't close channels", () => {
     const channels = spoofChannels();

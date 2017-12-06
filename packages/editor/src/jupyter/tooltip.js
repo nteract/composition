@@ -13,7 +13,7 @@ export function tooltipObservable(
   editor: CMI,
   message: Object
 ) {
-  const tip$ = channels.shell.pipe(
+  const tip$ = channels.pipe(
     childOf(message),
     ofMessageType("inspect_reply"),
     pluck("content"),
@@ -25,7 +25,7 @@ export function tooltipObservable(
   // On subscription, send the message
   return Observable.create(observer => {
     const subscription = tip$.subscribe(observer);
-    channels.shell.next(message);
+    channels.next(message);
     return subscription;
   });
 }

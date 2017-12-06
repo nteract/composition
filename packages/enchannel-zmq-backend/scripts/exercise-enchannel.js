@@ -5,7 +5,7 @@ var { unlink } = require("fs");
 
 var { createMainChannel } = require("..");
 
-var { first, take, toArray, takeUntil } = require("rxjs/operators");
+var { first, take, toArray, takeUntil, tap } = require("rxjs/operators");
 
 var { executeRequest, ofMessageType } = require("@nteract/messaging");
 
@@ -17,30 +17,26 @@ async function main() {
 
   const channel = createMainChannel(kernel.config);
   const message = executeRequest('print("woo")');
-  console.log(message);
 
-  const p = channel
-    .pipe(
-      take(3),
-
-      toArray()
-    )
-    .toPromise();
+  const subscription = channel.subscribe(console.log);
 
   channel.next(message);
 
-  const messages = await p;
+  console.log("sleep 1");
 
-  console.log(messages);
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  channel.next(message);
+
+  console.log("sleep 2");
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
   kernel.spawn.kill("SIGKILL");
-
-  console.log("killing");
+  subscription.unsubscribe();
 
   await new Promise((resolve, reject) =>
     unlink(kernel.connectionFile, err => (err ? reject(err) : resolve()))
   );
-  return "woo";
 }
 
 main()
