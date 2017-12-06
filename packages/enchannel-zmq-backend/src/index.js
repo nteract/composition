@@ -146,7 +146,8 @@ export function createMainChannelFromSockets(
     username: getUsername()
   }
 ) {
-  const main = Subject.create(
+  // The mega subject that encapsulates all the sockets as one multiplexed stream
+  return Subject.create(
     Subscriber.create({
       next: message => {
         // There's always a chance that a bad message is sent, we'll ignore it
@@ -202,5 +203,4 @@ export function createMainChannelFromSockets(
       })
     )
   );
-  return main;
 }
