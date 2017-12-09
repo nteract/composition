@@ -35,7 +35,7 @@ export type JUPYTER_CONNECTION_INFO = {
   hb_port: number,
   ip: string,
   key: string,
-  transport: "tcp" | string // Only known transport at the moment, we'll allow string in general though
+  transport: "tcp" | "ipc" | string // Only known transports at the moment, we'll allow string in general though
 };
 
 /**
