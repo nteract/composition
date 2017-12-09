@@ -52,7 +52,7 @@ export function forceShutdownKernel(kernel: Kernel): void {
   cleanupKernel(kernel, true);
 }
 
-export async function shutdownKernel(kernel: Kernel): Promise<boolean> {
+export function shutdownKernel(kernel: Kernel): Promise<boolean> {
   // Validate the input, do nothing if invalid kernel info is provided.
   if (!(kernel && (kernel.channels || kernel.spawn))) {
     return Promise.resolve(true);
@@ -82,15 +82,17 @@ export async function shutdownKernel(kernel: Kernel): Promise<boolean> {
   kernel.channels.next(shutDownRequest);
   // Attempt to gracefully terminate the kernel.
 
-  try {
-    await shutDownReply;
-    // At this point, the kernel has cleaned up its resources.  Now we can
-    // terminate the process and cleanup handles by calling forceShutdownKernel
-    forceShutdownKernel(kernel);
-    kernel.channels.complete();
-  } catch (err) {
-    handleShutdownFailure(err);
-  }
+  return shutDownReply
+    .then(k => {
+      // At this point, the kernel has cleaned up its resources.  Now we can
+      // terminate the process and cleanup handles by calling forceShutdownKernel
 
-  return true;
+      forceShutdownKernel(k);
+      kernel.channels.complete();
+      return true;
+    })
+    .catch(err => {
+      handleShutdownFailure(err);
+      return false;
+    });
 }
