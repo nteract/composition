@@ -11,6 +11,8 @@ import { map, publish, refCount } from "rxjs/operators";
 
 import * as jmp from "jmp";
 
+export type Channels = rxjs$Subject<*>;
+
 export const ZMQType = {
   frontend: {
     iopub: "sub",
@@ -152,7 +154,7 @@ export function createMainChannel(
     session: uuid(),
     username: getUsername()
   }
-): rxjs$Subject<*> {
+): Channels {
   const sockets = createSockets(config, subscription, identity);
   const main = createMainChannelFromSockets(sockets, header);
   return main;
