@@ -3,7 +3,6 @@ import { Subject } from "rxjs/Subject";
 import { Subscriber } from "rxjs/Subscriber";
 import { Observable } from "rxjs/Observable";
 
-import { empty } from "rxjs/observable/empty";
 import { merge } from "rxjs/observable/merge";
 
 import { fromEvent } from "rxjs/observable/fromEvent";
