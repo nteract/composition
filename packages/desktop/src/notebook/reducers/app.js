@@ -1,7 +1,6 @@
 // @flow
 
 import type { ChildProcess } from "child_process"; // eslint-disable-line no-unused-vars
-import type { Channels } from "../kernel/shutdown";
 
 import { shutdownKernel } from "../kernel/shutdown";
 

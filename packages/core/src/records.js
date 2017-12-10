@@ -109,13 +109,6 @@ export type NotebookMetadata = {
   // orig_nbformat?: number,
 };
 
-export type Channels = {
-  iopub: Subject<*>,
-  shell: Subject<*>,
-  stdin: Subject<*>,
-  control: Subject<*>
-};
-
 export type Notebook = {
   cellMap: Immutable.Map<string, Cell>,
   cellOrder: Immutable.List<string>,

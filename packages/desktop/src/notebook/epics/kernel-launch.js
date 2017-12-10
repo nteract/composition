@@ -24,7 +24,6 @@ import * as uuid from "uuid";
 import { ipcRenderer as ipc } from "electron";
 
 import { createMainChannel } from "enchannel-zmq-backend";
-import type { Channels } from "enchannel-zmq-backend";
 
 import type { LanguageInfoMetadata, KernelInfo } from "@nteract/core/records";
 

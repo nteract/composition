@@ -2,9 +2,6 @@
 export type CMI = any;
 
 import type { Subject } from "rxjs";
-type Channels = {
-  shell: Subject<*>
-};
 
 declare class TextMarker {
   changed(): void;

@@ -10,8 +10,6 @@ import { map, publish, refCount } from "rxjs/operators";
 
 import * as jmp from "jmp";
 
-export type Channels = rxjs$Subject<*>;
-
 export const ZMQType = {
   frontend: {
     iopub: "sub",

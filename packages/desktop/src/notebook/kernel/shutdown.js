@@ -4,8 +4,6 @@ import * as fs from "fs";
 const { map, filter } = require("rxjs/operators");
 const { createMessage, childOf, ofMessageType } = require("@nteract/messaging");
 
-export type Channels = rxjs$Subject<*>;
-
 export type Kernel = {
   channels: rxjs$Subject<*>,
   spawn: any, // ChildProcess,

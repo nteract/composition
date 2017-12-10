@@ -53,8 +53,6 @@ import {
 
 const Immutable = require("immutable");
 
-type Channels = rxjs$Subject<*>;
-
 /**
  * Observe all the reactions to running code for cell with id.
  *
