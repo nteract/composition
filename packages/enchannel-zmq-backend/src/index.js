@@ -72,46 +72,6 @@ export function createSocket(
   const socket = new jmp.Socket(zmqType, scheme, config.key);
   socket.identity = identity;
 
-  // Absolutely pointless code because I've yet to see these fire, I think I'd
-  // have to change how jmp works under the hood
-  socket.on("bind", addr => console.log(`Bound ${channel} on ${addr}`));
-  socket.on("unbind", addr => console.log(`Unbound ${channel} on ${addr}`));
-  socket.on("error", err =>
-    console.error(`socket for ${channel} errored`, err)
-  );
-
-  // Monitoring has to be enabled for these
-  socket.on("connect", () => {
-    console.log("connect", arguments);
-  });
-  socket.on("connect_delay", () => {
-    console.log("connect_delay", arguments);
-  });
-  socket.on("connect_retry", () => {
-    console.log("connect_retry", arguments);
-  });
-  socket.on("listen", () => {
-    console.log("listen", arguments);
-  });
-  socket.on("bind_error", () => {
-    console.log("bind_error", arguments);
-  });
-  socket.on("accept", () => {
-    console.log("accept", arguments);
-  });
-  socket.on("accept_error", () => {
-    console.log("accept_error", arguments);
-  });
-  socket.on("close", () => {
-    console.log("close", arguments);
-  });
-  socket.on("close_error", () => {
-    console.log("close_error", arguments);
-  });
-  socket.on("disconnect", () => {
-    console.log("disconnect", arguments);
-  });
-
   socket.connect(formConnectionString(config, channel));
 
   return socket;
