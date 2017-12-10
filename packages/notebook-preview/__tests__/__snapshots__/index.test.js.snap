@@ -10,7 +10,7 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
     <Cell
       id={null}
       isSelected={false}
-      key="6"
+      key="5"
     >
       <div
         className="jsx-2299737332 jsx-2299737332 content-margin"
@@ -43,7 +43,7 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
     <Cell
       id={null}
       isSelected={false}
-      key="7"
+      key="6"
     >
       <PapermillView />
       <Input
@@ -200,7 +200,7 @@ exports[`Notebook accepts an Object of cells 1`] = `
     <Cell
       id={null}
       isSelected={false}
-      key="8"
+      key="7"
     >
       <div
         className="jsx-2299737332 jsx-2299737332 content-margin"
@@ -233,7 +233,7 @@ exports[`Notebook accepts an Object of cells 1`] = `
     <Cell
       id={null}
       isSelected={false}
-      key="9"
+      key="8"
     >
       <PapermillView />
       <Input
