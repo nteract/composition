@@ -80,3 +80,22 @@ describe("createMainChannel", () => {
     });
   });
 });
+
+describe("createSocket", () => {
+  test("creates a JMP socket on the channel with identity", () => {
+    const config = {
+      signature_scheme: "hmac-sha256",
+      key: "5ca1ab1e-c0da-aced-cafe-c0ffeefacade",
+      ip: "127.0.0.1",
+      transport: "tcp",
+      iopub_port: 9009
+    };
+    const identity = uuidv4();
+
+    const socket = createSocket("iopub", identity, config);
+    expect(socket).not.toBeNull();
+    expect(socket.identity).toBe(identity);
+    expect(socket.type).toBe(constants.ZMQType.frontend.iopub);
+    socket.close();
+  });
+});
