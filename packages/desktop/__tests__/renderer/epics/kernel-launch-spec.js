@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { ActionsObservable } from "redux-observable";
 
 import * as constants from "@nteract/core/constants";
@@ -30,7 +29,7 @@ describe("setLanguageInfo", () => {
       version: "3.5.1"
     };
 
-    expect(setLanguageInfo(langInfo)).to.deep.equal({
+    expect(setLanguageInfo(langInfo)).toEqual({
       type: constants.SET_LANGUAGE_INFO,
       langInfo
     });
@@ -45,7 +44,7 @@ describe("acquireKernelInfo", () => {
     const mockSocket = Subject.create(sent, received);
 
     sent.subscribe(msg => {
-      expect(msg.header.msg_type).to.equal("kernel_info_request");
+      expect(msg.header.msg_type).toEqual("kernel_info_request");
 
       const response = createMessage("kernel_info_reply");
       response.parent_header = msg.header;
@@ -58,7 +57,7 @@ describe("acquireKernelInfo", () => {
     const obs = acquireKernelInfo(mockSocket);
 
     obs.subscribe(langAction => {
-      expect(langAction).to.deep.equal({
+      expect(langAction).toEqual({
         langInfo: { language: "python" },
         type: constants.SET_LANGUAGE_INFO
       });
@@ -83,12 +82,12 @@ describe("watchExecutionStateEpic", () => {
       // Every action that goes through should get stuck on an array
       actions => {
         const types = actions.map(({ type }) => type);
-        expect(types).to.deep.equal([
+        expect(types).toEqual([
           constants.SET_EXECUTION_STATE,
           constants.SET_EXECUTION_STATE
         ]);
       },
-      () => expect.fail(), // It should not error in the stream
+      err => done.fail(err), // It should not error in the stream
       () => done()
     );
   });
@@ -97,7 +96,7 @@ describe("watchExecutionStateEpic", () => {
 describe("newKernelObservable", () => {
   it("returns an observable", () => {
     const obs = newKernelObservable("python3", process.cwd());
-    expect(obs.subscribe).to.not.be.null;
+    expect(obs.subscribe).toBeTruthy();
   });
 });
 
@@ -110,14 +109,11 @@ describe("newKernelEpic", () => {
     const obs = newKernelEpic(action$);
     obs.subscribe(
       x => {
-        expect(x.type).to.equal(constants.ERROR_KERNEL_LAUNCH_FAILED);
+        expect(x.type).toEqual(constants.ERROR_KERNEL_LAUNCH_FAILED);
         actionBuffer.push(x.type);
         done();
       },
-      err => expect.fail(err, null),
-      () => {
-        expect.fail("Should not complete");
-      }
+      err => done.fail(err)
     );
   });
   it("calls newKernelObservable if given the correct action", done => {
@@ -132,17 +128,14 @@ describe("newKernelEpic", () => {
       x => {
         actionBuffer.push(x.type);
         if (actionBuffer.length === 2) {
-          expect(actionBuffer).to.deep.equal([
+          expect(actionBuffer).toEqual([
             constants.SET_KERNEL_INFO,
             constants.NEW_KERNEL
           ]);
           done();
         }
       },
-      err => expect.fail(err, null),
-      () => {
-        expect.fail();
-      }
+      err => done.fail(err)
     );
   });
 });
@@ -158,10 +151,9 @@ describe("newKernelByNameEpic", () => {
     obs.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
-        expect(types).to.deep.equal([constants.LAUNCH_KERNEL]);
+        expect(types).toEqual([constants.LAUNCH_KERNEL]);
       },
-      err => expect.fail(err, null),
-      () => done()
+      err => done.fail(err)
     );
   });
 });

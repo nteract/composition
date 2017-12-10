@@ -24,18 +24,9 @@ import { Subject } from "rxjs/Subject";
 import { from } from "rxjs/observable/from";
 import { toArray, share, catchError, bufferCount } from "rxjs/operators";
 
-const sinon = require("sinon");
-const chai = require("chai");
-const chaiImmutable = require("chai-immutable");
-
-const expect = chai.expect;
-chai.use(chaiImmutable);
-
 describe("executeCell", () => {
   it("returns an executeCell action", () => {
-    expect(
-      executeCell("0-0-0-0", "import random; random.random()")
-    ).to.deep.equal({
+    expect(executeCell("0-0-0-0", "import random; random.random()")).toEqual({
       type: EXECUTE_CELL,
       id: "0-0-0-0",
       source: "import random; random.random()"
@@ -45,7 +36,7 @@ describe("executeCell", () => {
 
 describe("executeCellStream", () => {
   // TODO: Refactor executeCelStream into separate testable observables
-  it("is entirely too insane for me to test this well right this second", done => {
+  test("is entirely too insane for me to test this well right this second", done => {
     const frontendToShell = new Subject();
     const shellToFrontend = new Subject();
     const mockShell = Subject.create(frontendToShell, shellToFrontend);
@@ -57,14 +48,14 @@ describe("executeCellStream", () => {
 
     // Expect message to have been sent
     frontendToShell.subscribe(msg => {
-      expect(msg.header.msg_type).to.equal("execute_request");
-      expect(msg.content.code).to.equal("import this");
+      expect(msg.header.msg_type).toEqual("execute_request");
+      expect(msg.content.code).toEqual("import this");
     });
 
     const action$ = executeCellStream(channels, "0", "import this");
 
     action$.pipe(bufferCount(3)).subscribe(messages => {
-      expect(messages).to.deep.equal([
+      expect(messages).toEqual([
         // TODO: Order doesn't actually matter here
         { type: UPDATE_CELL_PAGERS, id: "0", pagers: Immutable.List() },
         { type: UPDATE_CELL_STATUS, id: "0", status: "busy" },
@@ -74,10 +65,10 @@ describe("executeCellStream", () => {
     });
   });
 
-  it("outright rejects a lack of channels.shell and iopub", done => {
+  test("outright rejects a lack of channels.shell and iopub", done => {
     const obs = executeCellStream({}, "0", "woo");
     obs.subscribe(null, err => {
-      expect(err.message).to.equal("kernel not connected");
+      expect(err.message).toEqual("kernel not connected");
       done();
     });
   });
@@ -89,6 +80,7 @@ describe("createExecuteCellStream", () => {
     const shellToFrontend = new Subject();
     const mockShell = Subject.create(frontendToShell, shellToFrontend);
     const mockIOPub = new Subject();
+    const channels = mockShell;
     const store = {
       getState() {
         return this.state;
@@ -96,8 +88,8 @@ describe("createExecuteCellStream", () => {
       state: {
         app: {
           executionState: "not connected",
-          channels: { iopub: mockIOPub, shell: mockShell },
-          notificationSystem: { addNotification: sinon.spy() }
+          channels,
+          notificationSystem: { addNotification: jest.fn() }
         }
       }
     };
@@ -106,10 +98,10 @@ describe("createExecuteCellStream", () => {
     observable.pipe(toArray()).subscribe(
       actions => {
         const payloads = actions.map(({ payload }) => payload);
-        expect(payloads).to.deep.equal(["Kernel not connected!"]);
+        expect(payloads).toEqual(["Kernel not connected!"]);
+        done();
       },
-      () => expect.fail(),
-      () => done()
+      err => done.fail(err)
     );
   });
   it("doesnt complete but does push until abort action", done => {
@@ -117,6 +109,8 @@ describe("createExecuteCellStream", () => {
     const shellToFrontend = new Subject();
     const mockShell = Subject.create(frontendToShell, shellToFrontend);
     const mockIOPub = new Subject();
+
+    const channels = mockShell;
     const store = {
       getState() {
         return this.state;
@@ -124,8 +118,8 @@ describe("createExecuteCellStream", () => {
       state: {
         app: {
           executionState: "connected",
-          channels: { iopub: mockIOPub, shell: mockShell },
-          notificationSystem: { addNotification: sinon.spy() }
+          channels,
+          notificationSystem: { addNotification: jest.fn() }
         }
       }
     };
@@ -141,7 +135,7 @@ describe("createExecuteCellStream", () => {
       x => actionBuffer.push(x.type),
       err => expect.fail(err, null)
     );
-    expect(actionBuffer).to.deep.equal([
+    expect(actionBuffer).toEqual([
       UPDATE_CELL_PAGERS,
       UPDATE_CELL_STATUS,
       CLEAR_OUTPUTS
@@ -159,7 +153,7 @@ describe("executeCellEpic", () => {
       app: {
         executionState: "idle",
         channels: "errorInExecuteCellObservable",
-        notificationSystem: { addNotification: sinon.spy() },
+        notificationSystem: { addNotification: jest.fn() },
         token: "blah"
       }
     }
@@ -171,40 +165,32 @@ describe("executeCellEpic", () => {
     );
     const responseActions = executeCellEpic(badAction$, store).pipe(
       catchError(error => {
-        expect(error.message).to.equal("execute cell needs an id");
+        expect(error.message).toEqual("execute cell needs an id");
       })
     );
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => {
-        expect(x.type).to.equal(ERROR_EXECUTING);
+        expect(x.type).toEqual(ERROR_EXECUTING);
         done();
       },
-      err => expect.fail(err, null),
-      () => {
-        // It should not error in the stream
-        expect.fail("It should not complete");
-      }
+      err => done.fail(err)
     );
   });
   it("Errors on an action where source not a string", done => {
     const badAction$ = ActionsObservable.of(executeCell("id", 2)).pipe(share());
     const responseActions = executeCellEpic(badAction$, store).pipe(
       catchError(error => {
-        expect(error.message).to.equal("execute cell needs source string");
+        expect(error.message).toEqual("execute cell needs source string");
       })
     );
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => {
-        expect(x.type).to.equal(ERROR_EXECUTING);
+        expect(x.type).toEqual(ERROR_EXECUTING);
         done();
       },
-      err => expect.fail(err, null),
-      () => {
-        // It should not error in the stream
-        expect.fail("The epic should not complete");
-      }
+      err => done.fail(err)
     );
   });
   it("Informs about disconnected kernels, allows reconnection", done => {
@@ -214,14 +200,10 @@ describe("executeCellEpic", () => {
     const responseActions = executeCellEpic(action$, store);
     responseActions.subscribe(
       x => {
-        expect(x.payload.toString()).to.equal("Error: kernel not connected");
+        expect(x.payload.toString()).toEqual("Error: kernel not connected");
         done();
       },
-      err => expect.fail(err, null),
-      () => {
-        // It should not error in the stream
-        expect.fail("the epic should not complete");
-      }
+      err => done.fail(err)
     );
   });
 });
@@ -244,6 +226,7 @@ describe("updateDisplayEpic", () => {
           transient: { display_id: "5555" }
         }
       },
+      // Should not be processed
       {
         header: { msg_type: "ignored" },
         content: { data: { "text/html": "<marquee>wee</marquee>" } }
@@ -255,9 +238,9 @@ describe("updateDisplayEpic", () => {
           transient: { display_id: "here" }
         }
       }
-    ]; // Should not be processed // Should be processed
+    ];
 
-    const channels = { iopub: from(messages) };
+    const channels = from(messages);
     const action$ = ActionsObservable.of({ type: NEW_KERNEL, channels });
 
     const epic = updateDisplayEpic(action$);
@@ -269,7 +252,7 @@ describe("updateDisplayEpic", () => {
         throw err;
       },
       () => {
-        expect(responseActions).to.deep.equal([
+        expect(responseActions).toEqual([
           {
             type: UPDATE_DISPLAY,
             output: {
