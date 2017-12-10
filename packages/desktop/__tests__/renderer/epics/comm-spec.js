@@ -144,7 +144,7 @@ describe("commActionObservable", () => {
     };
 
     const newKernelAction = {
-      channels: { iopub: of(commOpenMessage, commMessage) }
+      channels: of(commOpenMessage, commMessage)
     };
 
     commActionObservable(newKernelAction)

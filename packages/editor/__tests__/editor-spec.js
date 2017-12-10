@@ -16,7 +16,7 @@ describe("Editor", () => {
 
     const mockSocket = Subject.create(sent, received);
 
-    const channels = { shell: mockSocket };
+    const channels = mockSocket;
 
     const editorWrapper = mount(<Editor completion channels={channels} />);
 
@@ -39,7 +39,12 @@ describe("Editor", () => {
     editor.completions(cm, () => {});
   });
   it("doesn't try for code completion when not set", () => {
-    const channels = { shell: "turtle power" };
+    const sent = new Subject();
+    const received = new Subject();
+
+    const mockSocket = Subject.create(sent, received);
+
+    const channels = mockSocket;
 
     const editorWrapper = mount(<Editor channels={channels} />);
     expect(editorWrapper).not.toBeNull();
@@ -69,7 +74,7 @@ describe("complete", () => {
     const sent = new Subject();
     const received = new Subject();
     const mockSocket = Subject.create(sent, received);
-    const channels = { shell: mockSocket };
+    const channels = mockSocket;
 
     const cm = {
       getCursor: () => ({ line: 2 }),
@@ -111,7 +116,7 @@ describe("tooltip", () => {
     const sent = new Subject();
     const received = new Subject();
     const mockSocket = Subject.create(sent, received);
-    const channels = { shell: mockSocket };
+    const channels = mockSocket;
 
     const cm = {
       getCursor: () => ({ line: 0 }),
