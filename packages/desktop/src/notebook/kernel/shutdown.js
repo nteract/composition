@@ -2,7 +2,12 @@
 import * as fs from "fs";
 
 const { map, filter } = require("rxjs/operators");
-const { createMessage, childOf, ofMessageType } = require("@nteract/messaging");
+const {
+  createMessage,
+  childOf,
+  ofMessageType,
+  shutdownRequest
+} = require("@nteract/messaging");
 
 export type Kernel = {
   channels: rxjs$Subject<*>,
@@ -66,18 +71,17 @@ export function shutdownKernel(kernel: Kernel): Promise<boolean> {
     forceShutdownKernel(kernel);
   }
 
-  const shutDownRequest = createMessage("shutdown_request");
-  shutDownRequest.content = { restart: false };
+  const request = shutdownRequest({ restart: false });
 
   const shutDownReply = kernel.channels
     .pipe(
-      childOf(shutDownRequest),
+      childOf(request),
       ofMessageType("shutdown_reply"),
       map(msg => msg.content)
     )
     .toPromise();
 
-  kernel.channels.next(shutDownRequest);
+  kernel.channels.next(request);
   // Attempt to gracefully terminate the kernel.
 
   return shutDownReply

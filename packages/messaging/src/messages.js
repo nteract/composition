@@ -19,6 +19,7 @@ function whichChannel(messageType?: string) {
     case "history_request":
     case "is_complete_request":
     case "comm_info_request":
+    case "shutdown_request":
       return "shell";
     case "display_data":
     case "stream":
@@ -319,4 +320,10 @@ export function executeInput(
 
 export function kernelInfoRequest(sessionInfo?: SessionInfo) {
   return message({ msg_type: "kernel_info_request", ...sessionInfo });
+}
+
+export function shutdownRequest(
+  content?: { restart?: boolean } = { restart: false }
+) {
+  return message({ msg_type: "shutdown_request" }, content);
 }
