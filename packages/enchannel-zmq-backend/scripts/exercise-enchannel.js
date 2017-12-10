@@ -4,7 +4,14 @@
  * This script is intended to be run at the base of enchannel-zmq-backend
  * to perform a bit of a functional/integration test against a real, live kernel.
  *
- * node scripts/exercise-enchannel.js
+ * It does _not_ have any actual test checks though and is solely intended to
+ * be run manually.
+ *
+ * You can run this directly by running
+
+     node scripts/exercise-enchannel.js
+
+ * at the base of this package.
  *
  */
 var { launch } = require("spawnteract");

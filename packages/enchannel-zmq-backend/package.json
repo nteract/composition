@@ -13,9 +13,11 @@
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "build:lib:watch": "npm run build:lib -- --watch",
     "test": "jest",
+    "test:integration": "node scripts/exercise-enchannel.js",
     "test:watch": "npm run test -- --watch"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",
+  "repository":
+    "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
