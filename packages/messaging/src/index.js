@@ -23,20 +23,6 @@ import {
   tap
 } from "rxjs/operators";
 
-import * as uuid from "uuid";
-
-export const session = uuid.v4();
-
-export function getUsername(): string {
-  return (
-    process.env.LOGNAME ||
-    process.env.USER ||
-    process.env.LNAME ||
-    process.env.USERNAME ||
-    ""
-  );
-}
-
 import { message, executeRequest } from "./messages";
 
 import type { JupyterMessage, ExecuteRequest } from "./types";
