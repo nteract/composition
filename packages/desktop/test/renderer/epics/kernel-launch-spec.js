@@ -55,7 +55,7 @@ describe("acquireKernelInfo", () => {
       setTimeout(() => received.next(response), 100);
     });
 
-    const obs = acquireKernelInfo({ shell: mockSocket });
+    const obs = acquireKernelInfo(mockSocket);
 
     obs.subscribe(langAction => {
       expect(langAction).to.deep.equal({

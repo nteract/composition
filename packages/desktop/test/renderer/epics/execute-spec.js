@@ -51,7 +51,9 @@ describe("executeCellStream", () => {
     const mockShell = Subject.create(frontendToShell, shellToFrontend);
     const mockIOPub = new Subject();
 
-    const channels = { shell: mockShell, iopub: mockIOPub };
+    // TODO: Combine shell and iopub with enchannel-zmq's createMainChannel
+    // Better idea though: create a enchannel-test-provider
+    const channels = mockShell;
 
     // Expect message to have been sent
     frontendToShell.subscribe(msg => {
