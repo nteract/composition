@@ -18,7 +18,7 @@ import { of } from "rxjs/observable/of";
 import { toArray, share } from "rxjs/operators";
 
 describe("setLanguageInfo", () => {
-  it("creates a SET_LANGUAGE_INFO action", () => {
+  test("creates a SET_LANGUAGE_INFO action", () => {
     const langInfo = {
       codemirror_mode: { name: "ipython", version: 3 },
       file_extension: ".py",
@@ -37,7 +37,7 @@ describe("setLanguageInfo", () => {
 });
 
 describe("acquireKernelInfo", () => {
-  it("sends a kernel_info_request and processes kernel_info_reply", done => {
+  test("sends a kernel_info_request and processes kernel_info_reply", done => {
     const sent = new Subject();
     const received = new Subject();
 
@@ -67,15 +67,13 @@ describe("acquireKernelInfo", () => {
 });
 
 describe("watchExecutionStateEpic", () => {
-  it("returns an Observable with an initial state of idle", done => {
+  test("returns an Observable with an initial state of idle", done => {
     const action$ = ActionsObservable.of({
       type: constants.NEW_KERNEL,
-      channels: {
-        iopub: of({
-          header: { msg_type: "status" },
-          content: { execution_state: "idle" }
-        })
-      }
+      channels: of({
+        header: { msg_type: "status" },
+        content: { execution_state: "idle" }
+      })
     });
     const obs = watchExecutionStateEpic(action$);
     obs.pipe(toArray()).subscribe(
@@ -94,14 +92,14 @@ describe("watchExecutionStateEpic", () => {
 });
 
 describe("newKernelObservable", () => {
-  it("returns an observable", () => {
+  test("returns an observable", () => {
     const obs = newKernelObservable("python3", process.cwd());
     expect(obs.subscribe).toBeTruthy();
   });
 });
 
 describe("newKernelEpic", () => {
-  it("throws an error if given a bad action", done => {
+  test("throws an error if given a bad action", done => {
     const actionBuffer = [];
     const action$ = ActionsObservable.of({
       type: constants.LAUNCH_KERNEL
@@ -116,7 +114,7 @@ describe("newKernelEpic", () => {
       err => done.fail(err)
     );
   });
-  it("calls newKernelObservable if given the correct action", done => {
+  test("calls newKernelObservable if given the correct action", done => {
     const actionBuffer = [];
     const action$ = ActionsObservable.of({
       type: constants.LAUNCH_KERNEL,
@@ -141,7 +139,7 @@ describe("newKernelEpic", () => {
 });
 
 describe("newKernelByNameEpic", () => {
-  it("creates a LAUNCH_KERNEL action in response to a LAUNCH_KERNEL_BY_NAME action", done => {
+  test("creates a LAUNCH_KERNEL action in response to a LAUNCH_KERNEL_BY_NAME action", done => {
     const action$ = ActionsObservable.of({
       type: constants.LAUNCH_KERNEL_BY_NAME,
       kernelSpecName: "python3",
@@ -152,6 +150,7 @@ describe("newKernelByNameEpic", () => {
       actions => {
         const types = actions.map(({ type }) => type);
         expect(types).toEqual([constants.LAUNCH_KERNEL]);
+        done();
       },
       err => done.fail(err)
     );

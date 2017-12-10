@@ -84,13 +84,6 @@ mock("@nteract/plotly", {
   redraw: () => {}
 });
 
-mock("enchannel-zmq-backend", {
-  createControlSubject: () => {},
-  createStdinSubject: () => {},
-  createIOPubSubject: () => {},
-  createShellSubject: () => {}
-});
-
 mock("electron", {
   shell: {
     openExternal: () => {}
