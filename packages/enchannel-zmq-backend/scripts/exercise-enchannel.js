@@ -1,4 +1,12 @@
 // @format
+/**
+ *
+ * This script is intended to be run at the base of enchannel-zmq-backend
+ * to perform a bit of a functional/integration test against a real, live kernel.
+ *
+ * node scripts/exercise-enchannel.js
+ *
+ */
 var { launch } = require("spawnteract");
 
 var { unlink } = require("fs");
