@@ -1,19 +1,14 @@
 import uuidv4 from "uuid/v4";
 import { Subject } from "rxjs/Subject";
 
-import { createSocket, ZMQType } from "../src";
+import {
+  createSocket,
+  ZMQType,
+  getUsername,
+  createMainChannelFromSockets
+} from "../src";
 
-// Solely testing the exported interface on the built ES5 JavaScript
-describe("the built version of enchannel-zmq-backend", () => {
-  test("exports create helpers for control, stdin, iopub, and shell", () => {
-    expect(createControlSubject).toBeDefined();
-    expect(createStdinSubject).toBeDefined();
-    expect(createIOPubSubject).toBeDefined();
-    expect(createShellSubject).toBeDefined();
-  });
-});
-
-describe("createMainChannel", () => {
+describe.skip("createMainChannel", () => {
   test("pipes messages to socket appropriately", () => {
     // outward to the socket
     const sent = new Subject();
@@ -90,5 +85,50 @@ describe("createSocket", () => {
     expect(socket.identity).toBe(identity);
     expect(socket.type).toBe(ZMQType.frontend.iopub);
     socket.close();
+  });
+});
+
+describe("getUsername", () => {
+  test("relies on environment variables for username with a specific ordering", () => {
+    expect(getUsername()).toEqual("username");
+
+    process.env.USERNAME = "TEST1";
+    expect(getUsername()).toEqual("TEST1");
+    process.env.LNAME = "TEST2";
+    expect(getUsername()).toEqual("TEST2");
+    process.env.USER = "TEST3";
+    expect(getUsername()).toEqual("TEST3");
+    process.env.LOGNAME = "TEST4";
+    expect(getUsername()).toEqual("TEST4");
+  });
+
+  test(`when no environment variables are set, use literally 'username', which
+      comes from the classic jupyter notebook`, () => {
+    expect(getUsername()).toEqual("username");
+  });
+
+  beforeEach(() => {
+    delete process.env.LOGNAME;
+    delete process.env.USER;
+    delete process.env.LNAME;
+    delete process.env.USERNAME;
+  });
+
+  afterEach(() => {
+    delete process.env.LOGNAME;
+    delete process.env.USER;
+    delete process.env.LNAME;
+    delete process.env.USERNAME;
+  });
+});
+
+describe("createMainChannelFromSockets", () => {
+  test("basic creation", () => {
+    const sockets = {
+      hokey: {}
+    };
+    const channels = createMainChannelFromSockets(sockets);
+
+    expect(channels).toBeInstanceOf(Subject);
   });
 });
