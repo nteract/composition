@@ -1,5 +1,10 @@
 import uuidv4 from "uuid/v4";
 import { Subject } from "rxjs/Subject";
+import { fromEvent } from "rxjs/observable/fromEvent";
+
+const EventEmitter = require("events");
+
+import { toArray, take, map } from "rxjs/operators";
 
 import {
   createSocket,
@@ -127,8 +132,138 @@ describe("createMainChannelFromSockets", () => {
     const sockets = {
       hokey: {}
     };
+    // TODO: This shouldn't work silently if the socket doesn't actually behave
+    // like an actual socket
+    // NOTE: RxJS doesn't error with the fromEvent until there is at least one
+    //       subscriber, which also tells me we might have the wrong behavior
+    //       here as it should go ahead and subscribe unconditionally...
     const channels = createMainChannelFromSockets(sockets);
 
     expect(channels).toBeInstanceOf(Subject);
+  });
+
+  test("simple one channel message passing from 'socket' to channels", () => {
+    const hokeySocket = new EventEmitter();
+    const sockets = {
+      shell: hokeySocket
+    };
+
+    const channels = createMainChannelFromSockets(sockets);
+    expect(channels).toBeInstanceOf(Subject);
+
+    const messages = [{ a: 1 }, { a: 2 }, { b: 3 }];
+
+    const p = channels.pipe(take(messages.length), toArray()).toPromise();
+
+    for (var message of messages) {
+      hokeySocket.emit("message", message);
+    }
+
+    return p.then(modifiedMessages => {
+      expect(modifiedMessages).toEqual(
+        messages.map(msg => Object.assign({}, msg, { channel: "shell" }))
+      );
+    });
+  });
+
+  test("handles multiple socket routing underneath", () => {
+    const shellSocket = new EventEmitter();
+    const iopubSocket = new EventEmitter();
+    const sockets = {
+      shell: shellSocket,
+      iopub: iopubSocket
+    };
+
+    const channels = createMainChannelFromSockets(sockets);
+
+    const p = channels.pipe(take(2), toArray()).toPromise();
+
+    shellSocket.emit("message", { yolo: false });
+    iopubSocket.emit("message", { yolo: true });
+
+    return p.then(modifiedMessages => {
+      expect(modifiedMessages).toEqual([
+        { channel: "shell", yolo: false },
+        { channel: "iopub", yolo: true }
+      ]);
+    });
+  });
+
+  test("propagates header information through", () => {
+    // Mock a jmp socket
+    class HokeySocket extends EventEmitter {
+      constructor() {
+        super();
+        this.send = jest.fn();
+      }
+      send() {}
+    }
+
+    const shellSocket = new HokeySocket();
+    const iopubSocket = new HokeySocket();
+    const sockets = {
+      shell: shellSocket,
+      iopub: iopubSocket
+    };
+
+    const channels = createMainChannelFromSockets(sockets, {
+      session: "spinning",
+      username: "dj"
+    });
+
+    const p = channels.pipe(take(2), toArray()).toPromise();
+
+    channels.next({ channel: "shell" });
+
+    expect(shellSocket.send).toHaveBeenCalledWith({
+      buffers: [],
+      content: {},
+      header: {
+        session: "spinning",
+        username: "dj"
+      },
+      idents: [],
+      metadata: {},
+      parent_header: {}
+    });
+
+    channels.next({
+      channel: "shell",
+      content: {
+        applesauce: "mcgee"
+      },
+      header: {
+        msg_id: "XYZ",
+
+        // NOTE: we'll be checking that we use the set username for the
+        //       channels, no overrides
+        username: "kitty"
+      }
+    });
+
+    expect(shellSocket.send).toHaveBeenLastCalledWith({
+      buffers: [],
+      content: {
+        applesauce: "mcgee"
+      },
+      header: {
+        session: "spinning",
+        username: "dj",
+        msg_id: "XYZ"
+      },
+      idents: [],
+      metadata: {},
+      parent_header: {}
+    });
+
+    shellSocket.emit("message", { yolo: false });
+    iopubSocket.emit("message", { yolo: true });
+
+    return p.then(modifiedMessages => {
+      expect(modifiedMessages).toEqual([
+        { channel: "shell", yolo: false },
+        { channel: "iopub", yolo: true }
+      ]);
+    });
   });
 });
