@@ -1,14 +1,7 @@
-import {
-  createControlSubject,
-  createStdinSubject,
-  createIOPubSubject,
-  createShellSubject
-} from "..";
-
 import uuidv4 from "uuid/v4";
 import { Subject } from "rxjs/Subject";
 
-import { createMainChannelFromChannels, createMainChannel } from "../src";
+import { createSocket, ZMQType } from "../src";
 
 // Solely testing the exported interface on the built ES5 JavaScript
 describe("the built version of enchannel-zmq-backend", () => {
@@ -95,7 +88,7 @@ describe("createSocket", () => {
     const socket = createSocket("iopub", identity, config);
     expect(socket).not.toBeNull();
     expect(socket.identity).toBe(identity);
-    expect(socket.type).toBe(constants.ZMQType.frontend.iopub);
+    expect(socket.type).toBe(ZMQType.frontend.iopub);
     socket.close();
   });
 });
