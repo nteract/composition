@@ -39,15 +39,6 @@ export function getUsername(): string {
 
 import { message, executeRequest } from "./messages";
 
-// TODO: The current expectation of this library is that createMessage hides the
-//       fact that there is a session number and a username
-//       We'll keep a bound version of createMessage around here, using the
-//       more generic and declarative `message` and `executeRequest`
-const sessionInfo = {
-  username: getUsername(),
-  session
-};
-
 import type { JupyterMessage, ExecuteRequest } from "./types";
 
 // TODO: Deprecate
@@ -55,12 +46,12 @@ export function createMessage(
   msg_type: string,
   fields: Object = {}
 ): JupyterMessage<*, *> {
-  return { ...message({ msg_type, ...sessionInfo }), ...fields };
+  return { ...message({ msg_type }), ...fields };
 }
 
 // TODO: Deprecate
 export function createExecuteRequest(code: string = ""): ExecuteRequest {
-  return executeRequest(code, {}, sessionInfo);
+  return executeRequest(code, {});
 }
 
 /**

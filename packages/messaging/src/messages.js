@@ -8,8 +8,6 @@ import type {
 
 import * as uuid from "uuid";
 
-type SessionInfo = { username: string, session: string };
-
 function whichChannel(messageType?: string) {
   switch (messageType) {
     case "execute_request":
@@ -114,14 +112,12 @@ export function executeRequest(
     user_expressions?: Object,
     allow_stdin?: boolean,
     stop_on_error?: boolean
-  },
-  sessionInfo?: SessionInfo
+  }
 ): ExecuteRequest {
   return message(
     // Header
     {
-      msg_type: "execute_request",
-      ...sessionInfo
+      msg_type: "execute_request"
     },
     // Content
     {
@@ -157,18 +153,14 @@ export function executeRequest(
  *      metadata: {},
  *      transient: {} } }
  */
-export function displayData(
-  content: {
-    data?: Object,
-    metadata?: Object,
-    transient?: Object
-  },
-  sessionInfo?: SessionInfo
-) {
+export function displayData(content: {
+  data?: Object,
+  metadata?: Object,
+  transient?: Object
+}) {
   return message(
     {
-      msg_type: "display_data",
-      ...sessionInfo
+      msg_type: "display_data"
     },
     {
       data: {},
@@ -182,16 +174,13 @@ export function displayData(
 /**
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#update-display-data
  */
-export function updateDisplayData(
-  content: {
-    data?: Object,
-    metadata?: Object,
-    transient?: Object
-  },
-  sessionInfo?: SessionInfo
-) {
+export function updateDisplayData(content: {
+  data?: Object,
+  metadata?: Object,
+  transient?: Object
+}) {
   // TODO: Enforce the transient display_id here?
-  const m = displayData(content, sessionInfo);
+  const m = displayData(content);
   m.header.msg_type = "update_display_data";
   return m;
 }
@@ -199,17 +188,14 @@ export function updateDisplayData(
 /**
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#id6
  */
-export function executeResult(
-  content: {
-    execution_count: number,
-    data?: Object,
-    metadata?: Object,
-    transient?: Object
-  },
-  sessionInfo?: SessionInfo
-) {
+export function executeResult(content: {
+  execution_count: number,
+  data?: Object,
+  metadata?: Object,
+  transient?: Object
+}) {
   // TODO: Enforce the transient display_id here?
-  const m = displayData(content, sessionInfo);
+  const m = displayData(content);
   m.header.msg_type = "execute_result";
   m.content.execution_count = content.execution_count;
   return m;
@@ -218,18 +204,14 @@ export function executeResult(
 /**
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#execution-errors
  */
-export function error(
-  content: {
-    ename?: string,
-    evalue?: string,
-    traceback?: Array<string>
-  },
-  sessionInfo?: SessionInfo
-) {
+export function error(content: {
+  ename?: string,
+  evalue?: string,
+  traceback?: Array<string>
+}) {
   return message(
     {
-      msg_type: "error",
-      ...sessionInfo
+      msg_type: "error"
     },
     {
       ename: "",
@@ -243,17 +225,10 @@ export function error(
 /**
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#streams-stdout-stderr-etc
  */
-export function stream(
-  content: {
-    name: "stdout" | "stderr",
-    text: string
-  },
-  sessionInfo?: SessionInfo
-) {
+export function stream(content: { name: "stdout" | "stderr", text: string }) {
   return message(
     {
-      msg_type: "stream",
-      ...sessionInfo
+      msg_type: "stream"
     },
     content
   );
@@ -264,27 +239,22 @@ export function stream(
 /**
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#execution-results
  */
-export function executeReply(content: Object, sessionInfo?: SessionInfo) {
+export function executeReply(content: Object) {
   // TODO: This function could be better typed. It's a bit dual headed though since:
   //         * `status: ok` carries payloads
   //         * `status: error` carries error info that is also in error output
   return message(
     {
-      msg_type: "execute_reply",
-      ...sessionInfo
+      msg_type: "execute_reply"
     },
     content
   );
 }
 
-export function status(
-  execution_state: "busy" | "idle" | "starting",
-  sessionInfo?: SessionInfo
-) {
+export function status(execution_state: "busy" | "idle" | "starting") {
   return message(
     {
-      msg_type: "status",
-      ...sessionInfo
+      msg_type: "status"
     },
     {
       execution_state
@@ -292,34 +262,29 @@ export function status(
   );
 }
 
-export function clearOutput(
-  content?: { wait: boolean },
-  sessionInfo?: SessionInfo
-) {
+export function clearOutput(content?: { wait: boolean }) {
   return message(
     {
-      msg_type: "clear_output",
-      ...sessionInfo
+      msg_type: "clear_output"
     },
     content
   );
 }
 
-export function executeInput(
-  content: { code: string, execution_count: number },
-  sessionInfo?: SessionInfo
-) {
+export function executeInput(content: {
+  code: string,
+  execution_count: number
+}) {
   return message(
     {
-      msg_type: "execute_input",
-      ...sessionInfo
+      msg_type: "execute_input"
     },
     content
   );
 }
 
-export function kernelInfoRequest(sessionInfo?: SessionInfo) {
-  return message({ msg_type: "kernel_info_request", ...sessionInfo });
+export function kernelInfoRequest() {
+  return message({ msg_type: "kernel_info_request" });
 }
 
 export function shutdownRequest(
