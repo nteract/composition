@@ -89,7 +89,7 @@ export function shutdownKernel(kernel: Kernel): Promise<boolean> {
       // At this point, the kernel has cleaned up its resources.  Now we can
       // terminate the process and cleanup handles by calling forceShutdownKernel
 
-      forceShutdownKernel(k);
+      forceShutdownKernel(kernel);
       kernel.channels.complete();
       return true;
     })
