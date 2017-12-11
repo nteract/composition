@@ -205,8 +205,5 @@ export function createMainChannelFromSockets(
     )
   );
 
-  // $FlowFixMe: escape hatch while I see what's available
-  subject.sockets = sockets;
-
   return subject;
 }
