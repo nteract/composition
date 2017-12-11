@@ -4,7 +4,7 @@
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
-import { of } from "rxjs/Observable/of";
+import { of } from "rxjs/observable/of";
 import { Subject } from "rxjs/Subject";
 
 import { configure } from "enzyme";
