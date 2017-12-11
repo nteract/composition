@@ -11,6 +11,9 @@ module.exports = {
         throw Error("not mocked");
       }
     },
+    dialog: {
+      showSaveDialog: jest.fn()
+    },
     getCurrentWindow: () => {
       return {
         webContents: {
@@ -40,6 +43,6 @@ module.exports = {
     send: () => {}
   },
   dialog: {
-    showSaveDialog: () => {}
+    showSaveDialog: jest.fn()
   }
 };

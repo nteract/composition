@@ -68,7 +68,9 @@ describe("saveEpic", () => {
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => actionBuffer.push(x.type),
-      err => expect.fail(err, null),
+      err => {
+        expect.fail(err, null);
+      },
       () => {
         // It should not error in the stream
         expect(actionBuffer).to.deep.equal([DONE_SAVING]);
