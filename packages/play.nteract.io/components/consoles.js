@@ -4,7 +4,14 @@ import * as React from "react";
 //       then make this component inject the binder specific bits
 export class BinderConsole extends React.Component {
   render() {
-    const { logs, onFormSubmit } = this.props;
+    const {
+      logs,
+      handleFormSubmit,
+      handleGitrefChange,
+      handleRepoChange,
+      repo,
+      gitref
+    } = this.props;
     return (
       <div className="binder-console">
         <div className="binder-ui-wrapper">
@@ -15,18 +22,24 @@ export class BinderConsole extends React.Component {
               height="20px"
             />
           </a>
-          <form onSubmit={onFormSubmit} className="form">
+          <form onSubmit={handleFormSubmit} className="form">
             <p className="para">
               GitHub Repo:
               <input
+                onChange={handleRepoChange}
                 type="text"
-                defaultValue="binder-examples/python2_with_3"
                 name="repo"
+                value={repo}
               />
             </p>
             <p className="para">
               Branch/commit:
-              <input type="text" defaultValue="master" name="ref" />
+              <input
+                onChange={handleGitrefChange}
+                type="text"
+                name="gitref"
+                value={gitref}
+              />
             </p>
             <button type="submit"> Submit</button>
           </form>

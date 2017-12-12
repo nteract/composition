@@ -70,6 +70,9 @@ export default class App extends React.Component {
     this.getServer = this.getServer.bind(this);
     this.runSomeCode = this.runSomeCode.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleGitrefChange = this.handleGitrefChange.bind(this);
+    this.handleRepoChange = this.handleRepoChange.bind(this);
 
     this.state = {
       binderMessages: [],
@@ -78,6 +81,8 @@ export default class App extends React.Component {
       kernelStatus: "provisioning",
       kernel: null,
       error: null,
+      repo: "binder-examples/jupyter-stacks",
+      gitref: "master",
       source: `from IPython.display import display
 from vdom import h1, p, img, div, b, span
 
@@ -108,6 +113,23 @@ display(
 
   onEditorChange(source) {
     this.setState({ source });
+  }
+
+  handleRepoChange(event) {
+    this.setState({
+      repo: event.target.value
+    });
+  }
+
+  handleGitrefChange(event) {
+    this.setState({
+      gitref: event.target.value
+    });
+  }
+
+  async handleFormSubmit(event) {
+    event.preventDefault();
+    await this.getServer();
   }
 
   async runSomeCode() {
@@ -191,10 +213,8 @@ display(
   }
 
   async getServer() {
-    const serverConfig = await binder(
-      { repo: "binder-examples/jupyter-stacks" },
-      window.EventSource
-    )
+    const { repo, gitref } = this.state;
+    const serverConfig = await binder({ repo, gitref }, window.EventSource)
       .pipe(
         tap(msg => {
           this.setState({
@@ -275,7 +295,14 @@ display(
         </header>
 
         {this.state.showPanel ? (
-          <BinderConsole logs={this.state.binderMessages} />
+          <BinderConsole
+            handleGitrefChange={this.handleGitrefChange}
+            handleRepoChange={this.handleRepoChange}
+            handleFormSubmit={this.handleFormSubmit}
+            logs={this.state.binderMessages}
+            repo={this.state.repo}
+            gitref={this.state.gitref}
+          />
         ) : null}
 
         <div className="play-editor">
