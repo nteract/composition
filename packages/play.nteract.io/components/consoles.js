@@ -6,9 +6,9 @@ export class BinderConsole extends React.Component {
   render() {
     const {
       logs,
-      handleFormSubmit,
-      handleGitrefChange,
-      handleRepoChange,
+      onFormSubmit,
+      onGitrefChange,
+      onRepoChange,
       repo,
       gitref
     } = this.props;
@@ -22,11 +22,11 @@ export class BinderConsole extends React.Component {
               height="20px"
             />
           </a>
-          <form onSubmit={handleFormSubmit} className="form">
+          <form onSubmit={onFormSubmit} className="form">
             <p className="para">
               GitHub Repo:
               <input
-                onChange={handleRepoChange}
+                onChange={onRepoChange}
                 type="text"
                 name="repo"
                 value={repo}
@@ -35,7 +35,7 @@ export class BinderConsole extends React.Component {
             <p className="para">
               Branch/commit:
               <input
-                onChange={handleGitrefChange}
+                onChange={onGitrefChange}
                 type="text"
                 name="gitref"
                 value={gitref}

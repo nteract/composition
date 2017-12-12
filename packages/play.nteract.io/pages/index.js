@@ -296,9 +296,9 @@ display(
 
         {this.state.showPanel ? (
           <BinderConsole
-            handleGitrefChange={this.handleGitrefChange}
-            handleRepoChange={this.handleRepoChange}
-            handleFormSubmit={this.handleFormSubmit}
+            onGitrefChange={this.handleGitrefChange}
+            onRepoChange={this.handleRepoChange}
+            onFormSubmit={this.handleFormSubmit}
             logs={this.state.binderMessages}
             repo={this.state.repo}
             gitref={this.state.gitref}
