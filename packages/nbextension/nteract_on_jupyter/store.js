@@ -6,14 +6,9 @@ import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-import { document, metadata, comms, config } from "@nteract/core/reducers";
+import { document, comms, config } from "@nteract/core/reducers";
 
-import {
-  AppRecord,
-  MetadataRecord,
-  DocumentRecord,
-  CommsRecord
-} from "@nteract/core/records";
+import { AppRecord, DocumentRecord, CommsRecord } from "@nteract/core/records";
 
 import epics from "./epics";
 
@@ -29,7 +24,6 @@ const webAppReducer = (state = {}, action) => {
 
 export type AppState = {
   app: AppRecord,
-  metadata: MetadataRecord,
   document: DocumentRecord,
   comms: CommsRecord,
   config: ImmutableMap<string, any>,
@@ -39,7 +33,6 @@ export type AppState = {
 const rootReducer = combineReducers({
   webApp: webAppReducer,
   app: (state = {}) => state,
-  metadata,
   document,
   comms,
   config
@@ -47,7 +40,6 @@ const rootReducer = combineReducers({
 
 const defaultState = {
   app: AppRecord(),
-  metadata: MetadataRecord(),
   document: DocumentRecord(),
   comms: CommsRecord(),
   config: ImmutableMap({
