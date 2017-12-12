@@ -129,7 +129,7 @@ display(
 
   async handleFormSubmit(event) {
     event.preventDefault();
-    await this.getServer();
+    await this.initialize();
   }
 
   async runSomeCode() {
