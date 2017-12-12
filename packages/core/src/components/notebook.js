@@ -269,8 +269,12 @@ export class Notebook extends React.PureComponent<Props> {
   renderCell(id: string): React$Element<any> {
     const cell = this.props.cellMap.get(id);
 
-    const running =
-      this.props.transient.getIn(["cellMap", id, "status"]) === "busy";
+    const cellStatus = this.props.transient.getIn(
+      ["cellMap", id, "status"],
+      "unknown"
+    );
+    const running = cellStatus === "busy";
+    const queued = cellStatus === "queued";
 
     return (
       <Cell
@@ -281,6 +285,7 @@ export class Notebook extends React.PureComponent<Props> {
         editorFocused={this.props.editorFocused}
         language={this.props.language}
         running={running}
+        queued={queued}
         theme={this.props.theme}
         pagers={this.props.cellPagers.get(id)}
         transforms={this.props.transforms}

@@ -164,7 +164,9 @@ export function updateCellPagers(id: string, pagers: any) {
 }
 
 // TODO de-anyify this signature
-export function updateCellStatus(id: string, status: any) {
+type CELL_STATUSES = "busy" | "queued" | "idle";
+export function updateCellStatus(id: string, status: CELL_STATUSES) {
+  console.log("action creator", id, status);
   return {
     type: constants.UPDATE_CELL_STATUS,
     id,

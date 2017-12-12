@@ -516,13 +516,14 @@ function changeInputVisibility(
 type UpdateCellStatusAction = {
   type: "UPDATE_CELL_STATUS",
   id: CellID,
-  status: string
+  status: "busy" | "idle" | "queued"
 };
 function updateCellStatus(
   state: DocumentState,
   action: UpdateCellStatusAction
 ) {
   const { id, status } = action;
+  console.log("setting ", status, " for ", id);
   return state.setIn(["transient", "cellMap", id, "status"], status);
 }
 

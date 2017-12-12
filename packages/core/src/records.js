@@ -156,7 +156,8 @@ export const DocumentRecord = Immutable.Record({
   savedNotebook: null,
   // $FlowFixMe: Immutable
   transient: new Immutable.Map({
-    keyPathsForDisplays: new Immutable.Map()
+    keyPathsForDisplays: new Immutable.Map(),
+    cellMap: new Immutable.Map()
   }),
   cellPagers: new Immutable.Map(),
   stickyCells: new Immutable.Set(),

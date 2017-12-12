@@ -81,6 +81,13 @@ export function executeCellStream(
   const payloadStream = cellMessages.pipe(payloads());
 
   const cellAction$ = merge(
+    // All actions for new outputs
+    cellMessages.pipe(
+      outputs(),
+      map(output => ({ type: "APPEND_OUTPUT", id, output })),
+      startWith(clearOutputs(id))
+    ),
+
     // help menu in IPython
     // TODO: This should let the reducer in redux do the clear and append instead
     payloadStream.pipe(
@@ -108,7 +115,7 @@ export function executeCellStream(
     cellMessages.pipe(
       executionStates(),
       map(status => updateCellStatus(id, status)),
-      startWith(updateCellStatus(id, "busy"))
+      startWith(updateCellStatus(id, "queued"))
     ),
 
     // Update the input numbering: `[ ]`
@@ -116,14 +123,6 @@ export function executeCellStream(
       executionCounts(),
       map(ct => updateCellExecutionCount(id, ct))
     ),
-
-    // All actions for new outputs
-    cellMessages.pipe(
-      outputs(),
-      map(output => ({ type: "APPEND_OUTPUT", id, output })),
-      startWith(clearOutputs(id))
-    ),
-
     // clear_output display message
     cellMessages.pipe(ofMessageType("clear_output"), mapTo(clearOutputs(id)))
   );
