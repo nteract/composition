@@ -110,15 +110,18 @@ export class BinderConsole extends React.Component {
           }
 
           form {
+            width: 100%;
             float: left;
           }
 
           input {
-            float: left;
+            display: block;
+            width: 30%;
           }
 
           fieldset {
             border: none;
+            width: 100%;
           }
 
           .anchor {
@@ -126,11 +129,13 @@ export class BinderConsole extends React.Component {
           }
 
           .binder-ui-wrapper {
+            width: 100%;
             display: inline-block;
           }
 
           label {
             float: left;
+            min-width: 9em;
           }
 
           .log:last-child {
