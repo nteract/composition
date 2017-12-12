@@ -8,7 +8,7 @@ export class BinderConsole extends React.Component {
     let ghrepo = event.target.ghrepo.value;
     let branch = event.target.branch.value;
     const url = "https://mybinder.org/v2/gh/" + ghrepo + "/" + branch;
-    console.log(url);
+    window.location = url;
   };
 
   render() {
