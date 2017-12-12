@@ -135,5 +135,7 @@
     "url-loader": "^0.6.1",
     "webpack": "^3.5.5",
     "webpack-merge": "^4.1.0"
-  }
+  },
+  "private": true,
+  "workspaces": ["packages/*", "packages/nbextension/nteract_on_jupyter"]
 }
