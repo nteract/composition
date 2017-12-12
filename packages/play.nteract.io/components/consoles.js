@@ -26,11 +26,15 @@ export class BinderConsole extends React.Component {
           <form onSubmit={this.handleSubmit} className="form">
             <p className="para">
               GitHub Repo:
-              <input type="text" defaultValue="hello" name="ghrepo" />
+              <input
+                type="text"
+                defaultValue="binder-examples/python2_with_3"
+                name="ghrepo"
+              />
             </p>
             <p className="para">
               Branch/commit:
-              <input type="text" defaultValue="hello" name="branch" />
+              <input type="text" defaultValue="master" name="branch" />
             </p>
             <button type="submit"> Submit</button>
           </form>
