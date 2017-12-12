@@ -3,6 +3,14 @@ import * as React from "react";
 // TODO: Make a generic little console for some of the styled container pieces,
 //       then make this component inject the binder specific bits
 export class BinderConsole extends React.Component {
+  handleSubmit = event => {
+    event.preventDefault();
+    let ghrepo = event.target.ghrepo.value;
+    let branch = event.target.branch.value;
+    const url = "https://mybinder.org/v2/gh/" + ghrepo + "/" + branch;
+    console.log(url);
+  };
+
   render() {
     const { logs } = this.props;
     return (
@@ -15,8 +23,16 @@ export class BinderConsole extends React.Component {
               height="20px"
             />
           </a>
-          <form className="form">
-            <input defaultValue="hello" />
+          <form onSubmit={this.handleSubmit} className="form">
+            <p className="para">
+              GitHub Repo:
+              <input type="text" defaultValue="hello" name="ghrepo" />
+            </p>
+            <p className="para">
+              Branch/commit:
+              <input type="text" defaultValue="hello" name="branch" />
+            </p>
+            <button type="submit"> Submit</button>
           </form>
         </div>
         {logs.length > 0
@@ -94,6 +110,10 @@ export class BinderConsole extends React.Component {
 
           .binder-ui-wrapper {
             display: inline-block;
+          }
+
+          .para {
+            float: left;
           }
 
           .log:last-child {
