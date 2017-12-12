@@ -7,13 +7,18 @@ export class BinderConsole extends React.Component {
     const { logs } = this.props;
     return (
       <div className="binder-console">
-        <a href="https://mybinder.org" target="_blank">
-          <img
-            src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
-            alt="binder logo"
-            height="20px"
-          />
-        </a>
+        <div className="binder-ui-wrapper">
+          <a className="anchor" href="https://mybinder.org" target="_blank">
+            <img
+              src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
+              alt="binder logo"
+              height="20px"
+            />
+          </a>
+          <form className="form">
+            <input defaultValue="hello" />
+          </form>
+        </div>
         {logs.length > 0
           ? logs.map((log, index) => {
               return (
@@ -77,6 +82,18 @@ export class BinderConsole extends React.Component {
             background-color: #1a1a1a;
             counter-reset: line-numbering;
             margin-top: 0;
+          }
+
+          .form {
+            float: left;
+          }
+
+          .anchor {
+            float: left;
+          }
+
+          .binder-ui-wrapper {
+            display: inline-block;
           }
 
           .log:last-child {
