@@ -3,16 +3,8 @@ import * as React from "react";
 // TODO: Make a generic little console for some of the styled container pieces,
 //       then make this component inject the binder specific bits
 export class BinderConsole extends React.Component {
-  handleSubmit = event => {
-    event.preventDefault();
-    let ghrepo = event.target.ghrepo.value;
-    let branch = event.target.branch.value;
-    const url = "https://mybinder.org/v2/gh/" + ghrepo + "/" + branch;
-    window.location = url;
-  };
-
   render() {
-    const { logs } = this.props;
+    const { logs, onFormSubmit } = this.props;
     return (
       <div className="binder-console">
         <div className="binder-ui-wrapper">
@@ -23,18 +15,18 @@ export class BinderConsole extends React.Component {
               height="20px"
             />
           </a>
-          <form onSubmit={this.handleSubmit} className="form">
+          <form onSubmit={onFormSubmit} className="form">
             <p className="para">
               GitHub Repo:
               <input
                 type="text"
                 defaultValue="binder-examples/python2_with_3"
-                name="ghrepo"
+                name="repo"
               />
             </p>
             <p className="para">
               Branch/commit:
-              <input type="text" defaultValue="master" name="branch" />
+              <input type="text" defaultValue="master" name="ref" />
             </p>
             <button type="submit"> Submit</button>
           </form>
