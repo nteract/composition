@@ -23,25 +23,25 @@ export class BinderConsole extends React.Component {
             />
           </a>
           <form onSubmit={onFormSubmit} className="form">
-            <p className="para">
-              GitHub Repo:
+            <fieldset>
+              <label htmlFor="repoInput">GitHub Repo: </label>
               <input
+                id="repoInput"
                 onChange={onRepoChange}
                 type="text"
                 name="repo"
                 value={repo}
               />
-            </p>
-            <p className="para">
-              Branch/commit:
+              <label htmlFor="gitrefInput">Branch/commit: </label>
               <input
+                id="gitrefInput"
                 onChange={onGitrefChange}
                 type="text"
                 name="gitref"
                 value={gitref}
               />
-            </p>
-            <button type="submit"> Submit</button>
+              <button type="submit"> Submit</button>
+            </fieldset>
           </form>
         </div>
         {logs.length > 0
@@ -109,8 +109,16 @@ export class BinderConsole extends React.Component {
             margin-top: 0;
           }
 
-          .form {
+          form {
             float: left;
+          }
+
+          input {
+            float: left;
+          }
+
+          fieldset {
+            border: none;
           }
 
           .anchor {
@@ -121,7 +129,7 @@ export class BinderConsole extends React.Component {
             display: inline-block;
           }
 
-          .para {
+          label {
             float: left;
           }
 
