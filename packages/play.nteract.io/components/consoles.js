@@ -28,6 +28,7 @@ class BinderUI extends React.Component {
                 type="text"
                 name="repo"
                 value={repo}
+                size="80"
               />
             </label>
           </fieldset>
@@ -40,6 +41,7 @@ class BinderUI extends React.Component {
                 type="text"
                 name="gitref"
                 value={gitref}
+                size="80"
               />
             </label>
           </fieldset>
@@ -60,7 +62,6 @@ class BinderUI extends React.Component {
 
           input {
             display: block;
-            width: 30%;
             font-family: inherit;
             font-size: inherit;
           }
@@ -71,8 +72,6 @@ class BinderUI extends React.Component {
           }
 
           label {
-            float: left;
-            min-width: 9em;
           }
 
           .anchor {
