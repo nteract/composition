@@ -21,7 +21,7 @@ Checkout our [Medium blog post](https://medium.com/nteract/nteract-revolutionizi
 
 Note: There will be :bug:s and quirks. Please come tell us about them!
 
-nteract is a literate coding environment that supports Python, R, JavaScript and [other Jupyter kernels](https://github.com/ipython/ipython/wiki/IPython-kernels-for-other-languages). It wraps up the best of the web based Jupyter notebook and embeds it as a desktop application that allows you to open notebooks natively on your system. Double click a `.ipynb` on the desktop, use Spotlight on the Mac. It Just Works™
+nteract is a literate coding environment that supports Python, R, JavaScript and [other Jupyter kernels](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels). It wraps up the best of the web based Jupyter notebook and embeds it as a desktop application that allows you to open notebooks natively on your system. Double click a `.ipynb` on the desktop, use Spotlight on the Mac. It Just Works™
 
 ### Scope and goals
 
