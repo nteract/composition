@@ -25,7 +25,7 @@ const {
 import { BinderConsole } from "../components/consoles";
 
 const { binder } = require("rx-binder");
-const { kernels } = require("rx-jupyter");
+const { kernels, shutdown } = require("rx-jupyter");
 
 const {
   filter,
@@ -129,6 +129,7 @@ display(
 
   async handleFormSubmit(event) {
     event.preventDefault();
+    const serverShutdown = await shutdown(this.state.serverConfig);
     this.setState({ binderMessages: [] });
     await this.initialize();
   }
