@@ -1,11 +1,8 @@
 import * as React from "react";
 
-// TODO: Make a generic little console for some of the styled container pieces,
-//       then make this component inject the binder specific bits
-export class BinderConsole extends React.Component {
+class BinderUI extends React.Component {
   render() {
     const {
-      logs,
       onFormSubmit,
       onGitrefChange,
       onRepoChange,
@@ -13,55 +10,39 @@ export class BinderConsole extends React.Component {
       gitref
     } = this.props;
     return (
-      <div className="binder-console">
-        <div className="binder-ui-wrapper">
-          <a className="anchor" href="https://mybinder.org" target="_blank">
-            <img
-              src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
-              alt="binder logo"
-              height="20px"
+      <div className="binder-ui-wrapper">
+        <a className="anchor" href="https://mybinder.org" target="_blank">
+          <img
+            src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
+            alt="binder logo"
+            height="20px"
+          />
+        </a>
+        <form onSubmit={onFormSubmit} className="form">
+          <fieldset>
+            <label htmlFor="repoInput">GitHub Repo: </label>
+            <input
+              id="repoInput"
+              onChange={onRepoChange}
+              type="text"
+              name="repo"
+              value={repo}
             />
-          </a>
-          <form onSubmit={onFormSubmit} className="form">
-            <fieldset>
-              <label htmlFor="repoInput">GitHub Repo: </label>
-              <input
-                id="repoInput"
-                onChange={onRepoChange}
-                type="text"
-                name="repo"
-                value={repo}
-              />
-            </fieldset>
-            <fieldset>
-              <label htmlFor="gitrefInput">Branch/commit: </label>
-              <input
-                id="gitrefInput"
-                onChange={onGitrefChange}
-                type="text"
-                name="gitref"
-                value={gitref}
-              />
-            </fieldset>
-            <fieldset>
-              <button type="submit"> Submit</button>
-            </fieldset>
-          </form>
-        </div>
-        {logs.length > 0
-          ? logs.map((log, index) => {
-              return (
-                <span className="log" key={index}>
-                  <span className="sidebar" />
-                  <span className="phase">{log.phase}</span>
-                  <span className="content">
-                    <span className="message">{log.message}</span>
-                  </span>
-                </span>
-              );
-            })
-          : null}
-
+          </fieldset>
+          <fieldset>
+            <label htmlFor="gitrefInput">Branch/commit: </label>
+            <input
+              id="gitrefInput"
+              onChange={onGitrefChange}
+              type="text"
+              name="gitref"
+              value={gitref}
+            />
+          </fieldset>
+          <fieldset>
+            <button type="submit"> Submit</button>
+          </fieldset>
+        </form>
         <style jsx>{`
           img {
             vertical-align: middle;
@@ -94,6 +75,39 @@ export class BinderConsole extends React.Component {
             float: left;
           }
 
+          .binder-ui-wrapper {
+            width: 100%;
+            display: inline-block;
+            padding: 0 0 0 10px;
+          }
+        `}</style>
+      </div>
+    );
+  }
+}
+// TODO: Make a generic little console for some of the styled container pieces,
+//       then make this component inject the binder specific bits
+export class BinderConsole extends React.Component {
+  render() {
+    const { logs, ...otherprops } = this.props;
+    return (
+      <div className="binder-console">
+        <BinderUI {...otherprops} />
+        {logs.length > 0
+          ? logs.map((log, index) => {
+              return (
+                <span className="log" key={index}>
+                  <span className="sidebar" />
+                  <span className="phase">{log.phase}</span>
+                  <span className="content">
+                    <span className="message">{log.message}</span>
+                  </span>
+                </span>
+              );
+            })
+          : null}
+
+        <style jsx>{`
           .log {
             padding: 0 15px 0 32px;
             margin: 0;
@@ -137,12 +151,6 @@ export class BinderConsole extends React.Component {
             background-color: #1a1a1a;
             counter-reset: line-numbering;
             margin-top: 0;
-          }
-
-          .binder-ui-wrapper {
-            width: 100%;
-            display: inline-block;
-            padding: 0 0 0 10px;
           }
 
           .log:last-child {
