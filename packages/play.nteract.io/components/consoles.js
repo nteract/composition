@@ -55,18 +55,13 @@ class BinderUI extends React.Component {
         </div>
         <style jsx>{`
           img {
-            margin-left: 8px;
             vertical-align: middle;
-            padding: 0 0 10px 10px;
+            margin: 0 0 7px 10px;
           }
 
           input {
             font-family: inherit;
             font-size: inherit;
-          }
-          form {
-            margin-left: 10px;
-            padding-bottom: 20px;
           }
 
           button {
@@ -97,6 +92,10 @@ class BinderUI extends React.Component {
             width: 10em;
             display: inline-block;
           }
+
+          .binder-ui-wrapper {
+            padding: 0px 0px 5px 10px;
+          }
         `}</style>
       </div>
     );
@@ -110,26 +109,32 @@ export class BinderConsole extends React.Component {
     return (
       <div className="binder-console">
         <BinderUI {...otherprops} />
-        {logs.length > 0
-          ? logs.map((log, index) => {
-              return (
-                <span className="log" key={index}>
-                  <span className="sidebar" />
-                  <span className="phase">{log.phase}</span>
-                  <span className="content">
-                    <span className="message">{log.message}</span>
+        <div className="logs">
+          {logs.length > 0
+            ? logs.map((log, index) => {
+                return (
+                  <span className="log" key={index}>
+                    <span className="sidebar" />
+                    <span className="phase">{log.phase}</span>
+                    <span className="content">
+                      <span className="message">{log.message}</span>
+                    </span>
                   </span>
-                </span>
-              );
-            })
-          : null}
+                );
+              })
+            : null}
+        </div>
 
         <style jsx>{`
           .log {
-            padding: 0 15px 0 32px;
+            padding: 0 15px 0 0px;
             margin: 0;
             min-height: 16px;
             display: block;
+          }
+
+          .logs {
+            margin: 5px 0px 5px 0px;
           }
 
           .phase {
@@ -150,7 +155,6 @@ export class BinderConsole extends React.Component {
             display: inline-block;
             text-align: right;
             min-width: 40px;
-            margin-left: -32px;
             text-decoration: none;
             color: #666;
           }
@@ -158,7 +162,7 @@ export class BinderConsole extends React.Component {
           .binder-console {
             clear: left;
             min-height: 42px;
-            padding: 15px 0px 25px 0;
+            padding: 15px 0px 15px 0;
             color: #f1f1f1;
             font-family: Monaco, monospace;
             font-size: 12px;
