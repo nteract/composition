@@ -7,34 +7,30 @@
 [![slack in](https://slackin-nteract.now.sh/badge.svg)](https://slackin-nteract.now.sh)
 [![Greenkeeper badge](https://badges.greenkeeper.io/nteract/nteract.svg)](https://greenkeeper.io/)
 
-
 [**Users**](#installation---users) | [**Contributors and Development**](#installation---contributors-and-development) | [**Maintainers**](#for-maintainers-creating-a-release)
 
+## Intro
+
+nteract is first and foremost a dynamic tool to allow you flexibility in writing code, exploring data, and authoring text to accompany your explorations.
+
+**Edit code, write markdown, and visualize.** Share documents understood across the jupyter ecosystem, [all in the comfort of a desktop app](https://medium.com/nteract/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38), or [explore new ways of working with compute](https://play.nteract.io). We support [jupyter kernels](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels) locally on your system and on remote JupyterHubs via Binder.
+
+**NOTE: If you're here to install the desktop app**, visit [nteract.io](https://nteract.io) or the [releases page](https://github.com/nteract/nteract/releases/latest).
 
 ## Overview
 
-Edit code cells, write markdown, visualize!
+This repository is a [monorepo](./doc/design/monorepo.md), which basically means that the repository hosts more than one module or application. In our case, we have two main directories:
 
-Checkout our [Medium blog post](https://medium.com/nteract/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38) to see what amazing things you can do with nteract.
+```
+packages/ -- everything used as an individual library
+applications/ -- all the user facing applications
+```
 
-![nteract geojson](https://cloud.githubusercontent.com/assets/836375/18421299/d95ad398-783b-11e6-8b23-d54cf7caad1e.png)
-
-Note: There will be :bug:s and quirks. Please come tell us about them!
-
-nteract is a literate coding environment that supports Python, R, JavaScript and [other Jupyter kernels](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels). It wraps up the best of the web based Jupyter notebook and embeds it as a desktop application that allows you to open notebooks natively on your system. Double click a `.ipynb` on the desktop, use Spotlight on the Mac. It Just Works™
-
-### Scope and goals
-
-* Notebook environment to explore and get things done ✅
-* Standalone cross-platform desktop application ✅
-* One notebook document/narrative per window ✅
-* Work with any Jupyter kernel using message spec v5 ✅
-* Easy install with pre-configured Python3 ❌  and JavaScript ✅ runtimes
-* Grow an ecosystem of tooling to allow others to build their own platforms relying on the Jupyter specifications ✅
+`packages` has what you need to build new applications and `applications` has the desktop app, the play app, and a few more.
 
 ## Installation - Users
 
-Head to the [Releases](https://github.com/nteract/nteract/releases/latest) page and download the version for your OS.
+**NOTE: If you're here to install the desktop app**, visit [nteract.io](https://nteract.io) or the [releases page](https://github.com/nteract/nteract/releases/latest) to download the version for your OS.
 
 ## Installation - Contributors and Development
 
@@ -49,18 +45,9 @@ Feel free to post issues or chat in [Slack](https://nteract.slack.com/) ([reques
 
 ### Development
 
-To get started developing install a [python runtime](#python-runtime) then install [`nteract` in dev mode](#install-nteract-in-dev-mode).
+To get started developing, [set up the nteract monorepo](#set-the-monorepo-up-in-dev-mode).
 
-#### Python runtime
-
-At least for now, we need the python 3 kernel installed when hacking on nteract:
-
-```
-python3 -m pip install ipykernel
-python3 -m ipykernel install --user
-```
-
-#### Install `nteract` in dev mode
+#### Set the monorepo up in dev mode
 
 Requires [Node.js and npm 3+](https://docs.npmjs.com/getting-started/installing-node).
 
@@ -68,11 +55,26 @@ Requires [Node.js and npm 3+](https://docs.npmjs.com/getting-started/installing-
 2. Clone it `git clone https://github.com/nteract/nteract`
 3. `cd` to where you `clone`d it
 4. `npm install`
-5. `npm run start`
 
-As you make changes, close the entire app (cmd-q on OS X, or ctrl-c at the terminal) then run `npm run start` again.
+#### Building specific packages
 
-##### Progressive Webpack build for the notebook
+In some cases you'll want to modify a base package (and not rebuild everything). To target just one use this, replacing `packageName` with the package you want to hack on.
+
+```
+$(npm bin)/lerna run build --scope packageName
+```
+
+#### Hacking on the Desktop application
+
+##### Quick and dirty
+
+```
+npm run app:desktop
+```
+
+As you make changes, you will have to close the entire app (cmd-q on OS X, or ctrl-c at the terminal) then run `npm run app:desktop` again.
+
+##### Progressive Webpack build for the desktop notebook
 
 In separate terminals run:
 
@@ -88,28 +90,36 @@ npm run spawn
 
 The webpack build will keep occurring as you modify source. When you open a new notebook, you'll get the freshest copy of the notebook app.
 
-#### Build Documentation
-You can run nteract's documentation generator by running
+#### Hacking on `play`
+
+Run
 
 ```
-npm run build:docs
+npm run app:play
 ```
 
-And then opening `docs/index.html` in your favorite browser.
+Then open `127.0.0.1:3000` in your browser. You'll be able to make changes to play and see them
+update live.
+
+If you make changes to any `packages/` you'll want to rebuild those using
+
+```
+$(npm bin)/lerna run build --scope packageName
+```
 
 #### Troubleshooting
 
 > I upgraded my developer installation and things are broken!
 
-- Try `git clean -xdf && npm i`
+* Try `git clean -xdf && npm i`
 
 > I want to debug redux actions and state changes.
 
--  Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by spawning the application with `npm run spawn:debug`.
+* Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by spawning the application with `npm run spawn:debug`.
 
 > I keep getting 'Do you want the application "nteract Helper.app" to accept incoming network connections?' while developing or using a custom build of nteract on macOS.
 
--  This is how the the macOS firewall behaves for unsigned apps. On a signed app, the dialog won't show up again after approving it the first time. If you're using a custom build of nteract, run: `sudo codesign --force --deep --sign - /Applications/nteract.app`. You will have to do this again every time you rebuild the app.
+* This is how the the macOS firewall behaves for unsigned apps. On a signed app, the dialog won't show up again after approving it the first time. If you're using a custom build of nteract, run: `sudo codesign --force --deep --sign - /Applications/nteract.app`. You will have to do this again every time you rebuild the app.
 
 ## For maintainers: Creating a release
 
