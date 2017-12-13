@@ -13,7 +13,7 @@ import {
   newKernelByNameEpic
 } from "./kernel-launch";
 
-import { executeCellEpic, updateDisplayEpic } from "./execute";
+import { executeCellEpic, updateDisplayEpic } from "@nteract/core/epics";
 
 import { publishEpic } from "./github-publish";
 

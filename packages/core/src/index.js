@@ -6,5 +6,14 @@ import * as middlewares from "./middlewares";
 import * as records from "./records";
 import * as reducers from "./reducers";
 import * as components from "./components";
+import * as epics from "./epics";
 
-export { actions, constants, middlewares, records, reducers, components };
+export {
+  actions,
+  constants,
+  middlewares,
+  records,
+  reducers,
+  components,
+  epics
+};
