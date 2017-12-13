@@ -8,4 +8,5 @@ types/
 build/
 example-notebooks/
 packages/**/node_modules
+applications/**/node_modules
 coverage
