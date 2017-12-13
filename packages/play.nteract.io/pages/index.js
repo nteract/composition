@@ -83,22 +83,18 @@ export default class App extends React.Component {
       error: null,
       repo: "binder-examples/jupyter-stacks",
       gitref: "master",
-      source: `from IPython.display import display
-from vdom import h1, p, img, div, b, span
-
-display(
-    div(
-        h1('Welcome to play.nteract.io'),
-        p('Run Python code via Binder & Jupyter'),
-        img(src="https://bit.ly/storybot-vdom"),
-        p('Change the code, click ',
-            span("▶ Run", style=dict(
-                color="white",
-                backgroundColor="black",
-                padding="10px"
-            )),
-          ' Up above'
-        )
+      source: `from vdom import h1, p, img, div, b, span
+div(
+    h1('Welcome to play.nteract.io'),
+    p('Run Python code via Binder & Jupyter'),
+    img(src="https://bit.ly/storybot-vdom"),
+    p('Change the code, click ',
+        span("▶ Run", style=dict(
+            color="white",
+            backgroundColor="black",
+            padding="10px"
+        )),
+      ' Up above'
     )
 )`,
       outputs: [],
