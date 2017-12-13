@@ -21,6 +21,42 @@ class BinderLogo extends React.Component {
     );
   }
 }
+
+class BinderTextInput extends React.Component {
+  render() {
+    const { onChange, value, id, labelText, name } = this.props;
+
+    return (
+      <div>
+        <fieldset className="binder">
+          <label htmlFor={id}>
+            <span>{labelText}</span>
+            <input
+              id={id}
+              onChange={onChange}
+              type="text"
+              name={name}
+              value={value}
+              size="80"
+            />
+          </label>
+        </fieldset>
+        <style jsx>{`
+          input {
+            font-family: inherit;
+            font-size: inherit;
+          }
+
+          label span {
+            width: 12em;
+            display: inline-block;
+          }
+        `}</style>
+      </div>
+    );
+  }
+}
+
 class BinderUI extends React.Component {
   render() {
     const {
@@ -33,33 +69,22 @@ class BinderUI extends React.Component {
     return (
       <div className="binder-ui-wrapper">
         <form onSubmit={onFormSubmit} className="form">
-          <fieldset>
-            <label htmlFor="repoInput">
-              <span>GitHub Repo:</span>
-              <input
-                id="repoInput"
-                onChange={onRepoChange}
-                type="text"
-                name="repo"
-                value={repo}
-                size="80"
-              />
-            </label>
-          </fieldset>
-          <fieldset>
-            <label htmlFor="gitrefInput">
-              <span>Branch/commit:</span>
-              <input
-                id="gitrefInput"
-                onChange={onGitrefChange}
-                type="text"
-                name="gitref"
-                value={gitref}
-                size="80"
-              />
-            </label>
-          </fieldset>
-          <fieldset>
+          <BinderTextInput
+            onChange={onRepoChange}
+            id="repoInput"
+            value={repo}
+            labelText="Github Repo:"
+            name="repo"
+          />
+
+          <BinderTextInput
+            onChange={onGitrefChange}
+            id="gitrefInput"
+            name="gitref"
+            value={gitref}
+            labelText="Branch/commit/tag:"
+          />
+          <fieldset className="binder">
             <button type="submit">Build and Connect</button>
           </fieldset>
         </form>
@@ -88,16 +113,10 @@ class BinderUI extends React.Component {
             border: 1px solid #d7d7d7;
           }
 
-          fieldset {
+          :global(fieldset.binder) {
             border: none;
             padding-left: 0px;
             margin-left: 0px;
-          }
-
-          label span {
-            min-width: 10em;
-            width: 10em;
-            display: inline-block;
           }
 
           // .binder-ui-wrapper {
