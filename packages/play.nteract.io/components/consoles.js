@@ -11,77 +11,91 @@ class BinderUI extends React.Component {
     } = this.props;
     return (
       <div className="binder-ui-wrapper">
-        <a className="anchor" href="https://mybinder.org" target="_blank">
-          <img
-            src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
-            alt="binder logo"
-            height="20px"
-          />
-        </a>
-        <form onSubmit={onFormSubmit} className="form">
-          <fieldset>
-            <label htmlFor="repoInput">
-              GitHub Repo:
-              <input
-                id="repoInput"
-                onChange={onRepoChange}
-                type="text"
-                name="repo"
-                value={repo}
-                size="80"
-              />
-            </label>
-          </fieldset>
-          <fieldset>
-            <label htmlFor="gitrefInput">
-              Branch/commit:
-              <input
-                id="gitrefInput"
-                onChange={onGitrefChange}
-                type="text"
-                name="gitref"
-                value={gitref}
-                size="80"
-              />
-            </label>
-          </fieldset>
-          <fieldset>
-            <button type="submit"> Submit</button>
-          </fieldset>
-        </form>
+        <div>
+          <a className="anchor" href="https://mybinder.org" target="_blank">
+            <img
+              src="https://mybinder.org/static/logo.svg?v=f9f0d927b67cc9dc99d788c822ca21c0"
+              alt="binder logo"
+              height="20px"
+            />
+          </a>
+        </div>
+        <div>
+          <form onSubmit={onFormSubmit} className="form">
+            <fieldset>
+              <label htmlFor="repoInput">
+                <span>GitHub Repo:</span>
+                <input
+                  id="repoInput"
+                  onChange={onRepoChange}
+                  type="text"
+                  name="repo"
+                  value={repo}
+                  size="80"
+                />
+              </label>
+            </fieldset>
+            <fieldset>
+              <label htmlFor="gitrefInput">
+                <span>Branch/commit:</span>
+                <input
+                  id="gitrefInput"
+                  onChange={onGitrefChange}
+                  type="text"
+                  name="gitref"
+                  value={gitref}
+                  size="80"
+                />
+              </label>
+            </fieldset>
+            <fieldset>
+              <button type="submit">Build and Connect</button>
+            </fieldset>
+          </form>
+        </div>
         <style jsx>{`
           img {
+            margin-left: 8px;
             vertical-align: middle;
             padding: 0 0 10px 10px;
           }
 
-          form {
-            width: 100%;
-            float: left;
-          }
-
           input {
-            display: block;
             font-family: inherit;
             font-size: inherit;
+          }
+          form {
+            margin-left: 10px;
+            padding-bottom: 20px;
+          }
+
+          button {
+            font-family: inherit;
+            font-size: inherit;
+            padding: 5px 10px 5px 10px;
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+          }
+
+          button:active {
+            background-color: #1a1a1a;
+            border: 1px solid #e7e7e7;
+          }
+
+          button:hover {
+            background-color: #2a2a2a;
+            border: 1px solid #d7d7d7;
           }
 
           fieldset {
             border: none;
-            width: 100%;
           }
 
-          label {
-          }
-
-          .anchor {
-            float: left;
-          }
-
-          .binder-ui-wrapper {
-            width: 100%;
+          label span {
+            min-width: 10em;
+            width: 10em;
             display: inline-block;
-            padding: 0 0 0 10px;
           }
         `}</style>
       </div>
