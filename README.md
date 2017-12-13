@@ -13,7 +13,7 @@
 
 nteract is first and foremost a dynamic tool to allow you flexibility in writing code, exploring data, and authoring text to accompany your explorations.
 
-**Edit code, write markdown, and visualize.** Share documents understood across the jupyter ecosystem, [all in the comfort of a desktop app](https://medium.com/nteract/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38), or [explore new ways of working with compute](https://play.nteract.io). We support [jupyter kernels](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels) locally on your system and on remote JupyterHubs via Binder.
+**Edit code, write prose, and visualize.** Share documents understood across the jupyter ecosystem, [all in the comfort of a desktop app](https://medium.com/nteract/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38), or [explore new ways of working with compute](https://play.nteract.io). We support [jupyter kernels](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels) locally on your system and on remote JupyterHubs via Binder.
 
 **NOTE: If you're here to install the desktop app**, visit [nteract.io](https://nteract.io) or the [releases page](https://github.com/nteract/nteract/releases/latest).
 
@@ -101,11 +101,7 @@ npm run app:play
 Then open `127.0.0.1:3000` in your browser. You'll be able to make changes to play and see them
 update live.
 
-If you make changes to any `packages/` you'll want to rebuild those using
-
-```
-$(npm bin)/lerna run build --scope packageName
-```
+If you make changes to any `packages/` you'll want to rebuild those using [the instructions for building specific packages](#building-specific-packages).
 
 #### Troubleshooting
 

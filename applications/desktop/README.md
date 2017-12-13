@@ -1,6 +1,6 @@
 ## Overview
 
-Edit code cells, write markdown, visualize!
+Edit code, write prose, visualize data!
 
 ![nteract geojson](https://cloud.githubusercontent.com/assets/836375/18421299/d95ad398-783b-11e6-8b23-d54cf7caad1e.png)
 
