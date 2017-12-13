@@ -129,6 +129,7 @@ display(
 
   async handleFormSubmit(event) {
     event.preventDefault();
+    this.setState({ binderMessages: [] });
     await this.initialize();
   }
 
