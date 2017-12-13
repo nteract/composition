@@ -57,43 +57,18 @@ class BinderTextInput extends React.Component {
   }
 }
 
-class BinderUI extends React.Component {
+class BinderForm extends React.Component {
   render() {
-    const {
-      onFormSubmit,
-      onGitrefChange,
-      onRepoChange,
-      repo,
-      gitref
-    } = this.props;
+    const { onSubmit } = this.props;
     return (
       <div className="binder-ui-wrapper">
-        <form onSubmit={onFormSubmit} className="form">
-          <BinderTextInput
-            onChange={onRepoChange}
-            id="repoInput"
-            value={repo}
-            labelText="Github Repo:"
-            name="repo"
-          />
-
-          <BinderTextInput
-            onChange={onGitrefChange}
-            id="gitrefInput"
-            name="gitref"
-            value={gitref}
-            labelText="Branch/commit/tag:"
-          />
+        <form onSubmit={onSubmit} className="form">
+          {this.props.children}
           <fieldset className="binder">
             <button type="submit">Build and Connect</button>
           </fieldset>
         </form>
         <style jsx>{`
-          input {
-            font-family: inherit;
-            font-size: inherit;
-          }
-
           button {
             font-family: inherit;
             font-size: inherit;
@@ -118,10 +93,6 @@ class BinderUI extends React.Component {
             padding-left: 0px;
             margin-left: 0px;
           }
-
-          // .binder-ui-wrapper {
-          //   padding: 0px 0px 5px 10px;
-          // }
         `}</style>
       </div>
     );
@@ -192,11 +163,33 @@ class BinderLogs extends React.Component {
 //       then make this component inject the binder specific bits
 export class BinderConsole extends React.Component {
   render() {
-    const { logs, ...otherprops } = this.props;
+    const {
+      logs,
+      onRepoChange,
+      onGitrefChange,
+      repo,
+      gitref,
+      onFormSubmit
+    } = this.props;
     return (
       <div className="binder-console">
         <BinderLogo />
-        <BinderUI {...otherprops} />
+        <BinderForm onSubmit={onFormSubmit}>
+          <BinderTextInput
+            onChange={onRepoChange}
+            id="repoInput"
+            value={repo}
+            labelText="Github Repo:"
+            name="repo"
+          />
+          <BinderTextInput
+            onChange={onGitrefChange}
+            id="gitrefInput"
+            name="gitref"
+            value={gitref}
+            labelText="Branch/commit/tag:"
+          />
+        </BinderForm>
         <BinderLogs logs={logs} />
         <style jsx>{`
           .binder-console {
