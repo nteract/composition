@@ -129,9 +129,17 @@ display(
 
   async handleFormSubmit(event) {
     event.preventDefault();
-    const serverShutdown = await shutdown(this.state.serverConfig);
+    const oldServerConfig = this.state.serverConfig;
+    const oldMessages = this.state.binderMessages;
+    const serverShutdown = await shutdown(oldServerConfig);
     this.setState({ binderMessages: [] });
-    await this.initialize();
+    await this.initialize().catch(err => {
+      this.setState({
+        error: err,
+        serverConfig: oldServerConfig,
+        binderMessages: oldMessages
+      });
+    });
   }
 
   async runSomeCode() {
