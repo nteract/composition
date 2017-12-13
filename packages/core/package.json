@@ -18,8 +18,8 @@
     "@nteract/commutable": "^2.2.0",
     "@nteract/display-area": "^3.1.0",
     "@nteract/editor": "^4.2.2",
-    "@nteract/transforms": "^3.0.3",
     "@nteract/messaging": "^2.2.1",
+    "@nteract/transforms": "^3.0.3",
     "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",
     "date-fns": "^1.28.5",
@@ -31,6 +31,7 @@
     "react-simple-dropdown": "^3.0.0",
     "react-syntax-highlighter": "^5.8.0",
     "redux": "^3.7.0",
+    "redux-observable": "^0.17.0",
     "rxjs": "^5.5.0",
     "styled-jsx": "^2.1.3",
     "uuid": "^3.1.0"
@@ -43,7 +44,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["nteract", "ohgodamonomoduleinamonorepo"],
+  "keywords": [
+    "nteract",
+    "ohgodamonomoduleinamonorepo"
+  ],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }

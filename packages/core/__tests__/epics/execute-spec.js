@@ -8,15 +8,15 @@ import {
   UPDATE_CELL_PAGERS,
   UPDATE_DISPLAY,
   NEW_KERNEL
-} from "@nteract/core/constants";
+} from "../../src/constants";
 
-import { executeCell } from "@nteract/core/actions";
+import { executeCell } from "../../src/actions";
 import {
   executeCellStream,
   executeCellEpic,
   updateDisplayEpic,
   createExecuteCellStream
-} from "../../../src/notebook/epics/execute";
+} from "../../src/epics/execute";
 
 const Immutable = require("immutable");
 

@@ -38,7 +38,7 @@ import {
   updateCellPagers,
   updateCellStatus,
   clearOutputs
-} from "../../actions";
+} from "../actions";
 
 import type { Subject } from "rxjs/Subject";
 import type { ActionsObservable } from "redux-observable";
