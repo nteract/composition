@@ -15,4 +15,25 @@ function apiVersion(serverConfig: Object) {
   return ajax(req);
 }
 
-export { apiVersion, kernels, kernelspecs, sessions, contents, terminals };
+/**
+ * Creates an AjaxObservable for shutting down a notebook server.
+ *
+ * @param {Object} serverConfig  - The server configuration
+ *
+ * @return  {Object}  An Observable with the request/response
+ */
+function shutdown(serverConfig: Object): Observable<*> {
+  return ajax(
+    createAJAXSettings(serverConfig, "/api/shutdown", { method: "POST" })
+  );
+}
+
+export {
+  apiVersion,
+  shutdown,
+  kernels,
+  kernelspecs,
+  sessions,
+  contents,
+  terminals
+};

@@ -20,4 +20,15 @@ describe("rx-jupyter", () => {
       expect(request.method).to.equal("GET");
     });
   });
+  describe("shutdown", () => {
+    it(" Creates an AjaxObservable for shutting down a notebook server", () => {
+      const shutdown$ = jupyter.shutdown({
+        endpoint: "https://somewhere.com",
+        crossDomain: true
+      });
+      const request = shutdown$.request;
+      expect(request.url).to.equal("https://somewhere.com/api/shutdown");
+      expect(request.method).to.equal("POST");
+    });
+  });
 });
