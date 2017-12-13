@@ -142,6 +142,7 @@ export class BinderConsole extends React.Component {
           .binder-ui-wrapper {
             width: 100%;
             display: inline-block;
+            padding: 0 0 0 10px;
           }
 
           .log:last-child {
