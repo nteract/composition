@@ -3,6 +3,7 @@
   "version": "1.0.5",
   "description": "a playground for execution",
   "main": "index.js",
+  "repository": "https://github.com/nteract/nteract/tree/master/applications/play",
   "scripts": {
     "dev": "next",
     "build": "next build",

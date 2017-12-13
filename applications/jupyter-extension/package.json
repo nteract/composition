@@ -8,7 +8,7 @@
     "prebuild:python": "rimraf dist",
     "publish": "echo 'not really publishing'"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/nbextension",
+  "repository": "https://github.com/nteract/nteract/tree/master/applications/jupyter-extension",
   "publishConfig": {
     "access": "public",
     "dry-run": true

@@ -3,7 +3,7 @@
   "packages": [
     "packages/*",
     "applications/*",
-    "applications/nbextension/nteract_on_jupyter"
+    "applications/jupyter-extension/nteract_on_jupyter"
   ],
   "version": "independent",
   "npmClient": "npm",
@@ -11,7 +11,7 @@
     "publish": {
       "ignore": [
         "packages/desktop/*",
-        "packages/nbextension/*",
+        "packages/jupyter-extension/*",
         "applications/desktop/**",
         "applications/play/**"
       ]
