@@ -20,24 +20,28 @@ class BinderUI extends React.Component {
         </a>
         <form onSubmit={onFormSubmit} className="form">
           <fieldset>
-            <label htmlFor="repoInput">GitHub Repo: </label>
-            <input
-              id="repoInput"
-              onChange={onRepoChange}
-              type="text"
-              name="repo"
-              value={repo}
-            />
+            <label htmlFor="repoInput">
+              GitHub Repo:
+              <input
+                id="repoInput"
+                onChange={onRepoChange}
+                type="text"
+                name="repo"
+                value={repo}
+              />
+            </label>
           </fieldset>
           <fieldset>
-            <label htmlFor="gitrefInput">Branch/commit: </label>
-            <input
-              id="gitrefInput"
-              onChange={onGitrefChange}
-              type="text"
-              name="gitref"
-              value={gitref}
-            />
+            <label htmlFor="gitrefInput">
+              Branch/commit:
+              <input
+                id="gitrefInput"
+                onChange={onGitrefChange}
+                type="text"
+                name="gitref"
+                value={gitref}
+              />
+            </label>
           </fieldset>
           <fieldset>
             <button type="submit"> Submit</button>
