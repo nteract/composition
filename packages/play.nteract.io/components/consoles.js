@@ -32,6 +32,8 @@ export class BinderConsole extends React.Component {
                 name="repo"
                 value={repo}
               />
+            </fieldset>
+            <fieldset>
               <label htmlFor="gitrefInput">Branch/commit: </label>
               <input
                 id="gitrefInput"
@@ -40,6 +42,8 @@ export class BinderConsole extends React.Component {
                 name="gitref"
                 value={gitref}
               />
+            </fieldset>
+            <fieldset>
               <button type="submit"> Submit</button>
             </fieldset>
           </form>
@@ -61,7 +65,33 @@ export class BinderConsole extends React.Component {
         <style jsx>{`
           img {
             vertical-align: middle;
-            padding: 0 0 20px 20px;
+            padding: 0 0 10px 10px;
+          }
+
+          form {
+            width: 100%;
+            float: left;
+          }
+
+          input {
+            display: block;
+            width: 30%;
+            font-family: inherit;
+            font-size: inherit;
+          }
+
+          fieldset {
+            border: none;
+            width: 100%;
+          }
+
+          label {
+            float: left;
+            min-width: 9em;
+          }
+
+          .anchor {
+            float: left;
           }
 
           .log {
@@ -109,33 +139,9 @@ export class BinderConsole extends React.Component {
             margin-top: 0;
           }
 
-          form {
-            width: 100%;
-            float: left;
-          }
-
-          input {
-            display: block;
-            width: 30%;
-          }
-
-          fieldset {
-            border: none;
-            width: 100%;
-          }
-
-          .anchor {
-            float: left;
-          }
-
           .binder-ui-wrapper {
             width: 100%;
             display: inline-block;
-          }
-
-          label {
-            float: left;
-            min-width: 9em;
           }
 
           .log:last-child {
