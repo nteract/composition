@@ -125,7 +125,7 @@ export default css`
   :global(.cm-s-composition.CodeMirror) {
     font-family: "Source Code Pro", monospace;
     letter-spacing: 0.3px;
-    word-spacing: 1px;
+    word-spacing: 0px;
     background: var(--cm-background, #fafafa);
     color: var(--cm-color, black);
   }
@@ -238,7 +238,7 @@ export default css`
     resize: none;
     padding: 10px 0 5px 10px;
     letter-spacing: 0.3px;
-    word-spacing: 1px;
+    word-spacing: 0px;
   }
 
   .initialTextAreaForCodeMirror:focus {
