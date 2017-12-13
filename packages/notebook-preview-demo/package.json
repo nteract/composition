@@ -1,9 +1,0 @@
-{
-  "name": "@nteract/notebook-preview-demo",
-  "version": "1.1.0",
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/notebook-preview-demo",
-  "scripts": {}
-}
