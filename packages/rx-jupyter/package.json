@@ -10,6 +10,7 @@
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow",
     "pretest": "npm run build",
     "test": "npm run test:unit && npm run test:lint",
     "test:unit": "mocha --compilers js:babel-core/register --recursive",

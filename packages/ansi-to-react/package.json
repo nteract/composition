@@ -14,6 +14,7 @@
     "build": "npm run build:es5 && npm run build:flow",
     "build:flow": "flow-copy-source -v -i '**/tests/**' src lib",
     "build:es5": "babel src --out-dir lib/ --source-maps",
+    "build:watch": "npm run build:es5 --watch && npm run build:flow",
     "clean": "rimraf lib/*"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/ansi-to-react",
