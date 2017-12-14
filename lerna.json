@@ -2,8 +2,9 @@
   "lerna": "2.4.0",
   "packages": [
     "packages/*",
-    "applications/*",
-    "applications/jupyter-extension/nteract_on_jupyter"
+    "applications/commuter/packages/*",
+    "applications/jupyter-extension/nteract_on_jupyter",
+    "applications/*"
   ],
   "version": "independent",
   "npmClient": "npm",
