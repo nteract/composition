@@ -35,7 +35,6 @@ function createApp(jupyterConfigData: JupyterConfigData) {
         <Provider store={store}>
           <div>
             {/* <Contents /> */}
-            <pre>it should be here...</pre>
             <Notebook />
             <NotificationSystem
               ref={notificationSystem => {

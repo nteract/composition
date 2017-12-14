@@ -15,6 +15,7 @@ from .config import Config
 
 from .handlers import add_handlers
 
+
 def get_app_dir(app_dir=None):
     """Get the configured nteract app directory.
     """
@@ -34,7 +35,7 @@ def load_jupyter_server_extension(nbapp):
     #if hasattr(nbapp, 'app_dir'):
     #    app_dir = get_app_dir(nbapp.app_dir)
 
-    app_dir = here # bundle is part of the python package
+    app_dir = here  # bundle is part of the python package
 
     web_app = nbapp.web_app
     config = Config()
