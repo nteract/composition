@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
   "scripts": {
-    "prebuild": "mkdirp lib/ && npm run clean",
+    "prebuild": "npm run build:clean",
     "prepublish": "npm run build",
     "test": "npm run test:unit && npm run test:flow",
     "test:flow": "flow",
