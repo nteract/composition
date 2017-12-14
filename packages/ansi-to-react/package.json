@@ -11,11 +11,12 @@
     "test:flow": "flow",
     "test:unit": "mocha --compilers js:babel-core/register 'test/**/*.js'",
     "test:watch": "npm run test -- --watch",
-    "build": "npm run build:es5 && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:flow": "flow-copy-source -v -i '**/tests/**' src lib",
-    "build:es5": "babel src --out-dir lib/ --source-maps",
-    "build:watch": "npm run build:es5 --watch && npm run build:flow",
-    "clean": "rimraf lib/*"
+    "build:clean": "rimraf lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/ansi-to-react",
   "keywords": [
