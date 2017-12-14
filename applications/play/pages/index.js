@@ -23,6 +23,8 @@ const {
 } = _nextgen;
 
 import { BinderConsole } from "../components/consoles";
+import { KernelUI } from "../components/kernelUI";
+import { kernelspecs } from "rx-jupyter";
 
 const { binder } = require("rx-binder");
 const { kernels, shutdown } = require("rx-jupyter");
@@ -73,13 +75,16 @@ export default class App extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleGitrefChange = this.handleGitrefChange.bind(this);
     this.handleRepoChange = this.handleRepoChange.bind(this);
+    this.kernelList = this.kernelList.bind(this);
 
     this.state = {
       binderMessages: [],
       kernelMessages: [],
       serverConfig: null,
-      kernelStatus: "provisioning",
       kernel: null,
+      kernelName: "python3",
+      kernelStatus: "provisioning",
+      kernelspec: null,
       error: null,
       repo: "binder-examples/jupyter-stacks",
       gitref: "master",
@@ -148,6 +153,19 @@ div(
     const message = executeRequest(this.state.source);
 
     this.state.kernel.channels.next(message);
+  }
+
+  async kernelList(serverConfig) {
+    const kernellist = await kernelspecs
+      .list(serverConfig)
+      .pipe(
+        map(aj => {
+          const kernelName = aj.response;
+          return kernelName;
+        })
+      )
+      .toPromise();
+    return kernellist;
   }
 
   async kernelLifecycle(kernel) {
@@ -248,7 +266,12 @@ div(
   async initialize() {
     const serverConfig = await this.getServer();
     this.setState({ serverConfig });
-    const kernel = await this.getKernel(serverConfig);
+    const kernelspec = await this.kernelList(this.state.serverConfig);
+    this.setState({
+      kernelspec,
+      kernelName: kernelspec.default
+    });
+    const kernel = await this.getKernel(serverConfig, this.state.kernelName);
 
     // It would be nice if setState returned a promise instead of a callback but hey
     await new Promise((resolve, reject) => {
@@ -292,12 +315,7 @@ div(
             </button>
           </div>
 
-          <div className="kernel-data">
-            <div className="kernelInfo">
-              <span className="kernel">Runtime: </span>
-              {this.state.kernelStatus}
-            </div>
-          </div>
+          <KernelUI status={this.state.kernelStatus} />
         </header>
 
         {this.state.showPanel ? (
