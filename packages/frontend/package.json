@@ -1,0 +1,76 @@
+{
+  "name": "@nteract/commuter-frontend",
+  "version": "2.0.0",
+  "description": "Frontend for commuter",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "echo \"This must be run with the commuter server\"",
+    "test": "echo \"no test for now\"",
+    "precopy-fontawesome": "mkdirp static/font-awesome/",
+    "copy-fontawesome": "cp node_modules/font-awesome/css/font-awesome.min.css static/font-awesome",
+    "precopy-nbp": "mkdirp static/notebook-preview/",
+    "copy-nbp": "cp node_modules/@nteract/notebook-preview/styles/* static/notebook-preview",
+    "precopy-mathjax": "mkdirp static/mathjax-electron",
+    "copy-mathjax": "cp -r node_modules/mathjax-electron static",
+    "precopy-codemirror": "mkdirp static/codemirror",
+    "copy-codemirror": "cp node_modules/codemirror/lib/codemirror.css static/codemirror/",
+    "copy-static": "npm run copy-nbp && npm run copy-codemirror && npm run copy-fontawesome && npm run copy-mathjax",
+    "prepare": "npm run copy-static",
+    "prepublish": "npm run copy-static",
+    "comment": "echo 'we copy assets over to a non-version controlled folder in static for next to serve'",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/commuter.git"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/commuter/issues"
+  },
+  "homepage": "https://github.com/nteract/commuter#readme",
+  "dependencies": {
+    "@nteract/notebook-preview": "^3.0.0",
+    "@nteract/transform-dataresource": "^2.0.0",
+    "@nteract/transform-vega": "^3.0.0",
+    "@nteract/transforms": "^3.0.0",
+    "babel-preset-flow": "^6.23.0",
+    "d3-dsv": "^1.0.7",
+    "font-awesome": "^4.7.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jquery": "^3.2.1",
+    "mathjax-electron": "^2.0.1",
+    "next": "^4.0.0-beta.2",
+    "nprogress": "^0.2.0",
+    "octicons": "^6.0.1",
+    "prop-types": "^15.5.10",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-timeago": "^3.4.3",
+    "styled-jsx": "^1.0.11"
+  },
+  "files": [
+    ".next",
+    "pages",
+    "static",
+    "components",
+    "index.js"
+  ],
+  "babel": {
+    "presets": [
+      "next/babel"
+    ],
+    "plugins": [
+      "transform-flow-strip-types"
+    ]
+  },
+  "devDependencies": {
+    "flow-bin": "^0.54.1"
+  }
+}
