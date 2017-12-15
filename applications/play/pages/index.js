@@ -75,7 +75,7 @@ export default class App extends React.Component {
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleGitrefChange = this.handleGitrefChange.bind(this);
     this.handleRepoChange = this.handleRepoChange.bind(this);
-    this.kernelList = this.kernelList.bind(this);
+    this.handleKernelChange = this.handleKernelChange.bind(this);
 
     this.state = {
       binderMessages: [],
@@ -125,6 +125,12 @@ div(
   handleGitrefChange(event) {
     this.setState({
       gitref: event.target.value
+    });
+  }
+
+  handleKernelChange(event) {
+    this.setState({
+      kernelName: event.target.value
     });
   }
 
@@ -315,7 +321,13 @@ div(
             </button>
           </div>
 
-          <KernelUI status={this.state.kernelStatus} />
+          <KernelUI
+            status={this.state.kernelStatus}
+            kernelspecs={
+              this.state.kernelspec ? this.state.kernelspec.kernelspecs : {}
+            }
+            onChange={this.handleKernelChange}
+          />
         </header>
 
         {this.state.showPanel ? (
