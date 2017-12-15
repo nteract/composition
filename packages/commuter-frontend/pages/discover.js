@@ -157,11 +157,11 @@ class DiscoveryGrid extends React.Component<*> {
         <Body>
           <div>
             <div className="discoveries">
-              {this.props.discovered ? (
-                this.props.discovered.map(item => (
-                  <DiscoveryItem key={item.path} {...item} />
-                ))
-              ) : null}
+              {this.props.discovered
+                ? this.props.discovered.map(item => (
+                    <DiscoveryItem key={item.path} {...item} />
+                  ))
+                : null}
             </div>
             <style jsx>{`
               .discoveries {

@@ -16,7 +16,10 @@ function createDiscoveryService(options: ESDiscoveryBackendOptions) {
       .search({
         index: "commuter",
         type: "notebooks",
-        body: bodybuilder().sort("last_modified", "desc").size(1000).build() //TODO: add pagination
+        body: bodybuilder()
+          .sort("last_modified", "desc")
+          .size(1000)
+          .build() //TODO: add pagination
       })
       .then(
         resp => {

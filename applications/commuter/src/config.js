@@ -32,9 +32,11 @@ function populateS3Options(env): Object {
   const s3PathDelimiter =
     env.COMMUTER_S3_PATH_DELIMITER || env.COMMUTER_PATH_DELIMITER || "/";
 
-  const s3BasePrefix = (env.COMMUTER_S3_BASE_PREFIX ||
-  env.COMMUTER_BASEPATH || // deprecated
-    "")
+  const s3BasePrefix = (
+    env.COMMUTER_S3_BASE_PREFIX ||
+    env.COMMUTER_BASEPATH || // deprecated
+    ""
+  )
     // trim off trailing slashes
     .replace(/\/+$/, "");
 
@@ -57,8 +59,9 @@ function populateS3Options(env): Object {
 }
 
 function instantiate() {
-  const storageBackend = (process.env.COMMUTER_STORAGE_BACKEND || "local")
-    .toLowerCase();
+  const storageBackend = (
+    process.env.COMMUTER_STORAGE_BACKEND || "local"
+  ).toLowerCase();
 
   if (storageBackend !== "local" && storageBackend !== "s3") {
     throw new Error(`Unknown storageBackend ${storageBackend}`);

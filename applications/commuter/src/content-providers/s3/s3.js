@@ -7,7 +7,11 @@ function createS3Service(config: Object) {
   const s3 = new S3(config.s3);
 
   const fileName = (path: string): string =>
-    chain(path).trimEnd("/").split(config.s3PathDelimiter).last().value();
+    chain(path)
+      .trimEnd("/")
+      .split(config.s3PathDelimiter)
+      .last()
+      .value();
   const filePath = (path: string) =>
     path.replace(`${config.s3BasePrefix}`, "").replace(/^\//, "");
   const s3Prefix = (path: string) =>

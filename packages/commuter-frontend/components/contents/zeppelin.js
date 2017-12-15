@@ -11,19 +11,18 @@ import Editor from "@nteract/notebook-preview/lib/editor";
 
 const d3 = Object.assign({}, require("d3-dsv"));
 
-const Text = (props: { data: string }) =>
+const Text = (props: { data: string }) => (
   <div>
-    <code>
-      {props.data}
-    </code>
+    <code>{props.data}</code>
     <style jsx>{`
       code {
         white-space: pre;
       }
     `}</style>
-  </div>;
+  </div>
+);
 
-const HokeyTable = props =>
+const HokeyTable = props => (
   <div>
     <style jsx>
       {`
@@ -65,26 +64,21 @@ const HokeyTable = props =>
     <table>
       <thead>
         <tr>
-          {props.columnNames.map(column =>
-            <th key={column.index}>
-              {column.name}
-            </th>
-          )}
+          {props.columnNames.map(column => (
+            <th key={column.index}>{column.name}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        {props.rows.map((row, idx) =>
+        {props.rows.map((row, idx) => (
           <tr key={idx}>
-            {row.map((item, colIdx) =>
-              <td key={colIdx}>
-                {item}
-              </td>
-            )}
+            {row.map((item, colIdx) => <td key={colIdx}>{item}</td>)}
           </tr>
-        )}
+        ))}
       </tbody>
     </table>
-  </div>;
+  </div>
+);
 
 const DSVTable = (props: { data: Array<Object> }) => {
   if (!Array.isArray(props.data) || props.data.length <= 0) {
@@ -136,30 +130,22 @@ const DSVTable = (props: { data: Array<Object> }) => {
       <table>
         <thead>
           <tr>
-            {columnNames.map((column, idx) =>
-              <th key={idx}>
-                {column}
-              </th>
-            )}
+            {columnNames.map((column, idx) => <th key={idx}>{column}</th>)}
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) =>
+          {rows.map((row, idx) => (
             <tr key={idx}>
-              {columnNames.map((k, colIdx) =>
-                <td key={colIdx}>
-                  {row[k]}
-                </td>
-              )}
+              {columnNames.map((k, colIdx) => <td key={colIdx}>{row[k]}</td>)}
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
     </div>
   );
 };
 
-const UnsupportedResult = props =>
+const UnsupportedResult = props => (
   <div>
     <h1>UNSUPPORTED ZEPPELIN RESULT</h1>
     <p>
@@ -170,7 +156,8 @@ const UnsupportedResult = props =>
       to let us know about it
     </p>
     <JSONTransform data={props.result} />
-  </div>;
+  </div>
+);
 
 // Old style Zeppelin
 const Message = props => {
@@ -324,9 +311,7 @@ type ZParagraph = any;
 const ZeppelinView = (props: ZeppelinViewProps) => {
   return (
     <div style={{ paddingLeft: "10px" }}>
-      <h1>
-        {props.notebook.name}
-      </h1>
+      <h1>{props.notebook.name}</h1>
       {props.notebook.paragraphs.map(p => <Paragraph key={p.id} {...p} />)}
     </div>
   );
