@@ -82,9 +82,9 @@ export default class App extends React.Component {
       kernelMessages: [],
       serverConfig: null,
       kernel: null,
-      kernelName: "python3",
+      kernelName: "",
       kernelStatus: "provisioning",
-      kernelspec: null,
+      kernelspecs: null,
       error: null,
       repo: "binder-examples/jupyter-stacks",
       gitref: "master",
@@ -274,7 +274,7 @@ div(
     this.setState({ serverConfig });
     const kernelspec = await this.kernelList(this.state.serverConfig);
     this.setState({
-      kernelspec,
+      kernelspecs: kernelspec.kernelspecs,
       kernelName: kernelspec.default
     });
     const kernel = await this.getKernel(serverConfig, this.state.kernelName);
@@ -323,9 +323,8 @@ div(
 
           <KernelUI
             status={this.state.kernelStatus}
-            kernelspecs={
-              this.state.kernelspec ? this.state.kernelspec.kernelspecs : {}
-            }
+            kernelspecs={this.state.kernelspecs ? this.state.kernelspecs : {}}
+            currentKernel={this.state.kernelName}
             onChange={this.handleKernelChange}
           />
         </header>

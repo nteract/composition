@@ -3,21 +3,35 @@ import * as React from "react";
 class KernelOption extends React.Component {
   render() {
     const { kernelName } = this.props;
-    return <span>{kernelName}</span>;
+    return <option value={kernelName}>{kernelName}</option>;
   }
 }
 
-// TODO: Make a generic little console for some of the styled container pieces,
-//       then make this component inject the binder specific bits
+class KernelSelector extends React.Component {
+  render() {
+    const { kernelspecs, currentKernel, onChange } = this.props;
+    return (
+      <form>
+        <label>
+          Current Kernel:
+          <select value={currentKernel} onChange={onChange}>
+            {Object.keys(kernelspecs).map((kernelName, index) => {
+              return <KernelOption kernelName={kernelName} key={kernelName} />;
+            })}
+          </select>
+        </label>
+      </form>
+    );
+  }
+}
+
 export class KernelUI extends React.Component {
   render() {
-    const { status } = this.props;
+    const { status, ...otherprops } = this.props;
     return (
       <div className="kernel-data">
         <div className="kernelInfo">
-          {Object.keys(this.props.kernelspecs).map((kernelName, index) => {
-            return <KernelOption kernelName={kernelName} key={kernelName} />;
-          })}
+          <KernelSelector {...otherprops} />
           <span className="kernel">Runtime: </span>
           {this.props.status}
         </div>
