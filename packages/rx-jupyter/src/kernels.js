@@ -55,7 +55,7 @@ export function start(
     method: "POST",
     body: {
       path,
-      kernel_name: name
+      name
     }
   });
   return ajax(startSettings);
