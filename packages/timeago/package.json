@@ -1,0 +1,46 @@
+{
+  "name": "@nteract/timeago",
+  "version": "3.4.3",
+  "description": "A simple Time-Ago component for React",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git"
+  },
+  "keywords": [
+    "React",
+    "ReactJS",
+    "Time",
+    "Ago",
+    "TimeAgo",
+    "ender"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Naman Goel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
+  "homepage": "https://github.com/nteract/nteract",
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "devDependencies": {
+    "enzyme": "^2.4.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
+  },
+  "dependencies": {}
+}

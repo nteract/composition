@@ -1,0 +1,12 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["standard", "standard-react"],
+  "globals": {
+    "React$Element": false,
+    "ReactClass": false
+  },
+  "rules": {
+    "operator-linebreak": ["error", "before"],
+    "react/prop-types": 0
+  }
+}
