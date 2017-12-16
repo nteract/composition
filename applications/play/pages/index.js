@@ -417,6 +417,7 @@ div(
             height: calc(var(--header-height) - 16px);
             width: 80px;
             margin-left: 10px;
+            padding: 0px 20px 0px 10px;
           }
 
           header img,
@@ -433,6 +434,7 @@ div(
             background-color: rgba(0, 0, 0, 0);
             color: white;
             height: var(--header-height);
+            font-family: Monaco, monospace;
           }
 
           header button:active,
@@ -448,25 +450,6 @@ div(
           header button:disabled {
             background-color: rgba(255, 255, 255, 0.1);
             color: rgba(255, 255, 255, 0.1);
-          }
-
-          header img {
-            padding: 0px 20px 0px 10px;
-          }
-
-          .kernelInfo {
-            color: #f1f1f1;
-            line-height: var(--header-height);
-            font-family: Monaco, monospace, system-ui;
-            font-size: 12px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            vertical-align: middle;
-            display: table-cell;
-            padding-right: 20px;
-          }
-          .kernel {
-            color: #888;
           }
 
           .play-editor {
