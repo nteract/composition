@@ -1,6 +1,6 @@
 // @flow
 
-import React from "react";
+import * as React from "react";
 
 export default class HTMLView extends React.Component<*> {
   ifr: ?HTMLIFrameElement;

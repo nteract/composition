@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 require("isomorphic-fetch");
 import TimeAgo from "react-timeago";
 
@@ -37,7 +37,15 @@ const Tag = props => (
   </span>
 );
 
-const DiscoveryItem = props => (
+type DiscoveryItemProps = {
+  image: string,
+  path: string,
+  metadata: any,
+  name: string,
+  last_modified: string
+};
+
+const DiscoveryItem = (props: DiscoveryItemProps) => (
   <div className="post">
     <div className="post-thumb">
       <img
@@ -58,6 +66,7 @@ const DiscoveryItem = props => (
       </h3>
       <div className="post-metadata">
         <span>
+          {/* $FlowFixMe unsure what the typing issue is here */}
           Last modified <TimeAgo date={props.last_modified} />
         </span>
         {` `}

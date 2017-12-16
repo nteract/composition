@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import { cloneDeep } from "lodash";
 declare var Plotly: Object;
 type Props = {
@@ -22,7 +22,7 @@ const MIMETYPE = "application/vnd.plotly.v1+json";
 const PlotlyNullTransform = () => null;
 PlotlyNullTransform.MIMETYPE = NULL_MIMETYPE;
 
-class PlotlyTransform extends Component<*> {
+class PlotlyTransform extends React.Component<*> {
   props: Props;
   getFigure: () => Object;
   plotDivRef: (plotDiv: PlotlyHTMLElement | null) => void;

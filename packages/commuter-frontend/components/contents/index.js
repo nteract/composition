@@ -1,5 +1,5 @@
 // @flow
-import React, { PropTypes as T } from "react";
+import * as React from "react";
 
 // $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import NotebookPreview from "@nteract/notebook-preview";
@@ -114,6 +114,7 @@ export const Entry = (props: EntryProps) => {
     case "notebook":
       return (
         <NotebookPreview
+          // $FlowFixMe COME BACK TO THIS
           notebook={props.entry.content}
           displayOrder={displayOrder}
           transforms={transforms}

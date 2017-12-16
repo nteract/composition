@@ -1,13 +1,14 @@
 // @flow
-import React from "react";
+import * as React from "react";
 
 // $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import JSONTransform from "@nteract/transforms/lib/json";
 // $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import HTML from "@nteract/transforms/lib/html";
 
-// $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
-import Editor from "@nteract/notebook-preview/lib/editor";
+import { _nextgen } from "@nteract/core/components";
+
+const { Editor } = _nextgen;
 
 const d3 = Object.assign({}, require("d3-dsv"));
 
@@ -268,25 +269,7 @@ const Paragraph = props => {
 
   return (
     <div>
-      <Editor
-        completion
-        input={props.text}
-        language={lang}
-        theme="composition"
-        cellFocused={false}
-        onChange={() => {}}
-        onFocusChange={() => {}}
-        channels={{}}
-        cursorBlinkRate={0}
-        executionState={"not connected"}
-        editorFocused={false}
-        focusAbove={() => {}}
-        focusBelow={() => {}}
-        style={{
-          paddingBottom: "10px",
-          paddingTop: "10px"
-        }}
-      />
+      <Editor language={lang}>{props.text}</Editor>
       <div
         style={{
           paddingBottom: "10px",

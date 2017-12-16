@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 import Head from "next/head";
 import NProgress from "nprogress";
 import Router from "next/router";
