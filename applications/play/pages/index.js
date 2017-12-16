@@ -128,10 +128,39 @@ div(
     });
   }
 
-  handleKernelChange(event) {
+  async handleKernelChange(event) {
     this.setState({
       kernelName: event.target.value
     });
+    await this.updateKernel();
+  }
+
+  async killKernel(serverConfig, kernelID) {
+    const deadkernel = await kernels
+      .kill(serverConfig, kernelID)
+      .pipe(
+        map(aj => {
+          return aj.response;
+        })
+      )
+      .toPromise();
+    return deadkernel;
+  }
+
+  async updateKernel() {
+    const deadkernel = await this.killKernel(
+      this.state.serverConfig,
+      this.state.kernel.id
+    );
+
+    const kernel = await this.getKernel(
+      this.state.serverConfig,
+      this.state.kernelName
+    );
+    await new Promise((resolve, reject) => {
+      this.setState({ kernel }, resolve);
+    });
+    await this.kernelLifecycle(kernel);
   }
 
   async handleFormSubmit(event) {
@@ -161,8 +190,21 @@ div(
     this.state.kernel.channels.next(message);
   }
 
+  async activeKernelList(serverConfig) {
+    const activeList = await kernels
+      .list(serverConfig)
+      .pipe(
+        map(aj => {
+          const kernelInfo = aj.response;
+          return kernelInfo;
+        })
+      )
+      .toPromise();
+    return activeList;
+  }
+
   async kernelList(serverConfig) {
-    const kernellist = await kernelspecs
+    const kernelList = await kernelspecs
       .list(serverConfig)
       .pipe(
         map(aj => {
@@ -171,7 +213,7 @@ div(
         })
       )
       .toPromise();
-    return kernellist;
+    return kernelList;
   }
 
   async kernelLifecycle(kernel) {
@@ -222,7 +264,7 @@ div(
     await kr;
   }
 
-  async getKernel(serverConfig, kernelName = "python3") {
+  async getKernel(serverConfig, kernelName) {
     const session = uuid();
 
     const kernel = await kernels
