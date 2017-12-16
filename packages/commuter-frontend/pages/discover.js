@@ -49,6 +49,7 @@ const DiscoveryItem = (props: DiscoveryItemProps) => (
   <div className="post">
     <div className="post-thumb">
       <img
+        alt={`preview for ${props.path}`}
         src={
           props.image ? props.image : "https://icon.now.sh/library_books/ccc/64"
         }

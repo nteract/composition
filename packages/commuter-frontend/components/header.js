@@ -39,7 +39,7 @@ class CommuterMenu extends React.Component<*> {
         <ul className="items">
           <li>
             <Link href={"/view"}>
-              <img src="/static/logo.png" />
+              <img src="/static/logo.png" alt="nteract logo" />
             </Link>
           </li>
           <li className={this.isActiveClass("view")}>
