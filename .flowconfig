@@ -8,7 +8,6 @@ suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
 
 [ignore]
 .*/node_modules/eslint-plugin-jsx-a11y/src/.*
-.*/node_modules/react-timeago/lib/.*
 node_modules/
 dist/
 .*static/*
