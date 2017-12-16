@@ -60,24 +60,6 @@ class MyDocument extends Document {
           />
 
           <link
-            href="/static/codemirror/codemirror.css"
-            rel="stylesheet"
-            type="text/css"
-          />
-
-          <link
-            href="/static/notebook-preview/main.css"
-            rel="stylesheet"
-            type="text/css"
-          />
-
-          <link
-            href="/static/notebook-preview/theme-light.css"
-            rel="stylesheet"
-            type="text/css"
-          />
-
-          <link
             href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700,300,200,500,600,900"
             rel="stylesheet"
             type="text/css"
