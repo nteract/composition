@@ -67,7 +67,6 @@ const DiscoveryItem = (props: DiscoveryItemProps) => (
       </h3>
       <div className="post-metadata">
         <span>
-          {/* $FlowFixMe unsure what the typing issue is here */}
           Last modified <TimeAgo date={props.last_modified} />
         </span>
         {` `}

@@ -120,7 +120,6 @@ const DirectoryListing = (props: DirectoryListingProps) => {
                     </Link>
                   </td>
                   <td className="timeago">
-                    {/* $FlowFixMe unsure what the issue is here */}
                     <TimeAgo date={row.last_modified} />
                   </td>
                 </tr>
