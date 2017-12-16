@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 require("isomorphic-fetch");
-import TimeAgo from "react-timeago";
+import TimeAgo from "@nteract/timeago";
 
 import NextLink from "next/link";
 

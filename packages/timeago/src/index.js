@@ -40,7 +40,7 @@ export type Props = {
    */
   +title?: string,
   /** A function to decide how to format the date.
-   * If you use this, react-timeago is basically acting like a glorified
+   * If you use this, timeago is basically acting like a glorified
    * setInterval for you.
    */
   +formatter: Formatter,
@@ -91,7 +91,7 @@ export default class TimeAgo extends Component<DefaultProps, Props, void> {
 
     const then = dateParser(this.props.date).valueOf();
     if (!then) {
-      console.warn("[react-timeago] Invalid Date provided");
+      console.warn("[@nteract/timeago] Invalid Date provided");
       return;
     }
 
