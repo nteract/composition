@@ -1,0 +1,138 @@
+{
+  "mappings": {
+    "notebooks": {
+      "_timestamp": {
+        "enabled": true
+      },
+      "properties": {
+        "name": {
+          "description": "Notebook name",
+          "type": "string"
+        },
+        "path": {
+          "description": "Storage location of the notebook",
+          "type": "string"
+        },
+        "created": {
+          "description": "Date created",
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "last_modified": {
+          "description": "Date modified",
+          "index": "not_analyzed",
+          "type": "string"
+        },
+        "mimetype": {
+          "description": "Content type",
+          "type": "string"
+        },
+        "format": {
+          "description": "Format type",
+          "type": "string"
+        },
+        "type": {
+          "description": "Notebook type",
+          "type": "string"
+        },
+        "metadata": {
+          "properties": {
+            "kernelspec": {
+              "description": "Kernel information.",
+              "type": "object",
+              "required": [
+                "name",
+                "display_name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "Name of the kernel specification.",
+                  "type": "string"
+                },
+                "display_name": {
+                  "description": "Name to display in UI.",
+                  "type": "string"
+                }
+              }
+            },
+            "language_info": {
+              "description": "Kernel information.",
+              "type": "object",
+              "required": [
+                "name"
+              ],
+              "properties": {
+                "name": {
+                  "description": "The programming language which this kernel runs.",
+                  "type": "string"
+                },
+                "codemirror_mode": {
+                  "description": "The codemirror mode to use for code in this language.",
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "object"
+                    }
+                  ],
+                  "type": "object"
+                },
+                "file_extension": {
+                  "description": "The file extension for files in this language.",
+                  "type": "string"
+                },
+                "mimetype": {
+                  "description": "The mimetype corresponding to files in this language.",
+                  "type": "string"
+                },
+                "pygments_lexer": {
+                  "description": "The pygments lexer to use for code in this language.",
+                  "type": "string"
+                }
+              }
+            },
+            "orig_nbformat": {
+              "description": "Original notebook format (major number) before converting the notebook between versions. This should never be written to a file.",
+              "type": "integer",
+              "minimum": 1
+            },
+            "title": {
+              "description": "The title of the notebook document",
+              "type": "string"
+            },
+            "authors": {
+              "description": "The author(s) of the notebook document",
+              "type": "object",
+              "item": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "nteract": {
+              "properties": {
+                "tags": {
+                  "type": "string",
+                  "description": "Meta data about the notebook"
+                },
+                "description": {
+                  "description": "Short description about the notebook",
+                  "type": "string"
+                },
+                "image": {
+                  "description": "Display image url",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

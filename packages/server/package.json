@@ -1,0 +1,68 @@
+{
+  "name": "@nteract/commuter",
+  "version": "2.0.0",
+  "description": "share, publish, and discover notebooks",
+  "main": "lib/index.js",
+  "scripts": {
+    "predev": "npm run build",
+    "dev": "NODE_ENV=development node lib/index.js",
+    "start": "node lib/index.js",
+    "test": "mocha --compilers js:babel-core/register",
+    "build": "babel src -d lib",
+    "copy-readme": "cp ../../README.md .",
+    "prepublishOnly": "npm run copy-readme && npm run build"
+  },
+  "bin": {
+    "commuter": "bin.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/commuter.git"
+  },
+  "keywords": [
+    "nteract",
+    "jupyter",
+    "s3",
+    "notebook"
+  ],
+  "author": "nteract contributors",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/commuter/issues"
+  },
+  "homepage": "https://github.com/nteract/commuter#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@nteract/commuter-frontend": "^2.0.0",
+    "aws-sdk": "^2.108.0",
+    "body-parser": "^1.15.2",
+    "bodybuilder": "^2.2.1",
+    "elasticsearch": "^12.1.3",
+    "express": "^4.15.4",
+    "fs-extra": "^4.0.2",
+    "jsonfile": "^3.0.1",
+    "lodash": "^4.17.4",
+    "log": "^1.4.0",
+    "morgan": "^1.7.0",
+    "nbschema": "^0.1.0",
+    "node-fetch": "^1.7.2",
+    "s3-proxy": "^1.1.0",
+    "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "chai": "^4.1.2",
+    "flow-bin": "^0.54.0",
+    "mocha": "^3.5.0",
+    "proxyquire": "^1.7.10",
+    "supertest": "^3.0.0"
+  },
+  "babel": {
+    "presets": [
+      "flow"
+    ]
+  }
+}
