@@ -7,7 +7,11 @@ import TWStrings from "../src/language-strings/zh-TW";
 
 describe("TimeAgo", () => {
   test("just now", () => {
-    const wrapper = shallow(<TimeAgo date={new Date()} />);
+    const date = new Date();
+
+    const now = () => date;
+
+    const wrapper = shallow(<TimeAgo date={date} now={now} />);
     expect(wrapper.text()).toEqual("0 seconds ago");
   });
 

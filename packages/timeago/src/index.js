@@ -163,7 +163,7 @@ export default class TimeAgo extends React.Component<Props, void> {
     }
     const timeNow = now();
     const seconds = Math.round(Math.abs(timeNow - then) / 1000);
-    const suffix = then < timeNow ? "ago" : "from now";
+    const suffix = then <= timeNow ? "ago" : "from now";
 
     const [value, unit] =
       seconds < MINUTE
