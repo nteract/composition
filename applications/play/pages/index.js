@@ -129,10 +129,9 @@ div(
   }
 
   async handleKernelChange(event) {
-    this.setState({
-      kernelName: event.target.value
-    });
-    await this.updateKernel();
+    this.state.kernelName !== event.target.value
+      ? await this.updateKernel(event.target.value)
+      : null;
   }
 
   async killKernel(serverConfig, kernelID) {
@@ -147,7 +146,7 @@ div(
     return deadkernel;
   }
 
-  async updateKernel() {
+  async updateKernel(kernelName) {
     const deadkernel = await this.killKernel(
       this.state.serverConfig,
       this.state.kernel.id
