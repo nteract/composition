@@ -1,5 +1,5 @@
 /* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import defaultFormatter from "./defaultFormatter";
 import dateParser from "./dateParser";
 
@@ -34,7 +34,7 @@ export type Props = {
   /** The container to render the string into.
    * You could use a string like `span` or a custom component
    */
-  +component: string | ReactClass<Object> | Function,
+  +component: string | React.ComponentType<*> | Function,
   /**
    * A title used for setting the title attribute if a <time> Element is used.
    */
@@ -58,7 +58,7 @@ type DefaultProps = {
   +live: boolean,
   +minPeriod: number,
   +maxPeriod: number,
-  +component: string | ReactClass<Object> | Function,
+  +component: string | React.ComponentType<*> | Function,
   +formatter: Formatter,
   +now: () => number
 };
@@ -70,7 +70,7 @@ export const WEEK = DAY * 7;
 export const MONTH = DAY * 30;
 export const YEAR = DAY * 365;
 
-export default class TimeAgo extends Component<DefaultProps, Props, void> {
+export default class TimeAgo extends React.Component<Props, void> {
   static displayName = "TimeAgo";
   static defaultProps = {
     live: true,
@@ -190,14 +190,15 @@ export default class TimeAgo extends Component<DefaultProps, Props, void> {
               .replace("T", " ")
         : title;
 
+    let dateTime = null;
     if (Komponent === "time") {
-      passDownProps.dateTime = dateParser(date).toISOString();
+      dateTime = dateParser(date).toISOString();
     }
 
     const nextFormatter = defaultFormatter.bind(null, value, unit, suffix);
 
     return (
-      <Komponent {...passDownProps} title={passDownTitle}>
+      <Komponent {...passDownProps} dateTime={dateTime} title={passDownTitle}>
         {this.props.formatter(value, unit, suffix, then, nextFormatter)}
       </Komponent>
     );
