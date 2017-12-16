@@ -53,6 +53,12 @@ export default class JsonDisplay extends React.Component<Props> {
   shouldExpandNode: () => boolean;
   static MIMETYPE = "application/json";
 
+  static defaultProps = {
+    data: {},
+    theme: "light",
+    metadata: {}
+  };
+
   constructor(): void {
     super();
     this.shouldExpandNode = this.shouldExpandNode.bind(this);
