@@ -22,7 +22,7 @@ import {
   executeCell
 } from "../actions";
 
-import { LinkExternalOcticon } from "./octicons";
+import { LinkExternalOcticon } from "@nteract/octicons";
 
 // NOTE: PropTypes are required for the sake of contextTypes
 const PropTypes = require("prop-types");

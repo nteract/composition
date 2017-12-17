@@ -1,0 +1,31 @@
+{
+  "name": "@nteract/octicons",
+  "version": "0.0.1",
+  "description": "octicon react components, styled for use within nteract packages",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:clean && npm run build:lib && npm run build:flow",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow",
+    "test:watch": "npm run test -- --watch"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "react": "^16.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": ["octicons", "react"],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

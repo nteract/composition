@@ -20,6 +20,7 @@
     "@nteract/display-area": "^3.1.0",
     "@nteract/editor": "^4.2.2",
     "@nteract/transforms": "^3.0.3",
+    "@nteract/octicons": "^0.0.1",
     "commonmark": "^0.28.0",
     "commonmark-react-renderer": "^4.3.3",
     "date-fns": "^1.28.5",

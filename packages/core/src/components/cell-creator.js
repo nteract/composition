@@ -7,7 +7,11 @@ type Props = {
   mergeCell: () => void
 };
 
-import { CodeOcticon, MarkdownOcticon, DownArrowOcticon } from "./octicons";
+import {
+  CodeOcticon,
+  MarkdownOcticon,
+  DownArrowOcticon
+} from "@nteract/octicons";
 
 export default (props: Props) => (
   <div className="creator-hover-mask">

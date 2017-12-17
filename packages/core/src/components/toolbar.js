@@ -17,7 +17,7 @@ import {
   TrashOcticon,
   ChevronDownOcticon,
   TriangleRightOcticon
-} from "./octicons";
+} from "@nteract/octicons";
 
 declare type ToolbarProps = {|
   type: string,

@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 
-import octicons from "../../icons/octicons";
+import { Book, FileText, FileDirectory } from "@nteract/octicons";
 
 import Link from "next/link";
 
@@ -98,11 +98,11 @@ const DirectoryListing = (props: DirectoryListingProps) => {
 
               const icon =
                 row.type === "notebook" ? (
-                  <octicons.Book />
+                  <Book />
                 ) : row.type === "directory" ? (
-                  <octicons.FileDirectory />
+                  <FileDirectory />
                 ) : (
-                  <octicons.FileText />
+                  <FileText />
                 );
 
               return (
