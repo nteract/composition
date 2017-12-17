@@ -1,5 +1,2 @@
 .next
-static/codemirror
-static/font-awesome
-static/notebook-preview
 static/mathjax-electron
