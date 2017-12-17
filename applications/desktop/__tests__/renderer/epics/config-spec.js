@@ -11,8 +11,7 @@ describe("saveConfigOnChangeEpic", () => {
         expect(x).toEqual({ type: "SAVE_CONFIG" });
         done();
       },
-      expect.fail,
-      expect.fail
+      err => done.fail(err)
     );
   });
 });

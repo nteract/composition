@@ -1,5 +1,5 @@
+jest.mock("fs");
 import { ActionsObservable } from "redux-observable";
-import { expect } from "chai";
 import { dummyStore, dummyCommutable } from "@nteract/core/lib/dummy";
 
 import { save, saveAs } from "@nteract/core/actions";
@@ -17,8 +17,8 @@ import { of } from "rxjs/observable/of";
 import { catchError } from "rxjs/operators";
 
 describe("save", () => {
-  it("creates a SAVE action", () => {
-    expect(save("test/test-save.ipynb", dummyCommutable)).to.deep.equal({
+  test("creates a SAVE action", () => {
+    expect(save("test/test-save.ipynb", dummyCommutable)).toEqual({
       type: SAVE,
       filename: "test/test-save.ipynb",
       notebook: dummyCommutable
@@ -27,8 +27,8 @@ describe("save", () => {
 });
 
 describe("saveAs", () => {
-  it("creates a SAVE_AS action", () => {
-    expect(saveAs("test/test-saveas.ipynb", dummyCommutable)).to.deep.equal({
+  test("creates a SAVE_AS action", () => {
+    expect(saveAs("test/test-saveas.ipynb", dummyCommutable)).toEqual({
       type: SAVE_AS,
       filename: "test/test-saveas.ipynb",
       notebook: dummyCommutable
@@ -37,29 +37,29 @@ describe("saveAs", () => {
 });
 
 describe("saveEpic", () => {
-  it("throws an error when no filename provided", done => {
+  test("throws an error when no filename provided", done => {
     const input$ = of({ type: SAVE });
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
     const store = dummyStore();
     const responseActions = saveEpic(action$, store).pipe(
       catchError(error => {
-        expect(error.message).to.equal("save needs a filename");
+        expect(error.message).toBe("save needs a filename");
         return of({ type: SAVE });
       })
     );
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => actionBuffer.push(x.type),
-      err => expect.fail(err, null),
+      err => done.fail(err),
       () => {
         // It should not error in the stream
-        expect(actionBuffer).to.deep.equal([SAVE]);
+        expect(actionBuffer).toEqual([SAVE]);
         done();
       }
     );
   });
-  it("works when passed filename and notebook", done => {
+  test("works when passed filename and notebook", done => {
     const input$ = of(save("filename", dummyCommutable));
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
@@ -68,12 +68,10 @@ describe("saveEpic", () => {
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => actionBuffer.push(x.type),
-      err => {
-        expect.fail(err, null);
-      },
+      err => done.fail(err),
       () => {
         // It should not error in the stream
-        expect(actionBuffer).to.deep.equal([DONE_SAVING]);
+        expect(actionBuffer).toEqual([DONE_SAVING]);
         done();
       }
     );
@@ -81,7 +79,7 @@ describe("saveEpic", () => {
 });
 
 describe("saveAsEpic", () => {
-  it("works when passed actions of type SAVE_AS", done => {
+  test("works when passed actions of type SAVE_AS", done => {
     const input$ = of(saveAs("filename", dummyCommutable));
     const action$ = new ActionsObservable(input$);
     const actionBuffer = [];
@@ -89,12 +87,10 @@ describe("saveAsEpic", () => {
     responseActions.subscribe(
       // Every action that goes through should get stuck on an array
       x => actionBuffer.push(x.type),
-      () => {
-        expect.fail();
-      },
+      () => done.fail(err),
       () => {
         // It should not error in the stream
-        expect(actionBuffer).to.deep.equal([CHANGE_FILENAME, SAVE]);
+        expect(actionBuffer).toEqual([CHANGE_FILENAME, SAVE]);
         done();
       }
     );

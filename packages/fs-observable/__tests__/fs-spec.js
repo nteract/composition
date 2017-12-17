@@ -18,7 +18,7 @@ describe("unlinkObservable", () => {
       err => {
         expect(err.message).toBe("lol");
       },
-      () => expect.fail()
+      () => done.fail()
     );
     expect(fs.existsSync).toBeCalledWith("path");
     expect(fs.unlink).toBeCalled();
@@ -29,7 +29,7 @@ describe("unlinkObservable", () => {
     fs.unlink.mockImplementation(() => true);
     unlinkObservable("path2")
       .pipe(toArray())
-      .subscribe(() => {}, err => expect.fail(err, null), () => {});
+      .subscribe(() => {}, err => done.fail(err), () => {});
     expect(fs.existsSync).toBeCalledWith("path2");
     expect(fs.unlink).toBeCalled();
   });

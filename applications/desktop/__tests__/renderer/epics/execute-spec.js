@@ -131,10 +131,7 @@ describe("createExecuteCellStream", () => {
     );
     const observable = createExecuteCellStream(action$, store, "source", "id");
     const actionBuffer = [];
-    observable.subscribe(
-      x => actionBuffer.push(x.type),
-      err => expect.fail(err, null)
-    );
+    observable.subscribe(x => actionBuffer.push(x.type), err => done.fail(err));
     expect(actionBuffer).toEqual([
       UPDATE_CELL_PAGERS,
       UPDATE_CELL_STATUS,

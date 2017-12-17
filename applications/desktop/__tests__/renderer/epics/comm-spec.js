@@ -169,7 +169,7 @@ describe("commActionObservable", () => {
             }
           ]);
         },
-        err => expect.fail(err, null),
+        err => done.fail(err),
         () => done()
       ); // It should not error in the stream
   });

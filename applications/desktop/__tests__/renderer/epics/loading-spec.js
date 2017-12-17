@@ -80,7 +80,7 @@ describe("loadingEpic", () => {
         done();
       },
       () => {
-        expect.fail();
+        done.fail();
       }
     );
   });
@@ -92,7 +92,7 @@ describe("loadingEpic", () => {
         const types = actions.map(({ type }) => type);
         expect(types).toEqual(["ERROR"]);
       },
-      () => expect.fail(),
+      () => done.fail(),
       () => done()
     );
   });
@@ -107,7 +107,7 @@ describe("newNotebookEpic", () => {
         const types = actions.map(({ type }) => type);
         expect(types).toEqual([SET_NOTEBOOK, "LAUNCH_KERNEL"]);
       },
-      () => expect.fail(),
+      () => done.fail(),
       () => done()
     );
   });

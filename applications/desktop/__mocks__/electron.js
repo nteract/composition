@@ -9,7 +9,8 @@ module.exports = {
           return "/home/home/on/the/range";
         }
         throw Error("not mocked");
-      }
+      },
+      getVersion: () => "1.4.0"
     },
     dialog: {
       showSaveDialog: jest.fn()
