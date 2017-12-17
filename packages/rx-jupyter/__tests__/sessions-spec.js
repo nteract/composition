@@ -1,5 +1,3 @@
-import { expect } from "chai";
-
 import * as sessions from "../src/sessions";
 
 const serverConfig = {
@@ -9,40 +7,40 @@ const serverConfig = {
 
 describe("sessions", () => {
   describe("list", () => {
-    it("creates an AjaxObservable for listing the sessions", () => {
+    test("creates an AjaxObservable for listing the sessions", () => {
       const session$ = sessions.list(serverConfig);
       const request = session$.request;
-      expect(request.url).to.equal("http://localhost:8888/api/sessions");
-      expect(request.method).to.equal("GET");
-      expect(request.crossDomain).to.equal(true);
-      expect(request.responseType).to.equal("json");
+      expect(request.url).toBe("http://localhost:8888/api/sessions");
+      expect(request.method).toBe("GET");
+      expect(request.crossDomain).toBe(true);
+      expect(request.responseType).toBe("json");
     });
   });
 
   describe("get", () => {
-    it("creates an AjaxObservable for getting particular session info", () => {
+    test("creates an AjaxObservable for getting particular session info", () => {
       const session$ = sessions.get(serverConfig, "uuid");
       const request = session$.request;
-      expect(request.url).to.equal("http://localhost:8888/api/sessions/uuid");
-      expect(request.method).to.equal("GET");
-      expect(request.crossDomain).to.equal(true);
-      expect(request.responseType).to.equal("json");
+      expect(request.url).toBe("http://localhost:8888/api/sessions/uuid");
+      expect(request.method).toBe("GET");
+      expect(request.crossDomain).toBe(true);
+      expect(request.responseType).toBe("json");
     });
   });
 
   describe("destroy", () => {
-    it("creates an AjaxObservable for destroying a session", () => {
+    test("creates an AjaxObservable for destroying a session", () => {
       const session$ = sessions.destroy(serverConfig, "uuid");
       const request = session$.request;
-      expect(request.url).to.equal("http://localhost:8888/api/sessions/uuid");
-      expect(request.method).to.equal("DELETE");
-      expect(request.crossDomain).to.equal(true);
-      expect(request.responseType).to.equal("json");
+      expect(request.url).toBe("http://localhost:8888/api/sessions/uuid");
+      expect(request.method).toBe("DELETE");
+      expect(request.crossDomain).toBe(true);
+      expect(request.responseType).toBe("json");
     });
   });
 
   describe("rename", () => {
-    it("creates an AjaxObservable for getting particular session info", () => {
+    test("creates an AjaxObservable for getting particular session info", () => {
       const session$ = sessions.update(serverConfig, "uuid", {
         kernel: { name: "kernel-name", id: "kernel-id" },
         name: "session-name",
@@ -50,12 +48,12 @@ describe("sessions", () => {
         type: "notebook"
       });
       const request = session$.request;
-      expect(request.url).to.equal("http://localhost:8888/api/sessions/uuid");
-      expect(request.method).to.equal("PATCH");
-      expect(request.headers).to.deep.equal({
+      expect(request.url).toBe("http://localhost:8888/api/sessions/uuid");
+      expect(request.method).toBe("PATCH");
+      expect(request.headers).toEqual({
         "Content-Type": "application/json"
       });
-      expect(request.body).to.deep.equal({
+      expect(request.body).toEqual({
         kernel: { name: "kernel-name", id: "kernel-id" },
         name: "session-name",
         path: "~",
@@ -65,7 +63,7 @@ describe("sessions", () => {
   });
 
   describe("create", () => {
-    it("creates an AjaxObservable for getting particular session info", () => {
+    test("creates an AjaxObservable for getting particular session info", () => {
       const session$ = sessions.create(serverConfig, {
         kernel: { name: "kernel-name", id: "kernel-id" },
         name: "session-name",
@@ -73,12 +71,12 @@ describe("sessions", () => {
         type: "notebook"
       });
       const request = session$.request;
-      expect(request.url).to.equal("http://localhost:8888/api/sessions");
-      expect(request.method).to.equal("POST");
-      expect(request.headers).to.deep.equal({
+      expect(request.url).toBe("http://localhost:8888/api/sessions");
+      expect(request.method).toBe("POST");
+      expect(request.headers).toEqual({
         "Content-Type": "application/json"
       });
-      expect(request.body).to.deep.equal({
+      expect(request.body).toEqual({
         kernel: { name: "kernel-name", id: "kernel-id" },
         name: "session-name",
         path: "~",
