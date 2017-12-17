@@ -3,9 +3,6 @@
   "version": "4.2.1",
   "description": "Light spec for wiring up communications between Jupyter frontend and backend implementations.",
   "main": "index.js",
-  "scripts": {
-    "test": "mocha"
-  },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/enchannel",
   "keywords": [
     "enchannel",

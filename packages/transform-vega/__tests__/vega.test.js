@@ -4,7 +4,6 @@ import { shallow, mount } from "enzyme";
 
 import { Vega, VegaLite, VegaEmbed } from "../src/";
 
-const sinon = require("sinon");
 const cars = require("vega-lite/data/cars.json");
 
 const spec = {
@@ -41,7 +40,7 @@ describe("VegaLite", () => {
 
 describe("VegaEmbed", () => {
   it("embeds vega", () => {
-    const spy = sinon.spy();
+    const spy = jest.fn();
     const wrapper = mount(
       <VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />
     );
@@ -52,13 +51,13 @@ describe("VegaEmbed", () => {
   });
 
   it("embeds vega and handles updates", () => {
-    const spy = sinon.spy();
+    const spy = jest.fn();
     const wrapper = mount(
       <VegaEmbed data={spec} embedMode="vega-lite" renderedCallback={spy} />
     );
     wrapper.render();
 
-    const spy2 = sinon.spy();
+    const spy2 = jest.fn();
 
     wrapper.setProps({
       data: {

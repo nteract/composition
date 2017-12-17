@@ -9,8 +9,6 @@
     "prepublish": "npm run build",
     "test": "npm run test:unit && npm run test:flow",
     "test:flow": "flow",
-    "test:unit": "mocha --compilers js:babel-core/register 'test/**/*.js'",
-    "test:watch": "npm run test -- --watch",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:flow": "flow-copy-source -v -i '**/tests/**' src lib",
     "build:clean": "rimraf lib",
