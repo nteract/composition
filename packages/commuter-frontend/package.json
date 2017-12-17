@@ -19,16 +19,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nteract/commuter.git"
-  },
+  "repository": "nteract/nteract",
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/nteract/commuter/issues"
+    "url": "https://github.com/nteract/nteract/issues"
   },
-  "homepage": "https://github.com/nteract/commuter#readme",
+  "homepage": "https://github.com/nteract/nteract/tree/master/packages/commuter-frontend#readme",
   "dependencies": {
     "@nteract/core": "^0.0.8",
     "@nteract/notebook-preview": "^4.1.5",

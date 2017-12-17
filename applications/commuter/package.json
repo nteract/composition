@@ -15,10 +15,7 @@
   "bin": {
     "commuter": "bin.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nteract/commuter.git"
-  },
+  "repository": "nteract/nteract",
   "keywords": [
     "nteract",
     "jupyter",
@@ -28,9 +25,9 @@
   "author": "nteract contributors",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/nteract/commuter/issues"
+    "url": "https://github.com/nteract/nteract/issues"
   },
-  "homepage": "https://github.com/nteract/commuter#readme",
+  "homepage": "https://github.com/nteract/nteract/tree/master/applications/commuter#readme",
   "publishConfig": {
     "access": "public"
   },
