@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
 
-// $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import JSONTransform from "@nteract/transforms/lib/json";
-// $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import HTML from "@nteract/transforms/lib/html";
 
 import { _nextgen } from "@nteract/core/components";

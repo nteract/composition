@@ -1,9 +1,7 @@
 // @flow
 import * as React from "react";
 
-// $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import NotebookPreview from "@nteract/notebook-preview";
-// $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import MarkdownTransform from "@nteract/transforms/lib/markdown";
 
 import DirectoryListing from "./directory-listing";
@@ -17,15 +15,12 @@ import {
   standardTransforms,
   standardDisplayOrder,
   registerTransform
-  // $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 } from "@nteract/transforms";
 
 import type { Content } from "./types";
 
-// $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import DataResourceTransform from "@nteract/transform-dataresource";
 
-// $FlowFixMe: our flow config isn't picking up modules that package separate .js.flow files
 import { VegaLite, Vega } from "@nteract/transform-vega";
 
 import { PlotlyNullTransform, PlotlyTransform } from "../../transforms";
