@@ -1,6 +1,4 @@
 [![▲ Now Deployed](https://img.shields.io/badge/%E2%96%B2%20now-deployed-777777.svg)](https://commuter-now-otvkncbefl.now.sh/view/)
-[![Build Status](https://travis-ci.org/nteract/commuter.svg?branch=master)](https://travis-ci.org/nteract/commuter)
-[![Greenkeeper badge](https://badges.greenkeeper.io/nteract/commuter.svg)](https://greenkeeper.io/)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # com·mut·er
@@ -56,40 +54,36 @@ COMMUTER_BUCKET=sweet-notebooks commuter
 
 ### General Environment Variables
 
-| Environment Variable | Description | Default |
-| ------------  | :------------ |:------------ |
-| `COMMUTER_STORAGE_BACKEND` | `local` or `s3` | `local` |
-| `COMMUTER_DISCOVERY_BACKEND` | either elasticsearch or none | `"none"` |
-| `COMMUTER_PORT` | Port to run commuter on | 4000 |
+| Environment Variable                   | Description                              | Default         |
+| -------------------------------------- | :--------------------------------------- | :-------------- |
+| `COMMUTER_STORAGE_BACKEND`             | `local` or `s3`                          | `local`         |
+| `COMMUTER_DISCOVERY_BACKEND`           | either elasticsearch or none             | `"none"`        |
+| `COMMUTER_PORT`                        | Port to run commuter on                  | 4000            |
 | `COMMUTER_LOCAL_STORAGE_BASEDIRECTORY` | directory to serve in local storage mode | `process.cwd()` |
-| `COMMUTER_ES_HOST` | ElasticSearch Host | `""` |
+| `COMMUTER_ES_HOST`                     | ElasticSearch Host                       | `""`            |
 
 ### Environment Variables for S3 Storage
 
-| Environment Variable | Description | Default |
-| ------------  | :------------ |:------------ |
-| `COMMUTER_S3_BASE_PREFIX` | prefix on the bucket, similar to base directory | `""` |
-| `COMMUTER_S3_PATH_DELIMITER` | separator for "paths" | `"/"` |
-| `COMMUTER_BUCKET` | bucket contents served from | Required in S3 mode, no default|
-| `COMMUTER_S3_KEY` | AWS Key | Optional, uses IAM roles or `~/.aws/credentials` otherwise |
-| `COMMUTER_S3_SECRET` | AWS Secret | Optional, uses IAM roles or `~/.aws/credentials` otherwise |
+| Environment Variable         | Description                                     | Default                                                    |
+| ---------------------------- | :---------------------------------------------- | :--------------------------------------------------------- |
+| `COMMUTER_S3_BASE_PREFIX`    | prefix on the bucket, similar to base directory | `""`                                                       |
+| `COMMUTER_S3_PATH_DELIMITER` | separator for "paths"                           | `"/"`                                                      |
+| `COMMUTER_BUCKET`            | bucket contents served from                     | Required in S3 mode, no default                            |
+| `COMMUTER_S3_KEY`            | AWS Key                                         | Optional, uses IAM roles or `~/.aws/credentials` otherwise |
+| `COMMUTER_S3_SECRET`         | AWS Secret                                      | Optional, uses IAM roles or `~/.aws/credentials` otherwise |
 
 ## Roadmap
 
-Details [here](https://github.com/nteract/commuter/blob/master/ROADMAP.md)
+[ROADMAP Document](./ROADMAP.md)
 
 ## Development
 
-Requires Node.js 6+ and npm 3+.
-
-#### Required env variables
-
 #### Quick Start
 
-1. `git clone git@github.com:nteract/commuter.git`
-1. `cd commuter`
+1. `git clone git@github.com:nteract/nteract.git`
+1. `cd nteract`
 1. `npm i`
-1. `npm run dev`
+1. `npm run app:commuter`
 1. open `http://localhost:4000`
 
 ## Tests
@@ -98,9 +92,5 @@ Requires Node.js 6+ and npm 3+.
 
 ## Deployment
 
-  1. Install commuter cli `npm install @nteract/commuter`
-  1. `exec commuter` - the service is typically wrapped inside [daemontools](https://cr.yp.to/daemontools.html)
-
-## Release
-
-1. `lerna publish`
+1. Install commuter cli `npm install @nteract/commuter`
+1. `exec commuter` - the service is typically wrapped inside [daemontools](https://cr.yp.to/daemontools.html)
