@@ -8,7 +8,6 @@
   "plugins": ["prettier", "flowtype", "jsx-a11y"],
   "env": {
     "browser": true,
-    "mocha": true,
     "node": true,
     "jest": true
   }
