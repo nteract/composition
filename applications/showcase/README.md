@@ -5,6 +5,9 @@ nteract capabilities.
 
 ## Installation and usage
 
+Install nteract's monorepo as described in the README.md in the root directory
+of the repo.
+
 Run:
 
 ```
