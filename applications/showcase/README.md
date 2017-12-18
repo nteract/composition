@@ -17,11 +17,17 @@ npm run app:showcase
 Open `127.0.0.1:3000` in your browser. You'll be able to make changes to
 `showcase` and see the changes update live.
 
-## Pages
+## Basics
 
-### index.js
+The app uses "next-gen" core components.
 
-### notebook-preview.js
+### App pages
 
-### transforms.js
+These are the currently available pages within showcase:
 
+- index.js
+- notebook-preview.js
+- transforms.js
+
+To add an additional page, place the page in the `pages` directory and update
+`index.js`.
