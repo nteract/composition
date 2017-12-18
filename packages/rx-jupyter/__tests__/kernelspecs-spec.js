@@ -2,7 +2,8 @@ import * as kernelspecs from "../src/kernelspecs";
 
 const serverConfig = {
   endpoint: "http://localhost:8888",
-  crossDomain: true
+  crossDomain: true,
+  token: "secret-token"
 };
 
 describe("kernelspecs", () => {

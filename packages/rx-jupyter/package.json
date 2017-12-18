@@ -24,9 +24,6 @@
   "bugs": {
     "url": "https://github.com/nteract/nteract/issues"
   },
-  "devDependencies": {
-    "ws": "^3.2.0"
-  },
   "dependencies": {
     "rxjs": "^5.5.0",
     "url-search-params": "^0.10.0"

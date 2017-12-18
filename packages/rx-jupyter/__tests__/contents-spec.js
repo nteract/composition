@@ -2,7 +2,8 @@ import * as contents from "../src/contents";
 
 const serverConfig = {
   endpoint: "http://localhost:8888",
-  crossDomain: true
+  crossDomain: true,
+  token: "secret-token"
 };
 describe("contents", () => {
   describe("remove", () => {
@@ -72,6 +73,7 @@ describe("contents", () => {
       );
       expect(request.method).toBe("POST");
       expect(request.headers).toEqual({
+        Authorization: "token secret-token",
         "Content-Type": "application/json"
       });
       expect(request.body).toEqual(model);

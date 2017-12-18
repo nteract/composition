@@ -1,11 +1,9 @@
 import * as kernels from "../src/kernels";
 
-// For the test using a websocket
-global.WebSocket = require("ws");
-
 const serverConfig = {
   endpoint: "http://localhost:8888",
-  crossDomain: true
+  crossDomain: true,
+  token: "secret-token"
 };
 
 describe("kernels", () => {
@@ -35,6 +33,7 @@ describe("kernels", () => {
       const request = kernel$.request;
       expect(request.url).toBe("http://localhost:8888/api/kernels");
       expect(request.headers).toEqual({
+        Authorization: "token secret-token",
         "Content-Type": "application/json"
       });
       expect(request.method).toBe("POST");
@@ -92,12 +91,23 @@ describe("kernels", () => {
       const wsURL2 = kernels.formWebSocketURL(config, "4444-2222");
       expect(wsURL2).toBe("ws://127.0.0.1:8888/api/kernels/4444-2222/channels");
     });
-  });
 
-  describe("connect", () => {
-    test("returns a WebSocketSubject attached to the kernel", () => {
-      const subject = kernels.connect(serverConfig, "777");
-      expect(subject.url).toBe("ws://localhost:8888/api/kernels/777/channels");
+    test("creates websocket URLs that match the originating scheme and works with tokens", () => {
+      const config = {
+        endpoint: "https://tmp58.tmpnb.org/user/TOTefPUbkgOu",
+        token: "secret-token"
+      };
+      const wsURL = kernels.formWebSocketURL(config, "0000-1111");
+      expect(wsURL).toBe(
+        "wss://tmp58.tmpnb.org/user/TOTefPUbkgOu/api/kernels/0000-1111/channels?token=secret-token"
+      );
+
+      config.endpoint = "http://127.0.0.1:8888";
+
+      const wsURL2 = kernels.formWebSocketURL(config, "4444-2222");
+      expect(wsURL2).toBe(
+        "ws://127.0.0.1:8888/api/kernels/4444-2222/channels?token=secret-token"
+      );
     });
   });
 });

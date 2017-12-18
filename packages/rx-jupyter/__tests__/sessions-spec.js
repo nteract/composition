@@ -2,7 +2,8 @@ import * as sessions from "../src/sessions";
 
 const serverConfig = {
   endpoint: "http://localhost:8888",
-  crossDomain: true
+  crossDomain: true,
+  token: "secret-token"
 };
 
 describe("sessions", () => {
@@ -51,6 +52,7 @@ describe("sessions", () => {
       expect(request.url).toBe("http://localhost:8888/api/sessions/uuid");
       expect(request.method).toBe("PATCH");
       expect(request.headers).toEqual({
+        Authorization: "token secret-token",
         "Content-Type": "application/json"
       });
       expect(request.body).toEqual({
@@ -74,6 +76,7 @@ describe("sessions", () => {
       expect(request.url).toBe("http://localhost:8888/api/sessions");
       expect(request.method).toBe("POST");
       expect(request.headers).toEqual({
+        Authorization: "token secret-token",
         "Content-Type": "application/json"
       });
       expect(request.body).toEqual({

@@ -2,7 +2,8 @@ import * as terminals from "../src/terminals";
 
 const serverConfig = {
   endpoint: "http://localhost:8888",
-  crossDomain: true
+  crossDomain: true,
+  token: "secret-token"
 };
 
 describe("list", () => {

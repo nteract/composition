@@ -121,8 +121,12 @@ export function formWebSocketURL(
   }
 
   const q = params.toString();
+  const suffix = q !== "" ? `?${q}` : "";
 
-  const url = `${serverConfig.endpoint}/api/kernels/${kernelID}/channels?${q}`;
+  const url = `${
+    serverConfig.endpoint
+  }/api/kernels/${kernelID}/channels${suffix}`;
+
   return url.replace(/^http(s)?/, "ws$1");
 }
 
