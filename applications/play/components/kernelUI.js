@@ -20,13 +20,9 @@ class KernelSelector extends React.Component {
         <style jsx>
           {`
             form label,
-            form select,
-            form option {
+            form select {
               font-family: inherit;
               font-size: inherit;
-            }
-            :global(form span.kernelOption) {
-              text-align: center;
             }
           `}
         </style>

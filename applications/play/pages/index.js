@@ -24,10 +24,10 @@ const {
 
 import { BinderConsole } from "../components/consoles";
 import { KernelUI } from "../components/kernelUI";
-import { kernelspecs } from "rx-jupyter";
+import { kernels, shutdown, kernelspecs } from "rx-jupyter";
+import { binder } from "rx-binder";
 
 const { binder } = require("rx-binder");
-const { kernels, shutdown } = require("rx-jupyter");
 
 const {
   filter,
