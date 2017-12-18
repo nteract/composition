@@ -37,10 +37,5 @@
   "peerDependencies": {
     "react": "^16.0.0"
   },
-  "devDependencies": {
-    "enzyme": "^2.4.1",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
-  },
   "dependencies": {}
 }
