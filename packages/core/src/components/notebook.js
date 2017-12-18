@@ -24,6 +24,8 @@ import {
 
 import { LinkExternalOcticon } from "@nteract/octicons";
 
+import { light, dark } from "../../themes";
+
 // NOTE: PropTypes are required for the sake of contextTypes
 const PropTypes = require("prop-types");
 
@@ -332,11 +334,11 @@ export class Notebook extends React.PureComponent<Props> {
             padding-right: 10px;
           }
         `}</style>
-        <link
-          rel="stylesheet"
-          // TODO: Tear this out or switch to styled-jsx for the inline setting here
-          href={`../static/styles/theme-${this.props.theme}.css`}
-        />
+        <style jsx>{`
+           {
+            this.props.theme: light;
+          }
+        `}</style>
       </div>
     );
   }

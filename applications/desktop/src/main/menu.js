@@ -69,18 +69,6 @@ const theme_menu = [
   {
     label: "Dark",
     click: createSender("menu:theme", "dark")
-  },
-  {
-    label: "Classic",
-    click: createSender("menu:theme", "classic")
-  },
-  {
-    label: "nteract",
-    click: createSender("menu:theme", "nteract")
-  },
-  {
-    label: "One-Dark",
-    click: createSender("menu:theme", "one-dark")
   }
 ];
 const blink_menu = [
@@ -95,20 +83,6 @@ const blink_menu = [
     click: createSender("menu:set-blink-rate", 530)
   }
 ];
-
-const today = new Date();
-const month = today.getMonth() + 1;
-if (month === 12) {
-  theme_menu.push({
-    label: "Hohoho",
-    click: createSender("menu:theme", "christmas")
-  });
-} else if (month === 10) {
-  theme_menu.push({
-    label: "Pumpkin Spice",
-    click: createSender("menu:theme", "halloween")
-  });
-}
 
 const windowDraft = {
   label: "Window",
