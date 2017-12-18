@@ -38,7 +38,7 @@ describe("kernels", () => {
       });
       expect(request.method).toBe("POST");
       expect(request.body.path).toBe("/tmp");
-      expect(request.body.kernel_name).toBe("python3000");
+      expect(request.body.name).toBe("python3000");
     });
   });
 
