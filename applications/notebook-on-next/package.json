@@ -14,17 +14,22 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@nteract/commutable": "^2.2.0",
     "@nteract/core": "^0.0.8",
-    "@nteract/display-area": "^3.1.0",
-    "@nteract/editor": "^4.2.2",
-    "@nteract/messaging": "^2.2.1",
-    "lodash": "^4.17.4",
+    "@nteract/notebook-preview": "^4.1.5",
+    "@nteract/transform-dataresource": "^2.0.2",
+    "@nteract/transform-vega": "^3.0.1",
+    "@nteract/transforms": "^3.0.3",
+    "codemirror": "^5.28.0",
+    "isomorphic-fetch": "^2.2.1",
     "next": "^4.1.4",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.0",
+    "redux-observable": "^0.16.0",
+    "rxjs": "^5.5.0",
     "rx-binder": "^1.0.4",
-    "rx-jupyter": "^2.2.1",
-    "rxjs": "^5.5.2",
-    "uuid": "^3.1.0"
+    "rx-jupyter": "^2.2.1"
   }
 }

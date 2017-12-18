@@ -2,11 +2,6 @@
 
 // Placeholder notebook view, copied and modifed from commuter
 
-// HACK: Temporarily provide jquery for others to use...
-const jquery = require("jquery");
-global.jquery = jquery;
-global.$ = jquery;
-
 import React, { PropTypes as T } from "react";
 
 import NotebookPreview from "@nteract/notebook-preview";
