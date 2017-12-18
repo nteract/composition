@@ -13,9 +13,7 @@
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "build:lib:watch": "npm run build:lib -- --watch",
     "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow",
-    "test": "jest",
-    "test:integration": "node scripts/exercise-enchannel.js",
-    "test:watch": "npm run test -- --watch"
+    "test:integration": "node scripts/exercise-enchannel.js"
   },
   "repository":
     "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",

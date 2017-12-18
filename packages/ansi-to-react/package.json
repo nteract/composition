@@ -7,8 +7,6 @@
   "scripts": {
     "prebuild": "npm run build:clean",
     "prepublish": "npm run build",
-    "test": "npm run test:unit && npm run test:flow",
-    "test:flow": "flow",
     "build": "npm run build:clean && npm run build:lib && npm run build:flow",
     "build:flow": "flow-copy-source -v -i '**/tests/**' src lib",
     "build:clean": "rimraf lib",

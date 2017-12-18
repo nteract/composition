@@ -11,9 +11,7 @@
     "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
     "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
     "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow",
-    "test": "jest",
-    "test:watch": "npm run test -- --watch"
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
   },
   "dependencies": {
     "@nteract/commutable": "^2.2.0",
@@ -26,6 +24,7 @@
     "date-fns": "^1.28.5",
     "escape-carriage": "^1.2.0",
     "mathjax-electron": "^2.0.1",
+    "prop-types": "^15.5.10",
     "react-dnd": "^2.4.0",
     "react-dnd-html5-backend": "^2.4.1",
     "react-redux": "^5.0.5",
