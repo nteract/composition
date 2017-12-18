@@ -7,7 +7,6 @@
     "predev": "npm run build",
     "dev": "NODE_ENV=development node lib/index.js",
     "start": "node lib/index.js",
-    "test": "mocha --compilers js:babel-core/register",
     "build": "babel src -d lib",
     "copy-readme": "cp ../../README.md .",
     "prepublishOnly": "npm run copy-readme && npm run build"
@@ -47,15 +46,6 @@
     "node-fetch": "^1.7.2",
     "s3-proxy": "^1.1.0",
     "winston": "^2.3.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-flow": "^6.23.0",
-    "chai": "^4.1.2",
-    "flow-bin": "^0.54.0",
-    "mocha": "^3.5.0",
-    "proxyquire": "^1.7.10",
-    "supertest": "^3.0.0"
   },
   "babel": {
     "presets": [
