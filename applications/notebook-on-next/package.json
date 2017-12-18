@@ -1,0 +1,30 @@
+{
+  "name": "@nteract/notebook-on-next",
+  "version": "1.0.0",
+  "description": "A notebook on next.js",
+  "repository": "https://github.com/nteract/nteract/tree/master/applications/notebook-on-next",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@nteract/core": "^0.0.8",
+    "@nteract/display-area": "^3.1.0",
+    "@nteract/editor": "^4.2.2",
+    "@nteract/messaging": "^2.2.1",
+    "lodash": "^4.17.4",
+    "next": "^4.1.4",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "rx-binder": "^1.0.4",
+    "rx-jupyter": "^2.2.1",
+    "rxjs": "^5.5.2",
+    "uuid": "^3.1.0"
+  }
+}
