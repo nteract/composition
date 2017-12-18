@@ -3,18 +3,17 @@
 import { ajax } from "rxjs/observable/dom/ajax";
 import { Observable } from "rxjs/Observable";
 
-import { join as pathJoin } from "path";
-
 import { createAJAXSettings } from "./base";
 
 const querystring = require("querystring");
+const urljoin = require("url-join");
 
 function formURI(path: string): string {
-  return pathJoin("/api/contents/", path);
+  return urljoin("/api/contents/", path);
 }
 
 function formCheckpointURI(path: string, checkpointID: string): string {
-  return pathJoin("/api/contents/", path, "checkpoints", checkpointID);
+  return urljoin("/api/contents/", path, "checkpoints", checkpointID);
 }
 
 /**

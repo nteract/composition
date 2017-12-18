@@ -104,7 +104,7 @@ describe("contents", () => {
       );
       const request = create$.request;
       expect(request.url).toBe(
-        "http://localhost:8888/api/contents/path/to/content/checkpoints"
+        "http://localhost:8888/api/contents/path/to/content/checkpoints/"
       );
       expect(request.method).toBe("GET");
       expect(request.crossDomain).toBe(true);
@@ -119,7 +119,7 @@ describe("contents", () => {
       );
       const request = create$.request;
       expect(request.url).toBe(
-        "http://localhost:8888/api/contents/path/to/content/checkpoints"
+        "http://localhost:8888/api/contents/path/to/content/checkpoints/"
       );
       expect(request.method).toBe("POST");
       expect(request.crossDomain).toBe(true);

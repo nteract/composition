@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "rxjs": "^5.5.0",
+    "url-join": "^2.0.2",
     "url-search-params": "^0.10.0"
   }
 }

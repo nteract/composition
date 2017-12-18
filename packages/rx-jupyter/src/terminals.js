@@ -3,12 +3,12 @@
 import { ajax } from "rxjs/observable/dom/ajax";
 import Observable from "rxjs/Observable";
 
-import { join as pathJoin } from "path";
-
 import { createAJAXSettings, normalizeBaseURL } from "./base";
 
+const urljoin = require("url-join");
+
 function formURI(path: string) {
-  return pathJoin("/api/terminals/", path);
+  return urljoin("/api/terminals/", path);
 }
 
 /**
