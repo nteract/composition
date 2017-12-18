@@ -68,7 +68,12 @@ and the `applications` has the desktop app, the play app, and a few more.
 
 *Why have a monorepo?* The monorepo contains many components and packages that
 can be mixed and remixed to create new applications. The monorepo keeps these
-elements together so they are easy to discover and use.
+elements together so they are easy to discover and use. Another benefit 
+is that the monorepo makes it easy to iterate on applications that share
+common components. For example, if we update a component, such as the Jupyter
+message handling, and happen to introduce an issue when making a change to the
+desktop app and happened to break it for use by play.nteract.io web app we would
+notice the issue in tandem.
 
 ### Getting Started
 
