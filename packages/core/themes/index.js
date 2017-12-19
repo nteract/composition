@@ -1,8 +1,4 @@
-// ES5, skipping compile step
-const dark = require("./dark");
-const light = require("./light");
+import { dark } from "./dark";
+import { light } from "./light";
 
-module.exports = {
-  dark,
-  light
-};
+export { dark, light };

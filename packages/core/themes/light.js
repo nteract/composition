@@ -1,4 +1,6 @@
-module.exports = `
+import css from "styled-jsx/css";
+
+export const light = css`
   --main-bg-color: white;
   --main-fg-color: rgb(51, 51, 51);
 

@@ -313,6 +313,7 @@ export class Notebook extends React.PureComponent<Props> {
   }
 
   render(): ?React$Element<any> {
+    const theme = this.props.theme === "light" ? light : dark;
     return (
       <div>
         {/* Sticky cells */}
@@ -334,7 +335,7 @@ export class Notebook extends React.PureComponent<Props> {
             padding-right: 10px;
           }
         `}</style>
-        <style jsx>{this.props.theme === "light" ? light : dark}</style>
+        <style jsx> {theme} </style>
       </div>
     );
   }
