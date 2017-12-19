@@ -8,7 +8,7 @@ export type SAVE_ACTION = {
 
 export type LOAD_ACTION = {
   type: "LOAD",
-  path: string
+  gistid: string
 };
 
 export type LOAD_FAILED_ACTION = {

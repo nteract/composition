@@ -13,7 +13,8 @@ import epics from "./epics";
 const webAppReducer = (state = {}, action) => {
   switch (action.type) {
     case "LOADED":
-      return Object.assign({}, state, { contents: action.payload });
+      console.log("LOADED");
+      return Object.assign({}, state, { notebook: action.payload });
     case "KERNELSPECS_LISTED":
       return Object.assign({}, state, { kernelspecs: action.payload });
   }
@@ -45,6 +46,11 @@ const defaultState = {
   })
 };
 
+const composeEnhancers =
+  (typeof window !== "undefined" &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
+
 export default function configureStore(config: any) {
   const initialState = Object.assign({}, { webApp: config }, defaultState);
 
@@ -54,6 +60,6 @@ export default function configureStore(config: any) {
   return createStore(
     rootReducer,
     initialState,
-    compose(applyMiddleware(...middlewares))
+    composeEnhancers(applyMiddleware(...middlewares))
   );
 }
