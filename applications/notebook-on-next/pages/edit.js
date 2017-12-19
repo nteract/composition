@@ -6,6 +6,7 @@ import configureStore from "../store";
 import withRedux from "next-redux-wrapper";
 import { emptyNotebook, fromJS } from "@nteract/commutable";
 import { Map } from "immutable";
+import type { List } from "immutable";
 
 const store = () => configureStore({});
 
@@ -27,7 +28,13 @@ async function fetchFromGist(gistId) {
     .catch(err => emptyNotebook);
 }
 
-class Edit extends React.Component {
+type Props = {
+  cellOrder: List<any>,
+  cellMap: Map<string, any>,
+  language: string
+};
+
+class Edit extends React.Component<Props, Props> {
   static async getInitialProps({ query, res }) {
     const notebook = await fetchFromGist(query.gistid);
     return { notebook };
