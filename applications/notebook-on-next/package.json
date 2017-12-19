@@ -4,9 +4,9 @@
   "description": "A notebook on next.js",
   "repository": "https://github.com/nteract/nteract/tree/master/applications/notebook-on-next",
   "scripts": {
-    "dev": "next",
+    "dev": "node index.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node index.js"
   },
   "publishConfig": {
     "access": "public"
@@ -20,6 +20,7 @@
     "@nteract/transform-dataresource": "^2.0.2",
     "@nteract/transform-vega": "^3.0.1",
     "@nteract/transforms": "^3.0.3",
+    "@nteract/commutable": "^2.2.0",
     "codemirror": "^5.28.0",
     "isomorphic-fetch": "^2.2.1",
     "next": "^4.1.4",
