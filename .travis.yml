@@ -16,6 +16,34 @@ cache:
   directories:
     - $HOME/.npm
     - node_modules
+    - applications/commuter/node_modules
+    - applications/jupyter-extension/node_modules
+    - applications/jupyter-extension/nteract_on_jupyter/node_modules
+    - applications/play/node_modules
+    - applications/notebook-on-next/node_modules
+    - applications/desktop/node_modules
+    - applications/showcase/node_modules
+    - packages/ansi-to-react/node_modules
+    - packages/commutable/node_modules
+    - packages/commuter-frontend/node_modules
+    - packages/core/node_modules
+    - packages/display-area/node_modules
+    - packages/editor/node_modules
+    - packages/enchannel/node_modules
+    - packages/enchannel-zmq-backend/node_modules
+    - packages/fs-observable/node_modules
+    - packages/messaging/node_modules
+    - packages/notebook-preview/node_modules
+    - packages/octicons/node_modules
+    - packages/rx-binder/node_modules
+    - packages/rx-jupyter/node_modules
+    - packages/transform-dataresource/node_modules
+    - packages/transform-geojson/node_modules
+    - packages/transform-plotly/node_modules
+    - packages/transform-vdom/node_modules
+    - packages/transform-vega/node_modules
+    - packages/transforms/node_modules
+    - packages/transforms-full/node_modules
 
 before_install:
 - npm install -g npm@5
