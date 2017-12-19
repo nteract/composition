@@ -1,4 +1,6 @@
-module.exports = `
+import css from "styled-jsx/css";
+
+export const dark = css`
   --main-bg-color: #2b2b2b;
   --main-fg-color: #ccc;
 
@@ -8,7 +10,7 @@ module.exports = `
   --cell-bg-hover: #151515;
   --cell-bg-focus: #1f1f1f;
 
-  --toolbar-bg: rgba(0,0,0,.3);;
+  --toolbar-bg: rgba(0, 0, 0, 0.3);
   --toolbar-button: #aaa;
   --toolbar-button-hover: #555;
 

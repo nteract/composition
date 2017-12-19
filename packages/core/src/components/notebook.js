@@ -24,7 +24,7 @@ import {
 
 import { LinkExternalOcticon } from "@nteract/octicons";
 
-import { light, dark } from "../../themes";
+import { themeMap } from "../../themes";
 
 // NOTE: PropTypes are required for the sake of contextTypes
 const PropTypes = require("prop-types");
@@ -313,6 +313,7 @@ export class Notebook extends React.PureComponent<Props> {
   }
 
   render(): ?React$Element<any> {
+    const theme = themeMap[this.props.theme];
     return (
       <div>
         {/* Sticky cells */}
@@ -334,7 +335,7 @@ export class Notebook extends React.PureComponent<Props> {
             padding-right: 10px;
           }
         `}</style>
-        <style jsx>{this.props.theme === "light" ? light : dark}</style>
+        <style jsx> {theme} </style>
       </div>
     );
   }

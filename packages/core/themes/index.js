@@ -1,8 +1,9 @@
-// ES5, skipping compile step
-const dark = require("./dark");
-const light = require("./light");
+import { dark } from "./dark";
+import { light } from "./light";
 
-module.exports = {
+const themeMap = {
   dark,
   light
 };
+
+export { themeMap, light, dark };
