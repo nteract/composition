@@ -334,11 +334,7 @@ export class Notebook extends React.PureComponent<Props> {
             padding-right: 10px;
           }
         `}</style>
-        <style jsx>{`
-           {
-            this.props.theme: light;
-          }
-        `}</style>
+        <style jsx>{this.props.theme === "light" ? light : dark}</style>
       </div>
     );
   }
