@@ -1,4 +1,9 @@
 import { dark } from "./dark";
 import { light } from "./light";
 
-export { dark, light };
+const themeMap = {
+  dark,
+  light
+};
+
+export { themeMap, light, dark };
