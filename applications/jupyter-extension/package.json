@@ -16,9 +16,9 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "fs-extra": "^4.0.1"
+    "fs-extra": "4.0.3"
   },
   "devDependencies": {
-    "rimraf": "^2.6.1"
+    "rimraf": "2.6.2"
   }
 }
