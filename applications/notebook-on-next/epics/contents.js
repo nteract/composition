@@ -2,9 +2,15 @@
 
 import { contents } from "rx-jupyter";
 
-import { toJS, stringifyNotebook } from "@nteract/commutable";
+import {
+  toJS,
+  stringifyNotebook,
+  fromJS,
+  emptyNotebook
+} from "@nteract/commutable";
 
 import { of } from "rxjs/observable/of";
+import { from } from "rxjs/observable/from";
 import { tap, map, switchMap, catchError } from "rxjs/operators";
 import { ofType } from "redux-observable";
 
@@ -28,10 +34,10 @@ function save(path: string, model: any): SAVE_ACTION {
   };
 }
 
-function load(path: string): LOAD_ACTION {
+function load(gistid: string): LOAD_ACTION {
   return {
     type: "LOAD",
-    path
+    gistid: gistid
   };
 }
 
@@ -48,6 +54,24 @@ type ServerConfig = {
   crossDomain?: boolean
 };
 
+async function fetchFromGist(gistId) {
+  const path = `https://api.github.com/gists/${gistId}`;
+  return fetch(path)
+    .then(async response => {
+      const ghResponse = await response.json();
+      for (const file in ghResponse.files) {
+        if (/.ipynb$/.test(file)) {
+          const fileResponse = ghResponse.files[file];
+          if (fileResponse.truncated) {
+            return fetch(fileResponse.raw_url).then(resp => resp.json());
+          }
+          return JSON.parse(fileResponse.content);
+        }
+      }
+    })
+    .catch(err => emptyNotebook);
+}
+
 export function loadEpic(
   action$: ActionsObservable<ALL_ACTIONS>,
   store: Store<*, *>
@@ -56,33 +80,18 @@ export function loadEpic(
     ofType("LOAD"),
     tap((action: LOAD_ACTION) => {
       // If there isn't a filename, save-as it instead
-      if (!action.path) {
-        throw new Error("load needs a path");
+      if (!action.gistid) {
+        throw new Error("load needs a gist ID");
       }
     }),
     switchMap((action: LOAD_ACTION) => {
-      const config = store.getState().webApp.config;
-      // Normalizing to match rx-jupyter vs. the jupyter server config
-      const serverConfig = {
-        endpoint: config.baseUrl,
-        crossDomain: false
+      return from(fetchFromGist(action.gistid));
+    }),
+    map((notebook: Object) => {
+      return {
+        type: "LOADED",
+        payload: notebook
       };
-
-      // TODO: make params optional in rx-jupyter
-      return contents.get(serverConfig, action.path, {}).pipe(
-        tap(xhr => {
-          if (xhr.status !== 200) {
-            throw new Error(xhr.response);
-          }
-        }),
-        map(xhr => {
-          return {
-            type: "LOADED",
-            payload: xhr.response
-          };
-        }),
-        catchError((xhrError: any) => of(loadFailed(xhrError)))
-      );
     })
   );
 }
