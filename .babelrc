@@ -1,0 +1,12 @@
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    "transform-flow-strip-types",
+    [
+      "module-resolver",
+      {
+        "root": ["./", "packages/**/node_modules"]
+      }
+    ]
+  ]
+}
