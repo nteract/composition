@@ -117,7 +117,7 @@
     "@nteract/editor": "^4.2.2",
     "@nteract/messaging": "^2.2.1",
     "@nteract/transforms-full": "^4.0.0",
-    "codemirror": "5.32.0",
+    "codemirror": "5.33.0",
     "commonmark": "0.28.1",
     "commonmark-react-renderer": "4.3.4",
     "cross-env": "5.1.2",
