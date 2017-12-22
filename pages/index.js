@@ -1,5 +1,5 @@
 // @flow
-import { _nextgen } from "@nteract/core/components";
+import { _nextgen } from "../packages/core/src/components";
 
 const {
   Cell,

@@ -1,10 +1,11 @@
+// @flow
 import React from "react";
 
 import {
   richestMimetype,
   standardDisplayOrder,
   standardTransforms
-} from "@nteract/transforms";
+} from "../packages/transforms/src";
 
 // Jupyter style MIME bundle
 const bundle = {
@@ -25,6 +26,7 @@ const mimetype = richestMimetype(
 );
 
 // Get the matching React.Component for that mimetype
+// $FlowFixMe
 let Transform = standardTransforms[mimetype];
 
 export default () => {
@@ -37,7 +39,7 @@ export default () => {
       <h2>
         <pre>@nteract/transforms</pre>
       </h2>
-      <Transform data={bundle[mimetype]} />
+      {bundle && mimetype ? <Transform data={bundle[mimetype]} /> : null}
 
       <style jsx>{`
         font-family: "Source Sans Pro", Helvetica Neue, Helvetica, Arial,
