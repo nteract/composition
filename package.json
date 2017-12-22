@@ -119,7 +119,7 @@
     "flow-copy-source": "1.2.1",
     "husky": "0.14.3",
     "ignore-styles": "5.0.1",
-    "jest": "22.0.3",
+    "jest": "22.0.4",
     "json-loader": "0.5.7",
     "jsonschema": "1.2.2",
     "lerna": "2.5.1",
