@@ -11,7 +11,7 @@ const path = require("path");
 const notebookDir = path.join(
   __dirname,
   "..",
-  "packages",
+  "applications",
   "desktop",
   "example-notebooks"
 );
