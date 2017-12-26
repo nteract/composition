@@ -5,11 +5,7 @@ import { mount } from "enzyme";
 
 import PlotlyTransform from "../src";
 
-jest.mock("@nteract/plotly");
 const plotly = require("@nteract/plotly");
-
-plotly.newPlot.mockImplementation(() => {});
-plotly.redraw.mockImplementation(() => {});
 
 function deepFreeze(obj) {
   // Retrieve the property names defined on obj
