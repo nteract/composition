@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "styled-jsx": "^2.1.3",
-    "immutable": "^3.8.1",
+    "immutable": "^4.0.0-rc.9",
     "react": "^16.0.0"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",

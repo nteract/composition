@@ -86,7 +86,7 @@
     ]
   },
   "dependencies": {
-    "immutable": "3.8.2",
+    "immutable": "4.0.0-rc.9",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "styled-jsx": "2.2.1"

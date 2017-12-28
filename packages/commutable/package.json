@@ -27,7 +27,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@nteract/types": "^1.0.0",
-    "immutable": "^3.8.1",
+    "immutable": "^4.0.0-rc.9",
     "uuid": "^3.1.0"
   }
 }

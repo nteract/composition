@@ -34,7 +34,7 @@
     "rxjs": "^5.5.0"
   },
   "peerDependencies": {
-    "immutable": "^3.8.1",
+    "immutable": "^4.0.0-rc.9",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "styled-jsx": "^2.1.3"
