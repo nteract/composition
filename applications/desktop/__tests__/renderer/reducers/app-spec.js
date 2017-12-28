@@ -36,7 +36,7 @@ describe("setNotificationSystem", () => {
     const action = { type: constants.SET_NOTIFICATION_SYSTEM };
 
     const state = reducers(originalState, action);
-    expect(state.app.notificationSystem).toBeUndefined();
+    expect(state.app.notificationSystem).toBeNull();
   });
   test("sets the notificationSystem if given", () => {
     const originalState = {
@@ -199,7 +199,7 @@ describe("newKernel", () => {
 });
 
 describe("setGithubToken", () => {
-  test("calls setGithubToken", () => {
+  test.only("calls setGithubToken", () => {
     const originalState = {
       app: makeAppRecord({
         github: new Github(),
@@ -207,7 +207,7 @@ describe("setGithubToken", () => {
       })
     };
 
-    const action = { type: constants.SET_GITHUB_TOKEN, token: "TOKEN" };
+    const action = { type: constants.SET_GITHUB_TOKEN, githubToken: "TOKEN" };
 
     const state = reducers(originalState, action);
     // this is a crappy way of testing this
