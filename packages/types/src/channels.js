@@ -1,3 +1,3 @@
 // @flow
 
-declare type Channels = rxjs$Subject<*>;
+export type Channels = rxjs$Subject<*>;

@@ -4,8 +4,9 @@ import type { Subject } from "rxjs";
 
 const Immutable = require("immutable");
 import type { RecordFactory, RecordOf } from "immutable";
+import type { ChildProcess } from "child_process";
 import { Record } from "immutable";
-import Channels from "../channels";
+import type { Channels } from "../channels";
 
 /*
 
@@ -125,17 +126,17 @@ export type Notebook = {
 // Basically, anything that's only for desktop should have its own record & reducers
 type AppRecordProps = {
   executionState: "not connected" | "busy" | "idle" | "starting",
-  token: string,
-  channels: Channels,
-  spawn: ChildProcess,
-  connectionFile: string,
-  notificationSystem: Object,
-  kernelSpecName: string,
-  kernelSpecDisplayName: string,
-  kernelSpec: Object,
+  token: ?string,
+  channels: ?Channels,
+  spawn: ?ChildProcess,
+  connectionFile: ?string,
+  notificationSystem: ?Object,
+  kernelSpecName: ?string,
+  kernelSpecDisplayName: ?string,
+  kernelSpec: ?Object,
   isSaving: boolean,
-  lastSaved: Date,
-  configLastSaved: Date,
+  lastSaved: ?Date,
+  configLastSaved: ?Date,
   error: any
 };
 export const makeAppRecord: RecordFactory<AppRecordProps> = Record({
