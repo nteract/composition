@@ -705,7 +705,9 @@ type DocumentAction =
   | CutCellAction
   | PasteCellAction
   | ChangeCellTypeAction
-  | ToggleCellExpansionAction;
+  | ToggleCellExpansionAction
+  | SetNotebookCheckpointAction
+  | SetInCellAction;
 
 const defaultDocument: DocumentState = DocumentRecord();
 
