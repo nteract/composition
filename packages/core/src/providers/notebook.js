@@ -4,7 +4,11 @@ import * as React from "react";
 import { DragDropContext as dragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
-import { List as ImmutableList, Map as ImmutableMap } from "immutable";
+import {
+  List as ImmutableList,
+  Map as ImmutableMap,
+  Set as ImmutableSet
+} from "immutable";
 
 import { displayOrder, transforms } from "@nteract/transforms";
 
@@ -42,7 +46,7 @@ type Props = {
   cellMap: ImmutableMap<string, any>,
   transforms: Object,
   cellPagers: ImmutableMap<string, any>,
-  stickyCells: ImmutableMap<string, any>,
+  stickyCells: ImmutableSet<string>,
   transient: ImmutableMap<string, any>,
   cellFocused: string,
   editorFocused: string,

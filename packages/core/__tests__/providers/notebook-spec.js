@@ -33,7 +33,7 @@ describe("Notebook", () => {
         transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
         cellPagers={new Immutable.Map()}
         cellStatuses={new Immutable.Map()}
-        stickyCells={new Immutable.Map()
+        stickyCells={new Immutable.Set()
           // Sticky the first cell of the notebook so that the sticky code gets
           // triggered.
           .set(dummyCommutable.getIn(["cellOrder", 0]), true)}
@@ -72,7 +72,7 @@ describe("Notebook", () => {
           transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
-          stickyCells={new Immutable.Map()}
+          stickyCells={new Immutable.Set()}
           CellComponent={Cell}
           cellFocused={focusedCell}
         />,
