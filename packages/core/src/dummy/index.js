@@ -17,13 +17,14 @@ export { dummyCommutable, dummy, dummyJSON } from "./dummy-nb";
 
 const rootReducer = combineReducers({
   // Fake out app, since it comes from
-  app: (state = AppRecord(), action) => state,
+  app: (state = makeAppRecord(), action) => state,
   document,
   comms,
   config
 });
 
 import type { AppState } from "@nteract/types/core/records";
+import { makeAppRecord } from "@nteract/types/core/records";
 
 /**
 function configureStore(initialState: AppState) {
@@ -31,7 +32,7 @@ function configureStore(initialState: AppState) {
 }
 **/
 
-import { AppRecord, DocumentRecord, CommsRecord } from "../records";
+import { DocumentRecord, CommsRecord } from "../records";
 
 function hideCells(notebook) {
   return notebook.update("cellMap", cells =>
@@ -99,7 +100,7 @@ export function dummyStore(config: *) {
           : null,
       filename: config && config.noFilename ? "" : "dummy-store-nb.ipynb"
     }),
-    app: AppRecord({
+    app: makeAppRecord({
       executionState: "not connected",
       notificationSystem: {
         addNotification: () => {} // most of the time you'll want to mock this

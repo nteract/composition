@@ -4,7 +4,7 @@ import type { ChildProcess } from "child_process"; // eslint-disable-line no-unu
 
 import { shutdownKernel } from "../kernel/shutdown";
 
-import { AppRecord } from "@nteract/types/core/records";
+import { makeAppRecord } from "@nteract/types/core/records";
 
 import type { Channels } from "@nteract/types/channels";
 
@@ -119,7 +119,7 @@ type AppAction =
   | SetNotificationSystemAction
   | SetExecutionStateAction;
 
-const defaultAppState = AppRecord();
+const defaultAppState = makeAppRecord();
 
 export default function handleApp(
   state: AppState = defaultAppState,

@@ -8,6 +8,7 @@ import { document, comms, config } from "@nteract/core/reducers";
 import { emptyNotebook, fromJS } from "@nteract/commutable";
 
 import {
+  makeAppRecord,
   AppRecord,
   DocumentRecord,
   CommsRecord
@@ -29,7 +30,7 @@ const rootReducer = combineReducers({
 });
 
 const defaultState = {
-  app: AppRecord(),
+  app: makeAppRecord(),
   document: DocumentRecord(),
   comms: CommsRecord(),
   config: ImmutableMap({

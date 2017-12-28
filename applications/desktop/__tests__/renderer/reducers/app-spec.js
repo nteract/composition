@@ -1,13 +1,13 @@
 import * as constants from "@nteract/core/constants";
 import reducers from "../../../src/notebook/reducers";
-import { AppRecord } from "@nteract/types/core/records";
+import { AppRecord, makeAppRecord } from "@nteract/types/core/records";
 
 const Github = require("github");
 
 describe("cleanupKernel", () => {
   test("nullifies entries for the kernel in originalState", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -26,7 +26,7 @@ describe("cleanupKernel", () => {
 describe("setNotificationSystem", () => {
   test("returns the same originalState if notificationSystem is undefined", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -40,7 +40,7 @@ describe("setNotificationSystem", () => {
   });
   test("sets the notificationSystem if given", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -60,7 +60,7 @@ describe("setNotificationSystem", () => {
 describe("startSaving", () => {
   test("should set isSaving to false", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -77,7 +77,7 @@ describe("startSaving", () => {
 describe("doneSaving", () => {
   test("should set isSaving to false", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -94,7 +94,7 @@ describe("doneSaving", () => {
 describe("setExecutionState", () => {
   test("should set the exeuction state to the given value", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -114,7 +114,7 @@ describe("setExecutionState", () => {
 describe("alertKernelNotConnected", () => {
   test("sets an error on the app state", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -132,7 +132,7 @@ describe("alertKernelNotConnected", () => {
 describe("killKernel", () => {
   test("clears out kernel configuration", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -151,7 +151,7 @@ describe("killKernel", () => {
 describe("interruptKernel", () => {
   test("sends a SIGINT and clears the kernel", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: {
           kill: () => {}
@@ -170,7 +170,7 @@ describe("interruptKernel", () => {
 describe("newKernel", () => {
   test("creates a new kernel", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -201,7 +201,7 @@ describe("newKernel", () => {
 describe("setGithubToken", () => {
   test("calls setGithubToken", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         github: new Github(),
         token: null
       })
@@ -219,7 +219,7 @@ describe("setGithubToken", () => {
 describe("exit", () => {
   test("calls cleanupKernel", () => {
     const originalState = {
-      app: new AppRecord({
+      app: makeAppRecord({
         channels: false,
         spawn: false,
         connectionFile: false
@@ -239,7 +239,7 @@ describe("exit", () => {
 
 describe("doneSavingConfig", () => {
   test("updates when the config was saved", () => {
-    const originalState = { app: new AppRecord({ configLastSaved: null }) };
+    const originalState = { app: makeAppRecord({ configLastSaved: null }) };
 
     const action = { type: constants.DONE_SAVING_CONFIG };
 

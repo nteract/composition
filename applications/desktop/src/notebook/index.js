@@ -22,7 +22,7 @@ import { initNativeHandlers } from "./native-window";
 import { initGlobalHandlers } from "./global-events";
 
 import {
-  AppRecord,
+  makeAppRecord,
   DocumentRecord,
   CommsRecord
 } from "@nteract/types/core/records";
@@ -30,7 +30,7 @@ import {
 import "./main.css";
 
 const store = configureStore({
-  app: AppRecord(),
+  app: makeAppRecord(),
   document: DocumentRecord(),
   comms: CommsRecord(),
   config: ImmutableMap({

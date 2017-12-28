@@ -9,6 +9,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 import { document, comms, config } from "@nteract/core/reducers";
 
 import {
+  makeAppRecord,
   AppRecord,
   DocumentRecord,
   CommsRecord
@@ -43,7 +44,7 @@ const rootReducer = combineReducers({
 });
 
 const defaultState = {
-  app: AppRecord(),
+  app: makeAppRecord(),
   document: DocumentRecord(),
   comms: CommsRecord(),
   config: ImmutableMap({
