@@ -113,11 +113,18 @@ function setGithubToken(state: AppState, action: SetGithubTokenAction) {
   return state.set("token", githubToken);
 }
 
+type ExitAction = { type: "EXIT" };
+type StartSavingActions = { type: "START_SAVING" };
+type InterruptKernelAction = { type: "INTERRUPT_KERNEL" };
+
 type AppAction =
   | NewKernelAction
   | SetGithubTokenAction
   | SetNotificationSystemAction
-  | SetExecutionStateAction;
+  | SetExecutionStateAction
+  | ExitAction
+  | StartSavingAction
+  | InterruptKernelAction;
 
 const defaultAppState = makeAppRecord();
 
