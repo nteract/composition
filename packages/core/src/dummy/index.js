@@ -39,7 +39,6 @@ function hideCells(notebook) {
     // $FlowFixMe: Notebook should be a typed record.
     notebook
       .get("cellOrder")
-      // $FlowFixMe: Notebook should be a typed record.
       .reduce(
         (acc, id) => acc.setIn([id, "metadata", "inputHidden"], true),
         cells
@@ -91,11 +90,8 @@ export function dummyStore(config: *) {
   const dummyNotebook = buildDummyNotebook(config);
 
   return createStore(rootReducer, {
-    // $FlowFixMe: DocumentRecord should be typed.
     document: DocumentRecord({
-      // $FlowFixMe: DocumentRecord should be typed.
       notebook: dummyNotebook,
-      // $FlowFixMe: DocumentRecord should be typed.
       savedNotebook: config && config.saved === true ? dummyNotebook : null,
       cellPagers: new Immutable.Map(),
       stickyCells: new Immutable.Set(),

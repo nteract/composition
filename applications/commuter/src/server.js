@@ -79,7 +79,6 @@ function createServer() {
     const server = http.createServer(app);
 
     return new Promise(accept => {
-      // $FlowFixMe: This should be allowed https://github.com/facebook/flow/blob/be455d00dea89239c8ee2def6d40da9b43b224b6/lib/node.js#L1097
       server.listen(config.port, () => accept(server));
     });
   });

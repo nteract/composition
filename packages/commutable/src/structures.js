@@ -116,7 +116,6 @@ function appendCellToNotebook(
       // $FlowFixMe: Fixed by making ImmutableNotebook a typed Record.
       cellMap: nb.get("cellMap")
     };
-    // $FlowFixMe: Fixed by making ImmutableNotebook a typed Record.
     const { cellOrder, cellMap } = appendCell(cellStructure, immCell);
     return nb.set("cellOrder", cellOrder).set("cellMap", cellMap);
   });
@@ -128,7 +127,6 @@ function insertCellAt(
   cellID: string,
   index: number
 ): ImmutableNotebook {
-  // $FlowFixMe: Fixed by making ImmutableNotebook a typed record.
   return notebook.withMutations(nb =>
     nb
       .setIn(["cellMap", cellID], cell)
