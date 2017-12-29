@@ -42,7 +42,10 @@ class CellCreator extends Component<Props> {
   mergeCell(): void {
     const { dispatch, id } = this.props;
 
-    dispatch(mergeCellAfter(id));
+    // We can't merge cells if we don't have a cell ID
+    if (id) {
+      dispatch(mergeCellAfter(id));
+    }
   }
 
   render(): React$Element<any> {
