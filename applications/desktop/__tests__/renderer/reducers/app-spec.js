@@ -111,24 +111,6 @@ describe("setExecutionState", () => {
   });
 });
 
-describe("alertKernelNotConnected", () => {
-  test("sets an error on the app state", () => {
-    const originalState = {
-      app: makeAppRecord({
-        channels: false,
-        spawn: false,
-        connectionFile: false
-      })
-    };
-
-    const action = { type: constants.ERROR_KERNEL_NOT_CONNECTED };
-
-    const state = reducers(originalState, action);
-    expect(state.app.error).not.toBeNull();
-    expect(state.app.error).toContain("not connected to a runtime");
-  });
-});
-
 describe("killKernel", () => {
   test("clears out kernel configuration", () => {
     const originalState = {
