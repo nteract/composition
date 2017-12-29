@@ -110,7 +110,7 @@ describe("Notebook", () => {
           transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
           cellPagers={new Immutable.Map()}
           cellStatuses={dummyCellStatuses}
-          stickyCells={new Immutable.Map()}
+          stickyCells={new Immutable.Set()}
           CellComponent={Cell}
           cellFocused={focusedCell}
         />,
