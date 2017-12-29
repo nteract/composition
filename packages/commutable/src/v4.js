@@ -73,7 +73,7 @@ export type StreamOutput = {|
 |};
 
 export type ErrorOutput = {|
-  output_type: "error",
+  output_type: "error" | "pyerr",
   ename: string,
   evalue: string,
   traceback: Array<string>
