@@ -26,6 +26,10 @@ const dummyCellStatuses = dummyCommutable
 // Boilerplate test to make sure the testing setup is configured
 describe("Notebook", () => {
   test("accepts an Immutable.List of cells", () => {
+    const stickyCells = new Immutable.Set().add(
+      dummyCommutable.getIn(["cellOrder", 0])
+    );
+
     const component = shallow(
       <Notebook
         cellOrder={dummyCommutable.get("cellOrder")}
@@ -33,10 +37,9 @@ describe("Notebook", () => {
         transient={new Immutable.Map({ cellMap: new Immutable.Map() })}
         cellPagers={new Immutable.Map()}
         cellStatuses={new Immutable.Map()}
-        stickyCells={new Immutable.Set()
-          // Sticky the first cell of the notebook so that the sticky code gets
-          // triggered.
-          .set(dummyCommutable.getIn(["cellOrder", 0]), true)}
+        // Sticky the first cell of the notebook so that the sticky code gets
+        // triggered.
+        stickyCells={stickyCells}
         CellComponent={Cell}
       />
     );
