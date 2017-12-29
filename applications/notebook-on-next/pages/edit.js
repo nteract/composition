@@ -44,7 +44,9 @@ const Error = () => (
 );
 
 export default class Edit extends React.Component<*> {
-  static async getInitialProps({ query, isServer }) {
+  static async getInitialProps(context: Object) {
+    const query = context.query;
+    const isBoolean = context.isBoolean;
     const serverNotebook = await fetchFromGist(query.gistid);
     if (!serverNotebook) return {};
     store.dispatch({

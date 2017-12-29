@@ -50,7 +50,7 @@ function createApp(jupyterConfigData: JupyterConfigData) {
   return App;
 }
 
-function main(rootEl: Node | null, dataEl: Node | null) {
+function main(rootEl: Element | null, dataEl: Node | null) {
   // When the data element isn't there, provide an error message
   // Primarily for development usage
   const ErrorPage = (props: { error?: Error }) => (

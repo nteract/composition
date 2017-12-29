@@ -61,7 +61,7 @@ class StaticNotebookApp extends React.Component<
     gistID: "038c4061d5a562d5f24605b93dcffdb6"
   };
 
-  static async getInitialProps({ query }) {
+  static async getInitialProps({ query: Object }) {
     // Either the user "provides" it or we give the default gist
     return {
       gistID: query.gistID

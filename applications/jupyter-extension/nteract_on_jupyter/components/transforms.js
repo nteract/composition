@@ -24,7 +24,7 @@ PlotlyNullTransform.MIMETYPE = NULL_MIMETYPE;
 
 class PlotlyTransform extends Component<Props> {
   getFigure: () => Object;
-  plotDivRef: (plotDiv: ?PlotlyHTMLElement) => void;
+  plotDivRef: (plotDiv: ?PlotlyHTMLElement) => void | string;
   plotDiv: ?PlotlyHTMLElement;
 
   static MIMETYPE = MIMETYPE;

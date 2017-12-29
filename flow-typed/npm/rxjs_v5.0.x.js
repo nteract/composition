@@ -332,7 +332,9 @@ declare class rxjs$Observable<+T> {
   static concat(...sources: rxjs$Observable<T>[]): rxjs$Observable<T>;
 
   static create(
-    subscribe: (observer: rxjs$Observer<T>) => rxjs$ISubscription | Function
+    subscribe: (
+      observer: rxjs$Observer<T>
+    ) => rxjs$ISubscription | Function | void
   ): rxjs$Observable<T>;
 
   static defer(
