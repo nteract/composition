@@ -111,10 +111,12 @@ function appendCellToNotebook(
 ): ImmutableNotebook {
   return immnb.withMutations(nb => {
     // $FlowFixMe: Fixed by making ImmutableNotebook a typed Record.
-    const cellStructure = {
+    const cellStructure: CellStructure = {
       cellOrder: nb.get("cellOrder"),
+      // $FlowFixMe: Fixed by making ImmutableNotebook a typed Record.
       cellMap: nb.get("cellMap")
     };
+    // $FlowFixMe: Fixed by making ImmutableNotebook a typed Record.
     const { cellOrder, cellMap } = appendCell(cellStructure, immCell);
     return nb.set("cellOrder", cellOrder).set("cellMap", cellMap);
   });

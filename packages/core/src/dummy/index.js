@@ -32,12 +32,14 @@ function configureStore(initialState: AppState) {
 }
 **/
 
-import { DocumentRecord, CommsRecord } from "../records";
+import { DocumentRecord, CommsRecord } from "@nteract/types/core/records";
 
 function hideCells(notebook) {
   return notebook.update("cellMap", cells =>
+    // $FlowFixMe: Notebook should be a typed record.
     notebook
       .get("cellOrder")
+      // $FlowFixMe: Notebook should be a typed record.
       .reduce(
         (acc, id) => acc.setIn([id, "metadata", "inputHidden"], true),
         cells
@@ -89,14 +91,18 @@ export function dummyStore(config: *) {
   const dummyNotebook = buildDummyNotebook(config);
 
   return createStore(rootReducer, {
+    // $FlowFixMe: DocumentRecord should be typed.
     document: DocumentRecord({
+      // $FlowFixMe: DocumentRecord should be typed.
       notebook: dummyNotebook,
+      // $FlowFixMe: DocumentRecord should be typed.
       savedNotebook: config && config.saved === true ? dummyNotebook : null,
       cellPagers: new Immutable.Map(),
       stickyCells: new Immutable.Set(),
       cellFocused:
         config && config.codeCellCount > 1
-          ? dummyNotebook.get("cellOrder").get(1)
+          ? // $FlowFixMe: Notebook should be typed.
+            dummyNotebook.get("cellOrder").get(1)
           : null,
       filename: config && config.noFilename ? "" : "dummy-store-nb.ipynb"
     }),

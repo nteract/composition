@@ -7,7 +7,8 @@ import flush from "styled-jsx/server";
 import PropTypes from "prop-types";
 
 class MyDocument extends Document {
-  static getInitialProps({ renderPage }) {
+  static getInitialProps(context: Object) {
+    const renderPage = context.renderPage;
     const { html, head, errorHtml, chunks } = renderPage();
     const styles = flush();
     return { html, head, errorHtml, chunks, styles };

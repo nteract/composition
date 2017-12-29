@@ -165,6 +165,7 @@ export class Notebook extends React.PureComponent<Props> {
 
     // $FlowFixMe: Cell might be undefined.
     if (cell.get("cell_type") === "code") {
+      // $FlowFixMe: Cell might be undefined.
       this.context.store.dispatch(executeCell(id, cell.get("source")));
     }
   }
@@ -242,6 +243,7 @@ export class Notebook extends React.PureComponent<Props> {
             {this.renderCell(id)}
           </DraggableCell>
         )}
+        // $FlowFixMe: CellCreator needs Props.
         <CellCreator key={`creator-${id}`} id={id} above={false} />
       </div>
     );
@@ -254,6 +256,7 @@ export class Notebook extends React.PureComponent<Props> {
         {this.renderStickyCells()}
         {/* Actual cells! */}
         <div className="cells">
+          // $FlowFixMe: CellCreator needs Props.
           <CellCreator id={this.props.cellOrder.get(0, null)} above />
           {this.props.cellOrder.map(this.createCellElement)}
         </div>
@@ -276,4 +279,5 @@ export class Notebook extends React.PureComponent<Props> {
 }
 
 export const ConnectedNotebook = dragDropContext(HTML5Backend)(Notebook);
+// $FlowFixMe: Flow can't figure out what to do with connect with one param.
 export default connect(mapStateToProps)(ConnectedNotebook);
