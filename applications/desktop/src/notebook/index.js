@@ -100,4 +100,6 @@ export default class App extends React.PureComponent<Object, Object> {
   }
 }
 
-ReactDOM.render(<App />, document.querySelector("#app"));
+// $FlowFixMe: Needs to be nullable
+const app: Element = document.querySelector("#app");
+ReactDOM.render(<App />, app);

@@ -77,6 +77,7 @@ class PlotlyTransform extends Component<Props> {
     if (layout && layout.height && !layout.autosize) {
       style.height = layout.height;
     }
+    // $FlowFixMe: Fix return type here
     return <div ref={this.plotDivRef} style={style} />;
   }
 }

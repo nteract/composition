@@ -327,6 +327,7 @@ function markdownCellToJS(immCell: ImmutableCell): MarkdownCell {
   // $FlowFixMe: With Immutable we can not properly type this
   const cell: Cell = immCell.toObject();
 
+  // $FlowFixMe: Fails now as a result of the above.
   return {
     cell_type: "markdown",
     source: remultiline(cell.source),
@@ -386,6 +387,7 @@ function outputToJS(immOutput: ImmutableOutput): Output {
     case "error":
       // Note: this is one of the cases where the Array of strings (for traceback)
       // is part of the format, not a multiline string
+      // $FlowFixMe: Need to expand scope of Output type.
       return immOutput.toJS();
     default:
       throw new TypeError(`Output type ${output.output_type} not recognized`);
@@ -404,6 +406,7 @@ function codeCellToJS(immCell: ImmutableCell): CodeCell {
   // $FlowFixMe: With Immutable we can not properly type this
   const cell: IntermediateCodeCell = immCell.toObject();
 
+  // $FlowFixMe: Ditto above.
   return {
     cell_type: "code",
     source: remultiline(cell.source),
@@ -417,6 +420,7 @@ function rawCellToJS(immCell: ImmutableCell): RawCell {
   // $FlowFixMe: With Immutable we can not properly type this
   const cell: Cell = immCell.toObject();
 
+  // $FlowFixMe: Ditto above. Cells should be Records.
   return {
     cell_type: "raw",
     source: remultiline(cell.source),
@@ -425,6 +429,7 @@ function rawCellToJS(immCell: ImmutableCell): RawCell {
 }
 
 function cellToJS(immCell: ImmutableCell): Cell {
+  // $FlowFixMe: Cell needs to be a typed record.
   const cellType: "markdown" | "raw" | "code" = immCell.get("cell_type");
   switch (cellType) {
     case "markdown":

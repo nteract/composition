@@ -58,6 +58,7 @@ export default function configureStore(config: any) {
   const rootEpic = combineEpics(...epics);
   const middlewares = [createEpicMiddleware(rootEpic)];
 
+  // $FlowFixMe: Address issue with store
   return createStore(
     rootReducer,
     initialState,

@@ -345,6 +345,7 @@ function toggleStickyCell(
   action: ToggleStickyCellAction
 ) {
   const { id } = action;
+  // $FlowFixMe: Use a typed DocumentRecord will fix this
   const stickyCells: Immutable.Set<CellID> = state.get("stickyCells");
   if (stickyCells.has(id)) {
     return state.set("stickyCells", stickyCells.delete(id));
@@ -474,6 +475,7 @@ type SetInCellAction = {
   value: any
 };
 function setInCell(state: DocumentState, action: SetInCellAction) {
+  // $FlowFixMe: Probably some issue related to the reducer setup
   return state.setIn(
     ["notebook", "cellMap", action.id].concat(action.path),
     action.value

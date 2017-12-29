@@ -55,6 +55,7 @@ function fromJS(notebook: Notebook | ImmutableNotebook): ImmutableNotebook {
 
   const notebookJSON: Notebook = notebook;
 
+  // $FlowFixMe: It doesn't seem to be picking up the combined defined of Notebook.
   if (notebookJSON.nbformat === 4 && notebookJSON.nbformat_minor >= 0) {
     if (
       Array.isArray(notebookJSON.cells) &&
@@ -62,6 +63,7 @@ function fromJS(notebook: Notebook | ImmutableNotebook): ImmutableNotebook {
     ) {
       return v4.fromJS(notebookJSON);
     }
+    // $FlowFixMe: It doesn't seem to be picking up the combined defined of Notebook.
   } else if (notebookJSON.nbformat === 3 && notebookJSON.nbformat_minor >= 0) {
     return v3.fromJS(notebookJSON);
   }

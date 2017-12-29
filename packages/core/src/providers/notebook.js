@@ -163,6 +163,7 @@ export class Notebook extends React.PureComponent<Props> {
       this.context.store.dispatch(focusNextCellEditor(id));
     }
 
+    // $FlowFixMe: Cell might be undefined.
     if (cell.get("cell_type") === "code") {
       this.context.store.dispatch(executeCell(id, cell.get("source")));
     }

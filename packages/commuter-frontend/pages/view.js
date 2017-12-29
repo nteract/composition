@@ -12,7 +12,9 @@ import Body from "../components/body";
 import { Entry } from "../components/contents";
 
 class ViewPage extends React.Component<*> {
-  static async getInitialProps({ req, query }) {
+  static async getInitialProps(context: Object) {
+    const req = context.req;
+    const query = context.query;
     // Later, we'll use this to fill in the notebook
     // file data from the server side (or fallback to /api/contents)
     // For now, leaving "server": boolean to assist in debugging

@@ -124,7 +124,8 @@ const DiscoveryItem = (props: DiscoveryItemProps) => (
 );
 
 class DiscoveryGrid extends React.Component<*> {
-  static async getInitialProps({ req }) {
+  static async getInitialProps(context: Object) {
+    const req = context.req;
     let BASE_PATH;
 
     if (req) {

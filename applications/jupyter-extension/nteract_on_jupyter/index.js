@@ -50,7 +50,7 @@ function createApp(jupyterConfigData: JupyterConfigData) {
   return App;
 }
 
-function main(rootEl: Element | null, dataEl: Node | null) {
+function main(rootEl: Element, dataEl: Node | null) {
   // When the data element isn't there, provide an error message
   // Primarily for development usage
   const ErrorPage = (props: { error?: Error }) => (
@@ -82,4 +82,5 @@ function main(rootEl: Element | null, dataEl: Node | null) {
 const rootEl = document.querySelector("#root");
 const dataEl = document.querySelector("#jupyter-config-data");
 
+// $FlowFixMe: querySelector can return null so this freaks out.
 main(rootEl, dataEl);

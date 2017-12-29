@@ -79,6 +79,7 @@ class PlotlyTransform extends React.Component<*> {
     if (layout && layout.height && !layout.autosize) {
       style.height = layout.height;
     }
+    // $FlowFixMe: Add typings to ref.
     return <div ref={this.plotDivRef} style={style} />;
   }
 }
