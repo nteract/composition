@@ -1,16 +1,6 @@
 // flow-typed signature: fea082aa61a81ca321d98f27415fa109
 // flow-typed version: bead2dda6f/rxjs_v5.0.x/flow_>=v0.34.x
 
-// FIXME(samgoldman) Remove top-level interface once Babel supports
-// `declare interface` syntax.
-// FIXME(samgoldman) Remove this once rxjs$Subject<T> can mixin rxjs$Observer<T>
-interface rxjs$IObserver<-T> {
-  closed?: boolean;
-  next(value: T): mixed;
-  error(error: any): mixed;
-  complete(): mixed;
-}
-
 type rxjs$PartialObserver<-T> =
   | {
       +next: (value: T) => mixed,
@@ -50,6 +40,10 @@ type rxjs$OperatorFunctionLast<T, R: rxjs$Observable<*>> = (
 ) => R;
 
 declare class rxjs$Observable<+T> {
+  constructor(
+    subscriber?: (observer: rxjs$Observer<T>) => rxjs$TeardownLogic
+  ): void;
+
   static bindCallback(
     callbackFunc: (callback: (_: void) => any) => any,
     selector?: void,
@@ -1336,22 +1330,18 @@ declare interface rxjs$Operator<T, R> {
   call(subscriber: rxjs$Subscriber<R>, source: any): rxjs$TeardownLogic;
 }
 
-// FIXME(samgoldman) should be `mixins rxjs$Observable<T>, rxjs$Observer<T>`
-// once Babel parsing support exists: https://phabricator.babeljs.io/T6821
-declare class rxjs$Subject<T> extends rxjs$Observable<T> {
+declare class rxjs$Subject<T> mixins rxjs$Observable<T>, rxjs$Observer<T> {
   asObservable(): rxjs$Observable<T>;
 
   observers: Array<rxjs$Observer<T>>;
 
   unsubscribe(): void;
 
-  // Copied from rxjs$Observer<T>
-  next(value: T): mixed;
-  error(error: any): mixed;
-  complete(): mixed;
-
-  // For use in subclasses only:
-  _next(value: T): void;
+  static create<T>(
+    next?: (x?: T) => void,
+    error?: (e?: any) => void,
+    complete?: () => void
+  ): rxjs$AnonymousSubject<T>;
 }
 
 declare class rxjs$AnonymousSubject<T> extends rxjs$Subject<T> {
@@ -1359,7 +1349,7 @@ declare class rxjs$AnonymousSubject<T> extends rxjs$Subject<T> {
   destination: ?rxjs$Observer<T>;
 
   constructor(
-    destination?: rxjs$IObserver<T>,
+    destination?: rxjs$Observer<T>,
     source?: rxjs$Observable<T>
   ): void;
   next(value: T): void;

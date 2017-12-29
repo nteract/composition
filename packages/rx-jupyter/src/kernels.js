@@ -142,8 +142,9 @@ export function connect(
   // Create a subject that does some of the handling inline for the session
   // and ensuring it's serialized
   return Subject.create(
-    Subscriber.create({
-      next: message => {
+    // $FlowFixMe: figure out if this is a shortcoming in the flow def or our declaration
+    Subscriber.create(
+      message => {
         if (typeof message === "string") {
           // Assume serialized
           wsSubject.next(message);
@@ -166,9 +167,9 @@ export function connect(
           );
         }
       },
-      error: e => wsSubject.error(e),
-      complete: () => wsSubject.complete()
-    }), // Subscriber
+      e => wsSubject.error(e),
+      () => wsSubject.complete()
+    ), // Subscriber
     // Subject.create takes a subscriber and an observable. We're only overriding
     // the subscriber here so we pass the subject on as an observable as the
     // second argument to Subject.create (since it's _also_ an observable)

@@ -175,8 +175,9 @@ export function createMainChannelFromSockets(
 ) {
   // The mega subject that encapsulates all the sockets as one multiplexed stream
   const subject = Subject.create(
-    Subscriber.create({
-      next: message => {
+    // $FlowFixMe: figure out if this is a shortcoming in the flow def or our declaration
+    Subscriber.create(
+      message => {
         // There's always a chance that a bad message is sent, we'll ignore it
         // instead of consuming it
         if (!message || !message.channel) {
@@ -200,16 +201,16 @@ export function createMainChannelFromSockets(
         });
         socket.send(jMessage);
       },
-      complete: () => {
+      undefined, // not bothering with sending errors on
+      () =>
         // When the subject is completed / disposed, close all the event
         // listeners and shutdown the socket
         Object.keys(sockets).forEach(name => {
           const socket = sockets[name];
           socket.removeAllListeners();
           socket.close();
-        });
-      }
-    }),
+        })
+    ),
     // Messages from kernel on the sockets
     merge(
       // Form an Observable with each socket
