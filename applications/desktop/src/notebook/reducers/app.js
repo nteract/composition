@@ -76,10 +76,6 @@ function startSaving(state: AppState) {
   return state.set("isSaving", true);
 }
 
-function alertKernelNotConnected(state: AppState) {
-  return state.set("error", "Error: We're not connected to a runtime!");
-}
-
 type SetExecutionStateAction = {
   type: "SET_EXECUTION_STATE",
   executionState: string
@@ -115,6 +111,8 @@ function setGithubToken(state: AppState, action: SetGithubTokenAction) {
 
 type ExitAction = { type: "EXIT" };
 type StartSavingAction = { type: "START_SAVING" };
+type DoneSavingAction = { type: "DONE_SAVING" };
+type DoneSavingConfigAction = { type: "DONE_SAVING_CONFIG" };
 type InterruptKernelAction = { type: "INTERRUPT_KERNEL" };
 type KillKernelAction = { type: "KILL_KERNEL" };
 
@@ -126,7 +124,9 @@ type AppAction =
   | ExitAction
   | StartSavingAction
   | InterruptKernelAction
-  | KillKernelAction;
+  | KillKernelAction
+  | DoneSavingAction
+  | DoneSavingConfigAction;
 
 const defaultAppState = makeAppRecord();
 
@@ -145,8 +145,6 @@ export default function handleApp(
       return interruptKernel(state);
     case "START_SAVING":
       return startSaving(state);
-    case "ERROR_KERNEL_NOT_CONNECTED":
-      return alertKernelNotConnected(state);
     case "SET_EXECUTION_STATE":
       return setExecutionState(state, action);
     case "DONE_SAVING":
