@@ -139,7 +139,7 @@ export const AppRecord = Immutable.Record({
 });
 
 export type Document = {
-  notebook: Notebook,
+  notebook: ?Notebook,
   transient: Immutable.Map<string, any>, // has the keypaths for updating displays
   // transient should be more fully typed (be a record itself)
   // right now it's keypaths and then it looks like it's able to handle any per
