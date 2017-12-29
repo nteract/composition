@@ -243,7 +243,6 @@ export class Notebook extends React.PureComponent<Props> {
             {this.renderCell(id)}
           </DraggableCell>
         )}
-        // $FlowFixMe: CellCreator needs Props.
         <CellCreator key={`creator-${id}`} id={id} above={false} />
       </div>
     );
@@ -256,8 +255,7 @@ export class Notebook extends React.PureComponent<Props> {
         {this.renderStickyCells()}
         {/* Actual cells! */}
         <div className="cells">
-          // $FlowFixMe: CellCreator needs Props.
-          <CellCreator id={this.props.cellOrder.get(0, null)} above />
+          <CellCreator id={this.props.cellOrder.get(0)} above />
           {this.props.cellOrder.map(this.createCellElement)}
         </div>
         <StatusBar

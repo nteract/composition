@@ -10,11 +10,11 @@ import {
 } from "../actions";
 import CellCreatorView from "../components/cell-creator";
 
-type Props = {|
+type Props = {
   above: boolean,
   dispatch: Dispatch<*>,
-  id: string
-|};
+  id?: string
+};
 
 class CellCreator extends Component<Props> {
   createCell: (type: string) => void;
