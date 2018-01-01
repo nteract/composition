@@ -60,7 +60,7 @@
     ]
   },
   "devDependencies": {
-    "fs-extra": "^5.0.0",
-    "uglifyjs-webpack-plugin": "^1.1.5"
+    "fs-extra": "5.0.0",
+    "uglifyjs-webpack-plugin": "1.1.5"
   }
 }
