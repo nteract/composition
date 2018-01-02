@@ -141,7 +141,7 @@
     "mime": "^1.4.1",
     "zeromq": "^4.0.0",
     "https-proxy-agent": "^1.0.0",
-    "follow-redirects": "0.0.7",
+    "follow-redirects": "1.2.6",
     "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",
     "react-notification-system": "^0.2.16",
