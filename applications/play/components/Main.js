@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 import Head from "next/head";
+import Router from "next/router";
 
 import CodeMirrorEditor from "@nteract/editor";
 import { BinderConsole } from "./consoles";
@@ -14,6 +15,7 @@ import * as utils from "../utils";
 
 const NTERACT_LOGO_URL =
   "https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/svg/nteract_logo_wide_purple_inverted.svg";
+
 class Main extends React.Component<*, *> {
   constructor(props) {
     super(props);
@@ -29,6 +31,34 @@ class Main extends React.Component<*, *> {
     const serverId = utils.makeServerId({ gitref, repo });
     activateServer({ serverId, repo, gitref });
   }
+
+  componentDidUpdate(prevProps) {
+    // When the gitref or repo change, update the URL params
+    if (
+      this.props.gitref !== prevProps.gitref ||
+      this.props.repo !== prevProps.repo
+    ) {
+      const newLocation = {
+        pathname: Router.pathname,
+        query: {
+          gitref: this.props.gitref,
+          repo: this.props.repo
+        }
+      };
+
+      Router.push(
+        // We have to specify both the `href` (what it really is)
+        newLocation,
+        // and what location we want the users to see `as`
+        newLocation,
+        // in order to change the URL without running getInitialProps
+        // ref: https://github.com/zeit/next.js#shallow-routing
+        { shallow: true }
+        // While still providing something that is copy-pastable in the URL bar
+      );
+    }
+  }
+
   handleEditorChange = source => {
     this.setState({ sourceValue: source });
   };
@@ -51,11 +81,17 @@ class Main extends React.Component<*, *> {
     restartKernel({ serverId, kernelName });
   };
   handleFormSubmit = event => {
-    const { currentServerId: oldServerId, activateServer } = this.props;
+    const {
+      currentServerId: oldServerId,
+      activateServer,
+      submitBinderForm
+    } = this.props;
     const { gitrefValue: gitref, repoValue: repo } = this.state;
     event.preventDefault();
     const serverId = utils.makeServerId({ gitref, repo });
+
     activateServer({ gitref, repo, serverId, oldServerId });
+    submitBinderForm({ gitref, repo });
   };
   handleSourceSubmit = () => {
     const { currentServerId, currentKernelName, runSource } = this.props;
@@ -290,34 +326,37 @@ class Main extends React.Component<*, *> {
   }
 }
 
-const mapStateToProps = state => ({
-  repo: state.ui.repo,
-  gitref: state.ui.gitref,
-  source: state.ui.source,
-  platform: state.ui.platform,
-  showPanel: state.ui.showPanel,
-  currentServerId: state.ui.currentServerId,
-  currentKernelName: state.ui.currentKernelName,
-  codeMirrorMode: state.ui.codeMirrorMode,
-  currentKernel: objectPath.get(state, [
-    "entities",
-    "serversById",
-    state.ui.currentServerId,
-    "server",
-    "activeKernelsByName",
-    state.ui.currentKernelName,
-    "kernel"
-  ]),
-  currentServer: objectPath.get(state, [
-    "entities",
-    "serversById",
-    state.ui.currentServerId,
-    "server"
-  ])
-});
+const mapStateToProps = state => {
+  return {
+    repo: state.ui.repo,
+    gitref: state.ui.gitref,
+    source: state.ui.source,
+    platform: state.ui.platform,
+    showPanel: state.ui.showPanel,
+    currentServerId: state.ui.currentServerId,
+    currentKernelName: state.ui.currentKernelName,
+    codeMirrorMode: state.ui.codeMirrorMode,
+    currentKernel: objectPath.get(state, [
+      "entities",
+      "serversById",
+      state.ui.currentServerId,
+      "server",
+      "activeKernelsByName",
+      state.ui.currentKernelName,
+      "kernel"
+    ]),
+    currentServer: objectPath.get(state, [
+      "entities",
+      "serversById",
+      state.ui.currentServerId,
+      "server"
+    ])
+  };
+};
 
 const mapDispatchToProps = {
   activateServer: actions.activateServer,
+  submitBinderForm: actions.submitBinderForm,
   setShowPanel: actions.setShowPanel,
   runSource: actions.runSource,
   setActiveKernel: actions.setActiveKernel
