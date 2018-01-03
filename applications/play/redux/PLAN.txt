@@ -55,7 +55,7 @@ state:
                 name: <NAME>,
                 id: <string>,
                 lastActivity: <string>,
-                channel: <observable>,
+                channel: <rxjs$Subject>,
                 outputs: <array>,
                 status: <string>,
                 messages: <array>
