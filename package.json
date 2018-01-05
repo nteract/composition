@@ -66,6 +66,19 @@
       "./scripts/test-shim",
       "./scripts/test-setup"
     ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/packages/.*/node_modules",
+      "/packages/.*/static",
+      "/packages/.*/build",
+      "/packages/.*/lib",
+      "/packages/.*/.next",
+      "/applications/.*/node_modules",
+      "/applications/.*/static",
+      "/applications/.*/build",
+      "/applications/.*/lib",
+      "/applications/.*/.next"
+    ],
     "moduleNameMapper": {
       "^@nteract/core/(.*)$": "<rootDir>/packages/core/src/$1",
       "\\.css$": "<rootDir>/scripts/noop-module.js"
