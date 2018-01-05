@@ -80,12 +80,26 @@
       "/applications/.*/.next"
     ],
     "moduleNameMapper": {
+      "^nteract/(.*)$": "<PROJECT_ROOT>/packages/$1/src",
       "^@nteract/core/(.*)$": "<rootDir>/packages/core/src/$1",
+      "^enchannel-zmq-backend$": "<PROJECT_ROOT>/packages/enchannel-zmq-backend/src",
+      "^rx-binder$": "<PROJECT_ROOT>/packages/rx-binder/src",
+      "^rx-jupyter$": "<PROJECT_ROOT>/packages/rx-jupyter/src",
       "\\.css$": "<rootDir>/scripts/noop-module.js"
     },
     "coveragePathIgnorePatterns": [
       "<rootDir>/scripts",
-      "/node_modules/"
+      "/node_modules/",
+      "/packages/.*/node_modules",
+      "/packages/.*/static",
+      "/packages/.*/build",
+      "/packages/.*/lib",
+      "/packages/.*/.next",
+      "/applications/.*/node_modules",
+      "/applications/.*/static",
+      "/applications/.*/build",
+      "/applications/.*/lib",
+      "/applications/.*/.next"
     ]
   },
   "lint-staged": {
