@@ -27,3 +27,10 @@ global.window.document.createRange = function createRange() {
 
 // HACK: To test index.js
 document.querySelector = () => document.createElement("div");
+
+process.on("unhandledRejection", (error, promise) => {
+  console.error("Unhandled promise rejection somewhere in tests");
+  console.error(error);
+  console.error(error.stack);
+  promise.catch(err => console.error("promise rejected", err));
+});

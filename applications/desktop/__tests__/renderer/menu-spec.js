@@ -409,13 +409,6 @@ describe("menu", () => {
     });
   });
 
-  describe("showSaveAsDialog", () => {
-    test("returns a promise", () => {
-      const dialog = menu.showSaveAsDialog();
-      expect(dialog).toEqual(expect.any(Promise));
-    });
-  });
-
   describe("triggerWindowRefresh", () => {
     test("does nothing if no filename is given", () => {
       const store = dummyStore();
@@ -451,9 +444,6 @@ describe("menu", () => {
         level: "success"
       });
     });
-  });
-  describe("triggerSaveAsPDF", () => {
-    test("does something", () => {});
   });
 
   describe("storeToPDF", () => {
