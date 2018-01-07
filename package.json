@@ -45,11 +45,10 @@
     "build:watch:only": "lerna run build:watch --stream --scope",
     "test": "jest",
     "test:unit": "npm run test",
-    "test:coverage": "npm run test:unit -- --coverage",
+    "test:coverage": "npm run test -- --coverage",
     "test:conformance": "node scripts/conformance.js",
     "test:lint": "npm run lint",
     "test:flow": "npm run flow",
-    "test:desktop": "lerna run test:unit --scope nteract --stream",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged",
@@ -61,18 +60,49 @@
     "publish:all": "lerna run publish:all --scope nteract --stream"
   },
   "jest": {
+    "collectCoverageFrom": [
+      "packages/*/src/**/*.{js,jsx}",
+      "!**/node_modules/**"
+    ],
     "setupFiles": [
       "raf/polyfill",
       "./scripts/test-shim",
       "./scripts/test-setup"
     ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/packages/.*/node_modules",
+      "<rootDir>/packages/.*/static",
+      "<rootDir>/packages/.*/build",
+      "<rootDir>/packages/.*/lib",
+      "<rootDir>/packages/.*/.next",
+      "<rootDir>/applications/.*/node_modules",
+      "<rootDir>/applications/.*/static",
+      "<rootDir>/applications/.*/build",
+      "<rootDir>/applications/.*/lib",
+      "<rootDir>/applications/.*/.next"
+    ],
     "moduleNameMapper": {
+      "^nteract/(.*)$": "<PROJECT_ROOT>/packages/$1/src",
       "^@nteract/core/(.*)$": "<rootDir>/packages/core/src/$1",
+      "^enchannel-zmq-backend$": "<PROJECT_ROOT>/packages/enchannel-zmq-backend/src",
+      "^rx-binder$": "<PROJECT_ROOT>/packages/rx-binder/src",
+      "^rx-jupyter$": "<PROJECT_ROOT>/packages/rx-jupyter/src",
       "\\.css$": "<rootDir>/scripts/noop-module.js"
     },
     "coveragePathIgnorePatterns": [
       "<rootDir>/scripts",
-      "/node_modules/"
+      "<rootDir>/node_modules/",
+      "<rootDir>/packages/.*/node_modules",
+      "<rootDir>/packages/.*/static",
+      "<rootDir>/packages/.*/build",
+      "<rootDir>/packages/.*/lib",
+      "<rootDir>/packages/.*/.next",
+      "<rootDir>/applications/.*/node_modules",
+      "<rootDir>/applications/.*/static",
+      "<rootDir>/applications/.*/build",
+      "<rootDir>/applications/.*/lib",
+      "<rootDir>/applications/.*/.next"
     ]
   },
   "lint-staged": {
