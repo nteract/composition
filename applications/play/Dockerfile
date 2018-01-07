@@ -1,4 +1,4 @@
-FROM node:8@sha256:19cc0100af8c67406f70cb1c27700e9c958d3d0ee2982e2ca0563d7bb8abf319
+FROM node:8@sha256:6054aa20c5b7d198524d9bd56c7b2d4fde046b6825e8261ccbf441444a5f4d39
 ADD . /playground
 WORKDIR /playground
 RUN npm install && npm run build
