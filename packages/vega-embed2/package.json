@@ -18,7 +18,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/transform-vega",
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/vega-embed2",
   "dependencies": {
     "vega": "^2.6.5",
     "vega-embed": "^2.2.0",
