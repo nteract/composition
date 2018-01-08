@@ -2,7 +2,8 @@
 import * as React from "react";
 
 const merge = require("lodash").merge;
-const vegaEmbed = require("vega-embed");
+
+const vegaEmbed = require("@nteract/vega-embed2");
 
 const MIMETYPE_VEGA = "application/vnd.vega.v2+json";
 const MIMETYPE_VEGALITE = "application/vnd.vegalite.v1+json";
