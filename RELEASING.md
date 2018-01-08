@@ -14,7 +14,9 @@ In order to build a signed copy with working auto-update, you will need to join 
 
 ## Release Process
 
-0. Run `lerna publish` to publish all the inner packages.
+1. Run `npm run publish` to publish all the inner packages.
+
+1. Run `npm run publish:commuter` (assuming the above worked)
 
 1. Make sure the release is working by running `npm run dist` and testing the built app inside the `./applications/desktop/dist/` folder. You can build for all platforms using `npm run dist:all`.
 
