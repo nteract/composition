@@ -14,11 +14,11 @@ In order to build a signed copy with working auto-update, you will need to join 
 
 ## Release Process
 
-0. Run `lerna publish` to publish all the packages, or at the very least just this package, `nteract`.
+0. Run `lerna publish` to publish all the inner packages.
 
 1. Make sure the release is working by running `npm run dist` and testing the built app inside the `./applications/desktop/dist/` folder. You can build for all platforms using `npm run dist:all`.
 
-1. Run `npm run publish` on macOS, Windows and Linux or run `npm run publish:all` to build everything on a single machine. This will draft a new release on GitHub and will upload all necessary assets.
+1. Run `npm run publish:desktop` on macOS, Windows and Linux or run `npm run publish:desktop:all` to build everything on a single machine. This will draft a new release on GitHub and will upload all necessary assets.
 
 1. From GitHub go to [nteract's releases](https://github.com/nteract/nteract/releases), verify everything works and edit the release notes. The name should follow our [naming guidelines](https://github.com/nteract/naming), namely that we use the last name of the next scientist in the list with an adjective in front.
    Example:

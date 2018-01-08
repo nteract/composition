@@ -22,7 +22,6 @@
   "scripts": {
     "postinstall": "npm run lerna",
     "lerna": "lerna bootstrap --hoist --loglevel verbose --nohoist='{electron-builder,electron-updater,lodash,ijavascript,zeromq,nteract-assets,mathjax-electron,github,jmp}'",
-    "build:apps": "lerna run build --scope nteract --scope @nteract/play --scope @nteract/commuter --scope @nteract/notebook-on-next --parallel --stream",
     "app:desktop": "lerna run start --scope nteract --stream",
     "app:play": "lerna run dev --scope @nteract/play --stream",
     "app:showcase": "lerna run dev --scope @nteract/showcase --stream",
@@ -35,6 +34,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "npm run build:packages",
+    "build:apps": "lerna run build --scope nteract --scope @nteract/play --scope @nteract/commuter --scope @nteract/notebook-on-next --parallel --stream",
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
     "build:packages": "lerna run build --parallel --ignore @nteract/play --ignore @nteract/showcase --ignore nteract --ignore @nteract/commuter-frontend --ignore @nteract/notebook-on-next --ignore nteract-on-jupyter",
@@ -52,12 +52,17 @@
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "precommit": "lint-staged",
+    "verifyBeforePublish":  "lerna run prepublishOnly && lerna run prepare",
+    "prepublishOnly": "npm run verifyBeforePublish",
+    "publish": "lerna run publish --ignore nteract --ignore @nteract/commuter-frontend --ignore @nteract/commuter",
+    "prepublish:commuter": "npm run build:packages",
+    "publish:commuter": "lerna run publish --scope @nteract/commuter-frontend --scope @nteract/commuter",
     "prettify": "prettier --write '**/*.{js,json}' '!**/{lib,.git,.next,package.json,flow-typed}/**'",
-    "dist": "lerna run dist --scope nteract --stream",
     "pack": "lerna run pack --scope nteract --stream",
-    "publish": "lerna run publish --scope nteract --stream",
+    "dist": "lerna run dist --scope nteract --stream",
     "dist:all": "lerna run dist:all --scope nteract --stream",
-    "publish:all": "lerna run publish:all --scope nteract --stream"
+    "publish:desktop": "lerna run publish --scope nteract --stream",
+    "publish:desktop:all": "lerna run publish:all --scope nteract --stream"
   },
   "jest": {
     "setupFiles": [
