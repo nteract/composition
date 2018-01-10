@@ -10,7 +10,7 @@ type HijackScrollProps = {
   children: React.Node
 };
 
-export class HijackScroll extends React.Component<HijackScrollProps, *> {
+export class HijackScroll extends React.PureComponent<HijackScrollProps, *> {
   el: ?HTMLElement;
 
   scrollIntoViewIfNeeded(prevFocused?: boolean): void {

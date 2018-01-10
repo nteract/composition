@@ -102,7 +102,7 @@ function collectTarget(connect: Object, monitor: Object): Object {
   };
 }
 
-class DraggableCellView extends React.PureComponent<Props, State> {
+class DraggableCellView extends React.Component<Props, State> {
   el: ?HTMLElement;
 
   state = {
