@@ -342,7 +342,7 @@ export class NotebookApp extends React.Component<Props> {
     }
 
     return (
-      <HijackScroll focused={cellFocused} onClick={selectCell}>
+      <HijackScroll focused={cellFocused} onClick={selectCell} key={id}>
         <Cell isSelected={cellFocused}>
           <Toolbar type={cellType} cell={cell} id={id} />
           {element}
@@ -384,13 +384,15 @@ export class NotebookApp extends React.Component<Props> {
 
   render(): ?React$Element<any> {
     return (
-      <React.Fragment>
+      <div>
         {/* Sticky cells */}
         {this.renderStickyCells()}
         {/* Actual cells! */}
         <div className="cells">
           <CellCreator id={this.props.cellOrder.get(0)} above />
-          {this.props.cellOrder.map(this.createCellElement)}
+          {this.props.cellOrder.map(id => (
+            <div key={id}>{this.createCellElement(id)}</div>
+          ))}
         </div>
         <StatusBar
           lastSaved={this.props.lastSaved}
@@ -404,17 +406,7 @@ export class NotebookApp extends React.Component<Props> {
             padding-right: 10px;
           }
         `}</style>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-:root {
-  ${themes[this.props.theme]};
-}`
-          }}
-        >
-          {}
-        </style>
-      </React.Fragment>
+      </div>
     );
   }
 }

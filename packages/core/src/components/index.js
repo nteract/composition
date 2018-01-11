@@ -15,6 +15,10 @@ export class Pagers extends React.Component<PagersProps> {
     hidden: false
   };
 
+  shouldComponentUpdate(nextProps: PagersProps) {
+    return this.props.hidden !== nextProps.hidden;
+  }
+
   render(): React.Node {
     if (
       this.props.hidden ||
@@ -45,6 +49,10 @@ export class Outputs extends React.Component<OutputsProps> {
     children: null,
     hidden: false
   };
+
+  shouldComponentUpdate(nextProps: OutputsProps) {
+    return this.props.hidden !== nextProps.hidden;
+  }
 
   render() {
     if (this.props.hidden) {
@@ -185,7 +193,7 @@ export class Outputs extends React.Component<OutputsProps> {
   }
 }
 // Totally fake component for consistency with indents of the editor area
-export class PromptBuffer extends React.Component<*> {
+export class PromptBuffer extends React.PureComponent<*> {
   render() {
     return <div className="prompt" />;
   }
@@ -210,7 +218,7 @@ type PromptProps = {
   queued: boolean
 };
 
-export class Prompt extends React.Component<PromptProps> {
+export class Prompt extends React.PureComponent<PromptProps> {
   static defaultProps = {
     counter: null,
     running: false,
@@ -239,6 +247,14 @@ export class Editor extends React.Component<EditorProps> {
     theme: "light"
   };
 
+  shouldComponentUpdate(nextProps: EditorProps) {
+    return (
+      nextProps.language !== this.props.language ||
+      nextProps.className !== this.props.className ||
+      nextProps.theme !== this.props.theme
+    );
+  }
+
   render() {
     // Build in a default renderer when they pass a plain string
     // This is primarily for use with non-editable contexts (notebook-preview)
@@ -261,7 +277,7 @@ export class Editor extends React.Component<EditorProps> {
       );
     }
     // Otherwise assume they have their own editor component
-    return <div className="input">{this.props.children}</div>;
+    return <div className={this.props.className}>{this.props.children}</div>;
   }
 }
 
@@ -275,6 +291,10 @@ export class Input extends React.Component<InputProps> {
     children: null,
     hidden: false
   };
+
+  shouldComponentUpdate(nextProps: InputProps) {
+    return nextProps.hidden === this.props.hidden;
+  }
 
   render() {
     if (this.props.hidden) {
@@ -321,104 +341,100 @@ export class Input extends React.Component<InputProps> {
   }
 }
 
-export const Cell = (props: { isSelected: boolean, children?: React.Node }) => {
-  const children = props.children;
-  return (
-    <div className={`cell ${props.isSelected ? "focused" : ""}`}>
-      <style jsx>{`
-        .cell {
-          position: relative;
-          background: var(--cell-bg, white);
-          transition: all 0.1s ease-in-out;
-        }
+type CellProps = { isSelected: boolean, children?: React.Node };
+export class Cell extends React.Component<CellProps, *> {
+  static defaultProps = {
+    isSelected: false,
+    children: null
+  };
 
-        /*
-         TODO: Create a "cell-hover-shadow" var and cell-focused-shadow var
-         For now, assume that it will have to be overridden somehow.
+  shouldComponentUpdate(nextProps: CellProps) {
+    return nextProps.isSelected === this.props.isSelected;
+  }
 
-         One issue we currently have is that these are each two properties.
+  render() {
+    const children = this.props.children;
+    return (
+      <div className={`cell ${this.props.isSelected ? "focused" : ""}`}>
+        <style jsx>{`
+          .cell {
+            position: relative;
+            background: var(--cell-bg, white);
+            transition: all 0.1s ease-in-out;
+          }
 
-         Basically it's
-         --cell-shadow-hover-1 and --cell--shadow-hover-2
-         */
+          /*
+           TODO: Create a "cell-hover-shadow" var and cell-focused-shadow var
+           For now, assume that it will have to be overridden somehow.
 
-        .cell:hover {
-          /* prettier-ignore */
-          box-shadow: var(--cell-shadow-hover-1,  1px  1px 3px rgba(0, 0, 0, 0.12)),
-                      var(--cell-shadow-hover-2, -1px -1px 3px rgba(0, 0, 0, 0.12));
-        }
+           One issue we currently have is that these are each two properties.
 
-        .cell.focused {
-          /* prettier-ignore */
-          box-shadow: var(--cell-focus-hover-1,  3px  3px 9px rgba(0, 0, 0, 0.12)),
-                      var(--cell-focus-hover-2, -3px -3px 9px rgba(0, 0, 0, 0.12));
-        }
+           Basically it's
+           --cell-shadow-hover-1 and --cell--shadow-hover-2
+           */
 
-        .cell:hover :global(.prompt),
-        .cell:active :global(.prompt) {
-          background-color: var(--cell-bg-hover, #eeedee);
-        }
+          .cell:hover {
+            /* prettier-ignore */
+            box-shadow: var(--cell-shadow-hover-1,  1px  1px 3px rgba(0, 0, 0, 0.12)),
+                        var(--cell-shadow-hover-2, -1px -1px 3px rgba(0, 0, 0, 0.12));
+          }
 
-        .cell:focus :global(.prompt),
-        .cell.focused :global(.prompt) {
-          background-color: var(--cell-bg-focus, #e2dfe3);
-        }
-      `}</style>
-      {children}
-    </div>
-  );
-};
+          .cell.focused {
+            /* prettier-ignore */
+            box-shadow: var(--cell-focus-hover-1,  3px  3px 9px rgba(0, 0, 0, 0.12)),
+                        var(--cell-focus-hover-2, -3px -3px 9px rgba(0, 0, 0, 0.12));
+          }
 
-Cell.defaultProps = {
-  isSelected: false,
-  children: null
-};
+          .cell:hover :global(.prompt),
+          .cell:active :global(.prompt) {
+            background-color: var(--cell-bg-hover, #eeedee);
+          }
 
-export const Cells = (props: {
-  children: React.ChildrenArray<any>,
-  selected: string | null
-}) => {
-  const children = React.Children.map(props.children, child => {
-    if (!child) {
-      return null;
-    }
+          .cell:focus :global(.prompt),
+          .cell.focused :global(.prompt) {
+            background-color: var(--cell-bg-focus, #e2dfe3);
+          }
+        `}</style>
+        {children}
+      </div>
+    );
+  }
+}
 
-    if (!child.type) {
-      return child;
-    }
+export class Cells extends React.PureComponent<
+  {
+    children: React.ChildrenArray<any>
+  },
+  *
+> {
+  static defaultProps = {
+    children: []
+  };
 
-    if (child.type === Cell) {
-      return React.cloneElement(child, {
-        // If there's a selection and it matches the cell's ID, mark isSelected
-        isSelected: props.selected && child.props.id === props.selected
-      });
-    }
+  shouldComponentUpdate() {
+    return false;
+  }
 
-    return child;
-  });
-  return (
-    <div className="cells">
-      <style jsx>{`
-        .cells > :global(*) {
-          margin: 20px;
-        }
+  render() {
+    return (
+      <div className="cells">
+        <style jsx>{`
+          .cells > :global(*) {
+            margin: 20px;
+          }
 
-        .cells {
-          font-family: "Source Sans Pro", Helvetica Neue, Helvetica, Arial,
-            sans-serif;
-          font-size: 16px;
-          background-color: var(--main-bg-color, white);
-          color: var(--main-fg-color, rgb(51, 51, 51));
+          .cells {
+            font-family: "Source Sans Pro", Helvetica Neue, Helvetica, Arial,
+              sans-serif;
+            font-size: 16px;
+            background-color: var(--main-bg-color, white);
+            color: var(--main-fg-color, rgb(51, 51, 51));
 
-          padding-bottom: 10px;
-        }
-      `}</style>
-      {children}
-    </div>
-  );
-};
-
-Cells.defaultProps = {
-  children: [],
-  selected: null
-};
+            padding-bottom: 10px;
+          }
+        `}</style>
+        {this.props.children}
+      </div>
+    );
+  }
+}

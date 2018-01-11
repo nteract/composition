@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import fetch from "isomorphic-fetch";
-import { emptyNotebook, fromJS } from "@nteract/commutable";
+import { emptyNotebook, fromJS, toJS } from "@nteract/commutable";
 import { NotebookApp } from "@nteract/core/providers";
 import { Provider } from "react-redux";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
@@ -47,13 +47,20 @@ export default class Edit extends React.Component<*> {
   static async getInitialProps(context: Object) {
     const query = context.query;
     const isServer = context.isServer;
-    const serverNotebook = await fetchFromGist(query.gistid);
-    if (!serverNotebook) return {};
+    let serverNotebook = await fetchFromGist(query.gistid);
+
+    let commutedNotebook = serverNotebook
+      ? fromJS(serverNotebook)
+      : emptyNotebook;
+
     store.dispatch({
       type: "SET_NOTEBOOK",
-      notebook: serverNotebook ? fromJS(serverNotebook) : null
+      notebook: commutedNotebook
     });
-    return { serverNotebook, isServer };
+    return {
+      serverNotebook: serverNotebook ? serverNotebook : toJS(emptyNotebook),
+      isServer
+    };
   }
 
   componentWillMount() {

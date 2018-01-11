@@ -205,6 +205,15 @@ class CodeMirrorEditor extends React.Component<
     });
   }
 
+  /**
+  shouldComponentUpdate(
+    nextProps: CodeMirrorEditorProps,
+    nextState: CodeMirrorEditorState
+  ) {
+    return nextProps.value !== this.props.value;
+  }
+  **/
+
   componentDidUpdate(prevProps: CodeMirrorEditorProps): void {
     if (!this.cm) return;
     const { cursorBlinkRate, editorFocused, theme } = this.props;
