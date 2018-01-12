@@ -4,10 +4,14 @@ import type { ChildProcess } from "child_process"; // eslint-disable-line no-unu
 
 import { shutdownKernel } from "../kernel/shutdown";
 
+import type { RecordFactory, RecordOf } from "immutable";
+
 import {
   makeAppRecord,
   makeLocalKernelRecord,
-  AppRecord
+  AppRecord,
+  LocalKernelProps,
+  RemoteKernelProps
 } from "@nteract/types/core/records";
 
 import type { Channels } from "@nteract/types/channels";
@@ -27,23 +31,16 @@ function cleanupKernel(state: AppRecord): AppRecord {
 
 type NewKernelAction = {
   type: "NEW_KERNEL",
-  channels: Channels,
-  connectionFile: string,
-  spawn: ChildProcess,
-  kernelSpecName: string,
-  kernelSpec: Object
+  kernel: LocalKernelProps | RemoteKernelProps
 };
 
 function newKernel(state: AppRecord, action: NewKernelAction) {
-  const kernel = makeLocalKernelRecord({
-    channels: action.channels,
-    spawn: action.spawn,
-    connectionFile: action.connectionFile
-  });
+  const kernel = action.kernel;
 
   return cleanupKernel(state).withMutations((ctx: AppRecord) =>
     ctx
       .set("kernel", kernel)
+      // TODO for flow, "yay"
       .set("kernelSpecName", action.kernelSpecName)
       .set("kernelSpecDisplayName", action.kernelSpec.spec.display_name)
       .set("kernelSpec", action.kernelSpec)

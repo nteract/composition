@@ -7,7 +7,7 @@ import { of } from "rxjs/observable/of";
 import { from } from "rxjs/observable/from";
 import { merge } from "rxjs/observable/merge";
 
-import type { AppState } from "@nteract/types/core/records";
+import type { AppState, RemoteKernelProps } from "@nteract/types/core/records";
 
 import { kernels, shutdown, kernelspecs } from "rx-jupyter";
 import { v4 as uuid } from "uuid";
@@ -23,20 +23,19 @@ import { executeRequest, kernelInfoRequest } from "@nteract/messaging";
 const activateKernelEpic = (action$: *, store: *) =>
   action$.pipe(
     ofType(LAUNCH_KERNEL_BY_NAME),
-    // Only accept jupyter servers for the host with this epic
-    filter(action => {
+    map(action => {
       const state: AppState = store.getState();
-      return state.app.getIn(["host", "type"]) === "jupyter";
+      return { host: state.app.host, ...action };
     }),
+    // Only accept jupyter servers for the host with this epic
+    filter(({ host }) => host === "jupyter" && host.serverUrl),
     // TODO: When a switchMap happens, we need to close down the originating
     // kernel, likely by sending a different action
-    switchMap(({ payload: { kernelName } }) => {
-      const state: AppState = store.getState();
-
+    switchMap(({ payload: { kernelName }, host }) => {
       const config = {
-        crossDomain: state.app.host.crossDomain,
-        token: state.app.host.token,
-        serverUrl: state.app.host.serverUrl
+        crossDomain: host.crossDomain,
+        token: host.token,
+        serverUrl: host.serverUrl
       };
 
       return kernels
@@ -49,15 +48,16 @@ const activateKernelEpic = (action$: *, store: *) =>
         .pipe(
           mergeMap(data => {
             const session = uuid();
-            const kernel = Object.assign({}, data.response, {
-              channels: kernels.connect(config, data.response.id, session)
+            const kernel: RemoteKernelProps = Object.assign({}, data.response, {
+              channels: kernels.connect(config, data.response.id, session),
+              kernelName: kernelName
             });
 
             kernel.channels.next(kernelInfoRequest());
 
             return of({
               type: NEW_KERNEL,
-              ...kernel
+              kernel
             });
           })
         );

@@ -14,6 +14,17 @@ import type {
 
 import { createExecuteRequest } from "@nteract/messaging";
 
+// TODO: Switch to the "activate*" naming from @nteract/play
+export const newKernelFulfilled = (payload: {
+  // TODO: Introduce serverId (or serverRef) when we're ready for it
+  // serverId: string,
+  kernelName: string,
+  kernel: *
+}) => ({
+  type: constants.NEW_KERNEL,
+  payload
+});
+
 export function newKernel(kernelSpec: any, cwd: string) {
   return {
     type: constants.LAUNCH_KERNEL,
