@@ -11,20 +11,20 @@ describe("setExecutionState", () => {
   });
 });
 
-describe("newKernel", () => {
-  test("creates a LAUNCH_KERNEL action", () => {
-    expect(actions.newKernel({ spec: "hokey" }, ".")).toEqual({
-      type: constants.LAUNCH_KERNEL,
+describe("activateKernel", () => {
+  test("creates a ACTIVATE_KERNEL action", () => {
+    expect(actions.activateKernel({ spec: "hokey" }, ".")).toEqual({
+      type: constants.ACTIVATE_KERNEL,
       kernelSpec: { spec: "hokey" },
       cwd: "."
     });
   });
 });
 
-describe("newKernelByName", () => {
-  test("creates a LAUNCH_KERNEL_BY_NAME action", () => {
-    expect(actions.newKernelByName("python2", ".")).toEqual({
-      type: constants.LAUNCH_KERNEL_BY_NAME,
+describe("activateKernelByName", () => {
+  test("creates a ACTIVATE_KERNEL_BY_NAME action", () => {
+    expect(actions.activateKernelByName("python2", ".")).toEqual({
+      type: constants.ACTIVATE_KERNEL_BY_NAME,
       kernelSpecName: "python2",
       cwd: "."
     });

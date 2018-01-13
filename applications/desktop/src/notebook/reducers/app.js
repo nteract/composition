@@ -4,10 +4,14 @@ import type { ChildProcess } from "child_process"; // eslint-disable-line no-unu
 
 import { shutdownKernel } from "../kernel/shutdown";
 
+import type { RecordFactory, RecordOf } from "immutable";
+
 import {
   makeAppRecord,
   makeLocalKernelRecord,
-  AppRecord
+  AppRecord,
+  LocalKernelProps,
+  RemoteKernelProps
 } from "@nteract/types/core/records";
 
 import type { Channels } from "@nteract/types/channels";
@@ -15,40 +19,29 @@ import type { Channels } from "@nteract/types/channels";
 function cleanupKernel(state: AppRecord): AppRecord {
   shutdownKernel(state.kernel);
 
-  return state.withMutations((ctx: AppRecord) =>
-    ctx
-      .set("kernel", null)
-      .set("kernelSpecName", null)
-      .set("kernelSpecDisplayName", null)
-      .set("kernelSpec", null)
-      .set("executionState", "not connected")
-  );
+  return state.merge({
+    kernel: null,
+    kernelSpecName: null,
+    kernelSpecDisplayName: null,
+    kernelSpec: null,
+    executionState: "not connected"
+  });
 }
 
 type NewKernelAction = {
-  type: "NEW_KERNEL",
-  channels: Channels,
-  connectionFile: string,
-  spawn: ChildProcess,
-  kernelSpecName: string,
-  kernelSpec: Object
+  type: "ACTIVATE_KERNEL",
+  kernel: LocalKernelProps | RemoteKernelProps
 };
 
-function newKernel(state: AppRecord, action: NewKernelAction) {
-  const kernel = makeLocalKernelRecord({
-    channels: action.channels,
-    spawn: action.spawn,
-    connectionFile: action.connectionFile
-  });
+function activateKernel(state: AppRecord, action: NewKernelAction): AppRecord {
+  const { kernel, kernelSpecName, kernelSpecDisplayName, kernelSpec } = action;
 
-  return cleanupKernel(state).withMutations((ctx: AppRecord) =>
-    ctx
-      .set("kernel", kernel)
-      .set("kernelSpecName", action.kernelSpecName)
-      .set("kernelSpecDisplayName", action.kernelSpec.spec.display_name)
-      .set("kernelSpec", action.kernelSpec)
-      .set("executionState", "starting")
-  );
+  return cleanupKernel(state).merge({
+    kernel,
+    kernelSpecName,
+    kernelSpecDisplayName,
+    executionState: "starting"
+  });
 }
 function exit(state: AppRecord) {
   return cleanupKernel(state);
@@ -120,8 +113,8 @@ export default function handleApp(
   action: AppAction
 ) {
   switch (action.type) {
-    case "NEW_KERNEL":
-      return newKernel(state, action);
+    case "ACTIVATE_KERNEL":
+      return activateKernel(state, action);
     case "EXIT":
       return exit(state);
     case "KILL_KERNEL":

@@ -18,7 +18,7 @@ import type {
   LocalKernelProps
 } from "./hosts";
 
-export { makeLocalKernelRecord } from "./hosts";
+export { makeLocalKernelRecord, makeRemoteKernelRecord } from "./hosts";
 
 /*
 

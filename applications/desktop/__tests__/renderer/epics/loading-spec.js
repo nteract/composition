@@ -104,7 +104,7 @@ describe("newNotebookEpic", () => {
     responseActions.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
-        expect(types).toEqual([SET_NOTEBOOK, "LAUNCH_KERNEL"]);
+        expect(types).toEqual([SET_NOTEBOOK, "ACTIVATE_KERNEL"]);
       },
       () => done.fail(),
       () => done()

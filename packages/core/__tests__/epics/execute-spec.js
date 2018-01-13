@@ -7,7 +7,7 @@ import {
   CLEAR_OUTPUTS,
   UPDATE_CELL_STATUS,
   UPDATE_DISPLAY,
-  NEW_KERNEL
+  ACTIVATE_KERNEL
 } from "@nteract/core/constants";
 
 import { createExecuteRequest } from "@nteract/messaging";
@@ -229,7 +229,7 @@ describe("updateDisplayEpic", () => {
     ];
 
     const channels = from(messages);
-    const action$ = ActionsObservable.of({ type: NEW_KERNEL, channels });
+    const action$ = ActionsObservable.of({ type: ACTIVATE_KERNEL, channels });
 
     const epic = updateDisplayEpic(action$);
 
