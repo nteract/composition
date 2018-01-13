@@ -7,22 +7,26 @@ import { of } from "rxjs/observable/of";
 import { from } from "rxjs/observable/from";
 import { merge } from "rxjs/observable/merge";
 
+import { activateKernelFulfilled } from "../actions";
+
+import { makeRemoteKernelRecord } from "@nteract/types/core/records";
+
 import type { AppState, RemoteKernelProps } from "@nteract/types/core/records";
 
 import { kernels, shutdown, kernelspecs } from "rx-jupyter";
 import { v4 as uuid } from "uuid";
 
 import {
-  LAUNCH_KERNEL_BY_NAME,
-  // TODO: the NEW_KERNEL action is still coded to desktop
-  NEW_KERNEL
+  ACTIVATE_KERNEL_BY_NAME,
+  // TODO: the ACTIVATE_KERNEL action is still coded to desktop
+  ACTIVATE_KERNEL
 } from "../constants";
 
 import { executeRequest, kernelInfoRequest } from "@nteract/messaging";
 
 const activateKernelEpic = (action$: *, store: *) =>
   action$.pipe(
-    ofType(LAUNCH_KERNEL_BY_NAME),
+    ofType(ACTIVATE_KERNEL_BY_NAME),
     map(action => {
       const state: AppState = store.getState();
       return { host: state.app.host, ...action };
@@ -48,7 +52,8 @@ const activateKernelEpic = (action$: *, store: *) =>
         .pipe(
           mergeMap(data => {
             const session = uuid();
-            const kernel: RemoteKernelProps = Object.assign({}, data.response, {
+
+            const kernel = Object.assign({}, data.response, {
               channels: kernels.connect(config, data.response.id, session),
               kernelName: kernelName
             });
@@ -56,8 +61,8 @@ const activateKernelEpic = (action$: *, store: *) =>
             kernel.channels.next(kernelInfoRequest());
 
             return of({
-              type: NEW_KERNEL,
-              kernel
+              type: ACTIVATE_KERNEL,
+              payload: kernel
             });
           })
         );

@@ -12,7 +12,7 @@ import {
   COMM_OPEN,
   COMM_MESSAGE,
   COMM_ERROR,
-  NEW_KERNEL
+  ACTIVATE_KERNEL
 } from "@nteract/core/constants";
 
 /**
@@ -125,7 +125,7 @@ export function commMessageAction(message: any) {
 
 /**
  * creates all comm related actions given a new kernel action
- * @param  {Object} newKernelAction a NEW_KERNEL action
+ * @param  {Object} newKernelAction a ACTIVATE_KERNEL action
  * @return {ActionsObservable}          all actions resulting from comm messages on this kernel
  */
 export function commActionObservable(newKernelAction: any) {
@@ -149,4 +149,4 @@ export function commActionObservable(newKernelAction: any) {
  * @return {ActionsObservable}         Comm actions
  */
 export const commListenEpic = (action$: ActionsObservable<*>) =>
-  action$.pipe(ofType(NEW_KERNEL), switchMap(commActionObservable)); // We have a new channel
+  action$.pipe(ofType(ACTIVATE_KERNEL), switchMap(commActionObservable)); // We have a new channel

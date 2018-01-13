@@ -69,7 +69,7 @@ describe("acquireKernelInfo", () => {
 describe("watchExecutionStateEpic", () => {
   test("returns an Observable with an initial state of idle", done => {
     const action$ = ActionsObservable.of({
-      type: constants.NEW_KERNEL,
+      type: constants.ACTIVATE_KERNEL,
       channels: of({
         header: { msg_type: "status" },
         content: { execution_state: "idle" }
@@ -102,7 +102,7 @@ describe("newKernelEpic", () => {
   test("throws an error if given a bad action", done => {
     const actionBuffer = [];
     const action$ = ActionsObservable.of({
-      type: constants.LAUNCH_KERNEL
+      type: constants.ACTIVATE_KERNEL
     }).pipe(share());
     const obs = newKernelEpic(action$);
     obs.subscribe(
@@ -117,7 +117,7 @@ describe("newKernelEpic", () => {
   test("calls newKernelObservable if given the correct action", done => {
     const actionBuffer = [];
     const action$ = ActionsObservable.of({
-      type: constants.LAUNCH_KERNEL,
+      type: constants.ACTIVATE_KERNEL,
       kernelSpec: { spec: "hokey" },
       cwd: "~"
     });
@@ -128,7 +128,7 @@ describe("newKernelEpic", () => {
         if (actionBuffer.length === 2) {
           expect(actionBuffer).toEqual([
             constants.SET_KERNEL_INFO,
-            constants.NEW_KERNEL
+            constants.ACTIVATE_KERNEL
           ]);
           done();
         }
@@ -139,9 +139,9 @@ describe("newKernelEpic", () => {
 });
 
 describe("newKernelByNameEpic", () => {
-  test("creates a LAUNCH_KERNEL action in response to a LAUNCH_KERNEL_BY_NAME action", done => {
+  test("creates a ACTIVATE_KERNEL action in response to a ACTIVATE_KERNEL_BY_NAME action", done => {
     const action$ = ActionsObservable.of({
-      type: constants.LAUNCH_KERNEL_BY_NAME,
+      type: constants.ACTIVATE_KERNEL_BY_NAME,
       kernelSpecName: "python3",
       cwd: "~"
     });
@@ -149,7 +149,7 @@ describe("newKernelByNameEpic", () => {
     obs.pipe(toArray()).subscribe(
       actions => {
         const types = actions.map(({ type }) => type);
-        expect(types).toEqual([constants.LAUNCH_KERNEL]);
+        expect(types).toEqual([constants.ACTIVATE_KERNEL]);
         done();
       },
       err => done.fail(err)

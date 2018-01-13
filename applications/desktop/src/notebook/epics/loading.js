@@ -7,7 +7,7 @@ import { monocellNotebook, fromJS, parseNotebook } from "@nteract/commutable";
 import type { Notebook, ImmutableNotebook } from "@nteract/commutable";
 
 import { readFileObservable } from "fs-observable";
-import { newKernelByName, newKernel } from "@nteract/core/actions";
+import { activateKernelByName, activateKernel } from "@nteract/core/actions";
 
 const path = require("path");
 
@@ -45,7 +45,7 @@ export const notebookLoaded = (filename: string, notebook: Notebook) => ({
  * @param  {String}  filename  The filename of the notebook being loaded
  * @param  {Immutable<Map>}  notebook  The notebook to extract langauge info from
  *
- * @returns  {ActionObservable}  ActionObservable for a NEW_KERNEL action
+ * @returns  {ActionObservable}  ActionObservable for a ACTIVATE_KERNEL action
  */
 export const extractNewKernel = (
   filename: string,
@@ -101,7 +101,7 @@ export const loadEpic = (actions: ActionsObservable<*>) =>
             // Find kernel based on kernel name
             // NOTE: Conda based kernels and remote kernels will need
             // special handling
-            newKernelByName(kernelSpecName, cwd)
+            activateKernelByName(kernelSpecName, cwd)
           );
         }),
         catchError(err => of({ type: "ERROR", payload: err, error: true }))
@@ -123,7 +123,7 @@ export const newNotebookEpic = (action$: ActionsObservable<*>) =>
           type: SET_NOTEBOOK,
           notebook: monocellNotebook
         },
-        newKernel(action.kernelSpec, action.cwd)
+        activateKernel(action.kernelSpec, action.cwd)
       )
     )
   );

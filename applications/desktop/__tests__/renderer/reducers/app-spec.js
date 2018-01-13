@@ -165,7 +165,7 @@ describe("interruptKernel", () => {
   });
 });
 
-describe("newKernel", () => {
+describe("activateKernel", () => {
   test("creates a new kernel", () => {
     const originalState = {
       app: makeAppRecord({
@@ -178,7 +178,7 @@ describe("newKernel", () => {
     };
 
     const action = {
-      type: constants.NEW_KERNEL,
+      type: constants.ACTIVATE_KERNEL,
       channels: "test_channels",
       spawn: "test_spawn",
       kernelSpecName: "test_name",

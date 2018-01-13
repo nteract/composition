@@ -158,7 +158,7 @@ describe("menu", () => {
   });
 
   describe("dispatchRestartKernel", () => {
-    test("dispatches KILL_KERNEL and NEW_KERNEL actions", () => {
+    test("dispatches KILL_KERNEL and ACTIVATE_KERNEL actions", () => {
       const store = dummyStore();
       store.dispatch = jest.fn();
 
@@ -302,14 +302,14 @@ describe("menu", () => {
   });
 
   describe("dispatchNewKernel", () => {
-    test("dispatches LAUNCH_KERNEL action", () => {
+    test("dispatches ACTIVATE_KERNEL action", () => {
       const store = dummyStore();
       store.dispatch = jest.fn();
 
       menu.dispatchNewKernel(store, {}, { spec: "hokey" });
 
       expect(store.dispatch).toHaveBeenCalledWith({
-        type: constants.LAUNCH_KERNEL,
+        type: constants.ACTIVATE_KERNEL,
         kernelSpec: { spec: "hokey" },
         cwd: process.cwd()
       });

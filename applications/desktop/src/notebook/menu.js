@@ -20,7 +20,7 @@ import {
   executeCell,
   interruptKernel,
   killKernel,
-  newKernel,
+  activateKernel,
   pasteCell,
   save,
   saveAs,
@@ -81,7 +81,7 @@ export function dispatchRestartKernel(store) {
   }
 
   store.dispatch(killKernel);
-  store.dispatch(newKernel(state.app.kernelSpec, cwd));
+  store.dispatch(activateKernel(state.app.kernelSpec, cwd));
 
   notificationSystem.addNotification({
     title: "Kernel Restarted",
@@ -140,7 +140,7 @@ export function dispatchNewKernel(store, evt, spec) {
   if (state && state.document && state.document.get("filename")) {
     cwd = path.dirname(path.resolve(state.document.get("filename")));
   }
-  store.dispatch(newKernel(spec, cwd));
+  store.dispatch(activateKernel(spec, cwd));
 }
 
 export function dispatchPublishAnonGist(store) {
