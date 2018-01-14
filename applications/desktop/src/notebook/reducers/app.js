@@ -30,7 +30,10 @@ function cleanupKernel(state: AppRecord): AppRecord {
 
 type NewKernelAction = {
   type: "ACTIVATE_KERNEL",
-  kernel: LocalKernelProps | RemoteKernelProps
+  payload: {
+    kernel: LocalKernelProps | RemoteKernelProps,
+    kernelSpecName: string
+  }
 };
 
 function activateKernel(state: AppRecord, action: NewKernelAction): AppRecord {

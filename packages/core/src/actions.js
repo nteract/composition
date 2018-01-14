@@ -18,7 +18,7 @@ import { createExecuteRequest } from "@nteract/messaging";
 export const activateKernelFulfilled = (payload: {
   // TODO: Introduce serverId (or serverRef) when we're ready for it
   // serverId: string,
-  kernelName: string,
+  kernelSpecName: string,
   kernel: *
 }) => ({
   type: constants.ACTIVATE_KERNEL,
