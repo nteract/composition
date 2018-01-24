@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 import fetch from "isomorphic-fetch";
-import { emptyNotebook, fromJS, toJS } from "@nteract/commutable";
+import { monocellNotebook, fromJS, toJS } from "@nteract/commutable";
 import { NotebookApp } from "@nteract/core/providers";
 import { Provider } from "react-redux";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
@@ -27,7 +27,7 @@ async function fetchFromGist(gistId): ?Object {
         }
       }
     })
-    .catch(err => toJS(emptyNotebook));
+    .catch(err => toJS(monocellNotebook));
 }
 
 const Error = () => (
@@ -55,8 +55,7 @@ export default class Edit extends React.Component<*> {
     }
 
     if (!serverNotebook) {
-      // TODO: make this a notebook with one cell
-      serverNotebook = toJS(emptyNotebook);
+      serverNotebook = toJS(monocellNotebook);
     }
 
     store.dispatch({
