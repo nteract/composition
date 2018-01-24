@@ -9,3 +9,5 @@ export {
 } from "./kernel-lifecycle";
 
 export { fetchKernelspecsEpic } from "./kernelspecs";
+
+export { fetchContentEpic, setNotebookEpic } from "./contents";

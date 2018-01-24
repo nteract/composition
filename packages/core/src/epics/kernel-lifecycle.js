@@ -6,6 +6,10 @@ import { merge } from "rxjs/observable/merge";
 
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
 
+import type { Notebook, ImmutableNotebook } from "@nteract/commutable";
+
+const path = require("path");
+
 import {
   filter,
   map,
@@ -23,7 +27,7 @@ import * as uuid from "uuid";
 
 import type { Channels } from "@nteract/types/channels";
 
-import type { NewKernelAction } from "../actionTypes";
+import type { NewKernelAction, SetNotebookAction } from "../actionTypes";
 
 import type { KernelInfo, LocalKernelProps } from "@nteract/types/core/records";
 
@@ -32,10 +36,11 @@ import {
   setNotebookKernelInfo,
   launchKernelSuccessful,
   launchKernel,
-  setLanguageInfo
+  setLanguageInfo,
+  launchKernelByName
 } from "../actions";
 
-import { LAUNCH_KERNEL_SUCCESSFUL } from "../actionTypes";
+import { LAUNCH_KERNEL_SUCCESSFUL, SET_NOTEBOOK } from "../actionTypes";
 
 /**
  * Sets the execution state after a kernel has been launched.
@@ -86,4 +91,37 @@ export const acquireKernelInfoEpic = (action$: ActionsObservable<*>) =>
   action$.pipe(
     ofType(LAUNCH_KERNEL_SUCCESSFUL),
     switchMap(action => acquireKernelInfo(action.kernel.channels))
+  );
+
+export const extractNewKernel = (
+  filename?: string,
+  notebook: ImmutableNotebook
+) => {
+  // TODO: There's some incongruence between desktop and web app here, regarding path vs. filename
+  const cwd = (filename && path.dirname(filename)) || "/";
+
+  const kernelSpecName = notebook.getIn(
+    ["metadata", "kernelspec", "name"],
+    notebook.getIn(["metadata", "language_info", "name"], "python3")
+  );
+
+  return {
+    cwd,
+    kernelSpecName
+  };
+};
+
+export const launchKernelWhenNotebookSetEpic = (
+  action$: ActionsObservable<*>
+) =>
+  action$.pipe(
+    ofType(SET_NOTEBOOK),
+    map((action: SetNotebookAction) => {
+      const { cwd, kernelSpecName } = extractNewKernel(
+        action.filename,
+        action.notebook
+      );
+
+      return launchKernelByName(kernelSpecName, cwd);
+    })
   );

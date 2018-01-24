@@ -1,9 +1,8 @@
 // @flow
-import { loadEpic } from "./contents";
-import { setNotebookEpic } from "./notebook";
-import { fetchKernelspecsEpic } from "@nteract/core/epics";
-
 import {
+  fetchKernelspecsEpic,
+  fetchContentEpic,
+  setNotebookEpic,
   executeCellEpic,
   updateDisplayEpic,
   commListenEpic,
@@ -19,7 +18,7 @@ const epics = [
   updateDisplayEpic,
   commListenEpic,
   launchWebSocketKernelEpic,
-  loadEpic,
+  fetchContentEpic,
   setNotebookEpic,
   acquireKernelInfoEpic,
   watchExecutionStateEpic

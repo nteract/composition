@@ -12,7 +12,7 @@ import type { JupyterConfigData } from "./store";
 
 import { NotebookApp } from "@nteract/core/providers";
 
-import { fetchKernelspecs } from "@nteract/core/actions";
+import { fetchKernelspecs, fetchContent } from "@nteract/core/actions";
 
 function createApp(jupyterConfigData: JupyterConfigData) {
   const store = configureStore({ config: jupyterConfigData });
@@ -27,7 +27,7 @@ function createApp(jupyterConfigData: JupyterConfigData) {
     // be able to connect to multiple servers and thus have many kernelspecs,
     // it needs a ref to complete the action.
     componentDidMount(): void {
-      store.dispatch({ type: "LOAD", path: jupyterConfigData.contentsPath });
+      store.dispatch(fetchContent({ path: jupyterConfigData.contentsPath }));
       store.dispatch(fetchKernelspecs({ kernelspecsRef: "single-server" }));
     }
 

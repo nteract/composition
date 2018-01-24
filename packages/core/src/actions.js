@@ -84,10 +84,36 @@ import type {
   // TODO: Needs an action creator
   DoneSavingConfigAction,
   // TODO: Needs an action creator
-  SetNotebookCheckpointAction
+  SetNotebookCheckpointAction,
+  FetchContent,
+  FetchContentFulfilled,
+  FetchContentFailed
 } from "../actionTypes";
 
 import { createExecuteRequest } from "@nteract/messaging";
+
+export const fetchContent = (
+  payload: { path: string, params: Object } = { path: "/", params: {} }
+): FetchContent => ({
+  type: actionTypes.FETCH_CONTENT,
+  payload
+});
+
+export const fetchContentFulfilled = (payload: {
+  path: string,
+  model: any
+}): FetchContentFulfilled => ({
+  type: actionTypes.FETCH_CONTENT_FULFILLED,
+  payload
+});
+
+export const fetchContentFailed = (payload: {
+  path: string,
+  error: Object
+}): FetchContentFulfilled => ({
+  type: actionTypes.FETCH_CONTENT_FULFILLED,
+  payload
+});
 
 export const fetchKernelspecs = (payload: {
   kernelspecsRef: KernelspecsRef
