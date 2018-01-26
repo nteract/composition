@@ -113,6 +113,14 @@ type state = {
       }
     }
   },
+  contents: {
+    byRef: {
+      [ref: Ref]: {
+        loading: boolean,
+        error: ?Object
+      }
+    }
+  }
 
   // These are the actual data that we get back from
   //   * API Calls
@@ -190,6 +198,7 @@ type state = {
           token: string,
           serverUrl: string,
           crossDomain: boolean,
+          rootContentRef: Ref,
           messages: Array<string> // binder only
         }
       }
@@ -209,6 +218,21 @@ type state = {
           id: Id, // jupyter only
           spawn: ChildProcess, // local only
           connectionFile: string, // local only
+        }
+      }
+    },
+    contents: {
+      byRef: {
+        [ref: Ref]: {
+          type: "directory" | "notebook" | "file",
+          mimetype: ?string, // file-type only.
+          path: string,
+          name: string,
+          created: Date,
+          last_modified: Date,
+          writable: bool,
+          format: null | "json" | "text" | "base64" // "json" for dir / nb
+          content: ?Array<Ref> | string // Array<Ref> is for directory-type
         }
       }
     },
