@@ -14,7 +14,8 @@ const createActionKey = (action, ...args) => [action, ...args].join(":");
 const parseActionKey = key => key.split(":");
 
 type Props = {
-  openKeys: ?Array<string>,
+  defaultOpenKeys?: Array<string>,
+  openKeys?: Array<string>,
   cellFocused: ?string,
   cellMap: Immutable.Map<string, *>,
   cellOrder: Immutable.List<string>,
@@ -30,7 +31,6 @@ type Props = {
 
 class PureNotebookMenu extends React.Component<Props> {
   static defaultProps = {
-    openKeys: null,
     cellFocused: null,
     cellMap: Immutable.Map(),
     cellOrder: Immutable.List(),
@@ -117,13 +117,13 @@ class PureNotebookMenu extends React.Component<Props> {
     }
   };
   render() {
-    const { openKeys } = this.props;
+    const { defaultOpenKeys } = this.props;
     return (
       <div>
         <Menu
           mode="horizontal"
           onClick={this.handleClick}
-          openKeys={openKeys}
+          defaultOpenKeys={defaultOpenKeys}
           selectable={false}
         >
           <SubMenu key={MENUS.EDIT} title="Edit">

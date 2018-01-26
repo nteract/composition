@@ -50,7 +50,7 @@ describe("PureNotebookMenu ", () => {
         cellOrder: Immutable.List(["a", "b", "c", "d"]),
 
         // menu props, note that we force all menus to be open to click.
-        openKeys: Object.values(MENUS)
+        defaultOpenKeys: Object.values(MENUS)
       };
       const wrapper = mount(<PureNotebookMenu {...props} />);
 
