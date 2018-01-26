@@ -23,7 +23,7 @@
     "react-dom": "^16.2.0",
     "react-markdown": "^3.0.0",
     "react-redux": "^5.0.6",
-    "react-syntax-highlighter": "^6.0.0",
+    "react-syntax-highlighter": "^7.0.0",
     "rxjs": "^5.5.6",
     "styled-jsx": "^2.2.1",
     "uuid": "^3.1.0"

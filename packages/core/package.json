@@ -33,7 +33,7 @@
     "react-dnd": "^2.5.4",
     "react-dnd-html5-backend": "^2.5.4",
     "react-redux": "^5.0.6",
-    "react-syntax-highlighter": "^6.0.0",
+    "react-syntax-highlighter": "^7.0.0",
     "redux": "^3.7.2",
     "redux-immutable": "^4.0.0",
     "rx-binder": "^1.0.9",
