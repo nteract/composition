@@ -131,7 +131,7 @@
     "prettier": "^1.9.2",
     "raf": "^3.4.0",
     "react-test-renderer": "^16.2.0",
-    "style-loader": "^0.19.1",
+    "style-loader": "^0.20.0",
     "uglifyjs-webpack-plugin": "^1.1.5",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
