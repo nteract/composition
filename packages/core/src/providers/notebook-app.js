@@ -352,18 +352,9 @@ export class NotebookApp extends React.PureComponent<NotebookProps> {
   constructor(): void {
     super();
     (this: any).createCellElement = this.createCellElement.bind(this);
-    (this: any).keyDown = this.keyDown.bind(this);
     (this: any).moveCell = this.moveCell.bind(this);
     (this: any).selectCell = this.selectCell.bind(this);
     (this: any).renderCell = this.renderCell.bind(this);
-  }
-
-  componentDidMount(): void {
-    document.addEventListener("keydown", this.keyDown);
-  }
-
-  componentWillUnmount(): void {
-    document.removeEventListener("keydown", this.keyDown);
   }
 
   moveCell(sourceId: string, destinationId: string, above: boolean): void {
@@ -372,37 +363,6 @@ export class NotebookApp extends React.PureComponent<NotebookProps> {
 
   selectCell(id: string): void {
     this.context.store.dispatch(focusCell(id));
-  }
-
-  keyDown(e: KeyboardEvent): void {
-    // If enter is not pressed, do nothing
-    if (e.keyCode !== 13) {
-      return;
-    }
-
-    let ctrlKeyPressed = e.ctrlKey;
-    // Allow cmd + enter (macOS) to operate like ctrl + enter
-    if (process.platform === "darwin") {
-      ctrlKeyPressed = (e.metaKey || e.ctrlKey) && !(e.metaKey && e.ctrlKey);
-    }
-
-    const shiftXORctrl =
-      (e.shiftKey || ctrlKeyPressed) && !(e.shiftKey && ctrlKeyPressed);
-    if (!shiftXORctrl) {
-      return;
-    }
-
-    e.preventDefault();
-
-    // NOTE: Order matters here because we need it to execute _before_ we
-    // focus the next cell
-    this.context.store.dispatch(executeFocusedCell());
-
-    if (e.shiftKey) {
-      // Couldn't focusNextCell just do focusing of both?
-      this.context.store.dispatch(focusNextCell());
-      this.context.store.dispatch(focusNextCellEditor());
-    }
   }
 
   renderStickyCells(): React.Node {
