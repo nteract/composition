@@ -10,7 +10,7 @@ import configureStore from "./store";
 
 import type { JupyterConfigData } from "./store";
 
-import { NotebookApp } from "@nteract/core/providers";
+import { KeyboardShortcuts, NotebookApp } from "@nteract/core/providers";
 
 import { fetchKernelspecs, fetchContent } from "@nteract/core/actions";
 
@@ -37,13 +37,15 @@ function createApp(jupyterConfigData: JupyterConfigData) {
       return (
         <Provider store={store}>
           <div>
-            <NotebookMenu />
-            <NotebookApp />
-            <NotificationSystem
-              ref={notificationSystem => {
-                this.notificationSystem = notificationSystem;
-              }}
-            />
+            <KeyboardShortcuts>
+              <NotebookMenu />
+              <NotebookApp />
+              <NotificationSystem
+                ref={notificationSystem => {
+                  this.notificationSystem = notificationSystem;
+                }}
+              />
+            </KeyboardShortcuts>
             <style jsx global>{`
               body {
                 font-family: "Source Sans Pro";

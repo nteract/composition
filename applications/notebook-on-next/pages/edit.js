@@ -2,7 +2,7 @@
 import * as React from "react";
 import fetch from "isomorphic-fetch";
 import { monocellNotebook, fromJS, toJS } from "@nteract/commutable";
-import { NotebookApp } from "@nteract/core/providers";
+import { KeyboardShortcuts, NotebookApp } from "@nteract/core/providers";
 import { Provider } from "react-redux";
 import { List as ImmutableList, Map as ImmutableMap } from "immutable";
 
@@ -138,7 +138,9 @@ export default class Edit extends React.Component<*> {
         />
         <Provider store={store}>
           <div>
-            <NotebookApp />;
+            <KeyboardShortcuts>
+              <NotebookApp />;
+            </KeyboardShortcuts>
           </div>
         </Provider>
       </React.Fragment>
