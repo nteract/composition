@@ -8,6 +8,7 @@ type Props = {
   executeFocusedCell: () => void,
   focusNextCell: () => void,
   focusNextCellEditor: () => void,
+  save: () => void,
   children: *
 };
 
@@ -33,10 +34,17 @@ class PureKeyboardShortcuts extends React.Component<Props> {
     focusNextCell();
     focusNextCellEditor(); // TODO: Could focusNextCell do focusing of both?
   };
+  saveFile = (event: KeyboardEvent) => {
+    const { save } = this.props;
+    event.preventDefault();
+    save();
+  };
   handleKeyDown = (event: KeyboardEvent): void => {
     const handlers = {
       [COMMANDS.EXECUTE]: this.execute,
-      [COMMANDS.EXECUTE_AND_STEP]: this.executeAndStep
+      [COMMANDS.EXECUTE_AND_STEP]: this.executeAndStep,
+      [COMMANDS.SAVE]: this.saveFile,
+      [COMMANDS.DEFAULT]: event => console.log(event.key)
     };
     handleKeyDownEvent(handlers, event);
   };
@@ -54,7 +62,8 @@ class PureKeyboardShortcuts extends React.Component<Props> {
 const mapDispatchToProps = {
   executeFocusedCell: actions.executeFocusedCell,
   focusNextCell: actions.focusNextCell,
-  focusNextCellEditor: actions.focusNextCellEditor
+  focusNextCellEditor: actions.focusNextCellEditor,
+  save: actions.save
 };
 
 export { PureKeyboardShortcuts };

@@ -3,6 +3,7 @@
 export const COMMANDS = {
   EXECUTE: "execute",
   EXECUTE_AND_STEP: "execute-and-step",
+  SAVE: "save",
   DEFAULT: "default"
 };
 
@@ -32,6 +33,12 @@ export const eventToCommand = (event: KeyboardEvent) => {
         } else {
           return COMMANDS.EXECUTE;
         }
+      }
+      return COMMANDS.DEFAULT;
+    case "s":
+      // Note: checking shiftKey may be redundant since we don't allow "S".
+      if (xor(metaKey, ctrlKey) && !shiftKey && !altKey && !repeat) {
+        return COMMANDS.SAVE;
       }
       return COMMANDS.DEFAULT;
     default:
