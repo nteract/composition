@@ -31,7 +31,7 @@
   "devDependencies": {
     "unified": "^6.1.5",
     "remark-parse": "^4.0.0",
-    "remark-stringify": "^3.0.1",
+    "remark-stringify": "^5.0.0",
     "unist-builder": "^1.0.2"
   }
 }
