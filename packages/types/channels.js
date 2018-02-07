@@ -1,1 +1,3 @@
-module.exports = require("./channels");
+// @flow
+
+export type Channels = rxjs$Subject<*>;
