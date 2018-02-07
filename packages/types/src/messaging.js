@@ -1,3 +1,4 @@
+// @flow
 export type JupyterMessageHeader<MT> = {
   msg_id: string,
   username: string,
