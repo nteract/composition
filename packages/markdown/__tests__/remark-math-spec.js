@@ -148,7 +148,7 @@ describe("remark-math", () => {
     const ast = processor.parse(targetText);
 
     expect(ast).toMatchObject(
-      u("root", [u("paragraph", [u("inlineMath", "\\alpha")])])
+      u("root", [u("paragraph", [u("math", "\\alpha")])])
     );
   });
 
@@ -160,7 +160,7 @@ describe("remark-math", () => {
     const result = processor.processSync(targetText).toString();
 
     expect(result).toEqual(
-      ["$\\alpha$", "", "$$", "\\alpha\\beta", "$$", ""].join("\n")
+      ["$$\n\\alpha\n$$", "", "$$", "\\alpha\\beta", "$$", ""].join("\n")
     );
   });
 
@@ -219,13 +219,13 @@ describe("remark-math", () => {
       u("root", [
         u("paragraph", [
           u(
-            "inlineMath",
+            "math",
             {
               data: {
                 hChildren: [u("text", "\\alpha")],
-                hName: "span",
+                hName: "div",
                 hProperties: {
-                  className: "inlineMath"
+                  className: "math inlineMathDouble"
                 }
               }
             },
@@ -249,13 +249,13 @@ describe("remark-math", () => {
       u("root", [
         u("paragraph", [
           u(
-            "inlineMath",
+            "math",
             {
               data: {
                 hChildren: [u("text", "\\alpha")],
-                hName: "span",
+                hName: "div",
                 hProperties: {
-                  className: "inlineMath inlineMathDouble"
+                  className: "math inlineMathDouble"
                 }
               }
             },
