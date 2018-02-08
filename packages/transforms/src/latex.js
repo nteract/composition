@@ -1,5 +1,5 @@
 /* @flow */
-import React from "react";
+import * as React from "react";
 import PropTypes from "prop-types";
 
 import MathJax from "@nteract/mathjax";
@@ -14,17 +14,20 @@ type Context = {
 };
 
 export const LaTeXDisplay = (props: Props, context: Context) => {
+  const math = (
+    <div>
+      <pre>{props.data}</pre>
+      <MathJax.Node>{props.data}</MathJax.Node>
+    </div>
+  );
+
   // If there's a MathJaxContext as a parent, rely on it being
   // available for the individual MathJax.Node
   if (context && context.MathJaxContext) {
-    return <MathJax.Node>{props.data}</MathJax.Node>;
+    return math;
   }
 
-  return (
-    <MathJax.Context input="tex">
-      <MathJax.Node>{props.data}</MathJax.Node>
-    </MathJax.Context>
-  );
+  return <MathJax.Context input="tex">{math}</MathJax.Context>;
 };
 
 LaTeXDisplay.MIMETYPE = "text/latex";
