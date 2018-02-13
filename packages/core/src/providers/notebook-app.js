@@ -51,7 +51,6 @@ type AnyCellProps = {
   source: string,
   executionCount: *,
   outputs: ImmutableList<*>,
-  pager: ImmutableList<*>,
   cellStatus: string,
   cellFocused: boolean, // not the ID of which is focused
   editorFocused: boolean,
@@ -98,7 +97,6 @@ const mapStateToCellProps = (state, { id }) => {
     executionCount: cell.get("execution_count"),
     outputs,
     models: selectors.models(state),
-    pager: selectors.cellPagers(state).get(id, ImmutableList()),
     cellFocused: selectors.currentFocusedCellId(state) === id,
     editorFocused: selectors.currentFocusedEditorId(state) === id,
     sourceHidden,
@@ -174,19 +172,6 @@ class AnyCell extends React.PureComponent<AnyCellProps, *> {
                 />
               </Editor>
             </Input>
-            <Pagers>
-              {this.props.pager.map((pager, key) => (
-                <RichestMime
-                  expanded
-                  className="pager"
-                  displayOrder={this.props.displayOrder}
-                  transforms={this.props.transforms}
-                  bundle={pager}
-                  theme={this.props.theme}
-                  key={key}
-                />
-              ))}
-            </Pagers>
             <Outputs
               hidden={this.props.outputHidden}
               expanded={this.props.outputExpanded}

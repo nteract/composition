@@ -1020,27 +1020,12 @@ describe("sendExecuteRequest", () => {
     expect(
       state.getIn(["transient", "cellMap", firstCellId, "status"])
     ).toEqual("queued");
-
-    expect(state.getIn(["cellPagers", firstCellId])).toEqual(Immutable.List());
   });
 });
 
 describe("acceptPayloadMessage", () => {
   test("processes jupyter payload message types", () => {
-    const state = reducers(initialDocument, {
-      type: actionTypes.ACCEPT_PAYLOAD_MESSAGE_ACTION,
-      id: firstCellId,
-      payload: {
-        source: "page",
-        data: { well: "alright" }
-      }
-    });
-
-    expect(state.getIn(["cellPagers", firstCellId])).toEqual(
-      Immutable.List([{ well: "alright" }])
-    );
-
-    const nextState = reducers(state, {
+    const nextState = reducers(initialDocument, {
       type: actionTypes.ACCEPT_PAYLOAD_MESSAGE_ACTION,
       id: firstCellId,
       payload: {

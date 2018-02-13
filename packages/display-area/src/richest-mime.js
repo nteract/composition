@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import * as React from "react";
 
 import { richestMimetype, transforms, displayOrder } from "@nteract/transforms";
 
@@ -107,14 +107,33 @@ export default class RichestMime extends React.Component<Props, State> {
     const Transform = this.props.transforms[mimetype];
     const data = this.props.bundle[mimetype];
     const metadata = this.props.metadata[mimetype];
+
+    const isPager =
+      this.props.metadata &&
+      this.props.metadata.nteract &&
+      this.props.metadata.nteract.isPager;
+
     return (
-      <Transform
-        expanded={this.props.expanded}
-        data={data}
-        metadata={metadata}
-        theme={this.props.theme}
-        models={this.props.models}
-      />
+      <React.Fragment>
+        <div
+          style={
+            isPager
+              ? {
+                  borderLeft: "2px solid var(--theme-pager-bg, #fafafa)",
+                  paddingLeft: "10px"
+                }
+              : undefined
+          }
+        >
+          <Transform
+            expanded={this.props.expanded}
+            data={data}
+            metadata={metadata}
+            theme={this.props.theme}
+            models={this.props.models}
+          />
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -103,11 +103,6 @@ export const currentStickyCells = createSelector(
   identity
 );
 
-export const cellPagers = createSelector(
-  (state: AppState) => state.document.get("cellPagers"),
-  identity
-);
-
 export const currentLastSaved = createSelector(
   (state: AppState) => state.app.get("lastSaved"),
   identity

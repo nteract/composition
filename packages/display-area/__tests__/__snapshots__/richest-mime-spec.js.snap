@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RichestMime renders a mimebundle 1`] = `
+<React.Fragment>
+  <div>
+    <TextDisplay
+      data="THE DATA"
+      expanded={false}
+      metadata="alright"
+      models={Object {}}
+      theme="light"
+    />
+  </div>
+</React.Fragment>
+`;
