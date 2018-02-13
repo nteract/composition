@@ -1025,7 +1025,7 @@ describe("sendExecuteRequest", () => {
 
 describe("acceptPayloadMessage", () => {
   test("processes jupyter payload message types", () => {
-    const nextState = reducers(state, {
+    const nextState = reducers(initialDocument, {
       type: actionTypes.ACCEPT_PAYLOAD_MESSAGE_ACTION,
       id: firstCellId,
       payload: {

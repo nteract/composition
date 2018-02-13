@@ -4,6 +4,7 @@ import { shallow } from "enzyme";
 
 import { displayOrder, transforms } from "@nteract/transforms";
 import { RichestMime } from "../";
+import toJson from "enzyme-to-json";
 
 describe("RichestMime", () => {
   it("renders a mimebundle", () => {
@@ -19,14 +20,10 @@ describe("RichestMime", () => {
     );
 
     expect(rm.instance().shouldComponentUpdate()).toBeTruthy();
-    expect(rm.first().props()).toEqual({
-      data: "THE DATA",
-      theme: "light",
-      metadata: "alright",
-      expanded: false,
-      models
-    });
+
+    expect(toJson(rm)).toMatchSnapshot();
   });
+
   it("does not render unknown mimetypes", () => {
     const rm = shallow(
       <RichestMime
