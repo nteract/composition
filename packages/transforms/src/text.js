@@ -11,6 +11,10 @@ export default class TextDisplay extends React.PureComponent<Props> {
   static MIMETYPE = "text/plain";
 
   render(): ?React$Element<any> {
-    return <Ansi>{this.props.data}</Ansi>;
+    return (
+      <div>
+        <Ansi>{this.props.data}</Ansi>
+      </div>
+    );
   }
 }

@@ -80,13 +80,6 @@ import type {
 
 import type { Output, StreamOutput } from "@nteract/commutable/src/v4";
 
-// TODO: Delete this, it's not used anywhere
-type Pager = {
-  source: "page",
-  data: MimeBundle,
-  start: number
-};
-
 // TODO: Import these from @nteract/types
 // NOTE: number is only allowed when indexing into a List
 type KeyPath = Immutable.List<string | number>;
@@ -519,10 +512,18 @@ function acceptPayloadMessage(
   const { id, payload } = action;
 
   if (payload.source === "page") {
-    // append pager
-    return state.updateIn(["cellPagers", id], Immutable.List(), l =>
-      l.push(payload.data)
-    );
+    // Append as output instead of a pager area
+    // FIXME: Bulk this in as an output as part of the epic, converting it to
+    //        display_data there
+    return appendOutput(state, {
+      type: actionTypes.APPEND_OUTPUT,
+      id,
+      output: {
+        output_type: "display_data",
+        data: payload.data,
+        metadata: {}
+      }
+    });
   } else if (payload.source === "set_next_input") {
     if (payload.replace) {
       // this payload is sent in IPython when you use %load
@@ -549,11 +550,10 @@ function sendExecuteRequest(
   const { id } = action;
   // TODO: Record the last execute request for this cell
 
-  // * Clear pager data (help menu)
   // * Clear outputs
   // * Set status to queued, as all we've done is submit the execution request
   // TODO: Use a setWithMutations or otherwise to do this in an efficient way
-  return clearOutputs(state.setIn(["cellPagers", id], Immutable.List()), {
+  return clearOutputs(state, {
     type: "CLEAR_OUTPUTS",
     id
   }).setIn(["transient", "cellMap", id, "status"], "queued");

@@ -184,7 +184,6 @@ type DocumentRecordProps = {
   // transient should be more fully typed (be a record itself)
   // right now it's keypaths and then it looks like it's able to handle any per
   // cell transient data that will be deleted when the kernel is restarted
-  cellPagers: any,
   stickyCells: ?Set<any>,
   editorFocused: any,
   cellFocused: any,
@@ -198,7 +197,6 @@ export const makeDocumentRecord: RecordFactory<DocumentRecordProps> = Record({
   transient: new Map({
     keyPathsForDisplays: new Map()
   }),
-  cellPagers: new Map(),
   stickyCells: new Set(),
   editorFocused: null,
   cellFocused: null,

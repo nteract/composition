@@ -92,7 +92,6 @@ export function dummyStore(config: *) {
     document: makeDocumentRecord({
       notebook: dummyNotebook,
       savedNotebook: config && config.saved === true ? dummyNotebook : null,
-      cellPagers: new Immutable.Map(),
       stickyCells: new Immutable.Set(),
       cellFocused:
         config && config.codeCellCount > 1
