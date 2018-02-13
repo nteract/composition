@@ -521,7 +521,9 @@ function acceptPayloadMessage(
       output: {
         output_type: "display_data",
         data: payload.data,
-        metadata: {}
+        metadata: {
+          nteract: { isPager: true }
+        }
       }
     });
   } else if (payload.source === "set_next_input") {
