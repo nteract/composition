@@ -7,18 +7,16 @@ import { monocellNotebook, fromJS, parseNotebook } from "@nteract/commutable";
 import type { Notebook, ImmutableNotebook } from "@nteract/commutable";
 
 import { readFileObservable } from "fs-observable";
-import {
-  launchKernelByName,
-  launchKernel,
-  setNotebook
-} from "@nteract/core/actions";
 
 const path = require("path");
 
 import { of } from "rxjs/observable/of";
 import { map, tap, mergeMap, switchMap, catchError } from "rxjs/operators";
 
-import { LOAD, SET_NOTEBOOK, NEW_NOTEBOOK } from "@nteract/core/actionTypes";
+import * as actionTypes from "@nteract/core/actionTypes";
+import * as actions from "@nteract/core/actions";
+
+import type { FetchContent } from "@nteract/core/src/actionTypes";
 
 /**
  * Creates a new kernel based on the language info in the notebook.
@@ -58,31 +56,45 @@ export const convertRawNotebook = (filename: string, data: string) => ({
 });
 
 /**
- * Loads a notebook and launches its kernel.
- *
- * @param  {ActionObservable}  A LOAD action with the notebook filename
+ * FIXME: Call this fetchContentEpic
  */
 export const loadEpic = (actions: ActionsObservable<*>) =>
   actions.pipe(
-    ofType(LOAD),
+    ofType(actionTypes.FETCH_CONTENT),
     tap(action => {
       // If there isn't a filename, save-as it instead
-      if (!action.filename) {
-        throw new Error("load needs a filename");
+      if (!action.payload.path) {
+        throw new Error("fetchContent needs a path");
       }
     }),
     // Switch map since we want the last load request to be the lead
-    switchMap(action =>
-      readFileObservable(action.filename).pipe(
-        map(data => convertRawNotebook(action.filename, data)),
+    switchMap((action: FetchContent) =>
+      // FIXME: Perform a stat call to flush out the content response
+      readFileObservable(action.payload.path).pipe(
+        map(data => {
+          return actions.fetchContentFulfilled({
+            // TODO: Unneccesary once we have the ref
+            path: action.payload.path,
+            model: {
+              // FIXME: result of stat call goes here
+              content: data
+            }
+          });
+        }),
+
+        // TODO
+        // FIXME: These will move to another epic that reacts to fetchContentFulfilled
+        //        It might even be the same as the one from core, assuming we can cleanup cwd bits
+
+        map(data => convertRawNotebook(action.payload.path, data)),
         mergeMap(({ filename, notebook }) => {
           const { cwd, kernelSpecName } = extractNewKernel(filename, notebook);
           return of(
-            setNotebook(filename, notebook),
+            actions.setNotebook(filename, notebook),
             // Find kernel based on kernel name
             // NOTE: Conda based kernels and remote kernels will need
             // special handling
-            launchKernelByName(kernelSpecName, cwd)
+            actions.launchKernelByName(kernelSpecName, cwd)
           );
         }),
         catchError(err => of({ type: "ERROR", payload: err, error: true }))
@@ -97,14 +109,14 @@ export const loadEpic = (actions: ActionsObservable<*>) =>
  */
 export const newNotebookEpic = (action$: ActionsObservable<*>) =>
   action$.pipe(
-    ofType(NEW_NOTEBOOK),
+    ofType(actionTypes.NEW_NOTEBOOK),
     switchMap(action =>
       of(
         {
-          type: SET_NOTEBOOK,
+          type: actionTypes.SET_NOTEBOOK,
           notebook: monocellNotebook
         },
-        launchKernel(action.kernelSpec, action.cwd)
+        actions.launchKernel(action.kernelSpec, action.cwd)
       )
     )
   );

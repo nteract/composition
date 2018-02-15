@@ -244,7 +244,7 @@ export function dispatchCreateTextCellAfter(store: *) {
 }
 
 export function dispatchLoad(store: *, event: Event, filename: string) {
-  store.dispatch(actions.load(filename));
+  store.dispatch(actions.fetchContent({ path: filename }));
 }
 
 export function dispatchNewNotebook(
