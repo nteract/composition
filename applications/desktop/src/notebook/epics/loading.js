@@ -18,7 +18,7 @@ const path = require("path");
 import { of } from "rxjs/observable/of";
 import { map, tap, mergeMap, switchMap, catchError } from "rxjs/operators";
 
-import { LOAD, SET_NOTEBOOK, NEW_NOTEBOOK } from "@nteract/core/actionTypes";
+import * as actionTypes from "@nteract/core/actionTypes";
 
 /**
  * Creates a new kernel based on the language info in the notebook.
@@ -64,7 +64,7 @@ export const convertRawNotebook = (filename: string, data: string) => ({
  */
 export const loadEpic = (actions: ActionsObservable<*>) =>
   actions.pipe(
-    ofType(LOAD),
+    ofType(actionTypes.LOAD),
     tap(action => {
       // If there isn't a filename, save-as it instead
       if (!action.filename) {
@@ -97,11 +97,11 @@ export const loadEpic = (actions: ActionsObservable<*>) =>
  */
 export const newNotebookEpic = (action$: ActionsObservable<*>) =>
   action$.pipe(
-    ofType(NEW_NOTEBOOK),
+    ofType(actionTypes.NEW_NOTEBOOK),
     switchMap(action =>
       of(
         {
-          type: SET_NOTEBOOK,
+          type: actionTypes.SET_NOTEBOOK,
           notebook: monocellNotebook
         },
         launchKernel(action.kernelSpec, action.cwd)
