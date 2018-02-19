@@ -115,6 +115,7 @@
     "mathjax-electron": "^2.0.1"
   },
   "devDependencies": {
+    "@nteract/webpack-configurator": "0.0.0",
     "@nteract/commutable": "^3.1.2",
     "@nteract/core": "^3.0.0",
     "@nteract/display-area": "^4.0.0",
