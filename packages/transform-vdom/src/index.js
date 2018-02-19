@@ -15,7 +15,8 @@ export default class VDOM extends React.Component<Props> {
   static MIMETYPE = "application/vdom.v1+json";
 
   shouldComponentUpdate(nextProps: Props): boolean {
-    return nextProps.data !== this.props.data;
+    return true;
+    // return nextProps.data !== this.props.data;
   }
 
   render(): React$Element<any> {

@@ -1,8 +1,6 @@
 // @flow
 const { Observable } = require("rxjs/Observable");
 
-const EventSourcePolyfill = require("eventsource");
-
 const mybinderURL = "https://mybinder.org";
 
 function cleanRepo(repo) {
@@ -39,7 +37,7 @@ function formBinderURL({
 function binder(
   options /*: BinderOptions */,
   /** Allow overriding EventSource for testing and ponyfilling **/
-  EventSourceDI /* :* */ = EventSourcePolyfill
+  EventSourceDI /* :* */
 ) /*: Observable<*> */ {
   const url = formBinderURL(options);
 

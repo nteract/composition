@@ -10,6 +10,7 @@ const isProd = nodeEnv === "production";
 
 const config = {
   devtool: isProd ? "hidden-source-map" : "cheap-eval-source-map",
+  module: { rules: [] },
   entry: {
     app: "./app/index.js",
     vendor: [
