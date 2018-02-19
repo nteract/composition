@@ -82,7 +82,13 @@ function webpack(
     ...rxAliases
   };
 
-  config.resolve.mainFields = ["nteractDesktop", "module", "main"];
+  config.resolve.mainFields = [
+    "nteractDesktop",
+    "es2015",
+    "jsnext:main",
+    "module",
+    "main"
+  ];
   config.resolve.extensions = [".js", ".jsx", ".json"];
 
   return config;
