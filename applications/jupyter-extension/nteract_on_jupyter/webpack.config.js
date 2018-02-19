@@ -1,3 +1,6 @@
+// @flow
+const nteractConfigurator = require("@nteract/webpack-configurator");
+
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
@@ -5,26 +8,7 @@ const path = require("path");
 const nodeEnv = process.env.NODE_ENV || "development";
 const isProd = nodeEnv === "production";
 
-const rxPathMapping = require("rxjs/_esm5/path-mapping");
-
-const rxAliases = rxPathMapping();
-const aliases = {
-  "@nteract/transform-vdom": "@nteract/transform-vdom/src",
-  "@nteract/transforms": "@nteract/transforms/src",
-  "@nteract/markdown": "@nteract/markdown/src",
-  "@nteract/mathjax": "@nteract/mathjax/src",
-  "@nteract/core": "@nteract/core/src",
-  "@nteract/messaging": "@nteract/messaging/src",
-  "@nteract/editor": "@nteract/editor/src",
-  "@nteract/commutable": "@nteract/commutable/src",
-  "@nteract/dropdown-menu": "@nteract/dropdown-menu/src",
-  "@nteract/transform-model-debug": "@nteract/transform-model-debug/src",
-  "rx-jupyter": "rx-jupyter/src",
-  "rx-binder": "rx-binder/src",
-  ...rxAliases
-};
-
-module.exports = {
+const config = {
   devtool: isProd ? "hidden-source-map" : "cheap-eval-source-map",
   entry: {
     app: "./app/index.js",
@@ -43,21 +27,6 @@ module.exports = {
   output: {
     path: path.join(__dirname, "lib"),
     filename: "main.js"
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules\/(?!(@nteract|rx-jupyter|rx-binder))/,
-        loader: "babel-loader"
-      },
-      { test: /\.json$/, loader: "json-loader" }
-    ]
-  },
-  resolve: {
-    mainFields: ["nteractDesktop", "module", "main"],
-    extensions: [".js", ".jsx"],
-    alias: aliases
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -95,3 +64,5 @@ module.exports = {
     })
   ]
 };
+
+module.exports = nteractConfigurator.webpack(config);
