@@ -25,7 +25,12 @@ type WebpackConfig = {
     alias?: { [string]: string }
   },
   module: {
-    rules: Array<{ test: RegExp, exclude?: RegExp, loader?: string }>
+    rules: Array<{
+      test: RegExp,
+      exclude?: RegExp,
+      loader?: string,
+      use?: { loader?: string, options?: Object } | "string" | Array<*>
+    }>
   }
 };
  */
@@ -64,6 +69,8 @@ function webpack(
   // See https://github.com/webpack-contrib/json-loader/issues/13#issuecomment-188480384
   let hasJSONLoader = false;
 
+  let hasBabelLoader = false;
+
   // If, for example, the webpack config was set up for hot reload, we override
   // it to accept nteract packages
   config.module.rules = config.module.rules.map(rule => {
@@ -71,13 +78,24 @@ function webpack(
       hasJSONLoader = true;
     }
 
+    if (
+      rule.loader === "babel-loader" ||
+      (rule.use && rule.use.loader === "babel-loader")
+    ) {
+      hasBabelLoader = true;
+    }
+
     if (String(rule.exclude) === String(/node_modules/)) {
       rule.exclude = exclude;
     }
+
     return rule;
   });
 
-  // Transpile our own modules with our babel setup
+  // ** Enforce transpilation **
+  // At least for next.js apps, it seems like we still have to add this on.
+  // We do know, based on hasBabelLoader if it already was configured in the
+  // suite of rules. I hope this isn't adding a second step.
   config.module.rules.push({
     test: /\.js$/,
     exclude,
