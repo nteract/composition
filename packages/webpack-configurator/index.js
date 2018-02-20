@@ -116,11 +116,7 @@ function webpack(
     // Alias nteract packages
     ...aliases,
     // Alias RxJS modules
-    ...rxAliases,
-    // Workaround a cross module issue between node-util, inherits, assert,
-    // and webpack
-    inherits: "inherits/inherits_browser.js",
-    util: "@nteract/node-util"
+    ...rxAliases
   };
 
   config.resolve.mainFields = [
