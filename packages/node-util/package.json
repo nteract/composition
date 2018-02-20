@@ -1,0 +1,14 @@
+{
+  "name": "@nteract/node-util",
+  "version": "0.0.0",
+  "main": "index.js",
+  "description": "blatant rip off of node-util to make webpack work",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+  },
+  "keywords": [],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

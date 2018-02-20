@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/nteract/nteract/tree/master/packages/commuter-frontend#readme",
   "dependencies": {
+    "@nteract/node-util": "0.0.0",
     "@nteract/webpack-configurator": "0.0.0",
     "@nteract/core": "^3.0.1",
     "@nteract/markdown": "^0.0.2",
