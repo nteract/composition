@@ -45,10 +45,5 @@
     "node-fetch": "^2.0.0",
     "s3-proxy": "^1.1.0",
     "winston": "^2.3.0"
-  },
-  "babel": {
-    "presets": [
-      "flow"
-    ]
   }
 }
