@@ -99,7 +99,7 @@ function webpack(
   config.module.rules.push({
     test: /\.js$/,
     exclude,
-    loader: "babel-loader"
+    loader: "babel-loader?cacheDirectory=true"
   });
 
   if (!hasJSONLoader) {
