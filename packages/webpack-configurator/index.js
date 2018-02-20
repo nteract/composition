@@ -3,12 +3,10 @@
 // Since this has to be loaded at the stage of use by webpack and won't be
 // transpiled, all flow in this file uses the "comment style".
 
-const { aliases } = require("./aliases");
-
-const rxPathMapping = require("rxjs/_esm5/path-mapping");
-const rxAliases = rxPathMapping();
-
 const path = require("path");
+
+const rxAliases /* : {[string]: string } */ = require("rxjs/_esm5/path-mapping")();
+const { aliases } = require("./aliases");
 
 // We will follow the next.js universal webpack configuration signature
 // https://zeit.co/blog/next5#universal-webpack-and-next-plugins
@@ -60,6 +58,8 @@ function webpack(
   // We don't transpile packages in node_modules, unless it's _our_ package
   const exclude = /node_modules\/(?!(@nteract|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))/;
 
+  // If, for example, the webpack config was set up for hot reload, we override
+  // it to accept nteract packages
   config.module.rules = config.module.rules.map(rule => {
     if (String(rule.exclude) === String(/node_modules/)) {
       rule.exclude = exclude;
@@ -67,6 +67,7 @@ function webpack(
     return rule;
   });
 
+  // Transpile our own modules with our babel setup
   config.module.rules.push({
     test: /\.js$/,
     exclude,
