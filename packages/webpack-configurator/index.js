@@ -1,5 +1,8 @@
 // @flow
 
+// Since this has to be loaded at the stage of use by webpack and won't be
+// transpiled, all flow in this file uses the "comment style".
+
 const { aliases } = require("./aliases");
 
 const rxPathMapping = require("rxjs/_esm5/path-mapping");
