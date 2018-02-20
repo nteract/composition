@@ -59,9 +59,15 @@ function webpack(
   // Also don't transpile @nteract/plotly because it's plotly and massive
   const exclude = /node_modules\/(?!(@nteract\/(?!plotly)|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))/;
 
+  let hasJSONLoader = false;
+
   // If, for example, the webpack config was set up for hot reload, we override
   // it to accept nteract packages
   config.module.rules = config.module.rules.map(rule => {
+    if (rule.loader === "json-loader") {
+      hasJSONLoader = true;
+    }
+
     if (String(rule.exclude) === String(/node_modules/)) {
       rule.exclude = exclude;
     }
@@ -75,7 +81,9 @@ function webpack(
     loader: "babel-loader"
   });
 
-  config.module.rules.push({ test: /\.json$/, loader: "json-loader" });
+  if (!hasJSONLoader) {
+    config.module.rules.push({ test: /\.json$/, loader: "json-loader" });
+  }
 
   if (!config.resolve) {
     config.resolve = {};
