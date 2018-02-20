@@ -1,3 +1,6 @@
+// @flow
+import * as React from "react";
+
 import DataResourceTransform from "@nteract/transform-dataresource";
 
 const props = {

@@ -32,7 +32,8 @@ function webpack(
   config /*: WebpackConfig */,
   options /*: ?NextWebPackOptions */
 ) /*: WebpackConfig */ {
-  // non-next.js app assumptions
+  // non-next.js app assumptions, that we're in dev mode and not server side
+  // we're not using these yet, I'd like defaults set to keep a convention
   if (!options) {
     options = {
       dev: true,
@@ -52,6 +53,7 @@ function webpack(
     config.module.rules = [];
   }
 
+  // We don't transpile packages in node_modules, unless it's _our_ package
   const exclude = /node_modules\/(?!(@nteract|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))/;
 
   config.module.rules = config.module.rules.map(rule => {
