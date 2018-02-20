@@ -56,7 +56,8 @@ function webpack(
   }
 
   // We don't transpile packages in node_modules, unless it's _our_ package
-  const exclude = /node_modules\/(?!(@nteract|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))/;
+  // Also don't transpile @nteract/plotly because it's plotly and massive
+  const exclude = /node_modules\/(?!(@nteract\/(?!plotly)|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))/;
 
   // If, for example, the webpack config was set up for hot reload, we override
   // it to accept nteract packages
