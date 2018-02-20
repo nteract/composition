@@ -2,10 +2,10 @@
 
 exports[`PinnedPlaceHolderCell has a snapshot test at least 1`] = `
 <div
-  className="jsx-3984627526 jsx-3984627526 cell-placeholder"
+  className="jsx-3984627526 cell-placeholder"
 >
   <span
-    className="jsx-3984627526 jsx-3984627526 octicon"
+    className="jsx-3984627526 octicon"
   >
     <span>
       <svg
@@ -34,10 +34,10 @@ exports[`PinnedPlaceHolderCell has a snapshot test at least 1`] = `
 exports[`Sticky Cell Container creates a container when there are children 1`] = `
 Array [
   <div
-    className="jsx-3984627526 jsx-1895871177 sticky-cells-placeholder"
+    className="jsx-1895871177 sticky-cells-placeholder"
   />,
   <div
-    className="jsx-3984627526 jsx-1895871177 sticky-cell-container"
+    className="jsx-1895871177 sticky-cell-container"
   >
     <div>
       cell one

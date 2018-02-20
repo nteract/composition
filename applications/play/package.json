@@ -15,6 +15,7 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@nteract/webpack-configurator": "0.0.0",
     "@nteract/core": "^3.0.1",
     "@nteract/display-area": "^4.0.0",
     "@nteract/editor": "^7.0.1",

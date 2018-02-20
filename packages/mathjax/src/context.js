@@ -49,7 +49,14 @@ class Context extends React.Component<Props, *> {
 
   constructor(props: Props) {
     super(props);
-    this.state = { loaded: false };
+    if (typeof MathJax !== "undefined" && MathJax && MathJax.Hub) {
+      this.configureMathJax(MathJax);
+      // assume loaded, or at least that MathJax has been injected on the page
+      this.state = { loaded: true };
+    } else {
+      this.state = { loaded: false };
+    }
+
     (this: any).onLoad = this.onLoad.bind(this);
   }
 
@@ -78,7 +85,7 @@ class Context extends React.Component<Props, *> {
     }
   }
 
-  onLoad() {
+  configureMathJax(MathJax: ?Object) {
     if (!MathJax || !MathJax.Hub) {
       this.props.onError(
         new Error("MathJax not really loaded even though onLoad called")
@@ -113,6 +120,10 @@ class Context extends React.Component<Props, *> {
     if (this.props.onLoad) {
       this.props.onLoad();
     }
+  }
+
+  onLoad() {
+    this.configureMathJax(MathJax);
 
     this.setState({
       loaded: true

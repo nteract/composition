@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/nteract/nteract/tree/master/packages/commuter-frontend#readme",
   "dependencies": {
+    "@nteract/webpack-configurator": "0.0.0",
     "@nteract/core": "^3.0.1",
     "@nteract/markdown": "^0.0.2",
     "@nteract/notebook-preview": "^6.0.1",
@@ -48,14 +49,6 @@
     "components",
     "index.js"
   ],
-  "babel": {
-    "presets": [
-      "next/babel"
-    ],
-    "plugins": [
-      "transform-flow-strip-types"
-    ]
-  },
   "devDependencies": {
     "fs-extra": "^5.0.0"
   }

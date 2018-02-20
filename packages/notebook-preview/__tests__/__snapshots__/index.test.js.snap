@@ -21,10 +21,10 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
     >
       <Cell
         isSelected={false}
-        key="3"
+        key="73b69bd0-5a28-4cf0-b883-4824f95b99ab"
       >
         <div
-          className="jsx-2513275823 jsx-2513275823 content-margin"
+          className="jsx-2513275823 content-margin"
         >
           <MarkdownRender
             source="## The Notable Nteract Notebook
@@ -40,7 +40,7 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
       </Cell>
       <Cell
         isSelected={false}
-        key="4"
+        key="c8a17f24-e48e-4da0-be1b-cf30a6aa54b1"
       >
         <PapermillView />
         <Input
@@ -266,10 +266,10 @@ exports[`Notebook accepts an Object of cells 1`] = `
     >
       <Cell
         isSelected={false}
-        key="14"
+        key="b0fd3bca-d931-45a9-a913-95ac768e1a74"
       >
         <div
-          className="jsx-2513275823 jsx-2513275823 content-margin"
+          className="jsx-2513275823 content-margin"
         >
           <MarkdownRender
             source="## The Notable Nteract Notebook
@@ -285,7 +285,7 @@ exports[`Notebook accepts an Object of cells 1`] = `
       </Cell>
       <Cell
         isSelected={false}
-        key="15"
+        key="ddc96362-6c6f-47e5-9245-7b089384f720"
       >
         <PapermillView />
         <Input

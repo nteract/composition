@@ -2,7 +2,7 @@
 
 exports[`PureNotebookMenu  snapshots renders the default 1`] = `
 <div
-  className="jsx-2223146628 jsx-2223146628"
+  className="jsx-2223146628"
 >
   <ul
     aria-activedescendant=""

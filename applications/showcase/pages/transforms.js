@@ -1,4 +1,5 @@
-import React from "react";
+// @flow
+import * as React from "react";
 
 import {
   richestMimetype,
