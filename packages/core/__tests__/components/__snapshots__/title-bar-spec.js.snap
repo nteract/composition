@@ -111,14 +111,14 @@ exports[`logos should be able to render 2`] = `
 exports[`title-bar should be able to render 1`] = `
 <React.Fragment>
   <header
-    className="jsx-2506228511 jsx-2506228511"
+    className="jsx-2506228511"
   >
     <Logo
       height={20}
       theme="light"
     />
     <p
-      className="jsx-2506228511 jsx-2506228511"
+      className="jsx-2506228511"
     />
   </header>
   <JSXStyle
@@ -131,14 +131,14 @@ exports[`title-bar should be able to render 1`] = `
 exports[`title-bar should be able to render 2`] = `
 <React.Fragment>
   <header
-    className="jsx-2506228511 jsx-2506228511"
+    className="jsx-2506228511"
   >
     <Logo
       height={20}
       theme="dark"
     />
     <p
-      className="jsx-2506228511 jsx-2506228511"
+      className="jsx-2506228511"
     >
       great
     </p>

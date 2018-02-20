@@ -48,14 +48,6 @@
     "components",
     "index.js"
   ],
-  "babel": {
-    "presets": [
-      "next/babel"
-    ],
-    "plugins": [
-      "transform-flow-strip-types"
-    ]
-  },
   "devDependencies": {
     "fs-extra": "^5.0.0"
   }

@@ -32,14 +32,6 @@
     "rx-jupyter": "^2.4.0",
     "rxjs": "^5.5.6"
   },
-  "babel": {
-    "presets": [
-      "next/babel"
-    ],
-    "plugins": [
-      "transform-flow-strip-types"
-    ]
-  },
   "devDependencies": {
     "next": "^5.0.0",
     "styled-jsx": "^2.2.1"

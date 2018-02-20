@@ -3,14 +3,14 @@
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 1`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 jsx-2673522894 dropdown"
+    className="jsx-2673522894 dropdown"
   >
     <DropdownTrigger
       key=".0"
       onClick={[Function]}
     >
       <div
-        className="jsx-2673522894 jsx-3273030785"
+        className="jsx-3273030785"
         onClick={[Function]}
       >
         <div
@@ -35,14 +35,14 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 2`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 jsx-2673522894 dropdown"
+    className="jsx-2673522894 dropdown"
   >
     <DropdownTrigger
       key=".0"
       onClick={[Function]}
     >
       <div
-        className="jsx-2673522894 jsx-3273030785"
+        className="jsx-3273030785"
         onClick={[Function]}
       >
         <div
@@ -67,14 +67,14 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 3`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 jsx-2673522894 dropdown"
+    className="jsx-2673522894 dropdown"
   >
     <DropdownTrigger
       key=".0"
       onClick={[Function]}
     >
       <div
-        className="jsx-2673522894 jsx-3273030785"
+        className="jsx-3273030785"
         onClick={[Function]}
       >
         <div
@@ -93,10 +93,10 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
       onItemClick={[Function]}
     >
       <div
-        className="jsx-2673522894 jsx-2679435720"
+        className="jsx-2679435720"
       >
         <ul
-          className="jsx-2673522894 jsx-2679435720"
+          className="jsx-2679435720"
         >
           <li
             className="alsoClickMe"
@@ -123,14 +123,14 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 4`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 jsx-2673522894 dropdown"
+    className="jsx-2673522894 dropdown"
   >
     <DropdownTrigger
       key=".0"
       onClick={[Function]}
     >
       <div
-        className="jsx-2673522894 jsx-3273030785"
+        className="jsx-3273030785"
         onClick={[Function]}
       >
         <div

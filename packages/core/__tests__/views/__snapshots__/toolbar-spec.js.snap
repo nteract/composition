@@ -5,17 +5,17 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
   type="code"
 >
   <div
-    className="jsx-2145412815 jsx-2145412815 cell-toolbar-mask"
+    className="jsx-2145412815 cell-toolbar-mask"
   >
     <div
-      className="jsx-2145412815 jsx-2145412815 cell-toolbar"
+      className="jsx-2145412815 cell-toolbar"
     >
       <button
-        className="jsx-2145412815 jsx-2145412815 executeButton"
+        className="jsx-2145412815 executeButton"
         title="execute cell"
       >
         <span
-          className="jsx-2145412815 jsx-2145412815 octicon"
+          className="jsx-2145412815 octicon"
         >
           <TriangleRightOcticon>
             <SVGWrapper
@@ -49,11 +49,11 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
         </span>
       </button>
       <button
-        className="jsx-2145412815 jsx-2145412815 stickyButton"
+        className="jsx-2145412815 stickyButton"
         title="pin cell"
       >
         <span
-          className="jsx-2145412815 jsx-2145412815 octicon"
+          className="jsx-2145412815 octicon"
         >
           <PinOcticon>
             <SVGWrapper
@@ -87,11 +87,11 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
         </span>
       </button>
       <button
-        className="jsx-2145412815 jsx-2145412815 deleteButton"
+        className="jsx-2145412815 deleteButton"
         title="delete cell"
       >
         <span
-          className="jsx-2145412815 jsx-2145412815 octicon"
+          className="jsx-2145412815 octicon"
         >
           <TrashOcticon>
             <SVGWrapper
@@ -137,11 +137,11 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
               onClick={[Function]}
             >
               <button
-                className="jsx-2145412815 jsx-2145412815"
+                className="jsx-2145412815"
                 title="show additional actions"
               >
                 <span
-                  className="jsx-2145412815 jsx-2145412815 octicon toggle-menu"
+                  className="jsx-2145412815 octicon toggle-menu"
                 >
                   <ChevronDownOcticon>
                     <SVGWrapper
@@ -200,17 +200,17 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
   type="code"
 >
   <div
-    className="jsx-2145412815 jsx-2145412815 cell-toolbar-mask"
+    className="jsx-2145412815 cell-toolbar-mask"
   >
     <div
-      className="jsx-2145412815 jsx-2145412815 cell-toolbar"
+      className="jsx-2145412815 cell-toolbar"
     >
       <button
-        className="jsx-2145412815 jsx-2145412815 executeButton"
+        className="jsx-2145412815 executeButton"
         title="execute cell"
       >
         <span
-          className="jsx-2145412815 jsx-2145412815 octicon"
+          className="jsx-2145412815 octicon"
         >
           <TriangleRightOcticon>
             <SVGWrapper
@@ -244,11 +244,11 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
         </span>
       </button>
       <button
-        className="jsx-2145412815 jsx-2145412815 stickyButton"
+        className="jsx-2145412815 stickyButton"
         title="pin cell"
       >
         <span
-          className="jsx-2145412815 jsx-2145412815 octicon"
+          className="jsx-2145412815 octicon"
         >
           <PinOcticon>
             <SVGWrapper
@@ -282,11 +282,11 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
         </span>
       </button>
       <button
-        className="jsx-2145412815 jsx-2145412815 deleteButton"
+        className="jsx-2145412815 deleteButton"
         title="delete cell"
       >
         <span
-          className="jsx-2145412815 jsx-2145412815 octicon"
+          className="jsx-2145412815 octicon"
         >
           <TrashOcticon>
             <SVGWrapper
@@ -332,11 +332,11 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
               onClick={[Function]}
             >
               <button
-                className="jsx-2145412815 jsx-2145412815"
+                className="jsx-2145412815"
                 title="show additional actions"
               >
                 <span
-                  className="jsx-2145412815 jsx-2145412815 octicon toggle-menu"
+                  className="jsx-2145412815 octicon toggle-menu"
                 >
                   <ChevronDownOcticon>
                     <SVGWrapper
@@ -387,70 +387,70 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
               >
                 <li
                   aria-selected="false"
-                  className="jsx-2145412815 jsx-2145412815 clearOutput"
+                  className="jsx-2145412815 clearOutput"
                   key=".0"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-2145412815 jsx-2145412815"
+                    className="jsx-2145412815"
                   >
                     Clear Cell Output
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-2145412815 jsx-2145412815 inputVisibility"
+                  className="jsx-2145412815 inputVisibility"
                   key=".1"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-2145412815 jsx-2145412815"
+                    className="jsx-2145412815"
                   >
                     Toggle Input Visibility
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-2145412815 jsx-2145412815 outputVisibility"
+                  className="jsx-2145412815 outputVisibility"
                   key=".2"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-2145412815 jsx-2145412815"
+                    className="jsx-2145412815"
                   >
                     Toggle Output Visibility
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-2145412815 jsx-2145412815 outputExpanded"
+                  className="jsx-2145412815 outputExpanded"
                   key=".3"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-2145412815 jsx-2145412815"
+                    className="jsx-2145412815"
                   >
                     Toggle Expanded Output
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-2145412815 jsx-2145412815 changeType"
+                  className="jsx-2145412815 changeType"
                   key=".4"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-2145412815 jsx-2145412815"
+                    className="jsx-2145412815"
                   >
                     Convert to Markdown Cell
                   </a>
