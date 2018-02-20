@@ -16,6 +16,7 @@ type NextWebPackOptions = {
   isServer: boolean
 }
 
+// Semi-hokey webpack type just to have some localized semi-sanity
 type WebpackConfig = {
   resolve?: {
     mainFields?: Array<string>,
@@ -23,7 +24,7 @@ type WebpackConfig = {
     alias?: { [string]: string }
   },
   module: {
-    rules: Array<{ test: RegExp, exclude?: RegExp, loader: string }>
+    rules: Array<{ test: RegExp, exclude?: RegExp, loader?: string }>
   }
 };
  */

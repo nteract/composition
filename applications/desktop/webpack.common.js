@@ -1,6 +1,9 @@
+// @flow
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
+
+const nteractConfigurator = require("@nteract/webpack-configurator");
 
 const nodeModules = {
   jmp: "commonjs jmp",
@@ -98,5 +101,5 @@ const rendererConfig = {
 
 module.exports = {
   commonMainConfig: mainConfig,
-  commonRendererConfig: rendererConfig
+  commonRendererConfig: nteractConfigurator.webpack(rendererConfig)
 };
