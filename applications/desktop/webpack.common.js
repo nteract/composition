@@ -62,8 +62,9 @@ const rendererConfig = {
   externals: nodeModules,
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-      { test: /\.json$/, loader: "json-loader" },
+      // nteract webpack configurator will inject these later
+      // { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+      // { test: /\.json$/, loader: "json-loader" },
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
@@ -83,10 +84,6 @@ const rendererConfig = {
         ]
       }
     ]
-  },
-  resolve: {
-    mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
-    extensions: [".js", ".jsx"]
   },
   plugins: [
     new webpack.IgnorePlugin(/\.less$/),
