@@ -59,6 +59,9 @@ function webpack(
   // Also don't transpile @nteract/plotly because it's plotly and massive
   const exclude = /node_modules\/(?!(@nteract\/(?!plotly)|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))/;
 
+  // The JSON loader can't be loaded twice, so we check if they've already
+  // configured it. If not, we'll set up the JSON loader after.
+  // See https://github.com/webpack-contrib/json-loader/issues/13#issuecomment-188480384
   let hasJSONLoader = false;
 
   // If, for example, the webpack config was set up for hot reload, we override
