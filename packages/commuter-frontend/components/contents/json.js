@@ -2,7 +2,7 @@ import * as React from "react";
 
 import ZeppelinView from "./zeppelin";
 
-import JSONTransform from "@nteract/transforms/lib/json";
+import { JSONTransform } from "@nteract/transforms";
 
 import Immutable from "immutable";
 
