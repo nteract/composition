@@ -164,15 +164,18 @@ type core = {
     kernelspecs: {
       byRef: {
         [ref: Ref]: {
-          name: string,
-          resources: Object,
+          defaultKernelName: string,
           hostRef: Ref,
-          spec: {
-            displayName: string,
-            language: string,
-            argv: Array<string>,
-            env: Object
-          }
+          byName: {
+            [name: string]: {
+              argv: Array<string>,
+              displayName: string,
+              env: Object,
+              language: string,
+              interruptMode: string,
+              resources: Object
+            }
+          },
         }
       }
     },
@@ -184,7 +187,6 @@ type core = {
           type: ("local" | "jupyter"),
           kernelIds: Array<Id>,
           kernelspecsRef: Ref,
-          defaultKernelName: string,
           token: string,
           serverUrl: string,
           crossDomain: boolean,
