@@ -21,7 +21,8 @@
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
     "postinstall": "npm run lerna",
-    "lerna": "lerna bootstrap --hoist --loglevel verbose --nohoist='{electron-builder,electron-updater,lodash,ijavascript,zeromq,nteract-assets,mathjax-electron,github,jmp,canvas,canvas-prebuilt}'",
+    "lerna": "lerna bootstrap --hoist --loglevel verbose --nohoist='{electron-builder,electron-updater,lodash,ijavascript,zeromq,nteract-assets,mathjax-electron,github,jmp,canvas,canvas-prebuilt}' --ignore-scripts",
+    "postlerna": "lerna run build --scope @nteract/styles",
     "app:desktop": "lerna run start --scope nteract --stream",
     "app:play": "lerna run dev --scope @nteract/play --stream",
     "app:showcase": "lerna run dev --scope @nteract/showcase --stream",
@@ -146,7 +147,7 @@
     "jupyter-paths": "^2.0.0",
     "kernelspecs": "^2.0.0",
     "leaflet": "^1.0.3",
-    "lerna": "^2.8.0",
+    "lerna": "^2.9.0",
     "lint-staged": "^7.0.0",
     "lodash-webpack-plugin": "^0.11.4",
     "log": "^1.4.0",
