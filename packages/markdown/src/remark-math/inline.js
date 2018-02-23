@@ -61,7 +61,8 @@ module.exports = function inlinePlugin(opts: Object) {
           data: {
             hName: "div",
             hProperties: {
-              className: "math inlineMathDouble"
+              className:
+                "math" + (opts.inlineMathDouble ? " inlineMathDouble" : "")
             },
             hChildren: [
               {

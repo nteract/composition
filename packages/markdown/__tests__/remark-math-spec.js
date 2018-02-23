@@ -7,7 +7,9 @@ const u = require("unist-builder");
 
 function remark() {
   return unified()
-    .use(parse, { position: false })
+    .use(parse, {
+      position: false
+    })
     .use(stringify);
 }
 
@@ -211,7 +213,7 @@ describe("remark-math", () => {
   it("must not set inlineMathDouble class", () => {
     const processor = remark().use(math);
 
-    const targetText = ["$$\\alpha$$"].join("\n");
+    const targetText = "$$\\alpha$$";
 
     const ast = processor.parse(targetText);
 
@@ -225,7 +227,7 @@ describe("remark-math", () => {
                 hChildren: [u("text", "\\alpha")],
                 hName: "div",
                 hProperties: {
-                  className: "math inlineMathDouble"
+                  className: "math"
                 }
               }
             },
@@ -241,13 +243,14 @@ describe("remark-math", () => {
       inlineMathDouble: true
     });
 
-    const targetText = ["$$\\alpha$$"].join("\n");
+    const targetText = "hello $$\\alpha$$ world";
 
     const ast = processor.parse(targetText);
 
     expect(ast).toEqual(
       u("root", [
         u("paragraph", [
+          u("text", "hello "),
           u(
             "math",
             {
@@ -260,9 +263,78 @@ describe("remark-math", () => {
               }
             },
             "\\alpha"
-          )
+          ),
+          u("text", " world")
         ])
       ])
     );
   });
+});
+
+it("must parse more complex math equations in math block", () => {
+  const processor = remark().use(math);
+
+  const targetText =
+    "$$p(\\theta_i \\thinspace | \\, \\{\\theta_{j \\neq i}\\}, D)$$";
+
+  const ast = processor.parse(targetText);
+
+  expect(ast).toEqual(
+    u("root", [
+      u("paragraph", [
+        u(
+          "math",
+          {
+            data: {
+              hChildren: [
+                u(
+                  "text",
+                  "p(\\theta_i \\thinspace | \\, \\{\\theta_{j \\neq i}\\}, D)"
+                )
+              ],
+              hName: "div",
+              hProperties: {
+                className: "math"
+              }
+            }
+          },
+          "p(\\theta_i \\thinspace | \\, \\{\\theta_{j \\neq i}\\}, D)"
+        )
+      ])
+    ])
+  );
+});
+
+it("must parse more complex math equations inline math", () => {
+  const processor = remark().use(math);
+
+  const targetText =
+    "$p(\\theta_i \\thinspace | \\, \\{\\theta_{j \\neq i}\\}, D)$";
+
+  const ast = processor.parse(targetText);
+
+  expect(ast).toEqual(
+    u("root", [
+      u("paragraph", [
+        u(
+          "inlineMath",
+          {
+            data: {
+              hChildren: [
+                u(
+                  "text",
+                  "p(\\theta_i \\thinspace | \\, \\{\\theta_{j \\neq i}\\}, D)"
+                )
+              ],
+              hName: "span",
+              hProperties: {
+                className: "inlineMath"
+              }
+            }
+          },
+          "p(\\theta_i \\thinspace | \\, \\{\\theta_{j \\neq i}\\}, D)"
+        )
+      ])
+    ])
+  );
 });
