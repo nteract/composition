@@ -61,8 +61,7 @@ module.exports = function inlinePlugin(opts: Object) {
           data: {
             hName: "div",
             hProperties: {
-              className:
-                "math" + (opts.inlineMathDouble ? " inlineMathDouble" : "")
+              className: "math"
             },
             hChildren: [
               {
@@ -80,9 +79,7 @@ module.exports = function inlinePlugin(opts: Object) {
         data: {
           hName: "span",
           hProperties: {
-            className:
-              "inlineMath" +
-              (isDouble && opts.inlineMathDouble ? " inlineMathDouble" : "")
+            className: "inlineMath"
           },
           hChildren: [
             {
