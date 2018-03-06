@@ -70,7 +70,7 @@
     "util": "^0.10.3",
     "winston": "^2.3.0",
     "webpack": "3.10.0",
-    "webpack-dev-middleware": "1.12.0",
+    "webpack-dev-middleware": "3.0.1",
     "xhr2": "*",
     "xmlhttprequest": "^1.8.0"
   }
