@@ -9,6 +9,7 @@ import { from } from "rxjs/observable/from";
 import { merge } from "rxjs/observable/merge";
 
 import {
+  filter,
   catchError,
   ignoreElements,
   map,
@@ -21,11 +22,15 @@ import { v4 as uuid } from "uuid";
 import { executeRequest, kernelInfoRequest } from "@nteract/messaging";
 import objectPath from "object-path";
 
+declare var EventSource: (url: string) => *;
+
 const activateServerEpic = action$ =>
   action$.pipe(
     ofType(actionTypes.ACTIVATE_SERVER),
+    // Definitely do not run this on the server side
+    filter(() => typeof window !== "undefined"),
     switchMap(({ payload: { serverId, oldServerId, repo, gitref } }) => {
-      return binder({ repo, gitref }, window.EventSource).pipe(
+      return binder({ repo, gitref }, EventSource).pipe(
         mergeMap(message => {
           const actionsArray = [
             actions.addServerMessage({ serverId, message })

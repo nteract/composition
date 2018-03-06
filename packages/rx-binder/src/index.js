@@ -35,7 +35,7 @@ function formBinderURL({
 }
 
 const eventSourceFallback =
-  window && window.EventSource
+  typeof window !== "undefined" && window.EventSource
     ? window.EventSource
     : function(url) {
         throw new Error(
