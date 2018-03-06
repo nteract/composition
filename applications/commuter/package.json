@@ -69,7 +69,7 @@
     "s3-proxy": "^1.1.0",
     "util": "^0.10.3",
     "winston": "^2.3.0",
-    "webpack": "3.10.0",
+    "webpack": "4.1.0",
     "webpack-dev-middleware": "1.12.0",
     "xhr2": "*",
     "xmlhttprequest": "^1.8.0"
