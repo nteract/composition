@@ -4,14 +4,10 @@ exports[`LaTeXDisplay processes basic LaTeX 1`] = `
 <Context
   delay={0}
   didFinishTypeset={null}
-  input="tex"
   loader={null}
   loading={null}
   noGate={false}
-  onError={[Function]}
   onLoad={null}
-  options={Object {}}
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
 >
   <Node
     inline={false}
