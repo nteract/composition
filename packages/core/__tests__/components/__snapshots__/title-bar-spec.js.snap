@@ -115,7 +115,6 @@ exports[`title-bar should be able to render 1`] = `
   >
     <Logo
       height={20}
-      theme="light"
     />
     <p
       className="jsx-2506228511"

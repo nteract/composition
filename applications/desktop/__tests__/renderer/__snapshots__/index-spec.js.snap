@@ -17,14 +17,10 @@ exports[`App renders app 1`] = `
       <Context
         delay={0}
         didFinishTypeset={null}
-        input="tex"
         loader={null}
         loading={null}
         noGate={false}
-        onError={[Function]}
         onLoad={null}
-        options={Object {}}
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
       >
         <Connect(DragDropContext(NotebookApp))
           displayOrder={
@@ -80,7 +76,6 @@ exports[`App renders app 1`] = `
       <Component
         allowHTML={false}
         noAnimation={false}
-        style={Object {}}
       />
     </Styles>
     <JSXStyle

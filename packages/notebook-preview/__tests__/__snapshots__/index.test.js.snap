@@ -4,14 +4,10 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
 <Context
   delay={0}
   didFinishTypeset={null}
-  input="tex"
   loader={null}
   loading={null}
   noGate={false}
-  onError={[Function]}
   onLoad={null}
-  options={Object {}}
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
 >
   <div
     className="notebook-preview"
@@ -52,9 +48,7 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
             running={false}
           />
           <Source
-            className="input"
             language="ipython"
-            theme="light"
           >
             import IPython
 
@@ -75,24 +69,8 @@ print('hey')
           hidden={false}
         >
           <Display
-            displayOrder={
-              Array [
-                "application/vdom.v1+json",
-                "application/json",
-                "application/javascript",
-                "text/html",
-                "text/markdown",
-                "text/latex",
-                "image/svg+xml",
-                "image/gif",
-                "image/png",
-                "image/jpeg",
-                "text/plain",
-              ]
-            }
             expanded={false}
             isHidden={false}
-            models={Immutable.Map {}}
             outputs={
               Array [
                 Object {
@@ -103,22 +81,6 @@ print('hey')
                   "output_type": "display_data",
                 },
               ]
-            }
-            theme="light"
-            transforms={
-              Object {
-                "application/javascript": [Function],
-                "application/json": [Function],
-                "application/vdom.v1+json": [Function],
-                "image/gif": [Function],
-                "image/jpeg": [Function],
-                "image/png": [Function],
-                "image/svg+xml": [Function],
-                "text/html": [Function],
-                "text/latex": [Function],
-                "text/markdown": [Function],
-                "text/plain": [Function],
-              }
             }
           />
         </Outputs>
@@ -249,14 +211,10 @@ exports[`Notebook accepts an Object of cells 1`] = `
 <Context
   delay={0}
   didFinishTypeset={null}
-  input="tex"
   loader={null}
   loading={null}
   noGate={false}
-  onError={[Function]}
   onLoad={null}
-  options={Object {}}
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
 >
   <div
     className="notebook-preview"
@@ -297,9 +255,7 @@ exports[`Notebook accepts an Object of cells 1`] = `
             running={false}
           />
           <Source
-            className="input"
             language="ipython"
-            theme="light"
           >
             import IPython
 
@@ -320,24 +276,8 @@ print('hey')
           hidden={false}
         >
           <Display
-            displayOrder={
-              Array [
-                "application/vdom.v1+json",
-                "application/json",
-                "application/javascript",
-                "text/html",
-                "text/markdown",
-                "text/latex",
-                "image/svg+xml",
-                "image/gif",
-                "image/png",
-                "image/jpeg",
-                "text/plain",
-              ]
-            }
             expanded={false}
             isHidden={false}
-            models={Immutable.Map {}}
             outputs={
               Array [
                 Object {
@@ -348,22 +288,6 @@ print('hey')
                   "output_type": "display_data",
                 },
               ]
-            }
-            theme="light"
-            transforms={
-              Object {
-                "application/javascript": [Function],
-                "application/json": [Function],
-                "application/vdom.v1+json": [Function],
-                "image/gif": [Function],
-                "image/jpeg": [Function],
-                "image/png": [Function],
-                "image/svg+xml": [Function],
-                "text/html": [Function],
-                "text/latex": [Function],
-                "text/markdown": [Function],
-                "text/plain": [Function],
-              }
             }
           />
         </Outputs>
