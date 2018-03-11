@@ -137,7 +137,7 @@
     "enchannel-zmq-backend": "^6.0.10",
     "escape-carriage": "^1.2.0",
     "fs-observable": "^2.1.0",
-    "github": "^13.0.0",
+    "github": "^14.0.0",
     "jupyter-paths": "^2.0.0",
     "kernelspecs": "^2.0.0",
     "lodash": "^4.17.4",
