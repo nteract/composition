@@ -6,6 +6,12 @@ import RemarkMathPlugin from "./remark-math";
 
 import PropTypes from "prop-types";
 
+const html = ({ value, isBlock }: { value: string, isBlock: boolean }) => {
+  return React.createElement(isBlock ? "div" : "span", {
+    dangerouslySetInnerHTML: { __html: value }
+  });
+};
+
 const math = (props: { value: string }) => (
   <MathJax.Node>{props.value}</MathJax.Node>
 );
@@ -25,8 +31,11 @@ const MarkdownRender = (
     renderers: {
       ...props.renderers,
       math,
-      inlineMath
-    }
+      inlineMath,
+      html
+    },
+    // ⚠️ since the notebook allows HTML embed in Markdown, allow it by default
+    escapeHtml: false
   };
 
   // Render a Context if one was not passed as a parent
