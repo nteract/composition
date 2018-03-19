@@ -5,6 +5,7 @@ import MathJax from "@nteract/mathjax";
 import RemarkMathPlugin from "./remark-math";
 
 import PropTypes from "prop-types";
+import { processEnv } from "./envPreProccessor";
 
 const math = (props: { value: string }) => (
   <MathJax.Node>{props.value}</MathJax.Node>
@@ -18,6 +19,12 @@ const MarkdownRender = (
   props: ReactMarkdown.ReactMarkdownProps,
   context: { MathJaxContext?: boolean }
 ) => {
+  // const match = ENVIRONMENT.exec(props.source)
+
+  // console.log("match: ", match);
+
+  const newSource = processEnv(props.source);
+
   const newProps = {
     // https://github.com/rexxars/react-markdown#options
     ...props,
@@ -28,6 +35,8 @@ const MarkdownRender = (
       inlineMath
     }
   };
+
+  newProps.source = newSource;
 
   // Render a Context if one was not passed as a parent
   if (!context.MathJaxContext) {
