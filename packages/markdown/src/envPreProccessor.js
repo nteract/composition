@@ -1,3 +1,11 @@
+/* Author: Trevor Lyon <github.com/tlyon3>
+ *
+ * Finds environments in the src text that are not inside a math block ($$) or inline math ($)
+ * and wraps them in a block so that it will render correctly.
+ * 
+ * This should be a temporary solution until a plugin for the remark parser can be written.
+ */
+
 const ENVIRONMENT = /^\\begin{(\s\S*)}(?:\s\S|\n)*?\\end{\1}/;
 const BEGIN = /\\begin{(.*)}(?:.|\n)*?/;
 const END = /\\end{(.*)}(?:.|\n)*?/;
