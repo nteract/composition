@@ -26,18 +26,27 @@ const processEnv = src => {
       var beginMatch = BEGIN.exec(env);
 
       if (beginMatch) {
+        var beginCount = 1;
         while (i < src.length) {
           var end = "";
           if (src[i] == "\\") {
             while (src[i] != "\n" && src[i] != " " && i < src.length) {
               end += src[i++];
             }
+
+            if (BEGIN.exec(end)) {
+              beginCount++;
+              continue;
+            }
             // found end. Insert '$$' and continue
             var endMatch = END.exec(end);
             //Check to make sure envs are the same
-            if (endMatch && endMatch[1] === beginMatch[1]) {
-              envIndexes.push({ begin: envBegin, end: i });
-              break;
+            if (endMatch) {
+              beginCount--;
+              if (beginCount === 0 && endMatch[1] === beginMatch[1]) {
+                envIndexes.push({ begin: envBegin, end: i });
+                break;
+              }
             }
           }
           i++;
