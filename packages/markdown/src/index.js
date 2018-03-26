@@ -19,11 +19,13 @@ const MarkdownRender = (
   props: ReactMarkdown.ReactMarkdownProps,
   context: { MathJaxContext?: boolean }
 ) => {
-  // const match = ENVIRONMENT.exec(props.source)
-
-  // console.log("match: ", match);
-
-  const newSource = processEnv(props.source);
+  const processedText = processEnv(props.source);
+  // Check for error before setting new source
+  if (processedText.error) {
+    console.error(processedText);
+  } else {
+    newProps.source = processedText;
+  }
 
   const newProps = {
     // https://github.com/rexxars/react-markdown#options
@@ -35,8 +37,6 @@ const MarkdownRender = (
       inlineMath
     }
   };
-
-  newProps.source = newSource;
 
   // Render a Context if one was not passed as a parent
   if (!context.MathJaxContext) {
