@@ -21,11 +21,6 @@ const MarkdownRender = (
 ) => {
   const processedText = processEnv(props.source);
   // Check for error before setting new source
-  if (processedText.error) {
-    console.error(processedText);
-  } else {
-    newProps.source = processedText;
-  }
 
   const newProps = {
     // https://github.com/rexxars/react-markdown#options
@@ -37,6 +32,12 @@ const MarkdownRender = (
       inlineMath
     }
   };
+
+  if (processedText.error) {
+    console.error(processedText);
+  } else {
+    newProps.source = processedText;
+  }
 
   // Render a Context if one was not passed as a parent
   if (!context.MathJaxContext) {
