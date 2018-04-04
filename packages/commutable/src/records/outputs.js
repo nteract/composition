@@ -52,6 +52,7 @@ export type DisplayDataProps = {|
   metadata: Metadata
 |};
 export type DisplayDataRecord = Immutable.RecordOf<DisplayDataProps>;
+// Enforce all properties being set by having a wrapper function that takes XProps
 const displayDataMaker: Immutable.RecordFactory<
   DisplayDataProps
 > = Immutable.Record({
@@ -69,6 +70,7 @@ export type StreamProps = {|
   text: string
 |};
 export type StreamRecord = Immutable.RecordOf<StreamProps>;
+// Enforce all properties being set by having a wrapper function that takes XProps
 const streamMaker: Immutable.RecordFactory<StreamProps> = Immutable.Record({
   outputType: "stream",
   name: "stdout",
@@ -85,6 +87,7 @@ export type ErrorOutputProps = {|
   traceback: Immutable.List<string>
 |};
 export type ErrorOutputRecord = Immutable.RecordOf<ErrorOutputProps>;
+// Enforce all properties being set by having a wrapper function that takes XProps
 const errorOutputMaker: Immutable.RecordFactory<
   ErrorOutputProps
 > = Immutable.Record({
@@ -110,9 +113,6 @@ export type OutputsProps = {|
   byRef: Immutable.Map<OutputRef, OutputRecord>
 |};
 export type OutputsRecord = Immutable.RecordOf<OutputsProps>;
-const outputsMaker: Immutable.RecordFactory<OutputsProps> = Immutable.Record({
+const makeOutputs: Immutable.RecordFactory<OutputsProps> = Immutable.Record({
   byRef: Immutable.Map()
 });
-export function makeOutputs(outputs: OutputsProps): OutputsRecord {
-  return outputsMaker(outputs);
-}
