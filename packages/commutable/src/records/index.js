@@ -16,16 +16,11 @@
  *
  */
 
-import uuid from "uuid";
 import * as Immutable from "immutable";
 
 import type { Metadata } from "./base";
 
-export opaque type CellRef: string = string;
-export const createCellRef = (): CellRef => uuid.v4();
-
-export opaque type OutputRef: string = string;
-export const createOutputRef = (): OutputRef => uuid.v4();
+import type { OutputRef, CellRef } from "./refs";
 
 export type CellType = "markdown" | "code" | "raw";
 
@@ -66,5 +61,4 @@ export function makeCodeCell(codeCell: CodeCellProps): CodeCellRecord {
 
 // TODO MarkdownCell and RawCell
 export type CellRecord = CodeCellRecord;
-
 export type CellMap = Immutable.Map<CellRef, CellRecord>;
