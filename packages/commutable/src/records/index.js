@@ -46,7 +46,6 @@ export type CodeCellProps = {
   //       Others can end up in the generic map
   metadata: Metadata
 };
-
 export type CodeCellRecord = Immutable.RecordOf<CodeCellProps>;
 const codeCellMaker: Immutable.RecordFactory<CodeCellProps> = Immutable.Record({
   cellType: "code",
@@ -59,6 +58,43 @@ export function makeCodeCell(codeCell: CodeCellProps): CodeCellRecord {
   return codeCellMaker(codeCell);
 }
 
-// TODO MarkdownCell and RawCell
-export type CellRecord = CodeCellRecord;
+export type MarkdownCellProps = {
+  cellType: "markdown",
+  source: string,
+  // TODO: Some of the metadata should be tightly specced
+  //       Others can end up in the generic map
+  metadata: Metadata
+};
+export type MarkdownCellRecord = Immutable.RecordOf<MarkdownCellProps>;
+const markdownCellMaker: Immutable.RecordFactory<
+  MarkdownCellProps
+> = Immutable.Record({
+  cellType: "markdown",
+  source: "",
+  metadata: Immutable.Map()
+});
+export function makeMarkdownCell(
+  markdownCell: MarkdownCellProps
+): MarkdownCellRecord {
+  return markdownCellMaker(markdownCell);
+}
+
+export type RawCellProps = {
+  cellType: "raw",
+  source: string,
+  // TODO: Some of the metadata should be tightly specced
+  //       Others can end up in the generic map
+  metadata: Metadata
+};
+export type RawCellRecord = Immutable.RecordOf<RawCellProps>;
+const rawCellMaker: Immutable.RecordFactory<RawCellProps> = Immutable.Record({
+  cellType: "raw",
+  source: "",
+  metadata: Immutable.Map()
+});
+export function makeRawCell(rawCell: RawCellProps): RawCellRecord {
+  return rawCellMaker(rawCell);
+}
+
+export type CellRecord = CodeCellRecord | MarkdownCellRecord | RawCellRecord;
 export type CellMap = Immutable.Map<CellRef, CellRecord>;
