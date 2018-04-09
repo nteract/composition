@@ -18,7 +18,9 @@ export type CodeCellProps = {
   metadata: Metadata
 };
 export type CodeCellRecord = Immutable.RecordOf<CodeCellProps>;
-const makeCodeCell: Immutable.RecordFactory<CodeCellProps> = Immutable.Record({
+export const makeCodeCell: Immutable.RecordFactory<
+  CodeCellProps
+> = Immutable.Record({
   cellType: "code",
   source: "",
   executionCount: null,
@@ -34,7 +36,7 @@ export type MarkdownCellProps = {
   metadata: Metadata
 };
 export type MarkdownCellRecord = Immutable.RecordOf<MarkdownCellProps>;
-const makeMarkdownCell: Immutable.RecordFactory<
+export const makeMarkdownCell: Immutable.RecordFactory<
   MarkdownCellProps
 > = Immutable.Record({
   cellType: "markdown",
@@ -50,7 +52,9 @@ export type RawCellProps = {
   metadata: Metadata
 };
 export type RawCellRecord = Immutable.RecordOf<RawCellProps>;
-const makeRawCell: Immutable.RecordFactory<RawCellProps> = Immutable.Record({
+export const makeRawCell: Immutable.RecordFactory<
+  RawCellProps
+> = Immutable.Record({
   cellType: "raw",
   source: "",
   metadata: Immutable.Map()
@@ -65,6 +69,6 @@ export type CellsProps = {|
   byRef: Immutable.Map<CellRef, CellRecord>
 |};
 export type CellsRecord = Immutable.RecordOf<CellsProps>;
-const makeCells: Immutable.RecordFactory<CellsProps> = Immutable.Record({
+export const makeCells: Immutable.RecordFactory<CellsProps> = Immutable.Record({
   byRef: Immutable.Map()
 });
