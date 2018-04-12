@@ -8,9 +8,7 @@ import {
   selectors,
   actions,
   TitleBar,
-  NotebookApp,
-  NotebookMenu,
-  NewNotebookNavigation
+  NotebookMenu
 } from "@nteract/core";
 
 // TODO: Make a proper epic
@@ -90,102 +88,6 @@ const Container = ({ children }) => (
 );
 
 class Contents extends React.Component<ContentsProps, null> {
-  constructor(props) {
-    super(props);
-    (this: any).openNotebook = this.openNotebook.bind(this);
-  }
-
-  openNotebook(ks: stateModule.KernelspecRecord | stateModule.KernelspecProps) {
-    const serverConfig = this.props.serverConfig;
-
-    // The notebook they get to start with
-    const notebook = {
-      cells: [
-        {
-          cell_type: "code",
-          execution_count: null,
-          metadata: {},
-          outputs: [],
-          source: []
-        }
-      ],
-      metadata: {
-        kernelspec: {
-          display_name: ks.displayName,
-          language: ks.language,
-          name: ks.name
-        },
-        nteract: {
-          version: this.props.appVersion
-        }
-      },
-      nbformat: 4,
-      nbformat_minor: 2
-    };
-
-    // NOTE: For the sake of expediency, all the logic to launch a new is
-    //       happening here instead of an epic
-    contents
-      // Create UntitledXYZ.ipynb by letting the server do it
-      .create(this.props.serverConfig, this.props.baseDir, {
-        type: "notebook"
-        // NOTE: The contents API appears to ignore the content field for new
-        // notebook creation.
-        //
-        // It would be nice if it could take it. Instead we'll create a new
-        // notebook for the user and redirect them after we've put in the
-        // content we want.
-        //
-        // Amusingly, this could be used for more general templates to, as
-        // well as introduction notebooks.
-      })
-      .pipe(
-        // We only expect one response, it's ajax and we want this subscription
-        // to finish so we don't have to unsubscribe
-        first(),
-        mergeMap(({ response, status }) => {
-          const filepath = response.path;
-
-          const sessionPayload = {
-            kernel: {
-              id: null,
-              name: ks.name
-            },
-            name: "",
-            path: filepath,
-            type: "notebook"
-          };
-
-          return forkJoin(
-            // Get their kernel started up
-            sessions.create(this.props.serverConfig, sessionPayload),
-            // Save the initial notebook document
-            contents.save(this.props.serverConfig, filepath, {
-              type: "notebook",
-              content: notebook
-            })
-          );
-        }),
-        first(),
-        map(([session, content]) => {
-          const { response, status } = content;
-
-          const url = urljoin(
-            // User path
-            this.props.appPath,
-            // nteract edit path
-            "/nteract/edit",
-            // Actual file
-            response.path
-          );
-
-          // Always open new notebooks in new windows
-          window.open(url, "_blank");
-        })
-      )
-      .subscribe();
-  }
-
   render() {
     switch (this.props.contentType) {
       case "notebook":
@@ -198,8 +100,8 @@ class Contents extends React.Component<ContentsProps, null> {
                 this.props.baseDir
               )}
             />
-            <NotebookMenu />
-            <NotebookApp contentRef={this.props.contentRef} />
+
+            <h1>We don't support Notebooks in Play</h1>
           </React.Fragment>
         );
       case "file":
@@ -235,7 +137,6 @@ class Contents extends React.Component<ContentsProps, null> {
             <TitleBar
               logoHref={urljoin(this.props.appPath, "/nteract/edit/")}
             />
-            <NewNotebookNavigation onClick={this.openNotebook} />
             <Directory contentRef={this.props.contentRef} />
           </React.Fragment>
         );
