@@ -2,7 +2,7 @@ dist: trusty
 sudo: false
 language: node_js
 node_js:
-- "8"
+  - "8"
 
 cache:
   directories:
@@ -11,14 +11,17 @@ cache:
     - node_modules
 
 before_install:
-- npm install -g codecov
+  - npm install -g codecov lerna
 install:
-- npm install
+  - npm install
 script:
-- npm run test -- --coverage --cacheDirectory=$HOME/.jestcache
-- npm run build:apps
-- npm run test:lint
-- npm run test:flow
-- npm run test:conformance
+  - npm run test -- --coverage --cacheDirectory=$HOME/.jestcache
+  # Build Desktop
+  - lerna run build --scope nteract --stream
+  # Build all other apps
+  - npm run build:apps
+  - npm run test:lint
+  - npm run test:flow
+  - npm run test:conformance
 after_success:
-- codecov
+  - codecov

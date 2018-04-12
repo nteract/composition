@@ -36,7 +36,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "npm run build:packages",
-    "build:apps": "lerna run build --scope nteract --scope @nteract/play --scope @nteract/commuter --scope @nteract/notebook-on-next --scope nteract-on-jupyter --scope play-on-jupyter --parallel --stream",
+    "build:apps": "lerna run build --scope @nteract/play --scope @nteract/commuter --scope @nteract/notebook-on-next --scope nteract-on-jupyter --scope play-on-jupyter --parallel --stream",
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
     "build:packages": "lerna run build --parallel --ignore @nteract/play --ignore @nteract/showcase --ignore @nteract/commuter --ignore nteract --ignore @nteract/notebook-on-next --ignore nteract-on-jupyter --ignore play-on-jupyter",
