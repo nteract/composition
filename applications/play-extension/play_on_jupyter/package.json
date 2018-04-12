@@ -1,5 +1,5 @@
 {
-  "name": "nteract-on-jupyter",
+  "name": "play-on-jupyter",
   "version": "1.6.0",
   "description": "nteract on jupyter, as an extension",
   "main": "app/index.js",

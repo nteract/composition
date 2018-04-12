@@ -5,8 +5,8 @@ nteract as an extension to the jupyter notebook server
 ## Installation
 
 ```
-pip install nteract_on_jupyter
-jupyter serverextension enable nteract_on_jupyter
+pip install play_on_jupyter
+jupyter serverextension enable play_on_jupyter
 ```
 
 ## Development
@@ -26,7 +26,7 @@ Install the python package locally from here.
 ```
 cd applications/jupyter-extension
 pip install -e .
-jupyter serverextension enable nteract_on_jupyter
+jupyter serverextension enable play_on_jupyter
 ```
 
 ### 3. Run notebook server (Python)
@@ -41,21 +41,16 @@ jupyter notebook
 ### 4. Run jupyter-extension (JS)
 
 ```
-npm run app:jupyter-extension
+npm run app:play-extension
 ```
 
 ### 5. Visit a notebook page (Browser)
 
 The default port is 8888, but that may be different for you.
 
-http://localhost:8888/nteract/edit/nteract_on_jupyter/example.ipynb
+http://localhost:8888/play/example.ipynb
 
 ### 6. Refresh browser page when you make changes
 
 There isn't currently a trigger to refresh the browser when making changes, so
-you have to manually do this when you update files in nteract_on_jupyter.
-
-## ROADMAP(ish)
-
-* In development mode, have a clean webpack build locally
-* In production, be able to toggle an endpoint to get the bundle from
+you have to manually do this when you update files in play_on_jupyter.

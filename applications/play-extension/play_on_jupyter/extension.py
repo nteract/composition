@@ -15,6 +15,11 @@ from traitlets.config import LoggingConfigurable
 from ._version import __version__
 
 
+from notebook.base.handlers import (
+    FileFindHandler
+)
+
+
 from .handlers import PlayHandler
 
 class PlayConfig(LoggingConfigurable):
@@ -66,9 +71,9 @@ def load_jupyter_server_extension(nbapp):
         (ujoin(base_url, config.page_url), PlayHandler, {
             'play_config': config
         }),
-        (ujoin(base_url, config.page_url, r"/static/(.*)", FileFindHandler, {
+        (ujoin(base_url, config.page_url, r"/static/(.*)"), FileFindHandler, {
             'path': config.assets_dir
-        }),
+        })
     ]
 
     nbapp.web_app.add_handlers(".*$", handlers)
