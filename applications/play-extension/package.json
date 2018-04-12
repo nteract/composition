@@ -1,0 +1,22 @@
+{
+  "name": "@nteract/play-extension",
+  "version": "0.4.4",
+  "description": "play on jupyter, as an extension",
+  "scripts": {
+    "build:python": "python setup.py sdist",
+    "upload:pypi": "twine upload dist/*",
+    "prebuild:python": "rimraf dist",
+    "publish": "echo 'not really publishing'"
+  },
+  "publishConfig": {
+    "access": "public",
+    "dry-run": true
+  },
+  "private": true,
+  "repository": "https://github.com/nteract/nteract/tree/master/applications/play-extension",
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  }
+}
