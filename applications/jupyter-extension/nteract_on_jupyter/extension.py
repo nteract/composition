@@ -11,7 +11,7 @@ from jupyter_core.paths import ENV_JUPYTER_PATH, jupyter_config_path
 
 from ._version import __version__
 
-from .config import Config
+from .config import NteractConfig
 
 from .handlers import add_handlers
 
@@ -27,7 +27,7 @@ def get_app_dir(app_dir=None):
 def load_jupyter_server_extension(nbapp):
     """Load the JupyterLab server extension.
     """
-    # Print messages.
+
     here = os.path.dirname(__file__)
     nbapp.log.info('nteract extension loaded from %s' % here)
 
@@ -38,7 +38,7 @@ def load_jupyter_server_extension(nbapp):
     app_dir = here  # bundle is part of the python package
 
     web_app = nbapp.web_app
-    config = Config()
+    config = NteractConfig(parent=nbapp)
 
     # original
     # config.assets_dir = os.path.join(app_dir, 'static')
@@ -60,5 +60,10 @@ def load_jupyter_server_extension(nbapp):
 
     web_app.settings.setdefault('page_config_data', dict())
     web_app.settings['page_config_data']['token'] = nbapp.token
+    web_app.settings['page_config_data']['ga_code'] = config.ga_code
+    web_app.settings['page_config_data']['asset_url'] = config.asset_url
+
+    web_app.settings['nteract_config'] = config
+
 
     add_handlers(web_app, config)

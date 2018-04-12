@@ -53,6 +53,20 @@ Distributed under the terms of the Modified BSD License.
 
 <body>
 
+{% if ga_code %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ga_code}}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+}
+gtag("js", new Date());
+
+gtag("config", "{{ga_code}}");
+</script>
+{% endif %}
+
 <script type="text/javascript">
 function _remove_token_from_url() {
   if (window.location.search.length <= 1) {
@@ -83,8 +97,8 @@ _remove_token_from_url();
 <div id="root">
 </div>
 
-<script src="{{ base_url }}nteract/static/lib/vendor.js" type="text/javascript" charset="utf-8"></script>
-<script src="{{ base_url }}nteract/static/lib/app.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ asset_url }}nteract/static/lib/vendor.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ asset_url }}nteract/static/lib/app.js" type="text/javascript" charset="utf-8"></script>
 
 
 </body>

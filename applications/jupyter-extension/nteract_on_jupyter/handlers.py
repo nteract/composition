@@ -38,6 +38,9 @@ class NAppHandler(IPythonHandler):
         base_url = self.settings['base_url']
         url = ujoin(base_url, config.page_url, '/static/')
 
+
+
+
         # Handle page config data.
         page_config = dict()
         page_config.update(self.settings.get('page_config_data', {}))
@@ -47,7 +50,18 @@ class NAppHandler(IPythonHandler):
         mathjax_config = self.settings.get('mathjax_config',
                                            'TeX-AMS_HTML-full,Safe')
 
+        asset_url = config.asset_url
+        
+        if asset_url is "":
+            asset_url = base_url
+
+        # Ensure there's a trailing slash
+        if not asset_url.endswith('/'):
+            asset_url = asset_url + '/'
+
         config = dict(
+            ga_code=config.ga_code,
+            asset_url=asset_url,
             page_title=config.page_title,
             mathjax_url=self.mathjax_url,
             mathjax_config=mathjax_config,

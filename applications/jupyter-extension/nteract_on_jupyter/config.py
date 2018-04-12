@@ -1,6 +1,7 @@
 from traitlets import HasTraits, Unicode, Bool
+from traitlets.config import Configurable
 
-class Config(HasTraits):
+class NteractConfig(Configurable):
     """The nteract application configuration object
     """
     name = Unicode('nteract',
@@ -20,3 +21,11 @@ class Config(HasTraits):
 
     dev_mode = Bool(False,
         help='Whether the application is in dev mode')
+
+    asset_url = Unicode('',
+        config=True,
+        help='Remote URL for loading assets')
+
+    ga_code = Unicode('',
+        config=True,
+        help="Google Analytics tracking code")
