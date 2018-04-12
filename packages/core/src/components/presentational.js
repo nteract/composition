@@ -98,6 +98,16 @@ export class Outputs extends React.Component<OutputsProps> {
               max-width: 100%;
             }
 
+            .outputs :global(kbd) {
+              display: inline-block;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              padding: 0.1em 0.5em;
+              margin: 0 0.2em;
+              box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2), 0 0 0 2px #fff inset;
+              background-color: #f7f7f7;
+            }
+
             .outputs :global(table) {
               border-collapse: collapse;
             }
