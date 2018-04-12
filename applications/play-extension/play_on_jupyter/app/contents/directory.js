@@ -25,7 +25,7 @@ type DirectoryEntryProps = {
 /**
  * Note: the URLs we create for clicking have to take into account:
  *    Server base URL   e.g. https://j.nteract.io/user/kylek/
- *    App base URL      e.g. /nteract/edit/
+ *    App base URL      e.g. /play/v/
  *    Filepath          e.g. Untitled.ipynb
  */
 
@@ -121,7 +121,7 @@ const mapStateToEntryProps = (
   const basePath = host.basePath;
 
   const displayName = entry.filepath.split("/").pop() || "";
-  const href = urljoin(basePath, "/nteract/edit/", entry.filepath);
+  const href = urljoin(basePath, "/play/v/", entry.filepath);
 
   let type = entry.type;
   if (entry.type === "dummy") {
@@ -148,7 +148,7 @@ export class Directory extends React.PureComponent<DirectoryProps, *> {
 
     const dotdothref = urljoin(
       this.props.basePath,
-      "/nteract/edit/",
+      "/play/v/",
       urljoin(this.props.content.filepath, "..")
     );
 

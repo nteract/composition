@@ -42,6 +42,7 @@ class PlayHandler(IPythonHandler):
             page_title=config.page_title,
             page_config={},
             public_url=url,
+            contents_path=path,
         )
         self.write(self.render_template('index.html', **jinja_config))
 

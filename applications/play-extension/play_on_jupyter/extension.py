@@ -16,7 +16,9 @@ from ._version import __version__
 
 
 from notebook.base.handlers import (
-    FileFindHandler
+    path_regex,
+    FileFindHandler,
+    RedirectWithParams
 )
 
 
@@ -67,11 +69,21 @@ def load_jupyter_server_extension(nbapp):
 
     base_url = nbapp.web_app.settings['base_url']
 
+    base_app = ujoin(base_url, config.page_url)
+
     handlers = [
-        (ujoin(base_url, config.page_url), PlayHandler, {
+        # show the "tree" by default
+        (base_app + r'/?', RedirectWithParams, {
+            'url': base_app + '/v/',
+            'permanent': False
+        }),
+
+        # /play/v/contents/path/file.py for editing
+        (base_app + r"/v%s" % path_regex, PlayHandler, {
             'play_config': config
         }),
-        (ujoin(base_url, config.page_url, r"/static/(.*)"), FileFindHandler, {
+
+        (base_app + r"/static/(.*)", FileFindHandler, {
             'path': config.assets_dir
         })
     ]

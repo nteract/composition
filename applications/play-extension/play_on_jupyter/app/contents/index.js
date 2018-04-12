@@ -96,7 +96,7 @@ class Contents extends React.Component<ContentsProps, null> {
             <TitleBar
               logoHref={urljoin(
                 this.props.appPath,
-                "/nteract/edit/",
+                "/play/v/",
                 this.props.baseDir
               )}
             />
@@ -110,7 +110,7 @@ class Contents extends React.Component<ContentsProps, null> {
             <TitleBar
               logoHref={urljoin(
                 this.props.appPath,
-                "/nteract/edit/",
+                "/play/v/",
                 this.props.baseDir
               )}
             />
@@ -125,7 +125,7 @@ class Contents extends React.Component<ContentsProps, null> {
             <TitleBar
               logoHref={urljoin(
                 this.props.appPath,
-                "/nteract/edit/",
+                "/play/v/",
                 this.props.baseDir
               )}
             />
@@ -134,9 +134,7 @@ class Contents extends React.Component<ContentsProps, null> {
       case "directory":
         return (
           <React.Fragment>
-            <TitleBar
-              logoHref={urljoin(this.props.appPath, "/nteract/edit/")}
-            />
+            <TitleBar logoHref={urljoin(this.props.appPath, "/play/v/")} />
             <Directory contentRef={this.props.contentRef} />
           </React.Fragment>
         );
