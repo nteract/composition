@@ -199,7 +199,7 @@
     "url-search-params": "^0.10.0",
     "uuid": "^3.1.0",
     "util": "^0.10.3",
-    "vega": "^2.6.5",
+    "vega": "^3.0.0",
     "vega-embed": "^2.2.0",
     "vega-lite": "^1.3.1",
     "webpack": "^4.0.1",
