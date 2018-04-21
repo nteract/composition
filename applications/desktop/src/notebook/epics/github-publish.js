@@ -21,7 +21,7 @@ import { empty } from "rxjs/observable/empty";
 import { mergeMap, catchError } from "rxjs/operators";
 import { ofType } from "redux-observable";
 
-const Github = require("github");
+const Github = require("@octokit/rest");
 
 /**
  * Notify the notebook user that it has been published as a gist.
