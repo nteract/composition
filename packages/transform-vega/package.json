@@ -21,7 +21,7 @@
   "repository": "https://github.com/nteract/nteract/tree/master/packages/transform-vega",
   "dependencies": {
     "@nteract/vega-embed2": "^1.0.1",
-    "d3": "^3.5.17",
+    "d3": "^5.0.0",
     "lodash": "^4.17.4",
     "vega-embed": "^3.0.0-rc7"
   },
