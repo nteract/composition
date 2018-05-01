@@ -35,3 +35,4 @@ jobs:
       - run: npm run test:lint
       - run: npm run test:flow
       - run: npm run test:conformance
+      - run: $(npm bin)/lerna run build --scope nteract --stream

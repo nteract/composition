@@ -3,7 +3,8 @@
   "packages": [
     "packages/*",
     "applications/*",
-    "applications/jupyter-extension/nteract_on_jupyter"
+    "applications/jupyter-extension/nteract_on_jupyter",
+    "applications/play-extension/play_on_jupyter"
   ],
   "version": "independent",
   "npmClient": "npm"
