@@ -58,12 +58,6 @@ export class TextFile extends React.PureComponent<
     this.props.handleChange(source);
   }
   componentDidMount() {
-    let oldEnv = window.MonacoEnvironment;
-    window.MonacoEnvironment = {
-      getWorkerUrl: function(moduleId, label) {
-        return window.assetURL + oldEnv.getWorkerUrl(moduleId, label);
-      }
-    };
     import(/* webpackChunkName: "monaco-editor" */ "@nteract/monaco-editor").then(
       module => {
         this.setState({ Editor: module.default });
