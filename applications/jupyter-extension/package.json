@@ -3,6 +3,9 @@
   "version": "0.4.5",
   "description": "nteract on jupyter, as an extension",
   "scripts": {
+    "ext": "npm run ext:install && npm run ext:enable",
+    "ext:install": "pip install -e .",
+    "ext:enable": "jupyter serverextension enable nteract_on_jupyter",
     "build:python": "python setup.py sdist",
     "upload:pypi": "twine upload dist/*",
     "prebuild:python": "rimraf dist",
