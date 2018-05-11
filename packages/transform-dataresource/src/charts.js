@@ -11,6 +11,44 @@ import {
   ResponsiveNetworkFrame
 } from "semiotic";
 
+function createLabelItems(uniqueValues: Array<string>): any[] {
+  return uniqueValues.map(d => ({ label: d }));
+}
+
+function combineTopAnnotations(
+  topQ: Array<Object>,
+  topSecondQ: Array<Object>,
+  dim2: string
+): any[] {
+  return [...topQ, ...topSecondQ].map(d => ({
+    type: "react-annotation",
+    label: d[dim2],
+    ...d
+  }));
+}
+
+function stringOrFnAccessor(d: Object, accessor: string | Function) {
+  return typeof accessor === "function" ? accessor(d) : d[accessor];
+}
+
+function sortByOrdinalRange(
+  oAccessor: Function | string,
+  rAccessor: Function | string,
+  data: Array<Object>
+): any[] {
+  return data.sort((a, b) => {
+    const oA = stringOrFnAccessor(a, oAccessor);
+    const oB = stringOrFnAccessor(b, oAccessor);
+    const rA = stringOrFnAccessor(a, rAccessor);
+    const rB = stringOrFnAccessor(b, rAccessor);
+
+    if (oB === oA) return rB - rA;
+    if (oA < oB) return -1;
+    if (oA > oB) return 1;
+    return 1;
+  });
+}
+
 const steps = ["none", "#FBEEEC", "#f3c8c2", "#e39787", "#ce6751", "#b3331d"];
 const thresholds = scaleThreshold()
   .domain([0.01, 0.25, 0.5, 0.75, 1])
@@ -58,7 +96,7 @@ const hierarchicalTooltip = (d, primaryKey, metric) => {
   return content;
 };
 
-const hierarchicalColor = (colorHash, d) => {
+const hierarchicalColor = (colorHash: Object, d: Object) => {
   if (d.depth === 0) return "white";
   if (d.depth === 1) return colorHash[d.key];
   let colorNode = d;
@@ -73,7 +111,11 @@ const hierarchicalColor = (colorHash, d) => {
   return lightenScale(d.depth);
 };
 
-const semioticLineChart = (data, schema, options) => {
+const semioticLineChart = (
+  data: Array<Object>,
+  schema: Object,
+  options: Object
+) => {
   let lineData;
 
   const { selectedMetrics, lineType, metrics, primaryKey } = options;
@@ -101,7 +143,7 @@ const semioticLineChart = (data, schema, options) => {
   return {
     lineType: lineType,
     lines: lineData,
-    renderKey: (d, i) => {
+    renderKey: (d: Object, i: number) => {
       return d.coordinates ? `line-${d.label}` : `linepoint=${d.label}-${i}`;
     },
     lineStyle: (d: Object) => ({
@@ -151,7 +193,11 @@ const semioticLineChart = (data, schema, options) => {
   };
 };
 
-const semioticNetwork = (data, schema, options) => {
+const semioticNetwork = (
+  data: Array<Object>,
+  schema: Object,
+  options: Object
+) => {
   const { networkType = "force", chart } = options;
   const { dim1: sourceDimension, dim2: targetDimension, metric1 } = chart;
   if (
@@ -225,7 +271,11 @@ const semioticNetwork = (data, schema, options) => {
   };
 };
 
-const semioticHierarchicalChart = (data, schema, options) => {
+const semioticHierarchicalChart = (
+  data: Array<Object>,
+  schema: Object,
+  options: Object
+) => {
   const {
     hierarchyType = "dendrogram",
     chart,
@@ -277,7 +327,7 @@ const semioticHierarchicalChart = (data, schema, options) => {
       padding:
         hierarchyType === "treemap" ? 3 : hierarchyType === "circlepack" ? 2 : 0
     },
-    edgeRenderKey: (d, i) => {
+    edgeRenderKey: (d: Object, i: number) => {
       return i;
     },
     baseMarkProps: { forceUpdate: true },
@@ -293,7 +343,11 @@ const semioticHierarchicalChart = (data, schema, options) => {
   };
 };
 
-const semioticBarChart = (data, schema, options) => {
+const semioticBarChart = (
+  data: Array<Object>,
+  schema: Object,
+  options: Object
+) => {
   const additionalSettings = {};
   const colorHash = {};
 
@@ -318,7 +372,7 @@ const semioticBarChart = (data, schema, options) => {
       []
     );
 
-    uniqueValues.forEach((d, i) => {
+    uniqueValues.forEach((d: string, i: number) => {
       colorHash[d] = colors[i % colors.length];
     });
 
@@ -329,7 +383,7 @@ const semioticBarChart = (data, schema, options) => {
       legendGroups: [
         {
           styleFn: (d: Object) => ({ fill: colorHash[d.label] }),
-          items: uniqueValues.map(d => ({ label: d }))
+          items: createLabelItems(uniqueValues)
         }
       ]
     };
@@ -363,12 +417,7 @@ const semioticBarChart = (data, schema, options) => {
 
   const barSettings = {
     type: "bar",
-    data: data.sort((a, b) => {
-      if (b[oAccessor] === a[oAccessor]) return b[rAccessor] - a[rAccessor];
-      if (a[oAccessor] < b[oAccessor]) return -1;
-      if (a[oAccessor] > b[oAccessor]) return 1;
-      return 1;
-    }),
+    data: sortByOrdinalRange(oAccessor, rAccessor, data),
     oAccessor,
     rAccessor,
     style: (d: Object) => ({
@@ -408,7 +457,11 @@ const semioticBarChart = (data, schema, options) => {
   return barSettings;
 };
 
-const semioticSummaryChart = (data, schema, options) => {
+const semioticSummaryChart = (
+  data: Array<Object>,
+  schema: Object,
+  options: Object
+) => {
   const additionalSettings = {};
   const colorHash = {};
 
@@ -474,7 +527,11 @@ const semioticSummaryChart = (data, schema, options) => {
   return summarySettings;
 };
 
-const semioticHexbin = (data, schema, options) => {
+const semioticHexbin = (
+  data: Array<Object>,
+  schema: Object,
+  options: Object
+) => {
   return semioticScatterplot(data, schema, options, true);
 };
 
@@ -490,7 +547,7 @@ const semioticScatterplot = (
 
   const { dim1, dim2, metric1, metric2, metric3 } = chart;
 
-  const pointTooltip = d => (
+  const pointTooltip = (d: Object) => (
     <div className="tooltip-content">
       <h2>{primaryKey.map(p => d[p]).join(", ")}</h2>
       {dim1 &&
@@ -555,11 +612,7 @@ const semioticScatterplot = (
       .filter(d => topQ.indexOf(d) === -1)
       .filter((d, i) => i < 3);
 
-    annotations = [...topQ, ...topSecondQ].map(d => ({
-      type: "react-annotation",
-      label: d[dim2],
-      ...d
-    }));
+    annotations = combineTopAnnotations(topQ, topSecondQ, dim2);
   }
 
   if (metric3 && metric3 !== "none") {
@@ -586,7 +639,7 @@ const semioticScatterplot = (
       legendGroups: [
         {
           styleFn: (d: Object) => ({ fill: colorHash[d.label] }),
-          items: uniqueValues.map((d: string) => ({ label: d }))
+          items: createLabelItems(uniqueValues)
         }
       ]
     };
