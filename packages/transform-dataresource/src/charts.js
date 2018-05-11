@@ -1,3 +1,4 @@
+/* @flow */
 import * as React from "react";
 
 import { nest } from "d3-collection";
@@ -103,8 +104,12 @@ const semioticLineChart = (data, schema, options) => {
     renderKey: (d, i) => {
       return d.coordinates ? `line-${d.label}` : `linepoint=${d.label}-${i}`;
     },
-    lineStyle: d => ({ fill: d.color, stroke: d.color, fillOpacity: 0.75 }),
-    pointStyle: d => {
+    lineStyle: (d: Object) => ({
+      fill: d.color,
+      stroke: d.color,
+      fillOpacity: 0.75
+    }),
+    pointStyle: (d: Object) => {
       return {
         fill: d.color,
         fillOpacity: 0.75
@@ -123,12 +128,12 @@ const semioticLineChart = (data, schema, options) => {
       legendGroups: [
         {
           label: "",
-          styleFn: d => ({ fill: d.color }),
+          styleFn: (d: Object) => ({ fill: d.color }),
           items: lineData
         }
       ]
     },
-    tooltipContent: d => {
+    tooltipContent: (d: Object) => {
       return (
         <div className="tooltip-content">
           <p>{d.parentLine && d.parentLine.label}</p>
@@ -191,23 +196,23 @@ const semioticNetwork = (data, schema, options) => {
   return {
     edges: networkData,
     edgeType: "halfarrow",
-    edgeStyle: d => ({
+    edgeStyle: (d: Object) => ({
       fill: colorHash[d.source.id],
       stroke: colorHash[d.source.id],
       strokeOpacity: 0.5
     }),
-    nodeStyle: d => ({
+    nodeStyle: (d: Object) => ({
       fill: colorHash[d.id],
       stroke: colorHash[d.id],
       strokeOpacity: 0.5
     }),
-    nodeSizeAccessor: d => d.degree,
+    nodeSizeAccessor: (d: Object) => d.degree,
     networkType: {
       type: networkType == "force" ? "motifs" : networkType,
       iterations: 1000
     },
     hoverAnnotation: true,
-    tooltipContent: d => {
+    tooltipContent: (d: Object) => {
       return (
         <div className="tooltip-content">
           <h2>{d.id}</h2>
@@ -257,8 +262,8 @@ const semioticHierarchicalChart = (data, schema, options) => {
 
   return {
     edges: rootNode,
-    edgeStyle: d => ({ fill: "lightgray", stroke: "gray" }),
-    nodeStyle: d => {
+    edgeStyle: (d: Object) => ({ fill: "lightgray", stroke: "gray" }),
+    nodeStyle: (d: Object) => {
       return {
         fill: hierarchicalColor(colorHash, d),
         stroke: d.depth === 1 ? "white" : "black",
@@ -267,8 +272,8 @@ const semioticHierarchicalChart = (data, schema, options) => {
     },
     networkType: {
       type: hierarchyType,
-      hierarchySum: d => d[metric1],
-      hierarchyChildren: d => d.values,
+      hierarchySum: (d: Object) => d[metric1],
+      hierarchyChildren: (d: Object) => d.values,
       padding:
         hierarchyType === "treemap" ? 3 : hierarchyType === "circlepack" ? 2 : 0
     },
@@ -278,7 +283,7 @@ const semioticHierarchicalChart = (data, schema, options) => {
     baseMarkProps: { forceUpdate: true },
     margin: { left: 100, right: 100, top: 10, bottom: 10 },
     hoverAnnotation: true,
-    tooltipContent: d => {
+    tooltipContent: (d: Object) => {
       return (
         <div className="tooltip-content">
           {hierarchicalTooltip(d, primaryKey, metric1)}
@@ -299,7 +304,7 @@ const semioticBarChart = (data, schema, options) => {
   const oAccessor =
     selectedDimensions.length === 0
       ? dim1
-      : d => selectedDimensions.map(p => d[p]).join(",");
+      : (d: Object) => selectedDimensions.map(p => d[p]).join(",");
 
   const rAccessor = metric1;
 
@@ -323,7 +328,7 @@ const semioticBarChart = (data, schema, options) => {
       width: 200,
       legendGroups: [
         {
-          styleFn: d => ({ fill: colorHash[d.label] }),
+          styleFn: (d: Object) => ({ fill: colorHash[d.label] }),
           items: uniqueValues.map(d => ({ label: d }))
         }
       ]
@@ -366,16 +371,16 @@ const semioticBarChart = (data, schema, options) => {
     }),
     oAccessor,
     rAccessor,
-    style: d => ({
+    style: (d: Object) => ({
       fill: colorHash[d[dim1]] || colors[0],
       stroke: colorHash[d[dim1]] || colors[0]
     }),
     oPadding: 5,
-    oLabel: d => <text transform="rotate(90)">{d}</text>,
+    oLabel: (d: Object) => <text transform="rotate(90)">{d}</text>,
     hoverAnnotation: true,
     margin: { top: 10, right: 10, bottom: 100, left: 70 },
     axis: { orient: "left", label: rAccessor },
-    tooltipContent: d => {
+    tooltipContent: (d: Object) => {
       return (
         <div className="tooltip-content">
           <p>
@@ -433,17 +438,17 @@ const semioticSummaryChart = (data, schema, options) => {
     data: data,
     oAccessor,
     rAccessor,
-    summaryStyle: d => ({
+    summaryStyle: (d: Object) => ({
       fill: colorHash[d[dim1]] || colors[0],
       fillOpacity: 0.8,
       stroke: colorHash[d[dim1]] || colors[0]
     }),
-    style: d => ({
+    style: (d: Object) => ({
       fill: colorHash[d[dim1]] || colors[0],
       stroke: "white"
     }),
     oPadding: 5,
-    oLabel: d => (
+    oLabel: (d: Object) => (
       <text textAnchor="end" fontSize={`${fontScale(d.length)}px`}>
         {d}
       </text>
@@ -452,7 +457,7 @@ const semioticSummaryChart = (data, schema, options) => {
     axis: { orient: "left", label: rAccessor },
     baseMarkProps: { forceUpdate: true },
     pieceHoverAnnotation: summaryType === "violin",
-    tooltipContent: d => (
+    tooltipContent: (d: Object) => (
       <div className="tooltip-content">
         <h2>{primaryKey.map(p => d[p]).join(", ")}</h2>
         <p>
@@ -473,7 +478,12 @@ const semioticHexbin = (data, schema, options) => {
   return semioticScatterplot(data, schema, options, true);
 };
 
-const semioticScatterplot = (data, schema, options, hexbin) => {
+const semioticScatterplot = (
+  data: Array<Object>,
+  schema: Object,
+  options: Object,
+  hexbin: boolean = false
+) => {
   const height = options.height - 150 || 500;
 
   const { chart, primaryKey } = options;
@@ -504,7 +514,7 @@ const semioticScatterplot = (data, schema, options, hexbin) => {
     </div>
   );
 
-  const areaTooltip = d => (
+  const areaTooltip = (d: Object) => (
     <div className="tooltip-content">
       <h2
         style={{
@@ -575,8 +585,8 @@ const semioticScatterplot = (data, schema, options, hexbin) => {
       width: 200,
       legendGroups: [
         {
-          styleFn: d => ({ fill: colorHash[d.label] }),
-          items: uniqueValues.map(d => ({ label: d }))
+          styleFn: (d: Object) => ({ fill: colorHash[d.label] }),
+          items: uniqueValues.map((d: string) => ({ label: d }))
         }
       ]
     };
@@ -591,8 +601,11 @@ const semioticScatterplot = (data, schema, options, hexbin) => {
     points: !hexbin && data,
     areas: hexbin && [{ coordinates: data }],
     areaType: { type: "hexbin", bins: 10 },
-    areaStyle: d => ({ fill: thresholds(d.percent), stroke: "black" }),
-    pointStyle: d => ({
+    areaStyle: (d: Object) => ({
+      fill: thresholds(d.percent),
+      stroke: "black"
+    }),
+    pointStyle: (d: Object) => ({
       r: sizeScale(d[metric3]),
       fill: colorHash[d[dim1]] || "black",
       fillOpacity: 0.75,
