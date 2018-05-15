@@ -24,6 +24,8 @@ import * as actions from "../actions";
 import * as actionTypes from "../actionTypes";
 import type { AppState, KernelInfo } from "../state";
 
+// These are all kernel epics that start taking a new way of handling how messages are sent and received
+
 export const hookIntoKernel = (
   action$: ActionsObservable<*>,
   store: Store<AppState, *>

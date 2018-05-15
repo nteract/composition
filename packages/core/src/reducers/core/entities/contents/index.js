@@ -211,6 +211,40 @@ const byRef = (state = Immutable.Map(), action) => {
       }
       return state;
     }
+    case actionTypes.BUFFERED_JUPYTER_MESSAGES: {
+      const { kernelRef, messages } = action.payload;
+      // Special little debugger
+      console.table(
+        messages.map(msg => ({
+          channel: msg.channel,
+          type: msg.msg_type,
+          ...msg.content,
+          msg_id: msg.header.msg_id,
+          parent_id: msg.parent_header ? msg.parent_header.msg_id : undefined
+        }))
+      );
+
+      // Check each and every contents to see if they have this kernelRef (?)
+      const subscribers = state.filter(
+        state => state.model && state.model.kernelRef === kernelRef
+      );
+
+      // Update each of the "subscribers"
+      return state.merge(
+        subscribers.map((content, contentRef) => {
+          return content.updateIn(["model"], model => {
+            switch (model.type) {
+              case "notebook":
+                return notebook(model, action);
+              case "file":
+                return file(model, action);
+              default:
+                return model;
+            }
+          });
+        })
+      );
+    }
     default:
       return state;
   }

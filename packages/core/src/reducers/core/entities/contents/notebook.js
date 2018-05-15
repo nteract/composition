@@ -893,6 +893,10 @@ export function notebook(
       return toggleOutputExpansion(state, action);
     case actionTypes.UNHIDE_ALL:
       return unhideAll(state, action);
+    case actionTypes.BUFFERED_JUPYTER_MESSAGES:
+      console.log("notebook got it");
+      console.log(action);
+      return state;
     default:
       (action: empty);
       return state;

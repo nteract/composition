@@ -2,6 +2,25 @@
 
 import * as Immutable from "immutable";
 
+import type { KernelRef } from "../../refs";
+
+export type RunnableFileModelRecordProps = {
+  type: "runnable-file",
+  text: string,
+  kernelRef: ?KernelRef,
+  // TODO
+  outputs: Immutable.List<any>
+};
+
+export const makeRunnableFileModelRecord: Immutable.RecordFactory<
+  RunnableFileModelRecordProps
+> = Immutable.Record({
+  type: "runnable-file",
+  text: "",
+  kernelRef: null,
+  outputs: Immutable.List()
+});
+
 export type FileModelRecordProps = {
   type: "file",
   text: string
