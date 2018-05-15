@@ -34,19 +34,19 @@ export const hookIntoKernel = (
       const {
         payload: {
           kernel: { channels },
-          kernelRef,
-          contentRef
+          kernelRef
         }
       } = action;
 
       return channels.pipe(
         bufferTime(200),
         filter((x: Array<any>) => x.length !== 0),
-        map(x => ({
-          type: "BUFFERED_MESSAGES",
-          payload: { messages: x, kernelRef, contentRef }
-        })),
-        tap(x => console.log(x))
+        map(messages =>
+          actions.bufferedJupyterMessages({
+            messages,
+            kernelRef
+          })
+        )
       );
     })
   );

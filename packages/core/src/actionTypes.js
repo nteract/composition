@@ -849,5 +849,14 @@ export type PublishGist = {
   }
 };
 
+export const BUFFERED_JUPYTER_MESSAGES = "CORE/BUFFERED_JUPYTER_MESSAGES";
+export type BufferedJupyterMessages = {
+  type: "CORE/BUFFERED_JUPYTER_MESSAGES",
+  payload: {
+    messages: Array<JupyterMessage<*>>,
+    kernelRef: KernelRef
+  }
+};
+
 export const ERROR = "CORE/ERROR";
 export type CoreError = ErrorAction<"CORE/ERROR">;

@@ -1030,3 +1030,13 @@ export function coreError(payload: Error): actionTypes.CoreError {
     error: true
   };
 }
+
+export function bufferedJupyterMessages(payload: {
+  messages: Array<JupyterMessage<*>>,
+  kernelRef: KernelRef
+}) {
+  return {
+    type: actionTypes.BUFFERED_JUPYTER_MESSAGES,
+    payload
+  };
+}
