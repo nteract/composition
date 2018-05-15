@@ -8,6 +8,8 @@ import {
 
 import { commListenEpic } from "./comm";
 
+import { hookIntoKernel } from "./experimental-kernel-messaging";
+
 import {
   launchWebSocketKernelEpic,
   interruptKernelEpic,
@@ -49,11 +51,13 @@ const allEpics = [
   fetchKernelspecsEpic,
   fetchContentEpic,
   saveContentEpic,
-  autoSaveCurrentContentEpic
+  autoSaveCurrentContentEpic,
+  hookIntoKernel
 ];
 
 export {
   allEpics,
+  hookIntoKernel,
   executeCellEpic,
   updateDisplayEpic,
   executeAllCellsEpic,
