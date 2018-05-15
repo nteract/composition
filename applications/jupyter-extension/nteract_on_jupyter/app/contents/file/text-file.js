@@ -1,6 +1,8 @@
 // @flow
 import * as React from "react";
 
+import * as Immutable from "immutable";
+
 import type { AppState, ContentRef, FileContentRecord } from "@nteract/core";
 import { selectors, actions } from "@nteract/core";
 
@@ -9,6 +11,7 @@ import { connect } from "react-redux";
 type MappedStateProps = {
   mimetype: string,
   text: string,
+  outputs: Immutable.List<*>,
   contentRef: ContentRef,
   theme: "light" | "dark"
 };
@@ -55,28 +58,47 @@ export class TextFile extends React.PureComponent<
     const Editor = this.state.Editor;
 
     return (
-      <div className="nteract-editor">
-        <Editor
-          theme={this.props.theme === "dark" ? "vs-dark" : "vs"}
-          mode={this.props.mimetype}
-          editorFocused={true}
-          value={this.props.text}
-          onChange={this.handleChange.bind(this)}
-          contentRef={this.props.contentRef}
-        />
+      <React.Fragment>
+        <div className="nteract-editor">
+          <Editor
+            theme={this.props.theme === "dark" ? "vs-dark" : "vs"}
+            mode={this.props.mimetype}
+            editorFocused={true}
+            value={this.props.text}
+            onChange={this.handleChange.bind(this)}
+            contentRef={this.props.contentRef}
+          />
+        </div>
+        <div className="output-container">
+          <div className="outputs">{this.props.outputs}</div>
+        </div>
         <style jsx>{`
+          --editor-width: 52%;
           .nteract-editor {
             position: absolute;
             left: 0;
             height: 100%;
-            width: 100%;
+            width: var(--editor-width);
+          }
+
+          .outputs {
+            position: relative;
+            height: auto;
+            overflow: scroll;
+          }
+
+          .output-container {
+            width: calc(100% - var(--editor-width));
+            position: absolute;
+            right: 0;
           }
 
           .nteract-editor :global(.monaco) {
             height: 100%;
+            width: 100%;
           }
         `}</style>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -94,6 +116,7 @@ function mapStateToTextFileProps(
 
   return {
     theme: selectors.currentTheme(state),
+    outputs: content.model.outputs,
     mimetype: content.mimetype || "text/plain",
     text: text,
     contentRef: ownProps.contentRef
