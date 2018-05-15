@@ -17,10 +17,16 @@ function updateFileText(
   return state.set("text", action.payload.text);
 }
 
-type FileAction = actionTypes.UpdateFileText;
+type FileAction =
+  | actionTypes.UpdateFileText
+  | actionTypes.BufferedJupyterMessages;
 
 export function file(state: FileModelRecord, action: FileAction) {
   switch (action.type) {
+    case actionTypes.BUFFERED_JUPYTER_MESSAGES:
+      console.log("file got it");
+      console.log(action);
+      return state;
     case actionTypes.UPDATE_FILE_TEXT:
       return updateFileText(state, action);
     default:

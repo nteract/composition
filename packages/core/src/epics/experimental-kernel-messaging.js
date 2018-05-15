@@ -40,6 +40,7 @@ export const hookIntoKernel = (
         }
       } = action;
 
+      // Buffer all messages from this kernel in 200ms batches
       return channels.pipe(
         bufferTime(200),
         filter((x: Array<any>) => x.length !== 0),

@@ -135,21 +135,13 @@ export const acquireKernelInfoEpic = (action$: ActionsObservable<*>) =>
     })
   );
 
-export const extractNewKernel = (
-  filepath: ?string,
-  notebook: ImmutableNotebook
-) => {
-  const cwd = (filepath && path.dirname(filepath)) || "/";
-
+export const extractNewKernel = (notebook: ImmutableNotebook) => {
   const kernelSpecName = notebook.getIn(
     ["metadata", "kernelspec", "name"],
     notebook.getIn(["metadata", "language_info", "name"], "python3")
   );
 
-  return {
-    cwd,
-    kernelSpecName
-  };
+  return kernelSpecName;
 };
 
 /**
@@ -174,17 +166,23 @@ export const launchKernelWhenNotebookSetEpic = (
 
       if (
         !content ||
-        content.type !== "notebook" ||
-        content.model.type !== "notebook"
+        (content.type !== "file" && content.type !== "notebook")
       ) {
-        // This epic only handles notebook content
         return empty();
       }
 
       const filepath = content.filepath;
-      const notebook = content.model.notebook;
+      const cwd = (filepath && path.dirname(filepath)) || "/";
 
-      const { cwd, kernelSpecName } = extractNewKernel(filepath, notebook);
+      let kernelSpecName: string = "python";
+
+      // TODO: Determine if we're going to allocate this when the user requests it (totally possible)
+      if (content.type === "file" && filepath.endsWith(".py")) {
+        // Could use file extension + list of kernels to pick this
+        kernelSpecName = "python";
+      } else if (content.model && content.model.type === "notebook") {
+        kernelSpecName = extractNewKernel(content.model.notebook);
+      }
 
       return of(
         actions.launchKernelByName({

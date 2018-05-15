@@ -51,7 +51,10 @@ export const launchWebSocketKernelEpic = (action$: *, store: *) =>
       } = action;
 
       const content = selectors.content(state, { contentRef });
-      if (!content || content.type !== "notebook") {
+      if (
+        !content ||
+        (content.type !== "notebook" && content.type !== "file")
+      ) {
         return empty();
       }
 

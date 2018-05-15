@@ -37,8 +37,8 @@ const byRef = (state = Immutable.Map(), action) => {
         })
       );
     case actionTypes.LAUNCH_KERNEL_SUCCESSFUL:
-      // TODO: is this reasonable? We launched the kernel on behalf of this
-      // content... so it makes sense to swap it, right?
+      // Assuming the content has a kernelRef, we set it here
+      // This now applies to both notebooks and files
       return state.setIn(
         [action.payload.contentRef, "model", "kernelRef"],
         action.payload.kernelRef

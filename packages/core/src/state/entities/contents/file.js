@@ -4,32 +4,21 @@ import * as Immutable from "immutable";
 
 import type { KernelRef } from "../../refs";
 
-export type RunnableFileModelRecordProps = {
-  type: "runnable-file",
-  text: string,
-  kernelRef: ?KernelRef,
-  // TODO
-  outputs: Immutable.List<any>
-};
-
-export const makeRunnableFileModelRecord: Immutable.RecordFactory<
-  RunnableFileModelRecordProps
-> = Immutable.Record({
-  type: "runnable-file",
-  text: "",
-  kernelRef: null,
-  outputs: Immutable.List()
-});
-
 export type FileModelRecordProps = {
   type: "file",
-  text: string
+  text: string,
+  // I'll assume we only allocate a kernel for certain file types
+  kernelRef: ?KernelRef,
+  // TODO: Does this really belong here?
+  outputs: Immutable.List<any>
 };
 export const makeFileModelRecord: Immutable.RecordFactory<
   FileModelRecordProps
 > = Immutable.Record({
   type: "file",
-  text: ""
+  text: "",
+  kernelRef: null,
+  outputs: Immutable.List()
 });
 export type FileModelRecord = Immutable.RecordOf<FileModelRecordProps>;
 

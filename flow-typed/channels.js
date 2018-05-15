@@ -1,5 +1,10 @@
 // @flow
 
+declare type IOPubChannel = "iopub";
+declare type ShellChannel = "shell";
+
+declare type ChannelType = IOPubChannel | ShellChannel;
+
 declare type JupyterMessageHeader<MT: string> = {
   msg_id: string,
   username: string,
@@ -9,8 +14,10 @@ declare type JupyterMessageHeader<MT: string> = {
 };
 
 declare type JupyterMessage<MT, C> = {
+  // Not on the wire, is on our multiplexed messages
+  channel: ChannelType,
   header: JupyterMessageHeader<MT>,
-  parent_header: JupyterMessageHeader<*> | {},
+  parent_header: JupyterMessageHeader<any>,
   metadata: Object,
   content: C,
   buffers?: Array<any> | null
