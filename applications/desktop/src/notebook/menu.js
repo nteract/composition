@@ -29,6 +29,7 @@ export function dispatchSaveAs(
   filepath: string
 ) {
   store.dispatch(actions.saveAs({ filepath, contentRef: ownProps.contentRef }));
+  store.dispatch(actions.gitListBranch({ contentRef: ownProps.contentRef }));
 }
 
 const dialog = remote.dialog;
@@ -185,6 +186,7 @@ export function dispatchSave(
     triggerSaveAs(ownProps, store);
   } else {
     store.dispatch(actions.save(ownProps));
+    store.dispatch(actions.gitListBranch({ contentRef: ownProps.contentRef }));
   }
 }
 
@@ -366,6 +368,41 @@ export function dispatchRestartClearAll(
       contentRef: ownProps.contentRef
     })
   );
+}
+
+export function dispatchGitInit(
+  ownProps: { contentRef: ContentRef },
+  store: Store<AppState, *>
+) {
+  store.dispatch(actions.gitInit({ contentRef: ownProps.contentRef }));
+}
+
+export function dispatchGitAdd(
+  ownProps: { contentRef: ContentRef },
+  store: Store<AppState, *>
+) {
+  store.dispatch(actions.gitAdd({ contentRef: ownProps.contentRef }));
+}
+
+export function dispatchGitCommit(
+  ownProps: { contentRef: ContentRef },
+  store: Store<AppState, *>
+) {
+  store.dispatch(actions.gitCommit({ contentRef: ownProps.contentRef }));
+}
+
+export function dispatchGitRemove(
+  ownProps: { contentRef: ContentRef },
+  store: Store<AppState, *>
+) {
+  store.dispatch(actions.gitRemove({ contentRef: ownProps.contentRef }));
+}
+
+export function dispatchGitCopyConfig(
+  ownProps: { contentRef: ContentRef },
+  store: Store<AppState, *>
+) {
+  store.dispatch(actions.gitCopyConfig({ contentRef: ownProps.contentRef }));
 }
 
 export function dispatchZoomIn() {
@@ -657,6 +694,12 @@ export function initMenuHandlers(
   ipc.on("menu:exportPDF", storeToPDF.bind(null, opts, store));
   ipc.on("main:load", dispatchLoad.bind(null, opts, store));
   ipc.on("main:load-config", dispatchLoadConfig.bind(null, opts, store));
+
+  ipc.on("menu:git:init", dispatchGitInit.bind(null, opts, store));
+  ipc.on("menu:git:add", dispatchGitAdd.bind(null, opts, store));
+  ipc.on("menu:git:commit", dispatchGitCommit.bind(null, opts, store));
+  ipc.on("menu:git:remove", dispatchGitRemove.bind(null, opts, store));
+  ipc.on("menu:git:copy-config", dispatchGitCopyConfig.bind(null, opts, store));
 
   /* Global non-content aware actions */
   ipc.on("menu:zoom-in", dispatchZoomIn);

@@ -491,6 +491,162 @@ export type CommMessageAction = {
   comm_id: string
 };
 
+export const GIT_INIT = "GIT_INIT";
+export type GitInitAction = {
+  type: "GIT_INIT",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_INIT_SUCCESSFUL = "GIT_INIT_SUCCESSFUL";
+export type GitInitSuccessfulAction = {
+  type: "GIT_INIT_SUCCESSFUL",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_INIT_FAILED = "GIT_INIT_FAILED";
+export type GitInitFailedAction = {
+  type: "GIT_INIT_FAILED",
+  payload: {
+    error: Error,
+    contentRef: ContentRef
+  },
+  error: true
+};
+
+export const GIT_ADD_SUCCESSFUL = "GIT_ADD_SUCCESSFUL";
+export type GitAddSuccessfulAction = {
+  type: "GIT_ADD_SUCCESSFUL",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_ADD_FAILED = "GIT_ADD_FAILED";
+export type GitAddFailedAction = {
+  type: "GIT_ADD_FAILED",
+  payload: {
+    error: Error,
+    contentRef: ContentRef
+  },
+  error: true
+};
+
+export const GIT_ADD = "GIT_ADD";
+export type GitAddAction = {
+  type: "GIT_ADD",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_LIST_BRANCH = "GIT_LIST_BRANCH";
+export type GitListBranchAction = {
+  type: "GIT_LIST_BRANCH",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_LIST_BRANCH_FAILED = "GIT_LIST_BRANCH_FAILED";
+export type GitListBranchFailedAction = {
+  type: "GIT_LIST_BRANCH_FAILED",
+  payload: {
+    error: Error,
+    contentRef: ContentRef
+  },
+  error: true
+};
+
+export const GIT_LIST_BRANCH_SUCCESSFUL = "GIT_LIST_BRANCH_SUCCESSFUL";
+export type GitListBranchSuccessfulAction = {
+  type: "GIT_LIST_BRANCH_SUCCESSFUL",
+  payload: {
+    currentBranch: CurrentBranch
+  }
+};
+
+export const GIT_COPY_CONFIG = "GIT_COPY_CONFIG";
+export type GitCopyConfigAction = {
+  type: "GIT_COPY_CONFIG",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_COPY_CONFIG_SUCCESSFUL = "GIT_COPY_CONFIG_SUCCESSFUL";
+export type GitCopyConfigSuccessfulAction = {
+  type: "GIT_COPY_CONFIG_SUCCESSFUL",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_COPY_CONFIG_FAILED = "GIT_COPY_CONFIG_FAILED";
+export type GitCopyConfigFailedAction = {
+  type: "GIT_COPY_CONFIG_FAILED",
+  payload: {
+    error: Error,
+    contentRef: ContentRef
+  },
+  error: true
+};
+
+export const GIT_COMMIT = "GIT_COMMIT";
+export type GitCommitAction = {
+  type: "GIT_COMMIT",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_COMMIT_SUCCESSFUL = "GIT_COMMIT_SUCCESSFUL";
+export type GitCommitSuccessfulAction = {
+  type: "GIT_COMMIT_SUCCESSFUL",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_COMMIT_FAILED = "GIT_COMMIT_FAILED";
+export type GitCommitFailedAction = {
+  type: "GIT_COMMIT_FAILED",
+  payload: {
+    error: Error,
+    contentRef: ContentRef
+  },
+  error: true
+};
+
+export const GIT_REMOVE = "GIT_REMOVE";
+export type GitRemoveAction = {
+  type: "GIT_REMOVE",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_REMOVE_SUCCESSFUL = "GIT_REMOVE_SUCCESSFUL";
+export type GitRemoveSuccessfulAction = {
+  type: "GIT_REMOVE_SUCCESSFUL",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const GIT_REMOVE_FAILED = "GIT_REMOVE_FAILED";
+export type GitRemoveFailedAction = {
+  type: "GIT_REMOVE_FAILED",
+  payload: {
+    error: Error,
+    contentRef: ContentRef
+  },
+  error: true
+};
+
 export const SET_CONFIG_AT_KEY = "SET_CONFIG_AT_KEY";
 export type SetConfigAction<T> = {
   type: "SET_CONFIG_AT_KEY",

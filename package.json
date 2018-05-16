@@ -146,6 +146,7 @@
     "ignore-styles": "^5.0.1",
     "immutable": "^4.0.0-rc.9",
     "isomorphic-fetch": "^2.2.1",
+    "isomorphic-git": "^0.12.3",
     "jest": "^23.0.1",
     "jquery": "^3.2.1",
     "json-loader": "^0.5.7",

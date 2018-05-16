@@ -821,6 +821,180 @@ export function updateFileText(payload: {
   };
 }
 
+export function gitInit(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitInitAction {
+  return {
+    type: actionTypes.GIT_INIT,
+    payload
+  };
+}
+
+export function gitInitFailed(payload: {
+  error: Error,
+  contentRef: ContentRef
+}): actionTypes.GitInitFailedAction {
+  return {
+    type: actionTypes.GIT_INIT_FAILED,
+    payload,
+    error: true
+  };
+}
+
+export function gitInitSuccessful(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitInitSuccessfulAction {
+  return {
+    type: actionTypes.GIT_INIT_SUCCESSFUL,
+    payload
+  };
+}
+
+export function gitListBranch(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitListBranchAction {
+  return {
+    type: actionTypes.GIT_LIST_BRANCH,
+    payload
+  };
+}
+
+export function gitListBranchFailed(payload: {
+  error: Error,
+  contentRef: ContentRef
+}): actionTypes.GitListBranchFailedAction {
+  return {
+    type: actionTypes.GIT_LIST_BRANCH_FAILED,
+    payload,
+    error: true
+  };
+}
+
+export function gitListBranchSuccessful(payload: {
+  currentBranch: CurrentBranch
+}): actionTypes.GitListBranchSuccessfulAction {
+  return {
+    type: actionTypes.GIT_LIST_BRANCH_SUCCESSFUL,
+    payload
+  };
+}
+
+export function gitAdd(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitAdd {
+  return {
+    type: actionTypes.GIT_ADD,
+    payload
+  };
+}
+
+export function gitAddFailed(payload: {
+  error: Error,
+  contentRef: ContentRef
+}): actionTypes.GitAddFailedAction {
+  return {
+    type: actionTypes.GIT_ADD_FAILED,
+    payload,
+    error: true
+  };
+}
+
+export function gitAddSuccessful(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitAddSuccessfulAction {
+  return {
+    type: actionTypes.GIT_ADD_SUCCESSFUL,
+    payload
+  };
+}
+
+export function gitCopyConfig(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitCopyConfigAction {
+  return {
+    type: actionTypes.GIT_COPY_CONFIG,
+    payload
+  };
+}
+
+export function gitCopyConfigSuccessful(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitCopyConfigSuccessfulAction {
+  return {
+    type: actionTypes.GIT_COPY_CONFIG_SUCCESSFUL,
+    payload
+  };
+}
+
+export function gitCopyConfigFailed(payload: {
+  error: Error,
+  contentRef: ContentRef
+}): actionTypes.GitCopyConfigFailedAction {
+  return {
+    type: actionTypes.GIT_COPY_CONFIG_FAILED,
+    payload,
+    error: true
+  };
+}
+
+export function gitCommit(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitCommitAction {
+  return {
+    type: actionTypes.GIT_COMMIT,
+    payload
+  };
+}
+
+export function gitCommitSuccessful(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitCommitSuccessfulAction {
+  return {
+    type: actionTypes.GIT_COMMIT_SUCCESSFUL,
+    payload
+  };
+}
+
+export function gitCommitFailed(payload: {
+  error: Error,
+  contentRef: ContentRef
+}): actionTypes.GitCommitFailedAction {
+  return {
+    type: actionTypes.GIT_COMMIT_FAILED,
+    payload,
+    error: true
+  };
+}
+
+export function gitRemove(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitRemoveAction {
+  return {
+    type: actionTypes.GIT_REMOVE,
+    payload
+  };
+}
+
+export function gitRemoveSuccessful(payload: {
+  contentRef: ContentRef
+}): actionTypes.GitRemoveSuccessfulAction {
+  return {
+    type: actionTypes.GIT_REMOVE_SUCCESSFUL,
+    payload
+  };
+}
+
+export function gitRemoveFailed(payload: {
+  error: Error,
+  contentRef: ContentRef
+}): actionTypes.GitRemoveFailedAction {
+  return {
+    type: actionTypes.GIT_REMOVE_FAILED,
+    payload,
+    error: true
+  };
+}
+
 export const loadConfig = () => ({ type: actionTypes.LOAD_CONFIG });
 export const saveConfig = () => ({ type: actionTypes.SAVE_CONFIG });
 export const doneSavingConfig = () => ({

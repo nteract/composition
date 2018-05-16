@@ -23,6 +23,15 @@ import { epics as coreEpics } from "@nteract/core";
 import { publishEpic } from "./github-publish";
 
 import {
+  gitAddEpic,
+  gitInitEpic,
+  gitCommitEpic,
+  gitRemoveEpic,
+  gitCopyConfigEpic,
+  gitListBranchEpic
+} from "./git";
+
+import {
   loadConfigEpic,
   saveConfigEpic,
   saveConfigOnChangeEpic
@@ -58,7 +67,13 @@ const epics: Array<Epic<*, *, *>> = [
   killKernelEpic,
   loadConfigEpic,
   saveConfigEpic,
-  saveConfigOnChangeEpic
+  saveConfigOnChangeEpic,
+  gitAddEpic,
+  gitInitEpic,
+  gitCommitEpic,
+  gitRemoveEpic,
+  gitCopyConfigEpic,
+  gitListBranchEpic
 ].map(wrapEpic);
 
 export default epics;
