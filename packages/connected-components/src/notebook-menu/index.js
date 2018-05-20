@@ -31,7 +31,7 @@ type Props = {
   currentKernelRef: ?KernelRef,
   saveNotebook: ?(payload: *) => void,
   downloadNotebook: ?(payload: *) => void,
-  openHome: ?(payload: *) => void,
+  openHome: ?() => void,
   executeCell: ?(payload: *) => void,
   executeAllCells: ?(payload: *) => void,
   executeAllCellsBelow: ?(payload: *) => void,
@@ -476,7 +476,7 @@ const mapDispatchToProps = dispatch => ({
   openHome: (payload: *) => dispatch(actions.save(payload)),
   saveNotebook: (payload: *) => dispatch(actions.save(payload)),
   downloadNotebook: (payload: *) => dispatch(actions.downloadContent(payload)),
-  openHome: (payload: *) => dispatch(actions.openHome(payload)),
+  openHome: () => dispatch(actions.openHome()),
   executeCell: (payload: *) => dispatch(actions.executeCell(payload)),
   executeAllCells: (payload: *) => dispatch(actions.executeAllCells(payload)),
   executeAllCellsBelow: (payload: *) =>

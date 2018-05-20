@@ -40,14 +40,11 @@ export const openHomeEpic = (
 ) => {
   return action$.pipe(
     ofType(actionTypes.OPEN_HOME),
-    concatMap(action => {
-      const state = store.getState();
-      const host = selectors.currentHost(state);
-      const basePath = host.basePath;
-      const href = urljoin(basePath, "/nteract/edit/");
+    tap(action => {
+      const href = urljoin("/nteract/edit");
       return from(window.open(href)).pipe(
         map(
-          open => actions.openHomeSuccessful(open),
+          actions.openHomeSuccessful(),
           catchError(err => actions.openHomeFailed(err))
         )
       );
