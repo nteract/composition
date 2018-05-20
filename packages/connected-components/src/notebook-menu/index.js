@@ -31,6 +31,7 @@ type Props = {
   currentKernelRef: ?KernelRef,
   saveNotebook: ?(payload: *) => void,
   downloadNotebook: ?(payload: *) => void,
+  openHome: ?(payload: *) => void,
   executeCell: ?(payload: *) => void,
   executeAllCells: ?(payload: *) => void,
   executeAllCellsBelow: ?(payload: *) => void,
@@ -65,6 +66,7 @@ type State = {
 
 class PureNotebookMenu extends React.Component<Props, State> {
   static defaultProps = {
+    openHome: null,
     cellFocused: null,
     saveNotebook: null,
     downloadNotebook: null,
@@ -93,6 +95,7 @@ class PureNotebookMenu extends React.Component<Props, State> {
   state = {};
   handleClick = ({ key }: { key: string }) => {
     const {
+      openHome,
       persistAfterClick,
       saveNotebook,
       downloadNotebook,
@@ -129,6 +132,11 @@ class PureNotebookMenu extends React.Component<Props, State> {
       case MENU_ITEM_ACTIONS.DOWNLOAD_NOTEBOOK:
         if (downloadNotebook) {
           downloadNotebook({ contentRef: currentContentRef });
+        }
+        break;
+      case MENU_ITEM_ACTIONS.OPEN_HOME:
+        if (openHome) {
+          openHome();
         }
         break;
       case MENU_ITEM_ACTIONS.COPY_CELL:
@@ -306,6 +314,9 @@ class PureNotebookMenu extends React.Component<Props, State> {
             >
               Download (.ipynb)
             </MenuItem>
+            <MenuItem key={createActionKey(MENU_ITEM_ACTIONS.OPEN_HOME)}>
+              Open
+            </MenuItem>
           </SubMenu>
           <SubMenu key={MENUS.EDIT} title="Edit">
             <MenuItem key={createActionKey(MENU_ITEM_ACTIONS.CUT_CELL)}>
@@ -462,8 +473,10 @@ const mapStateToProps = (
 };
 
 const mapDispatchToProps = dispatch => ({
+  openHome: (payload: *) => dispatch(actions.save(payload)),
   saveNotebook: (payload: *) => dispatch(actions.save(payload)),
   downloadNotebook: (payload: *) => dispatch(actions.downloadContent(payload)),
+  openHome: (payload: *) => dispatch(actions.openHome(payload)),
   executeCell: (payload: *) => dispatch(actions.executeCell(payload)),
   executeAllCells: (payload: *) => dispatch(actions.executeAllCells(payload)),
   executeAllCellsBelow: (payload: *) =>

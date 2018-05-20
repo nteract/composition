@@ -52,6 +52,25 @@ export type AddHost = {
   payload: { hostRef: HostRef, host: HostRecord }
 };
 
+export const OPEN_HOME = "CORE/OPEN_HOME";
+export type OpenHome = {
+  type: "CORE/OPEN_HOME"
+};
+
+export const OPEN_HOME_SUCCESSFUL = "CORE/OPEN_HOME_SUCCESSFUL";
+export type OpenHomeSuccessful = {
+  type: "CORE/OPEN_HOME_SUCCESSFUL"
+};
+
+export const OPEN_HOME_FAILED = "CORE/OPEN_HOME_FAILED";
+export type OpenHomeFailed = {
+  type: "CORE/OPEN_HOME_FAILED",
+  payload: {
+    error: Error
+  },
+  error: true
+};
+
 export const FETCH_CONTENT = "CORE/FETCH_CONTENT";
 export type FetchContent = {
   type: "CORE/FETCH_CONTENT",

@@ -3,6 +3,7 @@ import { empty } from "rxjs/observable/empty";
 import { of } from "rxjs/observable/of";
 import { from } from "rxjs/observable/from";
 import { interval } from "rxjs/observable/interval";
+const urljoin = require("url-join");
 
 import {
   startWith,
@@ -12,6 +13,7 @@ import {
   mergeMap,
   mapTo,
   switchMap,
+  concatMap,
   catchError
 } from "rxjs/operators";
 import { ofType } from "redux-observable";
@@ -31,6 +33,27 @@ import { contents } from "rx-jupyter";
 
 import { fromJS, toJS, stringifyNotebook } from "@nteract/commutable";
 import type { Notebook } from "@nteract/commutable";
+
+export const openHomeEpic = (
+  action$: ActionsObservable<*>,
+  store: Store<*, *>
+) => {
+  return action$.pipe(
+    ofType(actionTypes.OPEN_HOME),
+    concatMap(action => {
+      const state = store.getState();
+      const host = selectors.currentHost(state);
+      const basePath = host.basePath;
+      const href = urljoin(basePath, "/nteract/edit/");
+      return from(window.open(href)).pipe(
+        map(
+          open => actions.openHomeSuccessful(open),
+          catchError(err => actions.openHomeFailed(err))
+        )
+      );
+    })
+  );
+};
 
 export function fetchContentEpic(
   action$: ActionsObservable<*>,
