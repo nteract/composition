@@ -25,6 +25,7 @@ import {
 import { fetchKernelspecsEpic } from "./kernelspecs";
 
 import {
+  openHomeEpic,
   fetchContentEpic,
   saveContentEpic,
   autoSaveCurrentContentEpic
@@ -48,6 +49,7 @@ const allEpics = [
   restartKernelEpic,
   fetchKernelspecsEpic,
   fetchContentEpic,
+  openHomeEpic,
   saveContentEpic,
   autoSaveCurrentContentEpic
 ];
@@ -68,6 +70,7 @@ export {
   restartKernelEpic,
   fetchKernelspecsEpic,
   fetchContentEpic,
+  openHomeEpic,
   saveContentEpic,
   autoSaveCurrentContentEpic
 };

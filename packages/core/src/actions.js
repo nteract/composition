@@ -53,6 +53,22 @@ export const addHost = (payload: {
   payload
 });
 
+export const openHome = (): actionTypes.OpenHome => ({
+  type: actionTypes.OPEN_HOME
+});
+
+export const openHomeSuccessful = (): actionTypes.OpenHomeSuccessful => ({
+  type: actionTypes.OPEN_HOME_SUCCESSFUL
+});
+
+export const openHomeFailed = (payload: {
+  error: Error
+}): actionTypes.OpenHomeFailed => ({
+  type: actionTypes.OPEN_HOME_FAILED,
+  payload,
+  error: true
+});
+
 export const fetchContent = (payload: {
   filepath: string,
   params: Object,
