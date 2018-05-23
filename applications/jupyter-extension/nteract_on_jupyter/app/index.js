@@ -134,9 +134,17 @@ function main(rootEl: Element, dataEl: Node | null) {
   );
   store.dispatch(actions.fetchKernelspecs({ hostRef, kernelspecsRef }));
 
+  // TODO: Where do we determine our contentRef? Does it come from the location?
+  //       We could use the path, they're tied in one-to-one
+  //   Do we need to dispatch to fetchContent as soon as the location is changed (?)
+  //   kinda seems so
+
   ReactDOM.render(
     <Provider store={store}>
-      <ConnectedRouter history={history}>
+      <ConnectedRouter
+        history={history}
+        basename={urljoin(jupyterHostRecord.basePath, "nteract")}
+      >
         <App contentRef={contentRef} />
       </ConnectedRouter>
     </Provider>,
