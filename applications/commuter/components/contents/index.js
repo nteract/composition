@@ -3,7 +3,7 @@ import * as React from "react";
 
 import NotebookPreview from "@nteract/notebook-preview";
 import Markdown from "@nteract/markdown";
-import { Styles } from "@nteract/core";
+import { Styles } from "@nteract/presentational-components";
 
 import DirectoryListing from "./directory-listing";
 
@@ -18,7 +18,7 @@ import {
   registerTransform
 } from "@nteract/transforms";
 
-import DataResourceTransform from "@nteract/transform-dataresource";
+// import DataResourceTransform from "@nteract/transform-dataresource";
 
 import { VegaLite1, VegaLite2, Vega2, Vega3 } from "@nteract/transform-vega";
 
@@ -26,7 +26,7 @@ import { PlotlyNullTransform, PlotlyTransform } from "../../transforms";
 
 // Order is important here. The last transform in the array will have order `0`.
 const { transforms, displayOrder } = [
-  DataResourceTransform,
+  // DataResourceTransform,
   PlotlyNullTransform,
   PlotlyTransform,
   VegaLite1,

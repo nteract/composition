@@ -1,4 +1,4 @@
-import { Observable } from "rxjs";
+import { Observable } from "rxjs/Observable";
 
 declare module "redux-observable" {
   import type { MiddlewareAPI, DispatchAPI } from "redux";

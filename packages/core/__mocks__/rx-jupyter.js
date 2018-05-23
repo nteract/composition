@@ -44,15 +44,21 @@ const mockListReponse = {
   }
 };
 
-module.exports = {
-  kernels: {
-    start: (config, kernelSpecName, cwd) => of({ response: { id: "0" } }),
-    connect: (config, id, session) => new Subject(),
-    interrupt: (config, id) =>
-      // successful interrupt
-      of({ response: null, responseType: "json", status: 204 })
-  },
-  kernelspecs: {
-    list: config => of({ response: mockListReponse })
-  }
+const kernels = {
+  start: (config, kernelSpecName, cwd) => of({ response: { id: "0" } }),
+  connect: (config, id, session) => new Subject(),
+  interrupt: (config, id) =>
+    // successful interrupt
+    of({ response: null, responseType: "json", status: 204 })
 };
+
+const kernelspecs = {
+  list: config => of({ response: mockListReponse })
+};
+
+const sessions = {
+  create: (config, payload) =>
+    of({ response: { id: "1", kernel: { id: "0" } } })
+};
+
+export { kernels, kernelspecs, sessions };

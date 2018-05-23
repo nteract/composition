@@ -1,9 +1,9 @@
 {
   "name": "@nteract/nbextension",
-  "version": "0.4.3",
+  "version": "0.4.6",
   "description": "nteract on jupyter, as an extension",
   "scripts": {
-    "build:python": "python setup.py sdist",
+    "build:python": "python setup.py sdist && python setup.py bdist_wheel",
     "upload:pypi": "twine upload dist/*",
     "prebuild:python": "rimraf dist",
     "publish": "echo 'not really publishing'"

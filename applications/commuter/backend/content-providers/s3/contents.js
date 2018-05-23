@@ -62,7 +62,4 @@ function createRouter(config: Object): express.Router {
   return router;
 }
 
-module.exports = {
-  createRouter,
-  isDir
-};
+export { createRouter, isDir };

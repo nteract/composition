@@ -1,5 +1,5 @@
 /* @flow */
-import React from "react";
+import * as React from "react";
 import { MultiGrid, AutoSizer, ColumnSizer } from "react-virtualized";
 import { infer } from "./infer";
 

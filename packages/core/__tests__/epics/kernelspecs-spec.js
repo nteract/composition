@@ -48,9 +48,9 @@ describe("fetchKernelspecsEpic", () => {
                 "-f",
                 "{connection_file}"
               ],
-              display_name: "Python 3 (nteract)",
+              displayName: "Python 3 (nteract)",
               env: {},
-              interrupt_mode: "signal",
+              interruptMode: "signal",
               language: "python",
               metadata: {},
               name: "nteract",
@@ -67,9 +67,9 @@ describe("fetchKernelspecsEpic", () => {
                 "-f",
                 "{connection_file}"
               ],
-              display_name: "Python 3",
+              displayName: "Python 3",
               env: {},
-              interrupt_mode: "signal",
+              interruptMode: "signal",
               language: "python",
               metadata: {},
               name: "python3",

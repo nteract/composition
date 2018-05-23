@@ -14,6 +14,4 @@ function createDiscoveryRouter(options?: Object): express.Router {
   return router;
 }
 
-module.exports = {
-  createDiscoveryRouter
-};
+export { createDiscoveryRouter };

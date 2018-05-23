@@ -1,13 +1,12 @@
 import { ActionsObservable } from "redux-observable";
 
-import { monocellNotebook } from "@nteract/commutable";
+import { monocellNotebook, toJS } from "@nteract/commutable";
 
 import { dummyCommutable, dummy } from "@nteract/core/dummy";
 
 import {
   load,
   newNotebook,
-  setNotebook,
   extractNewKernel,
   convertRawNotebook,
   fetchContentEpic,
@@ -77,7 +76,9 @@ describe("newNotebookEpic", () => {
       payload: {
         kernelSpec: {
           name: "hylang"
-        }
+        },
+        kernelRef: "kRef",
+        contentRef: "cRef"
       }
     });
     const responseActions = await newNotebookEpic(action$)
@@ -86,15 +87,26 @@ describe("newNotebookEpic", () => {
 
     expect(responseActions).toEqual([
       {
-        type: actionTypes.SET_NOTEBOOK,
+        type: actionTypes.FETCH_CONTENT_FULFILLED,
         payload: {
-          filepath: null,
-          created: null,
-          lastSaved: null,
-          notebook: monocellNotebook.setIn(
-            ["metadata", "kernel_info", "name"],
-            "hylang"
-          )
+          contentRef: "cRef",
+          kernelRef: "kRef",
+          filepath: "",
+          model: {
+            type: "notebook",
+            mimetype: null,
+            format: "json",
+            content: toJS(
+              monocellNotebook
+                .setIn(["metadata", "kernel_info", "name"], "hylang")
+                .setIn(["metadata", "language_info", "name"], "hylang")
+            ),
+            writable: true,
+            name: null,
+            path: null,
+            created: expect.any(Date),
+            last_modified: expect.any(Date)
+          }
         }
       }
     ]);

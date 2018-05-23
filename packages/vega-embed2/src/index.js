@@ -1,1 +1,3 @@
-module.exports = require("vega-embed");
+// @flow
+import vegaEmbed from "vega-embed";
+export default vegaEmbed;

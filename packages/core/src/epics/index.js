@@ -11,7 +11,8 @@ import { commListenEpic } from "./comm";
 import {
   launchWebSocketKernelEpic,
   interruptKernelEpic,
-  killKernelEpic
+  killKernelEpic,
+  changeWebSocketKernelEpic
 } from "./websocket-kernel";
 
 import {
@@ -23,7 +24,11 @@ import {
 
 import { fetchKernelspecsEpic } from "./kernelspecs";
 
-import { fetchContentEpic, setNotebookEpic, saveContentEpic } from "./contents";
+import {
+  fetchContentEpic,
+  saveContentEpic,
+  autoSaveCurrentContentEpic
+} from "./contents";
 
 // Because `@nteract/core` ends up being a commonjs import, we can't currently
 // rely on `import { epics } from ""@nteract/core"`
@@ -34,6 +39,7 @@ const allEpics = [
   executeAllCellsEpic,
   commListenEpic,
   launchWebSocketKernelEpic,
+  changeWebSocketKernelEpic,
   interruptKernelEpic,
   killKernelEpic,
   acquireKernelInfoEpic,
@@ -42,8 +48,8 @@ const allEpics = [
   restartKernelEpic,
   fetchKernelspecsEpic,
   fetchContentEpic,
-  setNotebookEpic,
-  saveContentEpic
+  saveContentEpic,
+  autoSaveCurrentContentEpic
 ];
 
 export {
@@ -53,6 +59,7 @@ export {
   executeAllCellsEpic,
   commListenEpic,
   launchWebSocketKernelEpic,
+  changeWebSocketKernelEpic,
   interruptKernelEpic,
   killKernelEpic,
   acquireKernelInfoEpic,
@@ -61,6 +68,6 @@ export {
   restartKernelEpic,
   fetchKernelspecsEpic,
   fetchContentEpic,
-  setNotebookEpic,
-  saveContentEpic
+  saveContentEpic,
+  autoSaveCurrentContentEpic
 };

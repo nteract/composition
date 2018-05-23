@@ -9,6 +9,8 @@ import { Subscriber } from "rxjs/Subscriber";
 
 import { createAJAXSettings } from "./base";
 
+import { retryWhen, tap, delay, share } from "rxjs/operators";
+
 const urljoin = require("url-join");
 const URLSearchParams = require("url-search-params");
 
@@ -139,6 +141,33 @@ export function connect(
 ): * {
   const wsSubject = webSocket(
     formWebSocketURL(serverConfig, kernelID, sessionID)
+  ).pipe(
+    retryWhen(error$ => {
+      // Keep track of how many times we've already re-tried
+      let counter = 0;
+      let maxRetries = 100;
+
+      return error$.pipe(
+        tap(e => {
+          counter++;
+          // This will only retry on error when it's a close event that is not
+          // from a .complete() of the websocket subject
+          if (counter > maxRetries || e instanceof Event === false) {
+            console.error(
+              `bubbling up Error on websocket after retrying ${counter} times out of ${maxRetries}`,
+              e
+            );
+            throw e;
+          } else {
+            // We'll retry at this point
+            console.log(`attempting to retry kernel connection after error`, e);
+          }
+        }),
+        delay(1000)
+      );
+    }),
+    // The websocket subject is multicast and we need the retryWhen logic to retain that property
+    share()
   );
 
   // Create a subject that does some of the handling inline for the session

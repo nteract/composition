@@ -1,78 +1,44 @@
 // @flow
+// NOTE: We _must_ load hot _before_ React, even though we don't use it in this file
+import { hot } from "react-hot-loader";
+
 import * as React from "react";
 import ReactDOM from "react-dom";
 
+import App from "./app";
+
 import { Provider } from "react-redux";
 import * as Immutable from "immutable";
-
-import NotificationSystem from "react-notification-system";
-
 import configureStore from "./store";
+import {
+  actions,
+  createKernelspecsRef,
+  createKernelRef,
+  makeDummyContentRecord,
+  makeContentsRecord,
+  makeEntitiesRecord,
+  makeStateRecord,
+  makeHostsRecord,
+  makeCommsRecord,
+  makeAppRecord,
+  createContentRef,
+  createHostRef,
+  makeJupyterHostRecord
+} from "@nteract/core";
 
-import { Contents, Styles, actions, state } from "@nteract/core";
+import type { AppState } from "@nteract/core";
 
-function createApp(store: *) {
-  class App extends React.Component<*> {
-    notificationSystem: NotificationSystem;
+const urljoin = require("url-join");
 
-    render(): React$Element<any> {
-      return (
-        <Provider store={store}>
-          <React.Fragment>
-            <Styles>
-              <Contents />
-            </Styles>
-            <NotificationSystem
-              ref={notificationSystem => {
-                this.notificationSystem = notificationSystem;
-              }}
-            />
-            <style jsx global>{`
-              body {
-                font-family: "Source Sans Pro";
-                font-size: 16px;
-                line-height: 22px;
-                background-color: var(--theme-app-bg);
-                color: var(--theme-app-fg);
-                /* All the old theme setups declared this, putting it back for consistency */
-                line-height: 1.3 !important;
-                margin: 0;
-              }
-
-              #app {
-                padding-top: 20px;
-              }
-
-              @keyframes fadeOut {
-                from {
-                  opacity: 1;
-                }
-                to {
-                  opacity: 0;
-                }
-              }
-
-              div#loading {
-                animation-name: fadeOut;
-                animation-duration: 0.25s;
-                animation-fill-mode: forwards;
-              }
-            `}</style>
-          </React.Fragment>
-        </Provider>
-      );
-    }
-  }
-
-  return App;
-}
+require("./fonts");
 
 export type JupyterConfigData = {
   token: string,
   page: "tree" | "view" | "edit",
   contentsPath: string,
   baseUrl: string,
-  appVersion: string
+  appVersion: string,
+  assetUrl: string
 };
 
 function main(rootEl: Element, dataEl: Node | null) {
@@ -100,38 +66,41 @@ function main(rootEl: Element, dataEl: Node | null) {
     return;
   }
 
-  const jupyterHostRecord = state.makeJupyterHostRecord({
+  // Allow chunks from webpack to load from their built location
+  declare var __webpack_public_path__: string;
+  __webpack_public_path__ = urljoin(config.assetUrl, "nteract/static/dist/");
+
+  const jupyterHostRecord = makeJupyterHostRecord({
     id: null,
     type: "jupyter",
     defaultKernelName: "python",
     token: config.token,
-    serverUrl: location.origin + config.baseUrl
+    origin: location.origin,
+    basePath: config.baseUrl
   });
 
-  const hostRef = state.createHostRef();
-  const contentRef = state.createContentRef();
+  const hostRef = createHostRef();
+  const contentRef = createContentRef();
 
-  const initialState = {
-    app: state.makeAppRecord({
+  const initialState: AppState = {
+    app: makeAppRecord({
       version: `nteract-on-jupyter@${config.appVersion}`,
       // TODO: Move into core as a "current" host
       host: jupyterHostRecord
     }),
-    comms: state.makeCommsRecord(),
+    comms: makeCommsRecord(),
     config: Immutable.Map({
       theme: "light"
     }),
-    core: state.makeStateRecord({
-      // TODO: non-prioritized -- set the currentHostRef here
-      currentContentRef: contentRef,
-      entities: state.makeEntitiesRecord({
-        hosts: state.makeHostsRecord({
+    core: makeStateRecord({
+      entities: makeEntitiesRecord({
+        hosts: makeHostsRecord({
           byRef: Immutable.Map().set(hostRef, jupyterHostRecord)
         }),
-        contents: state.makeContentsRecord({
+        contents: makeContentsRecord({
           byRef: Immutable.Map().set(
             contentRef,
-            state.makeDummyContentRecord({
+            makeDummyContentRecord({
               filepath: config.contentsPath
             })
           )
@@ -140,8 +109,8 @@ function main(rootEl: Element, dataEl: Node | null) {
     })
   };
 
-  const kernelRef = state.createKernelRef();
-  const kernelspecsRef = state.createKernelspecsRef();
+  const kernelRef = createKernelRef();
+  const kernelspecsRef = createKernelspecsRef();
 
   const store = configureStore(initialState);
   window.store = store;
@@ -156,8 +125,12 @@ function main(rootEl: Element, dataEl: Node | null) {
   );
   store.dispatch(actions.fetchKernelspecs({ hostRef, kernelspecsRef }));
 
-  const App = createApp(store);
-  ReactDOM.render(<App />, rootEl);
+  ReactDOM.render(
+    <Provider store={store}>
+      <App contentRef={contentRef} />
+    </Provider>,
+    rootEl
+  );
 }
 
 const rootEl = document.querySelector("#root");

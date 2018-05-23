@@ -5,7 +5,8 @@
 import * as selectors from "./selectors";
 
 type Action = {
-  type: string
+  type: string,
+  payload: ?any
 };
 
 // Get the type
@@ -20,11 +21,12 @@ export const errorMiddleware = (
   }
   console.error(action);
   let errorText;
-  if (action.payload) {
+  if ("payload" in action) {
     errorText = JSON.stringify(action.payload, null, 2);
   } else {
     errorText = JSON.stringify(action, null, 2);
   }
+
   const state = store.getState();
   const notificationSystem = selectors.notificationSystem(state);
   if (notificationSystem) {

@@ -25,6 +25,8 @@ export type EntitiesRecordProps = {
   modals: Immutable.RecordOf<ModalsRecordProps>
 };
 
+export type EntitiesRecord = Immutable.RecordOf<EntitiesRecordProps>;
+
 export const makeEntitiesRecord: Immutable.RecordFactory<
   EntitiesRecordProps
 > = Immutable.Record({

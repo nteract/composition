@@ -17,4 +17,4 @@ import NotebookPreview from "@nteract/notebook-preview";
 
 ## See It in Action
 
-A demo of `notebook-preview` can be found in the [showcase](../showcase/pages/notebook-preview.js).
+A demo of `notebook-preview` can be found in the [showcase](../../applications/showcase/pages/notebook-preview.js).

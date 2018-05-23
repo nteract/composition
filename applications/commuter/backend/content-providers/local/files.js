@@ -13,7 +13,7 @@ type ErrorResponse = {
   message: string
 };
 
-function createRouter(options: DiskProviderOptions) {
+export function createRouter(options: DiskProviderOptions) {
   if (!options.local.baseDirectory) {
     throw new Error("Base directory must be specified for the local provider");
   }
@@ -49,7 +49,3 @@ function createRouter(options: DiskProviderOptions) {
   });
   return router;
 }
-
-module.exports = {
-  createRouter
-};

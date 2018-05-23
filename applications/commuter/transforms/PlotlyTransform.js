@@ -73,7 +73,7 @@ class PlotlyTransform extends React.Component<*> {
     return figure;
   }
 
-  render(): React$Element<*> {
+  render() {
     const { layout } = this.getFigure();
     const style = {};
     if (layout && layout.height && !layout.autosize) {

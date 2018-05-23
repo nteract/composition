@@ -4,7 +4,7 @@ import { shallow, mount } from "enzyme";
 
 import { Vega2, Vega3, VegaLite1, VegaLite2, VegaEmbed } from "../src/";
 
-const cars = require("vega-lite/data/cars.json");
+const cars = require("../data/cars.json");
 
 const spec = {
   description: "A scatterplot showing horsepower and miles per gallons.",

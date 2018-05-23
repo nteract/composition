@@ -15,10 +15,10 @@
     "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
   },
   "devDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.3.2"
   },
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.3.2"
   },
   "publishConfig": {
     "access": "public"

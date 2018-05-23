@@ -172,6 +172,5 @@ function createS3Service(config: Object) {
     uploadObject
   };
 }
-module.exports = {
-  createS3Service
-};
+
+export { createS3Service };

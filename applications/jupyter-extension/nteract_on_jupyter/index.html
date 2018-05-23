@@ -3,7 +3,7 @@
 Copyright (c) Jupyter Development Team.
 Distributed under the terms of the Modified BSD License.
 -->
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -11,9 +11,6 @@ Distributed under the terms of the Modified BSD License.
   <meta http-equiv="Content-Language" content="en">
 
   <title>{% block title %}{{page_title}}{% endblock %}</title>
-
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Source+Code+Pro|Source+Sans+Pro|Source+Serif+Pro" rel="stylesheet">
-  <script src="https://cdn.plot.ly/plotly-latest.min.js" type="text/javascript" charset="utf-8"></script>
 
   <script id="jupyter-config-data" type="application/json">{
     {% for key, value in page_config.items() -%}
@@ -23,6 +20,7 @@ Distributed under the terms of the Modified BSD License.
     "wsUrl": "{{ ws_url }}",
     "publicUrl": "{{ public_url }}",
     "contentsPath": "{{ contents_path }}",
+    "assetUrl": "{{ asset_url }}",
     "page": "{{ page }}"
   }</script>
 
@@ -56,6 +54,20 @@ Distributed under the terms of the Modified BSD License.
 
 <body>
 
+{% if ga_code %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ga_code}}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+}
+gtag("js", new Date());
+
+gtag("config", "{{ga_code}}");
+</script>
+{% endif %}
+
 <script type="text/javascript">
 function _remove_token_from_url() {
   if (window.location.search.length <= 1) {
@@ -86,8 +98,7 @@ _remove_token_from_url();
 <div id="root">
 </div>
 
-<script src="{{ base_url }}nteract/static/lib/vendor.js" type="text/javascript" charset="utf-8"></script>
-<script src="{{ base_url }}nteract/static/lib/app.js" type="text/javascript" charset="utf-8"></script>
+<script src="{{ asset_url }}nteract/static/dist/app.js" type="text/javascript" charset="utf-8"></script>
 
 
 </body>

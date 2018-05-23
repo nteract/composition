@@ -5,7 +5,9 @@ import { is } from "immutable";
 import path from "path";
 
 import { selectors } from "@nteract/core";
+import type { ContentRef, KernelRef, AppState } from "@nteract/core";
 
+import { empty } from "rxjs/observable/empty";
 import { of } from "rxjs/observable/of";
 // $FlowFixMe: This exists, we're missing a flow definition
 import { combineLatest } from "rxjs/observable/combineLatest";
@@ -16,7 +18,9 @@ import {
   distinctUntilChanged,
   debounceTime,
   switchMap,
-  filter
+  filter,
+  mergeMap,
+  share
 } from "rxjs/operators";
 
 const HOME = remote.app.getPath("home");
@@ -61,23 +65,52 @@ export function setTitleFromAttributes(attributes: *) {
   }
 }
 
-export function createTitleFeed(state$: *) {
-  const modified$ = state$.pipe(
-    filter(state => selectors.currentContentRef(state)),
-    map(state => !selectors.hasBeenSaved(state)),
+export function createTitleFeed(contentRef: ContentRef, state$: *) {
+  const content$ = state$.pipe(
+    mergeMap((state: AppState) => {
+      const content = selectors.content(state, { contentRef });
+      if (content) {
+        return of(content);
+      } else {
+        return empty();
+      }
+    })
+  );
+
+  const fullpath$ = content$.pipe(
+    map(content => content.filepath || "Untitled"),
     distinctUntilChanged()
   );
 
-  const fullpath$ = state$.pipe(
-    filter(state => selectors.currentContentRef(state)),
-    map(state => selectors.currentFilepath(state) || "Untitled")
+  const modified$ = content$.pipe(
+    map(content => selectors.notebook.isDirty(content.model)),
+    distinctUntilChanged()
   );
 
-  const kernelStatus$ = state$.pipe(
-    filter(state => selectors.currentContentRef(state)),
-    map(state => selectors.currentKernelStatus(state) || "not connected"),
-    debounceTime(200)
+  const kernelRef$ = content$.pipe(
+    mergeMap(content => {
+      if (content && content.type === "notebook") {
+        // FIXME COME BACK TO HERE, we need to strip off the kernelRef
+        const kernelRef = content.model.kernelRef;
+        return of(content.model.kernelRef);
+      } else {
+        return empty();
+      }
+    })
   );
+
+  const kernelStatus$ = combineLatest(
+    state$,
+    kernelRef$,
+    (state: AppState, kernelRef: KernelRef) => {
+      const kernel = selectors.kernel(state, { kernelRef });
+      if (!kernel) {
+        return "not connected";
+      } else {
+        return kernel.status;
+      }
+    }
+  ).pipe(debounceTime(200));
 
   return combineLatest(
     modified$,
@@ -91,10 +124,11 @@ export function createTitleFeed(state$: *) {
   ).pipe(distinctUntilChanged(), switchMap(i => of(i)));
 }
 
-export function initNativeHandlers(store: *) {
-  const state$ = from(store);
+export function initNativeHandlers(contentRef: ContentRef, store: *) {
+  const state$ = from(store).pipe(share());
 
-  return createTitleFeed(state$).subscribe(setTitleFromAttributes, err =>
-    console.error(err)
+  return createTitleFeed(contentRef, state$).subscribe(
+    setTitleFromAttributes,
+    err => console.error(err)
   );
 }

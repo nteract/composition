@@ -1,6 +1,6 @@
 import { ActionsObservable } from "redux-observable";
 
-import { actions, actionTypes, state as stateModule } from "@nteract/core";
+import { actions, actionTypes, makeStateRecord } from "@nteract/core";
 
 import {
   acquireKernelInfo,
@@ -64,6 +64,7 @@ describe("launchKernelEpic", () => {
     const action$ = ActionsObservable.of(
       actions.launchKernel({
         kernelSpec: { spec: "hokey", name: "woohoo" },
+        contentRef: "abc",
         cwd: "~",
         selectNextKernel: true,
         kernelRef: "123"
@@ -71,7 +72,7 @@ describe("launchKernelEpic", () => {
     );
 
     const state = {
-      core: stateModule.makeStateRecord(),
+      core: makeStateRecord(),
       app: {
         kernel: null
       }
@@ -88,9 +89,13 @@ describe("launchKernelEpic", () => {
       .toPromise();
 
     expect(responses).toEqual([
-      actions.setKernelInfo({ kernelInfo: { spec: "hokey", name: "woohoo" } }),
+      actions.setKernelspecInfo({
+        kernelInfo: { spec: "hokey", name: "woohoo" },
+        contentRef: "abc"
+      }),
       actions.launchKernelSuccessful({
         kernel: {
+          info: null,
           kernelRef: expect.any(String),
           lastActivity: null,
           type: "zeromq",
@@ -102,6 +107,8 @@ describe("launchKernelEpic", () => {
           kernelSpecName: "woohoo",
           status: "launched"
         },
+        selectNextKernel: true,
+        contentRef: "abc",
         kernelRef: "123"
       }),
       actions.setExecutionState({

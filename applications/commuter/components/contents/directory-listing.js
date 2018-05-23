@@ -1,6 +1,7 @@
 // @flow
 import * as React from "react";
 
+import TimeAgo from "@nteract/timeago";
 import { Book, FileText, FileDirectory } from "@nteract/octicons";
 
 import Link from "next/link";
@@ -8,8 +9,6 @@ import Link from "next/link";
 import { theme } from "../../theme";
 
 import { groupBy } from "lodash";
-
-import TimeAgo from "@nteract/timeago";
 
 export type DirectoryListingProps = {
   contents: Array<JupyterApi$Content>,

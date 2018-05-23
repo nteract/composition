@@ -7,7 +7,7 @@ import CodeMirrorEditor from "@nteract/editor";
 import { BinderConsole } from "./consoles";
 import { Display } from "@nteract/display-area";
 import { KernelUI } from "./kernelUI";
-import { Outputs } from "@nteract/core";
+import { Outputs } from "@nteract/presentational-components";
 import { connect } from "react-redux";
 import { actions } from "../redux";
 import objectPath from "object-path";
@@ -129,6 +129,7 @@ class Main extends React.Component<*, *> {
             rel="prefetch"
             href="https://media.giphy.com/media/xUPGcguWZHRC2HyBRS/giphy.gif"
           />
+          <title>nteract play: Run interactive code</title>
         </Head>
         <header>
           <div className="left">

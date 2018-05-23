@@ -238,12 +238,29 @@ export function createImmutableOutput(output: Output): ImmutableOutput {
   }
 }
 
+function createImmutableMetadata(
+  metadata: JSONObject
+): Immutable.Map<string, any> {
+  return Immutable.Map(metadata).map((v, k: string) => {
+    if (k !== "tags") {
+      return v;
+    }
+
+    if (Array.isArray(v)) {
+      return Immutable.Set(v);
+    }
+
+    // The notebook spec requires that this field is an Array of strings
+    return Immutable.Set();
+  });
+}
+
 function createImmutableRawCell(cell: RawCell): ImmutableRawCell {
   // $FlowFixMe: Immutable
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
-    metadata: Immutable.fromJS(cell.metadata)
+    metadata: createImmutableMetadata(cell.metadata)
   });
 }
 
@@ -254,7 +271,7 @@ function createImmutableMarkdownCell(
   return new Immutable.Map({
     cell_type: cell.cell_type,
     source: demultiline(cell.source),
-    metadata: Immutable.fromJS(cell.metadata)
+    metadata: createImmutableMetadata(cell.metadata)
   });
 }
 
@@ -266,7 +283,7 @@ function createImmutableCodeCell(cell: CodeCell): ImmutableCodeCell {
     // $FlowFixMe: Immutable
     outputs: new Immutable.List(cell.outputs.map(createImmutableOutput)),
     execution_count: cell.execution_count,
-    metadata: Immutable.fromJS(cell.metadata)
+    metadata: createImmutableMetadata(cell.metadata)
   });
 }
 
@@ -321,15 +338,16 @@ type PlainNotebook = {|
   nbformat_minor: number
 |};
 
-function markdownCellToJS(immCell: ImmutableCell): MarkdownCell {
-  // $FlowFixMe: With Immutable we can not properly type this
-  const cell: Cell = immCell.toObject();
+function metadataToJS(immMetadata: Immutable.Map<string, mixed>): JSONObject {
+  // $FlowFixMe these shouldn't be mixed types really
+  return immMetadata.toJS();
+}
 
-  // $FlowFixMe: Fails now as a result of the above.
+function markdownCellToJS(immCell: ImmutableCell): MarkdownCell {
   return {
     cell_type: "markdown",
-    source: remultiline(cell.source),
-    metadata: Immutable.fromJS(cell.metadata)
+    source: remultiline(immCell.get("source", "")),
+    metadata: metadataToJS(immCell.get("metadata", Immutable.Map()))
   };
 }
 
@@ -404,13 +422,12 @@ function codeCellToJS(immCell: ImmutableCell): CodeCell {
   // $FlowFixMe: With Immutable we can not properly type this
   const cell: IntermediateCodeCell = immCell.toObject();
 
-  // $FlowFixMe: Ditto above.
   return {
     cell_type: "code",
     source: remultiline(cell.source),
     outputs: cell.outputs.map(outputToJS).toArray(),
     execution_count: cell.execution_count,
-    metadata: Immutable.fromJS(cell.metadata)
+    metadata: metadataToJS(immCell.get("metadata", Immutable.Map()))
   };
 }
 
@@ -418,11 +435,10 @@ function rawCellToJS(immCell: ImmutableCell): RawCell {
   // $FlowFixMe: With Immutable we can not properly type this
   const cell: Cell = immCell.toObject();
 
-  // $FlowFixMe: Ditto above. Cells should be Records.
   return {
     cell_type: "raw",
     source: remultiline(cell.source),
-    metadata: Immutable.fromJS(cell.metadata)
+    metadata: metadataToJS(immCell.get("metadata", Immutable.Map()))
   };
 }
 

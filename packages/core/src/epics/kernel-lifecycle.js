@@ -30,15 +30,10 @@ import { ActionsObservable, ofType } from "redux-observable";
 
 import * as uuid from "uuid";
 
-import type {
-  NewKernelAction,
-  RestartKernel,
-  SetNotebook
-} from "../actionTypes";
-
 import * as selectors from "../selectors";
 import * as actions from "../actions";
 import * as actionTypes from "../actionTypes";
+import type { AppState, KernelInfo } from "../state";
 
 /**
  * Sets the execution state after a kernel has been launched.
@@ -48,7 +43,7 @@ import * as actionTypes from "../actionTypes";
 export const watchExecutionStateEpic = (action$: ActionsObservable<*>) =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_SUCCESSFUL),
-    switchMap((action: NewKernelAction) =>
+    switchMap((action: actionTypes.NewKernelAction) =>
       action.payload.kernel.channels.pipe(
         filter(msg => msg.header.msg_type === "status"),
         map(msg =>
@@ -79,10 +74,38 @@ export function acquireKernelInfo(
     childOf(message),
     ofMessageType("kernel_info_reply"),
     first(),
-    pluck("content", "language_info"),
-    map(langInfo =>
-      actions.setLanguageInfo({ langInfo, kernelRef, contentRef })
-    )
+    mergeMap(msg => {
+      const c = msg.content;
+      const l = c.language_info;
+
+      const info: KernelInfo = {
+        protocolVersion: c.protocol_version,
+        implementation: c.implementation,
+        implementationVersion: c.implementation_version,
+        banner: c.banner,
+        helpLinks: c.help_links,
+        languageName: l.name,
+        languageVersion: l.version,
+        mimetype: l.mimetype,
+        fileExtension: l.file_extension,
+        pygmentsLexer: l.pygments_lexer,
+        codemirrorMode: l.codemirror_mode,
+        nbconvertExporter: l.nbconvert_exporter
+      };
+
+      return of(
+        // The original action we were using
+        actions.setLanguageInfo({
+          langInfo: msg.content.language_info,
+          kernelRef,
+          contentRef
+        }),
+        actions.setKernelInfo({
+          kernelRef,
+          info
+        })
+      );
+    })
   );
 
   return Observable.create(observer => {
@@ -100,9 +123,13 @@ export function acquireKernelInfo(
 export const acquireKernelInfoEpic = (action$: ActionsObservable<*>) =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_SUCCESSFUL),
-    switchMap((action: NewKernelAction) => {
+    switchMap((action: actionTypes.NewKernelAction) => {
       const {
-        payload: { kernel: { channels }, kernelRef, contentRef }
+        payload: {
+          kernel: { channels },
+          kernelRef,
+          contentRef
+        }
       } = action;
       return acquireKernelInfo(channels, kernelRef, contentRef);
     })
@@ -125,31 +152,56 @@ export const extractNewKernel = (
   };
 };
 
+/**
+ * NOTE: This function is _exactly_ the same as the desktop loading.js version
+ *       with one strong exception -- extractNewKernel
+ *       Can they be combined without incurring a penalty on the web app?
+ *       The native functions used are `path.dirname`, `path.resolve`, and `process.cwd()`
+ *       We could always inject those dependencies separately...
+ */
 export const launchKernelWhenNotebookSetEpic = (
-  action$: ActionsObservable<*>
+  action$: ActionsObservable<*>,
+  store: *
 ) =>
   action$.pipe(
-    ofType(actionTypes.SET_NOTEBOOK),
-    map((action: SetNotebook) => {
-      const { cwd, kernelSpecName } = extractNewKernel(
-        action.payload.filepath,
-        action.payload.notebook
-      );
+    ofType(actionTypes.FETCH_CONTENT_FULFILLED),
+    mergeMap((action: actionTypes.FetchContentFulfilled) => {
+      const state: AppState = store.getState();
 
-      return actions.launchKernelByName({
-        kernelSpecName,
-        cwd,
-        kernelRef: action.payload.kernelRef,
-        selectNextKernel: true,
-        contentRef: action.payload.contentRef
-      });
+      const contentRef = action.payload.contentRef;
+
+      const content = selectors.content(state, { contentRef });
+
+      if (
+        !content ||
+        content.type !== "notebook" ||
+        content.model.type !== "notebook"
+      ) {
+        // This epic only handles notebook content
+        return empty();
+      }
+
+      const filepath = content.filepath;
+      const notebook = content.model.notebook;
+
+      const { cwd, kernelSpecName } = extractNewKernel(filepath, notebook);
+
+      return of(
+        actions.launchKernelByName({
+          kernelSpecName,
+          cwd,
+          kernelRef: action.payload.kernelRef,
+          selectNextKernel: true,
+          contentRef: action.payload.contentRef
+        })
+      );
     })
   );
 
 export const restartKernelEpic = (action$: ActionsObservable<*>, store: *) =>
   action$.pipe(
     ofType(actionTypes.RESTART_KERNEL),
-    concatMap((action: RestartKernel) => {
+    concatMap((action: actionTypes.RestartKernel) => {
       const state = store.getState();
 
       const oldKernelRef = action.payload.kernelRef;
@@ -176,7 +228,8 @@ export const restartKernelEpic = (action$: ActionsObservable<*>, store: *) =>
       //       This only mirrors the old behavior of restart kernel (for now)
       notificationSystem.addNotification({
         title: "Kernel Restarted",
-        message: `Kernel ${oldKernel.kernelSpecName} has been restarted.`,
+        message: `Kernel ${oldKernel.kernelSpecName ||
+          "unknown"} has been restarted.`,
         dismissible: true,
         position: "tr",
         level: "success"

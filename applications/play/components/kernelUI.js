@@ -13,7 +13,12 @@ class KernelSelector extends React.Component<*, *> {
     const { kernelspecs, currentKernel, onChange } = this.props;
     return (
       <form>
-        <select value={currentKernel} onBlur={onChange} onChange={onChange}>
+        <select
+          value={currentKernel}
+          onBlur={onChange}
+          onChange={onChange}
+          title="Active Kernel"
+        >
           {Object.keys(kernelspecs).map((kernelName, index) => {
             return <KernelOption kernelName={kernelName} key={kernelName} />;
           })}

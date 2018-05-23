@@ -23,6 +23,4 @@ function createDiscoveryRouter(discoveryOptions: Object) {
   return router;
 }
 
-module.exports = {
-  createDiscoveryRouter
-};
+export { createDiscoveryRouter };

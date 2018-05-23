@@ -1,34 +1,55 @@
 /* @flow */
 
 import type { Store } from "redux";
-import type { AppState } from "@nteract/core/src/state";
 
-import { dialog } from "electron";
 import { is } from "immutable";
 import { selectors } from "@nteract/core";
+
+import type { AppState, KernelRef, ContentRef } from "@nteract/core";
 
 import { killKernelImmediately } from "./epics/zeromq-kernels";
 
 export function unload(store: Store<AppState, Action>) {
-  const kernel = selectors.currentKernel(store.getState());
-  if (kernel) {
-    // TODO: Do we need to provide a KernelRef here?
-    killKernelImmediately(kernel);
-  }
-  return;
+  const state = store.getState();
+
+  state.core.entities.kernels.byRef.forEach((kernel, kernelRef) => {
+    if (kernel.type === "zeromq") {
+      try {
+        killKernelImmediately(kernel);
+      } catch (e) {
+        alert(`Trouble shutting down - ${e.message}`);
+      }
+    } else {
+      alert(
+        "Need to implement a way to shutdown non-zeromq kernels on desktop"
+      );
+    }
+  });
 }
 
-export function beforeUnload(store: Store<AppState, Action>, e: any) {
+export function beforeUnload(
+  contentRef: ContentRef,
+  store: Store<AppState, Action>,
+  e: any
+) {
   const state = store.getState();
-  const saved = selectors.hasBeenSaved(state);
+  const model = selectors.model(state, { contentRef });
 
-  if (!saved) {
+  if (!model || model.type !== "notebook") {
+    // No model on the page, don't block them
+    return;
+  }
+
+  if (selectors.notebook.isDirty(model)) {
     // Will prevent closing "will-prevent-unload"
     e.returnValue = true;
   }
 }
 
-export function initGlobalHandlers(store: Store<AppState, Action>) {
-  window.onbeforeunload = beforeUnload.bind(null, store);
+export function initGlobalHandlers(
+  contentRef: ContentRef,
+  store: Store<AppState, Action>
+) {
+  window.onbeforeunload = beforeUnload.bind(null, contentRef, store);
   window.onunload = unload.bind(null, store);
 }

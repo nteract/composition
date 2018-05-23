@@ -15,16 +15,17 @@ const kernelRef = (state = null, action) => {
     case actionTypes.LAUNCH_KERNEL:
     case actionTypes.LAUNCH_KERNEL_BY_NAME:
       return action.payload.selectNextKernel ? action.payload.kernelRef : state;
+    case actionTypes.LAUNCH_KERNEL_SUCCESSFUL:
+      return action.payload.selectNextKernel ? action.payload.kernelRef : state;
     default:
       return state;
   }
 };
 
-const currentContentRef = (state = null, action) => {
+const currentKernelspecsRef = (state = null, action) => {
   switch (action.type) {
-    case actionTypes.NEW_NOTEBOOK:
-    case actionTypes.FETCH_CONTENT:
-      return action.payload.contentRef;
+    case actionTypes.FETCH_KERNELSPECS:
+      return action.payload.kernelspecsRef;
     default:
       return state;
   }
@@ -33,7 +34,7 @@ const currentContentRef = (state = null, action) => {
 const core = combineReducers(
   {
     communication,
-    currentContentRef,
+    currentKernelspecsRef,
     entities,
     kernelRef
   },

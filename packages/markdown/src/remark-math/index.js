@@ -1,9 +1,11 @@
 // @flow
 
-const inlinePlugin = require("./inline");
-const blockPlugin = require("./block");
+import inlinePlugin from "./inline.js";
+import blockPlugin from "./block.js";
 
-module.exports = function mathPlugin(opts: Object = {}) {
+export function mathPlugin(opts: Object = {}) {
   blockPlugin.call(this, opts);
   inlinePlugin.call(this, opts);
-};
+}
+
+export default mathPlugin;

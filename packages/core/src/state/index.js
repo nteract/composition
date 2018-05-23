@@ -6,42 +6,21 @@ import type {
   LocalKernelProps,
   RemoteKernelProps
 } from "./entities";
-import type { ContentRef, KernelRef } from "./refs";
+import type { ContentRef, KernelRef, KernelspecsRef } from "./refs";
 import type {
+  HostRecord,
   LocalHostRecordProps,
   JupyterHostRecordProps
 } from "./entities/hosts";
 import type { Subject } from "rxjs/Subject";
+
 import { makeCommunicationRecord } from "./communication";
-import { makeEntitiesRecord } from "./entities";
+import { makeEntitiesRecord, makeEmptyHostRecord } from "./entities";
 
 export * from "./communication";
 export * from "./entities";
 export * from "./ids";
 export * from "./refs";
-
-/*
-
-This is the definition of JSON that Flow provides
-
-type JSON = | string | number | boolean | null | JSONObject | JSONArray;
-type JSONObject = { [key:string]: JSON };
-type JSONArray = Array<JSON>;
-
-Which we'll adapt for our use of Immutable.js
-
-*/
-type ImmutableJSON =
-  | string
-  | number
-  | boolean
-  | null
-  | ImmutableJSONMap
-  | ImmutableJSONList; // eslint-disable-line no-use-before-define
-
-type ImmutableJSONMap = Immutable.Map<string, ImmutableJSON>;
-
-type ImmutableJSONList = Immutable.List<ImmutableJSON>;
 
 type KernelspecMetadata = {
   name: string,
@@ -50,7 +29,7 @@ type KernelspecMetadata = {
 };
 
 // Note: this is the kernelspec as formed by spawnteract and jupyter kernelspecs --json
-export type KernelInfo = {
+export type KernelspecInfo = {
   name: string,
   spec: KernelspecMetadata
 };
@@ -100,7 +79,7 @@ export type ConfigState = Immutable.Map<string, any>;
 
 export type StateRecordProps = {
   kernelRef: ?KernelRef,
-  currentContentRef: ?ContentRef,
+  currentKernelspecsRef: ?KernelspecsRef,
   communication: Immutable.RecordOf<CommunicationRecordProps>,
   entities: Immutable.RecordOf<EntitiesRecordProps>
 };
@@ -109,15 +88,13 @@ export const makeStateRecord: Immutable.RecordFactory<
   StateRecordProps
 > = Immutable.Record({
   kernelRef: null,
-  currentContentRef: null,
+  currentKernelspecsRef: null,
   communication: makeCommunicationRecord(),
   entities: makeEntitiesRecord()
 });
 
 export type AppRecordProps = {
-  host:
-    | ?Immutable.RecordOf<LocalHostRecordProps>
-    | ?Immutable.RecordOf<JupyterHostRecordProps>,
+  host: HostRecord,
   githubToken: ?string,
   notificationSystem: { addNotification: Function },
   isSaving: boolean,
@@ -131,7 +108,7 @@ export type AppRecordProps = {
 export const makeAppRecord: Immutable.RecordFactory<
   AppRecordProps
 > = Immutable.Record({
-  host: null,
+  host: makeEmptyHostRecord(),
   githubToken: null,
   notificationSystem: {
     addNotification: (msg: { level?: "error" | "warning" }) => {
@@ -156,12 +133,11 @@ export const makeAppRecord: Immutable.RecordFactory<
 });
 
 export type AppRecord = Immutable.RecordOf<AppRecordProps>;
-
 export type CoreRecord = Immutable.RecordOf<StateRecordProps>;
 
 export type AppState = {
-  app: Immutable.RecordOf<AppRecordProps>,
-  comms: Immutable.RecordOf<CommsRecordProps>,
+  app: AppRecord,
+  comms: CommsRecord,
   config: ConfigState,
   core: CoreRecord
 };

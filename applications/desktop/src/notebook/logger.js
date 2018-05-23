@@ -3,7 +3,7 @@ import { isCollection } from "immutable";
 
 import { createLogger } from "redux-logger";
 
-module.exports = function clogger() {
+export function clogger() {
   const logger = createLogger({
     // predicate: (getState, action) => action.type.includes('COMM'),
     stateTransformer: state =>
@@ -16,4 +16,6 @@ module.exports = function clogger() {
       )
   });
   return logger;
-};
+}
+
+export default clogger;

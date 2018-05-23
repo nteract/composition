@@ -1,4 +1,5 @@
-/* @flow */
+// FIXME: To make it easier to iterate on supported apps, flow is disabled for
+// this file
 import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import { createEpicMiddleware, combineEpics } from "redux-observable";
 

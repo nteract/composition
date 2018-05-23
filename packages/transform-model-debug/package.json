@@ -20,7 +20,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.3.2"
   },
   "license": "BSD-3-Clause"
 }

@@ -1,4 +1,6 @@
-// @flow
+// FIXME: To make it easier to iterate on supported apps, flow is disabled for
+// this file
+
 import * as React from "react";
 import { Router } from "../routes";
 
@@ -19,6 +21,9 @@ class Input extends React.Component<InputProps, InputState> {
   };
 
   handleKeydown = (e: SyntheticEvent<HTMLInputElement>) => {
+    // This got affected by a flow upgrade, there might be a better way of
+    // handling submit with an <input /> element
+    // $FlowFixMe figure out what this should be...
     if (e.key == "Enter") {
       this.handleConfirm();
     }

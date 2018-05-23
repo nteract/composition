@@ -1,11 +1,10 @@
-import React from "react";
+import * as React from "react";
 
 import { shallow } from "enzyme";
 
 import Output from "../src/output";
 import RichestMime from "../src/richest-mime";
-
-const Ansi = require("ansi-to-react");
+import Ansi from "ansi-to-react";
 
 describe("Output", () => {
   it("handles display data", () => {

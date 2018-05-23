@@ -125,23 +125,24 @@ function stringifyNotebook(notebook: v4Notebook): string {
   return JSON.stringify(notebook, null, 2);
 }
 
-module.exports = {
+const createImmutableOutput = v4.createImmutableOutput;
+const createImmutableMimeBundle = v4.createImmutableMimeBundle;
+
+export {
   emptyCodeCell,
   emptyMarkdownCell,
   emptyNotebook,
   monocellNotebook,
   toJS,
   fromJS,
-
   createCodeCell,
   parseNotebook,
   stringifyNotebook,
-
   insertCellAt,
   insertCellAfter,
   removeCell,
   appendCell,
   appendCellToNotebook,
-  createImmutableOutput: v4.createImmutableOutput,
-  createImmutableMimeBundle: v4.createImmutableMimeBundle
+  createImmutableOutput,
+  createImmutableMimeBundle
 };

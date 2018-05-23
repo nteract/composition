@@ -1,6 +1,6 @@
 {
   "name": "@nteract/timeago",
-  "version": "3.4.9",
+  "version": "3.4.10",
   "description": "A simple Time-Ago component for React",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
@@ -36,6 +36,6 @@
   },
   "homepage": "https://github.com/nteract/nteract",
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.3.2"
   }
 }

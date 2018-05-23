@@ -1,44 +1,37 @@
 // @flow
 
-// FIXME FIXME FIXME SUPER WRONG FIXME FIXME FIXME
-type AppState = {
-  // The new way
-  core: any,
-
-  // The old way
-  app: Object,
-  comms: *,
-  config: Object
-};
-
-import type { ContentRef, KernelRef } from "../state/refs";
-import type { ContentRecord, DocumentRecord } from "../state/entities/contents";
-
-import { toJS, stringifyNotebook } from "@nteract/commutable";
 import * as Immutable from "immutable";
+import * as notebook from "./notebook";
 import { createSelector } from "reselect";
+import { makeEmptyModel } from "../state/entities/contents";
+
+import type {
+  AppState,
+  JupyterHostRecord,
+  ContentRef,
+  ContentModel,
+  KernelRef,
+  KernelspecsByRefRecord,
+  ContentRecord
+} from "../state";
+
+// Export sub-selectors (those that operate on contents models for instance)
+export { notebook };
 
 function identity<T>(thing: T): T {
   return thing;
 }
 
-const serverUrl = (state: AppState) => state.app.host.serverUrl;
-const crossDomain = (state: AppState) => state.app.host.crossDomain;
-const token = (state: AppState) => state.app.host.token;
+export const serverConfig = (host: JupyterHostRecord) => {
+  return {
+    endpoint: host.origin + host.basePath,
+    crossDomain: host.crossDomain,
+    token: host.token
+  };
+};
 
-export const serverConfig = createSelector(
-  [serverUrl, crossDomain, token],
-  (serverUrl, crossDomain, token) => ({
-    endpoint: serverUrl,
-    crossDomain,
-    token
-  })
-);
-
-export const userPreferences = createSelector(
-  (state: AppState) => state.config,
-  config => config.toJS()
-);
+export const userTheme = (state: AppState): string =>
+  state.config.get("theme", "light");
 
 export const appVersion = createSelector(
   (state: AppState) => state.app.version,
@@ -54,29 +47,69 @@ export const currentHost = createSelector(
   identity
 );
 
-export const kernelsByRef = createSelector(
-  (state: AppState) => state.core.getIn(["entities", "kernels", "byRef"]),
-  identity
+export const contentByRef = (state: AppState) =>
+  state.core.entities.contents.byRef;
+
+export const content = (
+  state: AppState,
+  { contentRef }: { contentRef: ContentRef }
+) => contentByRef(state).get(contentRef);
+
+export const model = (
+  state: AppState,
+  { contentRef }: { contentRef: ContentRef }
+) => {
+  const content = contentByRef(state).get(contentRef);
+  if (!content) {
+    return null;
+  }
+  return content.model;
+};
+
+export const kernelRefByContentRef = (
+  state: AppState,
+  ownProps: { contentRef: ContentRef }
+): ?KernelRef => {
+  const c = content(state, ownProps);
+  // TODO: When kernels can be associated on other content types, we'll
+  //      allow those too. For now, because of how flow works we have to
+  //      check the "type" field rather than try to check if `kernelRef` is
+  //      a property of the model. There might be some way though. 🤔
+  if (c && c.model && c.model.type === "notebook") {
+    return c.model.kernelRef;
+  }
+
+  return null;
+};
+
+export const currentKernelspecsRef = (state: AppState) =>
+  state.core.currentKernelspecsRef;
+
+export const kernelspecsByRef = (state: AppState) =>
+  state.core.entities.kernelspecs.byRef;
+
+export const currentKernelspecs: (
+  state: AppState
+) => ?KernelspecsByRefRecord = createSelector(
+  currentKernelspecsRef,
+  kernelspecsByRef,
+  (ref, byRef) => (ref ? byRef.get(ref) : null)
 );
 
-// Get a kernel by kernelRef, using the `props` argument
-export const kernel = createSelector(
-  (state: AppState, { kernelRef }: { kernelRef: KernelRef }) =>
-    kernelsByRef(state).get(kernelRef),
-  identity
-);
+export const kernelsByRef = (state: AppState) =>
+  state.core.entities.kernels.byRef;
 
-export const currentKernelRef = createSelector(
-  (state: AppState) => state.core.kernelRef,
-  identity
-);
+export const kernel = (
+  state: AppState,
+  { kernelRef }: { kernelRef: KernelRef }
+) => kernelsByRef(state).get(kernelRef);
+
+export const currentKernelRef = (state: AppState) => state.core.kernelRef;
 
 export const currentKernel = createSelector(
   currentKernelRef,
-  (state: AppState) => state.core.getIn(["entities", "kernels", "byRef"]),
-  (kernelRef, kernelsByRef) => {
-    return kernelsByRef.get(kernelRef);
-  }
+  kernelsByRef,
+  (kernelRef, byRef) => (kernelRef ? byRef.get(kernelRef) : null)
 );
 
 export const currentKernelType = createSelector([currentKernel], kernel => {
@@ -124,226 +157,24 @@ export const comms = createSelector((state: AppState) => state.comms, identity);
 // NOTE: These are comm models, not contents models
 export const models = createSelector([comms], comms => comms.get("models"));
 
-export const currentModel: (
-  state: AppState
-) => DocumentRecord | Immutable.Map<string, any> = createSelector(
-  (state: AppState) => currentContent(state),
-  currentContent => {
-    // TODO: The app assumes that the model is not null. HOWEVER, the model
-    // should really *be* nullable. I.e., components should check
-    // communication before accessing nested values here.
-    return currentContent ? currentContent.model : Immutable.Map();
-  }
-);
-
-export const currentContentType: (
-  state: AppState
-) => "notebook" | "dummy" | null = createSelector(
-  (state: AppState) => currentContent(state),
-  content => (content ? content.type : null)
-);
-
-// TODO: if we're not looking at a notebook in the UI, there may not _be_ a
-// notebook object to get. Do we return null? Throw an error?
-export const currentNotebook: (
-  state: AppState
-) => ?Immutable.Map<string, any> = createSelector(currentModel, model =>
-  model.get("notebook", null)
-);
-
-export const currentSavedNotebook = createSelector(currentModel, model =>
-  model.get("savedNotebook")
-);
-
-export const hasBeenSaved = createSelector(
-  currentNotebook,
-  currentSavedNotebook,
-  (original, disk) => Immutable.is(original, disk)
-);
-
-export const currentLastSaved = createSelector(
-  (state: AppState) => currentContent(state),
-  currentContent => (currentContent ? currentContent.lastSaved : null)
-);
-
-export const currentNotebookMetadata = createSelector(currentModel, model =>
-  model.getIn(["notebook", "metadata"], Immutable.Map())
-);
-
-const CODE_MIRROR_MODE_DEFAULT = "text";
-export const codeMirrorMode = createSelector(
-  [currentNotebookMetadata],
-  metadata =>
-    metadata.getIn(["language_info", "codemirror_mode"]) ||
-    metadata.getIn(["kernel_info", "language"]) ||
-    metadata.getIn(["kernelspec", "language"]) ||
-    CODE_MIRROR_MODE_DEFAULT
-);
-
-export const currentDisplayName = createSelector(
-  [currentNotebookMetadata],
-  metadata => metadata.getIn(["kernelspec", "display_name"], "")
-);
-
-export const currentNotebookGithubUsername = createSelector(
-  [currentNotebookMetadata],
-  metadata => metadata.get("github_username", null)
-);
-
-export const currentNotebookGistId = createSelector(
-  [currentNotebookMetadata],
-  metadata => metadata.get("gist_id", null)
-);
-
-export const currentNotebookJS = createSelector([currentNotebook], notebook => {
-  if (notebook) {
-    return toJS(notebook);
-  }
-  return null;
-});
-
-export const currentNotebookString = createSelector(
-  [currentNotebookJS],
-  notebookJS => {
-    if (notebookJS) {
-      return stringifyNotebook(notebookJS);
-    }
-    return "";
-  }
-);
-
-export const currentFocusedCellId = createSelector(currentModel, model =>
-  model.get("cellFocused")
-);
-
-export const currentFocusedEditorId = createSelector(currentModel, model =>
-  model.get("editorFocused")
-);
-
-export const transientCellMap = createSelector(currentModel, model =>
-  model.getIn(["transient", "cellMap"], Immutable.Map())
-);
-
-export const currentCellMap = createSelector([currentNotebook], notebook => {
-  if (notebook) {
-    return notebook.get("cellMap", Immutable.Map());
-  }
-  return null;
-});
-
-export const currentCellOrder = createSelector([currentNotebook], notebook => {
-  if (notebook) {
-    return notebook.get("cellOrder");
-  }
-  return null;
-});
-
-export const currentCodeCellIds = createSelector(
-  [currentCellMap, currentCellOrder],
-  (cellMap, cellOrder) => {
-    if (cellMap && cellOrder) {
-      return cellOrder.filter(
-        id => cellMap.getIn([id, "cell_type"]) === "code"
-      );
-    }
-    return Immutable.List();
-  }
-);
-
-export const currentCodeCellIdsBelow = createSelector(
-  [currentFocusedCellId, currentCellMap, currentCellOrder],
-  (focusedCellId, cellMap, cellOrder) => {
-    if (cellMap && cellOrder) {
-      const index = cellOrder.indexOf(focusedCellId);
-      return cellOrder
-        .skip(index)
-        .filter(id => cellMap.getIn([id, "cell_type"]) === "code");
-    }
-    return Immutable.List();
-  }
-);
-
-export const currentHiddenCellIds = createSelector(
-  [currentCellMap, currentCellOrder],
-  (cellMap, cellOrder) => {
-    if (cellMap && cellOrder) {
-      return cellOrder.filter(id =>
-        cellMap.getIn([id, "metadata", "inputHidden"])
-      );
-    }
+export const filepath = (
+  state: *,
+  ownProps: { contentRef: ContentRef }
+): ?string => {
+  const c = content(state, ownProps);
+  if (!c) {
     return null;
   }
-);
-
-export const currentIdsOfHiddenOutputs = createSelector(
-  [currentCellMap, currentCellOrder],
-  (cellMap, cellOrder): Immutable.List<any> => {
-    if (!cellOrder || !cellMap) {
-      return Immutable.List();
-    }
-
-    return cellOrder.filter(cellId =>
-      cellMap.getIn([cellId, "metadata", "outputHidden"])
-    );
-  }
-);
-
-export const currentFilepath: (state: *) => string = createSelector(
-  (state: AppState) => currentContent(state),
-  currentContent => {
-    return currentContent ? currentContent.filepath : "";
-  }
-);
+  return c.filepath;
+};
 
 export const modalType = createSelector(
   (state: AppState) => state.core.entities.modals.modalType,
   identity
 );
 
-export const currentTheme: (state: *) => string = createSelector(
+export const currentTheme: (state: *) => "light" | "dark" = createSelector(
   (state: AppState) => state.config.get("theme", "light"),
-  identity
-);
-
-// TODO: These selectors all have "Core" suffixes that will be removed when we
-// fully switch over to using the new state tree under state.core.
-
-export const hostByRefCore = createSelector(
-  (state: AppState, { hostRef }) =>
-    state.core.getIn(["entities", "hosts", "byRef", hostRef]),
-  identity
-);
-
-export const communicationKernelspecsByRefCore = createSelector(
-  (state: AppState, { kernelspecsRef }) =>
-    state.core.getIn(["communication", "kernelspecs", "byRef", kernelspecsRef]),
-  identity
-);
-
-export const kernelspecsByRefCore = createSelector(
-  (state: AppState, { kernelspecsRef }) =>
-    state.core.getIn(["entities", "kernelspecs", "byRef", kernelspecsRef]),
-  identity
-);
-
-export const currentContentRef: (
-  state: AppState
-) => ContentRef = createSelector(
-  (state: AppState) => state.core.currentContentRef,
-  identity
-);
-
-export const currentContent: (
-  state: AppState
-) => ?ContentRecord = createSelector(
-  (state: AppState) => state.core.currentContentRef,
-  (state: AppState) => state.core.entities.contents.byRef,
-  (contentRef, byRef) => byRef.get(contentRef)
-);
-
-export const contentByRef = createSelector(
-  (state: AppState, { contentRef }) =>
-    state.core.entities.contents.byRef.get(contentRef),
   identity
 );
 

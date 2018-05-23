@@ -3,7 +3,6 @@ import * as Immutable from "immutable";
 import * as actionTypes from "../../../actionTypes";
 import { combineReducers } from "redux-immutable";
 import {
-  makeBinderHostRecord,
   makeHostsRecord,
   makeJupyterHostRecord,
   makeLocalHostRecord
@@ -23,12 +22,6 @@ const byRef = (state = Immutable.Map(), action) => {
           return state.set(
             action.payload.hostRef,
             makeLocalHostRecord(action.payload.host)
-          );
-        }
-        case "binder": {
-          return state.set(
-            action.payload.hostRef,
-            makeBinderHostRecord(action.payload.host)
           );
         }
         default:

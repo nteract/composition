@@ -1,5 +1,4 @@
 /* @flow */
-import type { ContentRef, KernelRef } from "@nteract/core/src/state";
 import { unlinkObservable } from "fs-observable";
 
 import type { ChildProcess } from "child_process";
@@ -41,11 +40,15 @@ import { ipcRenderer as ipc } from "electron";
 import { createMainChannel } from "enchannel-zmq-backend";
 import * as jmp from "jmp";
 
-import type { NewKernelAction } from "@nteract/core/src/actionTypes";
-
-import type { KernelInfo, LocalKernelProps } from "@nteract/core/src/state";
-
 import { selectors, actions, actionTypes } from "@nteract/core";
+
+import type {
+  KernelspecInfo,
+  KernelRef,
+  ContentRef,
+  LocalKernelProps,
+  LocalKernelRecord
+} from "@nteract/core";
 
 import {
   createMessage,
@@ -53,12 +56,6 @@ import {
   ofMessageType,
   shutdownRequest
 } from "@nteract/messaging";
-import type {
-  InterruptKernel,
-  LaunchKernelAction,
-  LaunchKernelByNameAction,
-  KillKernelAction
-} from "@nteract/core/src/actionTypes";
 
 /**
  * Instantiate a connection to a new kernel.
@@ -67,7 +64,7 @@ import type {
  * @param  {String}  cwd The working directory to launch the kernel in
  */
 export function launchKernelObservable(
-  kernelSpec: KernelInfo,
+  kernelSpec: KernelspecInfo,
   cwd: string,
   kernelRef: KernelRef,
   contentRef: ContentRef
@@ -122,7 +119,7 @@ export function launchKernelObservable(
       createMainChannel(config, undefined, undefined, jmp)
         .then((channels: Channels) => {
           observer.next(
-            actions.setKernelInfo({
+            actions.setKernelspecInfo({
               kernelInfo: kernelSpec,
               contentRef: contentRef
             })
@@ -130,6 +127,7 @@ export function launchKernelObservable(
 
           const kernel: LocalKernelProps = {
             kernelRef,
+            info: null,
             type: "zeromq",
             hostRef: null,
             channels,
@@ -142,7 +140,12 @@ export function launchKernelObservable(
           };
 
           observer.next(
-            actions.launchKernelSuccessful({ kernel, kernelRef, contentRef })
+            actions.launchKernelSuccessful({
+              kernel,
+              kernelRef,
+              contentRef,
+              selectNextKernel: true
+            })
           );
           // TODO: Request status right after
           observer.next(
@@ -175,12 +178,12 @@ export const launchKernelByNameEpic = (
 ): Observable<Action> =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_BY_NAME),
-    tap((action: LaunchKernelByNameAction) => {
+    tap((action: actionTypes.LaunchKernelByNameAction) => {
       if (!action.payload.kernelSpecName) {
         throw new Error("launchKernelByNameEpic requires a kernel name");
       }
     }),
-    mergeMap((action: LaunchKernelByNameAction) =>
+    mergeMap((action: actionTypes.LaunchKernelByNameAction) =>
       kernelSpecsObservable.pipe(
         mergeMap(specs =>
           // Defer to a launchKernel action to _actually_ launch
@@ -211,7 +214,7 @@ export const launchKernelEpic = (
     ofType(actionTypes.LAUNCH_KERNEL),
     // We must kill the previous kernel now
     // Then launch the next one
-    switchMap((action: LaunchKernelAction) => {
+    switchMap((action: actionTypes.LaunchKernelAction) => {
       if (
         !action.payload ||
         !action.payload.kernelSpec ||
@@ -233,7 +236,7 @@ export const launchKernelEpic = (
 
       // Kill the old kernel by emitting the action to kill it if it exists
       let cleanupOldKernel$ = empty();
-      if (oldKernelRef && oldKernelRef !== action.payloadRef) {
+      if (oldKernelRef && oldKernelRef !== action.payload.kernelRef) {
         cleanupOldKernel$ = of(
           actions.killKernel({ restarting: false, kernelRef: oldKernelRef })
         );
@@ -274,8 +277,25 @@ export const interruptKernelEpic = (action$: *, store: *): Observable<Action> =>
     filter(() => selectors.isCurrentKernelZeroMQ(store.getState())),
     // If the user fires off _more_ interrupts, we shouldn't interrupt the in-flight
     // interrupt, instead doing it after the last one happens
-    concatMap((action: InterruptKernel) => {
+    concatMap((action: actionTypes.InterruptKernel) => {
       const kernel = selectors.currentKernel(store.getState());
+      if (!kernel) {
+        return of(
+          actions.interruptKernelFailed({
+            error: new Error("Can't interrupt a kernel we don't have"),
+            kernelRef: action.payload.kernelRef
+          })
+        );
+      }
+
+      if (kernel.type !== "zeromq" || !kernel.spawn) {
+        return of(
+          actions.interruptKernelFailed({
+            error: new Error("Invalid kernel type for interrupting"),
+            kernelRef: action.payload.kernelRef
+          })
+        );
+      }
 
       const spawn = kernel.spawn;
 
@@ -287,31 +307,41 @@ export const interruptKernelEpic = (action$: *, store: *): Observable<Action> =>
       // This is instead handled in the watchSpawnEpic below
       spawn.kill("SIGINT");
 
-      return merge(
-        of(
-          actions.interruptKernelSuccessful({
-            kernelRef: action.payload.kernelRef
-          })
-        )
+      return of(
+        actions.interruptKernelSuccessful({
+          kernelRef: action.payload.kernelRef
+        })
       );
     })
   );
 
-export function killKernelImmediately(kernel: *): void {
-  kernel.channels.complete();
-
+function killSpawn(spawn: *): void {
   // Clean up all the terminal streams
   // "pause" stdin, which puts it back in its normal state
-  if (kernel.spawn.stdin) {
-    kernel.spawn.stdin.pause();
+  // $FlowFixMe - Flow's built-in definitions are missing pause
+  if (spawn.stdin && kernel.spawn.stdin.pause) {
+    // $FlowFixMe - Flow's built-in definitions are missing pause
+    spawn.stdin.pause();
   }
-  kernel.spawn.stdout.destroy();
-  kernel.spawn.stderr.destroy();
+  // $FlowFixMe - Flow's built-in definitions are missing destroy
+  spawn.stdout.destroy();
+  // $FlowFixMe - Flow's built-in definitions are missing destroy
+  spawn.stderr.destroy();
 
   // Kill the process fully
-  kernel.spawn.kill("SIGKILL");
+  spawn.kill("SIGKILL");
+}
 
-  fs.unlinkSync(kernel.connectionFile);
+export function killKernelImmediately(kernel: LocalKernelRecord): void {
+  kernel.channels.complete();
+
+  if (kernel.spawn) {
+    killSpawn(kernel.spawn);
+  }
+
+  if (kernel.connectionFile) {
+    fs.unlinkSync(kernel.connectionFile);
+  }
 }
 
 export const killKernelEpic = (action$: *, store: *): Observable<Action> =>
@@ -319,10 +349,20 @@ export const killKernelEpic = (action$: *, store: *): Observable<Action> =>
     ofType(actionTypes.KILL_KERNEL),
     // This epic can only kill direct zeromq connected kernels
     filter(() => selectors.isCurrentKernelZeroMQ(store.getState())),
-    concatMap((action: KillKernelAction) => {
+    concatMap((action: actionTypes.KillKernelAction) => {
       const state = store.getState();
       const kernelRef = action.payload.kernelRef;
       const kernel = selectors.kernel(state, { kernelRef });
+      if (!kernel) {
+        console.warn("tried to kill a kernel that doesn't exist");
+        return empty();
+      }
+
+      if (kernel.type !== "zeromq") {
+        console.warn("tried to kill a non-zeromq kernel");
+        return empty();
+      }
+
       const request = shutdownRequest({ restart: false });
 
       // Try to make a shutdown request
@@ -345,24 +385,26 @@ export const killKernelEpic = (action$: *, store: *): Observable<Action> =>
           // End all communication on the channels
           kernel.channels.complete();
 
-          // Clean up all the terminal streams
-          // "pause" stdin, which puts it back in its normal state
-          if (kernel.spawn.stdin) {
-            kernel.spawn.stdin.pause();
+          if (kernel.spawn) {
+            killSpawn(kernel.spawn);
           }
-          kernel.spawn.stdout.destroy();
-          kernel.spawn.stderr.destroy();
-
-          // Kill the process fully
-          kernel.spawn.kill("SIGKILL");
 
           // Delete the connection file
-          const del$ = unlinkObservable(kernel.connectionFile).pipe(
-            map(() => actions.deleteConnectionFileSuccessful({ kernelRef })),
-            catchError(err =>
-              of(actions.deleteConnectionFileFailed({ error: err, kernelRef }))
-            )
-          );
+          const del$ = kernel.connectionFile
+            ? unlinkObservable(kernel.connectionFile).pipe(
+                map(() =>
+                  actions.deleteConnectionFileSuccessful({ kernelRef })
+                ),
+                catchError(err =>
+                  of(
+                    actions.deleteConnectionFileFailed({
+                      error: err,
+                      kernelRef
+                    })
+                  )
+                )
+              )
+            : empty();
 
           return merge(
             // Pass on our intermediate action
@@ -396,7 +438,7 @@ export const killKernelEpic = (action$: *, store: *): Observable<Action> =>
 export function watchSpawn(action$: *, store: *) {
   return action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_SUCCESSFUL),
-    switchMap((action: NewKernelAction) => {
+    switchMap((action: actionTypes.NewKernelAction) => {
       if (!action.payload.kernel.type === "zeromq") {
         throw new Error("kernel.type is not zeromq.");
       }

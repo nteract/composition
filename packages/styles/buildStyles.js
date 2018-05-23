@@ -1,9 +1,11 @@
+// Note: This file is ES5 because it doesn't get transpiled, only gets used for building the module
 const config = require("./src/config.json");
 const fs = require("fs");
 const path = require("path");
 
 const BUILD_DIR = path.join(__dirname, "build");
-const CSS_PATH = path.join(BUILD_DIR, "styles.js");
+const CSS_PATH = path.join(BUILD_DIR, "index.js");
+const FLOW_PATH = path.join("src", "index.js");
 const DECLARATIONS_PATH = path.join(BUILD_DIR, "declarations.json");
 const VARIABLES_PATH = path.join(BUILD_DIR, "variables.json");
 
@@ -85,16 +87,22 @@ if (!fs.existsSync(BUILD_DIR)) {
   fs.mkdirSync(BUILD_DIR);
 }
 
-// Generate themeable css. Overwrite the whole file for the first write.
-fs.writeFileSync(
-  CSS_PATH,
-  "// This file is auto-generated. See buildStyles.js for details.\n\n"
+const lines = [
+  "// @flow",
+  "// This file is auto-generated. See buildStyles.js for details.",
+  // Ensure this ends up as an es module for nice webpack usage
+  "export default `",
+  ":root {"
+].concat(
+  // Generated CSS from our config
+  lodash
+    .toPairs(declarations)
+    .map(([cssProperty, cssValue]) => `  ${cssProperty}: ${cssValue};`),
+  ["}", "`;"]
 );
-fs.appendFileSync(CSS_PATH, "module.exports = `\n:root {\n");
-lodash.toPairs(declarations).forEach(([cssProperty, cssValue]) => {
-  fs.appendFileSync(CSS_PATH, `  ${cssProperty}: ${cssValue};\n`);
-});
-fs.appendFileSync(CSS_PATH, "}\n`;\n");
+
+fs.writeFileSync(CSS_PATH, lines.join("\n"));
+fs.writeFileSync(FLOW_PATH, lines.join("\n"));
 
 // Generate variable file for validation.
 fs.writeFileSync(

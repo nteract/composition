@@ -1,0 +1,46 @@
+{
+  "name": "@nteract/monaco-editor",
+  "version": "1.0.0",
+  "description": "A React component for the monaco editor, tailored for nteract",
+  "main": "src/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/monaco-editor",
+  "keywords": [
+    "nteract",
+    "editor",
+    "notebook",
+    "jupyter",
+    "monaco"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@nteract/display-area": "^4.1.2",
+    "@nteract/messaging": "^4.0.0",
+    "@nteract/transforms": "^4.1.2",
+    "@nteract/types": "^2.0.0",
+    "lodash": "^4.17.4",
+    "monaco-editor": "^0.13.0",
+    "monaco-editor-webpack-plugin": "^1.2.0",
+    "rxjs": "^5.5.6"
+  },
+  "peerDependencies": {
+    "immutable": "^4.0.0-rc.9",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "styled-jsx": "^2.2.6"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

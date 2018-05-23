@@ -1,5 +1,5 @@
 // @flow
-var trim = require("trim-trailing-lines");
+import trim from "trim-trailing-lines";
 
 var C_NEWLINE = "\n";
 var C_TAB = "\t";
@@ -9,7 +9,7 @@ var C_DOLLAR = "$";
 var MIN_FENCE_COUNT = 2;
 var CODE_INDENT_COUNT = 4;
 
-module.exports = function blockPlugin(opts: Object) {
+export function blockPlugin(opts: Object) {
   function blockTokenizer(eat, value, silent) {
     var length = value.length + 1;
     var index = 0;
@@ -225,4 +225,6 @@ module.exports = function blockPlugin(opts: Object) {
       return "$$\n" + node.value + "\n$$";
     };
   }
-};
+}
+
+export default blockPlugin;

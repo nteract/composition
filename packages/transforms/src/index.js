@@ -1,13 +1,13 @@
 /* @flow */
 
-import TextDisplay from "./text";
-import JsonDisplay from "./json";
-import JavaScriptDisplay from "./javascript";
-import HTMLDisplay from "./html";
-import MarkdownDisplay from "./markdown";
-import LaTeXDisplay from "./latex";
-import SVGDisplay from "./svg";
-import { PNGDisplay, JPEGDisplay, GIFDisplay } from "./image";
+import TextDisplay from "./text.js";
+import JsonDisplay from "./json.js";
+import JavaScriptDisplay from "./javascript.js";
+import HTMLDisplay from "./html.js";
+import MarkdownDisplay from "./markdown.js";
+import LaTeXDisplay from "./latex.js";
+import SVGDisplay from "./svg.js";
+import { PNGDisplay, JPEGDisplay, GIFDisplay } from "./image.js";
 import VDOMDisplay from "@nteract/transform-vdom";
 
 type Transform = {

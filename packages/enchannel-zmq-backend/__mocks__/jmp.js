@@ -19,14 +19,13 @@ class Socket extends EventEmitter {
   close() {}
 }
 
-module.exports = {
-  Message: msg => ({
-    header: { ...msg.header },
-    parent_header: { ...msg.parent_header },
-    content: { ...msg.content },
-    metadata: { ...msg.metadata },
-    buffers: [],
-    idents: []
-  }),
-  Socket
-};
+const Message = msg => ({
+  header: { ...msg.header },
+  parent_header: { ...msg.parent_header },
+  content: { ...msg.content },
+  metadata: { ...msg.metadata },
+  buffers: [],
+  idents: []
+});
+
+export { Message, Socket };

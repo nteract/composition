@@ -42,7 +42,7 @@ type VDOMEl = {
   key: number | string | null
 };
 
-type ReactArray = Array<React$Element<*> | ReactArray | string>;
+type ReactArray = Array<React$Element<any> | ReactArray | string>;
 
 type VDOMNode = VDOMEl | string | Array<VDOMNode>;
 
@@ -55,7 +55,7 @@ type VDOMNode = VDOMEl | string | Array<VDOMNode>;
  * @param  {Object}       obj - The element object.
  * @return {ReactElement}
  */
-export function objectToReactElement(obj: VDOMEl): React$Element<*> {
+export function objectToReactElement(obj: VDOMEl): React$Element<any> {
   // Pack args for React.createElement
   var args = [];
 

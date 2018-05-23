@@ -42,12 +42,14 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
         isSelected={false}
         key="4"
       >
-        <PapermillView />
+        <PapermillView
+          status={null}
+        />
         <Input
           hidden={false}
         >
           <Prompt
-            counter={null}
+            counter={11}
             queued={false}
             running={false}
           />
@@ -287,12 +289,14 @@ exports[`Notebook accepts an Object of cells 1`] = `
         isSelected={false}
         key="15"
       >
-        <PapermillView />
+        <PapermillView
+          status={null}
+        />
         <Input
           hidden={false}
         >
           <Prompt
-            counter={null}
+            counter={11}
             queued={false}
             running={false}
           />

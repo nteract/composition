@@ -2,10 +2,14 @@
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 
+// react-hot-loader uses proxies to the original elements so we need to use
+// their comparison function in case a consumer of these components is
+// using hot module reloading
+import { areComponentsEqual } from "react-hot-loader";
 import * as React from "react";
 
 type DropdownMenuProps = {
-  children: React.ChildrenArray<React.Element<any>>
+  children: React.ChildrenArray<React.Element<*>>
 };
 
 type DropdownMenuState = {
@@ -27,13 +31,13 @@ export class DropdownMenu extends React.Component<
     return (
       <div className="dropdown">
         {React.Children.map(this.props.children, child => {
-          if (child.type === DropdownTrigger) {
+          if (areComponentsEqual(child.type, DropdownTrigger)) {
             return React.cloneElement(child, {
               onClick: ev => {
                 this.setState({ menuHidden: !this.state.menuHidden });
               }
             });
-          } else if (child.type === DropdownContent) {
+          } else if (areComponentsEqual(child.type, DropdownContent)) {
             if (this.state.menuHidden) {
               return null;
             } else {
@@ -61,7 +65,7 @@ export class DropdownMenu extends React.Component<
 }
 
 export class DropdownTrigger extends React.Component<{
-  children: React.ChildrenArray<React.Element<any>>,
+  children: React.ChildrenArray<React.Element<*>>,
   onClick?: (ev: SyntheticEvent<*>) => void
 }> {
   render() {
@@ -81,7 +85,7 @@ export class DropdownTrigger extends React.Component<{
 }
 
 export class DropdownContent extends React.Component<{
-  children: React.ChildrenArray<React.Element<any>>,
+  children: React.ChildrenArray<React.Element<*>>,
   onItemClick: (ev: SyntheticEvent<*>) => void
 }> {
   static defaultProps = {
@@ -109,14 +113,16 @@ export class DropdownContent extends React.Component<{
             margin: 0px;
             padding: 0px;
 
+            width: 200px;
+
             opacity: 1;
             position: absolute;
             top: 0.2em;
             right: 0;
             border-style: none;
             padding: 0;
-            font-family: "Source Sans Pro";
-            font-size: 12px;
+            font-family: var(--nt-font-family-normal);
+            font-size: var(--nt-font-size-m);
             line-height: 1.5;
             margin: 20px 0;
             background-color: var(--theme-cell-menu-bg);

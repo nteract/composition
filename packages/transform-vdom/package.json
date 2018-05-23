@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transform-vdom",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "VDOM Transform for jupyter outputs",
   "main": "lib/",
   "nteractDesktop": "src/index.js",
@@ -20,7 +20,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.3.2"
   },
   "license": "BSD-3-Clause"
 }

@@ -1,9 +1,5 @@
 # enchannel-zmq-backend
 
-[![GitHub release](https://img.shields.io/badge/enchannel--zmq--backend-version--latest-blue.svg)](https://github.com/nteract/enchannel-zmq-backend/releases)
-[![enchannel spec version](https://img.shields.io/badge/enchannel%20spec-version%201.1-ff69b4.svg)](https://github.com/nteract/enchannel/releases)
-[![Greenkeeper badge](https://badges.greenkeeper.io/nteract/enchannel-zmq-backend.svg)](https://greenkeeper.io/)
-
 [**Installation**](#installation) | [**Usage**](#usage) |
 [**Contributors and developers**](#contributors-and-developers) |
 [**Learn more about nteract**](#learn-more-about-nteract)
@@ -266,7 +262,7 @@ Develop! We welcome new and first time contributors.
 
 - Visit our website http://nteract.io/.
 - See our organization on GitHub https://github.com/nteract
-- Join us on [Slack](http://slack.nteract.in/) if you need help or have
+- Join us on [Slack](https://slack.nteract.io/) if you need help or have
   questions. If you have trouble creating an account, either
   email rgbkrk@gmail.com or post an issue on GitHub.
 

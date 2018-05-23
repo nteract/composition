@@ -1,7 +1,7 @@
 import lodash from "lodash";
 import moment from "moment";
 import { timeParse } from "d3-time-format";
-import { ERROR } from "../config";
+import { ERROR } from "./error";
 
 // Module API
 

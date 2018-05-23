@@ -1,9 +1,9 @@
+// @flow
+
 import lodash from "lodash";
-import { ERROR } from "../config";
+import { ERROR } from "./error";
 
-// Module API
-
-export function castArray(format, value) {
+export function castArray(format: *, value: *): Array<*> | string {
   if (!lodash.isArray(value)) {
     if (!lodash.isString(value)) {
       return ERROR;

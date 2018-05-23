@@ -8,7 +8,7 @@ const ESCAPED_INLINE_MATH = /^\\\$/;
 const INLINE_MATH = /^\$((?:\\\$|[^$])+)\$/;
 const INLINE_MATH_DOUBLE = /^\$\$((?:\\\$|[^$])+)\$\$/;
 
-module.exports = function inlinePlugin(opts: Object) {
+export function inlinePlugin(opts: Object) {
   function inlineTokenizer(eat, value, silent) {
     let isDouble = true;
     let match = INLINE_MATH_DOUBLE.exec(value);
@@ -110,4 +110,6 @@ module.exports = function inlinePlugin(opts: Object) {
       return "$" + node.value + "$";
     };
   }
-};
+}
+
+export default inlinePlugin;

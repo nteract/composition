@@ -2,24 +2,21 @@
 
 > The tool for managing the monorepo in nteract is [Lerna](https://github.com/lerna/lerna)
 
-Juggling a multimodule project over multiple repos is like trying to teach a newborn baby how to
-ride a bike.
-
 nteract follows a monorepo approach, all officially maintained modules are in the same repo.
 
 **Pros:**
 
- * Single lint, build, test and release process.
- * Easy to coordinate changes across modules.
- * Single place to report issues.
- * Easier to setup a development environment.
- * Tests across modules are ran together which finds bugs that touch multiple modules easier.
+* Single lint, build, test and release process.
+* Easy to coordinate changes across modules.
+* Single place to report issues.
+* Easier to setup a development environment.
+* Tests across modules are ran together which finds bugs that touch multiple modules easier.
 
 **Cons:**
 
- * Codebase looks more intimidating.
- * Repo is bigger in size.
- * [Can't `npm install` modules directly from GitHub](https://github.com/npm/npm/issues/2974)
+* Codebase looks more intimidating.
+* Repo is bigger in size.
+* [Can't `npm install` modules directly from GitHub](https://github.com/npm/npm/issues/2974)
 
 ## This is weird! Nobody in open source does this!
 

@@ -1,8 +1,6 @@
-const Ansi = require("../src/index");
-const React = require("react");
-const enzyme = require("enzyme");
-
-import { configure } from "enzyme";
+import Ansi from "../src/index";
+import * as React from "react";
+import { configure, shallow } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 
 configure({ adapter: new Adapter() });
@@ -13,13 +11,13 @@ const RESET = "\u001b[0;m";
 
 describe("Ansi", () => {
   test("hello world", () => {
-    const el = enzyme.shallow(React.createElement(Ansi, null, "hello world"));
+    const el = shallow(React.createElement(Ansi, null, "hello world"));
     expect(el).not.toBeNull();
     expect(el.text()).toBe("hello world");
   });
 
   test("can color", () => {
-    const el = enzyme.shallow(
+    const el = shallow(
       React.createElement(Ansi, null, `hello ${GREEN_FG}world`)
     );
     expect(el).not.toBeNull();
@@ -30,7 +28,7 @@ describe("Ansi", () => {
   });
 
   test("can have className", () => {
-    const el = enzyme.shallow(
+    const el = shallow(
       React.createElement(Ansi, { className: "my-class" }, `hello world`)
     );
     expect(el).not.toBeNull();
@@ -41,7 +39,7 @@ describe("Ansi", () => {
   });
 
   test("can nest", () => {
-    const el = enzyme.shallow(
+    const el = shallow(
       React.createElement(
         Ansi,
         null,
@@ -56,7 +54,7 @@ describe("Ansi", () => {
   });
 
   test("can handle carriage symbol", () => {
-    const el = enzyme.shallow(
+    const el = shallow(
       React.createElement(
         Ansi,
         null,
@@ -68,7 +66,7 @@ describe("Ansi", () => {
   });
 
   test("can linkify", () => {
-    const el = enzyme.shallow(
+    const el = shallow(
       React.createElement(
         Ansi,
         { linkify: true },
@@ -83,7 +81,7 @@ describe("Ansi", () => {
   });
 
   test("can distinguish URL-ish text", () => {
-    const el = enzyme.shallow(
+    const el = shallow(
       React.createElement(
         Ansi,
         { linkify: true },
@@ -95,7 +93,7 @@ describe("Ansi", () => {
   });
 
   test("can distinguish URL-ish text", () => {
-    const el = enzyme.shallow(
+    const el = shallow(
       React.createElement(
         Ansi,
         { linkify: true },

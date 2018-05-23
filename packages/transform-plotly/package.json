@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transform-plotly",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "description": "Plotly Transform",
   "main": "lib/",
   "nteractDesktop": "src/index.js",
@@ -24,7 +24,7 @@
     "lodash": "^4.17.4"
   },
   "peerDependencies": {
-    "react": "^16.2.0"
+    "react": "^16.3.2"
   },
   "license": "BSD-3-Clause"
 }

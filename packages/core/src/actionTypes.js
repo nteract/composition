@@ -7,10 +7,9 @@ import type {
 } from "./state/refs";
 import type { HostRecord } from "./state/entities/hosts";
 import type { KernelspecProps } from "./state/entities/kernelspecs";
+import type { KernelInfo } from "./state/entities/kernel-info";
 
 import type {
-  Notebook,
-  ImmutableNotebook,
   CellID,
   CellType,
   ImmutableJSONType,
@@ -18,7 +17,7 @@ import type {
 } from "@nteract/commutable";
 
 import type {
-  KernelInfo,
+  KernelspecInfo,
   LanguageInfoMetadata,
   LocalKernelProps,
   RemoteKernelProps
@@ -121,6 +120,18 @@ export type ChangeFilenameAction = {
   type: "CHANGE_FILENAME",
   payload: {
     filepath: ?string,
+    contentRef: ContentRef
+  }
+};
+
+export const TOGGLE_TAG_IN_CELL = "CORE/TOGGLE_TAG_IN_CELL";
+export type ToggleTagInCell = {
+  // expectation is that if a tag doesn't exist, it will set it
+  // if the tag is already in the collection of tags it will delete it
+  type: "CORE/TOGGLE_TAG_IN_CELL",
+  payload: {
+    id: CellID,
+    tag: string,
     contentRef: ContentRef
   }
 };
@@ -281,6 +292,15 @@ export type AcceptPayloadMessage = {
   }
 };
 
+export const SET_KERNEL_INFO = "CORE/SET_KERNEL_INFO";
+export type SetKernelInfo = {
+  type: "CORE/SET_KERNEL_INFO",
+  payload: {
+    kernelRef: KernelRef,
+    info: KernelInfo
+  }
+};
+
 export const SET_LANGUAGE_INFO = "SET_LANGUAGE_INFO";
 export type SetLanguageInfo = {
   type: "SET_LANGUAGE_INFO",
@@ -408,11 +428,13 @@ export type FocusPreviousCellEditor = {
   }
 };
 
-export const SET_KERNEL_INFO = "SET_KERNEL_INFO";
-export type SetKernelInfo = {
-  type: "SET_KERNEL_INFO",
+// "legacy" action that pushes kernelspec info back up
+// for the notebook document
+export const SET_KERNELSPEC_INFO = "SET_KERNELSPEC_INFO";
+export type SetKernelspecInfo = {
+  type: "SET_KERNELSPEC_INFO",
   payload: {
-    kernelInfo: KernelInfo,
+    kernelInfo: KernelspecInfo,
     contentRef: ContentRef
   }
 };
@@ -543,6 +565,26 @@ export type SetNotificationSystemAction = {
   notificationSystem: Object
 };
 
+export const DOWNLOAD_CONTENT = "CORE/DOWNLOAD_CONTENT";
+export type DownloadContent = {
+  type: "CORE/DOWNLOAD_CONTENT",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const DOWNLOAD_CONTENT_FAILED = "CORE/DOWNLOAD_CONTENT_FAILED";
+export type DownloadContentFailed = {
+  type: "CORE/DOWNLOAD_CONTENT_FAILED",
+  payload: { contentRef: ContentRef }
+};
+
+export const DOWNLOAD_CONTENT_FULFILLED = "CORE/DOWNLOAD_CONTENT_FULFILLED";
+export type DownloadContentFulfilled = {
+  type: "CORE/DOWNLOAD_CONTENT_FULFILLED",
+  payload: { contentRef: ContentRef }
+};
+
 export const SAVE = "SAVE";
 export type Save = {
   type: "SAVE",
@@ -571,7 +613,11 @@ export type SaveFailed = {
 export const SAVE_FULFILLED = "SAVE_FULFILLED";
 export type SaveFulfilled = {
   type: "SAVE_FULFILLED",
-  payload: { contentRef: ContentRef }
+  payload: {
+    contentRef: ContentRef,
+    // Literal response from contents API, for use with
+    model: any
+  }
 };
 
 export const NEW_NOTEBOOK = "NEW_NOTEBOOK";
@@ -584,18 +630,12 @@ export type NewNotebook = {
   }
 };
 
-// TODO: Make this action JSON serializable (don't use the Immutable.js version
-//       of the notebook in this action)
-export const SET_NOTEBOOK = "SET_NOTEBOOK";
-export type SetNotebook = {
-  type: "SET_NOTEBOOK",
+export const UPDATE_FILE_TEXT = "UPDATE_FILE_TEXT";
+export type UpdateFileText = {
+  type: "UPDATE_FILE_TEXT",
   payload: {
-    notebook: ImmutableNotebook,
-    filepath: ?string,
-    kernelRef: KernelRef,
-    contentRef: ContentRef,
-    lastSaved: ?Date,
-    created: ?Date
+    text: string,
+    contentRef: ContentRef
   }
 };
 
@@ -700,6 +740,16 @@ export type LaunchKernelAction = {
   }
 };
 
+export const CHANGE_KERNEL_BY_NAME = "CHANGE_KERNEL_BY_NAME";
+export type ChangeKernelByName = {
+  type: "CHANGE_KERNEL_BY_NAME",
+  payload: {
+    kernelSpecName: string,
+    oldKernelRef: ?KernelRef,
+    contentRef: ContentRef
+  }
+};
+
 export const LAUNCH_KERNEL_BY_NAME = "LAUNCH_KERNEL_BY_NAME";
 export type LaunchKernelByNameAction = {
   type: "LAUNCH_KERNEL_BY_NAME",
@@ -729,7 +779,8 @@ export type NewKernelAction = {
   payload: {
     kernel: LocalKernelProps | RemoteKernelProps,
     kernelRef: KernelRef,
-    contentRef: ContentRef
+    contentRef: ContentRef,
+    selectNextKernel: boolean
   }
 };
 
@@ -790,6 +841,13 @@ export type ShutdownReplyTimedOut = {
 };
 
 // TODO: This action needs a proper flow type, its from desktop's github store
-export const PUBLISH_USER_GIST = "PUBLISH_USER_GIST";
-// TODO: This action needs a proper flow type, its from desktop's github store
-export const PUBLISH_ANONYMOUS_GIST = "PUBLISH_ANONYMOUS_GIST";
+export const PUBLISH_GIST = "CORE/PUBLISH_GIST";
+export type PublishGist = {
+  type: "CORE/PUBLISH_GIST",
+  payload: {
+    contentRef: ContentRef
+  }
+};
+
+export const ERROR = "CORE/ERROR";
+export type CoreError = ErrorAction<"CORE/ERROR">;

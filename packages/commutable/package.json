@@ -1,6 +1,6 @@
 {
   "name": "@nteract/commutable",
-  "version": "4.0.0",
+  "version": "4.0.2",
   "description": "library for immutable notebook operations",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",

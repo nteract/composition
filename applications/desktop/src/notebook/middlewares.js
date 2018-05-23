@@ -3,7 +3,8 @@ import { middlewares as coreMiddlewares } from "@nteract/core";
 
 import { createEpicMiddleware, combineEpics } from "redux-observable";
 
-import epics from "./epics";
+import logger from "./logger.js";
+import epics from "./epics/index.js";
 
 const rootEpic = combineEpics(...epics);
 
@@ -17,8 +18,6 @@ const middlewares = [
 ];
 
 if (process.env.DEBUG === "true") {
-  const logger = require("./logger"); // eslint-disable-line global-require
-
   middlewares.push(logger());
 }
 

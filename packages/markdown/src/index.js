@@ -25,6 +25,7 @@ const MarkdownRender = (
   const newProps = {
     // https://github.com/rexxars/react-markdown#options
     ...props,
+    escapeHtml: false,
     plugins: [RemarkMathPlugin],
     renderers: {
       ...props.renderers,

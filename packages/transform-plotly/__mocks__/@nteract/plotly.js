@@ -1,4 +1,4 @@
-module.exports = {
-  newPlot: jest.fn(),
-  redraw: jest.fn()
-};
+const newPlot = jest.fn();
+const redraw = jest.fn();
+
+export { newPlot, redraw };

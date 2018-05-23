@@ -42,34 +42,6 @@ function createSender(eventName, obj) {
   };
 }
 
-export function authAndPublish(item: *, focusedWindow: *) {
-  const win = new BrowserWindow({
-    show: false,
-    webPreferences: { zoomFactor: 0.75 }
-  });
-  if (process.env.AUTHENTICATED) {
-    send(focusedWindow, "menu:github:auth");
-    return;
-  }
-  win.webContents.on("dom-ready", () => {
-    if (win.getURL().indexOf("callback?code=") !== -1) {
-      win.webContents.executeJavaScript(
-        `
-        require('electron').ipcRenderer.send('auth', document.body.textContent);
-        `
-      );
-      ipc.on("auth", (event, auth) => {
-        send(focusedWindow, "menu:github:auth", JSON.parse(auth).access_token);
-        process.env.AUTHENTICATED = true;
-        win.close();
-      });
-    } else {
-      win.show();
-    }
-  });
-  win.loadURL("https://oauth.nteract.io/github");
-}
-
 const theme_menu = [
   {
     label: "Light",
@@ -231,10 +203,12 @@ export function loadFullMenu(store: * = global.store) {
     generateSubMenu
   );
 
-  const newNotebookItems = Object.keys(kernelSpecs).map(kernelSpecName => ({
-    label: kernelSpecs[kernelSpecName].spec.display_name,
-    click: () => launchNewNotebook(kernelSpecs[kernelSpecName])
-  }));
+  const newNotebookItems = sortBy(kernelSpecs, "spec.display_name").map(
+    kernel => ({
+      label: kernel.spec.display_name,
+      click: () => launchNewNotebook(kernel)
+    })
+  );
 
   const fileSubMenus = {
     new: {
@@ -380,12 +354,7 @@ export function loadFullMenu(store: * = global.store) {
       enabled: BrowserWindow.getAllWindows().length > 0,
       submenu: [
         {
-          label: "&User Gist",
-          enabled: BrowserWindow.getAllWindows().length > 0,
-          click: authAndPublish
-        },
-        {
-          label: "&Anonymous Gist",
+          label: "&Gist",
           enabled: BrowserWindow.getAllWindows().length > 0,
           click: createSender("menu:publish:gist")
         }

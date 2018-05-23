@@ -4,6 +4,7 @@ types
 
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\$FlowAllowFeatureDetection
 module.name_mapper='^@nteract/\(.+\)$' -> '<PROJECT_ROOT>/packages/\1/src'
 module.name_mapper='^ansi-to-react$' -> '<PROJECT_ROOT>/packages/ansi-to-react/src'
 module.name_mapper='^enchannel-zmq-backend$' -> '<PROJECT_ROOT>/packages/enchannel-zmq-backend/src'

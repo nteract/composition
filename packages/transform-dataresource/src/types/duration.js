@@ -1,6 +1,6 @@
 import lodash from "lodash";
 import moment from "moment";
-import { ERROR } from "../config";
+import { ERROR } from "./error";
 
 // Module API
 

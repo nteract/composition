@@ -4,15 +4,32 @@ import ReactDOM from "react-dom";
 import { ipcRenderer as ipc, remote } from "electron";
 import { Provider } from "react-redux";
 
-import MathJax from "@nteract/mathjax";
+// Load the nteract fonts
+require("./fonts");
 
-import { Map as ImmutableMap } from "immutable";
+import MathJax from "@nteract/mathjax";
 
 import NotificationSystem from "react-notification-system";
 
 import configureStore from "./store";
 
-import { actions, NotebookApp, Styles } from "@nteract/core";
+import { Styles } from "@nteract/presentational-components";
+
+import {
+  actions,
+  createContentRef,
+  makeAppRecord,
+  makeStateRecord,
+  makeContentsRecord,
+  makeNotebookContentRecord,
+  makeCommsRecord,
+  makeLocalHostRecord,
+  makeEntitiesRecord
+} from "@nteract/core";
+
+import type { ContentRef, ContentRecord } from "@nteract/core";
+
+import NotebookApp from "@nteract/notebook-app-component";
 
 import { displayOrder, transforms } from "@nteract/transforms-full";
 
@@ -20,31 +37,27 @@ import { initMenuHandlers } from "./menu";
 import { initNativeHandlers } from "./native-window";
 import { initGlobalHandlers } from "./global-events";
 
-import { state as stateModule } from "@nteract/core";
-import type { ContentRef, ContentRecord } from "@nteract/core/src/state";
-
 import * as Immutable from "immutable";
 
-const contentRef = stateModule.createContentRef();
+const contentRef = createContentRef();
 
 const initialRefs: Immutable.Map<
   ContentRef,
   ContentRecord
-> = Immutable.Map().set(contentRef, stateModule.makeNotebookContentRecord());
+> = Immutable.Map().set(contentRef, makeNotebookContentRecord());
 
 const store = configureStore({
-  app: stateModule.makeAppRecord({
-    host: stateModule.makeLocalHostRecord(),
+  app: makeAppRecord({
+    host: makeLocalHostRecord(),
     version: remote.app.getVersion()
   }),
-  comms: stateModule.makeCommsRecord(),
-  config: ImmutableMap({
+  comms: makeCommsRecord(),
+  config: Immutable.Map({
     theme: "light"
   }),
-  core: stateModule.makeStateRecord({
-    currentContentRef: contentRef,
-    entities: stateModule.makeEntitiesRecord({
-      contents: stateModule.makeContentsRecord({
+  core: makeStateRecord({
+    entities: makeEntitiesRecord({
+      contents: makeContentsRecord({
         byRef: initialRefs
       })
     })
@@ -54,9 +67,9 @@ const store = configureStore({
 // Register for debugging
 window.store = store;
 
-initNativeHandlers(store);
-initMenuHandlers(store);
-initGlobalHandlers(store);
+initNativeHandlers(contentRef, store);
+initMenuHandlers(contentRef, store);
+initGlobalHandlers(contentRef, store);
 
 export default class App extends React.PureComponent<Object, Object> {
   notificationSystem: NotificationSystem;
@@ -66,7 +79,7 @@ export default class App extends React.PureComponent<Object, Object> {
     ipc.send("react-ready");
   }
 
-  render(): ?React$Element<any> {
+  render() {
     // eslint-disable-line class-methods-use-this
     return (
       <Provider store={store}>
@@ -74,6 +87,8 @@ export default class App extends React.PureComponent<Object, Object> {
           <Styles>
             <MathJax.Context input="tex">
               <NotebookApp
+                // The desktop app always keeps the same contentRef in a browser window
+                contentRef={contentRef}
                 transforms={transforms}
                 displayOrder={displayOrder}
               />
@@ -89,11 +104,8 @@ export default class App extends React.PureComponent<Object, Object> {
             body {
               font-family: "Source Sans Pro";
               font-size: 16px;
-              line-height: 22px;
               background-color: var(--theme-app-bg);
               color: var(--theme-app-fg);
-              /* All the old theme setups declared this, putting it back for consistency */
-              line-height: 1.3 !important;
             }
 
             #app {

@@ -34,6 +34,4 @@ function createDiscoveryService(options: ESDiscoveryBackendOptions) {
   };
 }
 
-module.exports = {
-  createDiscoveryService
-};
+export { createDiscoveryService };

@@ -14,7 +14,8 @@ import type { KernelspecProps } from "./state/entities/kernelspecs";
 import type {
   LanguageInfoMetadata,
   LocalKernelProps,
-  RemoteKernelProps
+  RemoteKernelProps,
+  KernelInfo
 } from "./state";
 
 import type {
@@ -24,87 +25,6 @@ import type {
 } from "@nteract/commutable/src/types";
 
 import type { Output } from "@nteract/commutable/src/v4";
-
-import type {
-  UnhideAll,
-  RestartKernel,
-  RestartKernelFailed,
-  RestartKernelSuccessful,
-  ShutdownReplyTimedOut,
-  ShutdownReplySucceeded,
-  DeleteConnectionFileFailedAction,
-  DeleteConnectionFileSuccessfulAction,
-  ExecuteCell,
-  ExecuteFocusedCell,
-  ExecuteAllCells,
-  ExecuteAllCellsBelow,
-  ExecuteCanceled,
-  ExecuteFailed,
-  FetchKernelspecs,
-  FetchKernelspecsFulfilled,
-  FetchKernelspecsFailed,
-  PasteCell,
-  ChangeFilenameAction,
-  ToggleCellExpansion,
-  ChangeCellType,
-  CutCell,
-  CopyCell,
-  DeleteMetadataField,
-  OverwriteMetadataField,
-  AcceptPayloadMessage,
-  NewNotebook,
-  SetNotebook,
-  CreateCellAfter,
-  CreateCellBefore,
-  ClearAllOutputs,
-  ClearOutputs,
-  AppendOutput,
-  UpdateDisplay,
-  UpdateDisplayFailed,
-  FocusNextCell,
-  FocusCellEditor,
-  FocusNextCellEditor,
-  FocusPreviousCellEditor,
-  RemoveCell,
-  FocusCell,
-  CreateCellAppend,
-  MergeCellAfter,
-  MoveCell,
-  FocusPreviousCell,
-  SetKernelInfo,
-  SetLanguageInfo,
-  UpdateCellStatus,
-  ToggleCellInputVisibility,
-  ToggleCellOutputVisibility,
-  SetInCell,
-  SendExecuteRequest,
-  NewKernelAction,
-  SetGithubTokenAction,
-  SetNotificationSystemAction,
-  SetExecutionStateAction,
-  SetConfigAction,
-  LaunchKernelAction,
-  LaunchKernelByNameAction,
-  LaunchKernelFailed,
-  KernelRawStdout,
-  KernelRawStderr,
-  InterruptKernel,
-  InterruptKernelSuccessful,
-  InterruptKernelFailed,
-  KillKernelAction,
-  KillKernelFailed,
-  KillKernelSuccessful,
-  OpenModal,
-  CloseModal,
-  AddHost,
-  Save,
-  SaveAs,
-  SaveFailed,
-  SaveFulfilled,
-  FetchContent,
-  FetchContentFulfilled,
-  FetchContentFailed
-} from "./actionTypes";
 
 import { createExecuteRequest } from "@nteract/messaging";
 import type { HostRecordProps } from "./state/entities/hosts";
@@ -138,7 +58,7 @@ export const fetchContent = (payload: {
   params: Object,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): FetchContent => ({
+}): actionTypes.FetchContent => ({
   type: actionTypes.FETCH_CONTENT,
   payload
 });
@@ -148,7 +68,7 @@ export const fetchContentFulfilled = (payload: {
   model: any,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): FetchContentFulfilled => ({
+}): actionTypes.FetchContentFulfilled => ({
   type: actionTypes.FETCH_CONTENT_FULFILLED,
   payload
 });
@@ -158,7 +78,7 @@ export const fetchContentFailed = (payload: {
   error: Error,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): FetchContentFailed => ({
+}): actionTypes.FetchContentFailed => ({
   type: actionTypes.FETCH_CONTENT_FAILED,
   payload,
   error: true
@@ -167,7 +87,7 @@ export const fetchContentFailed = (payload: {
 export const fetchKernelspecs = (payload: {
   kernelspecsRef: KernelspecsRef,
   hostRef: HostRef
-}): FetchKernelspecs => ({
+}): actionTypes.FetchKernelspecs => ({
   type: actionTypes.FETCH_KERNELSPECS,
   payload
 });
@@ -177,7 +97,7 @@ export const fetchKernelspecsFulfilled = (payload: {
   hostRef: HostRef,
   defaultKernelName: string,
   kernelspecs: { [string]: KernelspecProps }
-}): FetchKernelspecsFulfilled => ({
+}): actionTypes.FetchKernelspecsFulfilled => ({
   type: actionTypes.FETCH_KERNELSPECS_FULFILLED,
   payload
 });
@@ -185,7 +105,7 @@ export const fetchKernelspecsFulfilled = (payload: {
 export const fetchKernelspecsFailed = (payload: {
   kernelspecsRef: KernelspecsRef,
   error: Object
-}): FetchKernelspecsFailed => ({
+}): actionTypes.FetchKernelspecsFailed => ({
   type: actionTypes.FETCH_KERNELSPECS_FAILED,
   payload
 });
@@ -194,7 +114,7 @@ export function launchKernelFailed(payload: {
   error: Error,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): LaunchKernelFailed {
+}): actionTypes.LaunchKernelFailed {
   return {
     type: actionTypes.LAUNCH_KERNEL_FAILED,
     payload,
@@ -205,8 +125,9 @@ export function launchKernelFailed(payload: {
 export function launchKernelSuccessful(payload: {
   kernel: LocalKernelProps | RemoteKernelProps,
   kernelRef: KernelRef,
-  contentRef: ContentRef
-}): NewKernelAction {
+  contentRef: ContentRef,
+  selectNextKernel: boolean
+}): actionTypes.NewKernelAction {
   return {
     type: actionTypes.LAUNCH_KERNEL_SUCCESSFUL,
     payload
@@ -219,9 +140,20 @@ export function launchKernel(payload: {
   kernelRef: KernelRef,
   selectNextKernel: boolean,
   contentRef: ContentRef
-}): LaunchKernelAction {
+}): actionTypes.LaunchKernelAction {
   return {
     type: actionTypes.LAUNCH_KERNEL,
+    payload
+  };
+}
+
+export function changeKernelByName(payload: {
+  kernelSpecName: any,
+  oldKernelRef: ?KernelRef,
+  contentRef: ContentRef
+}): actionTypes.ChangeKernelByName {
+  return {
+    type: actionTypes.CHANGE_KERNEL_BY_NAME,
     payload
   };
 }
@@ -232,7 +164,7 @@ export function launchKernelByName(payload: {
   kernelRef: KernelRef,
   selectNextKernel: boolean,
   contentRef: ContentRef
-}): LaunchKernelByNameAction {
+}): actionTypes.LaunchKernelByNameAction {
   return {
     type: actionTypes.LAUNCH_KERNEL_BY_NAME,
     payload
@@ -242,7 +174,7 @@ export function launchKernelByName(payload: {
 export function kernelRawStdout(payload: {
   text: string,
   kernelRef: KernelRef
-}): KernelRawStdout {
+}): actionTypes.KernelRawStdout {
   return {
     type: actionTypes.KERNEL_RAW_STDOUT,
     payload
@@ -252,20 +184,21 @@ export function kernelRawStdout(payload: {
 export function kernelRawStderr(payload: {
   text: string,
   kernelRef: KernelRef
-}): KernelRawStderr {
+}): actionTypes.KernelRawStderr {
   return {
     type: actionTypes.KERNEL_RAW_STDERR,
     payload
   };
 }
 
-// TODO: Does this need to pass KernelRef information?
-export function setKernelInfo(payload: {
+// "legacy" action that pushes kernelspec info back up
+// for the notebook document
+export function setKernelspecInfo(payload: {
   kernelInfo: any,
   contentRef: ContentRef
-}): SetKernelInfo {
+}): actionTypes.SetKernelspecInfo {
   return {
-    type: actionTypes.SET_KERNEL_INFO,
+    type: actionTypes.SET_KERNELSPEC_INFO,
     payload
   };
 }
@@ -273,7 +206,7 @@ export function setKernelInfo(payload: {
 export function setExecutionState(payload: {
   kernelStatus: string,
   kernelRef: KernelRef
-}): SetExecutionStateAction {
+}): actionTypes.SetExecutionStateAction {
   return {
     type: actionTypes.SET_EXECUTION_STATE,
     payload
@@ -283,7 +216,7 @@ export function setExecutionState(payload: {
 export function clearOutputs(payload: {
   id?: string,
   contentRef: ContentRef
-}): ClearOutputs {
+}): actionTypes.ClearOutputs {
   return {
     type: actionTypes.CLEAR_OUTPUTS,
     payload
@@ -292,7 +225,7 @@ export function clearOutputs(payload: {
 
 export function clearAllOutputs(payload: {
   contentRef: ContentRef
-}): ClearAllOutputs {
+}): actionTypes.ClearAllOutputs {
   return {
     type: actionTypes.CLEAR_ALL_OUTPUTS,
     payload
@@ -304,7 +237,7 @@ export function moveCell(payload: {
   destinationId: string,
   above: boolean,
   contentRef: ContentRef
-}): MoveCell {
+}): actionTypes.MoveCell {
   return {
     type: actionTypes.MOVE_CELL,
     payload
@@ -314,7 +247,7 @@ export function moveCell(payload: {
 export function removeCell(payload: {
   id: string,
   contentRef: ContentRef
-}): RemoveCell {
+}): actionTypes.RemoveCell {
   return {
     type: actionTypes.REMOVE_CELL,
     payload
@@ -326,7 +259,7 @@ export function createCellAfter(payload: {
   cellType: CellType,
   source: string,
   contentRef: ContentRef
-}): CreateCellAfter {
+}): actionTypes.CreateCellAfter {
   return {
     type: actionTypes.CREATE_CELL_AFTER,
     payload
@@ -337,7 +270,7 @@ export function createCellBefore(payload: {
   cellType: CellType,
   id?: string,
   contentRef: ContentRef
-}): CreateCellBefore {
+}): actionTypes.CreateCellBefore {
   return {
     type: actionTypes.CREATE_CELL_BEFORE,
     payload
@@ -347,7 +280,7 @@ export function createCellBefore(payload: {
 export function createCellAppend(payload: {
   cellType: CellType,
   contentRef: ContentRef
-}): CreateCellAppend {
+}): actionTypes.CreateCellAppend {
   return {
     type: actionTypes.CREATE_CELL_APPEND,
     payload
@@ -357,9 +290,32 @@ export function createCellAppend(payload: {
 export function mergeCellAfter(payload: {
   id?: string,
   contentRef: ContentRef
-}): MergeCellAfter {
+}): actionTypes.MergeCellAfter {
   return {
     type: actionTypes.MERGE_CELL_AFTER,
+    payload
+  };
+}
+
+export function toggleParameterCell(payload: {
+  id: CellID,
+  contentRef: ContentRef
+}): actionTypes.ToggleTagInCell {
+  // Tag comes via Papermill
+  return toggleTagInCell({
+    id: payload.id,
+    contentRef: payload.contentRef,
+    tag: "parameters"
+  });
+}
+
+export function toggleTagInCell(payload: {
+  id: CellID,
+  contentRef: ContentRef,
+  tag: string
+}): actionTypes.ToggleTagInCell {
+  return {
+    type: actionTypes.TOGGLE_TAG_IN_CELL,
     payload
   };
 }
@@ -390,7 +346,7 @@ export function setInCell<T>(payload: {
   path: Array<string>,
   value: T,
   contentRef: ContentRef
-}): SetInCell<T> {
+}): actionTypes.SetInCell<T> {
   return {
     type: actionTypes.SET_IN_CELL,
     payload
@@ -401,7 +357,7 @@ export function updateCellSource(payload: {
   id: CellID,
   value: string,
   contentRef: ContentRef
-}): SetInCell<string> {
+}): actionTypes.SetInCell<string> {
   return setInCell({ ...payload, path: ["source"] });
 }
 
@@ -409,7 +365,7 @@ export function updateCellExecutionCount(payload: {
   id: CellID,
   value: number,
   contentRef: ContentRef
-}): SetInCell<number> {
+}): actionTypes.SetInCell<number> {
   return setInCell({ ...payload, path: ["execution_count"] });
 }
 
@@ -417,7 +373,7 @@ export function unhideAll(payload: {
   outputHidden: boolean,
   inputHidden: boolean,
   contentRef: ContentRef
-}): UnhideAll {
+}): actionTypes.UnhideAll {
   return {
     type: "UNHIDE_ALL",
     payload
@@ -427,7 +383,7 @@ export function unhideAll(payload: {
 export function toggleCellOutputVisibility(payload: {
   id?: CellID,
   contentRef: ContentRef
-}): ToggleCellOutputVisibility {
+}): actionTypes.ToggleCellOutputVisibility {
   return {
     type: actionTypes.TOGGLE_CELL_OUTPUT_VISIBILITY,
     payload
@@ -437,7 +393,7 @@ export function toggleCellOutputVisibility(payload: {
 export function toggleCellInputVisibility(payload: {
   id?: string,
   contentRef: ContentRef
-}): ToggleCellInputVisibility {
+}): actionTypes.ToggleCellInputVisibility {
   return {
     type: actionTypes.TOGGLE_CELL_INPUT_VISIBILITY,
     payload
@@ -448,7 +404,7 @@ export function updateCellStatus(payload: {
   id: string,
   status: string,
   contentRef: ContentRef
-}): UpdateCellStatus {
+}): actionTypes.UpdateCellStatus {
   return {
     type: actionTypes.UPDATE_CELL_STATUS,
     payload
@@ -460,7 +416,7 @@ export function updateCellStatus(payload: {
 export function focusCell(payload: {
   id: CellID,
   contentRef: ContentRef
-}): FocusCell {
+}): actionTypes.FocusCell {
   return {
     type: actionTypes.FOCUS_CELL,
     payload
@@ -471,7 +427,7 @@ export function focusNextCell(payload: {
   id: ?string,
   createCellIfUndefined: boolean,
   contentRef: ContentRef
-}): FocusNextCell {
+}): actionTypes.FocusNextCell {
   return {
     type: actionTypes.FOCUS_NEXT_CELL,
     payload
@@ -481,7 +437,7 @@ export function focusNextCell(payload: {
 export function focusNextCellEditor(payload: {
   id: ?string,
   contentRef: ContentRef
-}): FocusNextCellEditor {
+}): actionTypes.FocusNextCellEditor {
   return {
     type: actionTypes.FOCUS_NEXT_CELL_EDITOR,
     payload
@@ -491,7 +447,7 @@ export function focusNextCellEditor(payload: {
 export function focusPreviousCell(payload: {
   id: ?string,
   contentRef: ContentRef
-}): FocusPreviousCell {
+}): actionTypes.FocusPreviousCell {
   return {
     type: actionTypes.FOCUS_PREVIOUS_CELL,
     payload
@@ -501,7 +457,7 @@ export function focusPreviousCell(payload: {
 export function focusCellEditor(payload: {
   id: ?string,
   contentRef: ContentRef
-}): FocusCellEditor {
+}): actionTypes.FocusCellEditor {
   return {
     type: actionTypes.FOCUS_CELL_EDITOR,
     payload
@@ -511,7 +467,7 @@ export function focusCellEditor(payload: {
 export function focusPreviousCellEditor(payload: {
   id: ?string,
   contentRef: ContentRef
-}): FocusPreviousCellEditor {
+}): actionTypes.FocusPreviousCellEditor {
   return {
     type: actionTypes.FOCUS_PREVIOUS_CELL_EDITOR,
     payload
@@ -522,7 +478,7 @@ export function overwriteMetadataField(payload: {
   field: string,
   value: any,
   contentRef: ContentRef
-}): OverwriteMetadataField {
+}): actionTypes.OverwriteMetadataField {
   return {
     type: actionTypes.OVERWRITE_METADATA_FIELD,
     payload
@@ -532,7 +488,7 @@ export function overwriteMetadataField(payload: {
 export function deleteMetadataField(payload: {
   field: string,
   contentRef: ContentRef
-}): DeleteMetadataField {
+}): actionTypes.DeleteMetadataField {
   return {
     type: actionTypes.DELETE_METADATA_FIELD,
     payload
@@ -542,7 +498,7 @@ export function deleteMetadataField(payload: {
 export function killKernel(payload: {
   restarting: boolean,
   kernelRef: KernelRef
-}): KillKernelAction {
+}): actionTypes.KillKernelAction {
   return {
     type: actionTypes.KILL_KERNEL,
     payload
@@ -552,7 +508,7 @@ export function killKernel(payload: {
 export function killKernelFailed(payload: {
   error: Error,
   kernelRef: KernelRef
-}): KillKernelFailed {
+}): actionTypes.KillKernelFailed {
   return {
     type: actionTypes.KILL_KERNEL_FAILED,
     payload,
@@ -562,7 +518,7 @@ export function killKernelFailed(payload: {
 
 export function killKernelSuccessful(payload: {
   kernelRef: KernelRef
-}): KillKernelSuccessful {
+}): actionTypes.KillKernelSuccessful {
   return {
     type: actionTypes.KILL_KERNEL_SUCCESSFUL,
     payload
@@ -571,7 +527,7 @@ export function killKernelSuccessful(payload: {
 
 export function interruptKernel(payload: {
   kernelRef: KernelRef
-}): InterruptKernel {
+}): actionTypes.InterruptKernel {
   return {
     type: actionTypes.INTERRUPT_KERNEL,
     payload
@@ -580,7 +536,7 @@ export function interruptKernel(payload: {
 
 export function interruptKernelSuccessful(payload: {
   kernelRef: KernelRef
-}): InterruptKernelSuccessful {
+}): actionTypes.InterruptKernelSuccessful {
   return {
     type: actionTypes.INTERRUPT_KERNEL_SUCCESSFUL,
     payload
@@ -590,7 +546,7 @@ export function interruptKernelSuccessful(payload: {
 export function interruptKernelFailed(payload: {
   error: Error,
   kernelRef: KernelRef
-}): interruptKernelFailed {
+}): actionTypes.InterruptKernelFailed {
   return {
     type: actionTypes.INTERRUPT_KERNEL_FAILED,
     payload,
@@ -600,7 +556,7 @@ export function interruptKernelFailed(payload: {
 
 export function setNotificationSystem(
   notificationSystem: any
-): SetNotificationSystemAction {
+): actionTypes.SetNotificationSystemAction {
   return {
     type: actionTypes.SET_NOTIFICATION_SYSTEM,
     notificationSystem
@@ -610,7 +566,7 @@ export function setNotificationSystem(
 export function copyCell(payload: {
   id?: CellID,
   contentRef: ContentRef
-}): CopyCell {
+}): actionTypes.CopyCell {
   return {
     type: actionTypes.COPY_CELL,
     payload
@@ -620,14 +576,16 @@ export function copyCell(payload: {
 export function cutCell(payload: {
   id?: CellID,
   contentRef: ContentRef
-}): CutCell {
+}): actionTypes.CutCell {
   return {
     type: actionTypes.CUT_CELL,
     payload
   };
 }
 
-export function pasteCell(payload: { contentRef: ContentRef }): PasteCell {
+export function pasteCell(payload: {
+  contentRef: ContentRef
+}): actionTypes.PasteCell {
   return {
     type: actionTypes.PASTE_CELL,
     payload
@@ -638,21 +596,26 @@ export function changeCellType(payload: {
   id: CellID,
   to: CellType,
   contentRef: ContentRef
-}): ChangeCellType {
+}): actionTypes.ChangeCellType {
   return {
     type: actionTypes.CHANGE_CELL_TYPE,
     payload
   };
 }
 
-export function setGithubToken(githubToken: string): SetGithubTokenAction {
+export function setGithubToken(
+  githubToken: string
+): actionTypes.SetGithubTokenAction {
   return {
     type: actionTypes.SET_GITHUB_TOKEN,
     githubToken
   };
 }
 
-export function setConfigAtKey<T>(key: string, value: T): SetConfigAction<T> {
+export function setConfigAtKey<T>(
+  key: string,
+  value: T
+): actionTypes.SetConfigAction<T> {
   return {
     type: actionTypes.SET_CONFIG_AT_KEY,
     key,
@@ -660,18 +623,20 @@ export function setConfigAtKey<T>(key: string, value: T): SetConfigAction<T> {
   };
 }
 
-export function setTheme(theme: string): SetConfigAction<string> {
+export function setTheme(theme: string): actionTypes.SetConfigAction<string> {
   return setConfigAtKey("theme", theme);
 }
 
-export function setCursorBlink(value: string): SetConfigAction<string> {
+export function setCursorBlink(
+  value: string
+): actionTypes.SetConfigAction<string> {
   return setConfigAtKey("cursorBlinkRate", value);
 }
 
 export function toggleOutputExpansion(payload: {
   id: string,
   contentRef: ContentRef
-}): ToggleCellExpansion {
+}): actionTypes.ToggleCellExpansion {
   return {
     type: actionTypes.TOGGLE_OUTPUT_EXPANSION,
     payload
@@ -682,7 +647,7 @@ export function sendExecuteRequest(payload: {
   id: string,
   message: *,
   contentRef: ContentRef
-}): SendExecuteRequest {
+}): actionTypes.SendExecuteRequest {
   return {
     type: actionTypes.SEND_EXECUTE_REQUEST,
     payload
@@ -692,7 +657,7 @@ export function sendExecuteRequest(payload: {
 export function executeCell(payload: {
   id: string,
   contentRef: ContentRef
-}): ExecuteCell {
+}): actionTypes.ExecuteCell {
   return {
     type: actionTypes.EXECUTE_CELL,
     payload
@@ -701,7 +666,7 @@ export function executeCell(payload: {
 
 export function executeAllCells(payload: {
   contentRef: ContentRef
-}): ExecuteAllCells {
+}): actionTypes.ExecuteAllCells {
   return {
     type: actionTypes.EXECUTE_ALL_CELLS,
     payload
@@ -710,7 +675,7 @@ export function executeAllCells(payload: {
 
 export function executeAllCellsBelow(payload: {
   contentRef: ContentRef
-}): ExecuteAllCellsBelow {
+}): actionTypes.ExecuteAllCellsBelow {
   return {
     type: actionTypes.EXECUTE_ALL_CELLS_BELOW,
     payload
@@ -719,7 +684,7 @@ export function executeAllCellsBelow(payload: {
 
 export function executeFocusedCell(payload: {
   contentRef: ContentRef
-}): ExecuteFocusedCell {
+}): actionTypes.ExecuteFocusedCell {
   return {
     type: actionTypes.EXECUTE_FOCUSED_CELL,
     payload
@@ -729,7 +694,7 @@ export function executeFocusedCell(payload: {
 export function executeCanceled(payload: {
   id: string,
   contentRef: ContentRef
-}): ExecuteCanceled {
+}): actionTypes.ExecuteCanceled {
   return {
     type: actionTypes.EXECUTE_CANCELED,
     payload
@@ -739,7 +704,7 @@ export function executeCanceled(payload: {
 export function executeFailed(payload: {
   error: Error,
   contentRef: ContentRef
-}): ExecuteFailed {
+}): actionTypes.ExecuteFailed {
   return {
     type: actionTypes.EXECUTE_FAILED,
     error: true,
@@ -750,14 +715,41 @@ export function executeFailed(payload: {
 export function changeFilename(payload: {
   filepath: ?string,
   contentRef: ContentRef
-}): ChangeFilenameAction {
+}): actionTypes.ChangeFilenameAction {
   return {
     type: actionTypes.CHANGE_FILENAME,
     payload
   };
 }
 
-export function save(payload: { contentRef: ContentRef }): Save {
+export function downloadContent(payload: {
+  contentRef: ContentRef
+}): actionTypes.DownloadContent {
+  return {
+    type: actionTypes.DOWNLOAD_CONTENT,
+    payload
+  };
+}
+
+export function downloadContentFailed(payload: {
+  contentRef: ContentRef
+}): actionTypes.DownloadContentFailed {
+  return {
+    type: actionTypes.DOWNLOAD_CONTENT_FAILED,
+    payload
+  };
+}
+
+export function downloadContentFulfilled(payload: {
+  contentRef: ContentRef
+}): actionTypes.DownloadContentFulfilled {
+  return {
+    type: actionTypes.DOWNLOAD_CONTENT_FULFILLED,
+    payload
+  };
+}
+
+export function save(payload: { contentRef: ContentRef }): actionTypes.Save {
   return {
     type: actionTypes.SAVE,
     payload
@@ -767,7 +759,7 @@ export function save(payload: { contentRef: ContentRef }): Save {
 export function saveAs(payload: {
   filepath: string,
   contentRef: ContentRef
-}): SaveAs {
+}): actionTypes.SaveAs {
   return {
     type: actionTypes.SAVE_AS,
     payload
@@ -777,7 +769,7 @@ export function saveAs(payload: {
 export function saveFailed(payload: {
   error: Error,
   contentRef: ContentRef
-}): SaveFailed {
+}): actionTypes.SaveFailed {
   return {
     type: actionTypes.SAVE_FAILED,
     payload,
@@ -786,8 +778,9 @@ export function saveFailed(payload: {
 }
 
 export function saveFulfilled(payload: {
-  contentRef: ContentRef
-}): SaveFulfilled {
+  contentRef: ContentRef,
+  model: any
+}): actionTypes.SaveFulfilled {
   return {
     type: actionTypes.SAVE_FULFILLED,
     payload
@@ -800,7 +793,7 @@ export function newNotebook(payload: {
   cwd: string,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): NewNotebook {
+}): actionTypes.NewNotebook {
   return {
     type: actionTypes.NEW_NOTEBOOK,
     payload: {
@@ -815,18 +808,18 @@ export function newNotebook(payload: {
   };
 }
 
-// Expects notebook to be JS Object or Immutable.js
-export const setNotebook = (payload: {
-  filepath: ?string,
-  notebook: ImmutableNotebook,
-  kernelRef: KernelRef,
+export function updateFileText(payload: {
   contentRef: ContentRef,
-  lastSaved: ?Date,
-  created: ?Date
-}): SetNotebook => ({
-  type: actionTypes.SET_NOTEBOOK,
-  payload
-});
+  text: string
+}): actionTypes.UpdateFileText {
+  return {
+    type: actionTypes.UPDATE_FILE_TEXT,
+    payload: {
+      contentRef: payload.contentRef,
+      text: payload.text
+    }
+  };
+}
 
 export const loadConfig = () => ({ type: actionTypes.LOAD_CONFIG });
 export const saveConfig = () => ({ type: actionTypes.SAVE_CONFIG });
@@ -883,7 +876,7 @@ export function appendOutput(payload: {
   id: CellID,
   output: Output,
   contentRef: ContentRef
-}): AppendOutput {
+}): actionTypes.AppendOutput {
   return {
     type: actionTypes.APPEND_OUTPUT,
     payload
@@ -894,7 +887,7 @@ export function acceptPayloadMessage(payload: {
   id: CellID,
   payload: *,
   contentRef: ContentRef
-}): AcceptPayloadMessage {
+}): actionTypes.AcceptPayloadMessage {
   return {
     type: actionTypes.ACCEPT_PAYLOAD_MESSAGE,
     payload
@@ -908,7 +901,7 @@ export function updateDisplay(payload: {
     transient: { display_id: string }
   },
   contentRef: ContentRef
-}): UpdateDisplay {
+}): actionTypes.UpdateDisplay {
   return {
     type: actionTypes.UPDATE_DISPLAY,
     payload
@@ -918,7 +911,7 @@ export function updateDisplay(payload: {
 export function updateDisplayFailed(payload: {
   error: Error,
   contentRef: ContentRef
-}): UpdateDisplayFailed {
+}): actionTypes.UpdateDisplayFailed {
   return {
     type: actionTypes.UPDATE_DISPLAY_FAILED,
     payload,
@@ -926,11 +919,21 @@ export function updateDisplayFailed(payload: {
   };
 }
 
+export function setKernelInfo(payload: {
+  kernelRef: KernelRef,
+  info: KernelInfo
+}): actionTypes.SetKernelInfo {
+  return {
+    type: actionTypes.SET_KERNEL_INFO,
+    payload
+  };
+}
+
 export function setLanguageInfo(payload: {
   langInfo: LanguageInfoMetadata,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): SetLanguageInfo {
+}): actionTypes.SetLanguageInfo {
   return {
     type: actionTypes.SET_LANGUAGE_INFO,
     payload
@@ -940,7 +943,7 @@ export function setLanguageInfo(payload: {
 export function deleteConnectionFileFailed(payload: {
   error: Error,
   kernelRef: KernelRef
-}): DeleteConnectionFileFailedAction {
+}): actionTypes.DeleteConnectionFileFailedAction {
   return {
     type: actionTypes.DELETE_CONNECTION_FILE_FAILED,
     payload,
@@ -950,7 +953,7 @@ export function deleteConnectionFileFailed(payload: {
 
 export function deleteConnectionFileSuccessful(payload: {
   kernelRef: KernelRef
-}): DeleteConnectionFileSuccessfulAction {
+}): actionTypes.DeleteConnectionFileSuccessfulAction {
   return {
     type: actionTypes.DELETE_CONNECTION_FILE_SUCCESSFUL,
     payload
@@ -960,7 +963,7 @@ export function deleteConnectionFileSuccessful(payload: {
 export function shutdownReplySucceeded(payload: {
   text: string,
   kernelRef: KernelRef
-}): ShutdownReplySucceeded {
+}): actionTypes.ShutdownReplySucceeded {
   return {
     type: actionTypes.SHUTDOWN_REPLY_SUCCEEDED,
     payload
@@ -970,7 +973,7 @@ export function shutdownReplySucceeded(payload: {
 export function shutdownReplyTimedOut(payload: {
   error: Error,
   kernelRef: KernelRef
-}): ShutdownReplyTimedOut {
+}): actionTypes.ShutdownReplyTimedOut {
   return {
     type: actionTypes.SHUTDOWN_REPLY_TIMED_OUT,
     payload,
@@ -982,7 +985,7 @@ export function restartKernel(payload: {
   clearOutputs: boolean,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): RestartKernel {
+}): actionTypes.RestartKernel {
   return {
     type: actionTypes.RESTART_KERNEL,
     payload
@@ -993,7 +996,7 @@ export function restartKernelFailed(payload: {
   error: Error,
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): RestartKernelFailed {
+}): actionTypes.RestartKernelFailed {
   return {
     type: actionTypes.RESTART_KERNEL_FAILED,
     payload,
@@ -1004,9 +1007,26 @@ export function restartKernelFailed(payload: {
 export function restartKernelSuccessful(payload: {
   kernelRef: KernelRef,
   contentRef: ContentRef
-}): RestartKernelSuccessful {
+}): actionTypes.RestartKernelSuccessful {
   return {
     type: actionTypes.RESTART_KERNEL_SUCCESSFUL,
     payload
+  };
+}
+
+export function publishGist(payload: {
+  contentRef: ContentRef
+}): actionTypes.PublishGist {
+  return {
+    type: actionTypes.PUBLISH_GIST,
+    payload
+  };
+}
+
+export function coreError(payload: Error): actionTypes.CoreError {
+  return {
+    type: "CORE/ERROR",
+    payload,
+    error: true
   };
 }

@@ -1,9 +1,8 @@
 /* @flow */
 import * as React from "react";
 
-const merge = require("lodash").merge;
-
-const vegaEmbed2 = require("@nteract/vega-embed2");
+import { merge } from "lodash";
+import vegaEmbed2 from "@nteract/vega-embed2";
 import vegaEmbed3 from "vega-embed";
 
 const MIMETYPE_VEGA2 = "application/vnd.vega.v2+json";

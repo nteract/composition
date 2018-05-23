@@ -4,7 +4,7 @@ const express = require("express"),
   s3Proxy = require("s3-proxy");
 
 // TODO: Flow type config
-function createRouter(config: Object): express.Router {
+export function createRouter(config: Object): express.Router {
   const router = express.Router();
 
   router.get(
@@ -19,7 +19,3 @@ function createRouter(config: Object): express.Router {
   );
   return router;
 }
-
-module.exports = {
-  createRouter
-};

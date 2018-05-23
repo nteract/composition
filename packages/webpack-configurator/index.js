@@ -14,7 +14,8 @@ const { aliases } = require("./aliases");
 
 // We don't transpile packages in node_modules, unless it's _our_ package
 // Also don't transpile @nteract/plotly because it's plotly and massive
-const exclude = /node_modules\/(?!(@nteract\/(?!plotly)|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))/;
+// Explicitly ignore the typescript/lib in monaco, or everything fails
+const exclude = /node_modules\/(?!(@nteract\/(?!plotly)|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))|vs\/language\/typescript\/lib/;
 
 function mergeDefaultAliases(originalAlias /*: ?Aliases */) /*: Aliases */ {
   return {
@@ -58,6 +59,17 @@ function nextWebpack(
   config /*: WebpackConfig */,
   options /*: ?NextWebPackOptions */
 ) /*: WebpackConfig */ {
+  config.module.rules = config.module.rules.map(rule => {
+    if (
+      rule.test.source.includes("js") &&
+      typeof rule.exclude !== "undefined"
+    ) {
+      rule.exclude = exclude;
+    }
+
+    return rule;
+  });
+
   config.module.rules.push({
     test: /\.js$/,
     exclude: exclude,

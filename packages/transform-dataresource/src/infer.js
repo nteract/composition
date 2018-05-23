@@ -1,7 +1,7 @@
 import lodash from "lodash";
 import * as types from "./types";
 
-import { ERROR } from "./config";
+import { ERROR } from "./types/error";
 
 /**
  * Infer Table Schema descriptor

@@ -3,6 +3,20 @@ module.exports = {
   match: jest.fn(),
   app: jest.fn(),
   remote: {
+    BrowserWindow: () => {
+      return {
+        show: jest.fn(),
+        getURL: jest.fn(() => {
+          return "";
+        }),
+        webContents: {
+          on: jest.fn((s, callback) => {
+            callback();
+          })
+        },
+        loadURL: jest.fn()
+      };
+    },
     app: {
       getPath: key => {
         if (key === "home") {

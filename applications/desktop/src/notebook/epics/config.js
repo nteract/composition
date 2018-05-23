@@ -45,7 +45,7 @@ export const saveConfigEpic = (action$: ActionsObservable<*>, store: any) =>
     mergeMap(() =>
       writeFileObservable(
         CONFIG_FILE_PATH,
-        JSON.stringify(selectors.userPreferences(store.getState()))
+        JSON.stringify(store.getState().config.toJS())
       ).pipe(map(actions.doneSavingConfig))
     )
   );

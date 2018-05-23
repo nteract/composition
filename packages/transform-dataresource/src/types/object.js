@@ -1,5 +1,5 @@
 import lodash from "lodash";
-import { ERROR } from "../config";
+import { ERROR } from "./error";
 
 // Module API
 

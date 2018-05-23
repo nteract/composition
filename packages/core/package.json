@@ -1,6 +1,6 @@
 {
   "name": "@nteract/core",
-  "version": "4.0.5",
+  "version": "6.0.0",
   "description": "core modules and components for nteract apps",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
@@ -15,47 +15,29 @@
     "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
   },
   "dependencies": {
-    "@nteract/commutable": "^4.0.0",
-    "@nteract/display-area": "^4.0.1",
-    "@nteract/dropdown-menu": "^0.1.1",
-    "@nteract/editor": "^7.0.2",
-    "@nteract/markdown": "^1.0.0",
-    "@nteract/mathjax": "^1.0.0",
+    "@nteract/commutable": "^4.0.2",
     "@nteract/messaging": "^4.0.0",
-    "@nteract/octicons": "^0.2.0",
-    "@nteract/styles": "^1.0.1",
-    "@nteract/transforms": "^4.0.1",
-    "@nteract/types": "^2.0.0",
-    "date-fns": "^1.29.0",
     "escape-carriage": "^1.2.0",
     "file-saver": "^1.3.3",
-    "prop-types": "^15.6.1",
-    "rc-menu": "6.2.6",
-    "react-dnd": "^2.5.4",
-    "react-dnd-html5-backend": "^2.5.4",
-    "react-redux": "^5.0.7",
-    "react-syntax-highlighter": "^7.0.1",
-    "redux": "^3.7.2",
+    "redux": "^4.0.0",
     "redux-immutable": "^4.0.0",
     "redux-observable": "^0.18.0",
     "reselect": "^3.0.1",
-    "rx-binder": "^2.0.0",
-    "rx-jupyter": "^3.0.0",
+    "rx-binder": "^2.0.1",
+    "rx-jupyter": "^3.1.0",
     "rxjs": "^5.5.6",
+    "url-join": "^4.0.0",
     "uuid": "^3.1.0"
   },
   "peerDependencies": {
-    "immutable": "^4.0.0-rc.9",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "styled-jsx": "^2.2.5"
+    "immutable": "^4.0.0-rc.9"
   },
   "publishConfig": {
     "access": "public"
   },
   "keywords": [
     "nteract",
-    "ohgodamonomoduleinamonorepo"
+    "redux"
   ],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"

@@ -1,5 +1,5 @@
-// Module API
+// @flow
 
-export function castAny(format, value) {
+export function castAny(format: *, value: *) {
   return value;
 }

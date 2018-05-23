@@ -20,7 +20,7 @@ const defaultOptions = {
   attrs: undefined
 };
 
-function load(src: string, opts: ?Options | ?Callback, cb: ?Callback) {
+export function load(src: string, opts: ?Options | ?Callback, cb: ?Callback) {
   var head = document.head || document.getElementsByTagName("head")[0];
   var script = document.createElement("script");
 
@@ -85,4 +85,4 @@ function ieOnEnd(script, cb: Callback) {
   };
 }
 
-module.exports = load;
+export default load;

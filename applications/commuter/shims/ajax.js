@@ -2,7 +2,7 @@
 
 import { ajax } from "rxjs/observable/dom/ajax";
 
-function getJSON(url: string) {
+export function getJSON(url: string) {
   return ajax({
     url,
     responseType: "json",
@@ -11,7 +11,3 @@ function getJSON(url: string) {
     }
   });
 }
-
-module.exports = {
-  getJSON
-};

@@ -6,7 +6,6 @@ HTTPError = web.HTTPError
 
 import notebook
 
-
 from notebook.base.handlers import (
     IPythonHandler,
     FileFindHandler,
@@ -20,8 +19,9 @@ from jinja2 import FileSystemLoader
 from notebook.utils import url_path_join as ujoin
 from traitlets import HasTraits, Unicode, Bool
 
-HERE = os.path.dirname(__file__)
-FILE_LOADER = FileSystemLoader(HERE)
+from . import PACKAGE_DIR
+
+FILE_LOADER = FileSystemLoader(PACKAGE_DIR)
 
 class NAppHandler(IPythonHandler):
     """Render the nteract view"""
@@ -47,8 +47,25 @@ class NAppHandler(IPythonHandler):
         mathjax_config = self.settings.get('mathjax_config',
                                            'TeX-AMS_HTML-full,Safe')
 
+        asset_url = config.asset_url
+
+        if asset_url is "":
+            asset_url = base_url
+
+        # Ensure there's a trailing slash
+        if not asset_url.endswith('/'):
+            asset_url = asset_url + '/'
+
+        filename = path.split("/")[-1]
+        if filename:
+            page_title = '{filename} - nteract'.format(filename=filename)
+        else:
+            page_title = 'nteract'
+
         config = dict(
-            page_title=config.page_title,
+            ga_code=config.ga_code,
+            asset_url=asset_url,
+            page_title=page_title,
             mathjax_url=self.mathjax_url,
             mathjax_config=mathjax_config,
             page_config=page_config,
@@ -62,14 +79,12 @@ class NAppHandler(IPythonHandler):
         return FILE_LOADER.load(self.settings['jinja2_env'], name)
 
 
-
 def add_handlers(web_app, config):
     """Add the appropriate handlers to the web app.
     """
     base_url = web_app.settings['base_url']
     url = ujoin(base_url, config.page_url)
     assets_dir = config.assets_dir
-
 
     package_file = os.path.join(assets_dir, 'package.json')
     with open(package_file) as fid:
@@ -78,6 +93,7 @@ def add_handlers(web_app, config):
     config.version = (config.version or
                       data['version'])
     config.name = config.name or data['name']
+
 
     handlers = [
         # TODO Redirect to /tree
@@ -100,7 +116,6 @@ def add_handlers(web_app, config):
         (url + r"/static/(.*)", FileFindHandler, {
             'path': assets_dir
         }),
-
     ]
 
     web_app.add_handlers(".*$", handlers)

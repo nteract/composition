@@ -56,22 +56,24 @@ const defaultMarkdownCell = Object.freeze({
   source: ""
 });
 
-function createCodeCell(cell: CodeCell = defaultCodeCell): ImmutableCodeCell {
+export function createCodeCell(
+  cell: CodeCell = defaultCodeCell
+): ImmutableCodeCell {
   // $FlowFixMe: Immutable
   return Immutable.Map(cell);
 }
 
-function createMarkdownCell(
+export function createMarkdownCell(
   cell: MarkdownCell = defaultMarkdownCell
 ): ImmutableMarkdownCell {
   // $FlowFixMe: Immutable
   return Immutable.Map(cell);
 }
 
-const emptyCodeCell = createCodeCell();
-const emptyMarkdownCell = createMarkdownCell();
+export const emptyCodeCell = createCodeCell();
+export const emptyMarkdownCell = createMarkdownCell();
 
-const defaultNotebook = Object.freeze({
+export const defaultNotebook = Object.freeze({
   nbformat: 4,
   nbformat_minor: 4,
   metadata: new Immutable.Map(),
@@ -79,14 +81,14 @@ const defaultNotebook = Object.freeze({
   cellMap: new Immutable.Map()
 });
 
-function createNotebook(
+export function createNotebook(
   notebook: Notebook = defaultNotebook
 ): ImmutableNotebook {
   // $FlowFixMe: Immutable
   return Immutable.Map(notebook);
 }
 
-const emptyNotebook = createNotebook();
+export const emptyNotebook = createNotebook();
 
 export type CellStructure = {
   cellOrder: ImmutableCellOrder,
@@ -94,7 +96,7 @@ export type CellStructure = {
 };
 
 // Intended to make it easy to use this with (temporary mutable cellOrder + cellMap)
-function appendCell(
+export function appendCell(
   cellStructure: CellStructure,
   immutableCell: ImmutableCell,
   id: string = uuidv4()
@@ -105,7 +107,7 @@ function appendCell(
   };
 }
 
-function appendCellToNotebook(
+export function appendCellToNotebook(
   immnb: ImmutableNotebook,
   immCell: ImmutableCell
 ): ImmutableNotebook {
@@ -121,7 +123,7 @@ function appendCellToNotebook(
   });
 }
 
-function insertCellAt(
+export function insertCellAt(
   notebook: ImmutableNotebook,
   cell: ImmutableCell,
   cellID: string,
@@ -135,7 +137,7 @@ function insertCellAt(
   );
 }
 
-function insertCellAfter(
+export function insertCellAfter(
   notebook: ImmutableNotebook,
   cell: ImmutableCell,
   cellID: string,
@@ -150,7 +152,7 @@ function insertCellAfter(
   );
 }
 
-function removeCell(notebook: ImmutableNotebook, cellID: string) {
+export function removeCell(notebook: ImmutableNotebook, cellID: string) {
   return notebook
     .removeIn(["cellMap", cellID])
     .update("cellOrder", (cellOrder: ImmutableCellOrder) =>
@@ -158,21 +160,7 @@ function removeCell(notebook: ImmutableNotebook, cellID: string) {
     );
 }
 
-const monocellNotebook = appendCellToNotebook(emptyNotebook, emptyCodeCell);
-
-module.exports = {
-  emptyCodeCell,
-  emptyMarkdownCell,
+export const monocellNotebook = appendCellToNotebook(
   emptyNotebook,
-  monocellNotebook,
-
-  createCodeCell,
-  createMarkdownCell,
-  createNotebook,
-
-  removeCell,
-  insertCellAfter,
-  insertCellAt,
-  appendCellToNotebook,
-  appendCell
-};
+  emptyCodeCell
+);

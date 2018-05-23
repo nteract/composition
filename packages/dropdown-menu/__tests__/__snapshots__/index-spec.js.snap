@@ -93,10 +93,10 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
       onItemClick={[Function]}
     >
       <div
-        className="jsx-2679435720"
+        className="jsx-104434278"
       >
         <ul
-          className="jsx-2679435720"
+          className="jsx-104434278"
         >
           <li
             className="alsoClickMe"
@@ -107,8 +107,8 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
           </li>
         </ul>
         <JSXStyle
-          css="div.jsx-2679435720{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0px;padding:0px;opacity:1;position:absolute;top:0.2em;right:0;border-style:none;padding:0;font-family:\\"Source Sans Pro\\";font-size:12px;line-height:1.5;margin:20px 0;background-color:var(--theme-cell-menu-bg);}ul.jsx-2679435720{list-style:none;text-align:left;padding:0;margin:0;opacity:1;}li{padding:0.5rem;}li:hover{background-color:var(--theme-cell-menu-bg-hover,#e2dfe3);cursor:pointer;}"
-          styleId="2679435720"
+          css="div.jsx-104434278{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0px;padding:0px;width:200px;opacity:1;position:absolute;top:0.2em;right:0;border-style:none;padding:0;font-family:var(--nt-font-family-normal);font-size:var(--nt-font-size-m);line-height:1.5;margin:20px 0;background-color:var(--theme-cell-menu-bg);}ul.jsx-104434278{list-style:none;text-align:left;padding:0;margin:0;opacity:1;}li{padding:0.5rem;}li:hover{background-color:var(--theme-cell-menu-bg-hover,#e2dfe3);cursor:pointer;}"
+          styleId="104434278"
         />
       </div>
     </DropdownContent>

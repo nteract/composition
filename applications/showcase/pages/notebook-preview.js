@@ -5,7 +5,7 @@ import * as Immutable from "immutable";
 import NotebookPreview from "@nteract/notebook-preview";
 import { emptyNotebook, fromJS } from "@nteract/commutable";
 
-import { Styles } from "@nteract/core";
+import { Styles } from "@nteract/presentational-components";
 
 import { ajax } from "rxjs/observable/dom/ajax";
 

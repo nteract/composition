@@ -1,0 +1,48 @@
+{
+  "name": "@nteract/connected-components",
+  "version": "1.0.1",
+  "description": "Connected components exported from @nteract/core",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/notebook-app-component",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@nteract/commutable": "^4.0.2",
+    "@nteract/core": "^6.0.0",
+    "@nteract/display-area": "^4.1.2",
+    "@nteract/dropdown-menu": "^0.2.0",
+    "@nteract/editor": "^7.0.5",
+    "@nteract/logos": "^0.0.2",
+    "@nteract/markdown": "^2.0.0",
+    "@nteract/mathjax": "^2.0.0",
+    "@nteract/messaging": "^4.0.0",
+    "@nteract/octicons": "^0.2.0",
+    "@nteract/presentational-components": "^0.0.2",
+    "@nteract/transforms": "^4.1.2",
+    "date-fns": "^1.29.0",
+    "react-dnd": "^2.5.4",
+    "react-dnd-html5-backend": "^2.5.4",
+    "react-redux": "^5.0.7",
+    "react-syntax-highlighter": "^7.0.1",
+    "redux": "^4.0.0"
+  },
+  "peerDependencies": {
+    "immutable": "^4.0.0-rc.9",
+    "react": "^16.3.2",
+    "styled-jsx": "^2.2.6"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

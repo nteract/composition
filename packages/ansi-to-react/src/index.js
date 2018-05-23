@@ -1,8 +1,8 @@
 /* @flow */
 
-const React = require("react");
-const Anser = require("anser");
-const escapeCarriageReturn = require("escape-carriage");
+import * as React from "react";
+import { ansiToJson } from "anser";
+import { escapeCarriageReturn } from "escape-carriage";
 
 /**
  * ansiToJson
@@ -15,7 +15,7 @@ const escapeCarriageReturn = require("escape-carriage");
  */
 function ansiToJSON(input) {
   input = escapeCarriageReturn(input);
-  return Anser.ansiToJson(input, {
+  return ansiToJson(input, {
     json: true,
     remove_empty: true
   });
@@ -79,7 +79,7 @@ function inlineBundleToReact(bundle, key) {
 }
 
 type Props = {
-  children?: React.Node,
+  children: React.Node,
   className?: string,
   linkify?: boolean
 };
@@ -96,4 +96,4 @@ function Ansi(props: Props) {
   );
 }
 
-module.exports = Ansi;
+export default Ansi;

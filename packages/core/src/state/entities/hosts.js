@@ -3,6 +3,16 @@ import * as Immutable from "immutable";
 import type { HostId } from "../ids";
 import type { HostRef } from "../refs";
 
+export type EmptyHost = {
+  type: "empty"
+};
+export type EmptyHostRecord = Immutable.RecordOf<EmptyHost>;
+export const makeEmptyHostRecord: Immutable.RecordFactory<
+  EmptyHost
+> = Immutable.Record({
+  type: "empty"
+});
+
 export type BaseHostProps = {
   id: ?HostId,
   defaultKernelName: string
@@ -11,7 +21,8 @@ export type BaseHostProps = {
 export type JupyterHostRecordProps = BaseHostProps & {
   type: "jupyter",
   token: ?string,
-  serverUrl: ?string,
+  origin: string,
+  basePath: string,
   crossDomain: ?boolean
 };
 
@@ -22,34 +33,12 @@ export const makeJupyterHostRecord: Immutable.RecordFactory<
   id: null,
   defaultKernelName: "python",
   token: null,
-  serverUrl: null,
+  origin: typeof location === "undefined" ? "" : location.origin,
+  basePath: "/",
   crossDomain: false
 });
 
 export type JupyterHostRecord = Immutable.RecordOf<JupyterHostRecordProps>;
-
-export type BinderHostRecordProps = BaseHostProps & {
-  // TODO: figure out if this belong here, it was brought over by play
-  type: "binder",
-  token: ?string,
-  serverUrl: ?string,
-  crossDomain: ?boolean,
-  messages: Immutable.List<string>
-};
-
-export const makeBinderHostRecord: Immutable.RecordFactory<
-  BinderHostRecordProps
-> = Immutable.Record({
-  type: "binder",
-  id: null,
-  defaultKernelName: "python",
-  token: null,
-  serverUrl: null,
-  crossDomain: false,
-  messages: Immutable.List()
-});
-
-export type BinderHostRecord = Immutable.RecordOf<BinderHostRecordProps>;
 
 export type LocalHostRecordProps = BaseHostProps & {
   type: "local"
@@ -65,11 +54,9 @@ export const makeLocalHostRecord: Immutable.RecordFactory<
 
 export type LocalHostRecord = Immutable.RecordOf<LocalHostRecordProps>;
 
-export type HostRecordProps =
-  | LocalHostRecordProps
-  | JupyterHostRecordProps
-  | BinderHostRecordProps;
-export type HostRecord = LocalHostRecord | JupyterHostRecord | BinderHostRecord;
+export type HostRecordProps = LocalHostRecordProps | JupyterHostRecordProps;
+
+export type HostRecord = LocalHostRecord | JupyterHostRecord | EmptyHostRecord;
 
 export type HostsRecordProps = {
   byRef: Immutable.Map<HostRef, HostRecord>,

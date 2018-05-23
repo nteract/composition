@@ -114,7 +114,7 @@ function createContentPromise(
   });
 }
 
-function sanitizeFilePath(unsafeFilePath: string): string {
+export function sanitizeFilePath(unsafeFilePath: string): string {
   return path.join(
     path
       .normalize(unsafeFilePath)
@@ -125,7 +125,7 @@ function sanitizeFilePath(unsafeFilePath: string): string {
   );
 }
 
-function get(
+export function get(
   options: DiskProviderOptions,
   unsafeFilePath: string
 ): Promise<JupyterApi$Content | JupyterApi$ContentError> {
@@ -151,7 +151,7 @@ function get(
   });
 }
 
-function post(
+export function post(
   options: DiskProviderOptions,
   unsafeFilePath: string,
   content: mixed
@@ -248,9 +248,3 @@ function getNotebook(
     );
   });
 }
-
-module.exports = {
-  get,
-  post,
-  sanitizeFilePath
-};

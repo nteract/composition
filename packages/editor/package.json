@@ -1,6 +1,6 @@
 {
   "name": "@nteract/editor",
-  "version": "7.0.2",
+  "version": "7.0.5",
   "description": "The editor that lives inside cells in nteract",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
@@ -25,19 +25,19 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/display-area": "^4.0.1",
+    "@nteract/display-area": "^4.1.2",
     "@nteract/messaging": "^4.0.0",
-    "@nteract/transforms": "^4.0.1",
+    "@nteract/transforms": "^4.1.2",
     "@nteract/types": "^2.0.0",
-    "codemirror": "5.35.0",
+    "codemirror": "5.37.0",
     "lodash": "^4.17.4",
     "rxjs": "^5.5.6"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc.9",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "styled-jsx": "^2.2.5"
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "styled-jsx": "^2.2.6"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"

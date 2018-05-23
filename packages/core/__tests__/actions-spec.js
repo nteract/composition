@@ -115,23 +115,6 @@ describe("newNotebook", () => {
   });
 });
 
-describe("setNotebook", () => {
-  test("sets a notebook", () => {
-    expect(
-      actions.setNotebook({
-        filename: "test",
-        notebook: { nbformat: 4, cells: [] }
-      })
-    ).toEqual({
-      type: actionTypes.SET_NOTEBOOK,
-      payload: {
-        filename: "test",
-        notebook: { nbformat: 4, cells: [] }
-      }
-    });
-  });
-});
-
 describe("setExecutionState", () => {
   test("creates a SET_EXECUTION_STATE action", () => {
     expect(actions.setExecutionState({ kernelStatus: "idle" })).toEqual({
@@ -169,11 +152,11 @@ describe("launchKernelByName", () => {
   });
 });
 
-describe("setKernelInfo", () => {
-  test("creates a SET_KERNEL_INFO action", () => {
+describe("setKernelspecInfo", () => {
+  test("creates a SET_KERNELSPEC_INFO action", () => {
     const kernelInfo = { name: "japanese" };
-    expect(actions.setKernelInfo({ kernelInfo })).toEqual({
-      type: actionTypes.SET_KERNEL_INFO,
+    expect(actions.setKernelspecInfo({ kernelInfo })).toEqual({
+      type: actionTypes.SET_KERNELSPEC_INFO,
       payload: {
         kernelInfo: {
           name: "japanese"

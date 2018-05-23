@@ -1,9 +1,8 @@
-const math = require("../src/remark-math");
-
-const unified = require("unified");
-const parse = require("remark-parse");
-const stringify = require("remark-stringify");
-const u = require("unist-builder");
+import math from "../src/remark-math";
+import unified from "unified";
+import parse from "remark-parse";
+import stringify from "remark-stringify";
+import u from "unist-builder";
 
 function remark() {
   return unified()

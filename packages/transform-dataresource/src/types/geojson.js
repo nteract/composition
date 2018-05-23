@@ -1,6 +1,6 @@
 import tv4 from "tv4";
 import lodash from "lodash";
-import { ERROR } from "../config";
+import { ERROR } from "./error";
 import profile from "../../profiles/geojson.json";
 
 // Module API

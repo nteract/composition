@@ -1,7 +1,7 @@
 /* @flow */
 /* eslint no-confusing-arrow: 0 */
 /* eslint no-nested-ternary: 0 */
-import React from "react";
+import * as React from "react";
 import { Table, Column, SortDirection, AutoSizer } from "react-virtualized";
 import { infer } from "./infer";
 
@@ -93,7 +93,9 @@ export default class VirtualizedTable extends React.Component<Props, State> {
             height={
               this.props.expanded
                 ? EXPANDED_HEIGHT
-                : height < COLLAPSED_HEIGHT ? height : COLLAPSED_HEIGHT
+                : height < COLLAPSED_HEIGHT
+                  ? height
+                  : COLLAPSED_HEIGHT
             }
             // noRowsRenderer={this._noRowsRenderer}
             // overscanRowCount={overscanRowCount}

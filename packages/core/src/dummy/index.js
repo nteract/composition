@@ -18,10 +18,22 @@ import { comms, config, core } from "../reducers";
 
 export { dummyCommutable, dummy, dummyJSON } from "./dummy-nb";
 
-import * as stateModule from "../state";
+import {
+  makeNotebookContentRecord,
+  makeRemoteKernelRecord,
+  makeAppRecord,
+  makeCommsRecord,
+  makeKernelsRecord,
+  makeDocumentRecord,
+  makeContentsRecord,
+  makeEntitiesRecord,
+  makeStateRecord,
+  createContentRef,
+  createKernelRef
+} from "../state";
 
 const rootReducer = combineReducers({
-  app: (state = stateModule.makeAppRecord(), action) => state,
+  app: (state = makeAppRecord(), action) => state,
   comms,
   config,
   core
@@ -89,19 +101,18 @@ export function dummyStore(config: *) {
   const mockIOPub = new Subject();
   const channels = mockShell;
 
-  const kernelRef = stateModule.createKernelRef();
-  const currentContentRef = stateModule.createContentRef();
+  const kernelRef = createKernelRef();
+  const contentRef = createContentRef();
 
   return createStore(rootReducer, {
-    core: stateModule.makeStateRecord({
+    core: makeStateRecord({
       kernelRef,
-      currentContentRef,
-      entities: stateModule.makeEntitiesRecord({
-        contents: stateModule.makeContentsRecord({
+      entities: makeEntitiesRecord({
+        contents: makeContentsRecord({
           byRef: Immutable.Map({
             // $FlowFixMe: This really is a content ref, Flow can't handle typing it though
-            [currentContentRef]: stateModule.makeNotebookContentRecord({
-              model: stateModule.makeDocumentRecord({
+            [contentRef]: makeNotebookContentRecord({
+              model: makeDocumentRecord({
                 notebook: dummyNotebook,
                 savedNotebook:
                   config && config.saved === true
@@ -118,10 +129,10 @@ export function dummyStore(config: *) {
             })
           })
         }),
-        kernels: stateModule.makeKernelsRecord({
+        kernels: makeKernelsRecord({
           byRef: Immutable.Map({
             // $FlowFixMe: This really is a kernel ref, Flow can't handle typing it though
-            [kernelRef]: stateModule.makeRemoteKernelRecord({
+            [kernelRef]: makeRemoteKernelRecord({
               channels,
               status: "not connected"
             })
@@ -129,7 +140,7 @@ export function dummyStore(config: *) {
         })
       })
     }),
-    app: stateModule.makeAppRecord({
+    app: makeAppRecord({
       notificationSystem: {
         addNotification: () => {} // most of the time you'll want to mock this
       },
@@ -138,6 +149,6 @@ export function dummyStore(config: *) {
     config: Immutable.Map({
       theme: "light"
     }),
-    comms: stateModule.makeCommsRecord()
+    comms: makeCommsRecord()
   });
 }

@@ -101,7 +101,11 @@ export default class TimeAgo extends React.Component<Props, void> {
     const unboundPeriod =
       seconds < MINUTE
         ? 1000
-        : seconds < HOUR ? 1000 * MINUTE : seconds < DAY ? 1000 * HOUR : 0;
+        : seconds < HOUR
+          ? 1000 * MINUTE
+          : seconds < DAY
+            ? 1000 * HOUR
+            : 0;
     const period = Math.min(
       Math.max(unboundPeriod, this.props.minPeriod * 1000),
       this.props.maxPeriod * 1000
@@ -143,7 +147,7 @@ export default class TimeAgo extends React.Component<Props, void> {
     }
   }
 
-  render(): ?React$Element<*> {
+  render() {
     /* eslint-disable no-unused-vars */
     const {
       date,

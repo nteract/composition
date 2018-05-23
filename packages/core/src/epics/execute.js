@@ -182,12 +182,20 @@ export function executeAllCellsEpic(action$: ActionsObservable<*>, store: *) {
     ofType(actionTypes.EXECUTE_ALL_CELLS, actionTypes.EXECUTE_ALL_CELLS_BELOW),
     concatMap((action: ExecuteAllCells | ExecuteAllCellsBelow) => {
       const state = store.getState();
+      const contentRef = action.payload.contentRef;
+
+      const model = selectors.model(store.getState(), { contentRef });
+      // If it's not a notebook, we shouldn't be here
+      if (!model || model.type !== "notebook") {
+        return empty();
+      }
+
       let codeCellIds = Immutable.List();
 
       if (action.type === actionTypes.EXECUTE_ALL_CELLS) {
-        codeCellIds = selectors.currentCodeCellIds(state);
+        codeCellIds = selectors.notebook.codeCellIds(model);
       } else if (action.type === actionTypes.EXECUTE_ALL_CELLS_BELOW) {
-        codeCellIds = selectors.currentCodeCellIdsBelow(state);
+        codeCellIds = selectors.notebook.codeCellIdsBelow(model);
       }
       return of(
         ...codeCellIds.map(id =>
@@ -207,7 +215,16 @@ export function executeCellEpic(action$: ActionsObservable<*>, store: any) {
     ofType(actionTypes.EXECUTE_CELL, actionTypes.EXECUTE_FOCUSED_CELL),
     mergeMap((action: ExecuteCell | ExecuteFocusedCell) => {
       if (action.type === actionTypes.EXECUTE_FOCUSED_CELL) {
-        const id = selectors.currentFocusedCellId(store.getState());
+        const contentRef = action.payload.contentRef;
+
+        const model = selectors.model(store.getState(), { contentRef });
+        // If it's not a notebook, we shouldn't be here
+        if (!model || model.type !== "notebook") {
+          return empty();
+        }
+
+        const id = model.cellFocused;
+
         if (!id) {
           throw new Error("attempted to execute without an id");
         }
@@ -231,16 +248,21 @@ export function executeCellEpic(action$: ActionsObservable<*>, store: any) {
         // a new stream and unsubscribe from the old one.
         switchMap((action: ExecuteCell) => {
           const { id } = action.payload;
-          const cellMap = selectors.currentCellMap(store.getState());
 
-          // If for some reason this is run *outside* the context of viewing
-          // a notebook (stray async task or something), it's possible that the
-          // cellMap will be null;
-          if (!cellMap) {
+          const state = store.getState();
+
+          const contentRef = action.payload.contentRef;
+          const model = selectors.model(state, { contentRef });
+
+          // If it's not a notebook, we shouldn't be here
+          if (!model || model.type !== "notebook") {
             return empty();
           }
 
-          const cell = cellMap.get(id, Immutable.Map());
+          const cell = selectors.notebook.cellById(model, { id });
+          if (!cell) {
+            return empty();
+          }
 
           // We only execute code cells
           if (cell.get("cell_type") !== "code") {
@@ -275,12 +297,12 @@ export function executeCellEpic(action$: ActionsObservable<*>, store: any) {
     ),
     // Bring back all the inner Observables into one stream
     mergeAll(),
-    catchError((error, source) =>
+    catchError((error, source) => {
       // Either we ensure that all errors are caught when the action.payload.contentRef
       // is in scope or we make this be a generic ERROR
       // $FlowFixMe: see above
-      merge(of(actions.executeFailed({ error })), source)
-    )
+      return merge(of(actions.executeFailed({ error })), source);
+    })
   );
 }
 

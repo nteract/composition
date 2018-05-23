@@ -28,6 +28,14 @@ export default class JavaScript extends React.Component<Props> {
   el: ?HTMLElement;
   static MIMETYPE = "application/javascript";
 
+  static handles(mimetype: string) {
+    return (
+      mimetype.startsWith("text/") ||
+      mimetype.startsWith("application/javascript") ||
+      mimetype.startsWith("application/json")
+    );
+  }
+
   componentDidMount(): void {
     runCodeHere(this.el, this.props.data);
   }

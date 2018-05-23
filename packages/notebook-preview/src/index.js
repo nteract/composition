@@ -1,9 +1,12 @@
 /* @flow */
-import React from "react";
-import { List as ImmutableList, Map as ImmutableMap } from "immutable";
+import * as React from "react";
+import * as Immutable from "immutable";
 
 import { Display } from "@nteract/display-area";
-import { displayOrder, transforms } from "@nteract/transforms";
+import {
+  displayOrder as defaultDisplayOrder,
+  transforms as defaultTransforms
+} from "@nteract/transforms";
 
 import {
   emptyNotebook,
@@ -21,7 +24,7 @@ import {
   Source,
   Outputs,
   Cells
-} from "@nteract/core";
+} from "@nteract/presentational-components";
 
 import { PapermillView } from "./papermill";
 
@@ -41,8 +44,8 @@ type State = {
 
 export class NotebookPreview extends React.PureComponent<Props, State> {
   static defaultProps = {
-    displayOrder,
-    transforms,
+    displayOrder: defaultDisplayOrder,
+    transforms: defaultTransforms,
     notebook: appendCellToNotebook(
       emptyNotebook,
       createCodeCell().set("source", "# where's the content?")
@@ -103,15 +106,19 @@ export class NotebookPreview extends React.PureComponent<Props, State> {
                     cell.get("outputs").size === 0 ||
                     cell.getIn(["metadata", "outputHidden"]);
 
+                  let papermillStatus = cell.getIn(
+                    ["metadata", "papermill", "status"],
+                    null
+                  );
+
                   return (
                     <Cell key={cellID}>
-                      <PapermillView
-                        {...cell
-                          .getIn(["metadata", "papermill"], ImmutableMap())
-                          .toJS()}
-                      />
+                      <PapermillView status={papermillStatus} />
                       <Input hidden={sourceHidden}>
-                        <Prompt />
+                        <Prompt
+                          counter={cell.get("execution_count")}
+                          running={papermillStatus === "running"}
+                        />
                         <Source language={language} theme={this.props.theme}>
                           {source}
                         </Source>
@@ -125,8 +132,8 @@ export class NotebookPreview extends React.PureComponent<Props, State> {
                       >
                         <Display
                           outputs={cell.get("outputs").toJS()}
-                          transforms={transforms}
-                          displayOrder={displayOrder}
+                          transforms={this.props.transforms}
+                          displayOrder={this.props.displayOrder}
                         />
                       </Outputs>
                     </Cell>

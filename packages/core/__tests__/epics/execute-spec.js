@@ -184,7 +184,6 @@ describe("executeCellEpic", () => {
       state: {
         core: stateModule.makeStateRecord({
           kernelRef: "fake",
-          currentContentRef: "fakeContent",
           entities: stateModule.makeEntitiesRecord({
             contents: stateModule.makeContentsRecord({
               byRef: Immutable.Map({

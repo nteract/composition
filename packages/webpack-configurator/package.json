@@ -1,6 +1,6 @@
 {
   "name": "@nteract/webpack-configurator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "description": "a common webpack configurator for nteract applications",
   "scripts": {
