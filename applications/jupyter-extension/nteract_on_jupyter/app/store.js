@@ -10,7 +10,6 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 import { reducers, epics as coreEpics } from "@nteract/core";
 
-import createHistory from "history/createBrowserHistory";
 import { routerReducer, routerMiddleware } from "react-router-redux";
 
 const rootReducer = combineReducers({
@@ -21,10 +20,7 @@ const rootReducer = combineReducers({
   core: reducers.core
 });
 
-export default function configureStore(initialState: AppState) {
-  // Create a browser history
-  const history = createHistory();
-
+export default function configureStore(initialState: AppState, history: *) {
   const rootEpic = combineEpics(...coreEpics.allEpics);
   const middlewares = [
     createEpicMiddleware(rootEpic),

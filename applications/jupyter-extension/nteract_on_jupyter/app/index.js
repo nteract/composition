@@ -8,6 +8,12 @@ import ReactDOM from "react-dom";
 import App from "./app";
 
 import { Provider } from "react-redux";
+
+import createHistory from "history/createBrowserHistory";
+
+import { ConnectedRouter } from "react-router-redux";
+import { Route } from "react-router";
+
 import * as Immutable from "immutable";
 import configureStore from "./store";
 import {
@@ -115,6 +121,9 @@ function main(rootEl: Element, dataEl: Node | null) {
   const store = configureStore(initialState);
   window.store = store;
 
+  // Create a browser history
+  const history = createHistory();
+
   store.dispatch(
     actions.fetchContent({
       filepath: config.contentsPath,
@@ -127,7 +136,9 @@ function main(rootEl: Element, dataEl: Node | null) {
 
   ReactDOM.render(
     <Provider store={store}>
-      <App contentRef={contentRef} />
+      <ConnectedRouter history={history}>
+        <App contentRef={contentRef} />
+      </ConnectedRouter>
     </Provider>,
     rootEl
   );
