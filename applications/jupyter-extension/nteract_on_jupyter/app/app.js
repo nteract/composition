@@ -9,13 +9,29 @@ import { Styles, themes } from "@nteract/presentational-components";
 import { default as Contents } from "./contents";
 import type { ContentRef } from "@nteract/core";
 
+import { Route } from "react-router-dom";
+
 class App extends React.Component<{ contentRef: ContentRef }, null> {
   notificationSystem: NotificationSystem;
   render() {
     return (
       <React.Fragment>
         <Styles>
-          <Contents contentRef={this.props.contentRef} />
+          <Route
+            path="/edit"
+            render={props => {
+              console.log(props);
+              return <Contents contentRef={this.props.contentRef} />;
+            }}
+          />
+          <Route
+            exact={true}
+            path="what"
+            render={props => {
+              console.log(props);
+              return <Contents contentRef={this.props.contentRef} />;
+            }}
+          />
         </Styles>
         <NotificationSystem
           ref={notificationSystem => {
