@@ -18,7 +18,7 @@ class App extends React.Component<{ contentRef: ContentRef }, null> {
       <React.Fragment>
         <Styles>
           <Route
-            path="/edit"
+            path="/nteract/edit"
             render={props => {
               console.log(props);
               return <Contents contentRef={this.props.contentRef} />;
@@ -26,10 +26,10 @@ class App extends React.Component<{ contentRef: ContentRef }, null> {
           />
           <Route
             exact={true}
-            path="what"
+            path="/"
             render={props => {
-              console.log(props);
-              return <Contents contentRef={this.props.contentRef} />;
+              console.log("what");
+              return <div>asdf</div>;
             }}
           />
         </Styles>

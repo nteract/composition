@@ -124,6 +124,8 @@ function main(rootEl: Element, dataEl: Node | null) {
   // Create a browser history
   const history = createHistory();
 
+  // Should we do history changes in our epics, using the contentRefs
+
   store.dispatch(
     actions.fetchContent({
       filepath: config.contentsPath,
@@ -134,9 +136,9 @@ function main(rootEl: Element, dataEl: Node | null) {
   );
   store.dispatch(actions.fetchKernelspecs({ hostRef, kernelspecsRef }));
 
-  const basename = urljoin(jupyterHostRecord.basePath, "nteract/");
+  const basename = urljoin(jupyterHostRecord.basePath, "nteract");
 
-  console.log(basename);
+  console.log("basename", basename);
 
   // TODO: Where do we determine our contentRef? Does it come from the location?
   //       We could use the path, they're tied in one-to-one
