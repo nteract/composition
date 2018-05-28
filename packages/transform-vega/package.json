@@ -23,7 +23,7 @@
     "@nteract/vega-embed2": "^2.0.0",
     "lodash": "^4.17.4",
     "vega-embed": "3.7.0",
-    "vega-tooltip": "^0.9.16"
+    "vega-tooltip": "^0.10.0"
   },
   "peerDependencies": {
     "react": "^16.3.2"
