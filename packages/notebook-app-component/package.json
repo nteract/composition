@@ -32,7 +32,7 @@
     "@nteract/presentational-components": "^0.0.2",
     "@nteract/transforms": "^4.1.2",
     "date-fns": "^1.29.0",
-    "react-dnd": "^2.5.4",
+    "react-dnd": "^3.0.0",
     "react-dnd-html5-backend": "^2.5.4",
     "react-hot-loader": "^4.1.2",
     "react-redux": "^5.0.7",
