@@ -25,6 +25,7 @@ export const MENU_ITEM_ACTIONS = {
   SET_THEME_LIGHT: "set-theme-light",
   OPEN_ABOUT: "open-about",
   KILL_KERNEL: "kill-kernel",
+  CLOSE_AND_HALT: "close-and-halt",
   INTERRUPT_KERNEL: "interrupt-kernel"
 };
 

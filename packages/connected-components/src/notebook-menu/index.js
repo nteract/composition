@@ -53,6 +53,7 @@ type Props = {
   restartKernel: ?(payload: *) => void,
   restartKernelAndClearOutputs: ?(payload: *) => void,
   killKernel: ?(payload: *) => void,
+  closeAndHalt: ?(payload: *) => void,
   interruptKernel: ?(payload: *) => void,
   currentContentRef: ContentRef,
   currentKernelspecsRef: ?KernelspecsRef,
@@ -86,6 +87,7 @@ class PureNotebookMenu extends React.Component<Props, State> {
     changeKernelByName: null,
     restartKernel: null,
     killKernel: null,
+    closeAndHalt: null,
     interruptKernel: null,
     currentKernelspecsRef: null,
     currentKernelspecs: null
@@ -114,6 +116,7 @@ class PureNotebookMenu extends React.Component<Props, State> {
       restartKernel,
       restartKernelAndClearOutputs,
       killKernel,
+      closeAndHalt,
       interruptKernel,
       currentContentRef,
       currentKernelspecsRef,
@@ -242,6 +245,11 @@ class PureNotebookMenu extends React.Component<Props, State> {
           killKernel({ kernelRef: currentKernelRef });
         }
         break;
+      case MENU_ITEM_ACTIONS.CLOSE_AND_HALT:
+        if (closeAndHalt) {
+          closeAndHalt({ kernelRef: currentKernelRef });
+        }
+        break;
       case MENU_ITEM_ACTIONS.RESTART_AND_CLEAR_OUTPUTS:
         if (restartKernelAndClearOutputs) {
           restartKernelAndClearOutputs({
@@ -317,6 +325,9 @@ class PureNotebookMenu extends React.Component<Props, State> {
               key={createActionKey(MENU_ITEM_ACTIONS.DOWNLOAD_NOTEBOOK)}
             >
               Download (.ipynb)
+            </MenuItem>
+            <MenuItem key={createActionKey(MENU_ITEM_ACTIONS.CLOSE_AND_HALT)}>
+              Close and Halt
             </MenuItem>
           </SubMenu>
           <SubMenu key={MENUS.EDIT} title="Edit">
@@ -493,6 +504,7 @@ const mapDispatchToProps = dispatch => ({
   restartKernelAndClearOutputs: payload =>
     dispatch(actions.restartKernel({ ...payload, clearOutputs: true })),
   killKernel: payload => dispatch(actions.killKernel(payload)),
+  closeAndHalt: payload => dispatch(actions.closeAndHalt(payload)),
   interruptKernel: payload => dispatch(actions.interruptKernel(payload))
 });
 

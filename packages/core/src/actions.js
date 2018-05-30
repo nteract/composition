@@ -53,6 +53,13 @@ export const addHost = (payload: {
   payload
 });
 
+export const closeAndHalt = (payload: {
+  kernelRef: KernelRef
+}): actionTypes.CloseAndHalt => ({
+  type: actionTypes.CLOSE_AND_HALT,
+  payload
+});
+
 export const fetchContent = (payload: {
   filepath: string,
   params: Object,
