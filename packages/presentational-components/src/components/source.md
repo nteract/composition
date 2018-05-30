@@ -1,36 +1,72 @@
-Used typically for notebook cell input.
+Syntax highlight source code. Pass a child component to override with your own editor or syntax highlighting implementation.
 
-```
-<Source />
-```
+### Syntax Highlight
 
-#### Default Behavior
+```js
+<Source language="python">{`import python
 
-If the child of this component is a *string*, then syntax highlight and make
-non-editable.
-
-If the child is any other type, then render and make editable.
-
-#### Examples of Common Uses
-
-Child is a *string* and using *language* prop for syntax highlighting
-
-```
-<Source language="python">{`
-  import python
-
-  print("Hello nteract.")
-`}</ Source>
+print("Hello from nteract.")`}</ Source>
 ```
 
-Child is a textarea. Rendered and editable.
+### Bring your own editor
 
-```
+Pass React component(s) inside of `<Source />` to provide your own editor.
+
+```js
 <Source>
-  <textarea>{`
-  import python
+  <textarea
+    style={{
+      fontFamily: `"Dank Mono", "Source Code Pro", Consolas, "Courier New", Courier,  monospace`,
+      backgroundColor: `#fafafa`,
+      color: `#212121`,
+      fontSize: "1em",
+      height: "10em",
+      border: "none",
+      width: "100%"
+    }}
+    defaultValue={`import python
 
-  print("Hello nteract.")
-  `}</ textarea>
-</ Source>
+print("Hello nteract.")`}
+  />
+</Source>
+```
+
+NOTE: The notebook apps use this to pass the codemirror editor as the child.
+
+Since this component is just a wrapper to keep styling consistent, you can pass all the `onChange` handlers you want to your own component.
+
+```js
+class Editor extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: "import pandas as pd\nimport numpy as np\n\npd.DataFrame()"
+    };
+  }
+
+  render() {
+    return (
+      <Source>
+        <textarea
+          onChange={evt => {
+            this.setState({ value: evt.target.value });
+            console.log(evt.target.value);
+          }}
+          style={{
+            fontFamily: `"Dank Mono", "Source Code Pro", Consolas, "Courier New", Courier,  monospace`,
+            backgroundColor: `#fafafa`,
+            color: `#212121`,
+            fontSize: "1em",
+            height: "10em",
+            border: "none",
+            width: "100%"
+          }}
+          value={this.state.value}
+        />
+      </Source>
+    );
+  }
+}
+
+<Editor />
 ```
