@@ -31,7 +31,7 @@ print("Hello nteract.")`}
 </Source>
 ```
 
-NOTE: The notebook apps use this to pass the codemirror editor as the child.
+_NOTE: The notebook apps use this to pass the codemirror editor as the child._
 
 Since this component is just a wrapper to keep styling consistent, you can pass all the `onChange` handlers you want to your own component.
 
