@@ -1,3 +1,7 @@
+```jsx static
+import { Outputs } from "@nteract/presentational-components"
+```
+
 Display an output area
 
 ```

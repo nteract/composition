@@ -1,3 +1,8 @@
+```jsx static
+import { Cells } from "@nteract/presentational-components"
+```
+
+
 `<Cells />` is a wrapper component to provide buffers between cells if you're building a notebook app.
 
 ```js

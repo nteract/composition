@@ -1,3 +1,7 @@
+```jsx static
+import { Source } from "@nteract/presentational-components"
+```
+
 Syntax highlight source code. Pass a child component to override with your own editor or syntax highlighting implementation.
 
 ### Syntax Highlight

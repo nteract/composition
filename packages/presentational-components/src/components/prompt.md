@@ -1,3 +1,7 @@
+```jsx static
+import { Prompt } from "@nteract/presentational-components"
+```
+
 Display an empty prompt
 
 ```

@@ -1,3 +1,7 @@
+```jsx static
+import { Cell } from "@nteract/presentational-components"
+```
+
 All by itself, this component doesn't do anything. Used with `<Input />`, `<Source />`, and `<Outputs />`, it brings styling to the children
 based on hover and **selected** states.
 
