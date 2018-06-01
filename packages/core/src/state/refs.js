@@ -12,6 +12,7 @@ export opaque type HostRef: string = string;
 export opaque type KernelRef: string = string;
 export opaque type KernelspecsRef: string = string;
 export opaque type ContentRef: string = string;
+export opaque type CurrentBranch: string = string;
 
 export const createHostRef = (): HostRef => uuid.v4();
 export const createKernelRef = (): KernelRef => uuid.v4();

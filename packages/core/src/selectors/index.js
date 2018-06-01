@@ -12,7 +12,8 @@ import type {
   ContentModel,
   KernelRef,
   KernelspecsByRefRecord,
-  ContentRecord
+  ContentRecord,
+  HostRef
 } from "../state";
 
 // Export sub-selectors (those that operate on contents models for instance)
@@ -169,7 +170,7 @@ export const filepath = (
 };
 
 export const hostByRef = (state: AppState) => state.core.entities.hosts.byRef;
-
+//
 export const currentBranch = (state: AppState) =>
   hostByRef(state).get("currentBranch");
 

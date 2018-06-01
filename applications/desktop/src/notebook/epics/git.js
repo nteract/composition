@@ -33,6 +33,14 @@ export const gitAddEpic = (action$: ActionsObservable<*>, store: any) =>
       const state = store.getState();
       const contentRef = action.payload.contentRef;
       const content = selectors.content(state, { contentRef });
+      if (!content) {
+        return of(
+          actions.saveFailed({
+            error: new Error("no notebook loaded to save"),
+            contentRef: action.payload.contentRef
+          })
+        );
+      }
       const filepath = content.filepath;
       const repo = {
         fs,
@@ -70,6 +78,14 @@ export const gitRemoveEpic = (action$: ActionsObservable<*>, store: any) =>
       const state = store.getState();
       const contentRef = action.payload.contentRef;
       const content = selectors.content(state, { contentRef });
+      if (!content) {
+        return of(
+          actions.saveFailed({
+            error: new Error("no notebook loaded to save"),
+            contentRef: action.payload.contentRef
+          })
+        );
+      }
       const filepath = content.filepath;
       const repo = {
         fs,
@@ -111,6 +127,14 @@ export const gitInitEpic = (action$: ActionsObservable<*>, store: any) =>
       const state = store.getState();
       const contentRef = action.payload.contentRef;
       const content = selectors.content(state, { contentRef });
+      if (!content) {
+        return of(
+          actions.saveFailed({
+            error: new Error("no notebook loaded to save"),
+            contentRef: action.payload.contentRef
+          })
+        );
+      }
       const filepath = content.filepath;
       const repo = {
         fs,
@@ -144,6 +168,14 @@ export const gitCommitEpic = (action$: ActionsObservable<*>, store: any) =>
       const state = store.getState();
       const contentRef = action.payload.contentRef;
       const content = selectors.content(state, { contentRef });
+      if (!content) {
+        return of(
+          actions.saveFailed({
+            error: new Error("no notebook loaded to save"),
+            contentRef: action.payload.contentRef
+          })
+        );
+      }
       const filepath = content.filepath;
       const notificationSystem = selectors.notificationSystem(state);
       const repo = {
@@ -187,6 +219,14 @@ export const gitCopyConfigEpic = (action$: ActionsObservable<*>, store: any) =>
       const state = store.getState();
       const contentRef = action.payload.contentRef;
       const content = selectors.content(state, { contentRef });
+      if (!content) {
+        return of(
+          actions.saveFailed({
+            error: new Error("no notebook loaded to save"),
+            contentRef: action.payload.contentRef
+          })
+        );
+      }
       const filepath = content.filepath;
       const notificationSystem = selectors.notificationSystem(state);
       const gitConfig = path.join(os.homedir(), ".gitconfig");
@@ -221,6 +261,14 @@ export const gitListBranchEpic = (action$: ActionsObservable<*>, store: any) =>
       const state = store.getState();
       const contentRef = action.payload.contentRef;
       const content = selectors.content(state, { contentRef });
+      if (!content) {
+        return of(
+          actions.saveFailed({
+            error: new Error("no notebook loaded to save"),
+            contentRef: action.payload.contentRef
+          })
+        );
+      }
       const filepath = content.filepath;
       const repo = {
         fs,

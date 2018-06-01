@@ -3,7 +3,8 @@ import type {
   ContentRef,
   HostRef,
   KernelRef,
-  KernelspecsRef
+  KernelspecsRef,
+  CurrentBranch
 } from "./state/refs";
 import type { HostRecord } from "./state/entities/hosts";
 import type { KernelspecProps } from "./state/entities/kernelspecs";

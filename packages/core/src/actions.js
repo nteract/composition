@@ -7,7 +7,8 @@ import type {
   ContentRef,
   HostRef,
   KernelRef,
-  KernelspecsRef
+  KernelspecsRef,
+  CurrentBranch
 } from "./state/refs";
 import type { KernelspecProps } from "./state/entities/kernelspecs";
 
@@ -881,7 +882,7 @@ export function gitListBranchSuccessful(payload: {
 
 export function gitAdd(payload: {
   contentRef: ContentRef
-}): actionTypes.GitAdd {
+}): actionTypes.GitAddAction {
   return {
     type: actionTypes.GIT_ADD,
     payload

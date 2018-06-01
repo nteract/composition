@@ -90,7 +90,8 @@ const mapStateToProps = (
 ): Props => {
   const { contentRef, kernelRef } = ownProps;
   const content = selectors.content(state, { contentRef });
-  const filepath = content.filepath;
+
+  const filepath = content && content.filepath ? content.filepath : null;
 
   const kernel = kernelRef ? selectors.kernel(state, { kernelRef }) : null;
 
