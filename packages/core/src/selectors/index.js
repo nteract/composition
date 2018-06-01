@@ -169,10 +169,10 @@ export const filepath = (
   return c.filepath;
 };
 
-export const hostByRef = (state: AppState) => state.core.entities.hosts.byRef;
-//
-export const currentBranch = (state: AppState) =>
-  hostByRef(state).get("currentBranch");
+export const currentBranch = createSelector(
+  (state: AppState) => state.app.get("currentBranch"),
+  identity
+);
 
 export const modalType = createSelector(
   (state: AppState) => state.core.entities.modals.modalType,

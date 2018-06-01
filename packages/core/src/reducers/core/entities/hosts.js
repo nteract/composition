@@ -10,9 +10,6 @@ import {
 
 const byRef = (state = Immutable.Map(), action) => {
   switch (action.type) {
-    // case actionTypes.GIT_LIST_BRANCH:
-    case actionTypes.GIT_LIST_BRANCH_SUCCESSFUL:
-      return state.set("currentBranch", action.payload.currentBranch);
     case actionTypes.ADD_HOST:
       switch (action.payload.host.type) {
         case "jupyter": {

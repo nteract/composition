@@ -16,12 +16,20 @@ import type {
   SetGithubTokenAction,
   Save,
   SaveFailed,
-  SaveFulfilled
+  SaveFulfilled,
+  GitListBranchSuccessfulAction
 } from "../actionTypes";
 
 function setGithubToken(state: AppRecord, action: SetGithubTokenAction) {
   const { githubToken } = action;
   return state.set("githubToken", githubToken);
+}
+
+function setCurrentBranch(
+  state: AppRecord,
+  action: GitListBranchSuccessfulAction
+) {
+  return state.set("currentBranch", action.payload.currentBranch);
 }
 
 function save(state: AppRecord) {
@@ -48,11 +56,14 @@ export default function handleApp(
   action:
     | SetNotificationSystemAction
     | SetGithubTokenAction
+    | GitListBranchSuccessfulAction
     | Save
     | SaveFulfilled
     | SaveFailed
 ) {
   switch (action.type) {
+    case actionTypes.GIT_LIST_BRANCH_SUCCESSFUL:
+      return setCurrentBranch(state, action);
     case actionTypes.SAVE:
       return save(state);
     case actionTypes.SAVE_FAILED:

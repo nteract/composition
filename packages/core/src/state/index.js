@@ -102,7 +102,8 @@ export type AppRecordProps = {
   configLastSaved: ?Date,
   error: any,
   // The version number should be provided by an app on boot
-  version: string
+  version: string,
+  currentBranch: string
 };
 
 export const makeAppRecord: Immutable.RecordFactory<
@@ -129,7 +130,8 @@ export const makeAppRecord: Immutable.RecordFactory<
   configLastSaved: null,
   error: null,
   // set the default version to @nteract/core's version
-  version: `@nteract/core@${version}`
+  version: `@nteract/core@${version}`,
+  currentBranch: ""
 });
 
 export type AppRecord = Immutable.RecordOf<AppRecordProps>;
