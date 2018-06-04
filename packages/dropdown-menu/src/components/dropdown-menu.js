@@ -1,6 +1,8 @@
 // @flow
 import { areComponentsEqual } from "react-hot-loader";
 import * as React from "react";
+import { DropdownTrigger } from "./dropdown-trigger";
+import { DropdownContent } from "./dropdown-content";
 
 type DropdownMenuProps = {
   children: React.ChildrenArray<React.Element<*>>

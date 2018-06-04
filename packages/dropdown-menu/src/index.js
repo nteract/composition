@@ -8,8 +8,8 @@
 import { areComponentsEqual } from "react-hot-loader";
 import * as React from "react";
 
-import { DropdownMenu } from "@nteract/dropdown-menu";
-import { DropdownTrigger } from "@nteract/dropdown-trigger";
-import { DropdownContent } from "@nteract/dropdown-content";
+import { DropdownMenu } from "./components/dropdown-menu";
+import { DropdownTrigger } from "./components/dropdown-trigger";
+import { DropdownContent } from "./components/dropdown-content";
 
 export { DropdownMenu, DropdownTrigger, DropdownContent };
