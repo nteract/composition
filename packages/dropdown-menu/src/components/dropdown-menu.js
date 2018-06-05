@@ -53,6 +53,7 @@ export class DropdownMenu extends React.Component<
         <style jsx>{`
           .dropdown {
             display: inline-block;
+            position: relative;
           }
         `}</style>
       </div>

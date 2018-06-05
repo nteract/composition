@@ -13,12 +13,14 @@ export class DropdownContent extends React.Component<{
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <ul>
           {React.Children.map(this.props.children, child => {
             return React.cloneElement(child, {
               onClick: ev => {
-                child.props.onClick(ev);
+                if (child.props.onClick) {
+                  child.props.onClick(ev);
+                }
                 // Hide the menu
                 this.props.onItemClick(ev);
               }
@@ -35,8 +37,8 @@ export class DropdownContent extends React.Component<{
 
             opacity: 1;
             position: absolute;
-            top: 0.2em;
-            right: 0;
+            /* top: 0.2em; */
+            /* right: 0; */
             border-style: none;
             padding: 0;
             font-family: var(--nt-font-family-normal);
@@ -63,7 +65,7 @@ export class DropdownContent extends React.Component<{
             cursor: pointer;
           }
         `}</style>
-      </div>
+      </React.Fragment>
     );
   }
 }

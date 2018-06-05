@@ -10,7 +10,7 @@ module.exports = {
     },
     {
       name: "Dropdown Menu Components",
-      components: "packages/dropdown-menu/src/components/*.js"
+      content: "packages/dropdown-menu/src/components/index.md"
     }
   ],
   // For overriding the components styleguidist uses
