@@ -1,5 +1,4 @@
 // @flow
-import { areComponentsEqual } from "react-hot-loader";
 import * as React from "react";
 
 export class DropdownContent extends React.Component<{

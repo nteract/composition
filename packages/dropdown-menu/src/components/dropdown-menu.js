@@ -1,5 +1,9 @@
 // @flow
+// react-hot-loader uses proxies to the original elements so we need to use
+// their comparison function in case a consumer of these components is
+// using hot module reloading
 import { areComponentsEqual } from "react-hot-loader";
+
 import * as React from "react";
 import { DropdownTrigger } from "./dropdown-trigger";
 import { DropdownContent } from "./dropdown-content";

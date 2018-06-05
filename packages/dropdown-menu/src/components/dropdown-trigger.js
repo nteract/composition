@@ -1,5 +1,7 @@
 // @flow
-import { areComponentsEqual } from "react-hot-loader";
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
+/* eslint jsx-a11y/click-events-have-key-events: 0 */
+
 import * as React from "react";
 
 export class DropdownTrigger extends React.Component<{
