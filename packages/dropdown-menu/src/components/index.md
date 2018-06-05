@@ -9,27 +9,37 @@ NOTE: This interface is pretty rough, so you'll have to excuse some strangeness 
 ```jsx
 const { DropdownMenu, DropdownTrigger, DropdownContent } = require("../");
 
-const Entry = ({ children }) => (
-  <li style={{ backgroundColor: "gray" }}>{children}</li>
-);
+const triggerStyle = {
+  backgroundColor: "#F5D541",
+  color: "#AC8EBC",
+  padding: "10px",
+  margin: "0px",
+  width: "100px"
+};
 
-<DropdownMenu>
-  <DropdownTrigger>
-    <p
-      style={{
-        backgroundColor: "gray",
-        color: "white",
-        padding: "10px",
-        margin: "0px"
-      }}
-    >
-      click me
-    </p>
-  </DropdownTrigger>
-  <DropdownContent>
-    <Entry>thing 1</Entry>
-    <Entry>thing 2</Entry>
-    <Entry>thing 3</Entry>
-  </DropdownContent>
-</DropdownMenu>;
+const itemStyle = {
+  backgroundColor: "#AC8EBC",
+  color: "#F5D541"
+};
+
+<div>
+  <DropdownMenu>
+    <DropdownTrigger>
+      <p style={triggerStyle}>Drop It</p>
+    </DropdownTrigger>
+    <DropdownContent>
+      <li style={itemStyle} onClick={() => console.log("Try it with me")}>
+        Pop It
+      </li>
+      <li style={itemStyle} onClick={() => console.log("Here we go")}>
+        Lock It
+      </li>
+      <li style={itemStyle} onClick={() => console.log("Boom boom clap")}>
+        Polka Dot It
+      </li>
+    </DropdownContent>
+  </DropdownMenu>
+</div>;
 ```
+
+The primary purpose of this component is to have some hidden option to take as actions. Within the cell UI, this forms the cell actions area.
