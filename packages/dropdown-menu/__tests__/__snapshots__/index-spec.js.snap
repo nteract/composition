@@ -3,7 +3,7 @@
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 1`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 dropdown"
+    className="jsx-3687002087 dropdown"
   >
     <DropdownTrigger
       key=".0"
@@ -25,8 +25,8 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
       </div>
     </DropdownTrigger>
     <JSXStyle
-      css=".dropdown.jsx-2673522894{display:inline-block;}"
-      styleId="2673522894"
+      css=".dropdown.jsx-3687002087{display:inline-block;position:relative;}"
+      styleId="3687002087"
     />
   </div>
 </DropdownMenu>
@@ -35,7 +35,7 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 2`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 dropdown"
+    className="jsx-3687002087 dropdown"
   >
     <DropdownTrigger
       key=".0"
@@ -57,8 +57,8 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
       </div>
     </DropdownTrigger>
     <JSXStyle
-      css=".dropdown.jsx-2673522894{display:inline-block;}"
-      styleId="2673522894"
+      css=".dropdown.jsx-3687002087{display:inline-block;position:relative;}"
+      styleId="3687002087"
     />
   </div>
 </DropdownMenu>
@@ -67,7 +67,7 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 3`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 dropdown"
+    className="jsx-3687002087 dropdown"
   >
     <DropdownTrigger
       key=".0"
@@ -92,29 +92,25 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
       key=".1"
       onItemClick={[Function]}
     >
-      <div
-        className="jsx-104434278"
+      <ul
+        className="jsx-1786491233"
       >
-        <ul
-          className="jsx-104434278"
+        <li
+          className="alsoClickMe"
+          key=".0"
+          onClick={[Function]}
         >
-          <li
-            className="alsoClickMe"
-            key=".0"
-            onClick={[Function]}
-          >
-            1
-          </li>
-        </ul>
-        <JSXStyle
-          css="div.jsx-104434278{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0px;padding:0px;width:200px;opacity:1;position:absolute;top:0.2em;right:0;border-style:none;padding:0;font-family:var(--nt-font-family-normal);font-size:var(--nt-font-size-m);line-height:1.5;margin:20px 0;background-color:var(--theme-cell-menu-bg);}ul.jsx-104434278{list-style:none;text-align:left;padding:0;margin:0;opacity:1;}li{padding:0.5rem;}li:hover{background-color:var(--theme-cell-menu-bg-hover,#e2dfe3);cursor:pointer;}"
-          styleId="104434278"
-        />
-      </div>
+          1
+        </li>
+      </ul>
+      <JSXStyle
+        css="div.jsx-1786491233{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0px;padding:0px;width:200px;opacity:1;position:absolute;border-style:none;padding:0;font-family:var(--nt-font-family-normal);font-size:var(--nt-font-size-m);line-height:1.5;margin:20px 0;background-color:var(--theme-cell-menu-bg);}ul.jsx-1786491233{list-style:none;text-align:left;padding:0;margin:0;opacity:1;}li{padding:0.5rem;}li:hover{background-color:var(--theme-cell-menu-bg-hover,#e2dfe3);cursor:pointer;}"
+        styleId="1786491233"
+      />
     </DropdownContent>
     <JSXStyle
-      css=".dropdown.jsx-2673522894{display:inline-block;}"
-      styleId="2673522894"
+      css=".dropdown.jsx-3687002087{display:inline-block;position:relative;}"
+      styleId="3687002087"
     />
   </div>
 </DropdownMenu>
@@ -123,7 +119,7 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 4`] = `
 <DropdownMenu>
   <div
-    className="jsx-2673522894 dropdown"
+    className="jsx-3687002087 dropdown"
   >
     <DropdownTrigger
       key=".0"
@@ -145,8 +141,8 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
       </div>
     </DropdownTrigger>
     <JSXStyle
-      css=".dropdown.jsx-2673522894{display:inline-block;}"
-      styleId="2673522894"
+      css=".dropdown.jsx-3687002087{display:inline-block;position:relative;}"
+      styleId="3687002087"
     />
   </div>
 </DropdownMenu>

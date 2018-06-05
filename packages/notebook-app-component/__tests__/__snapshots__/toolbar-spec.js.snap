@@ -94,7 +94,7 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
       </button>
       <DropdownMenu>
         <div
-          className="jsx-2673522894 dropdown"
+          className="jsx-3687002087 dropdown"
         >
           <DropdownTrigger
             key=".0"
@@ -152,8 +152,8 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
             </div>
           </DropdownTrigger>
           <JSXStyle
-            css=".dropdown.jsx-2673522894{display:inline-block;}"
-            styleId="2673522894"
+            css=".dropdown.jsx-3687002087{display:inline-block;position:relative;}"
+            styleId="3687002087"
           />
         </div>
       </DropdownMenu>
@@ -260,7 +260,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
       </button>
       <DropdownMenu>
         <div
-          className="jsx-2673522894 dropdown"
+          className="jsx-3687002087 dropdown"
         >
           <DropdownTrigger
             key=".0"
@@ -321,106 +321,102 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
             key=".1"
             onItemClick={[Function]}
           >
-            <div
-              className="jsx-104434278"
+            <ul
+              className="jsx-1786491233"
             >
-              <ul
-                className="jsx-104434278"
+              <li
+                aria-selected="false"
+                className="jsx-2145412815 clearOutput"
+                key=".0"
+                onClick={[Function]}
+                role="option"
+                tabIndex="0"
               >
-                <li
-                  aria-selected="false"
-                  className="jsx-2145412815 clearOutput"
-                  key=".0"
-                  onClick={[Function]}
-                  role="option"
-                  tabIndex="0"
-                >
-                  <a
-                    className="jsx-2145412815"
-                  >
-                    Clear Cell Output
-                  </a>
-                </li>
-                <li
-                  aria-selected="false"
-                  className="jsx-2145412815 inputVisibility"
-                  key=".1"
-                  onClick={[Function]}
-                  role="option"
-                  tabIndex="0"
-                >
-                  <a
-                    className="jsx-2145412815"
-                  >
-                    Toggle Input Visibility
-                  </a>
-                </li>
-                <li
-                  aria-selected="false"
-                  className="jsx-2145412815 outputVisibility"
-                  key=".2"
-                  onClick={[Function]}
-                  role="option"
-                  tabIndex="0"
-                >
-                  <a
-                    className="jsx-2145412815"
-                  >
-                    Toggle Output Visibility
-                  </a>
-                </li>
-                <li
-                  aria-selected="false"
-                  className="jsx-2145412815 outputExpanded"
-                  key=".3"
-                  onClick={[Function]}
-                  role="option"
-                  tabIndex="0"
-                >
-                  <a
-                    className="jsx-2145412815"
-                  >
-                    Toggle Expanded Output
-                  </a>
-                </li>
-                <li
-                  aria-selected="false"
+                <a
                   className="jsx-2145412815"
-                  key=".4"
-                  onClick={[Function]}
-                  role="option"
-                  tabIndex="0"
                 >
-                  <a
-                    className="jsx-2145412815"
-                  >
-                    Toggle Parameter Cell
-                  </a>
-                </li>
-                <li
-                  aria-selected="false"
-                  className="jsx-2145412815 changeType"
-                  key=".5"
-                  onClick={[Function]}
-                  role="option"
-                  tabIndex="0"
+                  Clear Cell Output
+                </a>
+              </li>
+              <li
+                aria-selected="false"
+                className="jsx-2145412815 inputVisibility"
+                key=".1"
+                onClick={[Function]}
+                role="option"
+                tabIndex="0"
+              >
+                <a
+                  className="jsx-2145412815"
                 >
-                  <a
-                    className="jsx-2145412815"
-                  >
-                    Convert to Markdown Cell
-                  </a>
-                </li>
-              </ul>
-              <JSXStyle
-                css="div.jsx-104434278{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0px;padding:0px;width:200px;opacity:1;position:absolute;top:0.2em;right:0;border-style:none;padding:0;font-family:var(--nt-font-family-normal);font-size:var(--nt-font-size-m);line-height:1.5;margin:20px 0;background-color:var(--theme-cell-menu-bg);}ul.jsx-104434278{list-style:none;text-align:left;padding:0;margin:0;opacity:1;}li{padding:0.5rem;}li:hover{background-color:var(--theme-cell-menu-bg-hover,#e2dfe3);cursor:pointer;}"
-                styleId="104434278"
-              />
-            </div>
+                  Toggle Input Visibility
+                </a>
+              </li>
+              <li
+                aria-selected="false"
+                className="jsx-2145412815 outputVisibility"
+                key=".2"
+                onClick={[Function]}
+                role="option"
+                tabIndex="0"
+              >
+                <a
+                  className="jsx-2145412815"
+                >
+                  Toggle Output Visibility
+                </a>
+              </li>
+              <li
+                aria-selected="false"
+                className="jsx-2145412815 outputExpanded"
+                key=".3"
+                onClick={[Function]}
+                role="option"
+                tabIndex="0"
+              >
+                <a
+                  className="jsx-2145412815"
+                >
+                  Toggle Expanded Output
+                </a>
+              </li>
+              <li
+                aria-selected="false"
+                className="jsx-2145412815"
+                key=".4"
+                onClick={[Function]}
+                role="option"
+                tabIndex="0"
+              >
+                <a
+                  className="jsx-2145412815"
+                >
+                  Toggle Parameter Cell
+                </a>
+              </li>
+              <li
+                aria-selected="false"
+                className="jsx-2145412815 changeType"
+                key=".5"
+                onClick={[Function]}
+                role="option"
+                tabIndex="0"
+              >
+                <a
+                  className="jsx-2145412815"
+                >
+                  Convert to Markdown Cell
+                </a>
+              </li>
+            </ul>
+            <JSXStyle
+              css="div.jsx-1786491233{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;margin:0px;padding:0px;width:200px;opacity:1;position:absolute;border-style:none;padding:0;font-family:var(--nt-font-family-normal);font-size:var(--nt-font-size-m);line-height:1.5;margin:20px 0;background-color:var(--theme-cell-menu-bg);}ul.jsx-1786491233{list-style:none;text-align:left;padding:0;margin:0;opacity:1;}li{padding:0.5rem;}li:hover{background-color:var(--theme-cell-menu-bg-hover,#e2dfe3);cursor:pointer;}"
+              styleId="1786491233"
+            />
           </DropdownContent>
           <JSXStyle
-            css=".dropdown.jsx-2673522894{display:inline-block;}"
-            styleId="2673522894"
+            css=".dropdown.jsx-3687002087{display:inline-block;position:relative;}"
+            styleId="3687002087"
           />
         </div>
       </DropdownMenu>
