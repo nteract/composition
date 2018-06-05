@@ -1,3 +1,20 @@
 {
-  "parser": "flow"
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "parser": "markdown"
+      }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "parser": "flow"
+      }
+    },
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    }
+  ]
 }
