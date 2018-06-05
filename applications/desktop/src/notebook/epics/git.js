@@ -52,7 +52,8 @@ export const gitAddEpic = (action$: ActionsObservable<*>, store: any) =>
 
       return from(git.add({ ...repo, filepath: notebook })).pipe(
         map(
-          stage => actions.gitAddSuccessful(stage),
+          () =>
+            actions.gitAddSuccessful({ contentRef: action.payload.contentRef }),
           notificationSystem.addNotification({
             title: "Changes Staged",
             message: `Changes to the notebook have been staged.`,
@@ -97,10 +98,13 @@ export const gitRemoveEpic = (action$: ActionsObservable<*>, store: any) =>
 
       return from(git.remove({ ...repo, filepath: notebook })).pipe(
         map(
-          init => actions.gitRemoveSuccessful(init),
+          () =>
+            actions.gitRemoveSuccessful({
+              contentRef: action.payload.contentRef
+            }),
           notificationSystem.addNotification({
             title: "Remove Successful",
-            message: `Notebook has been removed from the repository.`,
+            message: `Notebook has been successfully removed from the repository.`,
             dismissible: true,
             position: "tr",
             level: "success"
@@ -144,7 +148,10 @@ export const gitInitEpic = (action$: ActionsObservable<*>, store: any) =>
 
       return from(git.init(repo)).pipe(
         map(
-          init => actions.gitInitSuccessful(init),
+          () =>
+            actions.gitInitSuccessful({
+              contentRef: action.payload.contentRef
+            }),
           notificationSystem.addNotification({
             title: "Repository Created",
             message: `A Git repository has been created.`,
@@ -194,7 +201,10 @@ export const gitCommitEpic = (action$: ActionsObservable<*>, store: any) =>
           git.commit({ ...repo, message: "chore: updating notebook" })
         ).pipe(
           map(
-            commit => actions.gitCommitSuccessful(commit),
+            () =>
+              actions.gitCommitSuccessful({
+                contentRef: action.payload.contentRef
+              }),
             notificationSystem.addNotification({
               title: "Changes Commited",
               message: `Notebook changes have been commited.`,
@@ -237,9 +247,12 @@ export const gitCopyConfigEpic = (action$: ActionsObservable<*>, store: any) =>
 
       return of(copy(gitConfig, localGitConfig)).pipe(
         map(
-          init => actions.gitCopyConfigSuccessful(init),
+          () =>
+            actions.gitCopyConfigSuccessful({
+              contentRef: action.payload.contentRef
+            }),
           notificationSystem.addNotification({
-            title: "Git Config successfull",
+            title: "Git Config Successful",
             message: `Git config has successfully been set.`,
             dismissible: true,
             position: "tr",
