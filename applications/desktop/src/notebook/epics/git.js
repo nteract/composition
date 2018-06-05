@@ -35,8 +35,8 @@ export const gitAddEpic = (action$: ActionsObservable<*>, store: any) =>
       const content = selectors.content(state, { contentRef });
       if (!content) {
         return of(
-          actions.saveFailed({
-            error: new Error("no notebook loaded to save"),
+          actions.gitAddFailed({
+            error: new Error("no notebook loaded to add"),
             contentRef: action.payload.contentRef
           })
         );
@@ -80,8 +80,8 @@ export const gitRemoveEpic = (action$: ActionsObservable<*>, store: any) =>
       const content = selectors.content(state, { contentRef });
       if (!content) {
         return of(
-          actions.saveFailed({
-            error: new Error("no notebook loaded to save"),
+          actions.gitRemoveFailed({
+            error: new Error("no notebook loaded to remove"),
             contentRef: action.payload.contentRef
           })
         );
@@ -113,7 +113,7 @@ export const gitRemoveEpic = (action$: ActionsObservable<*>, store: any) =>
 
 export const copy = (file, dest) => {
   if (fs.existsSync(file)) {
-    return fs.createReadStream(file).pipe(fs.createWriteStream(dest));
+    fs.createReadStream(file).pipe(fs.createWriteStream(dest));
   }
 };
 
@@ -129,8 +129,8 @@ export const gitInitEpic = (action$: ActionsObservable<*>, store: any) =>
       const content = selectors.content(state, { contentRef });
       if (!content) {
         return of(
-          actions.saveFailed({
-            error: new Error("no notebook loaded to save"),
+          actions.gitInitFailed({
+            error: new Error("no notebook loaded"),
             contentRef: action.payload.contentRef
           })
         );
@@ -170,8 +170,8 @@ export const gitCommitEpic = (action$: ActionsObservable<*>, store: any) =>
       const content = selectors.content(state, { contentRef });
       if (!content) {
         return of(
-          actions.saveFailed({
-            error: new Error("no notebook loaded to save"),
+          actions.gitCommitFailed({
+            error: new Error("no notebook loaded to commit"),
             contentRef: action.payload.contentRef
           })
         );
@@ -221,8 +221,8 @@ export const gitCopyConfigEpic = (action$: ActionsObservable<*>, store: any) =>
       const content = selectors.content(state, { contentRef });
       if (!content) {
         return of(
-          actions.saveFailed({
-            error: new Error("no notebook loaded to save"),
+          actions.gitCopyConfigFailed({
+            error: new Error("no notebook loaded to copy config"),
             contentRef: action.payload.contentRef
           })
         );
@@ -263,8 +263,8 @@ export const gitListBranchEpic = (action$: ActionsObservable<*>, store: any) =>
       const content = selectors.content(state, { contentRef });
       if (!content) {
         return of(
-          actions.saveFailed({
-            error: new Error("no notebook loaded to save"),
+          actions.gitListBranchFailed({
+            error: new Error("no notebook loaded to list currentBranch"),
             contentRef: action.payload.contentRef
           })
         );
@@ -274,6 +274,19 @@ export const gitListBranchEpic = (action$: ActionsObservable<*>, store: any) =>
         fs,
         dir: filepath.substring(0, filepath.lastIndexOf("/"))
       };
+      if (
+        !fs.existsSync(
+          filepath.substring(0, filepath.lastIndexOf("/")) + "/.git/"
+        )
+      ) {
+        return of(
+          actions.gitListBranchFailed({
+            error: new Error("no notebook loaded to list currentBranch"),
+            contentRef: action.payload.contentRef
+          })
+        );
+      }
+
       return from(git.resolveRef({ ...repo, ref: "HEAD", depth: 1 })).pipe(
         map(currentBranch =>
           actions.gitListBranchSuccessful({
