@@ -62,9 +62,14 @@ export const gitAddEpic = (action$: ActionsObservable<*>, store: any) =>
             level: "success"
           })
         ),
-        catchError(err => {
-          actions.gitAddFailed(err);
-        })
+        catchError((error: Error) =>
+          of(
+            actions.gitAddFailed({
+              error: new Error("no repo to stage files to"),
+              contentRef: action.payload.contentRef
+            })
+          )
+        )
       );
     })
   );
