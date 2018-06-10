@@ -12,8 +12,7 @@ import type {
   ContentModel,
   KernelRef,
   KernelspecsByRefRecord,
-  ContentRecord,
-  HostRef
+  ContentRecord
 } from "../state";
 
 // Export sub-selectors (those that operate on contents models for instance)
