@@ -25,6 +25,7 @@ exports[`NewNotebookNavigation snapshots 1`] = `
         >
           <span>
             <svg
+              height={undefined}
               style={
                 Object {
                   "display": "inline-block",
@@ -96,6 +97,7 @@ exports[`NewNotebookNavigation snapshots 1`] = `
         >
           <span>
             <svg
+              height={undefined}
               style={
                 Object {
                   "display": "inline-block",
@@ -167,6 +169,7 @@ exports[`NewNotebookNavigation snapshots 1`] = `
         >
           <span>
             <svg
+              height={undefined}
               style={
                 Object {
                   "display": "inline-block",

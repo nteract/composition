@@ -13,15 +13,21 @@ exports[`PureNotebookMenu  snapshots renders the default 1`] = `
     className="rc-menu-submenu rc-menu-submenu-horizontal"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
+    style={undefined}
   >
     <div
       aria-expanded={false}
       aria-haspopup="true"
       aria-owns="file$Menu"
       className="rc-menu-submenu-title"
+      onBlur={undefined}
       onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      onTouchStart={undefined}
       style={Object {}}
       title="File"
     >
@@ -35,15 +41,21 @@ exports[`PureNotebookMenu  snapshots renders the default 1`] = `
     className="rc-menu-submenu rc-menu-submenu-horizontal"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
+    style={undefined}
   >
     <div
       aria-expanded={false}
       aria-haspopup="true"
       aria-owns="edit$Menu"
       className="rc-menu-submenu-title"
+      onBlur={undefined}
       onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      onTouchStart={undefined}
       style={Object {}}
       title="Edit"
     >
@@ -57,15 +69,21 @@ exports[`PureNotebookMenu  snapshots renders the default 1`] = `
     className="rc-menu-submenu rc-menu-submenu-horizontal"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
+    style={undefined}
   >
     <div
       aria-expanded={false}
       aria-haspopup="true"
       aria-owns="view$Menu"
       className="rc-menu-submenu-title"
+      onBlur={undefined}
       onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      onTouchStart={undefined}
       style={Object {}}
       title="View"
     >
@@ -79,15 +97,21 @@ exports[`PureNotebookMenu  snapshots renders the default 1`] = `
     className="rc-menu-submenu rc-menu-submenu-horizontal"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
+    style={undefined}
   >
     <div
       aria-expanded={false}
       aria-haspopup="true"
       aria-owns="cell$Menu"
       className="rc-menu-submenu-title"
+      onBlur={undefined}
       onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      onTouchStart={undefined}
       style={Object {}}
       title="Cell"
     >
@@ -101,15 +125,21 @@ exports[`PureNotebookMenu  snapshots renders the default 1`] = `
     className="rc-menu-submenu rc-menu-submenu-horizontal"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
+    style={undefined}
   >
     <div
       aria-expanded={false}
       aria-haspopup="true"
       aria-owns="runtime$Menu"
       className="rc-menu-submenu-title"
+      onBlur={undefined}
       onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      onTouchStart={undefined}
       style={Object {}}
       title="Runtime"
     >
@@ -123,15 +153,21 @@ exports[`PureNotebookMenu  snapshots renders the default 1`] = `
     className="rc-menu-submenu rc-menu-submenu-horizontal"
     onMouseEnter={[Function]}
     onMouseLeave={[Function]}
+    style={undefined}
   >
     <div
       aria-expanded={false}
       aria-haspopup="true"
       aria-owns="help$Menu"
       className="rc-menu-submenu-title"
+      onBlur={undefined}
       onClick={[Function]}
+      onContextMenu={undefined}
+      onFocus={undefined}
+      onMouseDown={undefined}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
+      onTouchStart={undefined}
       style={Object {}}
       title="Help"
     >
