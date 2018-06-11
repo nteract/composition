@@ -52,6 +52,14 @@ export type AddHost = {
   payload: { hostRef: HostRef, host: HostRecord }
 };
 
+export const CLOSE_AND_HALT = "CORE/CLOSE_AND_HALT";
+export type CloseAndHalt = {
+  type: "CORE/CLOSE_AND_HALT",
+  payload: {
+    kernelRef: KernelRef
+  }
+};
+
 export const FETCH_CONTENT = "CORE/FETCH_CONTENT";
 export type FetchContent = {
   type: "CORE/FETCH_CONTENT",

@@ -19,7 +19,8 @@ import {
   acquireKernelInfoEpic,
   watchExecutionStateEpic,
   launchKernelWhenNotebookSetEpic,
-  restartKernelEpic
+  restartKernelEpic,
+  closeAndHaltEpic
 } from "./kernel-lifecycle";
 
 import { fetchKernelspecsEpic } from "./kernelspecs";
@@ -49,7 +50,8 @@ const allEpics = [
   fetchKernelspecsEpic,
   fetchContentEpic,
   saveContentEpic,
-  autoSaveCurrentContentEpic
+  autoSaveCurrentContentEpic,
+  closeAndHaltEpic
 ];
 
 export {
@@ -69,5 +71,6 @@ export {
   fetchKernelspecsEpic,
   fetchContentEpic,
   saveContentEpic,
-  autoSaveCurrentContentEpic
+  autoSaveCurrentContentEpic,
+  closeAndHaltEpic
 };

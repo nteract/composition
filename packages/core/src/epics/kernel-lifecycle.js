@@ -250,3 +250,18 @@ export const restartKernelEpic = (action$: ActionsObservable<*>, store: *) =>
       );
     })
   );
+
+export const closeAndHaltEpic = (action$: ActionsObservable<*>) =>
+  action$.pipe(
+    ofType(actionTypes.CLOSE_AND_HALT),
+    concatMap((action: actionTypes.CloseAndHalt) => {
+      const kernelRef = action.payload.kernelRef;
+      return of(
+        actions.killKernel({
+          restarting: false,
+          kernelRef: kernelRef
+        }),
+        window.close()
+      );
+    })
+  );
