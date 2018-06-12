@@ -19,10 +19,24 @@ We're in the beginnings of documenting our components using [react-styleguidist]
 
 ### Gist publishing
 
-Gist publishing is much improved! _However_, GitHub no longer allows new anonymous gists. All gists published from nteract must use authentication.
+Gist publishing is much more stable now! :octocat: _However_, GitHub no longer allows new anonymous gists. 😢 All gists published from nteract must use authentication. 🔐
+
+### Open Recent Menu
+
+Now that we're on Electron 2.x, we can support an "Open Recent" menu. Right now it is only supported on macOS.
+
+### Mega Vega
+
+We support vega 2, vega 3, vega-lite 1, and vega-lite 2!
+
+- 🐍 In Python use [Altair](https://altair-viz.github.io/)
+
+- 🌶 In Scala use [Vegas](https://github.com/vegas-viz/Vegas)
+
+![vega](https://user-images.githubusercontent.com/836375/41311196-6d849a2e-6e38-11e8-9d30-21553301beb2.gif)
 
 ## Miscellaneous
 
-- Improved Kernel Clean Up
+- Improved kernel clean up
 - Better font sizes in drop down menu
 - Upgraded to webpack 4\*
