@@ -34,20 +34,7 @@ const mainConfig = {
 const rendererConfig = {
   mode: "development",
   entry: {
-    app: "./src/notebook/index.js",
-    vendor: [
-      "react",
-      "react-dnd",
-      "react-dnd-html5-backend",
-      "react-dom",
-      "react-redux",
-      "redux",
-      "redux-logger",
-      "redux-observable",
-      "immutable",
-      "rxjs",
-      "date-fns"
-    ]
+    app: "./src/notebook/index.js"
   },
   target: "electron-renderer",
   output: {
