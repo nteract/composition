@@ -1,4 +1,6 @@
-## nteract v0.9.0
+## nteract v0.9.0 - Bespectacled Bessemer
+
+🤓🔩
 
 ### Data Explorer
 
