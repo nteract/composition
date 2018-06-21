@@ -218,12 +218,14 @@ class AnyCell extends React.PureComponent<AnyCellProps, *> {
             >
               <Display
                 className="outputs-display"
+                // HELLO PERF PROBLEM
                 outputs={this.props.outputs.toJS()}
                 displayOrder={this.props.displayOrder}
                 transforms={this.props.transforms}
                 theme={this.props.theme}
                 expanded={this.props.outputExpanded}
                 isHidden={this.props.outputHidden}
+                // HELLO OTHER PERF PROBLEM
                 models={this.props.models.toJS()}
               />
             </Outputs>
