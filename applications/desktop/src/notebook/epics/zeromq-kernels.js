@@ -338,10 +338,6 @@ export function killKernelImmediately(kernel: LocalKernelRecord): void {
   if (kernel.spawn) {
     killSpawn(kernel.spawn);
   }
-
-  if (kernel.connectionFile) {
-    fs.unlinkSync(kernel.connectionFile);
-  }
 }
 
 export const killKernelEpic = (action$: *, store: *): Observable<Action> =>
