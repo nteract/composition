@@ -66,7 +66,10 @@ export class PlotlyTransform extends React.Component<Props> {
     if (Object.isFrozen(figure)) {
       return cloneDeep(figure);
     }
-    return figure;
+
+    const { data = {}, layout = {} } = figure;
+
+    return { data, layout };
   };
 
   render(): ?React$Element<any> {
