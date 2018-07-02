@@ -5,6 +5,8 @@ import { hot } from "react-hot-loader";
 import * as React from "react";
 import ReactDOM from "react-dom";
 
+let config: JupyterConfigData;
+
 import App from "./app";
 
 import { Provider } from "react-redux";
@@ -57,8 +59,6 @@ function main(rootEl: Element, dataEl: Node | null) {
     return;
   }
 
-  let config: JupyterConfigData;
-
   try {
     config = JSON.parse(dataEl.textContent);
   } catch (err) {
@@ -68,7 +68,9 @@ function main(rootEl: Element, dataEl: Node | null) {
 
   // Allow chunks from webpack to load from their built location
   declare var __webpack_public_path__: string;
+
   __webpack_public_path__ = urljoin(config.assetUrl, "nteract/static/dist/");
+  console.log("__webpack_public_path__ is", __webpack_public_path__);
 
   const jupyterHostRecord = makeJupyterHostRecord({
     id: null,
