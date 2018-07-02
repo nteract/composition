@@ -7,11 +7,7 @@ import path from "path";
 import { selectors } from "@nteract/core";
 import type { ContentRef, KernelRef, AppState } from "@nteract/core";
 
-import { empty } from "rxjs/observable/empty";
-import { of } from "rxjs/observable/of";
-// $FlowFixMe: This exists, we're missing a flow definition
-import { combineLatest } from "rxjs/observable/combineLatest";
-import { from } from "rxjs/observable/from";
+import { empty, of, from, combineLatest } from "rxjs";
 
 import {
   map,

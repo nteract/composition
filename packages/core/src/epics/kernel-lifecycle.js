@@ -1,10 +1,6 @@
 /* @flow */
 
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { empty } from "rxjs/observable/empty";
-import { merge } from "rxjs/observable/merge";
-import { from } from "rxjs/observable/from";
+import { Observable, of, empty, merge, from } from "rxjs";
 import { createKernelRef } from "../state/refs";
 
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";

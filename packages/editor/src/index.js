@@ -3,9 +3,8 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 
-import { of } from "rxjs/observable/of";
-import { fromEvent } from "rxjs/observable/fromEvent";
-import type { Subscription } from "rxjs/Subscription";
+import { of, fromEvent } from "rxjs";
+import type { Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 
 import { Map as ImmutableMap } from "immutable";

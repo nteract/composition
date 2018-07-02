@@ -1,7 +1,7 @@
 /* @flow strict */
 import shellEnv from "shell-env";
 
-import { fromPromise } from "rxjs/observable/fromPromise";
+import { fromPromise } from "rxjs";
 import { first, tap, publishReplay } from "rxjs/operators";
 
 // Bring in the current user's environment variables from running a shell session so that

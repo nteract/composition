@@ -5,18 +5,15 @@ import { selectors, actions, actionTypes } from "@nteract/core";
 
 const path = require("path");
 
-import type { Observer } from "rxjs/Observer";
+import type { Observer } from "rxjs";
 import type { ActionsObservable } from "redux-observable";
 
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-
-import { empty } from "rxjs/observable/empty";
+import { Observable, of, empty } from "rxjs";
 
 import { mergeMap, map, catchError } from "rxjs/operators";
 import { ofType } from "redux-observable";
 
-import { ajax } from "rxjs/observable/dom/ajax";
+import { ajax } from "rxjs/ajax";
 
 type GithubFiles = {
   [string]: {

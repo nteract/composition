@@ -11,12 +11,7 @@ import {
   executionCounts
 } from "@nteract/messaging";
 
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { from } from "rxjs/observable/from";
-import { merge } from "rxjs/observable/merge";
-import { empty } from "rxjs/observable/empty";
-import { _throw } from "rxjs/observable/throw";
+import { Observable, of, from, merge, empty, throwError } from "rxjs";
 
 import type { ContentRef } from "../state/refs";
 
@@ -74,7 +69,7 @@ export function executeCellStream(
   contentRef: ContentRef
 ) {
   if (!channels || !channels.pipe) {
-    return _throw(new Error("kernel not connected"));
+    return throwError(new Error("kernel not connected"));
   }
 
   const executeRequest = message;

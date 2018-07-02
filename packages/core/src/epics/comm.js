@@ -1,6 +1,5 @@
 // @flow
-import { of } from "rxjs/observable/of";
-import { merge } from "rxjs/observable/merge";
+import { of, merge } from "rxjs";
 import { map, retry, switchMap } from "rxjs/operators";
 import { ofType } from "redux-observable";
 

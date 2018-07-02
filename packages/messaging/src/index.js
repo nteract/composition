@@ -1,11 +1,7 @@
 // @flow
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { from } from "rxjs/observable/from";
-import { merge } from "rxjs/observable/merge";
-import { _throw } from "rxjs/observable/throw";
+import { Observable, of, from, merge, throwError } from "rxjs";
 
 import {
   pluck,

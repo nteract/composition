@@ -1,6 +1,6 @@
 // @flow
 
-import { ajax } from "rxjs/observable/dom/ajax";
+import { ajax } from "rxjs/ajax";
 
 import { createAJAXSettings } from "./base";
 

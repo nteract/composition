@@ -1,11 +1,11 @@
 // @flow
 
-import { ajax } from "rxjs/observable/dom/ajax";
-import { webSocket } from "rxjs/observable/dom/webSocket";
-import { Observable } from "rxjs/Observable";
+import { ajax } from "rxjs/ajax";
+import { webSocket } from "rxjs/webSocket";
+import { Observable } from "rxjs";
 
-import { Subject } from "rxjs/Subject";
-import { Subscriber } from "rxjs/Subscriber";
+import { Subject } from "rxjs";
+import { Subscriber } from "rxjs";
 
 import { createAJAXSettings } from "./base";
 

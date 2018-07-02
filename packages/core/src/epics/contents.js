@@ -1,8 +1,5 @@
 /* @flow */
-import { empty } from "rxjs/observable/empty";
-import { of } from "rxjs/observable/of";
-import { from } from "rxjs/observable/from";
-import { interval } from "rxjs/observable/interval";
+import { empty, of, from, interval } from "rxjs";
 
 import {
   startWith,

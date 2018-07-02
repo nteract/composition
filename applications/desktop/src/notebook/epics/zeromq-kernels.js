@@ -3,12 +3,7 @@ import { unlinkObservable } from "fs-observable";
 
 import type { ChildProcess } from "child_process";
 
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { from } from "rxjs/observable/from";
-import { empty } from "rxjs/observable/empty";
-import { fromEvent } from "rxjs/observable/fromEvent";
-import { merge } from "rxjs/observable/merge";
+import { Observable, of, from, merge, empty, fromEvent } from "rxjs";
 
 import { sample } from "lodash";
 

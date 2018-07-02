@@ -3,8 +3,7 @@ import * as fs from "fs";
 
 const mkdirp = require("mkdirp");
 
-import { Observable } from "rxjs/Observable";
-import { bindNodeCallback } from "rxjs/observable/bindNodeCallback";
+import { Observable, bindNodeCallback } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 
 export const unlinkObservable = (path: string) =>

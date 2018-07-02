@@ -3,7 +3,7 @@
 
 import * as Immutable from "immutable";
 
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 
 import {
   monocellNotebook,
