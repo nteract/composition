@@ -206,7 +206,7 @@
     "unist-builder": "^1.0.2",
     "url-join": "^4.0.0",
     "url-search-params": "^0.10.0",
-    "util": "^0.10.3",
+    "util": "^0.11.0",
     "uuid": "^3.1.0",
     "webfontloader": "^1.6.28",
     "webpack": "^4.0.1",
