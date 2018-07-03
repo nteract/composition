@@ -54,7 +54,7 @@ export const fetchKernelspecsEpic = (
           });
         }),
         catchError(error => {
-          return actions.fetchKernelspecsFailed({ kernelspecsRef, error });
+          return of(actions.fetchKernelspecsFailed({ kernelspecsRef, error }));
         })
       );
     })
