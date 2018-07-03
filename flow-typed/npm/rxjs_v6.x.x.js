@@ -637,14 +637,10 @@ declare module "rxjs/observable/fromEventPattern" {
   };
 }
 declare module "rxjs/observable/generate" {
-  declare module.exports: {
-    // TODO
-  };
+  declare module.exports: {};
 }
 declare module "rxjs/observable/iif" {
-  declare module.exports: {
-    // TODO
-  };
+  declare module.exports: {};
 }
 declare module "rxjs/observable/interval" {
   declare module.exports: {
@@ -676,19 +672,13 @@ declare module "rxjs/observable/of" {
   };
 }
 declare module "rxjs/observable/onErrorResumeNext" {
-  declare module.exports: {
-    // TODO
-  };
+  declare module.exports: {};
 }
 declare module "rxjs/observable/pairs" {
-  declare module.exports: {
-    // TODO
-  };
+  declare module.exports: {};
 }
 declare module "rxjs/observable/race" {
-  declare module.exports: {
-    // TODO
-  };
+  declare module.exports: {};
 }
 declare module "rxjs/observable/range" {
   declare module.exports: {
@@ -1178,6 +1168,11 @@ declare module "rxjs/operators" {
       delay: number,
       scheduler?: rxjs$SchedulerClass
     ): (rxjs$Observable<T>) => rxjs$Observable<T>,
+
+    // NOTE: We should likely not use this operator due to type safety issues
+    pluck<+T>(
+      ...properties: string[]
+    ): (rxjs$Observable<T>) => rxjs$Observable<any>,
 
     publishReplay<+T>(
       bufferSize?: number,
