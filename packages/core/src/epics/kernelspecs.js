@@ -12,7 +12,7 @@ import * as selectors from "../selectors";
 
 export const fetchKernelspecsEpic = (
   action$: ActionsObservable<*>,
-  store: any
+  state$: any
 ) =>
   action$.pipe(
     ofType(actionTypes.FETCH_KERNELSPECS),
@@ -20,7 +20,7 @@ export const fetchKernelspecsEpic = (
       const {
         payload: { hostRef, kernelspecsRef }
       } = action;
-      const state = store.getState();
+      const state = state$.value;
 
       const host = selectors.currentHost(state);
       if (host.type !== "jupyter") {

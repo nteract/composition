@@ -157,12 +157,12 @@ export const extractNewKernel = (
  */
 export const launchKernelWhenNotebookSetEpic = (
   action$: ActionsObservable<*>,
-  store: *
+  state$: any
 ) =>
   action$.pipe(
     ofType(actionTypes.FETCH_CONTENT_FULFILLED),
     mergeMap((action: actionTypes.FetchContentFulfilled) => {
-      const state: AppState = store.getState();
+      const state: AppState = state$.value;
 
       const contentRef = action.payload.contentRef;
 
@@ -194,11 +194,11 @@ export const launchKernelWhenNotebookSetEpic = (
     })
   );
 
-export const restartKernelEpic = (action$: ActionsObservable<*>, store: *) =>
+export const restartKernelEpic = (action$: ActionsObservable<*>, state$: any) =>
   action$.pipe(
     ofType(actionTypes.RESTART_KERNEL),
     concatMap((action: actionTypes.RestartKernel) => {
-      const state = store.getState();
+      const state = state$.value;
 
       const oldKernelRef = action.payload.kernelRef;
       const oldKernel = selectors.kernel(state, { kernelRef: oldKernelRef });
