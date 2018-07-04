@@ -1700,6 +1700,17 @@ declare module "rxjs" {
       scheduler?: rxjs$SchedulerClass
     ): rxjs$Observable<T>,
     of<+T>(...values: T[]): rxjs$Observable<T>,
+    merge: (<+T, U>(
+      source0: rxjs$Observable<T>,
+      source1: rxjs$Observable<U>
+    ) => rxjs$Observable<T | U>) &
+      (<+T, U, V>(
+        source0: rxjs$Observable<T>,
+        source1: rxjs$Observable<U>,
+        source2: rxjs$Observable<V>
+      ) => rxjs$Observable<T | U | V>) &
+      (<+T>(...sources: rxjs$Observable<T>[]) => rxjs$Observable<T>),
+
     empty<+T>(): rxjs$Observable<T>,
     fromEvent: (<+T>(
       element: any,
