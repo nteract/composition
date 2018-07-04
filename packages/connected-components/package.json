@@ -35,7 +35,7 @@
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.0",
     "react-redux": "^5.0.7",
-    "react-syntax-highlighter": "^7.0.1",
+    "react-syntax-highlighter": "^8.0.0",
     "redux": "^4.0.0"
   },
   "peerDependencies": {
