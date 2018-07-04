@@ -1712,6 +1712,143 @@ declare module "rxjs" {
       (<+T>(...sources: rxjs$Observable<T>[]) => rxjs$Observable<T>),
 
     empty<+T>(): rxjs$Observable<T>,
+
+    forkJoin<A, B>(
+      a: rxjs$Observable<A>,
+      resultSelector: (a: A) => B
+    ): rxjs$Observable<B>,
+
+    forkJoin<A, B, C>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      resultSelector: (a: A, b: B) => C
+    ): rxjs$Observable<C>,
+
+    forkJoin<A, B, C, D>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      resultSelector: (a: A, b: B, c: C) => D
+    ): rxjs$Observable<D>,
+
+    forkJoin<A, B, C, D, E>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      resultSelector: (a: A, b: B, c: C, d: D) => E
+    ): rxjs$Observable<E>,
+
+    forkJoin<A, B, C, D, E, F>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      e: rxjs$Observable<E>,
+      resultSelector: (a: A, b: B, c: C, d: D, e: E) => F
+    ): rxjs$Observable<F>,
+
+    forkJoin<A, B, C, D, E, F, G>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      e: rxjs$Observable<E>,
+      f: rxjs$Observable<F>,
+      resultSelector: (a: A, b: B, c: C, d: D, e: E, f: F) => G
+    ): rxjs$Observable<G>,
+
+    forkJoin<A, B, C, D, E, F, G, H>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      e: rxjs$Observable<E>,
+      f: rxjs$Observable<F>,
+      g: rxjs$Observable<G>,
+      resultSelector: (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => H
+    ): rxjs$Observable<H>,
+
+    forkJoin<A, B>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      _: void
+    ): rxjs$Observable<[A, B]>,
+
+    forkJoin<A, B, C>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      _: void
+    ): rxjs$Observable<[A, B, C]>,
+
+    forkJoin<A, B, C, D>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      _: void
+    ): rxjs$Observable<[A, B, C, D]>,
+
+    forkJoin<A, B, C, D, E>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      e: rxjs$Observable<E>,
+      _: void
+    ): rxjs$Observable<[A, B, C, D, E]>,
+
+    forkJoin<A, B, C, D, E, F>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      e: rxjs$Observable<E>,
+      f: rxjs$Observable<F>,
+      _: void
+    ): rxjs$Observable<[A, B, C, D, E, F]>,
+
+    forkJoin<A, B, C, D, E, F, G>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      e: rxjs$Observable<E>,
+      f: rxjs$Observable<F>,
+      g: rxjs$Observable<G>,
+      _: void
+    ): rxjs$Observable<[A, B, C, D, E, F, G]>,
+
+    forkJoin<A, B, C, D, E, F, G, H>(
+      a: rxjs$Observable<A>,
+      b: rxjs$Observable<B>,
+      c: rxjs$Observable<C>,
+      d: rxjs$Observable<D>,
+      e: rxjs$Observable<E>,
+      f: rxjs$Observable<F>,
+      g: rxjs$Observable<G>,
+      h: rxjs$Observable<H>,
+      _: void
+    ): rxjs$Observable<[A, B, C, D, E, F, G, H]>,
+
+    forkJoin<A>(
+      a: Array<rxjs$Observable<A>>,
+      _: void
+    ): rxjs$Observable<Array<A>>,
+
+    forkJoin<A>(a: Array<rxjs$Observable<any>>, _: void): rxjs$Observable<A>,
+
+    forkJoin<A, B>(
+      a: Array<rxjs$Observable<A>>,
+      resultSelector: (...values: Array<A>) => B
+    ): rxjs$Observable<B>,
+
+    forkJoin<A>(
+      a: Array<rxjs$Observable<any>>,
+      resultSelector: (...values: Array<any>) => A
+    ): rxjs$Observable<A>,
+
     fromEvent: (<+T>(
       element: any,
       eventName: string,
