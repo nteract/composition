@@ -1701,6 +1701,29 @@ declare module "rxjs" {
     ): rxjs$Observable<T>,
     of<+T>(...values: T[]): rxjs$Observable<T>,
     empty<+T>(): rxjs$Observable<T>,
+    fromEvent: (<+T>(
+      element: any,
+      eventName: string,
+      ...none: Array<void>
+    ) => rxjs$Observable<T>) &
+      (<+T>(
+        element: any,
+        eventName: string,
+        options: rxjs$EventListenerOptions,
+        ...none: Array<void>
+      ) => rxjs$Observable<T>) &
+      (<+T>(
+        element: any,
+        eventName: string,
+        selector: () => T,
+        ...none: Array<void>
+      ) => rxjs$Observable<T>) &
+      (<+T>(
+        element: any,
+        eventName: string,
+        options: rxjs$EventListenerOptions,
+        selector: () => T
+      ) => rxjs$Observable<T>),
     timer(
       initialDelay: number | Date,
       period?: number,
