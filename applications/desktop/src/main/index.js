@@ -43,7 +43,23 @@ const jupyterPaths = require("jupyter-paths");
 const path = require("path");
 
 const yargs = require("yargs/yargs");
-const argv = yargs()
+
+type Arguments = {
+  /**
+   * Actual string arguments
+   */
+  _: Array<string>,
+  /**
+   * Kernel selected by user, defaults to python3
+   */
+  kernel: string,
+  /**
+   * Version of the app
+   */
+  version: string
+};
+
+const argv: Arguments = yargs()
   .version((() => require("./../../package.json").version)())
   .usage("Usage: nteract <notebooks> [options]")
   .example("nteract notebook1.ipynb notebook2.ipynb", "Open notebooks")
@@ -59,9 +75,9 @@ const argv = yargs()
 
 log.info("args", argv);
 
-const notebooks = argv._
-  .filter(x => /(.ipynb)$/.test(x))
-  .filter(x => existsSync(resolve(x)));
+const notebooks = argv._.filter(x => /(.ipynb)$/.test(x)).filter(x =>
+  existsSync(resolve(x))
+);
 
 ipc.on("new-kernel", (event, k) => {
   launchNewNotebook(k);
@@ -196,8 +212,8 @@ openFile$
     // based on if arguments went through argv or through open-file events
     if (notebooks.length <= 0 && buffer.length <= 0) {
       log.info("launching an empty notebook by default");
-      kernelSpecsPromise.then(specs => {
-        let kernel;
+      kernelSpecsPromise.then((specs: { [string]: Object }) => {
+        let kernel: string;
 
         if (argv.kernel in specs) {
           kernel = argv.kernel;
@@ -209,7 +225,9 @@ openFile$
           kernel = specList[0];
         }
 
-        launchNewNotebook(specs[kernel]);
+        if (kernel && specs[kernel]) {
+          launchNewNotebook(specs[kernel]);
+        }
       });
     } else {
       notebooks.forEach(f => {
