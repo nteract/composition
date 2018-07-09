@@ -1,0 +1,7 @@
+{
+  "name": "nteract-components",
+  "alias": "components.nteract.io",
+  "static": {
+    "public": "styleguide"
+  }
+}
