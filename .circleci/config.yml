@@ -59,3 +59,7 @@ jobs:
           name: Build Desktop
           command: npx lerna run dist --scope nteract
           no_output_timeout: 30m
+
+      - store_artifacts:
+          path: applications/desktop/dist
+          destination: desktop-app
