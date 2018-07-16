@@ -132,7 +132,7 @@
     "electron-builder": "20.20.4",
     "electron-context-menu": "^0.10.0",
     "electron-log": "^2.2.13",
-    "electron-updater": "^2.18.0",
+    "electron-updater": "^3.0.0",
     "enchannel-zmq-backend": "^6.1.0",
     "escape-carriage": "^1.2.0",
     "fs-observable": "^2.1.0",
