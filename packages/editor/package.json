@@ -29,7 +29,7 @@
     "@nteract/messaging": "^4.0.1",
     "@nteract/transforms": "^4.3.0",
     "@nteract/types": "^2.0.0",
-    "codemirror": "5.39.0",
+    "codemirror": "5.39.2",
     "lodash": "^4.17.4",
     "rxjs": "^5.5.6"
   },

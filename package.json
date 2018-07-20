@@ -116,7 +116,7 @@
     "body-parser": "^1.15.2",
     "bodybuilder": "^2.2.1",
     "cpy-cli": "^2.0.0",
-    "codemirror": "5.39.0",
+    "codemirror": "5.39.2",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
