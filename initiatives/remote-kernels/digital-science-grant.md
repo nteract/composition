@@ -4,7 +4,7 @@ nteract | June 2016
 
 ##### Overview
 
-nteract (NOTE:  nteract, 2016 (http://nteract.io/)) is an open-source, desktop-based application for writing and reading interactive "notebook" documents that contain executable blocks of code, prose, plots and images. It is used by data scientists, researchers, and developers to create and share interactive documents describing their work with colleagues and the general public. The product has been in development since May 2015 and is currently in the alpha stage. This grant will help cover the cost of hiring one software engineer, with domain expertise, to develop a feature for the nteract application for interfacing with remote kernels.
+nteract (NOTE:  nteract, 2016 (https://nteract.io/)) is an open-source, desktop-based application for writing and reading interactive "notebook" documents that contain executable blocks of code, prose, plots and images. It is used by data scientists, researchers, and developers to create and share interactive documents describing their work with colleagues and the general public. The product has been in development since May 2015 and is currently in the alpha stage. This grant will help cover the cost of hiring one software engineer, with domain expertise, to develop a feature for the nteract application for interfacing with remote kernels.
 
 ##### The Product
 
@@ -22,7 +22,7 @@ nteract is open source and licensed under the Mozilla Public License v2. The nte
 
 ##### Technical Details
 
-The nteract desktop application is written in JavaScript, a popular and easy-to-learn web programming language and packaged using Electron (NOTE:  GitHub, 2016 (http://electron.atom.io/)), a framework for creating cross-platform desktop applications built on HTML, CSS, and JavaScript.  The desktop front-end uses nteract’s commutable (NOTE:  nteract, 2016 (https://github.com/nteract/commutable)) API to interface with a notebook document, represented as a JSON file (NOTE:  JSON, 2015 (http://www.json.org/)). The front-end also uses nteract’s enchannel (NOTE:  nteract, 2016 (https://github.com/nteract/enchannel)) APIs to communicate with a kernel, a backend that is responsible for executing code and sending back responses. The enchannel API manages this communication using the existing Jupyter Messaging Protocol (NOTE:  Project Jupyter, 2016 (http://jupyter-client.readthedocs.io/en/latest/messaging.html)), a messaging specification for communicating between a front-end and a kernel.
+The nteract desktop application is written in JavaScript, a popular and easy-to-learn web programming language and packaged using Electron (NOTE:  GitHub, 2016 (https://electronjs.org/)), a framework for creating cross-platform desktop applications built on HTML, CSS, and JavaScript.  The desktop front-end uses nteract’s commutable (NOTE:  nteract, 2016 (https://github.com/nteract/commutable)) API to interface with a notebook document, represented as a JSON file (NOTE:  JSON, 2015 (https://www.json.org/)). The front-end also uses nteract’s enchannel (NOTE:  nteract, 2016 (https://github.com/nteract/enchannel)) APIs to communicate with a kernel, a backend that is responsible for executing code and sending back responses. The enchannel API manages this communication using the existing Jupyter Messaging Protocol (NOTE:  Project Jupyter, 2016 (https://jupyter-client.readthedocs.io/en/latest/messaging.html)), a messaging specification for communicating between a front-end and a kernel.
 
 
 | Figure 2 |
@@ -55,7 +55,7 @@ Finally, the enchannel and commutable APIs mentioned above, and several others, 
 
 ##### Competitor Information
 
-Similar products in the interactive notebook-based computing space include Jupyter Notebook (NOTE:  Jupyter Notebook, 2016 (http://jupyter.org/)), Beaker Notebook (NOTE:  Two Sigma Open Source LLC, 2016 (http://beakernotebook.com/)), and Zeppelin (NOTE:  Apache Zeppelin, 2016 (https://zeppelin.incubator.apache.org/)). nteract differentiates itself from these other products in two key ways.
+Similar products in the interactive notebook-based computing space include Jupyter Notebook (NOTE:  Jupyter Notebook, 2016 (https://jupyter.org/)), Beaker Notebook (NOTE:  Two Sigma Open Source LLC, 2016 (http://beakernotebook.com/)), and Zeppelin (NOTE:  Apache Zeppelin, 2016 (https://zeppelin.incubator.apache.org/)). nteract differentiates itself from these other products in two key ways.
 
 * **Desktop First**: While some of the other products are released as web applications that users have to manually configure and launch from a command line, nteract is directly accessible from the desktop. No fuss, no muss, just science.
 

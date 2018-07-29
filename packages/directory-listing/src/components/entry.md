@@ -11,7 +11,7 @@ Display an Icon, Name, and time since last saved of an entry in a directory.
   <Entry>
     <Icon fileType="notebook" />
     <Name>
-      <a href="http://nteract.io">Example-Notebook.ipynb</a>
+      <a href="https://nteract.io">Example-Notebook.ipynb</a>
     </Name>
     <LastSaved lastModified={new Date("2018-07-04")} />
   </Entry>

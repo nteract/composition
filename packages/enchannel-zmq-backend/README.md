@@ -260,7 +260,7 @@ Develop! We welcome new and first time contributors.
 
 ## Learn more about nteract
 
-- Visit our website http://nteract.io/.
+- Visit our website https://nteract.io/.
 - See our organization on GitHub https://github.com/nteract
 - Join us on [Slack](https://slack.nteract.io/) if you need help or have
   questions. If you have trouble creating an account, either
