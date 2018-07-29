@@ -1,6 +1,11 @@
 // @format
 const path = require("path");
 
+var {
+  exclude,
+  mergeDefaultAliases
+} = require("./packages/webpack-configurator");
+
 module.exports = {
   title: "nteract components",
   defaultExample: false,
@@ -28,11 +33,15 @@ module.exports = {
     )
   },
   webpackConfig: {
+    resolve: {
+      mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
+      alias: mergeDefaultAliases()
+    },
     module: {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: /node_modules/,
+          exclude,
           loader: "babel-loader"
         }
       ]
