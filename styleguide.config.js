@@ -33,6 +33,11 @@ module.exports = {
     )
   },
   webpackConfig: {
+    node: {
+      fs: "empty",
+      child_process: "empty",
+      net: "empty"
+    },
     resolve: {
       mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
       alias: mergeDefaultAliases()
