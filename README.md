@@ -10,14 +10,16 @@
 
 ## Basics
 
+test
+
 **nteract** is first and foremost a dynamic tool to give you flexibility when
 writing code, [exploring data](https://github.com/nteract/nteract/tree/master/packages/transform-dataresource), and authoring text to share insights about the
 data.
 
 **Edit code, write prose, and visualize.**
 
-* Share documents understood across the Jupyter ecosystem, [all in the comfort of a desktop app.](https://medium.com/nteract/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38)
-* [Explore new ways of working with compute and playing with data](https://play.nteract.io).
+- Share documents understood across the Jupyter ecosystem, [all in the comfort of a desktop app.](https://medium.com/nteract/nteract-revolutionizing-the-notebook-experience-d106ca5d2c38)
+- [Explore new ways of working with compute and playing with data](https://play.nteract.io).
 
 We support [Jupyter kernels](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels)
 locally on your system and on remote JupyterHubs via Binder.
@@ -65,7 +67,7 @@ applications/ -- all the user facing applications (i.e. desktop, play)
 The `packages` directory has the components needed to build new applications,
 and the `applications` has the desktop app, the play app, and a few more.
 
-*Why have a monorepo?* The monorepo contains many components and packages that
+_Why have a monorepo?_ The monorepo contains many components and packages that
 can be mixed and remixed to create new applications. The monorepo keeps these
 elements together so they are easy to discover and use. Another benefit
 is that the monorepo makes it easy to iterate on applications that share
@@ -82,19 +84,19 @@ To get started developing, [set up the nteract monorepo](#set-the-monorepo-up-in
 
 Requires [Node.js and npm 3+](https://docs.npmjs.com/getting-started/installing-node).
 
-1. Fork this repo
-2. Clone your fork or this repo `git clone https://github.com/nteract/nteract`
-3. `cd` to the directory where you `clone`d it
-4. `npm install`
+1.  Fork this repo
+2.  Clone your fork or this repo `git clone https://github.com/nteract/nteract`
+3.  `cd` to the directory where you `clone`d it
+4.  `npm install`
 
 To keep up-to-date with changes to the root nteract/nteract branch:
 
-5. Set the root as a remote: `git remote add upstream https://github.com/nteract/nteract.git`
+5.  Set the root as a remote: `git remote add upstream https://github.com/nteract/nteract.git`
 
 When changes are made, they can then be pulled from the master branch:
 
-6. `git pull upstream master`
-7. npm install
+6.  `git pull upstream master`
+7.  npm install
 
 #### Windows Caveats
 
@@ -175,14 +177,14 @@ rebuild those using [the instructions for building specific packages](#building-
 
 > I want to debug redux actions and state changes.
 
-* Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by
+- Enable [redux-logger](https://github.com/evgenyrodionov/redux-logger) by
   spawning the application with `npm run spawn:debug`.
 
-> I keep getting a pop-up asking: *Do you want the application "nteract Helper.app" to accept
-  incoming network connections?* while developing or using a custom build of
-  nteract on macOS.
+> I keep getting a pop-up asking: _Do you want the application "nteract Helper.app" to accept
+> incoming network connections?_ while developing or using a custom build of
+> nteract on macOS.
 
-* This is how the the macOS firewall behaves for unsigned apps. On a signed app,
+- This is how the the macOS firewall behaves for unsigned apps. On a signed app,
   the dialog won't show up again after approving it the first time. If you're
   using a custom build of nteract, run:
 
