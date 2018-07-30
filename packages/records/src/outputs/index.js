@@ -20,9 +20,9 @@ type NbformatOutput =
   | error.NbformatErrorOutput;
 type OutputRecord =
   | stream.StreamOutputRecord
-  | displayData.DisplayDataOutputRecord
-  | executeResult.ExecuteResultOutputRecord
-  | error.ErrorOutputRecord;
+  | displayData.DisplayDataOutput
+  | executeResult.ExecuteResultOutput
+  | error.ErrorOutput;
 
 /**
  * Turn any output that was in nbformat into a record

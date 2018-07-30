@@ -19,18 +19,30 @@ export type DisplayDataType = "display_data";
 
 export const DISPLAYDATA = "display_data";
 
+export type MetaData = {
+  collapsed?: boolean,
+  autoscroll?: boolean | "auto",
+  deletable?: boolean,
+  format?: string,
+  name?: string,
+  tags?: Array<string>,
+  source_hidden?: boolean,
+  outputs_hidden?: boolean,
+  isolated?: boolean
+};
+
 // In-memory version
-type DisplayDataOutput = {
+export type DisplayDataOutput = {
   outputType: DisplayDataType,
   data: common.MimeBundle,
-  metadata: Object
+  metadata: MetaData
 };
 
 // On disk
 export type NbformatDisplayDataOutput = {
   output_type: DisplayDataType,
   data: common.MimeBundle,
-  metadata: Object
+  metadata: MetaData
 };
 
 type DisplayDataMessage = {
@@ -39,18 +51,16 @@ type DisplayDataMessage = {
   },
   content: {
     data: common.MimeBundle,
-    metadata: Object
+    metadata: MetaData
   }
 };
-
-export type DisplayDataOutputRecord = Object;
 
 // NOTE: No export, as the values here should get overridden by an exact version
 //       passed into makeDisplayDataOutputRecord
 
 export function makeDisplayDataOutputRecord(
   displayDataOutput: DisplayDataOutput
-): DisplayDataOutputRecord {
+): DisplayDataOutput {
   const defaultDisplayDataRecord = {
     outputType: DISPLAYDATA,
     data: {},
@@ -64,7 +74,7 @@ export function makeDisplayDataOutputRecord(
 
 export function displayDataRecordFromNbformat(
   s: NbformatDisplayDataOutput
-): DisplayDataOutputRecord {
+): DisplayDataOutput {
   return makeDisplayDataOutputRecord({
     outputType: s.output_type,
     data: common.createImmutableMimeBundle(s.data),
@@ -74,7 +84,7 @@ export function displayDataRecordFromNbformat(
 
 export function displayDataRecordFromMessage(
   msg: DisplayDataMessage
-): DisplayDataOutputRecord {
+): DisplayDataOutput {
   return makeDisplayDataOutputRecord({
     outputType: DISPLAYDATA,
     data: msg.content.data,
