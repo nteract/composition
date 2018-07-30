@@ -40,17 +40,6 @@ import { setKernelSpecs } from "./actions";
 
 import configureStore from "./store";
 
-declare type KernelSpecs = {
-  [key: string]: {
-    name: string,
-    spec: {
-      argv: Array<string>,
-      display_name: string,
-      language: string,
-      env: { [key: string]: string }
-    }
-  }
-};
 const store = configureStore();
 // HACK: The main process store should not be stored in a global.
 global.store = store;
@@ -147,7 +136,10 @@ const prepJupyterObservable = prepareEnv.pipe(
 const kernelSpecsPromise = prepJupyterObservable
   .toPromise()
   .then(() => kernelspecs.findAll())
-  .then(specs => initializeKernelSpecs(specs));
+  .then(specs => {
+    console.log("specs", specs);
+    return initializeKernelSpecs(specs);
+  });
 
 /**
  * Creates an Rx.Subscriber that will create a splash page onNext and close the
@@ -243,8 +235,8 @@ openFile$
           specList.sort();
           kernel = specList[0];
         }
-
         if (kernel && specs[kernel]) {
+          console.log("specs kernel", specs[kernel]);
           launchNewNotebook(specs[kernel]);
         }
       });

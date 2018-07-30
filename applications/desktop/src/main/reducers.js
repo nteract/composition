@@ -1,12 +1,12 @@
-// @flow
+// @flow strict
 
 import { Map } from "immutable";
 
-type MainState = Map<string, any>;
+type MainState = Map<string, *>;
 
 type SetKernelSpecsAction = {
   type: "SET_KERNELSPECS",
-  kernelSpecs: Object
+  kernelSpecs: KernelSpecs
 };
 
 function setKernelSpecs(state: MainState, action: SetKernelSpecsAction) {

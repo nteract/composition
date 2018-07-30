@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import { catchError, mergeMap } from "rxjs/operators";
 import { merge } from "rxjs/observable/merge";
 

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import * as path from "path";
 
 import { Menu, shell, BrowserWindow, dialog, ipcMain as ipc } from "electron";
@@ -60,7 +60,7 @@ export function launch(filename: ?string) {
   win.webContents.on("did-finish-load", () => {
     const menu = loadFullMenu();
     Menu.setApplicationMenu(menu);
-    if (filename) {
+    if (filename != null) {
       win.webContents.send("main:load", filename);
     }
     win.webContents.send("main:load-config");
@@ -87,7 +87,7 @@ export function launch(filename: ?string) {
 }
 launchIpynb = launch;
 
-export function launchNewNotebook(kernelSpec: Object) {
+export function launchNewNotebook(kernelSpec: KernelSpec) {
   const win = launch();
   win.webContents.on("did-finish-load", () => {
     win.webContents.send("main:new", kernelSpec);
