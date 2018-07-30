@@ -6,11 +6,19 @@ import { transforms, displayOrder } from "@nteract/transforms";
 
 import RichestMime from "./richest-mime";
 
-import * as Immutable from "immutable";
+import type {
+  ExecuteResultType,
+  DisplayDataType,
+  StreamType,
+  ErrorType,
+  NbformatOutput
+} from "@nteract/records";
+
+type OutputType = ExecuteResultType | DisplayDataType | StreamType | ErrorType;
 
 type Props = {
   displayOrder: Array<string>,
-  output: any,
+  output: NbformatOutput,
   transforms: Object,
   theme: string,
   models: Object
@@ -39,18 +47,12 @@ export default class Output extends React.Component<Props, null> {
   }
 
   render() {
-    let output = this.props.output;
+    let output: NbformatOutput = this.props.output;
     let models = this.props.models;
 
     // TODO: Incorporate the new output record types into both commutable and the react components that use them
-    if (Immutable.isImmutable(output)) {
-      output = output.toJS();
-    }
-    if (Immutable.isImmutable(models)) {
-      models = models.toJS();
-    }
 
-    const outputType = output.output_type;
+    const outputType: OutputType = output.output_type;
 
     switch (outputType) {
       case "execute_result":
