@@ -3,6 +3,8 @@
 import produce from "immer";
 import * as common from "../common";
 
+import type { MetaData } from "./display-data";
+
 /**
  * Let this declare the way for well typed records for outputs
  *
@@ -22,11 +24,11 @@ export type ExecutionCount = ?number;
 export const EXECUTERESULT = "execute_result";
 
 // In-memory version
-type ExecuteResultOutput = {
+export type ExecuteResultOutput = {
   outputType: ExecuteResultType,
   executionCount: ExecutionCount,
   data: common.MimeBundle,
-  metadata: Object
+  metadata: MetaData
 };
 
 // On disk
@@ -34,7 +36,7 @@ export type NbformatExecuteResultOutput = {
   output_type: ExecuteResultType,
   execution_count: ExecutionCount,
   data: common.MimeBundle,
-  metadata: Object
+  metadata: MetaData
 };
 
 type ExecuteResultMessage = {
@@ -42,17 +44,15 @@ type ExecuteResultMessage = {
     msg_type: ExecuteResultType
   },
   content: {
-    execution_count: number,
+    execution_count: ExecutionCount,
     data: common.MimeBundle,
-    metadata: Object
+    metadata: MetaData
   }
 };
 
-export type ExecuteResultOutputRecord = ExecuteResultOutput;
-
 export function makeExecuteResultOutputRecord(
   executeResultOutput: ExecuteResultOutput
-): ExecuteResultOutputRecord {
+): ExecuteResultOutput {
   const defaultExecuteResultOutput = {
     outputType: EXECUTERESULT,
     executionCount: undefined,
@@ -66,7 +66,7 @@ export function makeExecuteResultOutputRecord(
 
 export function executeResultRecordFromNbformat(
   s: NbformatExecuteResultOutput
-): ExecuteResultOutputRecord {
+): ExecuteResultOutput {
   return makeExecuteResultOutputRecord({
     outputType: s.output_type,
     executionCount: s.execution_count,
@@ -77,7 +77,7 @@ export function executeResultRecordFromNbformat(
 
 export function executeResultRecordFromMessage(
   msg: ExecuteResultMessage
-): ExecuteResultOutputRecord {
+): ExecuteResultOutput {
   return makeExecuteResultOutputRecord({
     outputType: EXECUTERESULT,
     executionCount: msg.content.execution_count,
