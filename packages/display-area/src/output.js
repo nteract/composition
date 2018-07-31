@@ -7,15 +7,7 @@ import { demultiline } from "@nteract/records";
 
 import RichestMime from "./richest-mime";
 
-import type {
-  ExecuteResultType,
-  DisplayDataType,
-  StreamType,
-  ErrorType,
-  NbformatOutput
-} from "@nteract/records";
-
-type OutputType = ExecuteResultType | DisplayDataType | StreamType | ErrorType;
+import type { NbformatOutput } from "@nteract/records";
 
 type Props = {
   displayOrder: Array<string>,
@@ -52,8 +44,6 @@ export default class Output extends React.Component<Props, null> {
     let models = this.props.models;
 
     // TODO: Incorporate the new output record types into both commutable and the react components that use them
-
-    const outputType: OutputType = output.output_type;
 
     switch (output.output_type) {
       case "execute_result":
