@@ -3,6 +3,7 @@ import React from "react";
 import Ansi from "ansi-to-react";
 
 import { transforms, displayOrder } from "@nteract/transforms";
+import { demultiline } from "@nteract/records";
 
 import RichestMime from "./richest-mime";
 
@@ -54,7 +55,7 @@ export default class Output extends React.Component<Props, null> {
 
     const outputType: OutputType = output.output_type;
 
-    switch (outputType) {
+    switch (output.output_type) {
       case "execute_result":
       // We can defer to display data here, the cell number will be handled
       // separately. For reference, it is output.execution_count
@@ -77,7 +78,7 @@ export default class Output extends React.Component<Props, null> {
         );
       }
       case "stream": {
-        const text = output.text;
+        let text = demultiline(output.text);
         const name = output.name;
         switch (name) {
           case "stdout":
@@ -88,7 +89,7 @@ export default class Output extends React.Component<Props, null> {
         }
       }
       case "error": {
-        const traceback = output.traceback;
+        const traceback = demultiline(output.traceback);
         if (!traceback) {
           return (
             <Ansi className={classPrefix + "traceback"}>{`${output.ename}: ${
@@ -96,11 +97,7 @@ export default class Output extends React.Component<Props, null> {
             }`}</Ansi>
           );
         }
-        return (
-          <Ansi className={classPrefix + "traceback"}>
-            {traceback.join("\n")}
-          </Ansi>
-        );
+        return <Ansi className={classPrefix + "traceback"}>{traceback}</Ansi>;
       }
       default:
         return null;

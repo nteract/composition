@@ -33,7 +33,7 @@ export type NbformatErrorOutput = {
   output_type: ErrorType,
   ename: string,
   evalue: string,
-  traceback: Iterable<string>
+  traceback: Array<string>
 };
 
 type ErrorMessage = {
