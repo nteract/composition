@@ -20,7 +20,6 @@ const ignored = new Set([
   // "@nteract/commuter",
 
   // These are all next.js apps and will rely on this package
-  "@nteract/notebook-on-next",
   "@nteract/play",
   "@nteract/showcase",
 

@@ -209,11 +209,6 @@ const lernaModules = [
     private: true
   },
   {
-    name: "@nteract/notebook-on-next",
-    version: "2.0.10",
-    private: false
-  },
-  {
     name: "@nteract/play",
     version: "1.5.0",
     private: false
