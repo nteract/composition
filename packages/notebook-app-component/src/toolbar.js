@@ -191,11 +191,11 @@ export class PureToolbar extends React.Component<PureToolbarProps> {
           }
 
           .cell-toolbar-mask {
+            z-index: 9999;
             display: ${sourceHidden ? "block" : "none"};
             position: absolute;
             top: 0px;
             right: 0px;
-            z-index: 9999;
             height: 34px;
 
             /* Set the left padding to 50px to give users extra room to move their

@@ -137,7 +137,6 @@ const kernelSpecsPromise = prepJupyterObservable
   .toPromise()
   .then(() => kernelspecs.findAll())
   .then(specs => {
-    console.log("specs", specs);
     return initializeKernelSpecs(specs);
   });
 
@@ -236,7 +235,6 @@ openFile$
           kernel = specList[0];
         }
         if (kernel && specs[kernel]) {
-          console.log("specs kernel", specs[kernel]);
           launchNewNotebook(specs[kernel]);
         }
       });
