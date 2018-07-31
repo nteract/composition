@@ -5,17 +5,17 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
   type="code"
 >
   <div
-    className="jsx-3399970977 cell-toolbar-mask"
+    className="jsx-3251887977 cell-toolbar-mask"
   >
     <div
-      className="jsx-3399970977 cell-toolbar"
+      className="jsx-3251887977 cell-toolbar"
     >
       <button
-        className="jsx-3399970977 executeButton"
+        className="jsx-3251887977 executeButton"
         title="execute cell"
       >
         <span
-          className="jsx-3399970977 octicon"
+          className="jsx-3251887977 octicon"
         >
           <TriangleRightOcticon>
             <SVGWrapper
@@ -52,11 +52,11 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
         </span>
       </button>
       <button
-        className="jsx-3399970977 deleteButton"
+        className="jsx-3251887977 deleteButton"
         title="delete cell"
       >
         <span
-          className="jsx-3399970977 octicon"
+          className="jsx-3251887977 octicon"
         >
           <TrashOcticon>
             <SVGWrapper
@@ -94,7 +94,7 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
       </button>
       <DropdownMenu>
         <div
-          className="jsx-851349928 dropdown"
+          className="jsx-3444321073 dropdown"
         >
           <DropdownTrigger
             key=".0"
@@ -105,11 +105,11 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
               onClick={[Function]}
             >
               <button
-                className="jsx-3399970977"
+                className="jsx-3251887977"
                 title="show additional actions"
               >
                 <span
-                  className="jsx-3399970977 octicon toggle-menu"
+                  className="jsx-3251887977 octicon toggle-menu"
                 >
                   <ChevronDownOcticon>
                     <SVGWrapper
@@ -152,20 +152,20 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
             </div>
           </DropdownTrigger>
           <JSXStyle
-            css=".dropdown.jsx-851349928{z-index:420 display:inline-block;}"
-            styleId="851349928"
+            css=".dropdown.jsx-3444321073{z-index:10000;display:inline-block;}"
+            styleId="3444321073"
           />
         </div>
       </DropdownMenu>
     </div>
     <JSXStyle
-      css=".cell-toolbar.__jsx-style-dynamic-selector>div.__jsx-style-dynamic-selector{display:inline-block;}.cell-toolbar.__jsx-style-dynamic-selector{background-color:var(--theme-cell-toolbar-bg);opacity:0.4;-webkit-transition:opacity 0.4s;transition:opacity 0.4s;}.cell-toolbar.__jsx-style-dynamic-selector:hover{opacity:1;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector{display:inline-block;width:22px;height:20px;padding:0px 4px;text-align:center;border:none;outline:none;background:none;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector{font-size:15px;line-height:1;color:var(--theme-cell-toolbar-fg);}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector:hover{color:var(--theme-cell-toolbar-fg-hover);}.cell-toolbar-mask.__jsx-style-dynamic-selector{display:none;position:absolute;top:0px;right:0px;z-index:9999;height:34px;padding:0px 0px 0px 50px;}.octicon.__jsx-style-dynamic-selector{-webkit-transition:color 0.5s;transition:color 0.5s;}"
+      css=".cell-toolbar.__jsx-style-dynamic-selector>div.__jsx-style-dynamic-selector{display:inline-block;}.cell-toolbar.__jsx-style-dynamic-selector{background-color:var(--theme-cell-toolbar-bg);opacity:0.4;-webkit-transition:opacity 0.4s;transition:opacity 0.4s;}.cell-toolbar.__jsx-style-dynamic-selector:hover{opacity:1;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector{display:inline-block;width:22px;height:20px;padding:0px 4px;text-align:center;border:none;outline:none;background:none;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector{font-size:15px;line-height:1;color:var(--theme-cell-toolbar-fg);}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector:hover{color:var(--theme-cell-toolbar-fg-hover);}.cell-toolbar-mask.__jsx-style-dynamic-selector{z-index:9999;display:none;position:absolute;top:0px;right:0px;height:34px;padding:0px 0px 0px 50px;}.octicon.__jsx-style-dynamic-selector{-webkit-transition:color 0.5s;transition:color 0.5s;}"
       dynamic={
         Array [
           "none",
         ]
       }
-      styleId="2049255934"
+      styleId="3927607621"
     />
   </div>
 </PureToolbar>
@@ -176,17 +176,17 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
   type="code"
 >
   <div
-    className="jsx-3399970977 cell-toolbar-mask"
+    className="jsx-3251887977 cell-toolbar-mask"
   >
     <div
-      className="jsx-3399970977 cell-toolbar"
+      className="jsx-3251887977 cell-toolbar"
     >
       <button
-        className="jsx-3399970977 executeButton"
+        className="jsx-3251887977 executeButton"
         title="execute cell"
       >
         <span
-          className="jsx-3399970977 octicon"
+          className="jsx-3251887977 octicon"
         >
           <TriangleRightOcticon>
             <SVGWrapper
@@ -223,11 +223,11 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
         </span>
       </button>
       <button
-        className="jsx-3399970977 deleteButton"
+        className="jsx-3251887977 deleteButton"
         title="delete cell"
       >
         <span
-          className="jsx-3399970977 octicon"
+          className="jsx-3251887977 octicon"
         >
           <TrashOcticon>
             <SVGWrapper
@@ -265,7 +265,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
       </button>
       <DropdownMenu>
         <div
-          className="jsx-851349928 dropdown"
+          className="jsx-3444321073 dropdown"
         >
           <DropdownTrigger
             key=".0"
@@ -276,11 +276,11 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
               onClick={[Function]}
             >
               <button
-                className="jsx-3399970977"
+                className="jsx-3251887977"
                 title="show additional actions"
               >
                 <span
-                  className="jsx-3399970977 octicon toggle-menu"
+                  className="jsx-3251887977 octicon toggle-menu"
                 >
                   <ChevronDownOcticon>
                     <SVGWrapper
@@ -334,84 +334,84 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
               >
                 <li
                   aria-selected="false"
-                  className="jsx-3399970977 clearOutput"
+                  className="jsx-3251887977 clearOutput"
                   key=".0"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-3399970977"
+                    className="jsx-3251887977"
                   >
                     Clear Cell Output
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-3399970977 inputVisibility"
+                  className="jsx-3251887977 inputVisibility"
                   key=".1"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-3399970977"
+                    className="jsx-3251887977"
                   >
                     Toggle Input Visibility
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-3399970977 outputVisibility"
+                  className="jsx-3251887977 outputVisibility"
                   key=".2"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-3399970977"
+                    className="jsx-3251887977"
                   >
                     Toggle Output Visibility
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-3399970977 outputExpanded"
+                  className="jsx-3251887977 outputExpanded"
                   key=".3"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-3399970977"
+                    className="jsx-3251887977"
                   >
                     Toggle Expanded Output
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-3399970977"
+                  className="jsx-3251887977"
                   key=".4"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-3399970977"
+                    className="jsx-3251887977"
                   >
                     Toggle Parameter Cell
                   </a>
                 </li>
                 <li
                   aria-selected="false"
-                  className="jsx-3399970977 changeType"
+                  className="jsx-3251887977 changeType"
                   key=".5"
                   onClick={[Function]}
                   role="option"
                   tabIndex="0"
                 >
                   <a
-                    className="jsx-3399970977"
+                    className="jsx-3251887977"
                   >
                     Convert to Markdown Cell
                   </a>
@@ -424,20 +424,20 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
             </div>
           </DropdownContent>
           <JSXStyle
-            css=".dropdown.jsx-851349928{z-index:420 display:inline-block;}"
-            styleId="851349928"
+            css=".dropdown.jsx-3444321073{z-index:10000;display:inline-block;}"
+            styleId="3444321073"
           />
         </div>
       </DropdownMenu>
     </div>
     <JSXStyle
-      css=".cell-toolbar.__jsx-style-dynamic-selector>div.__jsx-style-dynamic-selector{display:inline-block;}.cell-toolbar.__jsx-style-dynamic-selector{background-color:var(--theme-cell-toolbar-bg);opacity:0.4;-webkit-transition:opacity 0.4s;transition:opacity 0.4s;}.cell-toolbar.__jsx-style-dynamic-selector:hover{opacity:1;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector{display:inline-block;width:22px;height:20px;padding:0px 4px;text-align:center;border:none;outline:none;background:none;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector{font-size:15px;line-height:1;color:var(--theme-cell-toolbar-fg);}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector:hover{color:var(--theme-cell-toolbar-fg-hover);}.cell-toolbar-mask.__jsx-style-dynamic-selector{display:none;position:absolute;top:0px;right:0px;z-index:9999;height:34px;padding:0px 0px 0px 50px;}.octicon.__jsx-style-dynamic-selector{-webkit-transition:color 0.5s;transition:color 0.5s;}"
+      css=".cell-toolbar.__jsx-style-dynamic-selector>div.__jsx-style-dynamic-selector{display:inline-block;}.cell-toolbar.__jsx-style-dynamic-selector{background-color:var(--theme-cell-toolbar-bg);opacity:0.4;-webkit-transition:opacity 0.4s;transition:opacity 0.4s;}.cell-toolbar.__jsx-style-dynamic-selector:hover{opacity:1;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector{display:inline-block;width:22px;height:20px;padding:0px 4px;text-align:center;border:none;outline:none;background:none;}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector{font-size:15px;line-height:1;color:var(--theme-cell-toolbar-fg);}.cell-toolbar.__jsx-style-dynamic-selector button.__jsx-style-dynamic-selector span.__jsx-style-dynamic-selector:hover{color:var(--theme-cell-toolbar-fg-hover);}.cell-toolbar-mask.__jsx-style-dynamic-selector{z-index:9999;display:none;position:absolute;top:0px;right:0px;height:34px;padding:0px 0px 0px 50px;}.octicon.__jsx-style-dynamic-selector{-webkit-transition:color 0.5s;transition:color 0.5s;}"
       dynamic={
         Array [
           "none",
         ]
       }
-      styleId="2049255934"
+      styleId="3927607621"
     />
   </div>
 </PureToolbar>
