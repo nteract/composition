@@ -14,15 +14,12 @@ _Note: the desktop app can be used instead, but you'll have to manually reload t
 ### 1. Setup the monorepo
 Navigate to the base directory of the repo and install all dependencies
 ```bash
-npm install
+yarn
 ```
 
 ### 2. Setup Jupyter Extension
 ___Note: this requires Python >= 3.6___
 
-First, install lerna globally
-```bash
-npm install -g lerna
 ```
 Now, install the Python package
 ```bash
