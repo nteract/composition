@@ -85,7 +85,7 @@ Requires [Node.js and npm 3+](https://docs.npmjs.com/getting-started/installing-
 1. Fork this repo
 2. Clone your fork or this repo `git clone https://github.com/nteract/nteract`
 3. `cd` to the directory where you `clone`d it
-4. `npm install`
+4. `yarn install`
 
 To keep up-to-date with changes to the root nteract/nteract branch:
 
@@ -94,7 +94,8 @@ To keep up-to-date with changes to the root nteract/nteract branch:
 When changes are made, they can then be pulled from the master branch:
 
 6. `git pull upstream master`
-7. npm install
+7. `yarn clean`
+8. `yarn install`
 
 #### Windows Caveats
 
