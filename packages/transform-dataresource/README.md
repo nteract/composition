@@ -20,8 +20,9 @@ yarn
 ### 2. Setup Jupyter Extension
 ___Note: this requires Python >= 3.6___
 
-```
+
 Now, install the Python package
+
 ```bash
 cd applications/jupyter-extension
 pip install -e .
