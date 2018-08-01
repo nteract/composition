@@ -39,7 +39,7 @@
     "react-color": "^2.14.1",
     "react-hot-loader": "^4.1.2",
     "react-virtualized": "9.20.1",
-    "semiotic": "^1.12.0",
+    "semiotic": "^1.13.1",
     "tv4": "^1.3.0"
   }
 }
