@@ -4967,9 +4967,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@^0.77.0:
-  version "0.77.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.77.0.tgz#4e5c93929f289a0c28e08fb361a9734944a11297"
+flow-bin@^0.78.0:
+  version "0.78.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.78.0.tgz#df9fe7f9c9a2dfaff39083949fe2d831b41627b7"
 
 flow-copy-source@^2.0.0:
   version "2.0.2"
@@ -10820,9 +10820,9 @@ semiotic-mark@0.2.12:
     prop-types "^15.6.0"
     roughjs-es5 "0.1.0"
 
-semiotic@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/semiotic/-/semiotic-1.13.1.tgz#befd8748f46eb1101a55abd784fe1bd30a15ee04"
+semiotic@^1.13.2:
+  version "1.13.4"
+  resolved "https://registry.yarnpkg.com/semiotic/-/semiotic-1.13.4.tgz#f9922ee8d3325f4f58e358db6e4a50821ce2e39e"
   dependencies:
     "@mapbox/polylabel" "1"
     d3-array "^1.2.0"
