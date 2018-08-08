@@ -3,14 +3,15 @@ import React from "react";
 import Ansi from "ansi-to-react";
 
 import { transforms, displayOrder } from "@nteract/transforms";
+import { demultiline } from "@nteract/records";
 
 import RichestMime from "./richest-mime";
 
-import * as Immutable from "immutable";
+import type { NbformatOutput } from "@nteract/records";
 
 type Props = {
   displayOrder: Array<string>,
-  output: any,
+  output: NbformatOutput,
   transforms: Object,
   theme: string,
   models: Object
@@ -39,20 +40,12 @@ export default class Output extends React.Component<Props, null> {
   }
 
   render() {
-    let output = this.props.output;
+    let output: NbformatOutput = this.props.output;
     let models = this.props.models;
 
     // TODO: Incorporate the new output record types into both commutable and the react components that use them
-    if (Immutable.isImmutable(output)) {
-      output = output.toJS();
-    }
-    if (Immutable.isImmutable(models)) {
-      models = models.toJS();
-    }
 
-    const outputType = output.output_type;
-
-    switch (outputType) {
+    switch (output.output_type) {
       case "execute_result":
       // We can defer to display data here, the cell number will be handled
       // separately. For reference, it is output.execution_count
@@ -75,7 +68,7 @@ export default class Output extends React.Component<Props, null> {
         );
       }
       case "stream": {
-        const text = output.text;
+        let text = demultiline(output.text);
         const name = output.name;
         switch (name) {
           case "stdout":
@@ -86,7 +79,7 @@ export default class Output extends React.Component<Props, null> {
         }
       }
       case "error": {
-        const traceback = output.traceback;
+        const traceback = demultiline(output.traceback);
         if (!traceback) {
           return (
             <Ansi className={classPrefix + "traceback"}>{`${output.ename}: ${
@@ -94,11 +87,7 @@ export default class Output extends React.Component<Props, null> {
             }`}</Ansi>
           );
         }
-        return (
-          <Ansi className={classPrefix + "traceback"}>
-            {traceback.join("\n")}
-          </Ansi>
-        );
+        return <Ansi className={classPrefix + "traceback"}>{traceback}</Ansi>;
       }
       default:
         return null;
