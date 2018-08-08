@@ -8,7 +8,12 @@
         }
       }
     ],
-    "next/babel"
+    [
+      "next/babel",
+      {
+        "styled-jsx": { "optimizeForSpeed": true }
+      }
+    ]
   ],
   "plugins": [
     "react-hot-loader/babel",
