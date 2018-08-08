@@ -137,11 +137,11 @@ export class DropdownContent extends React.Component<{
             opacity: 1;
           }
 
-          :global(li) {
+          ul :global(li) {
             padding: 0.5rem;
           }
 
-          :global(li:hover) {
+          ul :global(li:hover) {
             background-color: var(--theme-cell-menu-bg-hover, #e2dfe3);
             cursor: pointer;
           }
