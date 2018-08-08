@@ -7,15 +7,15 @@ type CellsProps = {
 
 export const Cells = (props: CellsProps) => {
   return (
-    <div className="cells">
+    <React.Fragment>
+      <div className="cells">{props.children}</div>
       <style jsx>{`
         .cells > :global(*) {
-          margin: 20px;
+          margin: 20px 0;
         }
 
         .cells {
-          font-family: "Source Sans Pro", Helvetica Neue, Helvetica, Arial,
-            sans-serif;
+          font-family: "Source Sans Pro", Helvetica Neue, Helvetica, sans-serif;
           font-size: 16px;
           background-color: var(--theme-app-bg);
           color: var(--theme-app-fg);
@@ -23,8 +23,7 @@ export const Cells = (props: CellsProps) => {
           padding-bottom: 10px;
         }
       `}</style>
-      {props.children}
-    </div>
+    </React.Fragment>
   );
 };
 
