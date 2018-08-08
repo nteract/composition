@@ -33,9 +33,6 @@ export class Outputs extends React.Component<OutputsProps> {
               max-height: 600px;
               text-overflow: ellipsis;
             }
-            :global(.focused > .outputs) {
-              overflow-y: auto;
-            }
 
             .expanded {
               max-height: 100%;

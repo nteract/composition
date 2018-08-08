@@ -62,6 +62,10 @@ export const Cell = (props: CellProps) => {
           background-color: var(--theme-cell-prompt-bg-focus, hsl(0, 0%, 90%));
           color: var(--theme-cell-prompt-fg-focus, hsl(0, 0%, 51%));
         }
+
+        .cell.focused :global(.outputs) {
+          overflow-y: auto;
+        }
       `}</style>
       {children}
     </div>
