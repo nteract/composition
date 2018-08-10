@@ -8078,9 +8078,9 @@ monaco-editor-webpack-plugin@^1.2.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-1.4.0.tgz#7324258ab3695464cfe3bc12edb2e8c55b80d92f"
 
-monaco-editor@^0.13.0:
-  version "0.13.1"
-  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.13.1.tgz#6b9ce20e4d1c945042d256825eb133cb23315a52"
+monaco-editor@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.14.0.tgz#c7f709cfc77a76d2d9ab1edb2e0d137dfb8e4f76"
 
 moo@^0.4.3:
   version "0.4.3"
