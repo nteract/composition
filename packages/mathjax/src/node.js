@@ -15,6 +15,7 @@ type Props = {
 
 class Node extends React.Component<Props, *> {
   script: ?HTMLScriptElement;
+  nodeRef: React.ElementRef<*>;
 
   static defaultProps = {
     inline: false,
@@ -23,6 +24,8 @@ class Node extends React.Component<Props, *> {
 
   constructor(props: Props) {
     super(props);
+
+    this.nodeRef = React.createRef();
 
     (this: any).typeset = this.typeset;
   }
@@ -114,7 +117,8 @@ class Node extends React.Component<Props, *> {
     if (!this.script) {
       this.script = document.createElement("script");
       this.script.type = `math/${type}; ${inline ? "" : "mode=display"}`;
-      this.refs.node.appendChild(this.script);
+
+      this.nodeRef.current.appendChild(this.script);
     }
 
     // It _should_ be defined at this point, we'll let Flow handle well here
@@ -131,7 +135,7 @@ class Node extends React.Component<Props, *> {
   }
 
   render() {
-    return React.createElement("span", { ref: "node" });
+    return <span ref={this.nodeRef} />;
   }
 }
 
