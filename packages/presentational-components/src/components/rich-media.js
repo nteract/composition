@@ -2,6 +2,20 @@
 
 import * as React from "react";
 
+/** Error handling types */
+type ReactErrorInfo = {
+  componentStack: string
+};
+
+type Caught = {
+  error: Error,
+  info: ReactErrorInfo
+};
+
+type MediaBundle = {
+  [key: string]: string | Array<string> | {}
+};
+
 type RichMediaProps = {
   /**
    * Object of media type → data
@@ -18,9 +32,7 @@ type RichMediaProps = {
    * for more detail.
    *
    */
-  data: {
-    [key: string]: string | Array<string> | {}
-  },
+  data: MediaBundle,
   /**
    * custom settings, typically keyed by media type
    */
@@ -28,16 +40,62 @@ type RichMediaProps = {
   /**
    * React elements that accept mimebundle data, will get passed data[mimetype]
    */
-  children: React.Node
+  children: React.Node,
+
+  renderError: ({
+    error: Error,
+    info: ReactErrorInfo,
+    data: MediaBundle,
+    metadata: {},
+    children: React.Node
+  }) => React.Element<*>
 };
 
-export class RichMedia extends React.Component<RichMediaProps, null> {
+/* We make the RichMedia component an error boundary in case of any <Media /> component erroring */
+type State = {
+  caughtError?: Caught
+};
+
+const ErrorFallback = (caught: Caught) => (
+  <div
+    style={{
+      backgroundColor: "ghostwhite",
+      color: "black",
+      fontWeight: "600",
+      display: "block",
+      padding: "10px",
+      marginBottom: "20px"
+    }}
+  >
+    <h3>{caught.error.toString()}</h3>
+    <details>
+      <summary>stack trace</summary>
+      <pre>{caught.info.componentStack}</pre>
+    </details>
+  </div>
+);
+
+export class RichMedia extends React.Component<RichMediaProps, State> {
   static defaultProps = {
     data: {},
-    metadata: {}
+    metadata: {},
+    renderError: ErrorFallback
   };
 
+  state = {};
+
+  componentDidCatch(error: Error, info: ReactErrorInfo) {
+    this.setState({ caughtError: { error, info } });
+  }
+
   render() {
+    if (this.state.caughtError) {
+      return this.props.renderError({
+        ...this.state.caughtError,
+        ...this.props
+      });
+    }
+
     // We must pick only one child to render
     let chosenOne = null;
 

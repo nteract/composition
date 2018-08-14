@@ -248,3 +248,96 @@ class Output extends React.Component {
 
 <Output />;
 ```
+
+### Handling Errors from `<Media />` components
+
+The `<RichMedia />` component comes with a built-in `componentDidCatch` fallback
+
+```jsx
+const Plain = props => {
+  throw new Error("💥 Broken Media Component");
+};
+Plain.defaultProps = {
+  mediaType: "text/plain"
+};
+
+<RichMedia
+  data={{
+    "text/plain": "<b>.____.</b>"
+  }}
+>
+  <Plain />
+</RichMedia>;
+```
+
+You can override the error formatting by passing a render callback as `renderError`. It takes all the props that `<RichMedia />` itself takes. As an example, here's a component that auto-creates an issue based on the data.
+
+```jsx
+/* Purposefully broken component */
+const Plain = props => {
+  throw new Error("💥 Broken Media Component");
+};
+Plain.defaultProps = {
+  mediaType: "text/plain"
+};
+
+/* Custom Error Reporter component  */
+const IssueCreator = ({ error, info, data }) => {
+  const body = encodeURIComponent(`
+Help! Something weird happened with an output!
+
+Media Types:
+${Object.keys(data).map(k => `* ${k}`)}
+
+\`\`\`
+${error.toString()}
+${info.componentStack}
+\`\`\`
+`);
+
+  const title = encodeURIComponent("Output Rendering Issue");
+
+  const link = `https://github.com/nteract/hydrogen/issues/new?title=${title}&body=${body}`;
+
+  return (
+    <div>
+      <h5
+        style={{
+          backgroundColor: "hsl(0, 100%, 95%)",
+          color: "hsl(180, 10%, 30%)",
+          padding: "10px",
+          margin: "0"
+        }}
+      >
+        We couldn't render your output. 😭 Please post
+        <a href={link} style={{ color: "hsl(0, 0%, 30%)" }}>
+          an issue for the hydrogen devs
+        </a> to take a look
+      </h5>
+      <pre
+        style={{
+          backgroundColor: "hsl(60, 100%, 95%)",
+          padding: "10px",
+          whiteSpace: "pre-wrap",
+          wordWrap: "break-word",
+          margin: "0"
+        }}
+      >
+        {error.toString()}
+        {info.componentStack}
+      </pre>
+    </div>
+  );
+};
+
+<RichMedia
+  data={{
+    "text/plain": "<b>.____.</b>"
+  }}
+  renderError={IssueCreator}
+>
+  <Plain />
+</RichMedia>;
+```
+
+⚠️ `this.props.data` can contain sensitive data, so be mindful of what you enable for automatically populating an issue with ⚠️
