@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8.11.3-browsers
+      - image: circleci/node:8.11.4-browsers
 
     working_directory: ~/nteract
 
