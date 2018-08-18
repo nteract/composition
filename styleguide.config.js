@@ -15,7 +15,11 @@ module.exports = {
       components: "packages/presentational-components/src/components/*.js"
     },
     {
-      name: "Binder Components",
+      name: "Outputs",
+      components: "packages/outputs/src/components/*.js"
+    },
+    {
+      name: "Binder Hosts and Kernels",
       components: "packages/host-cache/src/components/*.js"
     },
     {
