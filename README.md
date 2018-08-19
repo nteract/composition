@@ -30,6 +30,16 @@ If you're here to install the nteract desktop app, visit
 [nteract.io](https://nteract.io) to download a binary and install or visit the
 [releases page](https://github.com/nteract/nteract/releases/latest).
 
+### Installing nteract web
+
+Our current flavor of nteract web runs on top of the jupyter server. Install it with `pip`:
+
+```
+pip install nteract_on_jupyter
+```
+
+Now, run `jupyter nteract` and you're running nteract on jupyter!
+
 ### Try the nteract playground
 
 We're still hard at work on the playground. Here's a sneak peek to explore: https://play.nteract.io
