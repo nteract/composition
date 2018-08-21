@@ -1,8 +1,10 @@
-// @flow
+/* @flow */
+import Provider from "./Provider";
+import Node from "./Node";
 
-import Node from "./node";
-import Context from "./context";
-import Text from "./text";
+const MathJax = {
+  Provider,
+  Node
+};
 
-export { Node, Context, Text };
-export default { Node, Context, Text };
+export default MathJax;
