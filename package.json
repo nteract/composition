@@ -124,7 +124,7 @@
     "date-fns": "^1.29.0",
     "deepmerge": "^2.0.1",
     "elasticsearch": "^12.1.3",
-    "electron": "2.0.7",
+    "electron": "2.0.8",
     "electron-context-menu": "^0.10.0",
     "electron-log": "^2.2.13",
     "enzyme": "^3.3.0",
