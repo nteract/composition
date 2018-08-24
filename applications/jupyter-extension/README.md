@@ -23,7 +23,7 @@ All code snippets assume you're starting from the root of the nteract/nteract mo
 At the base directory of the `nteract` repo install the monorepo's dependencies:
 
 ```
-npm install
+yarn install
 ```
 
 You will also want to install `lerna` globally so you can run `lerna` from anywhere in the nteract repo. The rest of the instructions assume you have done this.
