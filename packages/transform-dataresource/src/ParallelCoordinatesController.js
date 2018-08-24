@@ -244,7 +244,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
             filterMode && {
               columnsBrush: true,
               during: this.brushing,
-              extent: this.state.columnExtent
+              extent: Object.keys(this.state.columnExtent)
             }
           }
           pieceHoverAnnotation={!filterMode}
