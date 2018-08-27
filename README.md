@@ -220,7 +220,7 @@ $ lerna publish
 
 #### Desktop application
 
-Follow instructions in [Releasing the Desktop application](https://github.com/nteract/nteract/blob/master/packages/desktop/RELEASING.md).
+Follow instructions in [Releasing the Desktop application](https://github.com/nteract/nteract/blob/master/RELEASING.md).
 
 ---
 
