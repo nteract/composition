@@ -40,7 +40,7 @@
     "@nteract/webpack-configurator": "^1.2.2",
     "jquery": "^3.2.1",
     "moment": "^2.22.1",
-    "monaco-editor-webpack-plugin": "^1.2.0",
+    "monaco-editor-webpack-plugin": "^1.5.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-hot-loader": "^4.1.2",

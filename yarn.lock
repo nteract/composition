@@ -8074,9 +8074,9 @@ moment@^2.11.2, moment@^2.18.1, moment@^2.22.1, moment@^2.6.0:
   version "2.22.2"
   resolved "https://registry.npmjs.org/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
-monaco-editor-webpack-plugin@^1.2.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-1.4.0.tgz#7324258ab3695464cfe3bc12edb2e8c55b80d92f"
+monaco-editor-webpack-plugin@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-1.5.1.tgz#2f2ff876d522e25042e5621bc81cb9eee6743010"
 
 monaco-editor@^0.14.0:
   version "0.14.0"
