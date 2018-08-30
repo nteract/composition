@@ -24,7 +24,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "jmp": "^1.0.0",
-    "rxjs": "^5.5.6",
+    "rxjs": "^6.0.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {

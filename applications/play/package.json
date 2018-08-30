@@ -33,7 +33,7 @@
     "redux-observable": "^0.19.0",
     "rx-binder": "^2.1.2",
     "rx-jupyter": "^3.2.1",
-    "rxjs": "^5.5.6",
+    "rxjs": "^6.0.0",
     "uuid": "^3.1.0"
   }
 }

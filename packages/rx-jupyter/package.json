@@ -28,7 +28,7 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "js-cookie": "^2.2.0",
-    "rxjs": "^5.5.6",
+    "rxjs": "^6.0.0",
     "url-join": "^4.0.0",
     "url-search-params": "^1.0.0"
   }
