@@ -1,7 +1,7 @@
 /* @flow */
 /* global MathJax */
 import * as React from "react";
-import loadScript from "load-script";
+import loadScript from "./load-script";
 import MathJaxContext, { type MathJaxContextValue } from "./context";
 
 class MathJaxProvider extends React.Component<*, *> {

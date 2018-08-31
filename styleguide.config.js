@@ -15,6 +15,10 @@ module.exports = {
       components: "packages/presentational-components/src/components/*.js"
     },
     {
+      name: "Maths",
+      content: "packages/mathjax/examples.md"
+    },
+    {
       name: "Outputs",
       components: "packages/outputs/src/components/*.js"
     },
@@ -35,6 +39,9 @@ module.exports = {
       "styleguide-components",
       "logo.js"
     )
+  },
+  compilerConfig: {
+    transforms: { templateString: false }
   },
   webpackConfig: {
     node: {
