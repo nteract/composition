@@ -1,129 +1,103 @@
-// @flow
+/* @flow */
+/* global document */
 import * as React from "react";
-import PropTypes from "prop-types";
+import MathJaxContext, { type MathJaxContextValue } from "./context";
+import process from "./process";
 
-const types = {
-  ascii: "asciimath",
-  tex: "tex"
-};
-
-type Props = {
-  inline: boolean,
-  children: string,
-  onRender: ?Function
-};
-
-class Node extends React.Component<Props, *> {
+class NodeWithMathJax extends React.Component<*, *> {
+  props: {
+    MathJax: ?Object,
+    formula: string,
+    inline?: boolean,
+    onRender?: () => void
+  };
   script: ?HTMLScriptElement;
-  nodeRef: React.ElementRef<*>;
 
   static defaultProps = {
     inline: false,
-    onRender: null
+    onRender: () => {}
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    this.nodeRef = React.createRef();
-
-    (this: any).typeset = this.typeset;
-  }
-
-  /**
-   * Render the math once the node is mounted
-   */
+  /*
+     * Render the math once the node is mounted
+     */
   componentDidMount() {
     this.typeset();
   }
 
-  /**
-   * Update the jax, force update if the display mode changed
-   */
-  componentDidUpdate(prevProps: Props) {
-    const forceUpdate =
-      prevProps.inline !== this.props.inline ||
-      prevProps.children !== this.props.children;
+  /*
+     * Update the jax, force update if the display mode changed.
+     */
+  componentDidUpdate(prevProps: *) {
+    const forceUpdate = prevProps.inline != this.props.inline;
     this.typeset(forceUpdate);
   }
 
-  /**
-   * Prevent update when the source has not changed
-   */
-  shouldComponentUpdate(nextProps: Props, nextState: *, nextContext: *) {
-    return (
-      nextProps.children !== this.props.children ||
-      nextProps.inline !== this.props.inline
-    );
-  }
-
-  /**
-   * Clear the math when unmounting the node
-   */
+  /*
+     * Clear the math when unmounting the node
+     */
   componentWillUnmount() {
     this.clear();
   }
 
-  /**
-   * Clear the jax
-   */
-  clear() {
-    const MathJax = this.context.MathJax;
+  container = React.createRef();
 
-    if (!this.script) {
+  /*
+     * Clear the jax
+     */
+  clear() {
+    const { MathJax } = this.props;
+
+    if (!this.script || !MathJax) {
       return;
     }
 
     const jax = MathJax.Hub.getJaxFor(this.script);
-
     if (jax) {
       jax.Remove();
     }
   }
 
-  /**
-   * Update math in the node
-   * @param { Boolean } forceUpdate
-   */
-  typeset(forceUpdate: boolean = false) {
-    const { MathJax } = this.context;
+  /*
+     * Update math in the node.
+     */
+  typeset(forceUpdate) {
+    const { MathJax, formula, onRender } = this.props;
 
     if (!MathJax) {
-      throw Error(
-        "Could not find MathJax while attempting typeset! It's likely the MathJax script hasn't been loaded or MathJax.Context is not in the hierarchy"
-      );
+      return;
     }
-
-    const text = this.props.children;
 
     if (forceUpdate) {
       this.clear();
     }
 
-    if (forceUpdate || !this.script) {
-      this.setScriptText(text);
-    }
+    if (!forceUpdate && this.script) {
+      MathJax.Hub.Queue(() => {
+        const jax = MathJax.Hub.getJaxFor(this.script);
 
-    MathJax.Hub.Queue(MathJax.Hub.Reprocess(this.script, this.props.onRender));
+        if (jax) jax.Text(formula, onRender);
+        else {
+          const script = this.setScriptText(formula);
+          process(MathJax, script, onRender);
+        }
+      });
+    } else {
+      const script = this.setScriptText(formula);
+      process(MathJax, script, onRender);
+    }
   }
 
-  /**
-   * Create a script
-   * @param { String } text
-   */
-  setScriptText(text: *) {
-    const inline = this.props.inline;
-    const type = types[this.context.input];
+  /*
+     * Create a script.
+     */
+  setScriptText(text: string): HTMLScriptElement {
+    const { inline } = this.props;
+
     if (!this.script) {
       this.script = document.createElement("script");
-      this.script.type = `math/${type}; ${inline ? "" : "mode=display"}`;
-
-      this.nodeRef.current.appendChild(this.script);
-    }
-
-    // It _should_ be defined at this point, we'll let Flow handle well here
-    if (!this.script) {
-      return;
+      this.script.type = `math/tex; ${inline ? "" : "mode=display"}`;
+      this.container.current.appendChild(this.script);
     }
 
     if ("text" in this.script) {
@@ -132,15 +106,38 @@ class Node extends React.Component<Props, *> {
     } else {
       this.script.textContent = text;
     }
+
+    return this.script;
   }
 
   render() {
-    return <span ref={this.nodeRef} />;
+    // eslint-disable-next-line no-unused-vars
+    const { MathJax, formula, inline, onRender, ...rest } = this.props;
+
+    if (this.props.inline) {
+      return <span ref={this.container} {...rest} />;
+    }
+
+    return <div ref={this.container} {...rest} />;
   }
 }
 
-Node.contextTypes = {
-  MathJax: PropTypes.object,
-  input: PropTypes.string
-};
-export default Node;
+class MathJaxNode extends React.PureComponent<*, *> {
+  render() {
+    return (
+      <MathJaxContext.Consumer>
+        {({ MathJax, registerNode }: MathJaxContextValue) => {
+          registerNode();
+
+          if (!MathJax) {
+            return null;
+          }
+
+          return <NodeWithMathJax {...this.props} MathJax={MathJax} />;
+        }}
+      </MathJaxContext.Consumer>
+    );
+  }
+}
+
+export default MathJaxNode;
