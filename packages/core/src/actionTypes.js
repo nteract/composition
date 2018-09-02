@@ -25,7 +25,7 @@ import type {
 
 import type { ExecuteRequest } from "@nteract/messaging";
 
-import type { Output } from "@nteract/commutable/src/v4";
+import type { OutputType } from "@nteract/records";
 
 export type ErrorAction<T: string> = {
   type: T,
@@ -202,7 +202,7 @@ export type AppendOutput = {
   type: "APPEND_OUTPUT",
   payload: {
     id: CellID,
-    output: Output,
+    output: OutputType,
     contentRef: ContentRef
   }
 };

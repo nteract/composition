@@ -8,8 +8,6 @@ import * as actionTypes from "../../../../actionTypes";
 import * as Immutable from "immutable";
 
 import { appendOutput as appendOutputRecord } from "@nteract/records";
-import type { NbformatOutput } from "@nteract/records";
-type Immouts = Immutable.List<NbformatOutput>;
 
 import type {
   ImmutableCell,
@@ -210,7 +208,7 @@ function appendOutput(state: NotebookModel, action: actionTypes.AppendOutput) {
   ) {
     return state.updateIn(
       ["notebook", "cellMap", cellID, "outputs"],
-      (outputs: ImmutableOutputs): ImmutableOutputs =>
+      (outputs: ImmutableOutputs): mixed =>
         Immutable.fromJS(appendOutputRecord(outputs.toJS(), output))
     );
   }

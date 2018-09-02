@@ -24,7 +24,7 @@ import type {
   MimeBundle
 } from "@nteract/commutable/src/types";
 
-import type { Output } from "@nteract/commutable/src/v4";
+import type { OutputType } from "@nteract/records";
 
 import { createExecuteRequest } from "@nteract/messaging";
 import type { HostRecordProps } from "./state/entities/hosts";
@@ -864,7 +864,7 @@ export function commMessageAction(message: any) {
 
 export function appendOutput(payload: {
   id: CellID,
-  output: Output,
+  output: OutputType,
   contentRef: ContentRef
 }): actionTypes.AppendOutput {
   return {

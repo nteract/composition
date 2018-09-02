@@ -261,7 +261,7 @@ exports[`Test NotebokRender snapshots accepts an Object of cells 1`] = `
     <Cell
       _hovered={false}
       isSelected={false}
-      key="14"
+      key="15"
     >
       <div
         className="jsx-2299737332 content-margin"
@@ -301,7 +301,7 @@ exports[`Test NotebokRender snapshots accepts an Object of cells 1`] = `
     <Cell
       _hovered={false}
       isSelected={false}
-      key="15"
+      key="16"
     >
       <Input
         hidden={false}
