@@ -8,7 +8,7 @@ const tex = String.raw`f(x) = \int_{-\infty}^\infty
 <MathJax.Provider>
   <div>
     This is an inline math formula: <MathJax.Node inline formula={"a = b"} />
-    And a block one:
+    and a block one:
     <MathJax.Node formula={tex} />
   </div>
 </MathJax.Provider>;
