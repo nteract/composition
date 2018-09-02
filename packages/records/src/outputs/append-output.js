@@ -74,6 +74,4 @@ function appendText(text: string, streamText: string): string {
   return text;
 }
 
-const appendOutput = produce(mutate.appendOutput);
-
-export default appendOutput;
+export const appendOutput = produce(mutate.appendOutput);

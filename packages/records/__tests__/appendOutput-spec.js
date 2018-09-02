@@ -1,5 +1,5 @@
 // @flow strict
-import appendOutput from "../src/outputs/append-output";
+import { appendOutput } from "../src/outputs/append-output";
 import { mutate } from "../src/outputs/append-output";
 
 describe("appendOutput", () => {
