@@ -151,7 +151,7 @@
     "shell-env": "^2.0.0",
     "spawn-rx": "^2.0.12",
     "spawnteract": "^5.0.0",
-    "styled-jsx": "^2.2.6",
+    "styled-jsx": "^3.0.0",
     "uuid": "^3.1.0",
     "webfontloader": "^1.6.28",
     "webpack": "^4.17.2",

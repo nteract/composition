@@ -30,7 +30,7 @@
   "peerDependencies": {
     "immutable": "^4.0.0-rc.9",
     "react": "^16.3.2",
-    "styled-jsx": "^2.2.6"
+    "styled-jsx": "^3.0.0"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"

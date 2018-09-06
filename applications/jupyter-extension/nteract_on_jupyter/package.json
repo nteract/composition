@@ -51,7 +51,7 @@
     "redux-observable": "^0.19.0",
     "rx-jupyter": "^3.2.1",
     "rxjs": "^5.5.6",
-    "styled-jsx": "^2.2.6",
+    "styled-jsx": "^3.0.0",
     "url-join": "^4.0.0",
     "webfontloader": "^1.6.28",
     "webpack": "^4.17.2"
