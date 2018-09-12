@@ -4,7 +4,6 @@
 import { Observable, of, from, merge, throwError } from "rxjs";
 
 import {
-  pluck,
   first,
   groupBy,
   filter,
@@ -158,7 +157,13 @@ export const payloads = () => (
 ): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_reply"),
-    pluck("content", "payload"),
+    // pluck("content", "payload"),
+    map(
+      entry =>
+        entry.content && entry.content.payload
+          ? entry.content.payload
+          : undefined
+    ),
     filter(Boolean),
     mergeMap(p => from(p))
   );
@@ -171,7 +176,13 @@ export const executionCounts = () => (
 ): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_input"),
-    pluck("content", "execution_count")
+    map(
+      entry =>
+        entry.content && entry.content.execution_count
+          ? entry.content.execution_count
+          : undefined
+    )
+    // pluck("content", "execution_count")
   );
 
 export const kernelStatuses = () => (
@@ -179,7 +190,13 @@ export const kernelStatuses = () => (
 ): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("status"),
-    pluck("content", "execution_state")
+    // pluck("content", "execution_state")
+    map(
+      entry =>
+        entry.content && entry.content.execution_state
+          ? entry.content.execution_state
+          : undefined
+    )
   );
 
 export * from "./messages";
