@@ -43,7 +43,7 @@ export const childOf = (parentMessage: JupyterMessage<*, *>) => (
   source: rxjs$Observable<JupyterMessage<*, *>>
 ) => {
   const parentMessageID = parentMessage.header.msg_id;
-  return Observable(subscriber =>
+  return new Observable(subscriber =>
     source.subscribe(
       msg => {
         // strictly speaking, in order for the message to be a child of the parent
@@ -84,7 +84,7 @@ export const ofMessageType = (
   return (
     source: rxjs$Observable<JupyterMessage<*, *>>
   ): rxjs$Observable<JupyterMessage<*, *>> =>
-    Observable(subscriber =>
+    new Observable(subscriber =>
       source.subscribe(
         msg => {
           if (!msg.header || !msg.header.msg_type) {
@@ -157,12 +157,9 @@ export const payloads = () => (
 ): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_reply"),
-    // pluck("content", "payload"),
     map(
       entry =>
-        entry.content && entry.content.payload
-          ? entry.content.payload
-          : undefined
+        entry.content || entry.content.payload ? entry.content.payload : null
     ),
     filter(Boolean),
     mergeMap(p => from(p))
@@ -178,11 +175,10 @@ export const executionCounts = () => (
     ofMessageType("execute_input"),
     map(
       entry =>
-        entry.content && entry.content.execution_count
+        entry.content || entry.content.execution_count
           ? entry.content.execution_count
-          : undefined
+          : null
     )
-    // pluck("content", "execution_count")
   );
 
 export const kernelStatuses = () => (
@@ -193,9 +189,9 @@ export const kernelStatuses = () => (
     // pluck("content", "execution_state")
     map(
       entry =>
-        entry.content && entry.content.execution_state
+        entry.content || entry.content.execution_state
           ? entry.content.execution_state
-          : undefined
+          : null
     )
   );
 
