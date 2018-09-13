@@ -173,12 +173,7 @@ export const executionCounts = () => (
 ): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_input"),
-    map(
-      entry =>
-        entry.content || entry.content.execution_count
-          ? entry.content.execution_count
-          : null
-    )
+    map(entry => entry.content.execution_count)
   );
 
 export const kernelStatuses = () => (
@@ -186,13 +181,7 @@ export const kernelStatuses = () => (
 ): rxjs$Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("status"),
-    // pluck("content", "execution_state")
-    map(
-      entry =>
-        entry.content || entry.content.execution_state
-          ? entry.content.execution_state
-          : null
-    )
+    map(entry => entry.content.execution_state)
   );
 
 export * from "./messages";
