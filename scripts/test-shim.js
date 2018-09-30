@@ -14,7 +14,7 @@ Range.prototype.createContextualFragment = html =>
 
 global.window.focus = () => {};
 
-// HACK: Polyfil that allows codemirror to render in a JSDOM env.
+// HACK: Polyfill that allows codemirror to render in a JSDOM env.
 global.window.document.createRange = function createRange() {
   return {
     setEnd: () => {},
