@@ -77,18 +77,16 @@ export function encodeJupyterMessage(
     signature = hmac.digest("hex");
   }
 
-  const response = idents
-    .concat([
-      DELIMITER, // delimiter
-      signature, // HMAC signature
-      header, // header
-      parent_header, // parent header
-      metadata, // metadata
-      content // content
-    ])
-    .concat(message.buffers);
-
-  return response;
+  return [
+    ...idents,
+    DELIMITER,
+    signature,
+    header,
+    parent_header,
+    metadata,
+    content,
+    ...message.buffers
+  ];
 }
 
 function toJSON(value) {
@@ -149,7 +147,7 @@ export function decodeJupyterMessage(
     parent_header: toJSON(messageFrames[i + 3]),
     content: toJSON(messageFrames[i + 5]),
     metadata: toJSON(messageFrames[i + 4]),
-    buffers: Array.prototype.slice.apply(messageFrames, [i + 6])
+    buffers: messageFrames.slice(i + 6)
   });
 
   return message;
