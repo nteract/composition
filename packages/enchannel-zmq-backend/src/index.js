@@ -70,10 +70,10 @@ export function encodeJupyterMessage(
   if (key) {
     const hmac = createHmac(scheme, key);
     const encoding = "utf8";
-    hmac.update(new Buffer(header, encoding));
-    hmac.update(new Buffer(parent_header, encoding));
-    hmac.update(new Buffer(metadata, encoding));
-    hmac.update(new Buffer(content, encoding));
+    hmac.update(new Buffer.from(header, encoding));
+    hmac.update(new Buffer.from(parent_header, encoding));
+    hmac.update(new Buffer.from(metadata, encoding));
+    hmac.update(new Buffer.from(content, encoding));
     signature = hmac.digest("hex");
   }
 
