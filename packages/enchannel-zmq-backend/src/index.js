@@ -2,26 +2,25 @@
 import { Subject } from "rxjs/Subject";
 import { Subscriber } from "rxjs/Subscriber";
 import { Observable } from "rxjs/Observable";
-
 import { merge } from "rxjs/observable/merge";
-
-import { fromEvent } from "rxjs/observable/fromEvent";
 import { map, publish, refCount } from "rxjs/operators";
 
-import * as moduleJMP from "jmp";
+import { createHmac } from "crypto";
+import { Dealer, Subscriber as ZMQSubscriber } from "zeromq-ng";
+import uuid from "uuid/v4";
 
 export const ZMQType = {
   frontend: {
-    iopub: "sub",
-    stdin: "dealer",
-    shell: "dealer",
-    control: "dealer"
+    iopub: ZMQSubscriber,
+    stdin: Dealer,
+    shell: Dealer,
+    control: Dealer
   }
 };
 
-import uuid from "uuid/v4";
-
+const DELIMITER = "<IDS|MSG>";
 export type CHANNEL_NAME = "iopub" | "stdin" | "shell" | "control";
+export type JMPSocket = ZMQSubscriber | Dealer;
 
 export type JUPYTER_CONNECTION_INFO = {
   iopub_port: number,
@@ -34,6 +33,137 @@ export type JUPYTER_CONNECTION_INFO = {
   key: string,
   transport: "tcp" | "ipc" | string // Only known transports at the moment, we'll allow string in general though
 };
+
+class Message {
+  idents: Array<*>;
+  header: Object;
+  parent_header: Object;
+  metadata: Object;
+  content: Object;
+  buffers: Array<*>;
+  constructor(properties: ?Object) {
+    this.idents = (properties && properties.idents) || [];
+    this.header = (properties && properties.header) || {};
+    this.parent_header = (properties && properties.parent_header) || {};
+    this.metadata = (properties && properties.metadata) || {};
+    this.content = (properties && properties.content) || {};
+    this.buffers = (properties && properties.buffers) || [];
+  }
+}
+
+export function encodeJupyterMessage(
+  message: Message,
+  scheme: string,
+  key: string
+) {
+  scheme = scheme || "sha256";
+  key = key || "";
+
+  const idents = message.idents;
+
+  const header = JSON.stringify(message.header);
+  const parent_header = JSON.stringify(message.parent_header);
+  const metadata = JSON.stringify(message.metadata);
+  const content = JSON.stringify(message.content);
+
+  let signature = "";
+  if (key) {
+    const hmac = createHmac(scheme, key);
+    const encoding = "utf8";
+    hmac.update(new Buffer(header, encoding));
+    hmac.update(new Buffer(parent_header, encoding));
+    hmac.update(new Buffer(metadata, encoding));
+    hmac.update(new Buffer(content, encoding));
+    signature = hmac.digest("hex");
+  }
+
+  const response = idents
+    .concat([
+      DELIMITER, // delimiter
+      signature, // HMAC signature
+      header, // header
+      parent_header, // parent header
+      metadata, // metadata
+      content // content
+    ])
+    .concat(message.buffers);
+
+  return response;
+}
+
+function toJSON(value) {
+  return JSON.parse(value.toString());
+}
+
+export function decodeJupyterMessage(
+  messageFrames: Array<*>,
+  scheme: string,
+  key: string
+) {
+  scheme = scheme || "sha256";
+  key = key || "";
+
+  let i = 0;
+  let idents = [];
+  for (i = 0; i < messageFrames.length; i++) {
+    var frame = messageFrames[i];
+    if (frame.toString() === DELIMITER) {
+      break;
+    }
+    idents.push(frame);
+  }
+
+  if (messageFrames.length - i < 5) {
+    console.warn("MESSAGE: DECODE: Not enough message frames", messageFrames);
+    return null;
+  }
+
+  if (messageFrames[i].toString() !== DELIMITER) {
+    console.warn("MESSAGE: DECODE: Missing delimiter", messageFrames);
+    return null;
+  }
+
+  if (key) {
+    const obtainedSignature = messageFrames[i + 1].toString();
+
+    const hmac = createHmac(scheme, key);
+    hmac.update(messageFrames[i + 2]);
+    hmac.update(messageFrames[i + 3]);
+    hmac.update(messageFrames[i + 4]);
+    hmac.update(messageFrames[i + 5]);
+    const expectedSignature = hmac.digest("hex");
+
+    if (expectedSignature !== obtainedSignature) {
+      console.warn(
+        "MESSAGE: DECODE: Incorrect message signature:",
+        "Obtained = " + obtainedSignature,
+        "Expected = " + expectedSignature
+      );
+      return null;
+    }
+  }
+
+  const message = new Message({
+    idents: idents,
+    header: toJSON(messageFrames[i + 2]),
+    parent_header: toJSON(messageFrames[i + 3]),
+    content: toJSON(messageFrames[i + 5]),
+    metadata: toJSON(messageFrames[i + 4]),
+    buffers: Array.prototype.slice.apply(messageFrames, [i + 6])
+  });
+
+  return message;
+}
+
+export function fromSocket(socket: JMPSocket) {
+  return Observable.create(async observer => {
+    while (!socket.closed) {
+      const msg = await socket.receive();
+      observer.next(msg);
+    }
+    observer.complete();
+  });
+}
 
 /**
  * Takes a Jupyter spec connection info object and channel and returns the
@@ -65,35 +195,16 @@ export function formConnectionString(
 export function createSocket(
   channel: CHANNEL_NAME,
   identity: string,
-  config: JUPYTER_CONNECTION_INFO,
-  jmp = moduleJMP
-): Promise<moduleJMP.Socket> {
-  const zmqType = ZMQType.frontend[channel];
-  const scheme = config.signature_scheme.slice("hmac-".length);
-
-  const socket = new jmp.Socket(zmqType, scheme, config.key);
-  socket.identity = identity;
+  config: JUPYTER_CONNECTION_INFO
+): Dealer | ZMQSubscriber {
+  const socket =
+    channel === "iopub"
+      ? new ZMQSubscriber()
+      : new Dealer({ routingId: identity });
 
   const url = formConnectionString(config, channel);
-  return verifiedConnect(socket, url);
-}
-
-/**
- * ensures the socket is ready after connecting
- */
-export function verifiedConnect(
-  socket: moduleJMP.Socket,
-  url: string
-): Promise<moduleJMP.Socket> {
-  return new Promise((resolve, reject) => {
-    socket.on("connect", () => {
-      // We are not ready until this happens for all the sockets
-      socket.unmonitor();
-      resolve(socket);
-    });
-    socket.monitor();
-    socket.connect(url);
-  });
+  socket.connect(url);
+  return socket;
 }
 
 type HEADER_FILLER = {
@@ -122,68 +233,59 @@ export function getUsername(): string {
  * @param  {string} subscription            subscribed topic; defaults to all
  * @return {Subject} Subject containing multiplexed channels
  */
-export async function createMainChannel(
+export function createMainChannel(
   config: JUPYTER_CONNECTION_INFO,
   subscription: string = "",
   identity: string = uuid(),
   header: HEADER_FILLER = {
     session: uuid(),
     username: getUsername()
-  },
-  jmp = moduleJMP
-): Promise<Channels> {
-  const sockets = await createSockets(config, subscription, identity, jmp);
-  const main = createMainChannelFromSockets(sockets, header, jmp);
-  return main;
+  }
+): Channels {
+  const sockets = createSockets(config, subscription, identity);
+  return createMainChannelFromSockets(config, sockets, header);
 }
 
 /**
  * createSockets sets up the sockets for each of the jupyter channels
  * @return {[type]}              [description]
  */
-export async function createSockets(
+export function createSockets(
   config: JUPYTER_CONNECTION_INFO,
   subscription: string = "",
-  identity: string = uuid(),
-  jmp = moduleJMP
+  identity: string = uuid()
 ) {
-  const [shell, control, stdin, iopub] = await Promise.all([
-    createSocket("shell", identity, config, jmp),
-    createSocket("control", identity, config, jmp),
-    createSocket("stdin", identity, config, jmp),
-    createSocket("iopub", identity, config, jmp)
-  ]);
+  const shell = createSocket("shell", identity, config);
+  const control = createSocket("control", identity, config);
+  const stdin = createSocket("stdin", identity, config);
+  const iopub = createSocket("iopub", identity, config);
 
   // NOTE: ZMQ PUB/SUB subscription (not an Rx subscription)
   iopub.subscribe(subscription);
 
-  return {
-    shell,
-    control,
-    stdin,
-    iopub
-  };
+  return { shell, control, stdin, iopub };
 }
 
 export function createMainChannelFromSockets(
-  sockets: {
-    [string]: moduleJMP.Socket
-  },
+  config: JUPYTER_CONNECTION_INFO,
+  sockets: { [string]: JMPSocket },
   header: HEADER_FILLER = {
     session: uuid(),
     username: getUsername()
-  },
-  jmp = moduleJMP
+  }
 ) {
+  const scheme = config.signature_scheme.slice("hmac-".length);
   // The mega subject that encapsulates all the sockets as one multiplexed stream
   const subject = Subject.create(
     // $FlowFixMe: figure out if this is a shortcoming in the flow def or our declaration
     Subscriber.create(
-      message => {
+      // $FlowFixMe
+      async message => {
         // There's always a chance that a bad message is sent, we'll ignore it
         // instead of consuming it
         if (!message || !message.channel) {
           console.warn("message sent without a channel", message);
+          // $FlowFixMe
           return;
         }
         const socket = sockets[message.channel];
@@ -191,9 +293,10 @@ export function createMainChannelFromSockets(
           // If, for some reason, a message is sent on a channel we don't have
           // a socket for, warn about it but don't bomb the stream
           console.warn("channel not understood for message", message);
+          // $FlowFixMe
           return;
         }
-        const jMessage = new jmp.Message({
+        const jMessage = new Message({
           // Fold in the setup header to ease usage of messages on channels
           header: { ...message.header, ...header },
           parent_header: message.parent_header,
@@ -201,15 +304,13 @@ export function createMainChannelFromSockets(
           metadata: message.metadata,
           buffers: message.buffers
         });
-        socket.send(jMessage);
+        await socket.send(encodeJupyterMessage(jMessage, scheme, config.key));
       },
       undefined, // not bothering with sending errors on
       () =>
-        // When the subject is completed / disposed, close all the event
-        // listeners and shutdown the socket
+        // When the subject is completed / disposed shutdown the socket
         Object.keys(sockets).forEach(name => {
           const socket = sockets[name];
-          socket.removeAllListeners();
           socket.close();
         })
     ),
@@ -217,10 +318,9 @@ export function createMainChannelFromSockets(
     merge(
       // Form an Observable with each socket
       ...Object.keys(sockets).map(name => {
-        const socket = sockets[name];
-
-        return fromEvent(socket, "message").pipe(
-          map(body => {
+        return fromSocket(sockets[name]).pipe(
+          map(rawMessage => {
+            const body = decodeJupyterMessage(rawMessage, scheme, config.key);
             // Route the message for the frontend by setting the channel
             const msg = { ...body, channel: name };
             // Conform to same message format as notebook websockets

@@ -44,6 +44,7 @@
   "build": {
     "appId": "io.nteract.nteract",
     "productName": "nteract",
+    "npmRebuild": false,
     "publish": [
       {
         "provider": "github"
@@ -109,7 +110,6 @@
   "dependencies": {
     "@nteract/examples": "3.0.0",
     "ijavascript": "lgeiger/ijavascript",
-    "jmp": "^2.0.0",
     "mathjax-electron": "^2.0.1",
     "nteract-assets": "^4.0.0"
   },

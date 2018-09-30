@@ -4,7 +4,7 @@ const path = require("path");
 const configurator = require("@nteract/webpack-configurator");
 
 const nodeModules = {
-  jmp: "commonjs jmp",
+  "zeromq-ng": "commonjs zeromq-ng",
   canvas: "commonjs canvas",
   "canvas-prebuilt": "commonjs canvas-prebuilt",
   "nteract-assets": "commonjs nteract-assets"

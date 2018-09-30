@@ -36,7 +36,6 @@ import { ActionsObservable, ofType } from "redux-observable";
 import { ipcRenderer as ipc } from "electron";
 
 import { createMainChannel } from "enchannel-zmq-backend";
-import * as jmp from "jmp";
 
 import { selectors, actions, actionTypes } from "@nteract/core";
 
@@ -113,47 +112,45 @@ export function launchKernelObservable(
         observer.next(actions.kernelRawStderr({ text, kernelRef }));
       });
 
-      // do dependency injection of jmp to make it match our ABI version of node
-      createMainChannel(config, undefined, undefined, jmp)
-        .then((channels: Channels) => {
-          observer.next(
-            actions.setKernelspecInfo({
-              kernelInfo: kernelSpec,
-              contentRef: contentRef
-            })
-          );
+      const channels = createMainChannel(config);
+      try {
+        observer.next(
+          actions.setKernelspecInfo({
+            kernelInfo: kernelSpec,
+            contentRef: contentRef
+          })
+        );
 
-          const kernel: LocalKernelProps = {
+        const kernel: LocalKernelProps = {
+          kernelRef,
+          info: null,
+          type: "zeromq",
+          hostRef: null,
+          channels,
+          connectionFile,
+          spawn,
+          cwd,
+          kernelSpecName: kernelSpec.name,
+          lastActivity: null,
+          status: "launched" // TODO: Determine our taxonomy
+        };
+
+        observer.next(
+          actions.launchKernelSuccessful({
+            kernel,
             kernelRef,
-            info: null,
-            type: "zeromq",
-            hostRef: null,
-            channels,
-            connectionFile,
-            spawn,
-            cwd,
-            kernelSpecName: kernelSpec.name,
-            lastActivity: null,
-            status: "launched" // TODO: Determine our taxonomy
-          };
-
-          observer.next(
-            actions.launchKernelSuccessful({
-              kernel,
-              kernelRef,
-              contentRef,
-              selectNextKernel: true
-            })
-          );
-          // TODO: Request status right after
-          observer.next(
-            actions.setExecutionState({ kernelStatus: "launched", kernelRef })
-          );
-          observer.complete();
-        })
-        .catch(error => {
-          observer.error({ type: "ERROR", payload: error, err: true });
-        });
+            contentRef,
+            selectNextKernel: true
+          })
+        );
+        // TODO: Request status right after
+        observer.next(
+          actions.setExecutionState({ kernelStatus: "launched", kernelRef })
+        );
+        observer.complete();
+      } catch (error) {
+        observer.error({ type: "ERROR", payload: error, err: true });
+      }
     });
   });
 }
