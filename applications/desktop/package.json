@@ -110,6 +110,7 @@
   "dependencies": {
     "@nteract/examples": "3.0.0",
     "ijavascript": "lgeiger/ijavascript",
+    "zeromq-ng": "5.0.0-beta.15",
     "mathjax-electron": "^2.0.1",
     "nteract-assets": "^4.0.0"
   },
