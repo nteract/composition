@@ -5,20 +5,15 @@ import { Observable } from "rxjs/Observable";
 import { merge } from "rxjs/observable/merge";
 import { map, publish, refCount } from "rxjs/operators";
 
-import { createHmac } from "crypto";
 import { Dealer, Subscriber as ZMQSubscriber } from "zeromq-ng";
 import uuid from "uuid/v4";
 
-export const ZMQType = {
-  frontend: {
-    iopub: ZMQSubscriber,
-    stdin: Dealer,
-    shell: Dealer,
-    control: Dealer
-  }
-};
+import {
+  decodeJupyterMessage,
+  encodeJupyterMessage,
+  Message
+} from "./messages";
 
-const DELIMITER = "<IDS|MSG>";
 export type CHANNEL_NAME = "iopub" | "stdin" | "shell" | "control";
 export type JMPSocket = ZMQSubscriber | Dealer;
 
@@ -34,126 +29,8 @@ export type JUPYTER_CONNECTION_INFO = {
   transport: "tcp" | "ipc" | string // Only known transports at the moment, we'll allow string in general though
 };
 
-class Message {
-  idents: Array<*>;
-  header: Object;
-  parent_header: Object;
-  metadata: Object;
-  content: Object;
-  buffers: Array<*>;
-  constructor(properties: ?Object) {
-    this.idents = (properties && properties.idents) || [];
-    this.header = (properties && properties.header) || {};
-    this.parent_header = (properties && properties.parent_header) || {};
-    this.metadata = (properties && properties.metadata) || {};
-    this.content = (properties && properties.content) || {};
-    this.buffers = (properties && properties.buffers) || [];
-  }
-}
-
-export function encodeJupyterMessage(
-  message: Message,
-  scheme: string,
-  key: string
-) {
-  scheme = scheme || "sha256";
-  key = key || "";
-
-  const idents = message.idents;
-
-  const header = JSON.stringify(message.header);
-  const parent_header = JSON.stringify(message.parent_header);
-  const metadata = JSON.stringify(message.metadata);
-  const content = JSON.stringify(message.content);
-
-  let signature = "";
-  if (key) {
-    const hmac = createHmac(scheme, key);
-    const encoding = "utf8";
-    hmac.update(new Buffer.from(header, encoding));
-    hmac.update(new Buffer.from(parent_header, encoding));
-    hmac.update(new Buffer.from(metadata, encoding));
-    hmac.update(new Buffer.from(content, encoding));
-    signature = hmac.digest("hex");
-  }
-
-  return [
-    ...idents,
-    DELIMITER,
-    signature,
-    header,
-    parent_header,
-    metadata,
-    content,
-    ...message.buffers
-  ];
-}
-
-function toJSON(value) {
-  return JSON.parse(value.toString());
-}
-
-export function decodeJupyterMessage(
-  messageFrames: Array<*>,
-  scheme: string,
-  key: string
-) {
-  scheme = scheme || "sha256";
-  key = key || "";
-
-  let i = 0;
-  let idents = [];
-  for (i = 0; i < messageFrames.length; i++) {
-    var frame = messageFrames[i];
-    if (frame.toString() === DELIMITER) {
-      break;
-    }
-    idents.push(frame);
-  }
-
-  if (messageFrames.length - i < 5) {
-    console.warn("MESSAGE: DECODE: Not enough message frames", messageFrames);
-    return null;
-  }
-
-  if (messageFrames[i].toString() !== DELIMITER) {
-    console.warn("MESSAGE: DECODE: Missing delimiter", messageFrames);
-    return null;
-  }
-
-  if (key) {
-    const obtainedSignature = messageFrames[i + 1].toString();
-
-    const hmac = createHmac(scheme, key);
-    hmac.update(messageFrames[i + 2]);
-    hmac.update(messageFrames[i + 3]);
-    hmac.update(messageFrames[i + 4]);
-    hmac.update(messageFrames[i + 5]);
-    const expectedSignature = hmac.digest("hex");
-
-    if (expectedSignature !== obtainedSignature) {
-      console.warn(
-        "MESSAGE: DECODE: Incorrect message signature:",
-        "Obtained = " + obtainedSignature,
-        "Expected = " + expectedSignature
-      );
-      return null;
-    }
-  }
-
-  const message = new Message({
-    idents: idents,
-    header: toJSON(messageFrames[i + 2]),
-    parent_header: toJSON(messageFrames[i + 3]),
-    content: toJSON(messageFrames[i + 5]),
-    metadata: toJSON(messageFrames[i + 4]),
-    buffers: messageFrames.slice(i + 6)
-  });
-
-  return message;
-}
-
 export function fromSocket(socket: JMPSocket) {
+  // $FlowFixMe
   return Observable.create(async observer => {
     while (!socket.closed) {
       const msg = await socket.receive();
@@ -274,7 +151,7 @@ export function createMainChannelFromSockets(
 ) {
   const scheme = config.signature_scheme.slice("hmac-".length);
   // The mega subject that encapsulates all the sockets as one multiplexed stream
-  const subject = Subject.create(
+  return Subject.create(
     // $FlowFixMe: figure out if this is a shortcoming in the flow def or our declaration
     Subscriber.create(
       // $FlowFixMe
@@ -305,18 +182,17 @@ export function createMainChannelFromSockets(
         await socket.send(encodeJupyterMessage(jMessage, scheme, config.key));
       },
       undefined, // not bothering with sending errors on
-      () =>
+      () => {
         // When the subject is completed / disposed shutdown the socket
-        Object.keys(sockets).forEach(name => {
-          const socket = sockets[name];
-          socket.close();
-        })
+        console.warn("CLOSING SOCKETS");
+        Object.keys(sockets).forEach(name => sockets[name].close());
+      }
     ),
     // Messages from kernel on the sockets
     merge(
       // Form an Observable with each socket
-      ...Object.keys(sockets).map(name => {
-        return fromSocket(sockets[name]).pipe(
+      ...Object.keys(sockets).map(name =>
+        fromSocket(sockets[name]).pipe(
           map(rawMessage => {
             const body = decodeJupyterMessage(rawMessage, scheme, config.key);
             // Route the message for the frontend by setting the channel
@@ -328,13 +204,11 @@ export function createMainChannelFromSockets(
           }),
           publish(),
           refCount()
-        );
-      })
+        )
+      )
     ).pipe(
       publish(),
       refCount()
     )
   );
-
-  return subject;
 }
