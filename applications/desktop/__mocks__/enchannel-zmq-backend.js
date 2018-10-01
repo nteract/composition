@@ -1,18 +1,16 @@
-import { createMainChannelFromSockets } from "enchannel-zmq-backend/src";
+jest.resetModules();
+jest.mock("zeromq-ng");
 
-const EventEmitter = require("events");
-
-// Mock a jmp socket
-class HokeySocket extends EventEmitter {
-  constructor() {
-    super();
-    this.send = jest.fn();
-  }
-  send() {}
+// Mock a zeromq socket
+class HokeySocket {
+  send = jest.fn();
 }
 
 module.exports = {
-  createMainChannel: async function() {
+  createMainChannel: function() {
+    const {
+      createMainChannelFromSockets
+    } = require("enchannel-zmq-backend/src");
     const shellSocket = new HokeySocket();
     const iopubSocket = new HokeySocket();
     const sockets = {
@@ -20,10 +18,14 @@ module.exports = {
       iopub: iopubSocket
     };
 
-    const channels = await createMainChannelFromSockets(sockets, {
-      session: "spinning",
-      username: "dj"
-    });
+    const channels = createMainChannelFromSockets(
+      { signature_scheme: "hmac-sha256" },
+      sockets,
+      {
+        session: "spinning",
+        username: "dj"
+      }
+    );
 
     return channels;
   }
