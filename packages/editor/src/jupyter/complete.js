@@ -1,5 +1,5 @@
 // @flow
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { pluck, first, map, timeout } from "rxjs/operators";
 
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";

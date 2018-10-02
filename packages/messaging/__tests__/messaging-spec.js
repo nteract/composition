@@ -1,6 +1,5 @@
-import { from } from "rxjs/observable/from";
-import { of } from "rxjs/observable/of";
-import { pluck, tap, count, toArray } from "rxjs/operators";
+import { from, of } from "rxjs";
+import { map, tap, count, toArray } from "rxjs/operators";
 import { ofMessageType, childOf } from "../src/index";
 
 import {
@@ -103,7 +102,13 @@ describe("ofMessageType", () => {
         tap(val => {
           expect(val.header.msg_type === "a" || val.header.msg_type === "d");
         }),
-        pluck("header", "msg_type"),
+        // pluck("header", "msg_type"),
+        map(
+          entry =>
+            entry.header && entry.header.msg_type
+              ? entry.header.msg_type
+              : undefined
+        ),
         count()
       )
       .toPromise()
@@ -141,7 +146,13 @@ describe("ofMessageType", () => {
         tap(val => {
           expect(val.header.msg_type === "a" || val.header.msg_type === "d");
         }),
-        pluck("header", "msg_type"),
+        // pluck("header", "msg_type"),
+        map(
+          entry =>
+            entry.header && entry.header.msg_type
+              ? entry.header.msg_type
+              : undefined
+        ),
         count()
       )
       .toPromise()
@@ -162,7 +173,13 @@ describe("ofMessageType", () => {
         tap(val => {
           expect(val.header.msg_type === "a" || val.header.msg_type === "d");
         }),
-        pluck("header", "msg_type"),
+        // pluck("header", "msg_type"),
+        map(
+          entry =>
+            entry.header && entry.header.msg_type
+              ? entry.header.msg_type
+              : undefined
+        ),
         count()
       )
       .toPromise()

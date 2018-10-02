@@ -4,14 +4,13 @@ import { actionTypes } from "@nteract/core";
 
 import { createMessage } from "@nteract/messaging";
 
-import { Subject } from "rxjs/Subject";
+import { Subject, of } from "rxjs";
 
 import {
   acquireKernelInfo,
   watchExecutionStateEpic
 } from "../../src/epics/kernel-lifecycle";
 
-import { of } from "rxjs/observable/of";
 import { toArray, share } from "rxjs/operators";
 
 describe("acquireKernelInfo", () => {

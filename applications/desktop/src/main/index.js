@@ -10,10 +10,7 @@ import {
 import { resolve, join } from "path";
 import { existsSync } from "fs";
 
-import { Subscriber } from "rxjs/Subscriber";
-import { fromEvent } from "rxjs/observable/fromEvent";
-import { forkJoin } from "rxjs/observable/forkJoin";
-import { zip } from "rxjs/observable/zip";
+import { Subscriber, fromEvent, forkJoin, zip } from "rxjs";
 import {
   mergeMap,
   takeUntil,

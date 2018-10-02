@@ -1,7 +1,7 @@
 // @flow
 import * as Immutable from "immutable";
 import { ActionsObservable } from "redux-observable";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import { emptyNotebook } from "@nteract/commutable";
 import { actions, state as stateModule, epics as coreEpics } from "../../src";
 import { toArray } from "rxjs/operators";
@@ -10,12 +10,8 @@ describe("launchWebSocketKernelEpic", () => {
   test("launches remote kernels", async function() {
     const contentRef = stateModule.createContentRef();
     const kernelRef = "fake";
-
-    const store = {
-      getState() {
-        return this.state;
-      },
-      state: {
+    const state$ = {
+      value: {
         // $FlowFixMe
         app: stateModule.makeAppRecord({
           host: stateModule.makeJupyterHostRecord({
@@ -49,7 +45,6 @@ describe("launchWebSocketKernelEpic", () => {
         })
       }
     };
-
     const action$ = ActionsObservable.of(
       actions.launchKernelByName({
         contentRef,
@@ -61,7 +56,7 @@ describe("launchWebSocketKernelEpic", () => {
     );
 
     const responseActions = await coreEpics
-      .launchWebSocketKernelEpic(action$, store)
+      .launchWebSocketKernelEpic(action$, state$)
       .pipe(toArray())
       .toPromise();
 
@@ -89,11 +84,8 @@ describe("launchWebSocketKernelEpic", () => {
 
 describe("interruptKernelEpic", () => {
   test("", async function() {
-    const store = {
-      getState() {
-        return this.state;
-      },
-      state: {
+    const state$ = {
+      value: {
         // $FlowFixMe
         core: stateModule.makeStateRecord({
           kernelRef: "fake",
@@ -121,11 +113,10 @@ describe("interruptKernelEpic", () => {
         })
       }
     };
-
     const action$ = ActionsObservable.of(actions.interruptKernel({}));
 
     const responseActions = await coreEpics
-      .interruptKernelEpic(action$, store)
+      .interruptKernelEpic(action$, state$)
       .pipe(toArray())
       .toPromise();
 

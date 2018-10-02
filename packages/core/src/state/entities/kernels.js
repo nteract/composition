@@ -3,7 +3,7 @@ import * as Immutable from "immutable";
 import type { ChildProcess } from "child_process";
 import type { HostRef, KernelRef } from "../refs";
 import type { KernelId, SessionId } from "../ids";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 
 import type { KernelInfo } from "./kernel-info";
 export type { KernelInfo };

@@ -12,7 +12,7 @@ import type {
   LocalHostRecordProps,
   JupyterHostRecordProps
 } from "./entities/hosts";
-import type { Subject } from "rxjs/Subject";
+import type { Subject } from "rxjs";
 
 import { makeCommunicationRecord } from "./communication";
 import { makeEntitiesRecord, makeEmptyHostRecord } from "./entities";

@@ -9,7 +9,7 @@ import { actionTypes, selectors, actions } from "@nteract/core";
 
 import { toJS, stringifyNotebook } from "@nteract/commutable";
 
-import { of } from "rxjs/observable/of";
+import { of } from "rxjs";
 import { tap, mergeMap, catchError, map } from "rxjs/operators";
 
 /**

@@ -3,9 +3,7 @@
 import * as path from "path";
 import * as fs from "fs";
 
-import { of } from "rxjs/observable/of";
-import { forkJoin } from "rxjs/observable/forkJoin";
-import { empty } from "rxjs/observable/empty";
+import { of, forkJoin, empty } from "rxjs";
 import {
   map,
   tap,

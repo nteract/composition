@@ -1,7 +1,7 @@
 // Declare CMI as the CodeMirror instance, even if we don't have it fully typed yet
 export type CMI = any;
 
-import type { Subject } from "rxjs/Subject";
+import type { Subject } from "rxjs";
 
 declare class TextMarker {
   changed(): void;

@@ -1,6 +1,6 @@
 /* @flow strict */
 import { catchError, mergeMap } from "rxjs/operators";
-import { merge } from "rxjs/observable/merge";
+import { merge } from "rxjs";
 
 import { join } from "path";
 import { dialog } from "electron";

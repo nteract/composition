@@ -13,7 +13,7 @@ import { selectors, actions } from "@nteract/core";
 import { contents, sessions } from "rx-jupyter";
 
 import { first, map, mergeMap } from "rxjs/operators";
-import { forkJoin } from "rxjs/observable/forkJoin";
+import { forkJoin } from "rxjs";
 
 const urljoin = require("url-join");
 

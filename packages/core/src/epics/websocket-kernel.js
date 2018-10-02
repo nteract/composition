@@ -10,10 +10,7 @@ import {
   concatMap,
   filter
 } from "rxjs/operators";
-import { of } from "rxjs/observable/of";
-import { from } from "rxjs/observable/from";
-import { merge } from "rxjs/observable/merge";
-import { empty } from "rxjs/observable/empty";
+import { of, from, merge, empty } from "rxjs";
 import { extractNewKernel } from "./kernel-lifecycle";
 
 import { kernels, shutdown, sessions } from "rx-jupyter";
@@ -29,16 +26,16 @@ import type { RemoteKernelProps } from "../state/entities/kernels";
 
 import { executeRequest, kernelInfoRequest } from "@nteract/messaging";
 
-export const launchWebSocketKernelEpic = (action$: *, store: *) =>
+export const launchWebSocketKernelEpic = (action$: *, state$: any) =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_BY_NAME),
     // Only accept jupyter servers for the host with this epic
-    filter(() => selectors.isCurrentHostJupyter(store.getState())),
+    filter(() => selectors.isCurrentHostJupyter(state$.value)),
     // TODO: When a switchMap happens, we need to close down the originating
     // kernel, likely by sending a different action. Right now this gets
     // coordinated in a different way.
     switchMap((action: actionTypes.LaunchKernelByNameAction) => {
-      const state = store.getState();
+      const state = state$.value;
       const host = selectors.currentHost(state);
       if (host.type !== "jupyter") {
         // Dismiss any usage that isn't targeting a jupyter server
@@ -102,11 +99,11 @@ export const launchWebSocketKernelEpic = (action$: *, store: *) =>
     })
   );
 
-export const changeWebSocketKernelEpic = (action$: *, store: *) =>
+export const changeWebSocketKernelEpic = (action$: *, state$: any) =>
   action$.pipe(
     ofType(actionTypes.CHANGE_KERNEL_BY_NAME),
     // Only accept jupyter servers for the host with this epic
-    filter(() => selectors.isCurrentHostJupyter(store.getState())),
+    filter(() => selectors.isCurrentHostJupyter(state$.value)),
     // TODO: When a switchMap happens, we need to close down the originating
     // kernel, likely by sending a different action. Right now this gets
     // coordinated in a different way.
@@ -114,7 +111,7 @@ export const changeWebSocketKernelEpic = (action$: *, store: *) =>
       const {
         payload: { contentRef, oldKernelRef, kernelSpecName }
       } = action;
-      const state = store.getState();
+      const state = state$.value;
       const host = selectors.currentHost(state);
       if (host.type !== "jupyter") {
         // Dismiss any usage that isn't targeting a jupyter server
@@ -196,15 +193,15 @@ export const changeWebSocketKernelEpic = (action$: *, store: *) =>
     })
   );
 
-export const interruptKernelEpic = (action$: *, store: *) =>
+export const interruptKernelEpic = (action$: *, state$: any) =>
   action$.pipe(
     ofType(actionTypes.INTERRUPT_KERNEL),
     // This epic can only interrupt kernels on jupyter websockets
-    filter(() => selectors.isCurrentHostJupyter(store.getState())),
+    filter(() => selectors.isCurrentHostJupyter(state$.value)),
     // If the user fires off _more_ interrupts, we shouldn't interrupt the in-flight
     // interrupt, instead doing it after the last one happens
     concatMap((action: actionTypes.InterruptKernel) => {
-      const state = store.getState();
+      const state = state$.value;
 
       const host = selectors.currentHost(state);
       if (host.type !== "jupyter") {
@@ -252,16 +249,16 @@ export const interruptKernelEpic = (action$: *, store: *) =>
     })
   );
 
-export const killKernelEpic = (action$: *, store: *) =>
+export const killKernelEpic = (action$: *, state$: any) =>
   // TODO: Use the sessions API for this
   action$.pipe(
     ofType(actionTypes.KILL_KERNEL),
     // This epic can only interrupt kernels on jupyter websockets
-    filter(() => selectors.isCurrentHostJupyter(store.getState())),
+    filter(() => selectors.isCurrentHostJupyter(state$.value)),
     // If the user fires off _more_ kills, we shouldn't interrupt the in-flight
     // kill, instead doing it after the last one happens
     concatMap((action: actionTypes.KillKernelAction) => {
-      const state = store.getState();
+      const state = state$.value;
 
       const host = selectors.currentHost(state);
       if (host.type !== "jupyter") {

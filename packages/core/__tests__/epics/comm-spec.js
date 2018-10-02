@@ -10,7 +10,7 @@ import * as actions from "../../src/actions";
 
 import { COMM_OPEN, COMM_MESSAGE, COMM_ERROR } from "../../src/actionTypes";
 
-import { of } from "rxjs/observable/of";
+import { of } from "rxjs";
 import { toArray } from "rxjs/operators";
 
 describe("createCommMessage", () => {

@@ -1,17 +1,16 @@
 // @flow
 import { ActionsObservable } from "redux-observable";
-import { Subject } from "rxjs/Subject";
+import { Subject } from "rxjs";
 import { fetchKernelspecs } from "../../src/actions";
 import { fetchKernelspecsEpic } from "../../src/epics/kernelspecs";
 import { toArray } from "rxjs/operators";
 
 describe("fetchKernelspecsEpic", () => {
   test("calls kernelspecs.list with appropriate jupyter host config", done => {
-    const store = {
-      getState() {
-        return this.state;
-      },
-      state: {
+    const action = fetchKernelspecs({ kernelspecsRef: "fake" });
+    const action$ = ActionsObservable.of(action);
+    const state$ = {
+      value: {
         app: {
           host: {
             type: "jupyter",
@@ -28,9 +27,8 @@ describe("fetchKernelspecsEpic", () => {
         }
       }
     };
-    const action = fetchKernelspecs({ kernelspecsRef: "fake" });
-    const action$ = ActionsObservable.of(action);
-    const output$ = fetchKernelspecsEpic(action$, store);
+
+    const output$ = fetchKernelspecsEpic(action$, state$);
     output$.pipe(toArray()).subscribe(
       actions => {
         // Note that the epic has transformed the raw response into the shape

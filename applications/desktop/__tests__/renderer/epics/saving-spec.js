@@ -11,7 +11,7 @@ import * as Immutable from "immutable";
 
 import { saveEpic, saveAsEpic } from "../../../src/notebook/epics/saving";
 
-import { of } from "rxjs/observable/of";
+import { of } from "rxjs";
 import { catchError, toArray } from "rxjs/operators";
 
 describe("saveEpic", () => {

@@ -10,7 +10,7 @@ import {
   launchKernelByNameEpic
 } from "../../../src/notebook/epics/zeromq-kernels";
 
-import { of } from "rxjs/observable/of";
+import { of } from "rxjs";
 import { toArray, catchError } from "rxjs/operators";
 
 describe("launchKernelObservable", () => {
