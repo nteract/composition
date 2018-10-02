@@ -53,7 +53,6 @@
     "test:flow": "npm run flow",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
-    "precommit": "lint-staged",
     "verifyBeforePublish": "lerna run prepublishOnly && lerna run prepare",
     "prepublishOnly": "npm run verifyBeforePublish",
     "publish": "lerna run publish",
@@ -237,5 +236,10 @@
   },
   "resolutions": {
     "node-fetch": "2.1.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
