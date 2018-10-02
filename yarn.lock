@@ -8506,13 +8506,21 @@ jmespath@0.15.0:
   resolved "https://registry.npmjs.org/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
   integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
 
-jmp@1, jmp@^1.0.0:
+jmp@1:
   version "1.0.0"
   resolved "https://registry.npmjs.org/jmp/-/jmp-1.0.0.tgz#de486fae454226bd56115aa0200aea3c22b70269"
   integrity sha1-3khvrkVCJr1WEVqgIArqPCK3Amk=
   dependencies:
     uuid "^3.0.1"
     zeromq "^4.0.0"
+
+jmp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/jmp/-/jmp-2.0.0.tgz#4f2be3540e25a35b68183ec2d79c990884e0a9f0"
+  integrity sha512-VATfWVHErQJA2XMtmQjJQHHyQ/hxjHMmsy+egmwRk/RzFchQB4xjrR1iX496VZr+Hyhcr4zvL+IkkSlIYKx6Yw==
+  dependencies:
+    uuid "3"
+    zeromq "5"
 
 jp-kernel@0.1.x:
   version "0.1.5"
@@ -10064,6 +10072,11 @@ nanomatch@^1.2.9:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+napi-build-utils@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.1.tgz#1381a0f92c39d66bf19852e7873432fc2123e508"
+  integrity sha512-boQj1WFgQH3v4clhu3mTNfP+vOBxorDlE8EKiMjUlLG3C4qAESnn9AxIOkFgTR2c9LtzNjPrjS60cT27ZKBhaA==
+
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
@@ -11588,6 +11601,28 @@ postcss@^6.0.1, postcss@^6.0.23:
     chalk "^2.4.1"
     source-map "^0.6.1"
     supports-color "^5.4.0"
+
+prebuild-install@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.2.0.tgz#53c0422ebf28437047d699450bd4fd765b2951ea"
+  integrity sha512-cpuyMS8y30Df0bnN+I8pdmpwtZbm8fj9cQADOhSH/qnS1exb80elZ707FTMohFBJax4NyWjJVSg0chRQXzHSvg==
+  dependencies:
+    detect-libc "^1.0.3"
+    expand-template "^1.0.2"
+    github-from-package "0.0.0"
+    minimist "^1.2.0"
+    mkdirp "^0.5.1"
+    napi-build-utils "^1.0.1"
+    node-abi "^2.2.0"
+    noop-logger "^0.1.1"
+    npmlog "^4.0.1"
+    os-homedir "^1.0.1"
+    pump "^2.0.1"
+    rc "^1.2.7"
+    simple-get "^2.7.0"
+    tar-fs "^1.13.0"
+    tunnel-agent "^0.6.0"
+    which-pm-runs "^1.0.0"
 
 prebuild-install@^2.2.2:
   version "2.5.3"
@@ -16476,6 +16511,14 @@ yauzl@2.4.1:
   integrity sha1-lSj0QtqxsihOWLQ3m7GU4i4MQAU=
   dependencies:
     fd-slicer "~1.0.1"
+
+zeromq@5:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/zeromq/-/zeromq-5.0.0.tgz#74ab9572cb8d2e0e033e24f69a0116a3f0215159"
+  integrity sha512-yDiXJkUMXZT2IHW3gsLO9bkBXc7a46UbT0gJOZdsux3WpYH4bA4YtqZKUmiwBEsPjh432ohj8PnjNkmIWyCdRQ==
+  dependencies:
+    nan "^2.10.0"
+    prebuild-install "5.2.0"
 
 zeromq@^4.0.0:
   version "4.6.0"
