@@ -19,6 +19,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
     "@nteract/plotly": "^1.0.0",
