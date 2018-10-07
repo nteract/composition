@@ -45,6 +45,9 @@
     "react": "^16.3.2",
     "styled-jsx": "^3.0.3-canary.0"
   },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }

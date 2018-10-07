@@ -21,6 +21,9 @@
     "@nteract/timeago": "^3.6.3",
     "react-hot-loader": "^4.1.2"
   },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  },
   "peerDependencies": {
     "react": "^16.3.2"
   },
