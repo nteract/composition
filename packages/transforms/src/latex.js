@@ -1,17 +1,18 @@
 /* @flow */
 import React from "react";
-import PropTypes from "prop-types";
 
-import MathJax from "@nteract/mathjax";
+import Markdown from "@nteract/markdown";
+import MarkdownDisplay from "./markdown";
 
-type Props = {
-  data: string
-};
+export class LaTeXDisplay extends MarkdownDisplay {
+  static MIMETYPE = "text/latex";
 
-export const LaTeXDisplay = (props: Props) => {
-  return <MathJax.Node>{props.data}</MathJax.Node>;
-};
-
-LaTeXDisplay.MIMETYPE = "text/latex";
+  render(): ?React$Element<any> {
+    // Only parse math types using the markdown parser
+    return (
+      <Markdown allowedTypes={[]} unwrapDisallowed source={this.props.data} />
+    );
+  }
+}
 
 export default LaTeXDisplay;
