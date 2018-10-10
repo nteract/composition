@@ -1,10 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LaTeXDisplay processes basic LaTeX 1`] = `
-<MathJaxNode
-  inline={false}
-  onRender={null}
+<LaTeXDisplay
+  data="Pseudo LaTeX $x^2 + y = 3$"
 >
-  x^2 + y = 3
-</MathJaxNode>
+  <MarkdownRender
+    allowedTypes={Array []}
+    source="Pseudo LaTeX $x^2 + y = 3$"
+    unwrapDisallowed={true}
+  >
+    <ReactMarkdown
+      allowedTypes={Array []}
+      astPlugins={Array []}
+      escapeHtml={false}
+      plugins={
+        Array [
+          [Function],
+        ]
+      }
+      rawSourcePos={false}
+      renderers={
+        Object {
+          "inlineMath": [Function],
+          "math": [Function],
+        }
+      }
+      skipHtml={false}
+      source="Pseudo LaTeX $x^2 + y = 3$"
+      sourcePos={false}
+      transformLinkUri={[Function]}
+      unwrapDisallowed={true}
+    >
+      <div
+        key="root-1-1"
+      >
+        Pseudo LaTeX 
+        <inlineMath
+          data={
+            Object {
+              "hChildren": Array [
+                Object {
+                  "type": "text",
+                  "value": "x^2 + y = 3",
+                },
+              ],
+              "hName": "span",
+              "hProperties": Object {
+                "className": "inlineMath",
+              },
+            }
+          }
+          key="inlineMath-1-14"
+          value="x^2 + y = 3"
+        >
+          <MathJaxNode
+            inline={true}
+            onRender={null}
+          >
+            <Provider
+              delay={0}
+              didFinishTypeset={null}
+              input="tex"
+              loading={null}
+              noGate={false}
+              onError={[Function]}
+              onLoad={null}
+              options={Object {}}
+              src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+            >
+              <MathJaxNode
+                inline={true}
+                onRender={null}
+              />
+            </Provider>
+          </MathJaxNode>
+        </inlineMath>
+      </div>
+    </ReactMarkdown>
+  </MarkdownRender>
+</LaTeXDisplay>
 `;
