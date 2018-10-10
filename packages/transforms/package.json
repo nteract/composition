@@ -35,7 +35,6 @@
     "@nteract/transform-vdom": "^2.2.3",
     "ansi-to-react": "^3.3.3",
     "babel-runtime": "^6.26.0",
-    "prop-types": "^15.6.1",
     "react-json-tree": "^0.11.0"
   },
   "peerDependencies": {
