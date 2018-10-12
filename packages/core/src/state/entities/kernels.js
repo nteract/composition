@@ -80,6 +80,20 @@ export type RemoteKernelRecord = Immutable.RecordOf<RemoteKernelProps>;
 
 export type KernelRecord = LocalKernelRecord | RemoteKernelRecord;
 
+export const makeKernelRecordForType = (
+  type: string,
+  props: any = {}
+): KernelRecord => {
+  switch (type) {
+    case "zeromq":
+      return makeLocalKernelRecord(props);
+    case "websocket":
+      return makeRemoteKernelRecord(props);
+    default:
+      throw new Error(`Unrecognized kernel type "${type}".`);
+  }
+};
+
 export type KernelsRecordProps = {
   byRef: Immutable.Map<KernelRef, KernelRecord>
 };

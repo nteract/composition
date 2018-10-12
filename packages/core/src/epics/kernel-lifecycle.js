@@ -153,11 +153,13 @@ export const extractNewKernel = (
 };
 
 /**
- * NOTE: This function is _exactly_ the same as the desktop loading.js version
- *       with one strong exception -- extractNewKernel
+ * NOTE: This function is _highly similar_ to the desktop loading.js version
+ *       with two exceptions -- extractNewKernel and kernelType
  *       Can they be combined without incurring a penalty on the web app?
- *       The native functions used are `path.dirname`, `path.resolve`, and `process.cwd()`
- *       We could always inject those dependencies separately...
+ *       extractNewKernel - The native functions used are `path.dirname`, `path.resolve`, and `process.cwd()`
+ *                          We could always inject those dependencies separately...
+ *       kernelType - See #3427, this relates to the currently-unrepresentable state of "launching a kernel
+ *                    but we aren't sure if it's local or remote yet".
  */
 export const launchKernelWhenNotebookSetEpic = (
   action$: ActionsObservable<*>,
@@ -189,6 +191,7 @@ export const launchKernelWhenNotebookSetEpic = (
       return of(
         actions.launchKernelByName({
           kernelSpecName,
+          kernelType: "websocket",
           cwd,
           kernelRef: action.payload.kernelRef,
           selectNextKernel: true,
@@ -249,6 +252,7 @@ export const restartKernelEpic = (
 
       const relaunch = actions.launchKernelByName({
         kernelSpecName: oldKernel.kernelSpecName,
+        kernelType: oldKernel.type,
         cwd: oldKernel.cwd,
         kernelRef: newKernelRef,
         selectNextKernel: true,

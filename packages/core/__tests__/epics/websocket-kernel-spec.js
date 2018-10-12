@@ -55,6 +55,7 @@ describe("launchWebSocketKernelEpic", () => {
         contentRef,
         kernelRef,
         kernelSpecName: "fancy",
+        kernelType: "websocket",
         cwd: "/",
         selectNextKernel: true
       })

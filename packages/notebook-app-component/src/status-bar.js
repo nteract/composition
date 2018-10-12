@@ -90,7 +90,11 @@ const mapStateToProps = (
   if (kernelStatus === NOT_CONNECTED) {
     kernelSpecDisplayName = "no kernel";
   } else if (kernel != null && kernel.kernelSpecName != null) {
-    kernelSpecDisplayName = kernel.kernelSpecName;
+    if (kernel.kernelSpecName === undefined || kernel.kernelSpecName === null) {
+      kernelSpecDisplayName = " ";
+    } else {
+      kernelSpecDisplayName = kernel.kernelSpecName;
+    }
   } else if (content != null && content.type === "notebook") {
     kernelSpecDisplayName =
       selectors.notebook.displayName(content.model) || " ";

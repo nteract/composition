@@ -59,6 +59,7 @@ describe("launchKernelEpic", () => {
     const action$ = ActionsObservable.of(
       actions.launchKernel({
         kernelSpec: { spec: "hokey", name: "woohoo" },
+        kernelType: "zeromq",
         contentRef: "abc",
         cwd: "~",
         selectNextKernel: true,
@@ -119,6 +120,7 @@ describe("launchKernelByNameEpic", () => {
     const action$ = ActionsObservable.of(
       actions.launchKernelByName({
         kernelSpecName: "python3",
+        kernelType: "zeromq",
         cwd: "~"
       })
     );
