@@ -1,16 +1,7 @@
 // @flow
 import * as React from "react";
 
-import blueprintCSS from "../vendor/blueprint.css.js";
-
-import {
-  H1,
-  Tag,
-  EditableText,
-  Button,
-  Position,
-  Tooltip
-} from "@blueprintjs/core";
+import { H1, Tag, EditableText, Button, Position, Tooltip } from "@nteract/ion";
 
 // https://github.com/jupyter/nbformat/blob/master/nbformat/v4/nbformat.v4.schema.json#L67
 
@@ -219,7 +210,6 @@ export class HeaderEditor extends React.Component<
             />
           </div>
         </div>
-        <style jsx>{blueprintCSS}</style>
       </header>
     );
   }

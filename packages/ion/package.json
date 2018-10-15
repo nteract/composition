@@ -1,9 +1,28 @@
 {
-  "name": "@nteract/presentational-components",
-  "version": "0.4.3",
-  "description": "pure presentational components for nteract",
+  "name": "@nteract/ion",
+  "version": "1.0.0",
+  "description": "UI toolkit for nteract apps, backed by blueprint.js",
+  "keywords": [
+    "ui",
+    "react",
+    "nteract"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "homepage": "https://github.com/nteract/nteract/tree/master/packages/ion#readme",
+  "license": "BSD-3-Clause",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/nteract.git"
+  },
   "scripts": {
     "prepare": "npm run build",
     "prepublishOnly": "npm run build && npm run build:flow",
@@ -14,24 +33,13 @@
     "build:lib:watch": "npm run build:lib -- --watch",
     "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
   },
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
-    "@nteract/ion": "^1.0.0",
+    "@blueprintjs/core": "^3.7.0",
     "babel-runtime": "^6.26.0",
-    "react-syntax-highlighter": "^9.0.0",
     "styled-jsx": "^3.1.0"
-  },
-  "peerDependencies": {
-    "react": "^16.3.2",
-    "styled-jsx": "^3.1.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "keywords": [
-    "nteract",
-    "components"
-  ],
-  "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  }
 }
