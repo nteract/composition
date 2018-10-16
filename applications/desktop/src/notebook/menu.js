@@ -156,6 +156,7 @@ export function promptUserAboutNewKernel(
           store.dispatch(
             actions.launchKernelByName({
               kernelSpecName: kernel.kernelSpecName,
+              kernelType: kernel.type,
               cwd,
               selectNextKernel: true,
               kernelRef,
@@ -215,6 +216,7 @@ export function dispatchNewKernel(
   store.dispatch(
     actions.launchKernel({
       kernelSpec,
+      kernelType: "zeromq",
       cwd,
       selectNextKernel: true,
       kernelRef,

@@ -230,6 +230,7 @@ describe("restartKernelEpic", () => {
       }),
       d: actions.launchKernelByName({
         kernelSpecName: null,
+        kernelType: "websocket",
         cwd: ".",
         kernelRef: newKernelRef,
         selectNextKernel: true,
@@ -310,6 +311,7 @@ describe("restartKernelEpic", () => {
       }),
       d: actions.launchKernelByName({
         kernelSpecName: null,
+        kernelType: "websocket",
         cwd: ".",
         kernelRef: newKernelRef,
         selectNextKernel: true,

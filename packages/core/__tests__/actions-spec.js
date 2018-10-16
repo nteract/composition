@@ -127,11 +127,16 @@ describe("setExecutionState", () => {
 describe("launchKernel", () => {
   test("creates a LAUNCH_KERNEL action", () => {
     expect(
-      actions.launchKernel({ kernelSpec: { spec: "hokey" }, cwd: "." })
+      actions.launchKernel({
+        kernelSpec: { spec: "hokey" },
+        kernelType: "zeromq",
+        cwd: "."
+      })
     ).toEqual({
       type: actionTypes.LAUNCH_KERNEL,
       payload: {
         kernelSpec: { spec: "hokey" },
+        kernelType: "zeromq",
         cwd: "."
       }
     });
@@ -141,11 +146,16 @@ describe("launchKernel", () => {
 describe("launchKernelByName", () => {
   test("creates a LAUNCH_KERNEL_BY_NAME action", () => {
     expect(
-      actions.launchKernelByName({ kernelSpecName: "python2", cwd: "." })
+      actions.launchKernelByName({
+        kernelSpecName: "python2",
+        kernelType: "zeromq",
+        cwd: "."
+      })
     ).toEqual({
       type: actionTypes.LAUNCH_KERNEL_BY_NAME,
       payload: {
         kernelSpecName: "python2",
+        kernelType: "zeromq",
         cwd: "."
       }
     });

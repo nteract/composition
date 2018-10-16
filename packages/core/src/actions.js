@@ -131,6 +131,7 @@ export function launchKernelSuccessful(payload: {
 
 export function launchKernel(payload: {
   kernelSpec: any,
+  kernelType: string, // See #3427
   cwd: string,
   kernelRef: KernelRef,
   selectNextKernel: boolean,
@@ -155,6 +156,7 @@ export function changeKernelByName(payload: {
 
 export function launchKernelByName(payload: {
   kernelSpecName: any,
+  kernelType: string, // See #3427
   cwd: string,
   kernelRef: KernelRef,
   selectNextKernel: boolean,

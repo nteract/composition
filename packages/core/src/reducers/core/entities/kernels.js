@@ -1,7 +1,6 @@
 // @flow
 import {
-  makeLocalKernelRecord,
-  makeRemoteKernelRecord,
+  makeKernelRecordForType,
   makeKernelsRecord
 } from "../../../state/entities/kernels";
 
@@ -45,8 +44,29 @@ const byRef = (
     case actionTypes.RESTART_KERNEL:
       return state.setIn([action.payload.kernelRef, "status"], "restarting");
     case actionTypes.LAUNCH_KERNEL:
+      const launchAction = (action: actionTypes.LaunchKernelAction);
+      return state.update(
+        launchAction.payload.kernelRef,
+        (rec = makeKernelRecordForType(launchAction.payload.kernelType)) =>
+          // $FlowFixMe: Flow is incorrectly typing `rec`, triggering: "Cannot call rec.merge because: property merge is missing in LocalKernelProps ... property merge is missing in RemoteKernelProps."
+          rec.merge({
+            status: "launching",
+            kernelSpecName: launchAction.payload.kernelSpec.name
+          })
+      );
     case actionTypes.LAUNCH_KERNEL_BY_NAME:
-      return state.setIn([action.payload.kernelRef, "status"], "launching");
+      const launchByNameAction = (action: actionTypes.LaunchKernelByNameAction);
+      return state.update(
+        launchByNameAction.payload.kernelRef,
+        (
+          rec = makeKernelRecordForType(launchByNameAction.payload.kernelType)
+        ) =>
+          // $FlowFixMe: Same issue w/ incorrect typing of `rec` as above.
+          rec.merge({
+            status: "launching",
+            kernelSpecName: launchByNameAction.payload.kernelSpecName
+          })
+      );
     case actionTypes.CHANGE_KERNEL_BY_NAME:
       return state.setIn([action.payload.oldKernelRef, "status"], "changing");
     case actionTypes.SET_KERNEL_INFO:
@@ -84,22 +104,13 @@ const byRef = (
         action.payload.kernelStatus
       );
     case actionTypes.LAUNCH_KERNEL_SUCCESSFUL:
-      switch (action.payload.kernel.type) {
-        case "zeromq":
-          return state.set(
-            action.payload.kernelRef,
-            makeLocalKernelRecord(action.payload.kernel)
-          );
-        case "websocket":
-          return state.set(
-            action.payload.kernelRef,
-            makeRemoteKernelRecord(action.payload.kernel)
-          );
-        default:
-          throw new Error(
-            `Unrecognized kernel type "${action.payload.kernel.type}".`
-          );
-      }
+      const successAction = (action: actionTypes.NewKernelAction);
+      return state.update(
+        successAction.payload.kernelRef,
+        (rec = makeKernelRecordForType(successAction.payload.kernel.type)) =>
+          // $FlowFixMe: Same issue w/ incorrect typing of `rec` as above.
+          rec.merge(successAction.payload.kernel)
+      );
     default:
       return state;
   }

@@ -173,6 +173,7 @@ export const launchKernelWhenNotebookSetEpic = (
 
       return actions.launchKernelByName({
         kernelSpecName,
+        kernelType: "zeromq",
         cwd,
         kernelRef: action.payload.kernelRef,
         selectNextKernel: true,

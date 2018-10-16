@@ -174,6 +174,7 @@ export const launchKernelByNameEpic = (
           of(
             actions.launchKernel({
               kernelSpec: specs[action.payload.kernelSpecName],
+              kernelType: "zeromq",
               cwd: action.payload.cwd,
               kernelRef: action.payload.kernelRef,
               selectNextKernel: action.payload.selectNextKernel,

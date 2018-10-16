@@ -508,6 +508,7 @@ describe("dispatchNewKernel", () => {
       type: actionTypes.LAUNCH_KERNEL,
       payload: {
         kernelSpec: { spec: "hokey" },
+        kernelType: "zeromq",
         cwd: process.cwd(),
         selectNextKernel: true,
         kernelRef: expect.any(String),

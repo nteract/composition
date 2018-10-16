@@ -725,6 +725,7 @@ export type LaunchKernelAction = {
   type: "LAUNCH_KERNEL",
   payload: {
     kernelRef: KernelRef,
+    kernelType: string,
     kernelSpec: Object,
     cwd: string,
     selectNextKernel: boolean,
@@ -747,6 +748,7 @@ export type LaunchKernelByNameAction = {
   type: "LAUNCH_KERNEL_BY_NAME",
   payload: {
     kernelSpecName: string,
+    kernelType: string,
     cwd: string,
     kernelRef: KernelRef,
     selectNextKernel: boolean,
