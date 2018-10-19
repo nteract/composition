@@ -4,8 +4,23 @@ jobs:
       vmImage: "ubuntu 16.04"
     steps:
       - template: ci-steps.yml
+      - script: yarn test:lint
+        displayName: "Lint"
+      - script: yarn test:flow
+        displayName: "Flow type check"
+      - script: yarn build:packages
+        displayName: "Build packages"
+      - script: yarn docs:build
+        displayName: "Build Docs"
+      - script: npx lerna run build --scope @nteract/commuter
+        displayName: "Build Commuter"
+      - script: npx lerna run build --scope @nteract/play
+        displayName: "Build play"
+      - script: npx lerna run build:asap --scope nteract-on-jupyter
+        displayName: "Build Jupyter Extension"
 
   - job: Windows
+    # prebuild-install needs to have permissions on the cache directory
     variables:
       npm.config.cache: $(Agent.WorkFolder)/npm-cache
     pool:
