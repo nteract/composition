@@ -1,0 +1,9 @@
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "10.x"
+    displayName: "Install Node.js"
+  - script: yarn
+    displayName: "Install nteract"
+  - script: yarn test
+    displayName: "Run unit tests"
