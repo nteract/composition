@@ -114,6 +114,6 @@
     "nteract-assets": "^4.0.0"
   },
   "devDependencies": {
-    "electron": "3.0.4"
+    "electron": "3.0.5"
   }
 }
