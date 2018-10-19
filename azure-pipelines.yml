@@ -6,6 +6,8 @@ jobs:
       - template: ci-steps.yml
 
   - job: Windows
+    variables:
+      npm.config.cache: $(Agent.WorkFolder)/npm-cache
     pool:
       vmImage: "vs2017-win2016"
     steps:
