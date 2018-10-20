@@ -1,11 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header Editor renders a static view when not editable 1`] = `
-<header
-  className="jsx-2279537447"
->
+<header>
   <div
-    className="jsx-2279537447"
     style={
       Object {
         "background": "#EEE",
@@ -35,9 +32,7 @@ exports[`Header Editor renders a static view when not editable 1`] = `
         </span>
       </div>
     </h1>
-    <div
-      className="jsx-2279537447"
-    >
+    <div>
       <span
         className="bp3-popover-wrapper"
       >
@@ -79,9 +74,7 @@ exports[`Header Editor renders a static view when not editable 1`] = `
         </span>
       </span>
     </div>
-    <div
-      className="jsx-2279537447"
-    >
+    <div>
       <span
         className="bp3-popover-wrapper"
       >
@@ -124,7 +117,6 @@ exports[`Header Editor renders a static view when not editable 1`] = `
       </span>
     </div>
     <div
-      className="jsx-2279537447"
       style={
         Object {
           "marginTop": "10px",
@@ -153,11 +145,8 @@ exports[`Header Editor renders a static view when not editable 1`] = `
 `;
 
 exports[`Header Editor renders correctly with no props 1`] = `
-<header
-  className="jsx-2279537447"
->
+<header>
   <div
-    className="jsx-2279537447"
     style={
       Object {
         "background": "#EEE",
@@ -187,9 +176,7 @@ exports[`Header Editor renders correctly with no props 1`] = `
         </span>
       </div>
     </h1>
-    <div
-      className="jsx-2279537447"
-    >
+    <div>
       <span
         className="bp3-popover-wrapper"
       >
@@ -231,9 +218,7 @@ exports[`Header Editor renders correctly with no props 1`] = `
         </span>
       </span>
     </div>
-    <div
-      className="jsx-2279537447"
-    >
+    <div>
       <span
         className="bp3-popover-wrapper"
       >
@@ -276,7 +261,6 @@ exports[`Header Editor renders correctly with no props 1`] = `
       </span>
     </div>
     <div
-      className="jsx-2279537447"
       style={
         Object {
           "marginTop": "10px",

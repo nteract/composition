@@ -1,12 +1,12 @@
 // @flow
 import * as React from "react";
-
 import blueprintCSS from "./vendor/blueprint.css.js";
 
-import * as Blueprint from "@blueprintjs/core";
+export * from "@blueprintjs/core";
 
-// Takes in a blueprint component, wraps it with styled-jsx
-function provideStyle<Props>(
+// Higher order component (https://reactjs.org/docs/higher-order-components.html)
+// for providing the style to components used underneath
+export function provideStyle<Props>(
   Component: React.ComponentType<Props>
 ): React.ComponentType<Props> {
   return (props: Props) => (
@@ -17,11 +17,4 @@ function provideStyle<Props>(
   );
 }
 
-export const H1 = provideStyle(Blueprint.H1);
-export const Tag = provideStyle(Blueprint.Tag);
-export const EditableText = provideStyle(Blueprint.EditableText);
-export const Button = provideStyle(Blueprint.Button);
-export const Tooltip = provideStyle(Blueprint.Tooltip);
-
-// non-React components, don't need style injected
-export const Position = Blueprint.Position;
+export { blueprintCSS };
