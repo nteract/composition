@@ -25,6 +25,11 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
-    "babel-runtime": "^6.26.0"
+    "babel-runtime": "^6.26.0",
+    "react": "^16.3.2"
+  },
+  "devDependencies": {
+    "enzyme": "^3.7.0",
+    "enzyme-to-json": "^3.3.4"
   }
 }

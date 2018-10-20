@@ -108,12 +108,38 @@
   },
   "dependencies": {
     "@nteract/examples": "3.0.0",
+    "electron-context-menu": "^0.10.0",
+    "electron-log": "^2.2.17",
+    "electron-updater": "^3.1.2",
+    "enchannel-zmq-backend": "^6.3.3",
     "ijavascript": "lgeiger/ijavascript",
+    "immutable": "^3.8.2",
     "jmp": "^2.0.0",
+    "jupyter-paths": "^2.0.0",
+    "kernelspecs": "^2.0.0",
+    "lodash": "^4.17.11",
     "mathjax-electron": "^3.0.0",
-    "nteract-assets": "^4.0.0"
+    "nteract-assets": "^4.0.0",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-notification-system": "^0.2.17",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.1",
+    "redux-electron-store": "^0.6.2",
+    "redux-logger": "^3.0.6",
+    "redux-observable": "^1.0.0",
+    "rxjs": "^6.3.3",
+    "shell-env": "^2.1.0",
+    "spawn-rx": "^3.0.0",
+    "spawnteract": "^5.1.0",
+    "webfontloader": "^1.6.28",
+    "yargs": "^12.0.2"
   },
   "devDependencies": {
-    "electron": "3.0.5"
+    "@nteract/webpack-configurator": "^1.2.4",
+    "electron": "3.0.5",
+    "lodash-webpack-plugin": "^0.11.5",
+    "webpack": "^4.21.0",
+    "webpack-merge": "^4.1.4"
   }
 }

@@ -7,7 +7,7 @@
     "plugin:react-perf/recommended"
   ],
   "parser": "babel-eslint",
-  "plugins": ["prettier", "flowtype", "react", "jsx-a11y", "react-perf"],
+  "plugins": ["prettier", "flowtype", "react", "jsx-a11y", "react-perf", "import"],
   "env": {
     "browser": true,
     "node": true,
@@ -23,7 +23,10 @@
     "react/no-deprecated": 1,
     "no-unused-vars": 2,
     "react-perf/jsx-no-new-object-as-prop": "warn",
-    "react-perf/jsx-no-new-array-as-prop": "warn"
+    "react-perf/jsx-no-new-array-as-prop": "warn",
+    "import/no-extraneous-dependencies": [
+      "error", { "peerDependencies": true }
+    ]
   },
   "settings": {
     "react": {

@@ -16,7 +16,9 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
-    "ansi-to-react": "^3.3.3"
+    "ansi-to-react": "^3.3.3",
+    "react": "^16.3.2",
+    "react-json-tree": "^0.11.0"
   },
   "publishConfig": {
     "access": "public"
@@ -28,5 +30,10 @@
     "outputs"
   ],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "enzyme": "^3.7.0",
+    "enzyme-to-json": "^3.3.4",
+    "react-test-renderer": "^16.5.2"
+  }
 }

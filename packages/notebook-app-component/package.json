@@ -33,6 +33,7 @@
     "@nteract/transforms": "^4.4.4",
     "babel-runtime": "^6.26.0",
     "date-fns": "^1.29.0",
+    "lodash": "^4.17.11",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.0",
     "react-hot-loader": "^4.1.2",
@@ -45,5 +46,9 @@
     "styled-jsx": "^3.1.0"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "enzyme": "^3.7.0",
+    "enzyme-to-json": "^3.3.4"
+  }
 }

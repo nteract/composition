@@ -37,6 +37,10 @@
     "rx-binder": "^2.1.4",
     "rx-jupyter": "^3.2.3",
     "rxjs": "^6.3.3",
+    "styled-jsx": "^3.1.0",
     "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "prop-types": "^15.6.2"
   }
 }

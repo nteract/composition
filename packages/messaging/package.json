@@ -18,6 +18,7 @@
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
     "babel-runtime": "^6.26.0",
+    "lodash": "^4.17.11",
     "rxjs": "^6.3.3",
     "uuid": "^3.1.0"
   },

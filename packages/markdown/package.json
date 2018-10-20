@@ -28,6 +28,16 @@
     "@babel/runtime-corejs2": "^7.0.0",
     "@nteract/mathjax": "^2.1.4",
     "babel-runtime": "^6.26.0",
-    "react-markdown": "^4.0.0"
+    "react": "^16.3.2",
+    "react-markdown": "^4.0.0",
+    "remark-parse": "^5.0.0",
+    "remark-stringify": "^5.0.0",
+    "trim-trailing-lines": "^1.1.1",
+    "unified": "^7.0.0",
+    "unist-builder": "^1.0.3"
+  },
+  "devDependencies": {
+    "enzyme": "^3.7.0",
+    "enzyme-to-json": "^3.3.4"
   }
 }
