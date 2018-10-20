@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Load script 1`] = `<head />`;
+
+exports[`Load script 2`] = `
+<head>
+  <script
+    charset="utf8"
+    src="script-path"
+    type="text/javascript"
+  />
+</head>
+`;

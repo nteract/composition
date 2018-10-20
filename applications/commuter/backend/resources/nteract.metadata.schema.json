@@ -1,0 +1,18 @@
+{
+  "nteract": {
+    "properties": {
+      "tags": {
+        "type": "string",
+        "description": "Meta data about the notebook"
+      },
+      "description": {
+        "description": "Short description about the notebook",
+        "type": "string"
+      },
+      "image": {
+        "description": "Display image url",
+        "type": "string"
+      }
+    }
+  }
+}

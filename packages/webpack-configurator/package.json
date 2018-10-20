@@ -1,0 +1,20 @@
+{
+  "name": "@nteract/webpack-configurator",
+  "version": "1.2.4",
+  "main": "index.js",
+  "description": "a common webpack configurator for nteract applications",
+  "scripts": {
+    "test": "echo 'write a basic integration test please' && node -e 'process.exit(1)'"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0",
+    "babel-runtime": "^6.26.0",
+    "rxjs": "^5.5.6"
+  },
+  "keywords": [],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

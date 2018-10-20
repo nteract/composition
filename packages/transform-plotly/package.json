@@ -1,0 +1,32 @@
+{
+  "name": "@nteract/transform-plotly",
+  "version": "3.2.3",
+  "description": "Plotly Transform",
+  "main": "lib/",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/transform-plotly",
+  "author": "",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0",
+    "@nteract/plotly": "^1.0.0",
+    "babel-runtime": "^6.26.0",
+    "lodash": "^4.17.4"
+  },
+  "peerDependencies": {
+    "react": "^16.3.2"
+  },
+  "license": "BSD-3-Clause"
+}

@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PureNotebookMenu  snapshots renders the default 1`] = `
+<ul
+  aria-activedescendant=""
+  className="rc-menu  rc-menu-root rc-menu-horizontal"
+  onKeyDown={[Function]}
+  role="menu"
+  style={Object {}}
+  tabIndex="0"
+>
+  <li
+    className="rc-menu-submenu rc-menu-submenu-horizontal"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup="true"
+      aria-owns="file$Menu"
+      className="rc-menu-submenu-title"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={Object {}}
+      title="File"
+    >
+      File
+      <i
+        className="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    className="rc-menu-submenu rc-menu-submenu-horizontal"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup="true"
+      aria-owns="edit$Menu"
+      className="rc-menu-submenu-title"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={Object {}}
+      title="Edit"
+    >
+      Edit
+      <i
+        className="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    className="rc-menu-submenu rc-menu-submenu-horizontal"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup="true"
+      aria-owns="view$Menu"
+      className="rc-menu-submenu-title"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={Object {}}
+      title="View"
+    >
+      View
+      <i
+        className="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    className="rc-menu-submenu rc-menu-submenu-horizontal"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup="true"
+      aria-owns="cell$Menu"
+      className="rc-menu-submenu-title"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={Object {}}
+      title="Cell"
+    >
+      Cell
+      <i
+        className="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    className="rc-menu-submenu rc-menu-submenu-horizontal"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup="true"
+      aria-owns="runtime$Menu"
+      className="rc-menu-submenu-title"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={Object {}}
+      title="Runtime"
+    >
+      Runtime
+      <i
+        className="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+  <li
+    className="rc-menu-submenu rc-menu-submenu-horizontal"
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+  >
+    <div
+      aria-expanded={false}
+      aria-haspopup="true"
+      aria-owns="help$Menu"
+      className="rc-menu-submenu-title"
+      onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
+      style={Object {}}
+      title="Help"
+    >
+      Help
+      <i
+        className="rc-menu-submenu-arrow"
+      />
+    </div>
+  </li>
+</ul>
+`;

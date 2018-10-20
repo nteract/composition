@@ -1,0 +1,31 @@
+# Number of days of inactivity before an issue becomes stale
+daysUntilStale: 300
+# Number of days of inactivity before a stale issue is closed
+daysUntilClose: 31
+# Issues with these labels will never be considered stale
+exemptLabels:
+  - pinned
+  - security
+# Label to use when marking an issue as stale
+staleLabel: stale
+# Comment to post when marking an issue as stale. Set to `false` to disable
+markComment: >
+  This issue hasn't had any activity on it in the last 90 days. Unfortunately we don't
+  get around to dealing with every issue that is opened. Instead of leaving issues
+  open we're seeking to be transparent by closing issues that aren't being prioritized.
+  If no other activity happens on this issue in one week, it will be closed.
+
+  It's more than likely that just by me posting about this, the maintainers will take a
+  closer look at these long forgotten issues to help evaluate what to do next.
+
+  If you would like to see this issue get prioritized over others, there are multiple
+  avenues 🗓:
+
+    * Ask how you can help with this issue 👩🏿‍💻👨🏻‍💻
+    * Help solve other issues the team is currently working on 👨🏾‍💻👩🏼‍💻
+    * [Donate to nteract](https://www.flipcause.com/secure/cause_pdetails/MTA5ODg=) so we can support developers to work on these features and bugs more regularly 💰🕐
+
+  Thank you!
+
+# Comment to post when closing a stale issue. Set to `false` to disable
+closeComment: false

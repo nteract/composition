@@ -1,0 +1,40 @@
+{
+  "name": "@mybinder/host-cache",
+  "version": "0.2.3",
+  "description": "Local Storage backed cache of binder hosts",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/fs-observable",
+  "keywords": [
+    "mybinder",
+    "notebooks",
+    "nteract",
+    "jupyter"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
+  "homepage": "https://github.com/nteract/nteract/tree/master/packages/host-cache",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0",
+    "babel-runtime": "^6.26.0",
+    "rx-binder": "^2.1.4",
+    "rx-jupyter": "^3.2.3",
+    "rxjs": "^5.5.6"
+  }
+}

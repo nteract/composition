@@ -1,0 +1,174 @@
+{
+  "prefix": "nt",
+  "theme": {
+    "modifiers": {
+      "color": {
+        "default": "",
+        "order": [
+          "darkest",
+          "darker",
+          "dark",
+          "",
+          "light",
+          "lighter",
+          "lightest"
+        ],
+        "values": {
+          "darkest": "darker",
+          "darker": "dark",
+          "dark": "",
+          "": null,
+          "light": "",
+          "lighter": "light",
+          "lightest": "lighter"
+        }
+      }
+    },
+    "base": {
+      "color": {
+        "alabaster": "hsl(0, 0%, 97%)",
+        "asparagus": {
+          "": "hsl(91, 28%, 55%)",
+          "dark": "hsl(91, 28%, 37%)",
+          "light": "hsl(91, 28%, 73%)",
+          "lighter": "hsl(91, 28%, 88%)",
+          "lightest": "hsl(91, 28%, 98%)"
+        },
+        "danube": {
+          "": "hsl(208, 54%, 53%)",
+          "dark": "hsl(208, 54%, 35%)",
+          "light": "hsl(208, 54%, 71%)",
+          "lighter": "hsl(208, 54%, 86%)",
+          "lightest": "hsl(208, 54%, 98%)"
+        },
+        "gold": {
+          "": "hsl(41, 89%, 53%)",
+          "dark": "hsl(41, 89%, 35%)",
+          "light": "hsl(41, 89%, 71%)",
+          "lighter": "hsl(41, 89%, 86%)",
+          "lightest": "hsl(41, 89%, 98%)"
+        },
+        "nteract": {
+          "": "#8518f2",
+          "light": "#af8afa",
+          "lighter": "#ccb3ff"
+        },
+        "red": {
+          "": "hsl(0, 67%, 43%)",
+          "dark": "hsl(0, 67%, 25%)",
+          "light": "hsl(0, 67%, 61%)",
+          "lighter": "hsl(0, 67%, 76%)",
+          "lightest": "hsl(0, 67%, 88%)"
+        },
+        "grey": {
+          "": "hsl(0, 0%, 63%)",
+          "dark": "hsl(0, 0%, 40%)",
+          "darker": "hsl(0, 0%, 17%)",
+          "darkest": "hsl(0, 0%, 10%)",
+          "light": "hsl(0, 0%, 90%)",
+          "lighter": "hsl(0, 0%, 94%)",
+          "lightest": "hsl(0, 0%, 98%)"
+        },
+        "midnight": {
+          "": "hsl(0, 0%, 15%)",
+          "dark": "hsl(0, 0%, 10%)",
+          "darker": "hsl(0, 0%, 5%)",
+          "darkest": "hsl(0, 0%, 0%)",
+          "light": "hsl(0, 0%, 51%)",
+          "lighter": "hsl(0, 0%, 75%)",
+          "lightest": "hsl(0, 0%, 85%)"
+        },
+        "sky": {
+          "": "hsl(208, 54%, 53%)",
+          "dark": "hsl(208, 54%, 35%)",
+          "light": "hsl(208, 54%, 71%)",
+          "lighter": "hsl(208, 54%, 86%)",
+          "lightest": "hsl(208, 54%, 98%)"
+        },
+        "slate": {
+          "": "hsl(207, 29%, 32%)",
+          "dark": "hsl(207, 29%, 14%)",
+          "light": "hsl(207, 29%, 50%)",
+          "lighter": "hsl(207, 29%, 65%)",
+          "lightest": "hsl(207, 29%, 77%)"
+        },
+        "clementine": {
+          "": "hsl(33, 75%, 52%)",
+          "dark": "hsl(33, 75%, 34%)",
+          "light": "hsl(33, 75%, 70%)",
+          "lighter": "hsl(33, 75%, 85%)",
+          "lightest": "hsl(33, 75%, 97%)"
+        }
+      },
+      "borderRadius": {
+        "none": 0,
+        "s": "1px",
+        "m": "2px",
+        "l": "4px"
+      },
+      "borderWidth": {
+        "none": 0,
+        "xs": "1px",
+        "s": "2px",
+        "m": "3px",
+        "l": "5px"
+      },
+      "fontSize": {
+        "none": 0,
+        "xxs": "10px",
+        "xs": "10px",
+        "s": "12px",
+        "m": "14px",
+        "l": "20px",
+        "xl": "25px",
+        "xxl": "30px"
+      },
+      "fontWeight": {
+        "light": 300,
+        "normal": 400,
+        "bold": 600,
+        "bolder": 700
+      },
+      "fontFamily": {
+        "normal": "'Source Sans Pro', sans-serif",
+        "mono": "'Source Code Pro', courier"
+      },
+      "opacity": {
+        "disabled": 0.4,
+        "faded": 0.3
+      },
+      "spacing": {
+        "none": 0,
+        "xxs": "1px",
+        "xs": "3px",
+        "s": "5px",
+        "m": "10px",
+        "l": "15px",
+        "xl": "20px",
+        "xxl": "25px"
+      },
+      "transitionDuration": {
+        "normal": "250ms"
+      },
+      "zIndex": {
+        "menu": 100,
+        "notification": 200,
+        "modal": 300
+      }
+    },
+    "alias": {
+      "color": {
+        "actionable": "danube",
+        "brand": "nteract",
+        "danger": "red",
+        "info": "danube",
+        "nav": "slate",
+        "selected": "sky",
+        "success": "asparagus",
+        "textcontrast": "alabaster",
+        "text": "midnight",
+        "warning": "clementine"
+      }
+    }
+  }
+}

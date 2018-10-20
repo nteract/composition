@@ -1,0 +1,37 @@
+{
+  "name": "@nteract/directory-listing",
+  "version": "0.3.4",
+  "description": "a directory listing component that can be used across nteract ecosystem (and beyond?)",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.0.0",
+    "@nteract/octicons": "^0.4.3",
+    "@nteract/timeago": "^3.6.3",
+    "react-hot-loader": "^4.1.2"
+  },
+  "peerDependencies": {
+    "react": "^16.3.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "directory-listing",
+    "react",
+    "notebook tree view"
+  ],
+  "author": "Alexander C. Booth <alexander.c.booth@gmail.com",
+  "license": "BSD-3-Clause"
+}

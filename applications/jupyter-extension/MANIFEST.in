@@ -1,0 +1,5 @@
+include README.md
+include setup.py
+recursive-include nteract_on_jupyter *
+prune nteract_on_jupyter/node_modules
+prune nteract_on_jupyter/__pycache__

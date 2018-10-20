@@ -1,0 +1,279 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`markdown works as it should lets see: watching-paint-dry 1`] = `
+<MarkdownRender
+  source="
+# Watching Paint Dry
+
+The composited _color_ of the **paint** must not change during drying. The
+optical blending function is used with this constraint to compensate for the new
+dry layer $C_{d}^{prime}$, when some volume $delta_{alpha}$ is removed from
+the wet layer.
+
+$$
+C_{d}^{prime} = \\\\frac{alpha}{}
+$$
+
+The dry layer of the canvas uses a relative height field to allow for unlimited
+volume of paint to be added, with a constraint only on the relative change in
+height between texels.
+"
+>
+  <ReactMarkdown
+    astPlugins={Array []}
+    escapeHtml={false}
+    plugins={
+      Array [
+        [Function],
+      ]
+    }
+    rawSourcePos={false}
+    renderers={
+      Object {
+        "inlineMath": [Function],
+        "math": [Function],
+      }
+    }
+    skipHtml={false}
+    source="
+# Watching Paint Dry
+
+The composited _color_ of the **paint** must not change during drying. The
+optical blending function is used with this constraint to compensate for the new
+dry layer $C_{d}^{prime}$, when some volume $delta_{alpha}$ is removed from
+the wet layer.
+
+$$
+C_{d}^{prime} = \\\\frac{alpha}{}
+$$
+
+The dry layer of the canvas uses a relative height field to allow for unlimited
+volume of paint to be added, with a constraint only on the relative change in
+height between texels.
+"
+    sourcePos={false}
+    transformLinkUri={[Function]}
+  >
+    <Root
+      key="root-1-1"
+    >
+      <Heading
+        key="heading-2-1"
+        level={1}
+      >
+        <h1>
+          <TextRenderer
+            key="text-2-3"
+            nodeKey="text-2-3"
+            value="Watching Paint Dry"
+          >
+            Watching Paint Dry
+          </TextRenderer>
+        </h1>
+      </Heading>
+      <p
+        key="paragraph-4-1"
+      >
+        <TextRenderer
+          key="text-4-1"
+          nodeKey="text-4-1"
+          value="The composited "
+        >
+          The composited 
+        </TextRenderer>
+        <em
+          key="emphasis-4-16"
+        >
+          <TextRenderer
+            key="text-4-17"
+            nodeKey="text-4-17"
+            value="color"
+          >
+            color
+          </TextRenderer>
+        </em>
+        <TextRenderer
+          key="text-4-23"
+          nodeKey="text-4-23"
+          value=" of the "
+        >
+           of the 
+        </TextRenderer>
+        <strong
+          key="strong-4-31"
+        >
+          <TextRenderer
+            key="text-4-33"
+            nodeKey="text-4-33"
+            value="paint"
+          >
+            paint
+          </TextRenderer>
+        </strong>
+        <TextRenderer
+          key="text-4-40"
+          nodeKey="text-4-40"
+          value=" must not change during drying. The
+optical blending function is used with this constraint to compensate for the new
+dry layer "
+        >
+           must not change during drying. The
+optical blending function is used with this constraint to compensate for the new
+dry layer 
+        </TextRenderer>
+        <inlineMath
+          data={
+            Object {
+              "hChildren": Array [
+                Object {
+                  "type": "text",
+                  "value": "C_{d}^{prime}",
+                },
+              ],
+              "hName": "span",
+              "hProperties": Object {
+                "className": "inlineMath",
+              },
+            }
+          }
+          key="inlineMath-6-11"
+          value="C_{d}^{prime}"
+        >
+          <MathJaxNode
+            inline={true}
+            onRender={null}
+          >
+            <Provider
+              delay={0}
+              didFinishTypeset={null}
+              input="tex"
+              loading={null}
+              noGate={false}
+              onError={[Function]}
+              onLoad={null}
+              options={Object {}}
+              src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+            >
+              <MathJaxNode
+                inline={true}
+                onRender={null}
+              />
+            </Provider>
+          </MathJaxNode>
+        </inlineMath>
+        <TextRenderer
+          key="text-6-26"
+          nodeKey="text-6-26"
+          value=", when some volume "
+        >
+          , when some volume 
+        </TextRenderer>
+        <inlineMath
+          data={
+            Object {
+              "hChildren": Array [
+                Object {
+                  "type": "text",
+                  "value": "delta_{alpha}",
+                },
+              ],
+              "hName": "span",
+              "hProperties": Object {
+                "className": "inlineMath",
+              },
+            }
+          }
+          key="inlineMath-6-45"
+          value="delta_{alpha}"
+        >
+          <MathJaxNode
+            inline={true}
+            onRender={null}
+          >
+            <Provider
+              delay={0}
+              didFinishTypeset={null}
+              input="tex"
+              loading={null}
+              noGate={false}
+              onError={[Function]}
+              onLoad={null}
+              options={Object {}}
+              src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+            >
+              <MathJaxNode
+                inline={true}
+                onRender={null}
+              />
+            </Provider>
+          </MathJaxNode>
+        </inlineMath>
+        <TextRenderer
+          key="text-6-60"
+          nodeKey="text-6-60"
+          value=" is removed from
+the wet layer."
+        >
+           is removed from
+the wet layer.
+        </TextRenderer>
+      </p>
+      <math
+        data={
+          Object {
+            "hChildren": Array [
+              Object {
+                "type": "text",
+                "value": "C_{d}^{prime} = \\\\frac{alpha}{}",
+              },
+            ],
+            "hName": "div",
+            "hProperties": Object {
+              "className": "math",
+            },
+          }
+        }
+        key="math-9-1"
+        value="C_{d}^{prime} = \\\\frac{alpha}{}"
+      >
+        <MathJaxNode
+          inline={false}
+          onRender={null}
+        >
+          <Provider
+            delay={0}
+            didFinishTypeset={null}
+            input="tex"
+            loading={null}
+            noGate={false}
+            onError={[Function]}
+            onLoad={null}
+            options={Object {}}
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+          >
+            <MathJaxNode
+              inline={false}
+              onRender={null}
+            />
+          </Provider>
+        </MathJaxNode>
+      </math>
+      <p
+        key="paragraph-13-1"
+      >
+        <TextRenderer
+          key="text-13-1"
+          nodeKey="text-13-1"
+          value="The dry layer of the canvas uses a relative height field to allow for unlimited
+volume of paint to be added, with a constraint only on the relative change in
+height between texels."
+        >
+          The dry layer of the canvas uses a relative height field to allow for unlimited
+volume of paint to be added, with a constraint only on the relative change in
+height between texels.
+        </TextRenderer>
+      </p>
+    </Root>
+  </ReactMarkdown>
+</MarkdownRender>
+`;

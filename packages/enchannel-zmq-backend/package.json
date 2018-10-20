@@ -1,0 +1,31 @@
+{
+  "name": "enchannel-zmq-backend",
+  "version": "6.3.3",
+  "description": "Channeling jupyter over zmq",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow",
+    "test:integration": "node scripts/exercise-enchannel.js"
+  },
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/enchannel-zmq-backend",
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0",
+    "babel-runtime": "^6.26.0",
+    "jmp": "^2.0.0",
+    "rxjs": "^5.5.6",
+    "uuid": "^3.1.0"
+  }
+}

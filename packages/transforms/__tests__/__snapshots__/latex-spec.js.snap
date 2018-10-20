@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LaTeXDisplay processes basic LaTeX 1`] = `
+<MathJaxText
+  onRender={null}
+>
+  x^2 + y = 3
+</MathJaxText>
+`;

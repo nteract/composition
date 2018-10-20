@@ -1,0 +1,33 @@
+{
+  "name": "@nteract/gatsby-transformer-ipynb",
+  "version": "1.2.8",
+  "description": "Gatsby transformer plugin for jupyter notebooks",
+  "keywords": [
+    "gatsby",
+    "gatsby-plugin",
+    "jupyter",
+    "notebook",
+    "nteract"
+  ],
+  "main": "./gatsby-node.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf gastby-node.js && rimraf on-node-create.js",
+    "build:lib": "babel -d ./ src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
+  },
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/gatsby-transformer-ipynb",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0",
+    "@nteract/notebook-render": "^2.0.1",
+    "babel-runtime": "^6.26.0"
+  },
+  "author": "Benjamin Abel <dev.abel@laposte.net>",
+  "license": "BSD-3-Clause"
+}

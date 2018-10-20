@@ -1,0 +1,32 @@
+{
+  "name": "@nteract/outputs",
+  "version": "0.0.4",
+  "description": "components for rendering outputs",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0",
+    "ansi-to-react": "^3.3.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "notebooks",
+    "components",
+    "react",
+    "outputs"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

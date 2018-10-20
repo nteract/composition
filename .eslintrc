@@ -1,13 +1,34 @@
 {
+  "extends": [
+    "prettier",
+    "prettier/flowtype",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-perf/recommended"
+  ],
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "plugins": ["prettier", "flowtype", "react", "jsx-a11y", "react-perf"],
   "env": {
     "browser": true,
     "node": true,
-    "mocha": true
+    "jest": true
   },
   "rules": {
-      "camelcase": [0],
-      "no-console": [2, { allow: ["warn", "error"] }]
+    "jsx-a11y/no-onchange": 0,
+    "jsx-a11y/anchor-has-content": 0,
+    "jsx-a11y/heading-has-content": 0,
+    "react/prop-types": 0,
+    "react/display-name": 0,
+    "react/no-unescaped-entities": 0,
+    "react/no-deprecated": 1,
+    "no-unused-vars": 2,
+    "react-perf/jsx-no-new-object-as-prop": "warn",
+    "react-perf/jsx-no-new-array-as-prop": "warn"
+  },
+  "settings": {
+    "react": {
+      "version": "16.3.2",
+      "flowVersion": "0.81"
+    }
   }
 }

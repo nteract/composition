@@ -12,6 +12,8 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+.nyc_output
+coverage.lcov
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
@@ -27,3 +29,25 @@ build/Release
 node_modules
 
 .ipynb_checkpoints
+
+# Ignore compiled output
+lib/
+dist/
+
+test/*.ipynb
+
+applications/desktop/bin/nteract-env
+
+# Ignore lerna lock
+packages/*/yarn.lock
+
+.next
+
+.DS_Store
+
+# allow generated flow defs to be read like other @nteract packages for our styles
+packages/styles/src/index.js
+
+styleguide
+
+.idea/

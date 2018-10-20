@@ -1,0 +1,39 @@
+{
+  "name": "@nteract/dropdown-menu",
+  "version": "0.5.5",
+  "description": "Dropdown Menu for nteract apps",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**'",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/dropdown-menu",
+  "keywords": [
+    "nteract",
+    "editor",
+    "notebook",
+    "jupyter"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "@babel/runtime-corejs2": "^7.0.0",
+    "react-hot-loader": "^4.1.2",
+    "styled-jsx": "^3.1.0"
+  },
+  "peerDependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause"
+}

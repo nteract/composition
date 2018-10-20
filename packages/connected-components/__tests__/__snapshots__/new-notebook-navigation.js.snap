@@ -1,0 +1,230 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewNotebookNavigation snapshots 1`] = `
+<div
+  className="jsx-1397406372 banner"
+>
+  <div
+    className="jsx-1397406372"
+  >
+    Start a new notebook
+  </div>
+  <div
+    className="jsx-3185799055 collection"
+  >
+    <div
+      className="jsx-2415154052 new-notebook"
+      onClick={[Function]}
+      tabIndex={0}
+    >
+      <div
+        className="jsx-2415154052 logo-box"
+      >
+        <div
+          className="jsx-2415154052 logo"
+        >
+          <span>
+            <svg
+              style={
+                Object {
+                  "display": "inline-block",
+                  "verticalAlign": "text-bottom",
+                }
+              }
+              viewBox="0 0 110 110"
+              width="100%"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g
+                color="#000"
+              >
+                <path
+                  d="M99.75 67.46875C71.718268 67.468752 73.46875 79.625 73.46875 79.625L73.5 92.21875h26.75V96H62.875s-17.9375-2.034276-17.9375 26.25c-.000002 28.28427 15.65625 27.28125 15.65625 27.28125h9.34375v-13.125S69.433848 120.75 85.34375 120.75H111.875s14.90625.24096 14.90625-14.40625V82.125c0-.000002 2.26318-14.65625-27.03125-14.65625zM85 75.9375c2.661429-.000002 4.8125 2.151071 4.8125 4.8125.000002 2.661429-2.151071 4.8125-4.8125 4.8125-2.661429.000002-4.8125-2.151071-4.8125-4.8125-.000002-2.661429 2.151071-4.8125 4.8125-4.8125z"
+                  fill="var(--logo-off, #387eb8)"
+                  overflow="visible"
+                  style={
+                    Object {
+                      "marker": "none",
+                    }
+                  }
+                  transform="translate(-44.9375 -67.46875)"
+                />
+                <path
+                  d="M100.5461 177.31485c28.03174 0 26.28125-12.15625 26.28125-12.15625l-.03125-12.59375h-26.75v-3.78125h37.375s17.9375 2.03427 17.9375-26.25001c.00001-28.284267-15.65625-27.281247-15.65625-27.281247h-9.34375v13.124997s.50366 15.65625-15.40625 15.65625H88.421098s-14.90625-.24096-14.90625 14.40626v24.21875s-2.26318 14.65625 27.031252 14.65625zm14.75-8.46875c-2.66143 0-4.8125-2.15107-4.8125-4.8125s2.15107-4.8125 4.8125-4.8125 4.8125 2.15107 4.8125 4.8125c.00001 2.66143-2.15107 4.8125-4.8125 4.8125z"
+                  fill="var(--logo-off, #ffe052)"
+                  fillOpacity="0.7"
+                  overflow="visible"
+                  style={
+                    Object {
+                      "marker": "none",
+                    }
+                  }
+                  transform="translate(-44.9375 -67.46875)"
+                />
+              </g>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div
+        className="jsx-2415154052 text-box"
+      >
+        <p
+          className="jsx-2415154052 display-name-short"
+          title="python"
+        >
+          python
+        </p>
+        <p
+          className="jsx-2415154052 display-name-long"
+          title="Python 3"
+        >
+          Python 3
+        </p>
+      </div>
+    </div>
+    <div
+      className="jsx-2415154052 new-notebook"
+      onClick={[Function]}
+      tabIndex={0}
+    >
+      <div
+        className="jsx-2415154052 logo-box"
+      >
+        <div
+          className="jsx-2415154052 logo"
+        >
+          <span>
+            <svg
+              style={
+                Object {
+                  "display": "inline-block",
+                  "verticalAlign": "text-bottom",
+                }
+              }
+              viewBox="-80 0 416 416"
+              width="100%"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 288v-32c0-5.394 116.377-14.428 192.2-32 36.628 8.49 63.8 18.969 63.8 32v32c0 13.024-27.172 23.51-63.8 32C116.376 302.425 0 293.39 0 288"
+                fill="var(--logo-off, black)"
+                fillOpacity="0.7"
+                transform="matrix(1 0 0 -1 0 544)"
+              />
+              <path
+                d="M0 160v-32c0-5.394 116.377-14.428 192.2-32 36.628 8.49 63.8 18.969 63.8 32v32c0 13.024-27.172 23.51-63.8 32C116.376 174.425 0 165.39 0 160"
+                fill="var(--logo-off, black)"
+                fillOpacity="0.7"
+                transform="matrix(1 0 0 -1 0 288)"
+              />
+              <path
+                d="M0 224v-96c0 8 256 24 256 64v96c0-40-256-56-256-64"
+                fill="var(--logo-off, #C40000)"
+                transform="matrix(1 0 0 -1 0 416)"
+              />
+              <path
+                d="M0 96V0c0 8 256 24 256 64v96c0-40-256-56-256-64"
+                fill="var(--logo-off, #C40000)"
+                transform="matrix(1 0 0 -1 0 160)"
+              />
+              <path
+                d="M0 352v-96c0 8 256 24 256 64v96c0-40-256-56-256-64"
+                fill="var(--logo-off, #C40000)"
+                transform="matrix(1 0 0 -1 0 672)"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div
+        className="jsx-2415154052 text-box"
+      >
+        <p
+          className="jsx-2415154052 display-name-short"
+          title="scala"
+        >
+          scala
+        </p>
+        <p
+          className="jsx-2415154052 display-name-long"
+          title="Scala 2.11"
+        >
+          Scala 2.11
+        </p>
+      </div>
+    </div>
+    <div
+      className="jsx-2415154052 new-notebook"
+      onClick={[Function]}
+      tabIndex={0}
+    >
+      <div
+        className="jsx-2415154052 logo-box"
+      >
+        <div
+          className="jsx-2415154052 logo"
+        >
+          <span>
+            <svg
+              style={
+                Object {
+                  "display": "inline-block",
+                  "verticalAlign": "text-bottom",
+                }
+              }
+              viewBox="0 0 110 110"
+              width="100%"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g
+                color="#000"
+              >
+                <path
+                  d="M99.75 67.46875C71.718268 67.468752 73.46875 79.625 73.46875 79.625L73.5 92.21875h26.75V96H62.875s-17.9375-2.034276-17.9375 26.25c-.000002 28.28427 15.65625 27.28125 15.65625 27.28125h9.34375v-13.125S69.433848 120.75 85.34375 120.75H111.875s14.90625.24096 14.90625-14.40625V82.125c0-.000002 2.26318-14.65625-27.03125-14.65625zM85 75.9375c2.661429-.000002 4.8125 2.151071 4.8125 4.8125.000002 2.661429-2.151071 4.8125-4.8125 4.8125-2.661429.000002-4.8125-2.151071-4.8125-4.8125-.000002-2.661429 2.151071-4.8125 4.8125-4.8125z"
+                  fill="var(--logo-off, #387eb8)"
+                  overflow="visible"
+                  style={
+                    Object {
+                      "marker": "none",
+                    }
+                  }
+                  transform="translate(-44.9375 -67.46875)"
+                />
+                <path
+                  d="M100.5461 177.31485c28.03174 0 26.28125-12.15625 26.28125-12.15625l-.03125-12.59375h-26.75v-3.78125h37.375s17.9375 2.03427 17.9375-26.25001c.00001-28.284267-15.65625-27.281247-15.65625-27.281247h-9.34375v13.124997s.50366 15.65625-15.40625 15.65625H88.421098s-14.90625-.24096-14.90625 14.40626v24.21875s-2.26318 14.65625 27.031252 14.65625zm14.75-8.46875c-2.66143 0-4.8125-2.15107-4.8125-4.8125s2.15107-4.8125 4.8125-4.8125 4.8125 2.15107 4.8125 4.8125c.00001 2.66143-2.15107 4.8125-4.8125 4.8125z"
+                  fill="var(--logo-off, #ffe052)"
+                  fillOpacity="0.7"
+                  overflow="visible"
+                  style={
+                    Object {
+                      "marker": "none",
+                    }
+                  }
+                  transform="translate(-44.9375 -67.46875)"
+                />
+              </g>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div
+        className="jsx-2415154052 text-box"
+      >
+        <p
+          className="jsx-2415154052 display-name-short"
+          title="python"
+        >
+          python
+        </p>
+        <p
+          className="jsx-2415154052 display-name-long"
+          title="Python 2"
+        >
+          Python 2
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

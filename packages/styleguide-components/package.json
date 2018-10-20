@@ -1,0 +1,19 @@
+{
+  "name": "@nteract/styleguide-components",
+  "version": "0.1.2",
+  "description": "components for our styleguidist build",
+  "scripts": {},
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "nteract",
+    "components",
+    "styleguidist"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0"
+  }
+}

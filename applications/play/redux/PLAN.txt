@@ -1,0 +1,73 @@
+file structure:
+
+/play
+  /pages
+    index.js
+  /components
+    index.js
+    ...
+  /redux
+    actionTypes.js
+    actions.js
+    reducer.js
+    epics.js
+    index.js
+
+
+state:
+
+{
+  ui: {
+    repo: <string>,
+    gitref: <string>,
+    source: <string>,
+    showPanel: <boolean>,
+    currentServerId: <string>,
+    currentKernelName: <string>,
+    platform: <string>
+  },
+  entities: {
+    serversById: {
+      <ID>: {
+        server: {
+          config: {
+              endpoint: <string>,
+              token: <string>,
+              uri: <string>,
+              crossDomain: <boolean>
+          },
+          messages: <array>,
+          kernelSpecs: {
+            kernelSpecByKernelName: {
+              <NAME>: {
+                name: <NAME>,
+                resources: <object>,
+                spec: <object>
+              }
+            },
+            error: <object>,
+            default: <string>,
+            loading: <boolean>
+          }
+          activeKernelsByName: {
+            <NAME>: {
+              kernel: {
+                name: <NAME>,
+                id: <string>,
+                lastActivity: <string>,
+                channel: <rxjs$Subject>,
+                outputs: <array>,
+                status: <string>,
+                messages: <array>
+              },
+              loading: <boolean>,
+              error: <object>
+            }
+          }
+        },
+        loading: <boolean>,
+        error: <object>
+      }
+    }
+  }
+}

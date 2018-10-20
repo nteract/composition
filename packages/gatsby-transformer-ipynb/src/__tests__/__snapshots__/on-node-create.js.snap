@@ -1,0 +1,1191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Process notebook if extension is ipynb Process generated notebook node correctly Correctly creates a new JupyterNotebook node 1`] = `
+Array [
+  Array [
+    Object {
+      "children": Array [],
+      "html": "<div class=\\"notebook-render\\"><div class=\\"jsx-1391326189 cells\\"><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-2299737332 content-margin\\"><p>This is a jupyter notebook running <a href=\\"https://nodejs.org\\">Node.js</a>.</p></div></div><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-1290819329 input-container\\"><div class=\\"jsx-2438703975 prompt\\">[3]</div><pre class=\\"input\\" style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:10px 0px 10px 10px;margin:0px;overflow:auto;border:none;background-color:var(--cm-background, #fafafa)\\"><code style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none\\"># nodejs codeprocess<span class=\\"token\\" style=\\"color:#393A34\\">.</span>version</code></pre></div><div class=\\"jsx-4038584223 outputs expanded\\"><div class=\\"cell_display\\" style=\\"max-height:600px;overflow-y:auto\\"><pre><span>&#x27;v8.2.1&#x27;</span></pre></div></div></div></div><style></style><style>:root {
+          
+
+  --theme-app-bg: white;
+  --theme-app-fg: var(--nt-color-midnight);
+  --theme-app-border: var(--nt-color-grey-light);
+
+  --theme-primary-bg: var(--nt-color-grey-lightest);
+  --theme-primary-bg-hover: var(--nt-color-grey-lighter);
+  --theme-primary-bg-focus: var(--nt-color-grey-light);
+
+  --theme-primary-fg: var(--nt-color-midnight-light);
+  --theme-primary-fg-hover: var(--nt-color-midnight);
+  --theme-primary-fg-focus: var(--theme-app-fg);
+
+  --theme-secondary-bg: var(--theme-primary-bg);
+  --theme-secondary-bg-hover: var(--theme-primary-bg-hover);
+  --theme-secondary-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-secondary-fg: var(--nt-color-midnight-lighter);
+  --theme-secondary-fg-hover: var(--nt-color-midnight-light);
+  --theme-secondary-fg-focus: var(--theme-primary-fg);
+
+  --theme-primary-shadow-hover: 1px  1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
+  --theme-primary-shadow-focus: 3px  3px 9px rgba(0, 0, 0, 0.12), -3px -3px 9px rgba(0, 0, 0, 0.12);
+
+  --theme-title-bar-bg: var(--theme-primary-bg-hover);
+
+  --theme-menu-bg: var(--theme-primary-bg);
+  --theme-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-menu-bg-focus: var(--theme-primary-bg-focus);
+  --theme-menu-shadow: var(--theme-primary-shadow-hover);
+
+  --theme-menu-fg: var(--theme-app-fg);
+  --theme-menu-fg-hover: var(--theme-app-fg);
+  --theme-menu-fg-focus: var(--theme-app-fg);
+
+  --theme-cell-bg: var(--theme-app-bg);
+  --theme-cell-shadow-hover: var(--theme-primary-shadow-hover);
+  --theme-cell-shadow-focus: var(--theme-primary-shadow-focus);
+
+  --theme-cell-prompt-bg: var(--theme-primary-bg);
+  --theme-cell-prompt-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-prompt-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-prompt-fg: var(--theme-secondary-fg);
+  --theme-cell-prompt-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-prompt-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-toolbar-bg: var(--theme-primary-bg);
+  --theme-cell-toolbar-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-toolbar-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-toolbar-fg: var(--theme-secondary-fg);
+  --theme-cell-toolbar-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-toolbar-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-menu-bg: var(--theme-primary-bg);
+  --theme-cell-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-menu-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-menu-fg: var(--theme-primary-fg);
+  --theme-cell-menu-fg-hover: var(--theme-primary-fg-hover);
+  --theme-cell-menu-fg-focus: var(--theme-primary-fg-focus);
+
+  --theme-cell-input-bg: var(--theme-secondary-bg);
+  --theme-cell-input-fg: var(--theme-app-fg);
+
+  --theme-cell-output-bg: var(--theme-app-bg);
+  --theme-cell-output-fg: var(--theme-primary-fg);
+
+  --theme-cell-creator-bg: var(--theme-app-bg);
+
+  --theme-cell-creator-fg: var(--theme-secondary-fg);
+  --theme-cell-creator-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-creator-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-pager-bg: #fafafa;
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--theme-app-bg);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --theme-cell-shadow-hover: none;
+            --theme-cell-shadow-focus: none;
+            --theme-cell-prompt-bg-hover: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-bg-focus: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-fg-hover: var(--theme-cell-prompt-fg);
+            --theme-cell-prompt-fg-focus: var(--theme-cell-prompt-fg);
+          }
+        </style></div>",
+      "id": "whatever >>> JupyterNotebook",
+      "internal": Object {
+        "content": "{
+  \\"cells\\": [
+    {
+      \\"cell_type\\": \\"markdown\\",
+      \\"source\\": [
+        \\"This is a jupyter notebook running [Node.js](https://nodejs.org).\\"
+      ],
+      \\"metadata\\": {}
+    },
+    {
+      \\"cell_type\\": \\"code\\",
+      \\"source\\": [
+        \\"# nodejs code\\",
+        \\"process.version\\"
+      ],
+      \\"outputs\\": [
+        {
+          \\"output_type\\": \\"execute_result\\",
+          \\"execution_count\\": 3,
+          \\"data\\": {
+            \\"text/plain\\": [
+              \\"'v8.2.1'\\"
+            ]
+          },
+          \\"metadata\\": {}
+        }
+      ],
+      \\"execution_count\\": 3,
+      \\"metadata\\": {
+        \\"collapsed\\": false,
+        \\"outputHidden\\": false,
+        \\"inputHidden\\": false
+      }
+    }
+  ],
+  \\"metadata\\": {
+    \\"kernel_info\\": {
+      \\"name\\": \\"node_nteract\\"
+    },
+    \\"kernelspec\\": {
+      \\"name\\": \\"node_nteract\\",
+      \\"language\\": \\"javascript\\",
+      \\"display_name\\": \\"Node.js (nteract)\\"
+    },
+    \\"language_info\\": {
+      \\"name\\": \\"javascript\\",
+      \\"version\\": \\"8.2.1\\",
+      \\"mimetype\\": \\"application/javascript\\",
+      \\"file_extension\\": \\".js\\"
+    },
+    \\"nteract\\": {
+      \\"version\\": \\"0.8.4\\"
+    }
+  },
+  \\"nbformat\\": 4,
+  \\"nbformat_minor\\": 4
+}",
+        "contentDigest": "94753fb58332161ed434fdd71934366c",
+        "type": "JupyterNotebook",
+      },
+      "json": Object {
+        "cells": Array [
+          Object {
+            "cell_type": "markdown",
+            "metadata": Object {},
+            "source": Array [
+              "This is a jupyter notebook running [Node.js](https://nodejs.org).",
+            ],
+          },
+          Object {
+            "cell_type": "code",
+            "execution_count": 3,
+            "metadata": Object {
+              "collapsed": false,
+              "inputHidden": false,
+              "outputHidden": false,
+            },
+            "outputs": Array [
+              Object {
+                "data": Object {
+                  "text/plain": Array [
+                    "'v8.2.1'",
+                  ],
+                },
+                "execution_count": 3,
+                "metadata": Object {},
+                "output_type": "execute_result",
+              },
+            ],
+            "source": Array [
+              "# nodejs code",
+              "process.version",
+            ],
+          },
+        ],
+        "metadata": Object {
+          "kernel_info": Object {
+            "name": "node_nteract",
+          },
+          "kernelspec": Object {
+            "display_name": "Node.js (nteract)",
+            "language": "javascript",
+            "name": "node_nteract",
+          },
+          "language_info": Object {
+            "file_extension": ".js",
+            "mimetype": "application/javascript",
+            "name": "javascript",
+            "version": "8.2.1",
+          },
+          "nteract": Object {
+            "version": "0.8.4",
+          },
+        },
+        "nbformat": 4,
+        "nbformat_minor": 4,
+      },
+      "metadata": Object {
+        "kernel_info": Object {
+          "name": "node_nteract",
+        },
+        "kernelspec": Object {
+          "display_name": "Node.js (nteract)",
+          "language": "javascript",
+          "name": "node_nteract",
+        },
+        "language_info": Object {
+          "file_extension": ".js",
+          "mimetype": "application/javascript",
+          "name": "javascript",
+          "version": "8.2.1",
+        },
+        "nteract": Object {
+          "version": "0.8.4",
+        },
+      },
+      "parent": "whatever",
+    },
+  ],
+]
+`;
+
+exports[`Process notebook if extension is ipynb Process generated notebook node correctly Correctly creates a new JupyterNotebook node 2`] = `
+Array [
+  Array [
+    Object {
+      "child": Object {
+        "children": Array [],
+        "html": "<div class=\\"notebook-render\\"><div class=\\"jsx-1391326189 cells\\"><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-2299737332 content-margin\\"><p>This is a jupyter notebook running <a href=\\"https://nodejs.org\\">Node.js</a>.</p></div></div><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-1290819329 input-container\\"><div class=\\"jsx-2438703975 prompt\\">[3]</div><pre class=\\"input\\" style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:10px 0px 10px 10px;margin:0px;overflow:auto;border:none;background-color:var(--cm-background, #fafafa)\\"><code style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none\\"># nodejs codeprocess<span class=\\"token\\" style=\\"color:#393A34\\">.</span>version</code></pre></div><div class=\\"jsx-4038584223 outputs expanded\\"><div class=\\"cell_display\\" style=\\"max-height:600px;overflow-y:auto\\"><pre><span>&#x27;v8.2.1&#x27;</span></pre></div></div></div></div><style></style><style>:root {
+          
+
+  --theme-app-bg: white;
+  --theme-app-fg: var(--nt-color-midnight);
+  --theme-app-border: var(--nt-color-grey-light);
+
+  --theme-primary-bg: var(--nt-color-grey-lightest);
+  --theme-primary-bg-hover: var(--nt-color-grey-lighter);
+  --theme-primary-bg-focus: var(--nt-color-grey-light);
+
+  --theme-primary-fg: var(--nt-color-midnight-light);
+  --theme-primary-fg-hover: var(--nt-color-midnight);
+  --theme-primary-fg-focus: var(--theme-app-fg);
+
+  --theme-secondary-bg: var(--theme-primary-bg);
+  --theme-secondary-bg-hover: var(--theme-primary-bg-hover);
+  --theme-secondary-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-secondary-fg: var(--nt-color-midnight-lighter);
+  --theme-secondary-fg-hover: var(--nt-color-midnight-light);
+  --theme-secondary-fg-focus: var(--theme-primary-fg);
+
+  --theme-primary-shadow-hover: 1px  1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
+  --theme-primary-shadow-focus: 3px  3px 9px rgba(0, 0, 0, 0.12), -3px -3px 9px rgba(0, 0, 0, 0.12);
+
+  --theme-title-bar-bg: var(--theme-primary-bg-hover);
+
+  --theme-menu-bg: var(--theme-primary-bg);
+  --theme-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-menu-bg-focus: var(--theme-primary-bg-focus);
+  --theme-menu-shadow: var(--theme-primary-shadow-hover);
+
+  --theme-menu-fg: var(--theme-app-fg);
+  --theme-menu-fg-hover: var(--theme-app-fg);
+  --theme-menu-fg-focus: var(--theme-app-fg);
+
+  --theme-cell-bg: var(--theme-app-bg);
+  --theme-cell-shadow-hover: var(--theme-primary-shadow-hover);
+  --theme-cell-shadow-focus: var(--theme-primary-shadow-focus);
+
+  --theme-cell-prompt-bg: var(--theme-primary-bg);
+  --theme-cell-prompt-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-prompt-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-prompt-fg: var(--theme-secondary-fg);
+  --theme-cell-prompt-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-prompt-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-toolbar-bg: var(--theme-primary-bg);
+  --theme-cell-toolbar-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-toolbar-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-toolbar-fg: var(--theme-secondary-fg);
+  --theme-cell-toolbar-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-toolbar-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-menu-bg: var(--theme-primary-bg);
+  --theme-cell-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-menu-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-menu-fg: var(--theme-primary-fg);
+  --theme-cell-menu-fg-hover: var(--theme-primary-fg-hover);
+  --theme-cell-menu-fg-focus: var(--theme-primary-fg-focus);
+
+  --theme-cell-input-bg: var(--theme-secondary-bg);
+  --theme-cell-input-fg: var(--theme-app-fg);
+
+  --theme-cell-output-bg: var(--theme-app-bg);
+  --theme-cell-output-fg: var(--theme-primary-fg);
+
+  --theme-cell-creator-bg: var(--theme-app-bg);
+
+  --theme-cell-creator-fg: var(--theme-secondary-fg);
+  --theme-cell-creator-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-creator-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-pager-bg: #fafafa;
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--theme-app-bg);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --theme-cell-shadow-hover: none;
+            --theme-cell-shadow-focus: none;
+            --theme-cell-prompt-bg-hover: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-bg-focus: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-fg-hover: var(--theme-cell-prompt-fg);
+            --theme-cell-prompt-fg-focus: var(--theme-cell-prompt-fg);
+          }
+        </style></div>",
+        "id": "whatever >>> JupyterNotebook",
+        "internal": Object {
+          "content": "{
+  \\"cells\\": [
+    {
+      \\"cell_type\\": \\"markdown\\",
+      \\"source\\": [
+        \\"This is a jupyter notebook running [Node.js](https://nodejs.org).\\"
+      ],
+      \\"metadata\\": {}
+    },
+    {
+      \\"cell_type\\": \\"code\\",
+      \\"source\\": [
+        \\"# nodejs code\\",
+        \\"process.version\\"
+      ],
+      \\"outputs\\": [
+        {
+          \\"output_type\\": \\"execute_result\\",
+          \\"execution_count\\": 3,
+          \\"data\\": {
+            \\"text/plain\\": [
+              \\"'v8.2.1'\\"
+            ]
+          },
+          \\"metadata\\": {}
+        }
+      ],
+      \\"execution_count\\": 3,
+      \\"metadata\\": {
+        \\"collapsed\\": false,
+        \\"outputHidden\\": false,
+        \\"inputHidden\\": false
+      }
+    }
+  ],
+  \\"metadata\\": {
+    \\"kernel_info\\": {
+      \\"name\\": \\"node_nteract\\"
+    },
+    \\"kernelspec\\": {
+      \\"name\\": \\"node_nteract\\",
+      \\"language\\": \\"javascript\\",
+      \\"display_name\\": \\"Node.js (nteract)\\"
+    },
+    \\"language_info\\": {
+      \\"name\\": \\"javascript\\",
+      \\"version\\": \\"8.2.1\\",
+      \\"mimetype\\": \\"application/javascript\\",
+      \\"file_extension\\": \\".js\\"
+    },
+    \\"nteract\\": {
+      \\"version\\": \\"0.8.4\\"
+    }
+  },
+  \\"nbformat\\": 4,
+  \\"nbformat_minor\\": 4
+}",
+          "contentDigest": "94753fb58332161ed434fdd71934366c",
+          "type": "JupyterNotebook",
+        },
+        "json": Object {
+          "cells": Array [
+            Object {
+              "cell_type": "markdown",
+              "metadata": Object {},
+              "source": Array [
+                "This is a jupyter notebook running [Node.js](https://nodejs.org).",
+              ],
+            },
+            Object {
+              "cell_type": "code",
+              "execution_count": 3,
+              "metadata": Object {
+                "collapsed": false,
+                "inputHidden": false,
+                "outputHidden": false,
+              },
+              "outputs": Array [
+                Object {
+                  "data": Object {
+                    "text/plain": Array [
+                      "'v8.2.1'",
+                    ],
+                  },
+                  "execution_count": 3,
+                  "metadata": Object {},
+                  "output_type": "execute_result",
+                },
+              ],
+              "source": Array [
+                "# nodejs code",
+                "process.version",
+              ],
+            },
+          ],
+          "metadata": Object {
+            "kernel_info": Object {
+              "name": "node_nteract",
+            },
+            "kernelspec": Object {
+              "display_name": "Node.js (nteract)",
+              "language": "javascript",
+              "name": "node_nteract",
+            },
+            "language_info": Object {
+              "file_extension": ".js",
+              "mimetype": "application/javascript",
+              "name": "javascript",
+              "version": "8.2.1",
+            },
+            "nteract": Object {
+              "version": "0.8.4",
+            },
+          },
+          "nbformat": 4,
+          "nbformat_minor": 4,
+        },
+        "metadata": Object {
+          "kernel_info": Object {
+            "name": "node_nteract",
+          },
+          "kernelspec": Object {
+            "display_name": "Node.js (nteract)",
+            "language": "javascript",
+            "name": "node_nteract",
+          },
+          "language_info": Object {
+            "file_extension": ".js",
+            "mimetype": "application/javascript",
+            "name": "javascript",
+            "version": "8.2.1",
+          },
+          "nteract": Object {
+            "version": "0.8.4",
+          },
+        },
+        "parent": "whatever",
+      },
+      "parent": Object {
+        "children": Array [],
+        "content": "{
+  \\"cells\\": [
+    {
+      \\"cell_type\\": \\"markdown\\",
+      \\"source\\": [
+        \\"This is a jupyter notebook running [Node.js](https://nodejs.org).\\"
+      ],
+      \\"metadata\\": {}
+    },
+    {
+      \\"cell_type\\": \\"code\\",
+      \\"source\\": [
+        \\"# nodejs code\\",
+        \\"process.version\\"
+      ],
+      \\"outputs\\": [
+        {
+          \\"output_type\\": \\"execute_result\\",
+          \\"execution_count\\": 3,
+          \\"data\\": {
+            \\"text/plain\\": [
+              \\"'v8.2.1'\\"
+            ]
+          },
+          \\"metadata\\": {}
+        }
+      ],
+      \\"execution_count\\": 3,
+      \\"metadata\\": {
+        \\"collapsed\\": false,
+        \\"outputHidden\\": false,
+        \\"inputHidden\\": false
+      }
+    }
+  ],
+  \\"metadata\\": {
+    \\"kernel_info\\": {
+      \\"name\\": \\"node_nteract\\"
+    },
+    \\"kernelspec\\": {
+      \\"name\\": \\"node_nteract\\",
+      \\"language\\": \\"javascript\\",
+      \\"display_name\\": \\"Node.js (nteract)\\"
+    },
+    \\"language_info\\": {
+      \\"name\\": \\"javascript\\",
+      \\"version\\": \\"8.2.1\\",
+      \\"mimetype\\": \\"application/javascript\\",
+      \\"file_extension\\": \\".js\\"
+    },
+    \\"nteract\\": {
+      \\"version\\": \\"0.8.4\\"
+    }
+  },
+  \\"nbformat\\": 4,
+  \\"nbformat_minor\\": 4
+}",
+        "extension": "ipynb",
+        "id": "whatever",
+        "internal": Object {
+          "contentDigest": "whatever",
+        },
+      },
+    },
+  ],
+]
+`;
+
+exports[`Process notebook if extension is ipynb Process generated notebook node correctly Correctly parses metadata fields 1`] = `
+Array [
+  Array [
+    Object {
+      "children": Array [],
+      "html": "<div class=\\"notebook-render\\"><div class=\\"jsx-1391326189 cells\\"><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-2299737332 content-margin\\"><p>This is a jupyter notebook running <a href=\\"https://nodejs.org\\">Node.js</a>.</p></div></div><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-1290819329 input-container\\"><div class=\\"jsx-2438703975 prompt\\">[3]</div><pre class=\\"input\\" style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:10px 0px 10px 10px;margin:0px;overflow:auto;border:none;background-color:var(--cm-background, #fafafa)\\"><code style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none\\"># nodejs codeprocess<span class=\\"token\\" style=\\"color:#393A34\\">.</span>version</code></pre></div><div class=\\"jsx-4038584223 outputs expanded\\"><div class=\\"cell_display\\" style=\\"max-height:600px;overflow-y:auto\\"><pre><span>&#x27;v8.2.1&#x27;</span></pre></div></div></div></div><style><style id=\\"__jsx-1916302332\\">.cell.jsx-1916302332 {position: relative; background: var(--theme-cell-bg,white); -webkit-transition: all 0.1s ease-in-out; transition: all 0.1s ease-in-out;}</style><style id=\\"__jsx-2299737332\\">.cell.overrideHover.jsx-1916302332,.cell.jsx-1916302332:hover {box-shadow: var( --theme-cell-shadow-hover, 1px 1px 3px rgba(0,0,0,0.12), -1px -1px 3px rgba(0,0,0,0.12) );}</style><style id=\\"__jsx-2438703975\\">.cell.focused.jsx-1916302332 {box-shadow: var( --theme-cell-shadow-focus, 3px 3px 9px rgba(0,0,0,0.12), -3px -3px 9px rgba(0,0,0,0.12) );}</style><style id=\\"__jsx-1290819329\\">.cell.overrideHover.jsx-1916302332 .prompt,.cell.jsx-1916302332:hover .prompt,.cell.jsx-1916302332:active .prompt {background-color: var(--theme-cell-prompt-bg-hover,hsl(0,0%,94%)); color: var(--theme-cell-prompt-fg-hover,hsl(0,0%,15%));}</style><style id=\\"__jsx-4038584223\\">.cell.jsx-1916302332:focus .prompt,.cell.focused.jsx-1916302332 .prompt {background-color: var(--theme-cell-prompt-bg-focus,hsl(0,0%,90%)); color: var(--theme-cell-prompt-fg-focus,hsl(0,0%,51%));}</style><style id=\\"__jsx-1391326189\\">.cell.focused.jsx-1916302332 .outputs {overflow-y: auto;}</style></style><style>:root {
+          
+
+  --theme-app-bg: white;
+  --theme-app-fg: var(--nt-color-midnight);
+  --theme-app-border: var(--nt-color-grey-light);
+
+  --theme-primary-bg: var(--nt-color-grey-lightest);
+  --theme-primary-bg-hover: var(--nt-color-grey-lighter);
+  --theme-primary-bg-focus: var(--nt-color-grey-light);
+
+  --theme-primary-fg: var(--nt-color-midnight-light);
+  --theme-primary-fg-hover: var(--nt-color-midnight);
+  --theme-primary-fg-focus: var(--theme-app-fg);
+
+  --theme-secondary-bg: var(--theme-primary-bg);
+  --theme-secondary-bg-hover: var(--theme-primary-bg-hover);
+  --theme-secondary-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-secondary-fg: var(--nt-color-midnight-lighter);
+  --theme-secondary-fg-hover: var(--nt-color-midnight-light);
+  --theme-secondary-fg-focus: var(--theme-primary-fg);
+
+  --theme-primary-shadow-hover: 1px  1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
+  --theme-primary-shadow-focus: 3px  3px 9px rgba(0, 0, 0, 0.12), -3px -3px 9px rgba(0, 0, 0, 0.12);
+
+  --theme-title-bar-bg: var(--theme-primary-bg-hover);
+
+  --theme-menu-bg: var(--theme-primary-bg);
+  --theme-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-menu-bg-focus: var(--theme-primary-bg-focus);
+  --theme-menu-shadow: var(--theme-primary-shadow-hover);
+
+  --theme-menu-fg: var(--theme-app-fg);
+  --theme-menu-fg-hover: var(--theme-app-fg);
+  --theme-menu-fg-focus: var(--theme-app-fg);
+
+  --theme-cell-bg: var(--theme-app-bg);
+  --theme-cell-shadow-hover: var(--theme-primary-shadow-hover);
+  --theme-cell-shadow-focus: var(--theme-primary-shadow-focus);
+
+  --theme-cell-prompt-bg: var(--theme-primary-bg);
+  --theme-cell-prompt-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-prompt-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-prompt-fg: var(--theme-secondary-fg);
+  --theme-cell-prompt-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-prompt-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-toolbar-bg: var(--theme-primary-bg);
+  --theme-cell-toolbar-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-toolbar-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-toolbar-fg: var(--theme-secondary-fg);
+  --theme-cell-toolbar-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-toolbar-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-menu-bg: var(--theme-primary-bg);
+  --theme-cell-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-menu-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-menu-fg: var(--theme-primary-fg);
+  --theme-cell-menu-fg-hover: var(--theme-primary-fg-hover);
+  --theme-cell-menu-fg-focus: var(--theme-primary-fg-focus);
+
+  --theme-cell-input-bg: var(--theme-secondary-bg);
+  --theme-cell-input-fg: var(--theme-app-fg);
+
+  --theme-cell-output-bg: var(--theme-app-bg);
+  --theme-cell-output-fg: var(--theme-primary-fg);
+
+  --theme-cell-creator-bg: var(--theme-app-bg);
+
+  --theme-cell-creator-fg: var(--theme-secondary-fg);
+  --theme-cell-creator-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-creator-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-pager-bg: #fafafa;
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--theme-app-bg);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --theme-cell-shadow-hover: none;
+            --theme-cell-shadow-focus: none;
+            --theme-cell-prompt-bg-hover: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-bg-focus: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-fg-hover: var(--theme-cell-prompt-fg);
+            --theme-cell-prompt-fg-focus: var(--theme-cell-prompt-fg);
+          }
+        </style></div>",
+      "id": "whatever >>> JupyterNotebook",
+      "internal": Object {
+        "content": "{
+  \\"cells\\": [
+    {
+      \\"cell_type\\": \\"markdown\\",
+      \\"source\\": [
+        \\"This is a jupyter notebook running [Node.js](https://nodejs.org).\\"
+      ],
+      \\"metadata\\": {}
+    },
+    {
+      \\"cell_type\\": \\"code\\",
+      \\"source\\": [
+        \\"# nodejs code\\",
+        \\"process.version\\"
+      ],
+      \\"outputs\\": [
+        {
+          \\"output_type\\": \\"execute_result\\",
+          \\"execution_count\\": 3,
+          \\"data\\": {
+            \\"text/plain\\": [
+              \\"'v8.2.1'\\"
+            ]
+          },
+          \\"metadata\\": {}
+        }
+      ],
+      \\"execution_count\\": 3,
+      \\"metadata\\": {
+        \\"collapsed\\": false,
+        \\"outputHidden\\": false,
+        \\"inputHidden\\": false
+      }
+    }
+  ],
+  \\"metadata\\": {
+    \\"kernel_info\\": {
+      \\"name\\": \\"node_nteract\\"
+    },
+    \\"kernelspec\\": {
+      \\"name\\": \\"node_nteract\\",
+      \\"language\\": \\"javascript\\",
+      \\"display_name\\": \\"Node.js (nteract)\\"
+    },
+    \\"language_info\\": {
+      \\"name\\": \\"javascript\\",
+      \\"version\\": \\"8.2.1\\",
+      \\"mimetype\\": \\"application/javascript\\",
+      \\"file_extension\\": \\".js\\"
+    },
+    \\"nteract\\": {
+      \\"version\\": \\"0.8.4\\"
+    }
+  },
+  \\"nbformat\\": 4,
+  \\"nbformat_minor\\": 4
+}",
+        "contentDigest": "3532df3f016d58d7f0336805e4e5c5ab",
+        "type": "JupyterNotebook",
+      },
+      "json": Object {
+        "cells": Array [
+          Object {
+            "cell_type": "markdown",
+            "metadata": Object {},
+            "source": Array [
+              "This is a jupyter notebook running [Node.js](https://nodejs.org).",
+            ],
+          },
+          Object {
+            "cell_type": "code",
+            "execution_count": 3,
+            "metadata": Object {
+              "collapsed": false,
+              "inputHidden": false,
+              "outputHidden": false,
+            },
+            "outputs": Array [
+              Object {
+                "data": Object {
+                  "text/plain": Array [
+                    "'v8.2.1'",
+                  ],
+                },
+                "execution_count": 3,
+                "metadata": Object {},
+                "output_type": "execute_result",
+              },
+            ],
+            "source": Array [
+              "# nodejs code",
+              "process.version",
+            ],
+          },
+        ],
+        "metadata": Object {
+          "kernel_info": Object {
+            "name": "node_nteract",
+          },
+          "kernelspec": Object {
+            "display_name": "Node.js (nteract)",
+            "language": "javascript",
+            "name": "node_nteract",
+          },
+          "language_info": Object {
+            "file_extension": ".js",
+            "mimetype": "application/javascript",
+            "name": "javascript",
+            "version": "8.2.1",
+          },
+          "nteract": Object {
+            "version": "0.8.4",
+          },
+        },
+        "nbformat": 4,
+        "nbformat_minor": 4,
+      },
+      "metadata": Object {
+        "kernel_info": Object {
+          "name": "node_nteract",
+        },
+        "kernelspec": Object {
+          "display_name": "Node.js (nteract)",
+          "language": "javascript",
+          "name": "node_nteract",
+        },
+        "language_info": Object {
+          "file_extension": ".js",
+          "mimetype": "application/javascript",
+          "name": "javascript",
+          "version": "8.2.1",
+        },
+        "nteract": Object {
+          "version": "0.8.4",
+        },
+      },
+      "parent": "whatever",
+    },
+  ],
+]
+`;
+
+exports[`Process notebook if extension is ipynb Process generated notebook node correctly Correctly parses metadata fields 2`] = `
+Array [
+  Array [
+    Object {
+      "child": Object {
+        "children": Array [],
+        "html": "<div class=\\"notebook-render\\"><div class=\\"jsx-1391326189 cells\\"><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-2299737332 content-margin\\"><p>This is a jupyter notebook running <a href=\\"https://nodejs.org\\">Node.js</a>.</p></div></div><div class=\\"jsx-1916302332 cell  \\"><div class=\\"jsx-1290819329 input-container\\"><div class=\\"jsx-2438703975 prompt\\">[3]</div><pre class=\\"input\\" style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none;padding:10px 0px 10px 10px;margin:0px;overflow:auto;border:none;background-color:var(--cm-background, #fafafa)\\"><code style=\\"color:#393A34;font-family:&quot;Consolas&quot;, &quot;Bitstream Vera Sans Mono&quot;, &quot;Courier New&quot;, Courier, monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;font-size:0.95em;line-height:1.2em;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none\\"># nodejs codeprocess<span class=\\"token\\" style=\\"color:#393A34\\">.</span>version</code></pre></div><div class=\\"jsx-4038584223 outputs expanded\\"><div class=\\"cell_display\\" style=\\"max-height:600px;overflow-y:auto\\"><pre><span>&#x27;v8.2.1&#x27;</span></pre></div></div></div></div><style><style id=\\"__jsx-1916302332\\">.cell.jsx-1916302332 {position: relative; background: var(--theme-cell-bg,white); -webkit-transition: all 0.1s ease-in-out; transition: all 0.1s ease-in-out;}</style><style id=\\"__jsx-2299737332\\">.cell.overrideHover.jsx-1916302332,.cell.jsx-1916302332:hover {box-shadow: var( --theme-cell-shadow-hover, 1px 1px 3px rgba(0,0,0,0.12), -1px -1px 3px rgba(0,0,0,0.12) );}</style><style id=\\"__jsx-2438703975\\">.cell.focused.jsx-1916302332 {box-shadow: var( --theme-cell-shadow-focus, 3px 3px 9px rgba(0,0,0,0.12), -3px -3px 9px rgba(0,0,0,0.12) );}</style><style id=\\"__jsx-1290819329\\">.cell.overrideHover.jsx-1916302332 .prompt,.cell.jsx-1916302332:hover .prompt,.cell.jsx-1916302332:active .prompt {background-color: var(--theme-cell-prompt-bg-hover,hsl(0,0%,94%)); color: var(--theme-cell-prompt-fg-hover,hsl(0,0%,15%));}</style><style id=\\"__jsx-4038584223\\">.cell.jsx-1916302332:focus .prompt,.cell.focused.jsx-1916302332 .prompt {background-color: var(--theme-cell-prompt-bg-focus,hsl(0,0%,90%)); color: var(--theme-cell-prompt-fg-focus,hsl(0,0%,51%));}</style><style id=\\"__jsx-1391326189\\">.cell.focused.jsx-1916302332 .outputs {overflow-y: auto;}</style></style><style>:root {
+          
+
+  --theme-app-bg: white;
+  --theme-app-fg: var(--nt-color-midnight);
+  --theme-app-border: var(--nt-color-grey-light);
+
+  --theme-primary-bg: var(--nt-color-grey-lightest);
+  --theme-primary-bg-hover: var(--nt-color-grey-lighter);
+  --theme-primary-bg-focus: var(--nt-color-grey-light);
+
+  --theme-primary-fg: var(--nt-color-midnight-light);
+  --theme-primary-fg-hover: var(--nt-color-midnight);
+  --theme-primary-fg-focus: var(--theme-app-fg);
+
+  --theme-secondary-bg: var(--theme-primary-bg);
+  --theme-secondary-bg-hover: var(--theme-primary-bg-hover);
+  --theme-secondary-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-secondary-fg: var(--nt-color-midnight-lighter);
+  --theme-secondary-fg-hover: var(--nt-color-midnight-light);
+  --theme-secondary-fg-focus: var(--theme-primary-fg);
+
+  --theme-primary-shadow-hover: 1px  1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
+  --theme-primary-shadow-focus: 3px  3px 9px rgba(0, 0, 0, 0.12), -3px -3px 9px rgba(0, 0, 0, 0.12);
+
+  --theme-title-bar-bg: var(--theme-primary-bg-hover);
+
+  --theme-menu-bg: var(--theme-primary-bg);
+  --theme-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-menu-bg-focus: var(--theme-primary-bg-focus);
+  --theme-menu-shadow: var(--theme-primary-shadow-hover);
+
+  --theme-menu-fg: var(--theme-app-fg);
+  --theme-menu-fg-hover: var(--theme-app-fg);
+  --theme-menu-fg-focus: var(--theme-app-fg);
+
+  --theme-cell-bg: var(--theme-app-bg);
+  --theme-cell-shadow-hover: var(--theme-primary-shadow-hover);
+  --theme-cell-shadow-focus: var(--theme-primary-shadow-focus);
+
+  --theme-cell-prompt-bg: var(--theme-primary-bg);
+  --theme-cell-prompt-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-prompt-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-prompt-fg: var(--theme-secondary-fg);
+  --theme-cell-prompt-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-prompt-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-toolbar-bg: var(--theme-primary-bg);
+  --theme-cell-toolbar-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-toolbar-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-toolbar-fg: var(--theme-secondary-fg);
+  --theme-cell-toolbar-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-toolbar-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-menu-bg: var(--theme-primary-bg);
+  --theme-cell-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-menu-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-menu-fg: var(--theme-primary-fg);
+  --theme-cell-menu-fg-hover: var(--theme-primary-fg-hover);
+  --theme-cell-menu-fg-focus: var(--theme-primary-fg-focus);
+
+  --theme-cell-input-bg: var(--theme-secondary-bg);
+  --theme-cell-input-fg: var(--theme-app-fg);
+
+  --theme-cell-output-bg: var(--theme-app-bg);
+  --theme-cell-output-fg: var(--theme-primary-fg);
+
+  --theme-cell-creator-bg: var(--theme-app-bg);
+
+  --theme-cell-creator-fg: var(--theme-secondary-fg);
+  --theme-cell-creator-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-creator-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-pager-bg: #fafafa;
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--theme-app-bg);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --theme-cell-shadow-hover: none;
+            --theme-cell-shadow-focus: none;
+            --theme-cell-prompt-bg-hover: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-bg-focus: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-fg-hover: var(--theme-cell-prompt-fg);
+            --theme-cell-prompt-fg-focus: var(--theme-cell-prompt-fg);
+          }
+        </style></div>",
+        "id": "whatever >>> JupyterNotebook",
+        "internal": Object {
+          "content": "{
+  \\"cells\\": [
+    {
+      \\"cell_type\\": \\"markdown\\",
+      \\"source\\": [
+        \\"This is a jupyter notebook running [Node.js](https://nodejs.org).\\"
+      ],
+      \\"metadata\\": {}
+    },
+    {
+      \\"cell_type\\": \\"code\\",
+      \\"source\\": [
+        \\"# nodejs code\\",
+        \\"process.version\\"
+      ],
+      \\"outputs\\": [
+        {
+          \\"output_type\\": \\"execute_result\\",
+          \\"execution_count\\": 3,
+          \\"data\\": {
+            \\"text/plain\\": [
+              \\"'v8.2.1'\\"
+            ]
+          },
+          \\"metadata\\": {}
+        }
+      ],
+      \\"execution_count\\": 3,
+      \\"metadata\\": {
+        \\"collapsed\\": false,
+        \\"outputHidden\\": false,
+        \\"inputHidden\\": false
+      }
+    }
+  ],
+  \\"metadata\\": {
+    \\"kernel_info\\": {
+      \\"name\\": \\"node_nteract\\"
+    },
+    \\"kernelspec\\": {
+      \\"name\\": \\"node_nteract\\",
+      \\"language\\": \\"javascript\\",
+      \\"display_name\\": \\"Node.js (nteract)\\"
+    },
+    \\"language_info\\": {
+      \\"name\\": \\"javascript\\",
+      \\"version\\": \\"8.2.1\\",
+      \\"mimetype\\": \\"application/javascript\\",
+      \\"file_extension\\": \\".js\\"
+    },
+    \\"nteract\\": {
+      \\"version\\": \\"0.8.4\\"
+    }
+  },
+  \\"nbformat\\": 4,
+  \\"nbformat_minor\\": 4
+}",
+          "contentDigest": "3532df3f016d58d7f0336805e4e5c5ab",
+          "type": "JupyterNotebook",
+        },
+        "json": Object {
+          "cells": Array [
+            Object {
+              "cell_type": "markdown",
+              "metadata": Object {},
+              "source": Array [
+                "This is a jupyter notebook running [Node.js](https://nodejs.org).",
+              ],
+            },
+            Object {
+              "cell_type": "code",
+              "execution_count": 3,
+              "metadata": Object {
+                "collapsed": false,
+                "inputHidden": false,
+                "outputHidden": false,
+              },
+              "outputs": Array [
+                Object {
+                  "data": Object {
+                    "text/plain": Array [
+                      "'v8.2.1'",
+                    ],
+                  },
+                  "execution_count": 3,
+                  "metadata": Object {},
+                  "output_type": "execute_result",
+                },
+              ],
+              "source": Array [
+                "# nodejs code",
+                "process.version",
+              ],
+            },
+          ],
+          "metadata": Object {
+            "kernel_info": Object {
+              "name": "node_nteract",
+            },
+            "kernelspec": Object {
+              "display_name": "Node.js (nteract)",
+              "language": "javascript",
+              "name": "node_nteract",
+            },
+            "language_info": Object {
+              "file_extension": ".js",
+              "mimetype": "application/javascript",
+              "name": "javascript",
+              "version": "8.2.1",
+            },
+            "nteract": Object {
+              "version": "0.8.4",
+            },
+          },
+          "nbformat": 4,
+          "nbformat_minor": 4,
+        },
+        "metadata": Object {
+          "kernel_info": Object {
+            "name": "node_nteract",
+          },
+          "kernelspec": Object {
+            "display_name": "Node.js (nteract)",
+            "language": "javascript",
+            "name": "node_nteract",
+          },
+          "language_info": Object {
+            "file_extension": ".js",
+            "mimetype": "application/javascript",
+            "name": "javascript",
+            "version": "8.2.1",
+          },
+          "nteract": Object {
+            "version": "0.8.4",
+          },
+        },
+        "parent": "whatever",
+      },
+      "parent": Object {
+        "children": Array [],
+        "content": "{
+  \\"cells\\": [
+    {
+      \\"cell_type\\": \\"markdown\\",
+      \\"source\\": [
+        \\"This is a jupyter notebook running [Node.js](https://nodejs.org).\\"
+      ],
+      \\"metadata\\": {}
+    },
+    {
+      \\"cell_type\\": \\"code\\",
+      \\"source\\": [
+        \\"# nodejs code\\",
+        \\"process.version\\"
+      ],
+      \\"outputs\\": [
+        {
+          \\"output_type\\": \\"execute_result\\",
+          \\"execution_count\\": 3,
+          \\"data\\": {
+            \\"text/plain\\": [
+              \\"'v8.2.1'\\"
+            ]
+          },
+          \\"metadata\\": {}
+        }
+      ],
+      \\"execution_count\\": 3,
+      \\"metadata\\": {
+        \\"collapsed\\": false,
+        \\"outputHidden\\": false,
+        \\"inputHidden\\": false
+      }
+    }
+  ],
+  \\"metadata\\": {
+    \\"kernel_info\\": {
+      \\"name\\": \\"node_nteract\\"
+    },
+    \\"kernelspec\\": {
+      \\"name\\": \\"node_nteract\\",
+      \\"language\\": \\"javascript\\",
+      \\"display_name\\": \\"Node.js (nteract)\\"
+    },
+    \\"language_info\\": {
+      \\"name\\": \\"javascript\\",
+      \\"version\\": \\"8.2.1\\",
+      \\"mimetype\\": \\"application/javascript\\",
+      \\"file_extension\\": \\".js\\"
+    },
+    \\"nteract\\": {
+      \\"version\\": \\"0.8.4\\"
+    }
+  },
+  \\"nbformat\\": 4,
+  \\"nbformat_minor\\": 4
+}",
+        "extension": "ipynb",
+        "id": "whatever",
+        "internal": Object {
+          "contentDigest": "whatever",
+        },
+      },
+    },
+  ],
+]
+`;

@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Entry accepts props and renders entries in directory 1`] = `
+<tr
+  className="jsx-3511019751 directory-entry"
+>
+  <Icon
+    className="directory-entry-field"
+    color="#0366d6"
+    fileType="directory"
+    key=".0"
+  />
+  <Name
+    className="directory-entry-field"
+    key=".1"
+  >
+    linky jr
+  </Name>
+  <LastSaved
+    className="directory-entry-field"
+    key=".2"
+    lastModified={null}
+    last_modified="Fri Jun 22 2018 00:15:55 GMT-0400 (Eastern Daylight Time)"
+  />
+  <JSXStyle
+    css="tr.jsx-3511019751{border-top:1px solid #eaecef;}tr.jsx-3511019751:hover{background-color:#f6f8fa;-webkit-transition:background-color 0.1s ease-out;transition:background-color 0.1s ease-out;}tr.jsx-3511019751:first-child{border-top:none;}tr.jsx-3511019751:last-child{border-bottom:none;}"
+    styleId="3511019751"
+  />
+</tr>
+`;
+
+exports[`Listing accepts props and renders entries in directory in a table 1`] = `undefined`;

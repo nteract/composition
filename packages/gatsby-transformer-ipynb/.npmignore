@@ -1,0 +1,6 @@
+# Ignore everything
+*
+
+# except
+!gatsby-node.js
+!on-node-create.js

@@ -1,0 +1,495 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notebook accepts an Immutable.List of cells 1`] = `
+<Provider
+  delay={0}
+  didFinishTypeset={null}
+  input="tex"
+  loading={null}
+  noGate={false}
+  onError={[Function]}
+  onLoad={null}
+  options={Object {}}
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+>
+  <div
+    className="notebook-preview"
+  >
+    <Cells>
+      <Cell
+        _hovered={false}
+        isSelected={false}
+        key="3"
+      >
+        <div
+          className="jsx-2513275823 content-margin"
+        >
+          <MarkdownRender
+            source="## The Notable Nteract Notebook
+
+**It's a notebook!**
+"
+          />
+        </div>
+        <JSXStyle
+          css=".content-margin.jsx-2513275823{padding-left:calc(var(--prompt-width,50px) + 10px);padding-top:10px;padding-bottom:10px;padding-right:10px;}"
+          styleId="2513275823"
+        />
+      </Cell>
+      <Cell
+        _hovered={false}
+        isSelected={false}
+        key="4"
+      >
+        <PapermillView
+          status={null}
+        />
+        <Input
+          hidden={false}
+        >
+          <Prompt
+            blank={false}
+            counter={11}
+            queued={false}
+            running={false}
+          />
+          <Source
+            className="input"
+            language="ipython"
+            theme="light"
+          >
+            import IPython
+
+from IPython.display import HTML
+from IPython.display import Markdown
+from IPython.display import display
+
+display(HTML('&lt;h1&gt;Multiple&lt;/h1&gt;'))
+display(HTML('&lt;p&gt;Display Elements&lt;/p&gt;'))
+display(Markdown('**awesome**'))
+
+print('hey')
+42
+          </Source>
+        </Input>
+        <Outputs
+          expanded={true}
+          hidden={false}
+        >
+          <Display
+            displayOrder={
+              Array [
+                "application/vdom.v1+json",
+                "application/json",
+                "application/javascript",
+                "text/html",
+                "text/markdown",
+                "text/latex",
+                "image/svg+xml",
+                "image/gif",
+                "image/png",
+                "image/jpeg",
+                "text/plain",
+              ]
+            }
+            expanded={false}
+            isHidden={false}
+            models={Immutable.Map {}}
+            outputs={
+              Array [
+                Object {
+                  "data": Object {
+                    "text/plain": "<IPython.core.display.HTML object>",
+                  },
+                  "metadata": Object {},
+                  "output_type": "display_data",
+                },
+              ]
+            }
+            theme="light"
+            transforms={
+              Object {
+                "application/javascript": [Function],
+                "application/json": [Function],
+                "application/vdom.v1+json": [Function],
+                "image/gif": [Function],
+                "image/jpeg": [Function],
+                "image/png": [Function],
+                "image/svg+xml": [Function],
+                "text/html": [Function],
+                "text/latex": [Function],
+                "text/markdown": [Function],
+                "text/plain": [Function],
+              }
+            }
+          />
+        </Outputs>
+      </Cell>
+    </Cells>
+    <style>
+      :root {
+          
+
+  --theme-app-bg: white;
+  --theme-app-fg: var(--nt-color-midnight);
+  --theme-app-border: var(--nt-color-grey-light);
+
+  --theme-primary-bg: var(--nt-color-grey-lightest);
+  --theme-primary-bg-hover: var(--nt-color-grey-lighter);
+  --theme-primary-bg-focus: var(--nt-color-grey-light);
+
+  --theme-primary-fg: var(--nt-color-midnight-light);
+  --theme-primary-fg-hover: var(--nt-color-midnight);
+  --theme-primary-fg-focus: var(--theme-app-fg);
+
+  --theme-secondary-bg: var(--theme-primary-bg);
+  --theme-secondary-bg-hover: var(--theme-primary-bg-hover);
+  --theme-secondary-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-secondary-fg: var(--nt-color-midnight-lighter);
+  --theme-secondary-fg-hover: var(--nt-color-midnight-light);
+  --theme-secondary-fg-focus: var(--theme-primary-fg);
+
+  --theme-primary-shadow-hover: 1px  1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
+  --theme-primary-shadow-focus: 3px  3px 9px rgba(0, 0, 0, 0.12), -3px -3px 9px rgba(0, 0, 0, 0.12);
+
+  --theme-title-bar-bg: var(--theme-primary-bg-hover);
+
+  --theme-menu-bg: var(--theme-primary-bg);
+  --theme-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-menu-bg-focus: var(--theme-primary-bg-focus);
+  --theme-menu-shadow: var(--theme-primary-shadow-hover);
+
+  --theme-menu-fg: var(--theme-app-fg);
+  --theme-menu-fg-hover: var(--theme-app-fg);
+  --theme-menu-fg-focus: var(--theme-app-fg);
+
+  --theme-cell-bg: var(--theme-app-bg);
+  --theme-cell-shadow-hover: var(--theme-primary-shadow-hover);
+  --theme-cell-shadow-focus: var(--theme-primary-shadow-focus);
+
+  --theme-cell-prompt-bg: var(--theme-primary-bg);
+  --theme-cell-prompt-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-prompt-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-prompt-fg: var(--theme-secondary-fg);
+  --theme-cell-prompt-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-prompt-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-toolbar-bg: var(--theme-primary-bg);
+  --theme-cell-toolbar-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-toolbar-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-toolbar-fg: var(--theme-secondary-fg);
+  --theme-cell-toolbar-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-toolbar-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-menu-bg: var(--theme-primary-bg);
+  --theme-cell-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-menu-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-menu-fg: var(--theme-primary-fg);
+  --theme-cell-menu-fg-hover: var(--theme-primary-fg-hover);
+  --theme-cell-menu-fg-focus: var(--theme-primary-fg-focus);
+
+  --theme-cell-input-bg: var(--theme-secondary-bg);
+  --theme-cell-input-fg: var(--theme-app-fg);
+
+  --theme-cell-output-bg: var(--theme-app-bg);
+  --theme-cell-output-fg: var(--theme-primary-fg);
+
+  --theme-cell-creator-bg: var(--theme-app-bg);
+
+  --theme-cell-creator-fg: var(--theme-secondary-fg);
+  --theme-cell-creator-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-creator-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-pager-bg: #fafafa;
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--theme-app-bg);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --theme-cell-shadow-hover: none;
+            --theme-cell-shadow-focus: none;
+            --theme-cell-prompt-bg-hover: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-bg-focus: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-fg-hover: var(--theme-cell-prompt-fg);
+            --theme-cell-prompt-fg-focus: var(--theme-cell-prompt-fg);
+          }
+        
+    </style>
+  </div>
+</Provider>
+`;
+
+exports[`Notebook accepts an Object of cells 1`] = `
+<Provider
+  delay={0}
+  didFinishTypeset={null}
+  input="tex"
+  loading={null}
+  noGate={false}
+  onError={[Function]}
+  onLoad={null}
+  options={Object {}}
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+>
+  <div
+    className="notebook-preview"
+  >
+    <Cells>
+      <Cell
+        _hovered={false}
+        isSelected={false}
+        key="14"
+      >
+        <div
+          className="jsx-2513275823 content-margin"
+        >
+          <MarkdownRender
+            source="## The Notable Nteract Notebook
+
+**It's a notebook!**
+"
+          />
+        </div>
+        <JSXStyle
+          css=".content-margin.jsx-2513275823{padding-left:calc(var(--prompt-width,50px) + 10px);padding-top:10px;padding-bottom:10px;padding-right:10px;}"
+          styleId="2513275823"
+        />
+      </Cell>
+      <Cell
+        _hovered={false}
+        isSelected={false}
+        key="15"
+      >
+        <PapermillView
+          status={null}
+        />
+        <Input
+          hidden={false}
+        >
+          <Prompt
+            blank={false}
+            counter={11}
+            queued={false}
+            running={false}
+          />
+          <Source
+            className="input"
+            language="ipython"
+            theme="light"
+          >
+            import IPython
+
+from IPython.display import HTML
+from IPython.display import Markdown
+from IPython.display import display
+
+display(HTML('&lt;h1&gt;Multiple&lt;/h1&gt;'))
+display(HTML('&lt;p&gt;Display Elements&lt;/p&gt;'))
+display(Markdown('**awesome**'))
+
+print('hey')
+42
+          </Source>
+        </Input>
+        <Outputs
+          expanded={true}
+          hidden={false}
+        >
+          <Display
+            displayOrder={
+              Array [
+                "application/vdom.v1+json",
+                "application/json",
+                "application/javascript",
+                "text/html",
+                "text/markdown",
+                "text/latex",
+                "image/svg+xml",
+                "image/gif",
+                "image/png",
+                "image/jpeg",
+                "text/plain",
+              ]
+            }
+            expanded={false}
+            isHidden={false}
+            models={Immutable.Map {}}
+            outputs={
+              Array [
+                Object {
+                  "data": Object {
+                    "text/plain": "<IPython.core.display.HTML object>",
+                  },
+                  "metadata": Object {},
+                  "output_type": "display_data",
+                },
+              ]
+            }
+            theme="light"
+            transforms={
+              Object {
+                "application/javascript": [Function],
+                "application/json": [Function],
+                "application/vdom.v1+json": [Function],
+                "image/gif": [Function],
+                "image/jpeg": [Function],
+                "image/png": [Function],
+                "image/svg+xml": [Function],
+                "text/html": [Function],
+                "text/latex": [Function],
+                "text/markdown": [Function],
+                "text/plain": [Function],
+              }
+            }
+          />
+        </Outputs>
+      </Cell>
+    </Cells>
+    <style>
+      :root {
+          
+
+  --theme-app-bg: white;
+  --theme-app-fg: var(--nt-color-midnight);
+  --theme-app-border: var(--nt-color-grey-light);
+
+  --theme-primary-bg: var(--nt-color-grey-lightest);
+  --theme-primary-bg-hover: var(--nt-color-grey-lighter);
+  --theme-primary-bg-focus: var(--nt-color-grey-light);
+
+  --theme-primary-fg: var(--nt-color-midnight-light);
+  --theme-primary-fg-hover: var(--nt-color-midnight);
+  --theme-primary-fg-focus: var(--theme-app-fg);
+
+  --theme-secondary-bg: var(--theme-primary-bg);
+  --theme-secondary-bg-hover: var(--theme-primary-bg-hover);
+  --theme-secondary-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-secondary-fg: var(--nt-color-midnight-lighter);
+  --theme-secondary-fg-hover: var(--nt-color-midnight-light);
+  --theme-secondary-fg-focus: var(--theme-primary-fg);
+
+  --theme-primary-shadow-hover: 1px  1px 3px rgba(0, 0, 0, 0.12), -1px -1px 3px rgba(0, 0, 0, 0.12);
+  --theme-primary-shadow-focus: 3px  3px 9px rgba(0, 0, 0, 0.12), -3px -3px 9px rgba(0, 0, 0, 0.12);
+
+  --theme-title-bar-bg: var(--theme-primary-bg-hover);
+
+  --theme-menu-bg: var(--theme-primary-bg);
+  --theme-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-menu-bg-focus: var(--theme-primary-bg-focus);
+  --theme-menu-shadow: var(--theme-primary-shadow-hover);
+
+  --theme-menu-fg: var(--theme-app-fg);
+  --theme-menu-fg-hover: var(--theme-app-fg);
+  --theme-menu-fg-focus: var(--theme-app-fg);
+
+  --theme-cell-bg: var(--theme-app-bg);
+  --theme-cell-shadow-hover: var(--theme-primary-shadow-hover);
+  --theme-cell-shadow-focus: var(--theme-primary-shadow-focus);
+
+  --theme-cell-prompt-bg: var(--theme-primary-bg);
+  --theme-cell-prompt-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-prompt-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-prompt-fg: var(--theme-secondary-fg);
+  --theme-cell-prompt-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-prompt-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-toolbar-bg: var(--theme-primary-bg);
+  --theme-cell-toolbar-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-toolbar-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-toolbar-fg: var(--theme-secondary-fg);
+  --theme-cell-toolbar-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-toolbar-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-cell-menu-bg: var(--theme-primary-bg);
+  --theme-cell-menu-bg-hover: var(--theme-primary-bg-hover);
+  --theme-cell-menu-bg-focus: var(--theme-primary-bg-focus);
+
+  --theme-cell-menu-fg: var(--theme-primary-fg);
+  --theme-cell-menu-fg-hover: var(--theme-primary-fg-hover);
+  --theme-cell-menu-fg-focus: var(--theme-primary-fg-focus);
+
+  --theme-cell-input-bg: var(--theme-secondary-bg);
+  --theme-cell-input-fg: var(--theme-app-fg);
+
+  --theme-cell-output-bg: var(--theme-app-bg);
+  --theme-cell-output-fg: var(--theme-primary-fg);
+
+  --theme-cell-creator-bg: var(--theme-app-bg);
+
+  --theme-cell-creator-fg: var(--theme-secondary-fg);
+  --theme-cell-creator-fg-hover: var(--theme-secondary-fg-hover);
+  --theme-cell-creator-fg-focus: var(--theme-secondary-fg-focus);
+
+  --theme-pager-bg: #fafafa;
+
+  --cm-background: #fafafa;
+  --cm-color: black;
+
+  --cm-gutter-bg: white;
+
+  --cm-comment: #a86;
+  --cm-keyword: blue;
+  --cm-string: #a22;
+  --cm-builtin: #077;
+  --cm-special: #0aa;
+  --cm-variable: black;
+  --cm-number: #3a3;
+  --cm-meta: #555;
+  --cm-link: #3a3;
+  --cm-operator: black;
+  --cm-def: black;
+
+  --cm-activeline-bg: #e8f2ff;
+  --cm-matchingbracket-outline: grey;
+  --cm-matchingbracket-color: black;
+
+  --cm-hint-color: var(--cm-color);
+  --cm-hint-color-active: var(--cm-color);
+  --cm-hint-bg: var(--theme-app-bg);
+  --cm-hint-bg-active: #abd1ff;
+
+  --status-bar: #eeedee;
+
+            --theme-cell-shadow-hover: none;
+            --theme-cell-shadow-focus: none;
+            --theme-cell-prompt-bg-hover: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-bg-focus: var(--theme-cell-prompt-bg);
+            --theme-cell-prompt-fg-hover: var(--theme-cell-prompt-fg);
+            --theme-cell-prompt-fg-focus: var(--theme-cell-prompt-fg);
+          }
+        
+    </style>
+  </div>
+</Provider>
+`;

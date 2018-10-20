@@ -1,0 +1,55 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.12.0-browsers
+
+    working_directory: ~/nteract
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - yarn-packages-
+
+      - run: yarn --verbose
+
+      - save_cache:
+          paths:
+            - ~/.cache/yarn
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+
+      # run tests!
+      - run: yarn run test:lint
+      - run: yarn run build:packages
+      - run: yarn run test --maxWorkers 1
+      - run: yarn run test:flow
+
+      - run:
+          name: Build Docs
+          command: yarn run docs:build
+
+      - store_artifacts:
+          path: styleguide
+          destination: styleguide
+
+      - run:
+          name: Build Commuter
+          command: npx lerna run build --scope @nteract/commuter
+          no_output_timeout: 20m
+      - run:
+          name: Build Play
+          command: npx lerna run build --scope @nteract/play
+          no_output_timeout: 20m
+      - run:
+          name: Build Jupyter Extension
+          command: npx lerna run build:asap --scope nteract-on-jupyter
+          no_output_timeout: 30m

@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+build/
+develop-eggs/
+dist/
+.DS_Store
+*.egg-info
+
+# Next.js static export
+.next
+out

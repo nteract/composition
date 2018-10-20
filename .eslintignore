@@ -1,2 +1,13 @@
-dist/*.js
-test/
+dist/
+scripts/
+bin/
+lib/
+static/
+flow-typed/
+types/
+build/
+packages/**/node_modules
+applications/**/node_modules
+coverage
+node_modules/
+*/**/__snapshots__/
