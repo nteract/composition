@@ -7,7 +7,8 @@ const nodeModules = {
   jmp: "commonjs jmp",
   canvas: "commonjs canvas",
   "nteract-assets": "commonjs nteract-assets",
-  "mathjax-electron": "commonjs mathjax-electron"
+  "mathjax-electron": "commonjs mathjax-electron",
+  "@nteract/examples": "commonjs @nteract/examples"
 };
 
 const mainConfig = {

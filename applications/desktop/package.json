@@ -60,6 +60,10 @@
         "zip"
       ]
     },
+    "asar": true,
+    "asarUnpack": [
+      "**/@nteract/examples/**"
+    ],
     "nsis": {
       "perMachine": true,
       "oneClick": false
