@@ -65,7 +65,7 @@ class CodeMirrorEditor extends React.Component<
   CodeMirrorEditorProps,
   CodeMirrorEditorState
 > {
-  textarea: ?HTMLTextAreaElement;
+  textareaRef: React.Ref<HTMLTextAreaElement>;
   cm: CMI;
   defaultOptions: Object;
   keyupEventsSubscriber: Subscription;
@@ -94,6 +94,8 @@ class CodeMirrorEditor extends React.Component<
     this.hint.async = true;
     this.debounceNextCompletionRequest = true;
     this.state = { isFocused: true, tipElement: null };
+
+    this.textareaRef = React.createRef();
 
     this.defaultOptions = Object.assign(
       {
@@ -164,7 +166,7 @@ class CodeMirrorEditor extends React.Component<
     require("./mode/ipython");
 
     this.cm = require("codemirror").fromTextArea(
-      this.textarea,
+      this.textareaRef.current,
       this.defaultOptions
     );
 
@@ -444,9 +446,7 @@ class CodeMirrorEditor extends React.Component<
       <div className="CodeMirror cm-s-composition ">
         <div className="tip-holder" />
         <textarea
-          ref={ta => {
-            this.textarea = ta;
-          }}
+          ref={this.textareaRef}
           defaultValue={this.props.value}
           autoComplete="off"
           className="initialTextAreaForCodeMirror"

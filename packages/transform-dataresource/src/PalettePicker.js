@@ -2,6 +2,7 @@
 import * as React from "react";
 import { ChromePicker } from "react-color";
 
+import PaletteColorBox from './PaletteColorBox'
 import paletteStyle from "./css/palette-picker";
 
 type Props = {
@@ -41,6 +42,12 @@ class PalettePicker extends React.Component<Props, State> {
 
   handleChange = (color: string, position: number) => {
     this.setState({ selectedColor: color, selectedPosition: position });
+  };
+
+  handleKeyPress = (e: Object) => {
+    if (e.keyCode === 13) {
+      this.openClose();
+    }
   };
 
   pickerChange = (color: Object) => {
@@ -85,11 +92,7 @@ class PalettePicker extends React.Component<Props, State> {
           role="button"
           tabIndex="0"
           onClick={this.openClose}
-          onKeyPress={(e: Object) => {
-            if (e.keyCode === 13) {
-              this.openClose();
-            }
-          }}
+          onKeyPress={this.handleKeyPress}
         >
           ×
         </div>
@@ -97,18 +100,11 @@ class PalettePicker extends React.Component<Props, State> {
           <div>
             <h3>Select Color</h3>
             {colors.map((d, i) => (
-              <div
-                key={`color-${i}`}
-                className="box"
-                style={{ background: d }}
-                role="button"
-                tabIndex="0"
-                onKeyPress={(e: Object) => {
-                  if (e.keyCode === 13) {
-                    this.handleChange(d, i);
-                  }
-                }}
-                onClick={() => this.handleChange(d, i)}
+              <PaletteColorBox
+                color={d}
+                index={i}
+                key={i}
+                onChange={this.handleChange}
               />
             ))}
           </div>

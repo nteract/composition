@@ -54,8 +54,14 @@ export class GeoJSONTransform extends React.Component<Props> {
   };
   static MIMETYPE = MIMETYPE;
 
+  constructor(props) {
+    super(props);
+
+    this.elRef = React.createRef();
+  }
+
   componentDidMount(): void {
-    this.map = L.map(this.el);
+    this.map = L.map(this.elRef.current);
     this.map.scrollWheelZoom.disable();
     this.tileLayer = L.tileLayer(...this.getTileLayer()).addTo(this.map);
     const geoJSON = this.props.data;
@@ -87,8 +93,8 @@ export class GeoJSONTransform extends React.Component<Props> {
   }
 
   getTileLayer = (): ?TileLayer => {
-    if (!this.el) return;
-    const theme = getTheme(this.props.theme, this.el);
+    if (!this.elRef.current) return;
+    const theme = getTheme(this.props.theme, this.elRef.current);
     // const urlTemplate = (this.props.metadata && this.props.metadata.url_template) ||
     //   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     const urlTemplate =
@@ -116,9 +122,7 @@ export class GeoJSONTransform extends React.Component<Props> {
           href="../node_modules/leaflet/dist/leaflet.css"
         />
         <div
-          ref={el => {
-            this.el = el;
-          }}
+          ref={this.elRef}
           style={{ height: 600, width: "100%" }}
         />
       </React.Fragment>

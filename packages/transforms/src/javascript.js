@@ -36,8 +36,14 @@ export default class JavaScript extends React.Component<Props> {
     );
   }
 
+  constructor(props) {
+    super(props);
+
+    this.elRef = React.createRef();
+  }
+
   componentDidMount(): void {
-    runCodeHere(this.el, this.props.data);
+    runCodeHere(this.elRef.current, this.props.data);
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -45,15 +51,13 @@ export default class JavaScript extends React.Component<Props> {
   }
 
   componentDidUpdate(): void {
-    runCodeHere(this.el, this.props.data);
+    runCodeHere(this.elRef.current, this.props.data);
   }
 
   render(): ?React$Element<any> {
     return (
       <div
-        ref={el => {
-          this.el = el;
-        }}
+        ref={this.elRef}
       />
     );
   }

@@ -16,8 +16,8 @@ describe("JavascriptDisplay", () => {
   it("creates a nice little error area", () => {
     const component = mount(<JavascriptDisplay data={'throw "a fit"'} />);
     const instance = component.instance();
-    expect(instance.el.firstChild.localName).toEqual("pre");
-    expect(instance.el.firstChild.textContent).toEqual("a fit");
+    expect(instance.elRef.current.firstChild.localName).toEqual("pre");
+    expect(instance.elRef.current.firstChild.textContent).toEqual("a fit");
   });
 
   it("creates a nice little error area with a stack", () => {
@@ -25,8 +25,8 @@ describe("JavascriptDisplay", () => {
       <JavascriptDisplay data={'throw new Error("a fit")'} />
     );
     const instance = component.instance();
-    expect(instance.el.firstChild.localName).toEqual("pre");
-    expect(instance.el.firstChild.textContent).toContain("Error: a fit");
+    expect(instance.elRef.current.firstChild.localName).toEqual("pre");
+    expect(instance.elRef.current.firstChild.textContent).toContain("Error: a fit");
   });
 
   it("handles updates by running again", () => {

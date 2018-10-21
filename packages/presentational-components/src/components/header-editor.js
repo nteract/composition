@@ -67,9 +67,67 @@ export class HeaderEditor extends React.Component<
     onChange: () => {}
   };
 
+  handleTitleChange = newText => {
+    this.props.onChange({
+      ...this.props.headerData,
+      title: newText
+    });
+  }
+
+  handleDescriptionChange = newText => {
+    this.props.onChange({
+      ...this.props.headerData,
+      description: newText
+    });
+  }
+
+  handleAuthorAdd = e => {
+    const {onChange, headerData} = this.props;
+
+    onChange({
+      ...headerData,
+      authors: [...headerData.authors, { name: e }]
+    });
+    this.handleCancel();
+  }
+
+  handleTagAdd = e => {
+    const {onChange, headerData} = this.props;
+
+    onChange({
+      ...headerData,
+      tags: [...headerData.tags, e]
+    });
+    this.handleCancel();
+  }
+
+  handleAddAuthorClick = () => this.setState({ editMode: "author" })
+
+  handleAddTagClick = () => this.setState({ editMode: "tag" })
+
+  handleCancel = () => this.setState({ editMode: "none" })
+
+  handleTagRemove = (event, {value}) => {
+    const {onChange, headerData} = this.props;
+
+    onChange({
+      ...headerData,
+      tags: headerData.tags.filter(p => p !== value)
+    });
+  }
+
+  handleAuthorRemove = (event, {value}) => {
+    const {onChange, headerData} = this.props;
+
+    onChange({
+      ...headerData,
+      authors: headerData.authors.filter(p => p.name !== value.name)
+    });
+  }
+
   render() {
     // Otherwise assume they have their own editor component
-    const { editable, headerData, onChange } = this.props;
+    const { editable, headerData } = this.props;
     return (
       <header>
         <div style={{ background: "#EEE", padding: "10px" }}>
@@ -78,12 +136,7 @@ export class HeaderEditor extends React.Component<
               value={headerData.title}
               placeholder="Edit title..."
               disabled={!editable}
-              onChange={newText => {
-                onChange({
-                  ...headerData,
-                  title: newText
-                });
-              }}
+              onChange={this.handleTitleChange}
             />
           </H1>
           <div>
@@ -94,18 +147,7 @@ export class HeaderEditor extends React.Component<
                 large={true}
                 minimal={true}
                 style={authorStyle}
-                onRemove={
-                  editable
-                    ? () => {
-                        onChange({
-                          ...headerData,
-                          authors: headerData.authors.filter(
-                            p => p.name !== t.name
-                          )
-                        });
-                      }
-                    : null
-                }
+                onRemove={editable ? this.handleAuthorRemove : null}
               >
                 {t.name}
               </Tag>
@@ -117,14 +159,8 @@ export class HeaderEditor extends React.Component<
                   className="author-entry"
                   placeholder="Enter Author Name..."
                   selectAllOnFocus={true}
-                  onConfirm={e => {
-                    onChange({
-                      ...headerData,
-                      authors: [...headerData.authors, { name: e }]
-                    });
-                    this.setState({ editMode: "none" });
-                  }}
-                  onCancel={() => this.setState({ editMode: "none" })}
+                  onConfirm={this.handleAuthorAdd}
+                  onCancel={this.handleCancel}
                 />
               </Tag>
             )) || (
@@ -137,7 +173,7 @@ export class HeaderEditor extends React.Component<
                 <Button
                   icon="add"
                   className="author-button"
-                  onClick={() => this.setState({ editMode: "author" })}
+                  onClick={this.handleAddAuthorClick}
                   minimal={true}
                   disabled={!editable}
                 />
@@ -150,16 +186,8 @@ export class HeaderEditor extends React.Component<
               <Tag
                 key={t}
                 style={tagStyle}
-                onRemove={
-                  editable
-                    ? () => {
-                        onChange({
-                          ...headerData,
-                          tags: headerData.tags.filter(p => p !== t)
-                        });
-                      }
-                    : null
-                }
+                value={t}
+                onRemove={editable ? this.handleTagRemove : null}
               >
                 {t}
               </Tag>
@@ -170,14 +198,8 @@ export class HeaderEditor extends React.Component<
                   maxLength={20}
                   placeholder="Enter Tag Name..."
                   selectAllOnFocus={true}
-                  onConfirm={e => {
-                    onChange({
-                      ...headerData,
-                      tags: [...headerData.tags, e]
-                    });
-                    this.setState({ editMode: "none" });
-                  }}
-                  onCancel={() => this.setState({ editMode: "none" })}
+                  onConfirm={this.handleTagAdd}
+                  onCancel={this.handleCancel}
                 />
               </Tag>
             )) || (
@@ -191,7 +213,7 @@ export class HeaderEditor extends React.Component<
                   <Button
                     icon="add"
                     minimal={true}
-                    onClick={() => this.setState({ editMode: "tag" })}
+                    onClick={this.handleAddTagClick}
                     disabled={!editable}
                   />
                 }
@@ -208,12 +230,7 @@ export class HeaderEditor extends React.Component<
               selectAllOnFocus={false}
               value={headerData.description}
               disabled={!editable}
-              onChange={newText => {
-                onChange({
-                  ...headerData,
-                  description: newText
-                });
-              }}
+              onChange={this.handleDescriptionChange}
             />
           </div>
         </div>

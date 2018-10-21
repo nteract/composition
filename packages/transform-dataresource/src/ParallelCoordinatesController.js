@@ -1,5 +1,5 @@
 /* @flow */
-
+/* eslint-disable react/jsx-no-bind */
 import * as React from "react";
 import { scaleLinear } from "d3-scale";
 import { ResponsiveOrdinalFrame, Axis } from "semiotic";
@@ -107,6 +107,9 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
     this.setState(columnExtent);
   };
 
+  turnOnFilterMode = () => this.setState({ filterMode: true })
+  turnOffFilterMode = () => this.setState({ filterMode: false })
+
   render(): ?React$Element<any> {
     const { options, data } = this.props;
 
@@ -198,13 +201,13 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
         <div className="button-group">
           <button
             className={`button-text ${filterMode ? "selected" : ""}`}
-            onClick={() => this.setState({ filterMode: true })}
+            onClick={this.turnOnFilterMode}
           >
             Filter
           </button>
           <button
             className={`button-text ${filterMode ? "" : "selected"}`}
-            onClick={() => this.setState({ filterMode: false })}
+            onClick={this.turnOffFilterMode}
           >
             Explore
           </button>

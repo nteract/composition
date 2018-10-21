@@ -41,7 +41,7 @@ export class TextFile extends React.PureComponent<
     };
   }
 
-  handleChange(source: string) {
+  handleChange = (source: string) => {
     this.props.handleChange(source);
   }
   componentDidMount() {
@@ -61,7 +61,7 @@ export class TextFile extends React.PureComponent<
           mode={this.props.mimetype}
           editorFocused={true}
           value={this.props.text}
-          onChange={this.handleChange.bind(this)}
+          onChange={this.handleChange}
           contentRef={this.props.contentRef}
         />
         <style jsx>{`

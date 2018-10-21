@@ -13,15 +13,15 @@ exports[`NewNotebookNavigation snapshots 1`] = `
     className="jsx-3185799055 collection"
   >
     <div
-      className="jsx-2415154052 new-notebook"
+      className="jsx-1554626637 new-notebook"
       onClick={[Function]}
       tabIndex={0}
     >
       <div
-        className="jsx-2415154052 logo-box"
+        className="jsx-1554626637 logo-box"
       >
         <div
-          className="jsx-2415154052 logo"
+          className="jsx-1554626637 logo"
         >
           <span>
             <svg
@@ -67,16 +67,16 @@ exports[`NewNotebookNavigation snapshots 1`] = `
         </div>
       </div>
       <div
-        className="jsx-2415154052 text-box"
+        className="jsx-1554626637 text-box"
       >
         <p
-          className="jsx-2415154052 display-name-short"
+          className="jsx-1554626637 display-name-short"
           title="python"
         >
           python
         </p>
         <p
-          className="jsx-2415154052 display-name-long"
+          className="jsx-1554626637 display-name-long"
           title="Python 3"
         >
           Python 3
@@ -84,15 +84,15 @@ exports[`NewNotebookNavigation snapshots 1`] = `
       </div>
     </div>
     <div
-      className="jsx-2415154052 new-notebook"
+      className="jsx-1554626637 new-notebook"
       onClick={[Function]}
       tabIndex={0}
     >
       <div
-        className="jsx-2415154052 logo-box"
+        className="jsx-1554626637 logo-box"
       >
         <div
-          className="jsx-2415154052 logo"
+          className="jsx-1554626637 logo"
         >
           <span>
             <svg
@@ -138,16 +138,16 @@ exports[`NewNotebookNavigation snapshots 1`] = `
         </div>
       </div>
       <div
-        className="jsx-2415154052 text-box"
+        className="jsx-1554626637 text-box"
       >
         <p
-          className="jsx-2415154052 display-name-short"
+          className="jsx-1554626637 display-name-short"
           title="scala"
         >
           scala
         </p>
         <p
-          className="jsx-2415154052 display-name-long"
+          className="jsx-1554626637 display-name-long"
           title="Scala 2.11"
         >
           Scala 2.11
@@ -155,15 +155,15 @@ exports[`NewNotebookNavigation snapshots 1`] = `
       </div>
     </div>
     <div
-      className="jsx-2415154052 new-notebook"
+      className="jsx-1554626637 new-notebook"
       onClick={[Function]}
       tabIndex={0}
     >
       <div
-        className="jsx-2415154052 logo-box"
+        className="jsx-1554626637 logo-box"
       >
         <div
-          className="jsx-2415154052 logo"
+          className="jsx-1554626637 logo"
         >
           <span>
             <svg
@@ -209,16 +209,16 @@ exports[`NewNotebookNavigation snapshots 1`] = `
         </div>
       </div>
       <div
-        className="jsx-2415154052 text-box"
+        className="jsx-1554626637 text-box"
       >
         <p
-          className="jsx-2415154052 display-name-short"
+          className="jsx-1554626637 display-name-short"
           title="python"
         >
           python
         </p>
         <p
-          className="jsx-2415154052 display-name-long"
+          className="jsx-1554626637 display-name-long"
           title="Python 2"
         >
           Python 2

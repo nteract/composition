@@ -13,9 +13,15 @@ export class SVG extends React.Component<Props> {
     date: ""
   };
 
+  constructor(props) {
+    super(props);
+
+    this.elRef = React.createRef();
+  }
+
   componentDidMount(): void {
-    if (this.el) {
-      this.el.insertAdjacentHTML("beforeend", this.props.data);
+    if (this.elRef.current) {
+      this.elRef.current.insertAdjacentHTML("beforeend", this.props.data);
     }
   }
 
@@ -24,10 +30,10 @@ export class SVG extends React.Component<Props> {
   }
 
   componentDidUpdate(): void {
-    if (!this.el) return;
+    if (!this.elRef.current) return;
     // clear out all DOM element children
-    while (this.el.firstChild) {
-      this.el.removeChild(this.el.firstChild);
+    while (this.elRef.current.firstChild) {
+      this.elRef.current.removeChild(this.elRef.current.firstChild);
     }
     this.el.insertAdjacentHTML("beforeend", this.props.data);
   }
@@ -35,9 +41,7 @@ export class SVG extends React.Component<Props> {
   render(): ?React$Element<any> {
     return (
       <div
-        ref={el => {
-          this.el = el;
-        }}
+        ref={this.elRef}
       />
     );
   }

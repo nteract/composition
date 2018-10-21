@@ -13,12 +13,18 @@ type HijackScrollProps = {
 export class HijackScroll extends React.Component<HijackScrollProps, *> {
   el: ?HTMLElement;
 
+  constructor(props) {
+    super(props);
+
+    this.elRef = React.createRef();
+  }
+
   scrollIntoViewIfNeeded(prevFocused?: boolean): void {
     // Check if the element is being hovered over.
     const hovered =
-      this.el &&
-      this.el.parentElement &&
-      this.el.parentElement.querySelector(":hover") === this.el;
+      this.elRef.current &&
+      this.elRef.current.parentElement &&
+      this.elRef.current.parentElement.querySelector(":hover") === this.elRef.current;
 
     if (
       this.props.focused &&
@@ -27,9 +33,9 @@ export class HijackScroll extends React.Component<HijackScrollProps, *> {
       // accidentally selecting text within the codemirror area
       !hovered
     ) {
-      if (this.el && "scrollIntoViewIfNeeded" in this.el) {
+      if (this.elRef.current && "scrollIntoViewIfNeeded" in this.elRef.current) {
         // $FlowFixMe: This is only valid in Chrome, WebKit
-        this.el.scrollIntoViewIfNeeded();
+        this.elRef.current.scrollIntoViewIfNeeded();
       } else {
         // TODO: Polyfill as best we can for the webapp version
       }
@@ -49,9 +55,7 @@ export class HijackScroll extends React.Component<HijackScrollProps, *> {
       <div
         onClick={this.props.onClick}
         role="presentation"
-        ref={el => {
-          this.el = el;
-        }}
+        ref={this.elRef}
       >
         {this.props.children}
       </div>

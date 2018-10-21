@@ -14,6 +14,8 @@ import * as utils from "../utils";
 import { KernelUI } from "./kernelUI";
 import { BinderConsole } from "./consoles";
 
+const noop = () => {};
+
 const NTERACT_LOGO_URL =
   "https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/svg/nteract_logo_wide_purple_inverted.svg";
 
@@ -103,6 +105,7 @@ class Main extends React.Component<*, *> {
       source
     });
   };
+  handlePanelToggle = () => this.props.setShowPanel(!this.props.showPanel);
   render() {
     const {
       currentKernel,
@@ -111,7 +114,6 @@ class Main extends React.Component<*, *> {
       currentServer,
       platform,
       showPanel,
-      setShowPanel
     } = this.props;
     const { repoValue, gitrefValue, sourceValue } = this.state;
     return (
@@ -148,7 +150,7 @@ class Main extends React.Component<*, *> {
             >
               ▶ Run
             </button>
-            <button onClick={() => setShowPanel(!showPanel)}>
+            <button onClick={this.handlePanelToggle}>
               {showPanel ? "Hide" : "Show"} logs
             </button>
           </div>
@@ -199,9 +201,9 @@ class Main extends React.Component<*, *> {
             //       component. It shouldn't be here, I won't refactor it as part
             //       of the current play PR though.
             id="not-really-a-cell"
-            onFocusChange={() => {}}
-            focusAbove={() => {}}
-            focusBelow={() => {}}
+            onFocusChange={noop}
+            focusAbove={noop}
+            focusBelow={noop}
             // END TODO for notebook leakage
             // TODO: kernelStatus should be allowed to be null or undefined,
             //       resulting in thought of as either idle or not connected by

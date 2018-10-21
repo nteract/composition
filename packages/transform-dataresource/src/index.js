@@ -413,8 +413,9 @@ class DataResourceTransform extends React.Component<Props, State> {
             </IconButton>
             {dimensions.length > 0 && (
               <IconButton
+                value={"bar"}
                 title={chartHelpText.bar}
-                onClick={() => this.setView("bar")}
+                onClick={this.setView}
                 selected={view === "bar"}
                 message={"Bar Graph"}
               >
@@ -422,24 +423,27 @@ class DataResourceTransform extends React.Component<Props, State> {
               </IconButton>
             )}
             <IconButton
+              value={"summary"}
               title={chartHelpText.summary}
-              onClick={() => this.setView("summary")}
+              onClick={this.setView}
               selected={view === "summary"}
               message={"Summary"}
             >
               <BoxplotIcon />
             </IconButton>
             <IconButton
+              value={"scatter"}
               title={chartHelpText.scatter}
-              onClick={() => this.setView("scatter")}
+              onClick={this.setView}
               selected={view === "scatter"}
               message={"Scatter Plot"}
             >
               <ScatterplotIcon />
             </IconButton>
             <IconButton
+              value={"hexbin"}
               title={chartHelpText.hexbin}
-              onClick={() => this.setView("hexbin")}
+              onClick={this.setView}
               selected={view === "hexbin"}
               message={"Area Plot"}
             >
@@ -447,8 +451,9 @@ class DataResourceTransform extends React.Component<Props, State> {
             </IconButton>
             {dimensions.length > 1 && (
               <IconButton
+                value={"network"}
                 title={chartHelpText.network}
-                onClick={() => this.setView("network")}
+                onClick={this.setView}
                 selected={view === "network"}
                 message={"Network"}
               >
@@ -457,8 +462,9 @@ class DataResourceTransform extends React.Component<Props, State> {
             )}
             {dimensions.length > 0 && (
               <IconButton
+                value={"hierarchy"}
                 title={chartHelpText.hierarchy}
-                onClick={() => this.setView("hierarchy")}
+                onClick={this.setView}
                 selected={view === "hierarchy"}
                 message={"Hierarchy"}
               >
@@ -467,8 +473,9 @@ class DataResourceTransform extends React.Component<Props, State> {
             )}
             {dimensions.length > 0 && (
               <IconButton
+                value={"parallel"}
                 title={chartHelpText.parallel}
-                onClick={() => this.setView("parallel")}
+                onClick={this.setView}
                 selected={view === "parallel"}
                 message={"Parallel Coordinates"}
               >
@@ -476,8 +483,9 @@ class DataResourceTransform extends React.Component<Props, State> {
               </IconButton>
             )}
             <IconButton
+              value={"line"}
               title={chartHelpText.line}
-              onClick={() => this.setView("line")}
+              onClick={this.setView}
               selected={view === "line"}
               message={"Line Graph"}
             >
@@ -494,6 +502,7 @@ class DataResourceTransform extends React.Component<Props, State> {
 
 type IconButtonProps = {
   message: string,
+  value: ?string,
   onClick: () => void,
   children?: React.Node,
   title: string,
@@ -501,10 +510,13 @@ type IconButtonProps = {
 };
 
 export class IconButton extends React.Component<IconButtonProps> {
+  handleClick = () => {
+    this.props.onClick(this.props.value);
+  }
+
   render() {
     const {
       message,
-      onClick,
       children,
       selected,
       title = message
@@ -521,7 +533,7 @@ export class IconButton extends React.Component<IconButtonProps> {
     }
 
     return (
-      <button onClick={onClick} key={message} title={title} style={style}>
+      <button onClick={this.handleClick} key={message} title={title} style={style}>
         {children}
       </button>
     );

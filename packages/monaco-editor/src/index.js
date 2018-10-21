@@ -15,7 +15,7 @@ export type MonacoEditorProps = {
 
 class MonacoEditor extends React.Component<MonacoEditorProps> {
   monaco: ?monaco.IStandaloneCodeEditor;
-  monacoContainer: ?HTMLElement;
+  monacoContainerRef: React.Ref<HTMLElement>
 
   static defaultProps = {
     onChange: () => {},
@@ -25,6 +25,8 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
 
   constructor(props: MonacoEditorProps): void {
     super(props);
+
+    this.monacoContainerRef = React.createRef();
   }
 
   componentWillMount() {
@@ -41,7 +43,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
   }
 
   componentDidMount(): void {
-    this.monaco = monaco.editor.create(this.monacoContainer, {
+    this.monaco = monaco.editor.create(this.monacoContainerRef.current, {
       value: this.props.value,
       language: this.props.mode,
       theme: this.props.theme,
@@ -95,9 +97,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     return (
       <div
         className="monaco cm-s-composition"
-        ref={container => {
-          this.monacoContainer = container;
-        }}
+        ref={this.monacoContainerRef}
       />
     );
   }

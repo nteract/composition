@@ -9,6 +9,11 @@ import { default as Contents } from "./contents";
 
 class App extends React.Component<{ contentRef: ContentRef }, null> {
   notificationSystem: NotificationSystem;
+
+  setNotificationSystemRef = (el) => {
+    this.notificationSystem = el;
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -16,9 +21,7 @@ class App extends React.Component<{ contentRef: ContentRef }, null> {
           <Contents contentRef={this.props.contentRef} />
         </Styles>
         <NotificationSystem
-          ref={notificationSystem => {
-            this.notificationSystem = notificationSystem;
-          }}
+          ref={this.setNotificationSystemRef} 
         />
         <style jsx global>{`
           :root {

@@ -91,7 +91,7 @@ const cellTarget = {
     component: React.ElementRef<*>
   ): void {
     if (monitor) {
-      const hoverUpperHalf = isDragUpper(props, monitor, component.el);
+      const hoverUpperHalf = isDragUpper(props, monitor, component.elRef.current);
       // DropTargetSpec monitor definition could be undefined. we'll need a check for monitor in order to pass validation.
       props.moveCell({
         id: monitor.getItem().id,
@@ -109,7 +109,7 @@ const cellTarget = {
   ): void {
     if (monitor) {
       component.setState({
-        hoverUpperHalf: isDragUpper(props, monitor, component.el)
+        hoverUpperHalf: isDragUpper(props, monitor, component.elRel.current)
       });
     }
   }
@@ -150,6 +150,12 @@ class DraggableCellView extends React.Component<Props, State> {
     hoverUpperHalf: true
   };
 
+  constructor(props) {
+    super(props);
+
+    this.elRef = React.createRef();
+  }
+
   componentDidMount(): void {
     const connectDragPreview = this.props.connectDragPreview;
     const img = new window.Image();
@@ -180,9 +186,7 @@ class DraggableCellView extends React.Component<Props, State> {
               : "3px transparent solid"
         }}
         className={"draggable-cell"}
-        ref={el => {
-          this.el = el;
-        }}
+        ref={this.elRef}
       >
         {this.props.connectDragSource(
           <div

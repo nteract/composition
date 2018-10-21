@@ -68,6 +68,10 @@ initGlobalHandlers(contentRef, store);
 export default class App extends React.PureComponent<{}, null> {
   notificationSystem: NotificationSystem;
 
+  setNotificationSystemRef = (el) => {
+    this.notificationSystem = el;
+  }
+
   componentDidMount(): void {
     store.dispatch(actions.setNotificationSystem(this.notificationSystem));
     ipc.send("react-ready");
@@ -89,9 +93,7 @@ export default class App extends React.PureComponent<{}, null> {
             </MathJax.Provider>
 
             <NotificationSystem
-              ref={notificationSystem => {
-                this.notificationSystem = notificationSystem;
-              }}
+              ref={this.setNotificationSystemRef}
             />
           </Styles>
           <style jsx global>{`

@@ -20,8 +20,14 @@ export function createFragment(html: string): Node {
 }
 
 export default class HTMLDisplay extends React.Component<Props> {
-  el: ?HTMLElement;
+  elRef: React.Ref<HTMLElement>;
   static MIMETYPE = "text/html";
+
+  constructor(props) {
+    super(props);
+
+    this.elRef = React.createRef();
+  }
 
   componentDidMount(): void {
     // clear out all DOM element children
@@ -29,33 +35,31 @@ export default class HTMLDisplay extends React.Component<Props> {
     // version + the fragment version right after each other
     // In the desktop app (and successive loads with tools like commuter) this
     // will be a no-op
-    if (!this.el) return;
-    while (this.el.firstChild) {
-      this.el.removeChild(this.el.firstChild);
+    if (!this.elRef.current) return;
+    while (this.elRef.current.firstChild) {
+      this.elRef.current.removeChild(this.elRef.current.firstChild);
     }
     // DOM element appended with a real DOM Node fragment
-    this.el.appendChild(createFragment(this.props.data));
+    this.elRef.current.appendChild(createFragment(this.props.data));
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
     return nextProps.data !== this.props.data;
   }
   componentDidUpdate(): void {
-    if (!this.el) return;
+    if (!this.elRef.current) return;
     // clear out all DOM element children
-    while (this.el.firstChild) {
-      this.el.removeChild(this.el.firstChild);
+    while (this.elRef.current.firstChild) {
+      this.elRef.current.removeChild(this.elRef.current.firstChild);
     }
-    this.el.appendChild(createFragment(this.props.data));
+    this.elRef.current.appendChild(createFragment(this.props.data));
   }
 
   render(): ?React$Element<any> {
     return (
       <div
         dangerouslySetInnerHTML={{ __html: this.props.data }}
-        ref={el => {
-          this.el = el;
-        }}
+        ref={this.elRef}
       />
     );
   }

@@ -59,6 +59,8 @@ export default class MarkdownCell extends React.Component<any, State> {
     (this: any).editorKeyDown = this.editorKeyDown.bind(this);
     (this: any).renderedKeyDown = this.renderedKeyDown.bind(this);
     (this: any).closeEditor = this.closeEditor.bind(this);
+
+    this.renderedRef = React.createRef();
   }
 
   componentDidMount(): void {
@@ -77,12 +79,12 @@ export default class MarkdownCell extends React.Component<any, State> {
 
   updateFocus(): void {
     if (
-      this.rendered &&
+      this.renderedRef.current &&
       this.state &&
       this.state.view &&
       this.props.cellFocused
     ) {
-      this.rendered.focus();
+      this.renderedRef.current.focus();
       if (this.props.editorFocused) {
         this.openEditor();
       }
@@ -148,9 +150,7 @@ export default class MarkdownCell extends React.Component<any, State> {
       <div
         onDoubleClick={this.openEditor}
         onKeyDown={this.renderedKeyDown}
-        ref={rendered => {
-          this.rendered = rendered;
-        }}
+        ref={this.renderedRef}
         tabIndex={this.props.cellFocused ? 0 : null}
         style={{
           outline: "none"

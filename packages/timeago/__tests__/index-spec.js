@@ -11,6 +11,7 @@ describe("TimeAgo", () => {
 
     const now = () => date;
 
+    // eslint-disable-next-line react/jsx-no-bind
     const wrapper = shallow(<TimeAgo date={date} now={now} />);
     expect(wrapper.text()).toEqual("0 seconds ago");
   });

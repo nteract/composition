@@ -51,3 +51,4 @@ packages/styles/src/index.js
 styleguide
 
 .idea/
+.vscode/

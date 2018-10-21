@@ -79,10 +79,17 @@ export class VegaEmbed extends React.Component<EmbedProps> {
     version: "vega2"
   };
 
+  constructor(props) {
+    super(props);
+
+    this.elRef = React.createRef();
+  }
+
+
   componentDidMount(): void {
-    if (this.el) {
+    if (this.elRef.current) {
       embed(
-        this.el,
+        this.elRef.current,
         this.props.data,
         this.props.embedMode,
         this.props.version,
@@ -96,9 +103,9 @@ export class VegaEmbed extends React.Component<EmbedProps> {
   }
 
   componentDidUpdate(): void {
-    if (this.el) {
+    if (this.elRef.current) {
       embed(
-        this.el,
+        this.elRef.current,
         this.props.data,
         this.props.embedMode,
         this.props.version,
@@ -115,9 +122,7 @@ export class VegaEmbed extends React.Component<EmbedProps> {
       <React.Fragment>
         <style>{".vega-actions{ display: none; }"}</style>
         <div
-          ref={el => {
-            this.el = el;
-          }}
+          ref={this.elRef}
         />
       </React.Fragment>
     );
