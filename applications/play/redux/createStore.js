@@ -2,11 +2,11 @@
 import { applyMiddleware, compose, createStore } from "redux";
 import { createEpicMiddleware } from "redux-observable";
 import { middlewares as coreMiddlewares } from "@nteract/core";
+import merge from "deepmerge";
 
 import epics from "./epics";
 import reducer from "./reducer";
 import getInitialState from "./getInitialState";
-import merge from "deepmerge";
 
 /**
  * Not that we need to here, but I thought I'd write it out

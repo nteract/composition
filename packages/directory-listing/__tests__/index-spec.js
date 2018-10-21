@@ -2,6 +2,7 @@
 import * as React from "react";
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
+
 import { Entry, Listing, Name, Icon, LastSaved } from "../src";
 
 describe("Listing", () => {

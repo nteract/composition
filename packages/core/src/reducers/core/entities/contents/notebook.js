@@ -1,12 +1,7 @@
 // @flow
 
-import { makeDocumentRecord } from "../../../../state/entities/contents";
 import uuid from "uuid/v4";
-
-import * as actionTypes from "../../../../actionTypes";
-
 import * as Immutable from "immutable";
-
 import type {
   ImmutableCell,
   ImmutableCellMap,
@@ -16,23 +11,22 @@ import type {
   ImmutableOutput,
   ImmutableOutputs
 } from "@nteract/commutable";
-
 import {
   emptyCodeCell,
   emptyMarkdownCell,
   insertCellAt,
   insertCellAfter,
-  removeCell,
+  deleteCell,
   emptyNotebook,
   createImmutableOutput,
   createImmutableMimeBundle
 } from "@nteract/commutable";
-
 import { has } from "lodash";
-
 import type { Output, StreamOutput } from "@nteract/commutable/src/v4";
 import { escapeCarriageReturnSafe } from "escape-carriage";
 
+import * as actionTypes from "../../../../actionTypes";
+import { makeDocumentRecord } from "../../../../state/entities/contents";
 import type { NotebookModel } from "../../../../state/entities/contents";
 
 type KeyPath = Immutable.List<string | number>;
@@ -400,9 +394,11 @@ function moveCell(state: NotebookModel, action: actionTypes.MoveCell) {
   );
 }
 
-function removeCellFromState(
+
+// DEPRECATION WARNING: The action type RemoveCell is being deprecated. Please use DeleteCell instead
+function deleteCellFromState(
   state: NotebookModel,
-  action: actionTypes.RemoveCell
+  action: actionTypes.DeleteCell | actionTypes.RemoveCell
 ) {
   const id = action.payload.id ? action.payload.id : state.cellFocused;
   if (!id) {
@@ -410,7 +406,7 @@ function removeCellFromState(
   }
   return cleanCellTransient(
     state.update("notebook", (notebook: ImmutableNotebook) =>
-      removeCell(notebook, id)
+      deleteCell(notebook, id)
     ),
     id
   );
@@ -710,7 +706,7 @@ function cutCell(state: NotebookModel, action: actionTypes.CutCell) {
   return state
     .set("copied", cell)
     .update("notebook", (notebook: ImmutableNotebook) =>
-      removeCell(notebook, id)
+      deleteCell(notebook, id)
     );
 }
 
@@ -779,7 +775,7 @@ function toggleOutputExpansion(
   );
 }
 
-// DEPRECATION WARNING: Below, the following action types are being deprecated: createCellAfter and createCellBefore
+// DEPRECATION WARNING: Below, the following action types are being deprecated: RemoveCell, CreateCellAfter and CreateCellBefore
 type DocumentAction =
   | actionTypes.ToggleTagInCell
   | actionTypes.FocusPreviousCellEditor
@@ -792,6 +788,7 @@ type DocumentAction =
   | actionTypes.AppendOutput
   | actionTypes.UpdateDisplay
   | actionTypes.MoveCell
+  | actionTypes.DeleteCell
   | actionTypes.RemoveCell
   | actionTypes.CreateCellBelow
   | actionTypes.CreateCellAbove
@@ -857,12 +854,15 @@ export function notebook(
       return setInCell(state, action);
     case actionTypes.MOVE_CELL:
       return moveCell(state, action);
-    case actionTypes.REMOVE_CELL:
-      return removeCellFromState(state, action);
+    case actionTypes.DELETE_CELL:
+      return deleteCellFromState(state, action);
     case actionTypes.CREATE_CELL_BELOW:
       return createCellBelow(state, action);
     case actionTypes.CREATE_CELL_ABOVE:
       return createCellAbove(state, action);
+    case actionTypes.REMOVE_CELL:
+      console.log('DEPRECATION WARNING: This action type is being deprecated. Please use DELETE_CELL instead');
+      return deleteCellFromState(state, action);
     case actionTypes.CREATE_CELL_AFTER:
       console.log('DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_BELOW instead');
       return createCellAfter(state, action);

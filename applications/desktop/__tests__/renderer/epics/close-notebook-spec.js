@@ -1,13 +1,7 @@
 /* @flow strict */
 
-import * as actions from "../../../src/notebook/actions";
 
-import {
-  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
-  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
-} from "../../../src/notebook/state.js";
 
-import { closeNotebookEpic } from "../../../src/notebook/epics/close-notebook";
 
 import {
   actions as coreActions,
@@ -15,15 +9,18 @@ import {
   makeNotebookContentRecord,
   state as stateModule
 } from "@nteract/core";
-
 import * as Immutable from "immutable";
-
 import { toArray } from "rxjs/operators";
 import { ActionsObservable } from "redux-observable";
+import { TestScheduler } from "rxjs/testing";
 
 import { ipcRenderer as ipc } from "../../../__mocks__/electron";
-
-import { TestScheduler } from "rxjs/testing";
+import { closeNotebookEpic } from "../../../src/notebook/epics/close-notebook";
+import {
+  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
+  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
+} from "../../../src/notebook/state.js";
+import * as actions from "../../../src/notebook/actions";
 
 const buildScheduler = () =>
   new TestScheduler((actual, expected) => expect(actual).toEqual(expected));

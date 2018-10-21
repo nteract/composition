@@ -1,6 +1,5 @@
 /* @flow */
 import React from "react";
-
 import { ansiToInlineStyle } from "ansi-to-react";
 
 type Props = {

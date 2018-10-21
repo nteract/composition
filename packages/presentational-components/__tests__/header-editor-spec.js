@@ -1,10 +1,8 @@
 import * as React from "react";
+import { shallow } from "enzyme";
+import renderer from "react-test-renderer";
 
 import { HeaderEditor } from "../src/";
-
-import { shallow } from "enzyme";
-
-import renderer from "react-test-renderer";
 
 describe("Header Editor", () => {
   it("renders correctly with no props", () => {

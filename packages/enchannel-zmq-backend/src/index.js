@@ -1,8 +1,8 @@
 // @flow
 import { Subject, Subscriber, fromEvent, merge } from "rxjs";
 import { map, publish, refCount } from "rxjs/operators";
-
 import * as moduleJMP from "jmp";
+import uuid from "uuid/v4";
 
 export const ZMQType = {
   frontend: {
@@ -12,8 +12,6 @@ export const ZMQType = {
     control: "dealer"
   }
 };
-
-import uuid from "uuid/v4";
 
 export type CHANNEL_NAME = "iopub" | "stdin" | "shell" | "control";
 

@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "lodash";
-
 import { mount } from "enzyme";
 
 import PlotlyTransform from "../src";

@@ -1,5 +1,6 @@
 /* @flow */
 import * as React from "react";
+
 import PalettePicker from "./PalettePicker";
 
 type HTMLLegendProps = {

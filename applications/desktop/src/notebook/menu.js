@@ -1,13 +1,11 @@
 /* @flow strict */
 /* eslint-disable no-unused-vars, no-use-before-define */
-import { ipcRenderer as ipc, webFrame, shell, remote } from "electron";
 
 import * as path from "path";
-
 import * as fs from "fs";
 
+import { ipcRenderer as ipc, webFrame, shell, remote } from "electron";
 import { throttle } from "lodash";
-
 import {
   actions,
   actionTypes,
@@ -15,7 +13,6 @@ import {
   createKernelRef
 } from "@nteract/core";
 import type { AppState, ContentRef, KernelRef } from "@nteract/core";
-
 import type { Store } from "redux";
 
 import type { DesktopNotebookAppState } from "./state.js";
@@ -412,7 +409,7 @@ export function dispatchDeleteCell(
   ownProps: { contentRef: ContentRef },
   store: Store<DesktopNotebookAppState, *>
 ) {
-  store.dispatch(actions.removeCell({ contentRef: ownProps.contentRef }));
+  store.dispatch(actions.deleteCell({ contentRef: ownProps.contentRef }));
 }
 
 export function dispatchCreateCellAbove(

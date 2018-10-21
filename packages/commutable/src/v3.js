@@ -8,14 +8,12 @@ import type {
   ImmutableOutput,
   ImmutableMimeBundle
 } from "./types";
-
 import type { CellStructure } from "./structures";
-
 import type { MultiLineString, ErrorOutput, RawCell, MarkdownCell } from "./v4";
-
 import { cleanMimeAtKey } from "./v4";
 
 const Immutable = require("immutable");
+
 const appendCell = require("./structures").appendCell;
 
 function demultiline(s: string | Array<string>) {

@@ -1,15 +1,15 @@
 /* @flow strict */
 import { catchError, startWith } from "rxjs/operators";
-import { saveEpic, saveAsEpic } from "./saving";
+import { epics as coreEpics } from "@nteract/core";
+import type { AppState } from "@nteract/core";
+import type { Epic } from "redux-observable";
 
+import { saveEpic, saveAsEpic } from "./saving";
 import {
   fetchContentEpic,
   newNotebookEpic,
   launchKernelWhenNotebookSetEpic
 } from "./loading";
-
-import type { Epic } from "redux-observable";
-
 import {
   launchKernelEpic,
   launchKernelByNameEpic,
@@ -17,18 +17,12 @@ import {
   killKernelEpic,
   watchSpawn
 } from "./zeromq-kernels";
-
-import { epics as coreEpics } from "@nteract/core";
-import type { AppState } from "@nteract/core";
-
 import { publishEpic } from "./github-publish";
-
 import {
   loadConfigEpic,
   saveConfigEpic,
   saveConfigOnChangeEpic
 } from "./config";
-
 import { closeNotebookEpic } from "./close-notebook";
 
 export function retryAndEmitError(

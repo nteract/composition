@@ -3,22 +3,14 @@
 // Lots of open bugs around intersection types, and they're used inside Immutable.js too, so layers upon layers.
 // https://github.com/facebook/flow/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+intersect
 
-import * as actions from "../actions";
-import * as actionTypes from "../actionTypes";
 
-import {
-  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
-  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
-} from "../state.js";
 
 import {
   actionTypes as coreActionTypes,
   actions as coreActions,
   selectors
 } from "@nteract/core";
-
 import { Observable, empty, of, zip, concat } from "rxjs";
-
 import {
   catchError,
   concatMap,
@@ -28,10 +20,15 @@ import {
   tap,
   timeout
 } from "rxjs/operators";
-
 import { ActionsObservable, ofType } from "redux-observable";
-
 import { ipcRenderer as ipc } from "electron";
+
+import {
+  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
+  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
+} from "../state.js";
+import * as actionTypes from "../actionTypes";
+import * as actions from "../actions";
 
 export const closeNotebookEpic = (action$: ActionsObservable<redux$Action>, state$: *) =>
   action$.pipe(

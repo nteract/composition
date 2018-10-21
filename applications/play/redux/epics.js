@@ -1,17 +1,16 @@
 // @flow
-import * as actionTypes from "./actionTypes";
-import * as actions from "./actions";
 
 import { ActionsObservable, combineEpics, ofType } from "redux-observable";
-
 import { from, merge } from "rxjs";
-
 import { filter, catchError, mergeMap, switchMap } from "rxjs/operators";
 import { binder } from "rx-binder";
 import { kernels, shutdown, kernelspecs } from "rx-jupyter";
 import uuid from "uuid/v4";
 import { executeRequest, kernelInfoRequest } from "@nteract/messaging";
 import objectPath from "object-path";
+
+import * as actions from "./actions";
+import * as actionTypes from "./actionTypes";
 
 const of = ActionsObservable.of;
 

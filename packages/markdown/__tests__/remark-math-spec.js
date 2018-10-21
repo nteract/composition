@@ -1,8 +1,9 @@
-import math from "../src/remark-math";
 import unified from "unified";
 import parse from "remark-parse";
 import stringify from "remark-stringify";
 import u from "unist-builder";
+
+import math from "../src/remark-math";
 
 function remark() {
   return unified()

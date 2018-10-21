@@ -4,8 +4,9 @@
  * Local storage provider for commuter
  */
 
-const fs = require("fs-extra");
 const path = require("path");
+
+const fs = require("fs-extra");
 
 export type DiskProviderOptions = {
   local: {

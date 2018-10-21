@@ -1,11 +1,9 @@
 /* @flow strict */
 import { remote } from "electron";
-
 import { actions, actionTypes } from "@nteract/core";
 import { readFileObservable, writeFileObservable } from "fs-observable";
 import { mapTo, mergeMap, map, switchMap } from "rxjs/operators";
 import { ofType } from "redux-observable";
-
 import type { ActionsObservable, StateObservable } from "redux-observable";
 import type { AppState } from "@nteract/core";
 

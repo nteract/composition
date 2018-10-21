@@ -1,10 +1,9 @@
 import Immutable from "immutable";
 import { remote } from "electron";
-
 import { of } from "rxjs";
+import { state as stateModule } from "@nteract/core";
 
 import * as nativeWindow from "../../src/notebook/native-window";
-import { state as stateModule } from "@nteract/core";
 
 const path = require("path");
 

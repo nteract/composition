@@ -2,6 +2,13 @@
 /* eslint-disable max-len */
 
 import uuid from "uuid/v4";
+import {
+  emptyCodeCell,
+  emptyMarkdownCell,
+  appendCellToNotebook,
+  emptyNotebook
+} from "@nteract/commutable";
+import * as Immutable from "immutable";
 
 import * as actions from "../src/actions";
 import {
@@ -9,19 +16,9 @@ import {
   reduceOutputs,
   cleanCellTransient
 } from "../src/reducers/core/entities/contents/notebook";
-
-import {
-  emptyCodeCell,
-  emptyMarkdownCell,
-  appendCellToNotebook,
-  emptyNotebook
-} from "@nteract/commutable";
-
 import { makeDocumentRecord } from "../src/state";
-
 import { dummyCommutable } from "../src/dummy";
 
-import * as Immutable from "immutable";
 
 const initialDocument = new Immutable.Map();
 const monocellDocument = initialDocument
@@ -393,10 +390,19 @@ describe("moveCell", () => {
 });
 
 describe("removeCell", () => {
-  test("should remove a cell given an ID", () => {
+  test("DEPRECATION WARNING: removeCell() will be deprecated soon, please use deleteCell() instead. should remove a cell given an ID", () => {
     const originalState = monocellDocument;
     const id = originalState.getIn(["notebook", "cellOrder"]).first();
     const state = reducers(originalState, actions.removeCell({ id }));
+    expect(state.getIn(["notebook", "cellOrder"]).size).toBe(2);
+  });
+});
+
+describe("deleteCell", () => {
+  test("should delete a cell given an ID", () => {
+    const originalState = monocellDocument;
+    const id = originalState.getIn(["notebook", "cellOrder"]).first();
+    const state = reducers(originalState, actions.deleteCell({ id }));
     expect(state.getIn(["notebook", "cellOrder"]).size).toBe(2);
   });
 });

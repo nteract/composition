@@ -1,9 +1,9 @@
 // @flow
 import { ActionsObservable } from "redux-observable";
-
 import { actionTypes, actions, state as stateModule } from "@nteract/core";
-
 import { createExecuteRequest } from "@nteract/messaging";
+import { Subject, from } from "rxjs";
+import { toArray, share, catchError } from "rxjs/operators";
 
 import {
   executeCellStream,
@@ -14,8 +14,6 @@ import {
 
 const Immutable = require("immutable");
 
-import { Subject, from } from "rxjs";
-import { toArray, share, catchError } from "rxjs/operators";
 
 describe("executeCell", () => {
   test("returns an executeCell action", () => {

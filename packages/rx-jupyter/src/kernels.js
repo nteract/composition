@@ -3,11 +3,11 @@
 import { ajax } from "rxjs/ajax";
 import { webSocket } from "rxjs/webSocket";
 import { Observable, Subject, Subscriber } from "rxjs";
-
 import type { WebSocketSubject } from "rxjs/webSocket";
+import { retryWhen, tap, delay, share } from "rxjs/operators";
+
 import { createAJAXSettings } from "./base";
 
-import { retryWhen, tap, delay, share } from "rxjs/operators";
 
 const urljoin = require("url-join");
 const URLSearchParams = require("url-search-params");

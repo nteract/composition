@@ -2,7 +2,6 @@
 
 import { ofType } from "redux-observable";
 import type { ActionsObservable, StateObservable } from "redux-observable";
-
 import {
   catchError,
   map,
@@ -12,20 +11,18 @@ import {
   filter
 } from "rxjs/operators";
 import { of, empty } from "rxjs";
-import { extractNewKernel } from "./kernel-lifecycle";
-
 import { kernels, sessions } from "rx-jupyter";
+import { kernelInfoRequest } from "@nteract/messaging";
 
 import * as actions from "../actions";
 import * as selectors from "../selectors";
 import * as actionTypes from "../actionTypes";
 import { castToSessionId } from "../state/ids";
 import { createKernelRef } from "../state/refs";
-
 import type { AppState } from "../state";
 import type { RemoteKernelProps } from "../state/entities/kernels";
 
-import { kernelInfoRequest } from "@nteract/messaging";
+import { extractNewKernel } from "./kernel-lifecycle";
 
 export const launchWebSocketKernelEpic = (
   action$: ActionsObservable<redux$Action>,

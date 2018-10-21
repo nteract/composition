@@ -1,12 +1,9 @@
 import React from "react";
-
 import { shallow } from "enzyme";
+import { emptyMarkdownCell } from "@nteract/commutable";
+import { displayOrder, transforms } from "@nteract/transforms";
 
 import DraggableCell from "../src/draggable-cell";
-
-import { emptyMarkdownCell } from "@nteract/commutable";
-
-import { displayOrder, transforms } from "@nteract/transforms";
 
 // Spoof DND manager for tests.
 const dragDropManager = {

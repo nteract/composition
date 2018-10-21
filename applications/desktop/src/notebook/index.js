@@ -3,19 +3,10 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { ipcRenderer as ipc, remote } from "electron";
 import { Provider } from "react-redux";
-
-// Load the nteract fonts
-require("./fonts");
-
 import MathJax from "@nteract/mathjax";
 import { mathJaxPath } from "mathjax-electron";
-
 import NotificationSystem from "react-notification-system";
-
-import configureStore from "./store";
-
 import { Styles } from "@nteract/presentational-components";
-
 import {
   actions,
   createContentRef,
@@ -27,19 +18,19 @@ import {
   makeLocalHostRecord,
   makeEntitiesRecord
 } from "@nteract/core";
-
 import type { ContentRef, ContentRecord } from "@nteract/core";
-
 import NotebookApp from "@nteract/notebook-app-component";
-
 import { displayOrder, transforms } from "@nteract/transforms-full";
+import * as Immutable from "immutable";
 
 import { initMenuHandlers } from "./menu";
 import { initNativeHandlers } from "./native-window";
 import { initGlobalHandlers } from "./global-events";
 import { makeDesktopNotebookRecord } from "./state.js";
+import configureStore from "./store";
 
-import * as Immutable from "immutable";
+// Load the nteract fonts
+require("./fonts");
 
 const contentRef = createContentRef();
 

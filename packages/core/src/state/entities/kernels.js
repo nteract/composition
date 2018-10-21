@@ -1,11 +1,14 @@
 // @flow
-import * as Immutable from "immutable";
 import type { ChildProcess } from "child_process";
-import type { HostRef, KernelRef } from "../refs";
-import type { KernelId, SessionId } from "../ids";
+
+import * as Immutable from "immutable";
 import { Subject } from "rxjs";
 
+import type { HostRef, KernelRef } from "../refs";
+import type { KernelId, SessionId } from "../ids";
+
 import type { KernelInfo } from "./kernel-info";
+
 export type { KernelInfo };
 
 // See #3427. This represents the kernel early in the launch process.

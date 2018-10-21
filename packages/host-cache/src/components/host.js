@@ -2,6 +2,7 @@
 import * as React from "react";
 
 import { LocalHostStorage } from "../host-storage.js";
+import type { ServerConfig } from "../host-storage";
 
 const { Provider, Consumer } = React.createContext(null);
 
@@ -13,8 +14,6 @@ type HostProps = {
   gitRef?: string,
   binderURL?: string
 };
-
-import type { ServerConfig } from "../host-storage";
 
 class Host extends React.Component<HostProps, ServerConfig> {
   lhs: LocalHostStorage;

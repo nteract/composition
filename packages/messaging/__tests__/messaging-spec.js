@@ -1,8 +1,10 @@
 import { from, of } from "rxjs";
 import { map, tap, count, toArray } from "rxjs/operators";
-import { ofMessageType, childOf } from "../src/index";
+import { cloneDeep } from "lodash";
 
 import {
+  ofMessageType,
+  childOf,
   createMessage,
   createExecuteRequest,
   convertOutputMessageToNotebookFormat,
@@ -11,7 +13,6 @@ import {
   executionCounts,
   kernelStatuses
 } from "../src";
-
 import {
   executeInput,
   displayData,
@@ -19,8 +20,6 @@ import {
   executeReply,
   message
 } from "../src/messages";
-
-import { cloneDeep } from "lodash";
 
 describe("createMessage", () => {
   it("makes a msg", () => {

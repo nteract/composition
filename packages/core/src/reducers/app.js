@@ -1,10 +1,7 @@
 // @flow
 import { makeAppRecord } from "../state";
-
 import type { AppRecord } from "../state";
-
 import * as actionTypes from "../actionTypes";
-
 import type {
   SetNotificationSystemAction,
   SetGithubTokenAction,

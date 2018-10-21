@@ -8,7 +8,7 @@ exports[`Test NotebokRender snapshots accepts an Immutable.List of cells 1`] = `
     <Cell
       _hovered={false}
       isSelected={false}
-      key="3"
+      key="2"
     >
       <div
         className="jsx-2299737332 content-margin"
@@ -48,7 +48,7 @@ exports[`Test NotebokRender snapshots accepts an Immutable.List of cells 1`] = `
     <Cell
       _hovered={false}
       isSelected={false}
-      key="4"
+      key="3"
     >
       <Input
         hidden={false}

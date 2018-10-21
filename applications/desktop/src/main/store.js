@@ -2,8 +2,9 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import { electronEnhancer } from "redux-electron-store";
 
-import reducers from "./reducers.js";
 import logger from "../notebook/logger.js";
+
+import reducers from "./reducers.js";
 
 const middlewares = [];
 

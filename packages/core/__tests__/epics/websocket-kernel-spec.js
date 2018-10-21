@@ -2,8 +2,9 @@
 import * as Immutable from "immutable";
 import { ActionsObservable } from "redux-observable";
 import { Subject } from "rxjs";
-import { actions, state as stateModule, epics as coreEpics } from "../../src";
 import { toArray } from "rxjs/operators";
+
+import { actions, state as stateModule, epics as coreEpics } from "../../src";
 
 describe("launchWebSocketKernelEpic", () => {
   test("launches remote kernels", async function() {

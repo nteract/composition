@@ -4,23 +4,22 @@
 // instead of a dev dependency as it automatically ensures it is not executed
 // in production and the footprint is minimal.
 import { hot } from "react-hot-loader";
-
 import * as React from "react";
-
 import { selectors } from "@nteract/core";
-
 import type { AppState, ContentRef } from "@nteract/core";
+import { connect } from "react-redux";
 
-const urljoin = require("url-join");
+import { ThemedLogo } from "../components/themed-logo";
+import { Nav, NavSection } from "../components/nav";
 
 import { default as Directory } from "./directory";
 import { default as File } from "./file";
 
-import { ThemedLogo } from "../components/themed-logo";
+const urljoin = require("url-join");
 
-import { Nav, NavSection } from "../components/nav";
 
-import { connect } from "react-redux";
+
+
 
 type ContentsProps = {
   contentType: "dummy" | "notebook" | "directory" | "file",

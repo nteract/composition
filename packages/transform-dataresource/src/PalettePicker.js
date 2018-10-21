@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from "react";
 import { ChromePicker } from "react-color";
+
 import paletteStyle from "./css/palette-picker";
 
 type Props = {

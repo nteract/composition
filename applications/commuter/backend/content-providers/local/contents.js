@@ -1,11 +1,11 @@
 // @flow
-const express = require("express");
-
-const fs = require("./fs");
+import type { $Request, $Response } from "express";
 
 import type { DiskProviderOptions } from "./fs";
 
-import type { $Request, $Response } from "express";
+const express = require("express");
+
+const fs = require("./fs");
 
 type ErrorResponse = {
   message: string

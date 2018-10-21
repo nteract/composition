@@ -1,6 +1,5 @@
 /* @flow */
 import * as React from "react";
-
 import { merge } from "lodash";
 import vegaEmbed2 from "@nteract/vega-embed-v2";
 import vegaEmbed3 from "vega-embed";

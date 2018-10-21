@@ -1,7 +1,6 @@
 /* @flow strict */
 
 import * as actionTypes from "./actionTypes";
-
 import type { DesktopNotebookRecord } from "./state";
 import {
   makeDesktopNotebookRecord,

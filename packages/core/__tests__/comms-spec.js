@@ -1,5 +1,6 @@
-import commsReducer from "../src/reducers/comms";
 import { state as stateModule } from "@nteract/core";
+
+import commsReducer from "../src/reducers/comms";
 
 describe("registerCommTarget", () => {
   test("sets comm targets", () => {

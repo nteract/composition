@@ -1,9 +1,8 @@
 import React from "react";
 import { empty, Subject } from "rxjs";
-
 import { mount } from "enzyme";
-
 import { createMessage } from "@nteract/messaging";
+
 import Editor from "../src/";
 
 const complete = require("../src/jupyter/complete");

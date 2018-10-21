@@ -5,12 +5,9 @@ import type {
   KernelspecProps,
   JupyterHostRecord
 } from "@nteract/core";
-
 import { selectors } from "@nteract/core";
-
 // TODO: Make a proper epic
 import { contents, sessions } from "rx-jupyter";
-
 import { first, map, mergeMap } from "rxjs/operators";
 import { forkJoin } from "rxjs";
 

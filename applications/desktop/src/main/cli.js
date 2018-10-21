@@ -1,8 +1,8 @@
 /* @flow strict */
+import { join } from "path";
+
 import { catchError, mergeMap } from "rxjs/operators";
 import { merge } from "rxjs";
-
-import { join } from "path";
 import { dialog } from "electron";
 import { spawn } from "spawn-rx";
 import { writeFileObservable, createSymlinkObservable } from "fs-observable";

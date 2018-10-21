@@ -1,9 +1,10 @@
 // @flow
 import * as React from "react";
-import { MODAL_TYPES } from "./constants";
-import AboutModal from "./about-modal";
 import { connect } from "react-redux";
 import { selectors } from "@nteract/core";
+
+import { MODAL_TYPES } from "./constants";
+import AboutModal from "./about-modal";
 
 class ModalController extends React.Component<*, *> {
   getModal = () => {

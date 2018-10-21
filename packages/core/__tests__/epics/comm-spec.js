@@ -1,17 +1,16 @@
 // @flow
+import { of } from "rxjs";
+import { toArray } from "rxjs/operators";
+
 import {
   createCommMessage,
   createCommCloseMessage,
   createCommOpenMessage,
   commActionObservable
 } from "../../src/epics/comm";
-
 import * as actions from "../../src/actions";
-
 import { COMM_OPEN, COMM_MESSAGE } from "../../src/actionTypes";
 
-import { of } from "rxjs";
-import { toArray } from "rxjs/operators";
 
 describe("createCommMessage", () => {
   test("creates a comm_msg", () => {

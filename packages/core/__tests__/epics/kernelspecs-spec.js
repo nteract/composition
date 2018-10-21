@@ -1,8 +1,9 @@
 // @flow
 import { ActionsObservable } from "redux-observable";
+import { toArray } from "rxjs/operators";
+
 import { fetchKernelspecs } from "../../src/actions";
 import { fetchKernelspecsEpic } from "../../src/epics/kernelspecs";
-import { toArray } from "rxjs/operators";
 
 describe("fetchKernelspecsEpic", () => {
   test("calls kernelspecs.list with appropriate jupyter host config", done => {

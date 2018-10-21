@@ -8,7 +8,6 @@ import * as kernelspecs from "./kernelspecs";
 import * as sessions from "./sessions";
 import * as contents from "./contents";
 import * as terminals from "./terminals";
-
 import { createAJAXSettings } from "./base";
 
 function apiVersion(serverConfig: Object) {

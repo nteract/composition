@@ -5,15 +5,11 @@ import * as fs from "fs";
 
 import { of, forkJoin, empty } from "rxjs";
 import { map, tap, switchMap, catchError, timeout } from "rxjs/operators";
-
 import { ActionsObservable, ofType } from "redux-observable";
 import type { StateObservable } from "redux-observable";
-
 import { readFileObservable, statObservable } from "fs-observable";
-
 import { monocellNotebook, toJS } from "@nteract/commutable";
 import type { ImmutableNotebook } from "@nteract/commutable";
-
 import { actionTypes, actions, selectors } from "@nteract/core";
 import type { AppState } from "@nteract/core";
 

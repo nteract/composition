@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import Router from "next/router";
-
 import NextLink from "next/link";
 import { trim } from "lodash";
 

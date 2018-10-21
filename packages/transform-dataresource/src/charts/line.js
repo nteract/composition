@@ -1,10 +1,9 @@
 /* @flow */
 import * as React from "react";
-
-import TooltipContent from "../tooltip-content";
-
 import { curveMonotone } from "d3-shape";
 import { scaleLinear, scaleTime } from "d3-scale";
+
+import TooltipContent from "../tooltip-content";
 import { numeralFormatting } from "../utilities";
 
 export const semioticLineChart = (

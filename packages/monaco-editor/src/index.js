@@ -1,9 +1,7 @@
 // @flow
 /* eslint-disable class-methods-use-this */
 import * as React from "react";
-
 import { debounce } from "lodash";
-
 // $FlowFixMe
 import * as monaco from "monaco-editor";
 

@@ -1,24 +1,21 @@
 /* @flow */
 import { empty, from, interval } from "rxjs";
-
 import { tap, map, mergeMap, switchMap, catchError } from "rxjs/operators";
 import { ofType, ActionsObservable } from "redux-observable";
-
 import { sample } from "lodash";
-
 import FileSaver from "file-saver";
+import type { StateObservable } from "redux-observable";
+import { contents } from "rx-jupyter";
+import { toJS, stringifyNotebook } from "@nteract/commutable";
+import type { Notebook } from "@nteract/commutable";
 
 import * as actions from "../actions";
 import * as actionTypes from "../actionTypes";
 import * as selectors from "../selectors";
 import type { ContentRef, AppState } from "../state";
 
-import type { StateObservable } from "redux-observable";
 
-import { contents } from "rx-jupyter";
 
-import { toJS, stringifyNotebook } from "@nteract/commutable";
-import type { Notebook } from "@nteract/commutable";
 
 // Flow complains otherwise since of would return an rxjs$Observable rather than an ActionsObservable
 // Ask Jay Phelps about this ;)

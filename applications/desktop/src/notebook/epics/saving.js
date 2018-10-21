@@ -1,14 +1,10 @@
 /* @flow strict */
 import { ofType } from "redux-observable";
 import type { ActionsObservable, StateObservable } from "redux-observable";
-
 import { writeFileObservable } from "fs-observable";
-
 import { actionTypes, selectors, actions } from "@nteract/core";
 import type { AppState } from "@nteract/core";
-
 import { toJS, stringifyNotebook } from "@nteract/commutable";
-
 import { of } from "rxjs";
 import { mergeMap, catchError, map } from "rxjs/operators";
 

@@ -1,7 +1,6 @@
 // @flow
 
 import * as actionTypes from "../../../../actionTypes";
-
 import type { FileModelRecord } from "../../../../state/entities/contents";
 
 function updateFileText(

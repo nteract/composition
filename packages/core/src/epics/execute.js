@@ -8,12 +8,7 @@ import {
   kernelStatuses,
   executionCounts
 } from "@nteract/messaging";
-
 import { Observable, of, merge, empty, throwError } from "rxjs";
-
-import type { ContentRef } from "../state/refs";
-import type { AppState } from "../state";
-
 import {
   groupBy,
   filter,
@@ -28,15 +23,14 @@ import {
   tap,
   share
 } from "rxjs/operators";
-
 import { ofType } from "redux-observable";
+import type { ActionsObservable, StateObservable } from "redux-observable";
 
+import type { ContentRef } from "../state/refs";
+import type { AppState } from "../state";
 import * as actions from "../actions";
 import * as actionTypes from "../actionTypes";
 import * as selectors from "../selectors";
-
-import type { ActionsObservable, StateObservable } from "redux-observable";
-
 import type {
   NewKernelAction,
   ExecuteCell,
@@ -44,7 +38,7 @@ import type {
   ExecuteAllCells,
   ExecuteAllCellsBelow,
   ExecuteCanceled,
-  RemoveCell
+  DeleteCell
 } from "../actionTypes";
 
 const Immutable = require("immutable");
@@ -150,9 +144,9 @@ export function createExecuteCellStream(
     takeUntil(
       merge(
         action$.pipe(
-          ofType(actionTypes.EXECUTE_CANCELED, actionTypes.REMOVE_CELL),
+          ofType(actionTypes.EXECUTE_CANCELED, actionTypes.DELETE_CELL),
           filter(
-            (action: ExecuteCanceled | RemoveCell) => action.payload.id === id
+            (action: ExecuteCanceled | DeleteCell) => action.payload.id === id
           )
         ),
         action$.pipe(

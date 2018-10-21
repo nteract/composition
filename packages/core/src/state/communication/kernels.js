@@ -1,5 +1,6 @@
 // @flow
 import * as Immutable from "immutable";
+
 import type { KernelRef } from "../refs";
 
 export type KernelCommunicationRecordProps = {

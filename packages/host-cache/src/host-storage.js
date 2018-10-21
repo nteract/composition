@@ -2,7 +2,6 @@
 
 import { binder } from "rx-binder";
 import { kernels } from "rx-jupyter";
-
 import { of } from "rxjs";
 import { tap, map, catchError, filter } from "rxjs/operators";
 

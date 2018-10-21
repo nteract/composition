@@ -1,18 +1,14 @@
 import { ActionsObservable } from "redux-observable";
-
 import { monocellNotebook, toJS } from "@nteract/commutable";
-
 import { dummyCommutable } from "@nteract/core/dummy";
+import { actionTypes } from "@nteract/core";
+import { toArray } from "rxjs/operators";
 
 import {
   extractNewKernel,
   fetchContentEpic,
   newNotebookEpic
 } from "../../../src/notebook/epics/loading";
-
-import { actionTypes } from "@nteract/core";
-
-import { toArray } from "rxjs/operators";
 
 const path = require("path");
 

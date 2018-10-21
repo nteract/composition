@@ -1,7 +1,9 @@
 /* @flow */
 import * as Immutable from "immutable";
-import * as actionTypes from "../../../../actionTypes";
+import { fromJS } from "@nteract/commutable";
+import { combineReducers } from "redux-immutable";
 
+import * as actionTypes from "../../../../actionTypes";
 import {
   makeFileContentRecord,
   makeFileModelRecord,
@@ -12,15 +14,12 @@ import {
   makeDocumentRecord,
   makeNotebookContentRecord
 } from "../../../../state/entities/contents";
-
-import { fromJS } from "@nteract/commutable";
+import { createContentRef } from "../../../../state/refs";
 
 import { notebook } from "./notebook";
 import { file } from "./file";
 
-import { createContentRef } from "../../../../state/refs";
 
-import { combineReducers } from "redux-immutable";
 
 const byRef = (state = Immutable.Map(), action) => {
   switch (action.type) {

@@ -1,12 +1,11 @@
 // @flow
 import React from "react";
 import Ansi from "ansi-to-react";
-
 import { transforms, displayOrder } from "@nteract/transforms";
+import * as Immutable from "immutable";
 
 import RichestMime from "./richest-mime";
 
-import * as Immutable from "immutable";
 
 type Props = {
   displayOrder: Array<string>,

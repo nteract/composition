@@ -1,8 +1,7 @@
 import React from "react";
-
 import { shallow } from "enzyme";
-
 import { displayOrder, transforms } from "@nteract/transforms";
+
 import { Display } from "../src";
 import { DEFAULT_SCROLL_HEIGHT } from "../src/display";
 

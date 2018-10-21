@@ -3,10 +3,10 @@
 import * as React from "react";
 import { scaleLinear } from "d3-scale";
 import { ResponsiveOrdinalFrame, Axis } from "semiotic";
+
 import HTMLLegend from "./HTMLLegend";
 import { numeralFormatting } from "./utilities";
 import buttonGroupStyle from "./css/button-group";
-
 import TooltipContent from "./tooltip-content";
 
 type State = {

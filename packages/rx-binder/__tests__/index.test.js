@@ -1,7 +1,7 @@
 // @flow
-const { binder, formBinderURL } = require("../src");
-
 import { toArray } from "rxjs/operators";
+
+const { binder, formBinderURL } = require("../src");
 
 test("formBinderURL has default values with empty options", () => {
   expect(formBinderURL()).toEqual(

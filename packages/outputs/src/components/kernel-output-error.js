@@ -1,8 +1,8 @@
 // @flow strict
 import * as React from "react";
 import Ansi from "ansi-to-react";
-
 import type { ErrorOutput } from "@nteract/records";
+
 type Props = ErrorOutput;
 
 export const KernelOutputError = (props: Props) => {

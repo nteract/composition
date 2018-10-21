@@ -1,8 +1,8 @@
 // @flow strict
 
 import * as React from "react";
-import loadScript from "./load-script";
 
+import loadScript from "./load-script";
 import MathJaxContext, {
   type MathJaxObject, // eslint-disable-line no-unused-vars
   type MathJaxContextValue

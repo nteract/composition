@@ -1,7 +1,6 @@
 /* @flow */
 /* eslint class-methods-use-this: 0 */
 import React from "react";
-
 import { cloneDeep } from "lodash";
 
 type Props = {

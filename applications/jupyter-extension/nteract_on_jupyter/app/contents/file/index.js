@@ -1,23 +1,20 @@
 /* @flow strict */
 
-import * as React from "react";
+import { dirname } from "path";
 
+import * as React from "react";
 import { selectors } from "@nteract/core";
 import type { ContentRef, AppState } from "@nteract/core";
-
 import { LoadingIcon, SavingingIcon, ErrorIcon } from "@nteract/iron-icons";
+import { connect } from "react-redux";
 
 import { ThemedLogo } from "../../components/themed-logo";
 import { Nav, NavSection } from "../../components/nav";
-
 import LastSaved from "../../components/last-saved.js";
-
-import { dirname } from "path";
-
-import * as TextFile from "./text-file.js";
 import { default as Notebook } from "../notebook";
 
-import { connect } from "react-redux";
+import * as TextFile from "./text-file.js";
+
 
 const urljoin = require("url-join");
 

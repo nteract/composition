@@ -1,7 +1,8 @@
 // @flow
-import type { HostRef, KernelspecsRef } from "../refs";
 import type { RecordFactory, RecordOf } from "immutable";
 import { List, Map, Record } from "immutable";
+
+import type { HostRef, KernelspecsRef } from "../refs";
 
 export type KernelspecProps = {
   name: string,

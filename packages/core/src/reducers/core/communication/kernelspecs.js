@@ -1,11 +1,12 @@
 // @flow
+import { combineReducers } from "redux-immutable";
+import * as Immutable from "immutable";
+
 import {
   makeKernelspecsByRefCommunicationRecord,
   makeKernelspecsCommunicationRecord
 } from "../../../state/communication/kernelspecs";
 import * as actionTypes from "../../../actionTypes";
-import { combineReducers } from "redux-immutable";
-import * as Immutable from "immutable";
 
 export const byRef = (state = Immutable.Map(), action: *) => {
   switch (action.type) {

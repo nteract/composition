@@ -1,15 +1,7 @@
 /* @flow strict */
 
 import * as React from "react";
-const urljoin = require("url-join");
-
 import { selectors } from "@nteract/core";
-
-import { ThemedLogo } from "../components/themed-logo.js";
-
-import { openNotebook } from "../triggers/open-notebook";
-
-import { Nav, NavSection } from "../components/nav";
 import { NewNotebookNavigation } from "@nteract/connected-components";
 import {
   Entry,
@@ -18,7 +10,6 @@ import {
   Name,
   LastSaved
 } from "@nteract/directory-listing";
-
 import type {
   AppState,
   KernelspecRecord,
@@ -27,8 +18,13 @@ import type {
   ContentRef,
   DirectoryContentRecord
 } from "@nteract/core";
-
 import { connect } from "react-redux";
+
+import { Nav, NavSection } from "../components/nav";
+import { openNotebook } from "../triggers/open-notebook";
+import { ThemedLogo } from "../components/themed-logo.js";
+
+const urljoin = require("url-join");
 
 type DirectoryProps = {
   content: DirectoryContentRecord,

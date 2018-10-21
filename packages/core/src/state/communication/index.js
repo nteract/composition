@@ -1,5 +1,6 @@
 // @flow
 import * as Immutable from "immutable";
+
 import type { ContentsCommunicationRecordProps } from "./contents";
 import type { KernelsCommunicationRecordProps } from "./kernels";
 import type { KernelspecsCommunicationRecordProps } from "./kernelspecs";

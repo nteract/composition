@@ -1,9 +1,8 @@
 // @flow strict
 
-import * as actionTypes from "./actionTypes";
-
 import type { ContentRef } from "@nteract/core";
 
+import * as actionTypes from "./actionTypes";
 import type { DesktopNotebookClosingState } from "./state";
 
 export function closeNotebook(payload: {

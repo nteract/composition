@@ -1,5 +1,6 @@
 // @flow
 import * as Immutable from "immutable";
+
 import type { ContentRef } from "../refs";
 
 export type ContentCommunicationRecordProps = {

@@ -5,7 +5,6 @@ import { middlewares as coreMiddlewares, reducers } from "@nteract/core";
 
 import type { DesktopNotebookAppState } from "./state";
 import { handleDesktopNotebook } from "./reducers";
-
 import logger from "./logger";
 import epics from "./epics";
 

@@ -1,8 +1,5 @@
 import uuid from "uuid/v4";
 import { Subject } from "rxjs";
-
-const EventEmitter = require("events");
-
 import { toArray, take } from "rxjs/operators";
 
 import {
@@ -12,6 +9,8 @@ import {
   createMainChannelFromSockets,
   verifiedConnect
 } from "../src";
+
+const EventEmitter = require("events");
 
 describe("createSocket", () => {
   test("creates a JMP socket on the channel with identity", async function(done) {

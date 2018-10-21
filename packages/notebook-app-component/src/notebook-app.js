@@ -2,10 +2,8 @@
 /* @flow */
 import * as Immutable from "immutable";
 import * as React from "react";
-
 import { actions, selectors } from "@nteract/core";
 import type { AppState, ContentRef, KernelRef } from "@nteract/core";
-
 import {
   Input,
   Prompt,
@@ -15,6 +13,14 @@ import {
   Cell,
   themes
 } from "@nteract/presentational-components";
+import { DragDropContext as dragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+import { connect } from "react-redux";
+import { RichestMime, Output } from "@nteract/display-area";
+import {
+  displayOrder as defaultDisplayOrder,
+  transforms as defaultTransforms
+} from "@nteract/transforms";
 
 import DraggableCell from "./draggable-cell";
 import CellCreator from "./cell-creator";
@@ -24,15 +30,7 @@ import Editor from "./editor";
 import Toolbar from "./toolbar";
 import { HijackScroll } from "./hijack-scroll";
 
-import { DragDropContext as dragDropContext } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
-import { connect } from "react-redux";
 
-import { RichestMime, Output } from "@nteract/display-area";
-import {
-  displayOrder as defaultDisplayOrder,
-  transforms as defaultTransforms
-} from "@nteract/transforms";
 
 type AnyCellProps = {
   id: string,

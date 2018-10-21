@@ -1,5 +1,6 @@
 // @flow
 import * as Immutable from "immutable";
+
 import type { ContentsRecordProps } from "./contents";
 import type { HostsRecordProps } from "./hosts";
 import type { KernelsRecordProps } from "./kernels";

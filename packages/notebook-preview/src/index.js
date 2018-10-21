@@ -1,19 +1,16 @@
 /* @flow */
 import * as React from "react";
-
 import { Display } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,
   transforms as defaultTransforms
 } from "@nteract/transforms";
-
 import {
   emptyNotebook,
   appendCellToNotebook,
   fromJS,
   createCodeCell
 } from "@nteract/commutable";
-
 import {
   themes,
   Cell,
@@ -23,11 +20,10 @@ import {
   Outputs,
   Cells
 } from "@nteract/presentational-components";
-
-import { PapermillView } from "./papermill";
-
 import Markdown from "@nteract/markdown";
 import MathJax from "@nteract/mathjax";
+
+import { PapermillView } from "./papermill";
 
 type Props = {
   displayOrder: Array<string>,

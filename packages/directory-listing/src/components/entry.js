@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-
 import { areComponentsEqual } from "react-hot-loader";
 
 import { Icon } from "./icon";

@@ -1,6 +1,7 @@
 import React from "react";
-import TransformVDOM from "../src";
 import renderer from "react-test-renderer";
+
+import TransformVDOM from "../src";
 
 test("VDOM Transform is cool", () => {
   const component = renderer.create(

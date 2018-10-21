@@ -2,9 +2,7 @@
 import * as Immutable from "immutable";
 import * as React from "react";
 import Menu, { SubMenu, Divider, MenuItem } from "rc-menu";
-
 import { actions, selectors } from "@nteract/core";
-
 import type {
   AppState,
   ContentRef,
@@ -12,10 +10,11 @@ import type {
   KernelspecsRef,
   KernelspecsByRefRecord
 } from "@nteract/core";
+import { connect } from "react-redux";
+
+import { MODAL_TYPES } from "../modal-controller";
 
 import { MENU_ITEM_ACTIONS, MENUS } from "./constants";
-import { MODAL_TYPES } from "../modal-controller";
-import { connect } from "react-redux";
 import StyleWrapper from "./styles";
 
 // To allow actions that can take dynamic arguments (like selecting a kernel

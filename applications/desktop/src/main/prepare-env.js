@@ -1,6 +1,5 @@
 /* @flow strict */
 import shellEnv from "shell-env";
-
 import { from } from "rxjs";
 import { first, tap, publishReplay } from "rxjs/operators";
 

@@ -1,6 +1,6 @@
-const webpack = require("webpack");
 const path = require("path");
 
+const webpack = require("webpack");
 const configurator = require("@nteract/webpack-configurator");
 
 const nodeModules = {

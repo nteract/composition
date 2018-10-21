@@ -8,7 +8,6 @@ import {
   mergeAll,
   toArray
 } from "rxjs/operators";
-
 import { spawn } from "spawn-rx";
 
 const path = require("path");

@@ -7,20 +7,17 @@ import katex from "rehype-katex";
 import stringify from "rehype-stringify";
 import { InlineMath, BlockMath } from "react-katex";
 import flush from "styled-jsx/server";
-
 import { Display } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,
   transforms as defaultTransforms
 } from "@nteract/transforms";
-
 import {
   emptyNotebook,
   appendCellToNotebook,
   fromJS,
   createCodeCell
 } from "@nteract/commutable";
-
 import {
   themes,
   Cell,

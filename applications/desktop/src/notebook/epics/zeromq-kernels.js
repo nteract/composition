@@ -3,9 +3,7 @@
 import type { ChildProcess } from "child_process";
 
 import { Observable, of, merge, empty } from "rxjs";
-
 import { sample } from "lodash";
-
 import {
   filter,
   map,
@@ -17,27 +15,20 @@ import {
   timeout,
   first
 } from "rxjs/operators";
-
 import { launchSpec } from "spawnteract";
-
 import { ActionsObservable, ofType } from "redux-observable";
 import type { StateObservable } from "redux-observable";
-
 import { ipcRenderer as ipc } from "electron";
-
 import { createMainChannel } from "enchannel-zmq-backend";
 import * as jmp from "jmp";
-
 import { selectors, actions, actionTypes } from "@nteract/core";
-import type { AppState } from "@nteract/core";
-
 import type {
+  AppState,
   KernelspecInfo,
   KernelRef,
   ContentRef,
   LocalKernelProps
 } from "@nteract/core";
-
 import { childOf, ofMessageType, shutdownRequest } from "@nteract/messaging";
 
 /**

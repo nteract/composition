@@ -2,13 +2,10 @@
 import { merge } from "rxjs";
 import { map, retry, switchMap } from "rxjs/operators";
 import { ofType } from "redux-observable";
-
-import { commOpenAction, commMessageAction } from "../actions";
-
 import { createMessage, ofMessageType } from "@nteract/messaging";
-
 import type { ActionsObservable } from "redux-observable";
 
+import { commOpenAction, commMessageAction } from "../actions";
 import type { NewKernelAction } from "../actionTypes";
 import { LAUNCH_KERNEL_SUCCESSFUL } from "../actionTypes";
 

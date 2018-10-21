@@ -1,6 +1,12 @@
 // @flow
-import * as actionTypes from "./actionTypes";
+import type {
+  CellID,
+  CellType,
+  MimeBundle
+} from "@nteract/commutable/src/types";
+import type { Output } from "@nteract/commutable/src/v4";
 
+import * as actionTypes from "./actionTypes";
 import type {
   ContentRef,
   HostRef,
@@ -8,7 +14,6 @@ import type {
   KernelspecsRef
 } from "./state/refs";
 import type { KernelspecProps } from "./state/entities/kernelspecs";
-
 import type {
   LanguageInfoMetadata,
   LocalKernelProps,
@@ -16,13 +21,7 @@ import type {
   KernelInfo
 } from "./state";
 
-import type {
-  CellID,
-  CellType,
-  MimeBundle
-} from "@nteract/commutable/src/types";
 
-import type { Output } from "@nteract/commutable/src/v4";
 
 export const openModal = (payload: { modalType: string }) => ({
   type: actionTypes.OPEN_MODAL,
@@ -239,12 +238,12 @@ export function moveCell(payload: {
   };
 }
 
-export function removeCell(payload: {
+export function deleteCell(payload: {
   id?: string,
   contentRef: ContentRef
-}): actionTypes.RemoveCell {
+}): actionTypes.DeleteCell {
   return {
-    type: actionTypes.REMOVE_CELL,
+    type: actionTypes.DELETE_CELL,
     payload
   };
 }
@@ -268,6 +267,17 @@ export function createCellAbove(payload: {
 }): actionTypes.CreateCellAbove {
   return {
     type: actionTypes.CREATE_CELL_ABOVE,
+    payload
+  };
+}
+
+// Deprecation Warning: removeCell() is being deprecated. Please use deleteCell() instead
+export function removeCell(payload: {
+  id?: string,
+  contentRef: ContentRef
+}): actionTypes.RemoveCell {
+  return {
+    type: actionTypes.REMOVE_CELL,
     payload
   };
 }

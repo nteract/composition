@@ -1,6 +1,5 @@
 // @flow strict
 import * as nteractRecords from "@nteract/records";
-
 import { executeResult } from "@nteract/records/src/outputs/execute-result";
 import { streamOutput } from "@nteract/records/src/outputs/stream";
 import { displayData } from "@nteract/records/src/outputs/display-data";

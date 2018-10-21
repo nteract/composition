@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-
 import { richestMimetype, transforms, displayOrder } from "@nteract/transforms";
 
 type Props = {

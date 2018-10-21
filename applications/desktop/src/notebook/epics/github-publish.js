@@ -1,18 +1,14 @@
 // @flow strict
 import { shell } from "electron";
-
 import { selectors, actions, actionTypes } from "@nteract/core";
-
-const path = require("path");
-
 import { of, empty } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import { mergeMap, catchError } from "rxjs/operators";
-
 import { ofType } from "redux-observable";
-
 import type { ActionsObservable, StateObservable } from "redux-observable";
 import type { AppState } from "@nteract/core";
+
+const path = require("path");
 
 type GithubFiles = {
   [string]: {

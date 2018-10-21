@@ -1,11 +1,8 @@
 /* @flow strict */
 
 import * as React from "react";
-
 import { NotebookMenu } from "@nteract/connected-components";
-
 import type { ContentRef } from "@nteract/core";
-
 import {
   displayOrder as defaultDisplayOrder,
   transforms as defaultTransforms

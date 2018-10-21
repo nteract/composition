@@ -1,7 +1,9 @@
 // @flow strict
+import { actions } from "@nteract/core";
+
 import { makeKernelsRecord } from "../../../../src/state/entities/kernels";
 import { kernels } from "../../../../src/reducers/core/entities/kernels";
-import { actions } from "@nteract/core";
+
 describe("LAUNCH_KERNEL reducers", () => {
   test("set launching state", () => {
     const originalState = makeKernelsRecord();

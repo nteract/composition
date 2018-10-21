@@ -1,14 +1,9 @@
 import * as Immutable from "immutable";
-
 import { ActionsObservable } from "redux-observable";
-
 import { actions, actionTypes, state as stateModule } from "@nteract/core";
-
 import { createMessage } from "@nteract/messaging";
-
 import { Subject, of } from "rxjs";
 import { toArray } from "rxjs/operators";
-
 import { TestScheduler } from "rxjs/testing";
 
 import {

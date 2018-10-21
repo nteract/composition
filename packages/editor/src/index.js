@@ -2,7 +2,6 @@
 /* eslint-disable class-methods-use-this */
 import * as React from "react";
 import ReactDOM from "react-dom";
-
 import { empty, of, fromEvent, merge, Subject } from "rxjs";
 import type { Subscription } from "rxjs";
 import {
@@ -14,23 +13,18 @@ import {
   switchMap,
   takeUntil
 } from "rxjs/operators";
-
 import { RichestMime } from "@nteract/display-area";
-
-import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
-
-import { codeComplete, pick } from "./jupyter/complete";
-import { tool } from "./jupyter/tooltip";
-
 import { debounce } from "lodash";
 
-import type { Options, EditorChange, CMI, CMDoc } from "./types";
-export type { EditorChange, Options };
-
+import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
+import { codeComplete, pick } from "./jupyter/complete";
+import { tool } from "./jupyter/tooltip";
 import styles from "./styles";
-
 import codemirrorStyles from "./vendored/codemirror";
 import showHintStyles from "./vendored/show-hint";
+import type { Options, EditorChange, CMI, CMDoc } from "./types";
+
+export type { EditorChange, Options };
 
 function normalizeLineEndings(str) {
   if (!str) return str;

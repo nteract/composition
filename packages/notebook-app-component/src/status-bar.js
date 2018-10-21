@@ -1,10 +1,7 @@
 /* @flow strict */
 import React from "react";
-
 import { connect } from "react-redux";
-
 import distanceInWordsToNow from "date-fns/distance_in_words_to_now";
-
 import { selectors } from "@nteract/core";
 import type { ContentRef, AppState, KernelRef } from "@nteract/core";
 

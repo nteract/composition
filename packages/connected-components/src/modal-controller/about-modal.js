@@ -8,10 +8,10 @@
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 
 import React from "react";
-import { modalCss } from "./styles";
 import { connect } from "react-redux";
-
 import { actions, selectors } from "@nteract/core";
+
+import { modalCss } from "./styles";
 
 type Props = {
   appVersion?: string,

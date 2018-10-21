@@ -14,7 +14,9 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
-    "react": "^16.3.2"
+    "@babel/runtime-corejs2": "^7.0.0"
+  },
+  "peerDependencies": {
+      "react": "^16.3.2"
   }
 }

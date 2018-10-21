@@ -1,7 +1,8 @@
 // @flow
 import * as Immutable from "immutable";
-import * as actionTypes from "../../../actionTypes";
 import { combineReducers } from "redux-immutable";
+
+import * as actionTypes from "../../../actionTypes";
 import {
   makeHostsRecord,
   makeJupyterHostRecord,

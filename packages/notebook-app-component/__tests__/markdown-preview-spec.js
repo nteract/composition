@@ -1,11 +1,10 @@
 // @flow
 import React from "react";
-
 import { shallow, mount } from "enzyme";
+import { emptyMarkdownCell } from "@nteract/commutable";
 
 import MarkdownPreview from "../src/markdown-preview";
 
-import { emptyMarkdownCell } from "@nteract/commutable";
 
 describe("MarkdownPreview ", () => {
   test("can be rendered", () => {

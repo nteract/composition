@@ -1,5 +1,6 @@
 // @flow
 import produce from "immer";
+
 import type { MultilineString } from "../common";
 
 export type MarkdownCellType = "markdown";

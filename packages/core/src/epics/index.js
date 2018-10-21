@@ -5,25 +5,20 @@ import {
   updateDisplayEpic,
   executeAllCellsEpic
 } from "./execute";
-
 import { commListenEpic } from "./comm";
-
 import {
   launchWebSocketKernelEpic,
   interruptKernelEpic,
   killKernelEpic,
   changeWebSocketKernelEpic
 } from "./websocket-kernel";
-
 import {
   acquireKernelInfoEpic,
   watchExecutionStateEpic,
   launchKernelWhenNotebookSetEpic,
   restartKernelEpic
 } from "./kernel-lifecycle";
-
 import { fetchKernelspecsEpic } from "./kernelspecs";
-
 import {
   fetchContentEpic,
   saveContentEpic,

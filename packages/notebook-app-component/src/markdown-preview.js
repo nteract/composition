@@ -4,9 +4,7 @@
 /* eslint jsx-a11y/no-noninteractive-tabindex: 0 */
 
 import React from "react";
-
 import Markdown from "@nteract/markdown";
-
 import {
   Outputs,
   PromptBuffer,

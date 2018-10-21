@@ -2,10 +2,10 @@
 import React from "react";
 import Immutable from "immutable";
 import { shallow } from "enzyme";
+import { dummyStore, dummyCommutable } from "@nteract/core/dummy";
 
 import { NotebookApp } from "../src/notebook-app";
 
-import { dummyStore, dummyCommutable } from "@nteract/core/dummy";
 
 const dummyCellStatuses = dummyCommutable
   .get("cellOrder")

@@ -1,10 +1,11 @@
 // @flow
 import * as fs from "fs";
 
-const mkdirp = require("mkdirp");
 
 import { Observable, bindNodeCallback } from "rxjs";
 import { mergeMap } from "rxjs/operators";
+
+const mkdirp = require("mkdirp");
 
 export const unlinkObservable = (path: string) =>
   Observable.create(observer => {

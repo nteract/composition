@@ -1,6 +1,5 @@
 /* @flow */
 import * as React from "react";
-
 import Markdown from "@nteract/markdown";
 
 type Props = {

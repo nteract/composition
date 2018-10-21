@@ -228,8 +228,17 @@ describe("moveCell", () => {
   });
 });
 
+describe("deleteCell", () => {
+  test("creates a DELETE_CELL action", () => {
+    expect(actions.deleteCell({ id: "1234" })).toEqual({
+      type: actionTypes.DELETE_CELL,
+      payload: { id: "1234" }
+    });
+  });
+});
+
 describe("removeCell", () => {
-  test("creates a REMOVE_CELL action", () => {
+  test("DEPRECATION WARNING:DEPRECATED. Use deleteCell() instead. creates a REMOVE_CELL action", () => {
     expect(actions.removeCell({ id: "1234" })).toEqual({
       type: actionTypes.REMOVE_CELL,
       payload: { id: "1234" }
@@ -334,7 +343,7 @@ describe("createCellAbove", () => {
 });
 
 describe("createCellAfter", () => {
-  test("WARNING:DEPRECATED. Use createCellBelow() instead. creates a CREATE_CELL_AFTER action with provided source string", () => {
+  test("DEPRECATION WARNING:DEPRECATED. Use createCellBelow() instead. creates a CREATE_CELL_AFTER action with provided source string", () => {
     const cellType = "code";
     const id = "1234";
     const source = 'print("woo")';
@@ -346,7 +355,7 @@ describe("createCellAfter", () => {
 });
 
 describe("createCellBefore", () => {
-  test("WARNING:DEPRECATED. USE createCellAbove() instead. creates a CREATE_CELL_BEFORE action", () => {
+  test("DEPRECATION WARNING:DEPRECATED. USE createCellAbove() instead. creates a CREATE_CELL_BEFORE action", () => {
     expect(
       actions.createCellBefore({ cellType: "markdown", id: "1234" })
     ).toEqual({

@@ -6,7 +6,6 @@ import type {
   CommOpenAction,
   CommMessageAction
 } from "../actionTypes";
-
 import { makeCommsRecord } from "../state";
 import type { CommsRecord } from "../state";
 

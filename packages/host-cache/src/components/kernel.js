@@ -1,15 +1,15 @@
 // @flow
 import * as React from "react";
+// NOTE: This could use the sessions API so these kernels aren't "on the loose"
+import { kernels } from "rx-jupyter";
+
+import type { ServerConfig } from "../host-storage";
+
 import Host from "./host";
 
 const { Provider, Consumer } = React.createContext(null);
 
 export { Consumer };
-
-import type { ServerConfig } from "../host-storage";
-
-// NOTE: This could use the sessions API so these kernels aren't "on the loose"
-import { kernels } from "rx-jupyter";
 
 type KernelAllocatorProps = {
   children?: React.Node,

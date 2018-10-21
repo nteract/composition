@@ -7,7 +7,14 @@
     "plugin:react-perf/recommended"
   ],
   "parser": "babel-eslint",
-  "plugins": ["prettier", "flowtype", "react", "jsx-a11y", "react-perf", "import"],
+  "plugins": [
+    "prettier",
+    "flowtype",
+    "react",
+    "jsx-a11y",
+    "react-perf",
+    "import"
+  ],
   "env": {
     "browser": true,
     "node": true,
@@ -26,7 +33,10 @@
     "react-perf/jsx-no-new-array-as-prop": "warn",
     "import/no-extraneous-dependencies": [
       "error", { "peerDependencies": true }
-    ]
+    ],
+    "import/order": ["error", { "newlines-between": "always" }],
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "warn"
   },
   "settings": {
     "react": {

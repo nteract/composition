@@ -1,13 +1,10 @@
 /* @flow */
-import { remote } from "electron";
-
 import path from "path";
 
+import { remote } from "electron";
 import { selectors } from "@nteract/core";
 import type { ContentRef, KernelRef, AppState } from "@nteract/core";
-
 import { empty, of, from, combineLatest } from "rxjs";
-
 import {
   map,
   distinctUntilChanged,

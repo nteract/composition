@@ -19,7 +19,7 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
       <Cell
         _hovered={false}
         isSelected={false}
-        key="3"
+        key="2"
       >
         <div
           className="jsx-2513275823 content-margin"
@@ -39,7 +39,7 @@ exports[`Notebook accepts an Immutable.List of cells 1`] = `
       <Cell
         _hovered={false}
         isSelected={false}
-        key="4"
+        key="3"
       >
         <PapermillView
           status={null}

@@ -1,15 +1,8 @@
 /* @flow */
 
 import { Observable, of, empty, merge } from "rxjs";
-import { createKernelRef } from "../state/refs";
-
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
-
 import type { ImmutableNotebook } from "@nteract/commutable";
-import type { ContentRef, KernelRef } from "../state/refs";
-
-const path = require("path");
-
 import {
   filter,
   map,
@@ -21,13 +14,16 @@ import {
   take,
   timeout
 } from "rxjs/operators";
-
 import { ActionsObservable, ofType } from "redux-observable";
 
+import type { ContentRef, KernelRef } from "../state/refs";
+import { createKernelRef } from "../state/refs";
 import * as selectors from "../selectors";
 import * as actions from "../actions";
 import * as actionTypes from "../actionTypes";
 import type { AppState, KernelInfo } from "../state";
+
+const path = require("path");
 
 /**
  * Sets the execution state after a kernel has been launched.

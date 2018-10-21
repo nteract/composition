@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from "react";
 import { cloneDeep } from "lodash";
+
 declare var Plotly: Object;
 type Props = {
   data: string | Object

@@ -1,11 +1,10 @@
 /* @flow */
 
 import produce from "immer";
+import uuid from "uuid/v4";
 
 import type { NbformatCell } from "./cells";
-
 import type { NbformatOutput } from "./outputs";
-
 import type {
   ImmutableNotebook,
   ImmutableCellOrder,
@@ -13,7 +12,6 @@ import type {
   ExecutionCount
 } from "./types";
 
-import uuid from "uuid/v4";
 
 // We're hardset to nbformat v4.4 for what we use in-memory
 export type Notebook = {|
@@ -142,7 +140,15 @@ export function insertCellAfter(
   );
 }
 
+// Deprecation Warning: removeCell() is being deprecated. Please use deleteCell() instead
 export function removeCell(notebook: ImmutableNotebook, cellID: string) {
+  console.log("Deprecation Warning: removeCell() is being deprecated. Please use deleteCell() instead");
+  delete notebook["cellMap"][cellID];
+  notebook["cellOrder"] = notebook["cellOrder"].filter(id => id !== cellID);
+  return notebook;
+}
+
+export function deleteCell(notebook: ImmutableNotebook, cellID: string) {
   delete notebook["cellMap"][cellID];
   notebook["cellOrder"] = notebook["cellOrder"].filter(id => id !== cellID);
   return notebook;

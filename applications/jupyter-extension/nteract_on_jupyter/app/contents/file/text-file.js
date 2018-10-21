@@ -1,10 +1,9 @@
 /* @flow strict */
 import * as React from "react";
-
 import type { AppState, ContentRef } from "@nteract/core";
 import { selectors, actions } from "@nteract/core";
-
 import { connect } from "react-redux";
+
 import type { MonacoEditorProps } from "../../../../../../node_modules/@nteract/monaco-editor";
 
 type MappedStateProps = {

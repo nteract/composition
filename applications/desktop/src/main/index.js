@@ -1,4 +1,7 @@
 /* @flow strict */
+import { resolve, join } from "path";
+import { existsSync } from "fs";
+
 import {
   Menu,
   dialog,
@@ -7,9 +10,6 @@ import {
   BrowserWindow,
   Tray
 } from "electron";
-import { resolve, join } from "path";
-import { existsSync } from "fs";
-
 import { Subscriber, fromEvent, forkJoin, zip } from "rxjs";
 import {
   mergeMap,
@@ -19,7 +19,6 @@ import {
   catchError,
   first
 } from "rxjs/operators";
-
 import {
   mkdirpObservable,
   readFileObservable,
@@ -28,9 +27,7 @@ import {
 
 import { launch, launchNewNotebook } from "./launch";
 import { initAutoUpdater } from "./auto-updater.js";
-
 import { loadFullMenu, loadTrayMenu } from "./menu";
-
 import prepareEnv from "./prepare-env";
 import initializeKernelSpecs from "./kernel-specs";
 import { setKernelSpecs, setQuittingState } from "./actions";
@@ -38,19 +35,17 @@ import {
   QUITTING_STATE_NOT_STARTED,
   QUITTING_STATE_QUITTING
 } from "./reducers.js";
-
 import configureStore from "./store";
 
 const store = configureStore();
 // HACK: The main process store should not be stored in a global.
 global.store = store;
 
-const log = require("electron-log");
-
-const kernelspecs = require("kernelspecs");
-const jupyterPaths = require("jupyter-paths");
 const path = require("path");
 
+const log = require("electron-log");
+const kernelspecs = require("kernelspecs");
+const jupyterPaths = require("jupyter-paths");
 const yargs = require("yargs/yargs");
 
 type Arguments = {

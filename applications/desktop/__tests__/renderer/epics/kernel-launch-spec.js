@@ -1,6 +1,6 @@
 import { ActionsObservable } from "redux-observable";
-
 import { actions, actionTypes, makeStateRecord } from "@nteract/core";
+import { toArray } from "rxjs/operators";
 
 import {
   launchKernelObservable,
@@ -8,7 +8,6 @@ import {
   launchKernelByNameEpic
 } from "../../../src/notebook/epics/zeromq-kernels";
 
-import { toArray } from "rxjs/operators";
 
 describe("launchKernelObservable", () => {
   test("returns an observable", () => {

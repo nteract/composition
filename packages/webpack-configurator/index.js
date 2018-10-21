@@ -8,6 +8,7 @@ opaque type Aliases = {[string]: string }
 */
 
 const rxAliases /* : Aliases */ = require("rxjs/_esm5/path-mapping")();
+
 const { aliases } = require("./aliases");
 
 // We don't transpile packages in node_modules, unless it's _our_ package

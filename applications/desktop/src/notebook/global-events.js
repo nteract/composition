@@ -1,15 +1,11 @@
 /* @flow strict */
 
 import type { Store } from "redux";
-
 import { ipcRenderer as ipc } from "electron";
-
 import { selectors } from "@nteract/core";
-
 import type { ContentRef } from "@nteract/core";
 
 import * as actions from "./actions";
-
 import type { DesktopNotebookAppState } from "./state.js";
 import {
   DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,

@@ -1,6 +1,5 @@
 // @flow
 import * as React from "react";
-
 import { Book, FileText, FileDirectory } from "@nteract/octicons";
 
 type IconProps = {
