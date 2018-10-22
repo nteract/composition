@@ -2,22 +2,16 @@
 /* eslint-disable no-plusplus */
 
 import * as Immutable from "immutable";
-
-import { Subject } from "rxjs/Subject";
-
+import { Subject } from "rxjs";
 import {
   monocellNotebook,
   emptyCodeCell,
   appendCellToNotebook,
   emptyNotebook
 } from "@nteract/commutable";
-
-/* Our createStore */
 import { combineReducers, createStore } from "redux";
+
 import { comms, config, core } from "../reducers";
-
-export { dummyCommutable, dummy, dummyJSON } from "./dummy-nb";
-
 import {
   makeNotebookContentRecord,
   makeRemoteKernelRecord,
@@ -31,6 +25,8 @@ import {
   createContentRef,
   createKernelRef
 } from "../state";
+
+export { dummyCommutable, dummy, dummyJSON } from "./dummy-nb";
 
 const rootReducer = combineReducers({
   app: (state = makeAppRecord()) => state,

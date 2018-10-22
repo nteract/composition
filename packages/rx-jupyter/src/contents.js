@@ -1,11 +1,12 @@
 // @flow
 
-import { ajax } from "rxjs/observable/dom/ajax";
-import { Observable } from "rxjs/Observable";
+import { ajax } from "rxjs/ajax";
+import { Observable } from "rxjs";
 
 import { createAJAXSettings } from "./base";
 
 const querystring = require("querystring");
+
 const urljoin = require("url-join");
 
 function formURI(path: string): string {

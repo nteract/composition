@@ -1,14 +1,10 @@
 import * as Immutable from "immutable";
-
 import { ActionsObservable } from "redux-observable";
-
 import { actions, actionTypes, state as stateModule } from "@nteract/core";
-
 import { createMessage } from "@nteract/messaging";
-
-import { Subject } from "rxjs/Subject";
-
-import { TestScheduler } from "rxjs/testing/TestScheduler";
+import { Subject, of } from "rxjs";
+import { toArray } from "rxjs/operators";
+import { TestScheduler } from "rxjs/testing";
 
 import {
   acquireKernelInfo,
@@ -16,8 +12,8 @@ import {
   watchExecutionStateEpic
 } from "../../src/epics/kernel-lifecycle";
 
-import { of } from "rxjs/observable/of";
-import { toArray } from "rxjs/operators";
+const buildScheduler = () =>
+  new TestScheduler((actual, expected) => expect(actual).toEqual(expected));
 
 describe("acquireKernelInfo", () => {
   test("sends a kernel_info_request and processes kernel_info_reply", async function(done) {
@@ -182,163 +178,146 @@ describe("restartKernelEpic", () => {
     const contentRef = "contentRef";
     const newKernelRef = "newKernelRef";
 
-    const store = {
-      getState() {
-        return this.state;
-      },
-      state: {
-        core: stateModule.makeStateRecord({
-          kernelRef: "oldKernelRef",
-          entities: stateModule.makeEntitiesRecord({
-            kernels: stateModule.makeKernelsRecord({
-              byRef: Immutable.Map({
-                oldKernelRef: stateModule.makeRemoteKernelRecord({
-                  status: "not connected"
-                })
+    const state = {
+      core: stateModule.makeStateRecord({
+        kernelRef: "oldKernelRef",
+        entities: stateModule.makeEntitiesRecord({
+          kernels: stateModule.makeKernelsRecord({
+            byRef: Immutable.Map({
+              oldKernelRef: stateModule.makeRemoteKernelRecord({
+                status: "not connected"
               })
             })
           })
-        }),
-        app: stateModule.makeAppRecord({
-          notificationSystem: { addNotification: () => {} }
         })
-      }
-    };
-
-    const testScheduler = new TestScheduler((actual, expected) =>
-      expect(actual).toEqual(expected)
-    );
-
-    const inputActions = {
-      a: actions.restartKernel({
-        outputHandling: "None",
-        kernelRef: "oldKernelRef",
-        contentRef: contentRef
       }),
-      b: actions.launchKernelSuccessful({
-        kernel: "",
-        kernelRef: newKernelRef,
-        contentRef: contentRef,
-        selectNextKernel: true
+      app: stateModule.makeAppRecord({
+        notificationSystem: { addNotification: () => {} }
       })
     };
 
-    const outputActions = {
-      c: actions.killKernel({
-        restarting: true,
-        kernelRef: "oldKernelRef"
-      }),
-      d: actions.launchKernelByName({
-        kernelSpecName: null,
-        cwd: ".",
-        kernelRef: newKernelRef,
-        selectNextKernel: true,
-        contentRef: contentRef
-      }),
-      e: actions.restartKernelSuccessful({
-        kernelRef: newKernelRef,
-        contentRef: contentRef
-      })
-    };
+    const testScheduler = buildScheduler();
 
-    const inputMarbles = "a   b|";
-    const outputMarbles = "(cd)e|";
+    testScheduler.run(helpers => {
+      const { hot, expectObservable } = helpers;
+      const inputActions = {
+        a: actions.restartKernel({
+          outputHandling: "None",
+          kernelRef: "oldKernelRef",
+          contentRef: contentRef
+        }),
+        b: actions.launchKernelSuccessful({
+          kernel: "",
+          kernelRef: newKernelRef,
+          contentRef: contentRef,
+          selectNextKernel: true
+        })
+      };
 
-    const inputAction$ = new ActionsObservable(
-      testScheduler.createHotObservable(inputMarbles, inputActions)
-    );
-    const outputAction$ = restartKernelEpic(
-      inputAction$,
-      store,
-      () => newKernelRef
-    );
+      const outputActions = {
+        c: actions.killKernel({
+          restarting: true,
+          kernelRef: "oldKernelRef"
+        }),
+        d: actions.launchKernelByName({
+          kernelSpecName: null,
+          cwd: ".",
+          kernelRef: newKernelRef,
+          selectNextKernel: true,
+          contentRef: contentRef
+        }),
+        e: actions.restartKernelSuccessful({
+          kernelRef: newKernelRef,
+          contentRef: contentRef
+        })
+      };
 
-    testScheduler
-      .expectObservable(outputAction$)
-      .toBe(outputMarbles, outputActions);
-    testScheduler.flush();
+      const inputMarbles = "a---b|";
+      const outputMarbles = "(cd)e|";
+
+      const inputAction$ = hot(inputMarbles, inputActions);
+      const outputAction$ = restartKernelEpic(
+        inputAction$,
+        { value: state },
+        () => newKernelRef
+      );
+
+      expectObservable(outputAction$).toBe(outputMarbles, outputActions);
+    });
   });
   test("work for outputHandling Restart and Run All", () => {
     const contentRef = "contentRef";
     const newKernelRef = "newKernelRef";
 
-    const store = {
-      getState() {
-        return this.state;
-      },
-      state: {
-        core: stateModule.makeStateRecord({
-          kernelRef: "oldKernelRef",
-          entities: stateModule.makeEntitiesRecord({
-            kernels: stateModule.makeKernelsRecord({
-              byRef: Immutable.Map({
-                oldKernelRef: stateModule.makeRemoteKernelRecord({
-                  status: "not connected"
-                })
+    const state = {
+      core: stateModule.makeStateRecord({
+        kernelRef: "oldKernelRef",
+        entities: stateModule.makeEntitiesRecord({
+          kernels: stateModule.makeKernelsRecord({
+            byRef: Immutable.Map({
+              oldKernelRef: stateModule.makeRemoteKernelRecord({
+                status: "not connected"
               })
             })
           })
-        }),
-        app: stateModule.makeAppRecord({
-          notificationSystem: { addNotification: () => {} }
         })
-      }
-    };
-
-    const testScheduler = new TestScheduler((actual, expected) =>
-      expect(actual).toEqual(expected)
-    );
-
-    const inputActions = {
-      a: actions.restartKernel({
-        outputHandling: "Run All",
-        kernelRef: "oldKernelRef",
-        contentRef: contentRef
       }),
-      b: actions.launchKernelSuccessful({
-        kernel: "",
-        kernelRef: newKernelRef,
-        contentRef: contentRef,
-        selectNextKernel: true
+      app: stateModule.makeAppRecord({
+        notificationSystem: { addNotification: () => {} }
       })
     };
 
-    const outputActions = {
-      c: actions.killKernel({
-        restarting: true,
-        kernelRef: "oldKernelRef"
-      }),
-      d: actions.launchKernelByName({
-        kernelSpecName: null,
-        cwd: ".",
-        kernelRef: newKernelRef,
-        selectNextKernel: true,
-        contentRef: contentRef
-      }),
-      e: actions.restartKernelSuccessful({
-        kernelRef: newKernelRef,
-        contentRef: contentRef
-      }),
-      f: actions.executeAllCells({
-        contentRef: contentRef
-      })
-    };
+    const testScheduler = buildScheduler();
 
-    const inputMarbles = "a   b   |";
-    const outputMarbles = "(cd)(ef)|";
+    testScheduler.run(helpers => {
+      const { hot, expectObservable } = helpers;
 
-    const inputAction$ = new ActionsObservable(
-      testScheduler.createHotObservable(inputMarbles, inputActions)
-    );
-    const outputAction$ = restartKernelEpic(
-      inputAction$,
-      store,
-      () => newKernelRef
-    );
+      const inputActions = {
+        a: actions.restartKernel({
+          outputHandling: "Run All",
+          kernelRef: "oldKernelRef",
+          contentRef: contentRef
+        }),
+        b: actions.launchKernelSuccessful({
+          kernel: "",
+          kernelRef: newKernelRef,
+          contentRef: contentRef,
+          selectNextKernel: true
+        })
+      };
 
-    testScheduler
-      .expectObservable(outputAction$)
-      .toBe(outputMarbles, outputActions);
-    testScheduler.flush();
+      const outputActions = {
+        c: actions.killKernel({
+          restarting: true,
+          kernelRef: "oldKernelRef"
+        }),
+        d: actions.launchKernelByName({
+          kernelSpecName: null,
+          cwd: ".",
+          kernelRef: newKernelRef,
+          selectNextKernel: true,
+          contentRef: contentRef
+        }),
+        e: actions.restartKernelSuccessful({
+          kernelRef: newKernelRef,
+          contentRef: contentRef
+        }),
+        f: actions.executeAllCells({
+          contentRef: contentRef
+        })
+      };
+
+      const inputMarbles = "a---b---|";
+      const outputMarbles = "(cd)(ef)|";
+
+      const inputAction$ = hot(inputMarbles, inputActions);
+      const outputAction$ = restartKernelEpic(
+        inputAction$,
+        { value: state },
+        () => newKernelRef
+      );
+
+      expectObservable(outputAction$).toBe(outputMarbles, outputActions);
+    });
   });
 });

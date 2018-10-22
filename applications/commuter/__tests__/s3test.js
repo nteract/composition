@@ -1,7 +1,8 @@
 // @flow
-const s3Service = require("./../backend/content-providers/s3/s3");
 jest.mock("aws-sdk/clients/s3");
 const awsMock = require("aws-sdk/clients/s3");
+
+const s3Service = require("./../backend/content-providers/s3/s3");
 
 describe("Test S3 service", () => {
   test("getObject returns notebook content", done => {

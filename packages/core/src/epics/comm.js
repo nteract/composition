@@ -1,14 +1,11 @@
 // @flow
-import { merge } from "rxjs/observable/merge";
+import { merge } from "rxjs";
 import { map, retry, switchMap } from "rxjs/operators";
 import { ofType } from "redux-observable";
-
-import { commOpenAction, commMessageAction } from "../actions";
-
 import { createMessage, ofMessageType } from "@nteract/messaging";
-
 import type { ActionsObservable } from "redux-observable";
 
+import { commOpenAction, commMessageAction } from "../actions";
 import type { NewKernelAction } from "../actionTypes";
 import { LAUNCH_KERNEL_SUCCESSFUL } from "../actionTypes";
 
@@ -96,7 +93,7 @@ export function commActionObservable(action: NewKernelAction) {
  * @param  {redux.Store} store   the redux store
  * @return {ActionsObservable}         Comm actions
  */
-export const commListenEpic = (action$: ActionsObservable<*>) =>
+export const commListenEpic = (action$: ActionsObservable<redux$Action>) =>
   action$.pipe(
     ofType(LAUNCH_KERNEL_SUCCESSFUL),
     switchMap(commActionObservable)

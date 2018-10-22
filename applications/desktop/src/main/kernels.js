@@ -1,5 +1,5 @@
 /* @flow strict */
-import { empty } from "rxjs/observable/empty";
+import { empty } from "rxjs";
 import {
   mapTo,
   filter,
@@ -8,7 +8,6 @@ import {
   mergeAll,
   toArray
 } from "rxjs/operators";
-
 import { spawn } from "spawn-rx";
 
 const path = require("path");

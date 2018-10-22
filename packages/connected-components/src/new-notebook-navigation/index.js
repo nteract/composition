@@ -15,18 +15,15 @@
  */
 
 import * as React from "react";
-
 import { connect } from "react-redux";
-
 import type {
   AppState,
   KernelspecRecord,
   KernelspecProps
 } from "@nteract/core";
+import * as Immutable from "immutable";
 
 import { default as Logo } from "./logos";
-
-import * as Immutable from "immutable";
 
 export type AvailableNotebook = {
   kernelspec: KernelspecRecord | KernelspecProps
@@ -231,7 +228,6 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = () => ({});
 
-// $FlowFixMe: react-redux
 export const NewNotebookNavigation = connect(
   mapStateToProps,
   mapDispatchToProps

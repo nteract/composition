@@ -1,15 +1,12 @@
 // @flow
 
-import { ajax } from "rxjs/observable/dom/ajax";
-import { webSocket } from "rxjs/observable/dom/webSocket";
-import { Observable } from "rxjs/Observable";
-
-import { Subject } from "rxjs/Subject";
-import { Subscriber } from "rxjs/Subscriber";
+import { ajax } from "rxjs/ajax";
+import { webSocket } from "rxjs/webSocket";
+import { Observable, Subject, Subscriber } from "rxjs";
+import type { WebSocketSubject } from "rxjs/webSocket";
+import { retryWhen, tap, delay, share } from "rxjs/operators";
 
 import { createAJAXSettings } from "./base";
-
-import { retryWhen, tap, delay, share } from "rxjs/operators";
 
 const urljoin = require("url-join");
 const URLSearchParams = require("url-search-params");
@@ -138,8 +135,9 @@ export function connect(
   serverConfig: Object,
   kernelID: string,
   sessionID: ?string
-): * {
-  const wsSubject = webSocket(
+) {
+  // $FlowFixMe: Is this a shortcoming of our flow declarations?
+  const wsSubject: WebSocketSubject<string> = webSocket(
     formWebSocketURL(serverConfig, kernelID, sessionID)
   ).pipe(
     retryWhen(error$ => {
@@ -173,7 +171,6 @@ export function connect(
   // Create a subject that does some of the handling inline for the session
   // and ensuring it's serialized
   return Subject.create(
-    // $FlowFixMe: figure out if this is a shortcoming in the flow def or our declaration
     Subscriber.create(
       message => {
         if (typeof message === "string") {

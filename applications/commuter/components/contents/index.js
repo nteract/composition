@@ -1,28 +1,28 @@
 // @flow
 import * as React from "react";
-
 import NotebookPreview from "@nteract/notebook-preview";
 import Markdown from "@nteract/markdown";
 import { Styles, Source } from "@nteract/presentational-components";
-
-import DirectoryListing from "./directory-listing";
-
-// HACK: Temporarily provide jquery for others to use...
-const jquery = require("jquery");
-global.jquery = jquery;
-global.$ = jquery;
-
 import {
   standardTransforms,
   standardDisplayOrder,
   registerTransform
 } from "@nteract/transforms";
-
+import { VegaLite1, VegaLite2, Vega2, Vega3 } from "@nteract/transform-vega";
 // import DataResourceTransform from "@nteract/transform-dataresource";
 
-import { VegaLite1, VegaLite2, Vega2, Vega3 } from "@nteract/transform-vega";
-
 import { PlotlyNullTransform, PlotlyTransform } from "../../transforms";
+
+import DirectoryListing from "./directory-listing";
+import HTMLView from "./html";
+import JSONView from "./json";
+import CSVView from "./csv";
+
+const jquery = require("jquery");
+
+// HACK: Temporarily provide jquery for others to use...
+global.jquery = jquery;
+global.$ = jquery;
 
 // Order is important here. The last transform in the array will have order `0`.
 const { transforms, displayOrder } = [
@@ -37,10 +37,6 @@ const { transforms, displayOrder } = [
   transforms: standardTransforms,
   displayOrder: standardDisplayOrder
 });
-
-import HTMLView from "./html";
-import JSONView from "./json";
-import CSVView from "./csv";
 
 const suffixRegex = /(?:\.([^.]+))?$/;
 

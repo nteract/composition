@@ -1,9 +1,11 @@
 // @flow
 import { combineReducers } from "redux";
 import { omit } from "lodash";
-import * as actionTypes from "./actionTypes";
-import * as utils from "../utils";
 import objectPath from "object-path";
+
+import * as utils from "../utils";
+
+import * as actionTypes from "./actionTypes";
 
 const repo = (state = "", action) => {
   switch (action.type) {

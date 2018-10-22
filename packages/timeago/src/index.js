@@ -1,5 +1,6 @@
 /* @flow */
 import * as React from "react";
+
 import defaultFormatter from "./defaultFormatter";
 import dateParser from "./dateParser";
 

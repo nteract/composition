@@ -1,5 +1,5 @@
 // @flow
-const { Observable } = require("rxjs/Observable");
+import { Observable } from "rxjs";
 
 const mybinderURL = "https://mybinder.org";
 

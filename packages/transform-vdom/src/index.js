@@ -1,8 +1,8 @@
 /* @flow */
 import * as React from "react";
+import { cloneDeep } from "lodash";
 
 import { objectToReactElement } from "./object-to-react";
-import { cloneDeep } from "lodash";
 
 type Props = {
   data: Object

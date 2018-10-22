@@ -1,10 +1,10 @@
 import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
-
-import Editor from "../src/editor";
 import { dummyStore } from "@nteract/core/dummy";
 import { actionTypes } from "@nteract/core";
+
+import Editor from "../src/editor";
 
 describe("EditorProvider", () => {
   const store = dummyStore();

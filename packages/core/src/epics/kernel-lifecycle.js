@@ -1,18 +1,8 @@
 /* @flow */
 
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { empty } from "rxjs/observable/empty";
-import { merge } from "rxjs/observable/merge";
-import { createKernelRef } from "../state/refs";
-
+import { Observable, of, empty, merge } from "rxjs";
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
-
 import type { ImmutableNotebook } from "@nteract/commutable";
-import type { ContentRef, KernelRef } from "../state/refs";
-
-const path = require("path");
-
 import {
   filter,
   map,
@@ -24,20 +14,25 @@ import {
   take,
   timeout
 } from "rxjs/operators";
-
 import { ActionsObservable, ofType } from "redux-observable";
 
+import type { ContentRef, KernelRef } from "../state/refs";
+import { createKernelRef } from "../state/refs";
 import * as selectors from "../selectors";
 import * as actions from "../actions";
 import * as actionTypes from "../actionTypes";
 import type { AppState, KernelInfo } from "../state";
+
+const path = require("path");
 
 /**
  * Sets the execution state after a kernel has been launched.
  *
  * @oaram  {ActionObservable}  action$ ActionObservable for LAUNCH_KERNEL_SUCCESSFUL action
  */
-export const watchExecutionStateEpic = (action$: ActionsObservable<*>) =>
+export const watchExecutionStateEpic = (
+  action$: ActionsObservable<redux$Action>
+) =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_SUCCESSFUL),
     switchMap((action: actionTypes.NewKernelAction) =>
@@ -117,7 +112,9 @@ export function acquireKernelInfo(
  *
  * @param  {ActionObservable}  The action type
  */
-export const acquireKernelInfoEpic = (action$: ActionsObservable<*>) =>
+export const acquireKernelInfoEpic = (
+  action$: ActionsObservable<redux$Action>
+) =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_SUCCESSFUL),
     switchMap((action: actionTypes.NewKernelAction) => {
@@ -157,13 +154,13 @@ export const extractNewKernel = (
  *       We could always inject those dependencies separately...
  */
 export const launchKernelWhenNotebookSetEpic = (
-  action$: ActionsObservable<*>,
-  store: *
+  action$: ActionsObservable<redux$Action>,
+  state$: any
 ) =>
   action$.pipe(
     ofType(actionTypes.FETCH_CONTENT_FULFILLED),
     mergeMap((action: actionTypes.FetchContentFulfilled) => {
-      const state: AppState = store.getState();
+      const state: AppState = state$.value;
 
       const contentRef = action.payload.contentRef;
 
@@ -196,14 +193,14 @@ export const launchKernelWhenNotebookSetEpic = (
   );
 
 export const restartKernelEpic = (
-  action$: ActionsObservable<*>,
-  store: *,
+  action$: ActionsObservable<redux$Action>,
+  state$: any,
   kernelRefGenerator: () => KernelRef = createKernelRef
 ) =>
   action$.pipe(
     ofType(actionTypes.RESTART_KERNEL),
     concatMap((action: actionTypes.RestartKernel) => {
-      const state = store.getState();
+      const state = state$.value;
 
       const oldKernelRef = action.payload.kernelRef;
       const oldKernel = selectors.kernel(state, { kernelRef: oldKernelRef });

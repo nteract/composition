@@ -1,11 +1,10 @@
 // @flow
 import * as fs from "fs";
 
-const mkdirp = require("mkdirp");
-
-import { Observable } from "rxjs/Observable";
-import { bindNodeCallback } from "rxjs/observable/bindNodeCallback";
+import { Observable, bindNodeCallback } from "rxjs";
 import { mergeMap } from "rxjs/operators";
+
+const mkdirp = require("mkdirp");
 
 export const unlinkObservable = (path: string) =>
   Observable.create(observer => {
@@ -28,12 +27,12 @@ export const createNewSymlinkObservable: (
   srcpath: string,
   dtspath: string,
   type?: string
-) => rxjs$Observable<void> = bindNodeCallback(fs.symlink);
+) => Observable<void> = bindNodeCallback(fs.symlink);
 
 export const createSymlinkObservable = (
   target: string,
   path: string
-): rxjs$Observable<void> =>
+): Observable<void> =>
   unlinkObservable(path).pipe(
     mergeMap(() => createNewSymlinkObservable(target, path))
   );
@@ -42,14 +41,14 @@ export const createSymlinkObservable = (
 // due to bindNodeCallback not being typed
 export const readFileObservable: (
   pth: string
-) => rxjs$Observable<Buffer> = bindNodeCallback(fs.readFile);
+) => Observable<Buffer> = bindNodeCallback(fs.readFile);
 
 // NOTE: Flow types here match our current usage rather than inferring it,
 // due to bindNodeCallback not being typed
 export const writeFileObservable: (
   filename: string,
   data: Buffer | string
-) => rxjs$Observable<void> = bindNodeCallback(fs.writeFile);
+) => Observable<void> = bindNodeCallback(fs.writeFile);
 
 export const mkdirpObservable = bindNodeCallback(mkdirp);
 
@@ -97,4 +96,4 @@ export const readdirObservable = (
 
 export const statObservable: (
   path: string
-) => rxjs$Observable<fs.Stats> = bindNodeCallback(fs.stat);
+) => Observable<fs.Stats> = bindNodeCallback(fs.stat);

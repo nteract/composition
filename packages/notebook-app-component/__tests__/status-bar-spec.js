@@ -1,9 +1,8 @@
 import React from "react";
-
 import { shallow } from "enzyme";
+import { dummyCommutable } from "@nteract/core/dummy";
 
 import { StatusBar } from "../src/status-bar";
-import { dummyCommutable } from "@nteract/core/dummy";
 
 describe("StatusBar", () => {
   test("can render on a dummyNotebook", () => {

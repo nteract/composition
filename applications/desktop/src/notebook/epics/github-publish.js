@@ -1,20 +1,14 @@
 // @flow strict
 import { shell } from "electron";
-
 import { selectors, actions, actionTypes } from "@nteract/core";
-
-const path = require("path");
-
-import type { ActionsObservable } from "redux-observable";
-
-import { of } from "rxjs/observable/of";
-
-import { empty } from "rxjs/observable/empty";
-
+import { of, empty } from "rxjs";
+import { ajax } from "rxjs/ajax";
 import { mergeMap, catchError } from "rxjs/operators";
 import { ofType } from "redux-observable";
+import type { ActionsObservable, StateObservable } from "redux-observable";
+import type { AppState } from "@nteract/core";
 
-import { ajax } from "rxjs/observable/dom/ajax";
+const path = require("path");
 
 type GithubFiles = {
   [string]: {
@@ -58,11 +52,14 @@ function publishGist(
  * Epic to capture the end to end action of publishing and receiving the
  * response from the Github API.
  */
-export const publishEpic = (action$: ActionsObservable<*>, store: *) => {
+export const publishEpic = (
+  action$: ActionsObservable<redux$Action>,
+  state$: StateObservable<AppState>
+) => {
   return action$.pipe(
     ofType(actionTypes.PUBLISH_GIST),
     mergeMap((action: actionTypes.PublishGist) => {
-      const state = store.getState();
+      const state = state$.value;
 
       const contentRef = action.payload.contentRef;
       if (!contentRef) {
@@ -137,8 +134,7 @@ export const publishEpic = (action$: ActionsObservable<*>, store: *) => {
         gistId
       ).pipe(
         mergeMap(xhr => {
-          const state = store.getState();
-          const notificationSystem = selectors.notificationSystem(state);
+          const notificationSystem = selectors.notificationSystem(state$.value);
 
           const { id, login } = xhr.response;
 

@@ -1,4 +1,5 @@
 const EventEmitter = require("events");
+
 class Socket extends EventEmitter {
   constructor(zmqType, scheme, key) {
     super();

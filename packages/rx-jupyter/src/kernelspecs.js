@@ -1,6 +1,7 @@
 // @flow
 
-import { ajax } from "rxjs/observable/dom/ajax";
+import { ajax } from "rxjs/ajax";
+import type { Observable } from "rxjs";
 
 import { createAJAXSettings } from "./base";
 
@@ -11,10 +12,10 @@ import { createAJAXSettings } from "./base";
  *
  * @return  {Object}  An Observable with the request response
  */
-export function list(serverConfig: Object): rxjs$Observable<*> {
+export function list(serverConfig: Object): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, "/api/kernelspecs"));
 }
 
-export function get(serverConfig: Object, name: string): rxjs$Observable<*> {
+export function get(serverConfig: Object, name: string): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, `/api/kernelspecs/${name}`));
 }

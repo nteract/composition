@@ -2,13 +2,8 @@
 
 import type { ChildProcess } from "child_process";
 
-import { Observable } from "rxjs/Observable";
-import { of } from "rxjs/observable/of";
-import { empty } from "rxjs/observable/empty";
-import { merge } from "rxjs/observable/merge";
-
+import { Observable, of, merge, empty } from "rxjs";
 import { sample } from "lodash";
-
 import {
   filter,
   map,
@@ -20,25 +15,20 @@ import {
   timeout,
   first
 } from "rxjs/operators";
-
 import { launchSpec } from "spawnteract";
-
 import { ActionsObservable, ofType } from "redux-observable";
-
+import type { StateObservable } from "redux-observable";
 import { ipcRenderer as ipc } from "electron";
-
 import { createMainChannel } from "enchannel-zmq-backend";
 import * as jmp from "jmp";
-
 import { selectors, actions, actionTypes } from "@nteract/core";
-
 import type {
+  AppState,
   KernelspecInfo,
   KernelRef,
   ContentRef,
   LocalKernelProps
 } from "@nteract/core";
-
 import { childOf, ofMessageType, shutdownRequest } from "@nteract/messaging";
 
 /**
@@ -158,8 +148,8 @@ export const kernelSpecsObservable = Observable.create(observer => {
 });
 
 export const launchKernelByNameEpic = (
-  action$: ActionsObservable<*>
-): Observable<Action> =>
+  action$: ActionsObservable<redux$Action>
+): Observable<redux$Action> =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_BY_NAME),
     tap((action: actionTypes.LaunchKernelByNameAction) => {
@@ -191,9 +181,9 @@ export const launchKernelByNameEpic = (
  * @param  {ActionObservable} action$  ActionObservable for LAUNCH_KERNEL action
  */
 export const launchKernelEpic = (
-  action$: ActionsObservable<*>,
-  store: *
-): Observable<Action> =>
+  action$: ActionsObservable<redux$Action>,
+  state$: StateObservable<AppState>
+): Observable<redux$Action> =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL),
     // We must kill the previous kernel now
@@ -216,7 +206,7 @@ export const launchKernelEpic = (
       // TODO: Do the async version of `ipc.send`, potentially coordinate with main process
       ipc.send("nteract:ping:kernel", action.payload.kernelSpec);
 
-      const oldKernelRef = selectors.currentKernelRef(store.getState());
+      const oldKernelRef = selectors.currentKernelRef(state$.value);
 
       // Kill the old kernel by emitting the action to kill it if it exists
       let cleanupOldKernel$ = empty();
@@ -254,15 +244,18 @@ export const launchKernelEpic = (
     })
   );
 
-export const interruptKernelEpic = (action$: *, store: *): Observable<Action> =>
+export const interruptKernelEpic = (
+  action$: *,
+  state$: StateObservable<AppState>
+): Observable<redux$Action> =>
   action$.pipe(
     ofType(actionTypes.INTERRUPT_KERNEL),
     // This epic can only interrupt direct zeromq connected kernels
-    filter(() => selectors.isCurrentKernelZeroMQ(store.getState())),
+    filter(() => selectors.isCurrentKernelZeroMQ(state$.value)),
     // If the user fires off _more_ interrupts, we shouldn't interrupt the in-flight
     // interrupt, instead doing it after the last one happens
     concatMap((action: actionTypes.InterruptKernel) => {
-      const kernel = selectors.currentKernel(store.getState());
+      const kernel = selectors.currentKernel(state$.value);
       if (!kernel) {
         return of(
           actions.interruptKernelFailed({
@@ -319,13 +312,15 @@ function killSpawn(spawn: *): void {
 // This might be better named shutdownKernel because it first attempts a graceful
 // shutdown by sending a shutdown msg to the kernel, and only if the kernel
 // doesn't respond promptly does it SIGKILL the kernel.
-export const killKernelEpic = (action$: *, store: *): Observable<Action> =>
+export const killKernelEpic = (
+  action$: *,
+  state$: StateObservable<AppState>
+): Observable<redux$Action> =>
   action$.pipe(
     ofType(actionTypes.KILL_KERNEL),
     concatMap((action: actionTypes.KillKernelAction) => {
-      const state = store.getState();
       const kernelRef = action.payload.kernelRef;
-      const kernel = selectors.kernel(state, { kernelRef });
+      const kernel = selectors.kernel(state$.value, { kernelRef });
 
       if (!kernel) {
         console.warn("tried to kill a kernel that doesn't exist");
@@ -342,7 +337,6 @@ export const killKernelEpic = (action$: *, store: *): Observable<Action> =>
       // Try to make a shutdown request
       // If we don't get a response within X time, force a shutdown
       // Either way do the same cleanup
-      // $FlowFixMe: revisite when upgrading to rxjs@6
       const shutDownHandling = kernel.channels.pipe(
         childOf(request),
         ofMessageType("shutdown_reply"),

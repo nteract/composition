@@ -1,5 +1,4 @@
 const merge = require("webpack-merge");
-
 const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 
 const { commonMainConfig, commonRendererConfig } = require("./webpack.common");

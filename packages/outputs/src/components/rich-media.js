@@ -1,7 +1,6 @@
 // @flow strict
 
 import * as React from "react";
-
 import type { MediaBundle } from "@nteract/records";
 
 /** Error handling types */

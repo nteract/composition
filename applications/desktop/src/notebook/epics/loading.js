@@ -3,20 +3,14 @@
 import * as path from "path";
 import * as fs from "fs";
 
-import { of } from "rxjs/observable/of";
-import { forkJoin } from "rxjs/observable/forkJoin";
-import { empty } from "rxjs/observable/empty";
+import { of, forkJoin, empty } from "rxjs";
 import { map, tap, switchMap, catchError, timeout } from "rxjs/operators";
-
 import { ActionsObservable, ofType } from "redux-observable";
-
+import type { StateObservable } from "redux-observable";
 import { readFileObservable, statObservable } from "fs-observable";
-
 import { monocellNotebook, toJS } from "@nteract/commutable";
 import type { ImmutableNotebook } from "@nteract/commutable";
-
 import { actionTypes, actions, selectors } from "@nteract/core";
-
 import type { AppState } from "@nteract/core";
 
 /**
@@ -101,7 +95,7 @@ function createContentsResponse(
  *
  * @param  {ActionObservable}  A LOAD action with the notebook filename
  */
-export const fetchContentEpic = (action$: ActionsObservable<*>) =>
+export const fetchContentEpic = (action$: ActionsObservable<redux$Action>) =>
   action$.pipe(
     ofType(actionTypes.FETCH_CONTENT),
     tap((action: actionTypes.FetchContent) => {
@@ -118,7 +112,8 @@ export const fetchContentEpic = (action$: ActionsObservable<*>) =>
         readFileObservable(filepath),
         statObservable(filepath),
         // Project onto the Contents API response
-        (content, stat) => createContentsResponse(filepath, stat, content)
+        (content, stat): JupyterApi$Content =>
+          createContentsResponse(filepath, stat, content)
       ).pipe(
         // Timeout after one minute
         timeout(60 * 1000),
@@ -145,17 +140,15 @@ export const fetchContentEpic = (action$: ActionsObservable<*>) =>
   );
 
 export const launchKernelWhenNotebookSetEpic = (
-  action$: ActionsObservable<*>,
-  store: *
+  action$: ActionsObservable<redux$Action>,
+  state$: StateObservable<AppState>
 ) =>
   action$.pipe(
     ofType(actionTypes.FETCH_CONTENT_FULFILLED),
     map((action: actionTypes.FetchContentFulfilled) => {
-      const state: AppState = store.getState();
-
       const contentRef = action.payload.contentRef;
 
-      const content = selectors.content(state, { contentRef });
+      const content = selectors.content(state$.value, { contentRef });
 
       if (
         !content ||
@@ -186,7 +179,7 @@ export const launchKernelWhenNotebookSetEpic = (
  *
  * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
  */
-export const newNotebookEpic = (action$: ActionsObservable<*>) =>
+export const newNotebookEpic = (action$: ActionsObservable<redux$Action>) =>
   action$.pipe(
     ofType(actionTypes.NEW_NOTEBOOK),
     map((action: actionTypes.NewNotebook) => {

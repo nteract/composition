@@ -8,10 +8,10 @@ import { Source } from "./components/source.js";
 import { Cell } from "./components/cell.js";
 import { Cells } from "./components/cells.js";
 import { HeaderEditor } from "./components/header-editor.js";
+import * as themes from "./themes";
 
 export * from "./styles";
 
-import * as themes from "./themes";
 export {
   themes,
   Input,

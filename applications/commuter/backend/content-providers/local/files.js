@@ -1,13 +1,14 @@
 // @flow
-const express = require("express");
+import type { $Request, $Response } from "express";
+
+import type { DiskProviderOptions } from "./fs";
 
 const fs = require("fs");
 const path = require("path");
 
-const sanitizeFilePath = require("./fs").sanitizeFilePath;
-import type { DiskProviderOptions } from "./fs";
+const express = require("express");
 
-import type { $Request, $Response } from "express";
+const sanitizeFilePath = require("./fs").sanitizeFilePath;
 
 type ErrorResponse = {
   message: string

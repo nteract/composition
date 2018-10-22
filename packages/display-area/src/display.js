@@ -1,8 +1,6 @@
 // @flow
 import React from "react";
-
 import { transforms, displayOrder } from "@nteract/transforms";
-
 import * as Immutable from "immutable";
 
 import Output from "./output";

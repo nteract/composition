@@ -19,9 +19,11 @@
     "@nteract/core": "^7.0.2",
     "@nteract/display-area": "^4.4.5",
     "@nteract/editor": "^7.3.5",
+    "@nteract/markdown": "^2.1.4",
     "@nteract/messaging": "^4.1.4",
     "@nteract/presentational-components": "^0.4.3",
     "@nteract/webpack-configurator": "^1.2.4",
+    "ansi-to-react": "^3.3.3",
     "deepmerge": "^2.0.1",
     "lodash": "^4.17.4",
     "next": "7.0.2",
@@ -31,10 +33,10 @@
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
-    "redux-observable": "^0.19.0",
+    "redux-observable": "^1.0.0",
     "rx-binder": "^2.1.4",
     "rx-jupyter": "^3.2.3",
-    "rxjs": "^5.5.6",
+    "rxjs": "^6.3.3",
     "uuid": "^3.1.0"
   }
 }

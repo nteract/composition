@@ -1,6 +1,5 @@
 /* @flow */
 import { hot } from "react-hot-loader";
-
 import * as React from "react";
 import { DatabaseOcticon } from "@nteract/octicons";
 
@@ -9,7 +8,6 @@ import { semioticSettings } from "./charts/settings";
 import { DataResourceTransformGrid } from "./charts/grid";
 import VizControls from "./VizControls";
 import semioticStyle from "./css/semiotic";
-
 import {
   TreeIcon,
   NetworkIcon,
@@ -20,7 +18,6 @@ import {
   HexbinIcon,
   ParallelCoordinatesIcon
 } from "./icons";
-
 import { chartHelpText } from "./docs/chart-docs";
 
 type Props = {

@@ -1,4 +1,5 @@
 import Immutable from "immutable";
+
 import { dummyCommutable } from "../src/dummy";
 import * as selectors from "../src/selectors";
 import * as stateModule from "../src/state";

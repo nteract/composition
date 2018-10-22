@@ -1,5 +1,4 @@
 // Note: This file is ES5 because it doesn't get transpiled, only gets used for building the module
-const config = require("./src/config.json");
 const fs = require("fs");
 const path = require("path");
 
@@ -18,6 +17,8 @@ const makeName = name => {
 };
 
 const lodash = require("lodash");
+
+const config = require("./src/config.json");
 
 function makeDeclarationSet(groupKey, isAlias) {
   const modifiers = config.theme.modifiers[groupKey];

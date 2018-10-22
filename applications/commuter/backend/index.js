@@ -1,7 +1,9 @@
 // @flow
-const createServer = require("./server"),
-  Log = require("log"),
-  log = new Log("info");
+const Log = require("log");
+
+const createServer = require("./server");
+
+const log = new Log("info");
 
 createServer()
   .then(server => {

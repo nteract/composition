@@ -2,19 +2,22 @@
 import * as React from "react";
 import Head from "next/head";
 import Router from "next/router";
-
 import CodeMirrorEditor from "@nteract/editor";
-import { BinderConsole } from "./consoles";
 import { Display } from "@nteract/display-area";
-import { KernelUI } from "./kernelUI";
 import { Outputs } from "@nteract/presentational-components";
 import { connect } from "react-redux";
-import { actions } from "../redux";
 import objectPath from "object-path";
+
+import { actions } from "../redux";
 import * as utils from "../utils";
+
+import { KernelUI } from "./kernelUI";
+import { BinderConsole } from "./consoles";
 
 const NTERACT_LOGO_URL =
   "https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/svg/nteract_logo_wide_purple_inverted.svg";
+
+const emptyList = [];
 
 class Main extends React.Component<*, *> {
   constructor(props) {
@@ -174,7 +177,7 @@ class Main extends React.Component<*, *> {
             logs={
               currentServer && currentServer.messages
                 ? currentServer.messages
-                : []
+                : emptyList
             }
             repo={repoValue}
             gitref={gitrefValue}
@@ -230,7 +233,7 @@ class Main extends React.Component<*, *> {
               outputs={
                 currentKernel && currentKernel.outputs
                   ? currentKernel.outputs
-                  : []
+                  : emptyList
               }
               expanded
             />

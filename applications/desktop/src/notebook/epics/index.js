@@ -1,15 +1,15 @@
 /* @flow strict */
 import { catchError, startWith } from "rxjs/operators";
-import { saveEpic, saveAsEpic } from "./saving";
+import { epics as coreEpics } from "@nteract/core";
+import type { AppState } from "@nteract/core";
+import type { Epic } from "redux-observable";
 
+import { saveEpic, saveAsEpic } from "./saving";
 import {
   fetchContentEpic,
   newNotebookEpic,
   launchKernelWhenNotebookSetEpic
 } from "./loading";
-
-import type { ActionsObservable, Epic } from "redux-observable";
-
 import {
   launchKernelEpic,
   launchKernelByNameEpic,
@@ -17,28 +17,27 @@ import {
   killKernelEpic,
   watchSpawn
 } from "./zeromq-kernels";
-
-import { epics as coreEpics } from "@nteract/core";
-
 import { publishEpic } from "./github-publish";
-
 import {
   loadConfigEpic,
   saveConfigEpic,
   saveConfigOnChangeEpic
 } from "./config";
-
 import { closeNotebookEpic } from "./close-notebook";
 
-export function retryAndEmitError(err: Error, source: ActionsObservable<*>) {
+export function retryAndEmitError(
+  err: Error,
+  source: rxjs$Observable<redux$AnyAction>
+) {
   console.error(err);
   return source.pipe(startWith({ type: "ERROR", payload: err, error: true }));
 }
 
-export const wrapEpic = (epic: Epic<*, *, *, *>) => (...args: *) =>
-  epic(...args).pipe(catchError(retryAndEmitError));
+export const wrapEpic = (epic: Epic<AppState, redux$AnyAction, *>) => (
+  ...args: *
+) => epic(...args).pipe(catchError(retryAndEmitError));
 
-const epics: Array<Epic<*, *, *, *>> = [
+const epics: Array<Epic<AppState, redux$AnyAction, *>> = [
   coreEpics.restartKernelEpic,
   coreEpics.acquireKernelInfoEpic,
   coreEpics.watchExecutionStateEpic,
@@ -62,6 +61,7 @@ const epics: Array<Epic<*, *, *, *>> = [
   saveConfigEpic,
   saveConfigOnChangeEpic,
   closeNotebookEpic
+  // $FlowFixMe: There's probably something wrong with our types here
 ].map(wrapEpic);
 
 export default epics;

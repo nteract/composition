@@ -1,10 +1,10 @@
 // @flow
 
 import * as React from "react";
-import Markdown from "../src";
-
 import { mount } from "enzyme";
 import toJson from "enzyme-to-json";
+
+import Markdown from "../src";
 
 const cases = [
   {

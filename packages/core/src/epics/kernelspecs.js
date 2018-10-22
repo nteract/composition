@@ -1,18 +1,18 @@
 // @flow
-import * as actionTypes from "../actionTypes";
-import * as actions from "../actions";
+import { empty, of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { kernelspecs } from "rx-jupyter";
 import { ofType } from "redux-observable";
 import type { ActionsObservable } from "redux-observable";
-import type { FetchKernelspecs } from "../actionTypes";
-import { empty } from "rxjs/observable/empty";
 
+import * as actions from "../actions";
+import * as actionTypes from "../actionTypes";
+import type { FetchKernelspecs } from "../actionTypes";
 import * as selectors from "../selectors";
 
 export const fetchKernelspecsEpic = (
-  action$: ActionsObservable<*>,
-  store: any
+  action$: ActionsObservable<redux$Action>,
+  state$: any
 ) =>
   action$.pipe(
     ofType(actionTypes.FETCH_KERNELSPECS),
@@ -20,7 +20,7 @@ export const fetchKernelspecsEpic = (
       const {
         payload: { hostRef, kernelspecsRef }
       } = action;
-      const state = store.getState();
+      const state = state$.value;
 
       const host = selectors.currentHost(state);
       if (host.type !== "jupyter") {
@@ -54,7 +54,7 @@ export const fetchKernelspecsEpic = (
           });
         }),
         catchError(error => {
-          return actions.fetchKernelspecsFailed({ kernelspecsRef, error });
+          return of(actions.fetchKernelspecsFailed({ kernelspecsRef, error }));
         })
       );
     })

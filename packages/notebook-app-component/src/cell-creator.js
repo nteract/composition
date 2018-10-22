@@ -1,7 +1,7 @@
 // @flow strict
 import * as React from "react";
 import { connect } from "react-redux";
-
+import { CodeOcticon, MarkdownOcticon } from "@nteract/octicons";
 import { actions } from "@nteract/core";
 import type { ContentRef } from "@nteract/core";
 
@@ -18,8 +18,6 @@ type ConnectedProps = {
   id?: string,
   contentRef: ContentRef
 };
-
-import { CodeOcticon, MarkdownOcticon } from "@nteract/octicons";
 
 export class PureCellCreator extends React.Component<Props, null> {
   createMarkdownCell = () => {

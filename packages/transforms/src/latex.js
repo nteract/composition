@@ -1,6 +1,5 @@
 /* @flow */
 import React from "react";
-
 import MathJax from "@nteract/mathjax";
 
 type Props = {

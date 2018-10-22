@@ -1,12 +1,10 @@
 // @flow
 import * as React from "react";
 import TimeAgo from "@nteract/timeago";
-
 import NextLink from "next/link";
 
 import Header from "../components/header";
 import Body from "../components/body";
-
 import { getJSON } from "../shims/ajax";
 
 const Authors = props => (

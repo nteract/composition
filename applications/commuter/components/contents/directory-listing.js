@@ -1,10 +1,6 @@
 // @flow
 import * as React from "react";
-
 import Link from "next/link";
-
-import { theme } from "../../theme";
-
 import { groupBy } from "lodash";
 import {
   Entry,
@@ -13,6 +9,8 @@ import {
   Name,
   LastSaved
 } from "@nteract/directory-listing";
+
+import { theme } from "../../theme";
 
 export type DirectoryListingProps = {
   contents: Array<JupyterApi$Content>,

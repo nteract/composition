@@ -1,11 +1,14 @@
 // @flow
-import * as Immutable from "immutable";
 import type { ChildProcess } from "child_process";
+
+import * as Immutable from "immutable";
+import { Subject } from "rxjs";
+
 import type { HostRef, KernelRef } from "../refs";
 import type { KernelId, SessionId } from "../ids";
-import { Subject } from "rxjs/Subject";
 
 import type { KernelInfo } from "./kernel-info";
+
 export type { KernelInfo };
 
 // See #3427. This represents the kernel early in the launch process.
@@ -42,7 +45,7 @@ export type LocalKernelProps = {
   info: ?KernelInfo,
   hostRef: ?HostRef,
   lastActivity: ?Date,
-  channels: rxjs$Subject<*>,
+  channels: Subject<*>,
   cwd: string,
   // Canonically: idle, busy, starting
   // Xref: http://jupyter-client.readthedocs.io/en/stable/messaging.html#kernel-status
@@ -77,7 +80,7 @@ export type RemoteKernelProps = {
   info: ?KernelInfo,
   hostRef: ?HostRef,
   lastActivity: ?Date,
-  channels: rxjs$Subject<*>,
+  channels: Subject<*>,
   cwd: string,
   // Canonically: idle, busy, starting
   // Xref: http://jupyter-client.readthedocs.io/en/stable/messaging.html#kernel-status

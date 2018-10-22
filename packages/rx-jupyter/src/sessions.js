@@ -1,6 +1,7 @@
 // @flow
 
-import { ajax } from "rxjs/observable/dom/ajax";
+import { ajax } from "rxjs/ajax";
+import type { Observable } from "rxjs";
 
 import { createAJAXSettings } from "./base";
 
@@ -13,7 +14,7 @@ import { createAJAXSettings } from "./base";
  *
  * @return  {Object}  An Observable with the request response
  */
-export function list(serverConfig: Object): rxjs$Observable<*> {
+export function list(serverConfig: Object): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, "/api/sessions"));
 }
 
@@ -26,10 +27,7 @@ export function list(serverConfig: Object): rxjs$Observable<*> {
  *
  * @return  {Object}  An Observable with the request/response
  */
-export function get(
-  serverConfig: Object,
-  sessionID: string
-): rxjs$Observable<*> {
+export function get(serverConfig: Object, sessionID: string): Observable<*> {
   return ajax(createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`));
 }
 
@@ -45,7 +43,7 @@ export function get(
 export function destroy(
   serverConfig: Object,
   sessionID: string
-): rxjs$Observable<*> {
+): Observable<*> {
   return ajax(
     createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
       method: "DELETE"
@@ -69,7 +67,7 @@ export function update(
   serverConfig: Object,
   sessionID: string,
   body: Object
-): rxjs$Observable<*> {
+): Observable<*> {
   return ajax(
     createAJAXSettings(serverConfig, `/api/sessions/${sessionID}`, {
       method: "PATCH",
@@ -91,7 +89,7 @@ export function update(
  *
  * @return {Object} - An Observable with the request/response
  */
-export function create(serverConfig: Object, body: Object): rxjs$Observable<*> {
+export function create(serverConfig: Object, body: Object): Observable<*> {
   return ajax(
     createAJAXSettings(serverConfig, "/api/sessions", {
       method: "POST",

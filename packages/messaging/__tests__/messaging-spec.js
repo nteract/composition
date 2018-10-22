@@ -1,9 +1,10 @@
-import { from } from "rxjs/observable/from";
-import { of } from "rxjs/observable/of";
-import { pluck, tap, count, toArray } from "rxjs/operators";
-import { ofMessageType, childOf } from "../src/index";
+import { from, of } from "rxjs";
+import { map, tap, count, toArray } from "rxjs/operators";
+import { cloneDeep } from "lodash";
 
 import {
+  ofMessageType,
+  childOf,
   createMessage,
   createExecuteRequest,
   convertOutputMessageToNotebookFormat,
@@ -12,7 +13,6 @@ import {
   executionCounts,
   kernelStatuses
 } from "../src";
-
 import {
   executeInput,
   displayData,
@@ -20,8 +20,6 @@ import {
   executeReply,
   message
 } from "../src/messages";
-
-import { cloneDeep } from "lodash";
 
 describe("createMessage", () => {
   it("makes a msg", () => {
@@ -99,7 +97,7 @@ describe("ofMessageType", () => {
         tap(val => {
           expect(val.header.msg_type === "a" || val.header.msg_type === "d");
         }),
-        pluck("header", "msg_type"),
+        map(entry => entry.header.msg_type),
         count()
       )
       .toPromise()
@@ -137,7 +135,7 @@ describe("ofMessageType", () => {
         tap(val => {
           expect(val.header.msg_type === "a" || val.header.msg_type === "d");
         }),
-        pluck("header", "msg_type"),
+        map(entry => entry.header.msg_type),
         count()
       )
       .toPromise()
@@ -158,7 +156,7 @@ describe("ofMessageType", () => {
         tap(val => {
           expect(val.header.msg_type === "a" || val.header.msg_type === "d");
         }),
-        pluck("header", "msg_type"),
+        map(entry => entry.header.msg_type),
         count()
       )
       .toPromise()

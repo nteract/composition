@@ -1,7 +1,6 @@
 // @flow
 import SyntaxHighlighter from "react-syntax-highlighter/prism";
 import * as React from "react";
-
 import {
   xonokai as darkTheme,
   vs as lightTheme

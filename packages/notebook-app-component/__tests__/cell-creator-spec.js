@@ -2,9 +2,7 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import { Provider } from "react-redux";
-
 import { actionTypes } from "@nteract/core";
-
 import { dummyStore } from "@nteract/core/dummy";
 
 import CellCreator, { PureCellCreator } from "../src/cell-creator";

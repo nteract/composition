@@ -61,6 +61,10 @@ var manifest = [
   {
     cssIn: require.resolve("@blueprintjs/core/lib/css/blueprint.css"),
     jsOut: path.join(__dirname, "..", "src/vendor/blueprint.css.js")
+  },
+  {
+    cssIn: require.resolve("@blueprintjs/select/lib/css/blueprint-select.css"),
+    jsOut: path.join(__dirname, "..", "src/vendor/blueprint-select.css.js")
   }
 ];
 

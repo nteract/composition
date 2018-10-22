@@ -1,9 +1,8 @@
 import React from "react";
-
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-
 import { displayOrder, transforms } from "@nteract/transforms";
+
 import { RichestMime } from "../src";
 
 describe("RichestMime", () => {

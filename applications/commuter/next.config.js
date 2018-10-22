@@ -1,5 +1,4 @@
 const configurator = require("@nteract/webpack-configurator");
-
 const webpack = require("webpack");
 
 function webpackConfig(_config, options) {

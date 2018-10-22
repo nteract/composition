@@ -1,9 +1,7 @@
 // @flow
 import * as Immutable from "immutable";
-
 import * as commutable from "@nteract/commutable";
 import type { CellID } from "@nteract/commutable";
-
 import { createSelector } from "reselect";
 
 // All these selectors expect a NotebookModel as the top level state

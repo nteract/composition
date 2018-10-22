@@ -1,5 +1,14 @@
 /* @flow */
 import type {
+  CellID,
+  CellType,
+  ImmutableJSONType,
+  MimeBundle
+} from "@nteract/commutable";
+import type { ExecuteRequest } from "@nteract/messaging";
+import type { Output } from "@nteract/commutable/src/v4";
+
+import type {
   ContentRef,
   HostRef,
   KernelRef,
@@ -8,24 +17,12 @@ import type {
 import type { HostRecord } from "./state/entities/hosts";
 import type { KernelspecProps } from "./state/entities/kernelspecs";
 import type { KernelInfo } from "./state/entities/kernel-info";
-
-import type {
-  CellID,
-  CellType,
-  ImmutableJSONType,
-  MimeBundle
-} from "@nteract/commutable";
-
 import type {
   KernelspecInfo,
   LanguageInfoMetadata,
   LocalKernelProps,
   RemoteKernelProps
 } from "./state";
-
-import type { ExecuteRequest } from "@nteract/messaging";
-
-import type { Output } from "@nteract/commutable/src/v4";
 
 export type ErrorAction<T: string> = {
   type: T,
@@ -158,9 +155,9 @@ export type MoveCell = {
   }
 };
 
-export const REMOVE_CELL = "REMOVE_CELL";
-export type RemoveCell = {
-  type: "REMOVE_CELL",
+export const DELETE_CELL = "DELETE_CELL";
+export type DeleteCell = {
+  type: "DELETE_CELL",
   payload: {
     id?: CellID,
     contentRef: ContentRef
@@ -183,6 +180,16 @@ export type CreateCellAbove = {
   type: "CREATE_CELL_ABOVE",
   payload: {
     cellType: CellType,
+    id?: CellID,
+    contentRef: ContentRef
+  }
+};
+
+// Deprecation Warning: This action type is being deprecated. Please use DELETE_CELL instead
+export const REMOVE_CELL = "REMOVE_CELL";
+export type RemoveCell = {
+  type: "REMOVE_CELL",
+  payload: {
     id?: CellID,
     contentRef: ContentRef
   }

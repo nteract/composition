@@ -4,16 +4,7 @@ export * from "./outputs";
 export * from "./cells";
 export * from "./common";
 import * as outputs from "./outputs";
-
 import type { Notebook as v4Notebook } from "./structures";
-
-export type ExecutionCount = number | null;
-
-export type MimeBundle = JSONObject;
-
-export type CellType = "markdown" | "code";
-export type CellID = string;
-
 import type {
   ImmutableNotebook,
   ImmutableCodeCell,
@@ -26,6 +17,11 @@ import type {
   ImmutableCellOrder,
   ImmutableCellMap
 } from "./types";
+
+export type ExecutionCount = number | null;
+export type MimeBundle = JSONObject;
+export type CellType = "markdown" | "code";
+export type CellID = string;
 
 export type {
   ImmutableCellOrder,
@@ -40,6 +36,7 @@ export type {
   ImmutableMimeBundle
 };
 
+// Deprecation Warning: removeCell is being deprecated. Please use deleteCell instead
 const {
   emptyNotebook,
   emptyCodeCell,
@@ -50,7 +47,8 @@ const {
   appendCellToNotebook,
   insertCellAt,
   insertCellAfter,
-  removeCell
+  removeCell,
+  deleteCell
 } = require("./structures");
 
 export type Notebook = v4Notebook;
@@ -70,6 +68,7 @@ function stringifyNotebook(notebook: v4Notebook): string {
 
 const createImmutableOutput = outputs.outputFromNbformat;
 
+// Deprecation Warning: removeCell is being deprecated. Please use deleteCell instead
 export {
   emptyCodeCell,
   emptyMarkdownCell,
@@ -81,6 +80,7 @@ export {
   insertCellAt,
   insertCellAfter,
   removeCell,
+  deleteCell,
   appendCell,
   appendCellToNotebook,
   createImmutableOutput

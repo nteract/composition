@@ -2,15 +2,17 @@
 
 import type { $Request, $Response } from "express";
 
-const front = require("../frontend");
-
 const { parse } = require("url");
+const http = require("http");
 
 const express = require("express");
-const http = require("http");
 const morgan = require("morgan");
-const config = require("./config");
 const Log = require("log");
+
+const front = require("../frontend");
+
+const config = require("./config");
+
 const log = new Log("info");
 
 function createServer() {

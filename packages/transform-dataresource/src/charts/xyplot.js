@@ -1,12 +1,12 @@
 /* @flow */
 import * as React from "react";
-
-import { sortByOrdinalRange } from "./shared";
 import { scaleLinear, scaleThreshold } from "d3-scale";
+
 import { numeralFormatting } from "../utilities";
 import HTMLLegend from "../HTMLLegend";
-
 import TooltipContent from "../tooltip-content";
+
+import { sortByOrdinalRange } from "./shared";
 
 const steps = ["none", "#FBEEEC", "#f3c8c2", "#e39787", "#ce6751", "#b3331d"];
 const thresholds = scaleThreshold()

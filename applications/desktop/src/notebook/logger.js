@@ -1,6 +1,5 @@
 /* @flow strict */
 import { isCollection } from "immutable";
-
 import { createLogger } from "redux-logger";
 
 export function clogger() {

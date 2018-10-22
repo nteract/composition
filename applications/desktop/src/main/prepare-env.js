@@ -1,7 +1,6 @@
 /* @flow strict */
 import shellEnv from "shell-env";
-
-import { fromPromise } from "rxjs/observable/fromPromise";
+import { from } from "rxjs";
 import { first, tap, publishReplay } from "rxjs/operators";
 
 // Bring in the current user's environment variables from running a shell session so that
@@ -10,7 +9,7 @@ import { first, tap, publishReplay } from "rxjs/operators";
 //
 // TODO: This should be cased off for when the user is already in a proper shell session (possibly launched
 //       from the nteract CLI
-const env$ = fromPromise(shellEnv()).pipe(
+const env$ = from(shellEnv()).pipe(
   first(),
   tap(env => {
     // no need to change the env if started from the terminal on Mac
@@ -24,6 +23,7 @@ const env$ = fromPromise(shellEnv()).pipe(
   publishReplay(1)
 );
 
+// $FlowFixMe
 env$.connect();
 
 export default env$;

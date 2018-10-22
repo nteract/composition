@@ -2,11 +2,9 @@
 import * as React from "react";
 
 import { getJSON } from "../shims/ajax";
-
 import Header from "../components/header";
 import BrowseHeader from "../components/browse-header";
 import Body from "../components/body";
-
 import { Entry } from "../components/contents";
 
 type ServerConfig = {

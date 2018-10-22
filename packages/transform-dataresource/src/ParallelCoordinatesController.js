@@ -3,10 +3,10 @@
 import * as React from "react";
 import { scaleLinear } from "d3-scale";
 import { ResponsiveOrdinalFrame, Axis } from "semiotic";
+
 import HTMLLegend from "./HTMLLegend";
 import { numeralFormatting } from "./utilities";
 import buttonGroupStyle from "./css/button-group";
-
 import TooltipContent from "./tooltip-content";
 
 type State = {
@@ -21,6 +21,8 @@ type Props = {
   schema: Object,
   options: Object
 };
+
+const axisSize = [40, 380];
 
 const connectorFunction = d => d.Country;
 
@@ -241,11 +243,13 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
           oPadding={40}
           pixelColumnWidth={80}
           interaction={
-            filterMode && {
-              columnsBrush: true,
-              during: this.brushing,
-              extent: Object.keys(this.state.columnExtent)
-            }
+            filterMode
+              ? {
+                  columnsBrush: true,
+                  during: this.brushing,
+                  extent: Object.keys(this.state.columnExtent)
+                }
+              : null
           }
           pieceHoverAnnotation={!filterMode}
           tooltipContent={d => (
@@ -269,7 +273,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
               <g transform="translate(-20,-395)">
                 <Axis
                   scale={this.state.dataScales[d]}
-                  size={[40, 380]}
+                  size={axisSize}
                   orient="left"
                   ticks={5}
                   tickFormat={d => (

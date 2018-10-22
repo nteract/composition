@@ -1,7 +1,8 @@
 // @flow
-const path = require("path"),
-  jsonfile = require("jsonfile"),
-  nbformatv4Schema = require("nbschema").v4;
+const path = require("path");
+
+const jsonfile = require("jsonfile");
+const nbformatv4Schema = require("nbschema").v4;
 
 const writeFile = schema =>
   jsonfile.writeFileSync(

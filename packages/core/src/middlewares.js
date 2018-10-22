@@ -4,7 +4,7 @@
 
 import * as selectors from "./selectors";
 
-type Action = {
+type ErrorAction = {
   type: string,
   error: ?boolean,
   payload: ?any
@@ -16,14 +16,14 @@ type Console = typeof console;
 export const errorMiddleware = (
   store: any,
   console: Console = global.console
-) => (next: any) => (action: Action) => {
+) => (next: any) => (action: redux$Action | ErrorAction) => {
   if (!(action.type.includes("ERROR") || action.error)) {
     return next(action);
   }
   console.error(action);
   let errorText;
 
-  if ("payload" in action) {
+  if (action.payload) {
     if (
       action.payload instanceof Object &&
       action.payload.error instanceof Error

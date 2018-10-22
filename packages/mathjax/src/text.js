@@ -2,7 +2,6 @@
 import * as React from "react";
 
 import MathJaxContext, { type MathJaxContextValue } from "./context";
-
 import Provider from "./provider";
 
 type Props = {

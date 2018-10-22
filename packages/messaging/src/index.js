@@ -1,10 +1,8 @@
 // @flow
 /* eslint camelcase: 0 */ // <-- Per Jupyter message spec
 
-import { Observable } from "rxjs/Observable";
-import { from } from "rxjs/observable/from";
-
-import { pluck, filter, map, mergeMap } from "rxjs/operators";
+import { Observable, from } from "rxjs";
+import { filter, map, mergeMap } from "rxjs/operators";
 
 import { message, executeRequest } from "./messages";
 
@@ -28,10 +26,10 @@ export function createExecuteRequest(code: string = ""): ExecuteRequest {
  * parentMessage's header
  */
 export const childOf = (parentMessage: JupyterMessage<*, *>) => (
-  source: rxjs$Observable<JupyterMessage<*, *>>
+  source: Observable<JupyterMessage<*, *>>
 ) => {
   const parentMessageID = parentMessage.header.msg_id;
-  return new Observable(subscriber =>
+  return Observable.create(subscriber =>
     source.subscribe(
       msg => {
         // strictly speaking, in order for the message to be a child of the parent
@@ -70,9 +68,9 @@ export const ofMessageType = (
   }
 
   return (
-    source: rxjs$Observable<JupyterMessage<*, *>>
-  ): rxjs$Observable<JupyterMessage<*, *>> =>
-    new Observable(subscriber =>
+    source: Observable<JupyterMessage<*, *>>
+  ): Observable<JupyterMessage<*, *>> =>
+    Observable.create(subscriber =>
       source.subscribe(
         msg => {
           if (!msg.header || !msg.header.msg_type) {
@@ -117,16 +115,14 @@ export function convertOutputMessageToNotebookFormat(
  *   )
  */
 export const outputs = () => (
-  source: rxjs$Observable<JupyterMessage<*, *>>
-): rxjs$Observable<JupyterMessage<*, *>> =>
+  source: Observable<JupyterMessage<*, *>>
+): Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_result", "display_data", "stream", "error"),
     map(convertOutputMessageToNotebookFormat)
   );
 
-export const updatedOutputs = () => (
-  source: rxjs$Observable<*>
-): rxjs$Observable<*> =>
+export const updatedOutputs = () => (source: Observable<*>): Observable<*> =>
   source.pipe(
     ofMessageType("update_display_data"),
     map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))
@@ -141,11 +137,11 @@ export const updatedOutputs = () => (
  *   )
  */
 export const payloads = () => (
-  source: rxjs$Observable<JupyterMessage<*, *>>
-): rxjs$Observable<JupyterMessage<*, *>> =>
+  source: Observable<JupyterMessage<*, *>>
+): Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_reply"),
-    pluck("content", "payload"),
+    map(entry => entry.content.payload),
     filter(Boolean),
     mergeMap(p => from(p))
   );
@@ -154,19 +150,19 @@ export const payloads = () => (
  * Get all the execution counts from an observable of jupyter messages
  */
 export const executionCounts = () => (
-  source: rxjs$Observable<JupyterMessage<*, *>>
-): rxjs$Observable<JupyterMessage<*, *>> =>
+  source: Observable<JupyterMessage<*, *>>
+): Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("execute_input"),
-    pluck("content", "execution_count")
+    map(entry => entry.content.execution_count)
   );
 
 export const kernelStatuses = () => (
-  source: rxjs$Observable<JupyterMessage<*, *>>
-): rxjs$Observable<JupyterMessage<*, *>> =>
+  source: Observable<JupyterMessage<*, *>>
+): Observable<JupyterMessage<*, *>> =>
   source.pipe(
     ofMessageType("status"),
-    pluck("content", "execution_state")
+    map(entry => entry.content.execution_state)
   );
 
 export * from "./messages";

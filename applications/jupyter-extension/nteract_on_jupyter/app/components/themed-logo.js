@@ -1,6 +1,5 @@
 /* @flow strict */
 import * as React from "react";
-
 import { WideLogo } from "@nteract/logos";
 
 type ThemedLogoProps = {

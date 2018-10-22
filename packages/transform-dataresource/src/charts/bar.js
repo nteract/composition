@@ -2,10 +2,10 @@
 import * as React from "react";
 
 import TooltipContent from "../tooltip-content";
-
-import { sortByOrdinalRange } from "./shared";
 import HTMLLegend from "../HTMLLegend";
 import { numeralFormatting } from "../utilities";
+
+import { sortByOrdinalRange } from "./shared";
 
 export const semioticBarChart = (
   data: Array<Object>,

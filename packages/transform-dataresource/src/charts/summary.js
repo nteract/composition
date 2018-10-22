@@ -1,9 +1,9 @@
 /* @flow */
 import * as React from "react";
-import HTMLLegend from "../HTMLLegend";
-import { numeralFormatting } from "../utilities";
 import { scaleLinear } from "d3-scale";
 
+import HTMLLegend from "../HTMLLegend";
+import { numeralFormatting } from "../utilities";
 import TooltipContent from "../tooltip-content";
 
 const fontScale = scaleLinear()

@@ -1,5 +1,4 @@
-import { Subject } from "rxjs/Subject";
-
+import { Subject } from "rxjs";
 import { createMessage } from "@nteract/messaging";
 
 const complete = require("../src/jupyter/complete");

@@ -1,11 +1,9 @@
 // @flow
 import * as React from "react";
+import { JSONTransform } from "@nteract/transforms";
+import Immutable from "immutable";
 
 import ZeppelinView from "./zeppelin";
-
-import { JSONTransform } from "@nteract/transforms";
-
-import Immutable from "immutable";
 
 export default (props: *) => {
   const content = JSON.parse(props.entry.content);

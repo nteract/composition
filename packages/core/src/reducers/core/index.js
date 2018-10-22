@@ -1,9 +1,11 @@
 // @flow
-import * as actionTypes from "../../actionTypes";
 import { combineReducers } from "redux-immutable";
+
+import * as actionTypes from "../../actionTypes";
+import { makeStateRecord } from "../../state";
+
 import { communication } from "./communication";
 import { entities } from "./entities";
-import { makeStateRecord } from "../../state";
 
 // TODO: #2618: This should at a minimum be moved into a contents entry.
 // TODO: This is temporary until we have sessions in place. Ideally, we point to

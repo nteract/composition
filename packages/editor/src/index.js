@@ -2,13 +2,8 @@
 /* eslint-disable class-methods-use-this */
 import * as React from "react";
 import ReactDOM from "react-dom";
-
-import { empty } from "rxjs/observable/empty";
-import { of } from "rxjs/observable/of";
-import { fromEvent } from "rxjs/observable/fromEvent";
-import { merge } from "rxjs/observable/merge";
-import type { Subscription } from "rxjs/Subscription";
-import { Subject } from "rxjs/Subject";
+import { empty, of, fromEvent, merge, Subject } from "rxjs";
+import type { Subscription } from "rxjs";
 import {
   catchError,
   debounceTime,
@@ -18,24 +13,18 @@ import {
   switchMap,
   takeUntil
 } from "rxjs/operators";
-
-
 import { RichestMime } from "@nteract/display-area";
-
-import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
-
-import { codeComplete, pick } from "./jupyter/complete";
-import { tool } from "./jupyter/tooltip";
-
 import { debounce } from "lodash";
 
-import type { Options, EditorChange, CMI, CMDoc } from "./types";
-export type { EditorChange, Options };
-
+import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
+import { codeComplete, pick } from "./jupyter/complete";
+import { tool } from "./jupyter/tooltip";
 import styles from "./styles";
-
 import codemirrorStyles from "./vendored/codemirror";
 import showHintStyles from "./vendored/show-hint";
+import type { Options, EditorChange, CMI, CMDoc } from "./types";
+
+export type { EditorChange, Options };
 
 function normalizeLineEndings(str) {
   if (!str) return str;
@@ -66,7 +55,11 @@ type CodeMirrorEditorState = {
   tipElement: ?any
 };
 
-type CodeCompletionEvent = { editor: Object, callback: Function, debounce: boolean };
+type CodeCompletionEvent = {
+  editor: Object,
+  callback: Function,
+  debounce: boolean
+};
 
 class CodeMirrorEditor extends React.Component<
   CodeMirrorEditorProps,
@@ -119,8 +112,8 @@ class CodeMirrorEditor extends React.Component<
         },
         extraKeys: {
           "Ctrl-Space": editor => {
-             this.debounceNextCompletionRequest = false;
-             return editor.execCommand("autocomplete");
+            this.debounceNextCompletionRequest = false;
+            return editor.execCommand("autocomplete");
           },
           Tab: this.executeTab,
           "Shift-Tab": editor => editor.execCommand("indentLess"),
@@ -201,9 +194,7 @@ class CodeMirrorEditor extends React.Component<
         if (
           completion &&
           !editor.state.completionActive &&
-          !excludedIntelliSenseTriggerKeys[
-            (ev.keyCode || ev.which).toString()
-          ]
+          !excludedIntelliSenseTriggerKeys[(ev.keyCode || ev.which).toString()]
         ) {
           const cursor = editor.getDoc().getCursor();
           const token = editor.getTokenAt(cursor);
@@ -222,6 +213,7 @@ class CodeMirrorEditor extends React.Component<
 
     this.completionSubject = new Subject();
 
+    // $FlowFixMe: Somehow .pipe is broken in the typings
     const [debounce, immediate] = this.completionSubject.pipe(
       partition(ev => ev.debounce === true)
     );
@@ -231,16 +223,19 @@ class CodeMirrorEditor extends React.Component<
       debounce.pipe(
         debounceTime(150),
         takeUntil(immediate), // Upon receipt of an immediate event, cancel anything queued up from debounce.
-                              // This handles "type chars quickly, then quickly hit Ctrl+Space", ensuring that it
-                              // generates just one event rather than two.
-        repeat()              // Resubscribe to wait for next debounced event.
+        // This handles "type chars quickly, then quickly hit Ctrl+Space", ensuring that it
+        // generates just one event rather than two.
+        repeat() // Resubscribe to wait for next debounced event.
       )
     );
 
     const completionResults = mergedCompletionEvents.pipe(
       switchMap((ev: CodeCompletionEvent) => {
         const { channels } = this.props;
-        if (!channels) throw new Error("Unexpectedly received a completion event when channels were unset");
+        if (!channels)
+          throw new Error(
+            "Unexpectedly received a completion event when channels were unset"
+          );
         return codeComplete(channels, ev.editor).pipe(
           map(completionResult => () => ev.callback(completionResult)),
           takeUntil(this.completionSubject), // Complete immediately upon next event, even if it's a debounced one - https://blog.strongbrew.io/building-a-safe-autocomplete-operator-with-rxjs/
@@ -252,7 +247,9 @@ class CodeMirrorEditor extends React.Component<
       })
     );
 
-    this.completionEventsSubscriber = completionResults.subscribe(callback => callback());
+    this.completionEventsSubscriber = completionResults.subscribe(callback =>
+      callback()
+    );
   }
 
   componentDidUpdate(prevProps: CodeMirrorEditorProps): void {
@@ -332,7 +329,11 @@ class CodeMirrorEditor extends React.Component<
     const debounceThisCompletionRequest = this.debounceNextCompletionRequest;
     this.debounceNextCompletionRequest = true;
     if (completion && channels) {
-      const el = { editor: editor, callback: callback, debounce: debounceThisCompletionRequest };
+      const el = {
+        editor: editor,
+        callback: callback,
+        debounce: debounceThisCompletionRequest
+      };
       this.completionSubject.next(el);
     }
   }

@@ -1,14 +1,12 @@
 import { ActionsObservable } from "redux-observable";
-
 import { actions, actionTypes, makeStateRecord } from "@nteract/core";
+import { toArray } from "rxjs/operators";
 
 import {
   launchKernelObservable,
   launchKernelEpic,
   launchKernelByNameEpic
 } from "../../../src/notebook/epics/zeromq-kernels";
-
-import { toArray } from "rxjs/operators";
 
 describe("launchKernelObservable", () => {
   test("returns an observable", () => {
@@ -73,13 +71,7 @@ describe("launchKernelEpic", () => {
       }
     };
 
-    const store = {
-      getState: () => {
-        return state;
-      }
-    };
-
-    const responses = await launchKernelEpic(action$, store)
+    const responses = await launchKernelEpic(action$, { value: state })
       .pipe(toArray())
       .toPromise();
 

@@ -1,6 +1,7 @@
 /* @flow strict */
-import { ipcMain as ipc } from "electron";
 import { join } from "path";
+
+import { ipcMain as ipc } from "electron";
 
 const KERNEL_SPECS = {
   node_nteract: {

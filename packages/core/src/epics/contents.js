@@ -1,32 +1,26 @@
 /* @flow */
-import { empty } from "rxjs/observable/empty";
-import { of } from "rxjs/observable/of";
-import { from } from "rxjs/observable/from";
-import { interval } from "rxjs/observable/interval";
-
+import { empty, from, interval } from "rxjs";
 import { tap, map, mergeMap, switchMap, catchError } from "rxjs/operators";
-import { ofType } from "redux-observable";
-
+import { ofType, ActionsObservable } from "redux-observable";
 import { sample } from "lodash";
-
 import FileSaver from "file-saver";
+import type { StateObservable } from "redux-observable";
+import { contents } from "rx-jupyter";
+import { toJS, stringifyNotebook } from "@nteract/commutable";
+import type { Notebook } from "@nteract/commutable";
 
 import * as actions from "../actions";
 import * as actionTypes from "../actionTypes";
 import * as selectors from "../selectors";
-import type { AppState, ContentRef } from "../state";
+import type { ContentRef, AppState } from "../state";
 
-import type { ActionsObservable } from "redux-observable";
-import type { Store } from "redux";
-
-import { contents } from "rx-jupyter";
-
-import { toJS, stringifyNotebook } from "@nteract/commutable";
-import type { Notebook } from "@nteract/commutable";
+// Flow complains otherwise since of would return an rxjs$Observable rather than an ActionsObservable
+// Ask Jay Phelps about this ;)
+const of = ActionsObservable.of;
 
 export function fetchContentEpic(
-  action$: ActionsObservable<*>,
-  store: Store<*, *>
+  action$: ActionsObservable<redux$Action>,
+  state$: StateObservable<AppState>
 ) {
   return action$.pipe(
     ofType(actionTypes.FETCH_CONTENT),
@@ -39,7 +33,7 @@ export function fetchContentEpic(
         });
       }
 
-      const state = store.getState();
+      const state = state$.value;
 
       const host = selectors.currentHost(state);
       if (host.type !== "jupyter") {
@@ -130,15 +124,15 @@ const someArbitraryPrimesAround30k = [
 ];
 
 export function autoSaveCurrentContentEpic(
-  action$: ActionsObservable<Action>,
-  store: Store<AppState, *>
+  action$: ActionsObservable<redux$Action>,
+  state$: StateObservable<AppState>
 ) {
   // Pick an autosave duration that won't have the exact same cycle as another open tab
   const duration = sample(someArbitraryPrimesAround30k);
 
   return interval(duration).pipe(
     mergeMap(() => {
-      const state: AppState = store.getState();
+      const state = state$.value;
 
       const contentRef$ = from(
         state.core.entities.contents.byRef
@@ -155,7 +149,7 @@ export function autoSaveCurrentContentEpic(
     // TODO: Once we're switched to the coming redux observable 1.0.0 release,
     // we should use the state$ stream to only save when the content has changed
     mergeMap((contentRef: ContentRef) => {
-      const state: AppState = store.getState();
+      const state = state$.value;
       const content = selectors.content(state, { contentRef });
 
       let isVisible = false;
@@ -194,20 +188,21 @@ export function autoSaveCurrentContentEpic(
 }
 
 export function saveContentEpic(
-  action$: ActionsObservable<Action>,
-  store: Store<*, *>
+  action$: ActionsObservable<redux$Action>,
+  state$: StateObservable<AppState>
 ) {
   return action$.pipe(
     ofType(actionTypes.SAVE, actionTypes.DOWNLOAD_CONTENT),
     mergeMap(
       (
         action: actionTypes.Save | actionTypes.DownloadContent
-      ): ActionsObservable<Action> => {
-        const state = store.getState();
+      ): ActionsObservable<redux$Action> => {
+        const state = state$.value;
 
         const host = selectors.currentHost(state);
         if (host.type !== "jupyter") {
           // Dismiss any usage that isn't targeting a jupyter server
+          // $FlowFixMe
           return empty();
         }
         const contentRef = action.payload.contentRef;
@@ -222,7 +217,7 @@ export function saveContentEpic(
             error: new Error("Content was not set."),
             contentRef: action.payload.contentRef
           };
-          if (action.type === actionTypes.DownloadContent) {
+          if (action.type === actionTypes.DOWNLOAD_CONTENT) {
             return of(actions.downloadContentFailed(errorPayload));
           }
           return of(actions.saveFailed(errorPayload));
@@ -230,6 +225,7 @@ export function saveContentEpic(
 
         if (content.type === "directory") {
           // Don't save directories
+          // $FlowFixMe
           return empty();
         }
 
@@ -263,6 +259,7 @@ export function saveContentEpic(
           };
         } else {
           // We shouldn't save directories
+          // $FlowFixMe
           return empty();
         }
 
@@ -289,6 +286,7 @@ export function saveContentEpic(
               );
             } else {
               // This shouldn't happen, is here for safety
+              // $FlowFixMe
               return empty();
             }
             return of(
@@ -303,6 +301,7 @@ export function saveContentEpic(
             // Check to see if the file was modified since the last time we saved
             // TODO: Determine how we handle what to do
             // Don't bother doing this if the file is new(?)
+            // $FlowFixMe
             return contents.get(serverConfig, filepath, { content: 0 }).pipe(
               // Make sure that the modified time is within some delta
               mergeMap(xhr => {
@@ -349,6 +348,7 @@ export function saveContentEpic(
           default:
             // NOTE: Flow types and our ofType should prevent reaching here, this
             // is here merely as safety
+            // $FlowFixMe
             return empty();
         }
       }

@@ -1,5 +1,4 @@
 import TextDisplay from "../src/text";
-
 import { richestMimetype, transforms } from "../src";
 
 describe("richestMimetype", () => {

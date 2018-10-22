@@ -1,9 +1,8 @@
 // @flow strict
 import * as React from "react";
+import type { MediaBundle } from "@nteract/records";
 
 import { RichMedia } from "./rich-media";
-
-import type { MediaBundle } from "@nteract/records";
 
 type Props = {
   /**

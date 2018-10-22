@@ -1,7 +1,9 @@
 /* @flow */
 import * as Immutable from "immutable";
-import * as actionTypes from "../../../../actionTypes";
+import { fromJS } from "@nteract/commutable";
+import { combineReducers } from "redux-immutable";
 
+import * as actionTypes from "../../../../actionTypes";
 import {
   makeFileContentRecord,
   makeFileModelRecord,
@@ -12,15 +14,10 @@ import {
   makeDocumentRecord,
   makeNotebookContentRecord
 } from "../../../../state/entities/contents";
-
-import { fromJS } from "@nteract/commutable";
+import { createContentRef } from "../../../../state/refs";
 
 import { notebook } from "./notebook";
 import { file } from "./file";
-
-import { createContentRef } from "../../../../state/refs";
-
-import { combineReducers } from "redux-immutable";
 
 const byRef = (state = Immutable.Map(), action) => {
   switch (action.type) {
@@ -176,11 +173,12 @@ const byRef = (state = Immutable.Map(), action) => {
     case actionTypes.FOCUS_PREVIOUS_CELL_EDITOR:
     case actionTypes.SET_IN_CELL:
     case actionTypes.MOVE_CELL:
-    case actionTypes.REMOVE_CELL:
+    case actionTypes.DELETE_CELL:
+    case actionTypes.REMOVE_CELL: // DEPRECATION WARNING: This action type is being deprecated. Please use DELETE_CELL instead
     case actionTypes.CREATE_CELL_BELOW:
     case actionTypes.CREATE_CELL_ABOVE:
-    case actionTypes.CREATE_CELL_AFTER:   // DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_BELOW instead
-    case actionTypes.CREATE_CELL_BEFORE:  // DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_ABOVE instead
+    case actionTypes.CREATE_CELL_AFTER: // DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_BELOW instead
+    case actionTypes.CREATE_CELL_BEFORE: // DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_ABOVE instead
     case actionTypes.CREATE_CELL_APPEND:
     case actionTypes.TOGGLE_CELL_OUTPUT_VISIBILITY:
     case actionTypes.TOGGLE_CELL_INPUT_VISIBILITY:

@@ -1,6 +1,5 @@
 // @flow
 
-import * as notebook from "./notebook";
 import { createSelector } from "reselect";
 
 import type {
@@ -10,6 +9,8 @@ import type {
   KernelRef,
   KernelspecsByRefRecord
 } from "../state";
+
+import * as notebook from "./notebook";
 
 // Export sub-selectors (those that operate on contents models for instance)
 export { notebook };

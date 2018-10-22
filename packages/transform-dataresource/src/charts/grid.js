@@ -1,7 +1,9 @@
 import * as React from "react";
 import ReactTable from "react-table";
-import ReactTableStyles from "../css/react-table";
 import withFixedColumns from "react-table-hoc-fixed-columns";
+
+import ReactTableStyles from "../css/react-table";
+
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 
 export const DataResourceTransformGrid = ({

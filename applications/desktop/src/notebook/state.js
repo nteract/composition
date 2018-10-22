@@ -1,7 +1,6 @@
 /* @flow strict */
 
 import * as Immutable from "immutable";
-
 import type { AppState } from "@nteract/core";
 
 export opaque type DesktopNotebookClosingState =

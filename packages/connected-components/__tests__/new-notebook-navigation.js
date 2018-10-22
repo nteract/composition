@@ -2,9 +2,9 @@
 
 import React from "react";
 import renderer from "react-test-renderer";
-import { PureNewNotebookNavigation } from "../src/new-notebook-navigation";
-
 import * as Immutable from "immutable";
+
+import { PureNewNotebookNavigation } from "../src/new-notebook-navigation";
 
 describe("NewNotebookNavigation", () => {
   test("snapshots", () => {

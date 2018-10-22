@@ -1,11 +1,8 @@
 import React from "react";
-import { Subject } from "rxjs/Subject";
-
-import { empty } from "rxjs/observable/empty";
-
+import { empty, Subject } from "rxjs";
 import { mount } from "enzyme";
-
 import { createMessage } from "@nteract/messaging";
+
 import Editor from "../src/";
 
 const complete = require("../src/jupyter/complete");
@@ -52,7 +49,7 @@ describe("editor.completions CodeMirror callback", () => {
 
     complete.codeComplete = jest.fn().mockImplementation(() => empty());
 
-    for (var i = 0; i < 3; i++ ) {
+    for (var i = 0; i < 3; i++) {
       editor.completions(cm, () => {});
     }
 
@@ -77,7 +74,7 @@ describe("editor.completions CodeMirror callback", () => {
 
     complete.codeComplete = jest.fn().mockImplementation(() => empty());
 
-    for (var i = 0; i < 3; i++ ) {
+    for (var i = 0; i < 3; i++) {
       editor.debounceNextCompletionRequest = false;
       editor.completions(cm, () => {});
       expect(editor.debounceNextCompletionRequest).toBe(true);

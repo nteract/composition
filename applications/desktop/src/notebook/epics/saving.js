@@ -1,29 +1,26 @@
 /* @flow strict */
 import { ofType } from "redux-observable";
-
-import type { ActionsObservable } from "redux-observable";
-
+import type { ActionsObservable, StateObservable } from "redux-observable";
 import { writeFileObservable } from "fs-observable";
-
 import { actionTypes, selectors, actions } from "@nteract/core";
-
+import type { AppState } from "@nteract/core";
 import { toJS, stringifyNotebook } from "@nteract/commutable";
-
-import { of } from "rxjs/observable/of";
+import { of } from "rxjs";
 import { mergeMap, catchError, map } from "rxjs/operators";
-
-import type { Store } from "redux";
 
 /**
  * Cleans up the notebook document and saves the file.
  *
  * @param  {ActionObservable}  action$ The SAVE action with the filename and notebook
  */
-export function saveEpic(action$: ActionsObservable<*>, store: Store<*, *>) {
+export function saveEpic(
+  action$: ActionsObservable<redux$Action>,
+  state$: StateObservable<AppState>
+) {
   return action$.pipe(
     ofType(actionTypes.SAVE),
     mergeMap((action: actionTypes.Save) => {
-      const state = store.getState();
+      const state = state$.value;
       const contentRef = action.payload.contentRef;
 
       const content = selectors.content(state, { contentRef });
@@ -57,8 +54,9 @@ export function saveEpic(action$: ActionsObservable<*>, store: Store<*, *>) {
       return writeFileObservable(filepath, notebook).pipe(
         map(() => {
           if (process.platform !== "darwin") {
-            const state = store.getState();
-            const notificationSystem = selectors.notificationSystem(state);
+            const notificationSystem = selectors.notificationSystem(
+              state$.value
+            );
             notificationSystem.addNotification({
               title: "Save successful!",
               autoDismiss: 2,
@@ -90,7 +88,7 @@ export function saveEpic(action$: ActionsObservable<*>, store: Store<*, *>) {
  *
  * @param  {ActionObservable}  action$ The SAVE_AS action with the filename and notebook
  */
-export function saveAsEpic(action$: ActionsObservable<*>) {
+export function saveAsEpic(action$: ActionsObservable<redux$Action>) {
   return action$.pipe(
     ofType(actionTypes.SAVE_AS),
     mergeMap((action: actionTypes.SaveAs) => {

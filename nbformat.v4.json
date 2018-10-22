@@ -35,8 +35,7 @@
               "type": "string"
             },
             "codemirror_mode": {
-              "description":
-                "The codemirror mode to use for code in this language.",
+              "description": "The codemirror mode to use for code in this language.",
               "oneOf": [{ "type": "string" }, { "type": "object" }]
             },
             "file_extension": {
@@ -44,20 +43,17 @@
               "type": "string"
             },
             "mimetype": {
-              "description":
-                "The mimetype corresponding to files in this language.",
+              "description": "The mimetype corresponding to files in this language.",
               "type": "string"
             },
             "pygments_lexer": {
-              "description":
-                "The pygments lexer to use for code in this language.",
+              "description": "The pygments lexer to use for code in this language.",
               "type": "string"
             }
           }
         },
         "orig_nbformat": {
-          "description":
-            "Original notebook format (major number) before converting the notebook between versions. This should never be written to a file.",
+          "description": "Original notebook format (major number) before converting the notebook between versions. This should never be written to a file.",
           "type": "integer",
           "minimum": 1
         },
@@ -81,14 +77,12 @@
       }
     },
     "nbformat_minor": {
-      "description":
-        "Notebook format (minor number). Incremented for backward compatible changes to the notebook format.",
+      "description": "Notebook format (minor number). Incremented for backward compatible changes to the notebook format.",
       "type": "integer",
       "minimum": 0
     },
     "nbformat": {
-      "description":
-        "Notebook format (major number). Incremented between backwards incompatible changes to the notebook format.",
+      "description": "Notebook format (major number). Incremented between backwards incompatible changes to the notebook format.",
       "type": "integer",
       "minimum": 4,
       "maximum": 4
@@ -219,8 +213,7 @@
               "type": "boolean"
             },
             "scrolled": {
-              "description":
-                "Whether the cell's output is scrolled, unscrolled, or autoscrolled.",
+              "description": "Whether the cell's output is scrolled, unscrolled, or autoscrolled.",
               "enum": [true, false, "auto"]
             },
             "name": { "$ref": "#/definitions/misc/metadata_name" },
@@ -234,8 +227,7 @@
           "items": { "$ref": "#/definitions/output" }
         },
         "execution_count": {
-          "description":
-            "The code cell's prompt number. Will be null if the cell has not been run.",
+          "description": "The code cell's prompt number. Will be null if the cell has not been run.",
           "type": ["integer", "null"],
           "minimum": 0
         }
@@ -243,8 +235,7 @@
     },
 
     "unrecognized_cell": {
-      "description":
-        "Unrecognized cell from a future minor-revision to the notebook format.",
+      "description": "Unrecognized cell from a future minor-revision to the notebook format.",
       "type": "object",
       "additionalProperties": true,
       "required": ["cell_type", "metadata"],
@@ -327,16 +318,14 @@
           "type": "string"
         },
         "text": {
-          "description":
-            "The stream's text output, represented as an array of strings.",
+          "description": "The stream's text output, represented as an array of strings.",
           "$ref": "#/definitions/misc/multiline_string"
         }
       }
     },
 
     "error": {
-      "description":
-        "Output of an error that occurred during code cell execution.",
+      "description": "Output of an error that occurred during code cell execution.",
       "type": "object",
       "additionalProperties": false,
       "required": ["output_type", "ename", "evalue", "traceback"],
@@ -354,8 +343,7 @@
           "type": "string"
         },
         "traceback": {
-          "description":
-            "The error's traceback, represented as an array of strings.",
+          "description": "The error's traceback, represented as an array of strings.",
           "type": "array",
           "items": { "type": "string" }
         }
@@ -363,8 +351,7 @@
     },
 
     "unrecognized_output": {
-      "description":
-        "Unrecognized output from a future minor-revision to the notebook format.",
+      "description": "Unrecognized output from a future minor-revision to the notebook format.",
       "type": "object",
       "additionalProperties": true,
       "required": ["output_type"],
@@ -380,14 +367,12 @@
 
     "misc": {
       "metadata_name": {
-        "description":
-          "The cell's name. If present, must be a non-empty string. Cell names are expected to be unique across all the cells in a given notebook. This criterion cannot be checked by the json schema and must be established by an additional check.",
+        "description": "The cell's name. If present, must be a non-empty string. Cell names are expected to be unique across all the cells in a given notebook. This criterion cannot be checked by the json schema and must be established by an additional check.",
         "type": "string",
         "pattern": "^.+$"
       },
       "metadata_tags": {
-        "description":
-          "The cell's tags. Tags must be unique, and must not contain commas.",
+        "description": "The cell's tags. Tags must be unique, and must not contain commas.",
         "type": "array",
         "uniqueItems": true,
         "items": {
@@ -396,8 +381,7 @@
         }
       },
       "attachments": {
-        "description":
-          "Media attachments (e.g. inline images), stored as mimebundle keyed by filename.",
+        "description": "Media attachments (e.g. inline images), stored as mimebundle keyed by filename.",
         "type": "object",
         "patternProperties": {
           ".*": {
@@ -407,13 +391,11 @@
         }
       },
       "source": {
-        "description":
-          "Contents of the cell, represented as an array of lines.",
+        "description": "Contents of the cell, represented as an array of lines.",
         "$ref": "#/definitions/misc/multiline_string"
       },
       "execution_count": {
-        "description":
-          "The code cell's prompt number. Will be null if the cell has not been run.",
+        "description": "The code cell's prompt number. Will be null if the cell has not been run.",
         "type": ["integer", "null"],
         "minimum": 0
       },
@@ -421,8 +403,7 @@
         "description": "A mime-type keyed dictionary of data",
         "type": "object",
         "additionalProperties": {
-          "description":
-            "mimetype output (e.g. text/plain), represented as either an array of strings or a string.",
+          "description": "mimetype output (e.g. text/plain), represented as either an array of strings or a string.",
           "$ref": "#/definitions/misc/multiline_string"
         },
         "patternProperties": {

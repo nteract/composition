@@ -14,12 +14,9 @@
  */
 
 import * as React from "react";
-
 import { selectors } from "@nteract/core";
 import type { ContentRef, AppState } from "@nteract/core";
-
 import moment from "moment";
-
 import { connect } from "react-redux";
 
 type LastSavedProps = {

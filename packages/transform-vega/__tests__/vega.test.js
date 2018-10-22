@@ -1,5 +1,4 @@
 import React from "react";
-
 import { shallow, mount } from "enzyme";
 
 import { Vega2, Vega3, VegaLite1, VegaLite2, VegaEmbed } from "../src/";

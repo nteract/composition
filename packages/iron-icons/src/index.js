@@ -1,6 +1,5 @@
 // @flow
 import React from "react";
-
 import type { ChildrenArray } from "react";
 
 type WrapperProps<T> = {

@@ -1,0 +1,49 @@
+{
+  "name": "@nteract/styled-blueprintjsx",
+  "version": "1.0.0",
+  "description": "CSS underpinnings of blueprint.js, packaged as styled-jsx",
+  "keywords": [
+    "ui",
+    "react",
+    "nteract"
+  ],
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "homepage": "https://github.com/nteract/nteract/tree/master/packages/ion#readme",
+  "license": "BSD-3-Clause",
+  "main": "lib/index.js",
+  "nteractDesktop": "src/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/nteract.git"
+  },
+  "scripts": {
+    "vendorize": "node scripts/vendorize-css.js",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build && npm run build:flow",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "rimraf lib",
+    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
+    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
+    "build:lib:watch": "npm run build:lib -- --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+  },
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.0.0",
+    "babel-runtime": "^6.26.0",
+    "styled-jsx": "^3.1.0"
+  },
+  "devDependencies": {
+    "@blueprintjs/select": "^3.2.0",
+    "@blueprintjs/core": "^3.7.0"
+  }
+}

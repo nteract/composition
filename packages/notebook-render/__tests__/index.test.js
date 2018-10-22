@@ -2,12 +2,11 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import { shallow } from "enzyme";
 import toJson from "enzyme-to-json";
-
 import { displayOrder, transforms } from "@nteract/transforms";
 
-import NotebookRender from "./../src";
-
 import { dummyCommutable, dummyJSON } from "../../core/src/dummy";
+
+import NotebookRender from "./../src";
 
 // In order to get reproducable snapshots we need to mock the uuid package
 jest.mock("uuid/v4", () => {

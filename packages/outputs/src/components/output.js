@@ -1,7 +1,6 @@
 // @flow strict
 
 import * as React from "react";
-
 // We might only need this as a devDependency as it is only here for flow
 import type OutputType from "@nteract/records";
 

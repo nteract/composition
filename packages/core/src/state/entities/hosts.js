@@ -1,5 +1,6 @@
 // @flow
 import * as Immutable from "immutable";
+
 import type { HostId } from "../ids";
 import type { HostRef } from "../refs";
 

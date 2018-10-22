@@ -1,10 +1,9 @@
 // @flow
 import produce from "immer";
-import { outputFromNbformat } from "../outputs";
 
+import { outputFromNbformat } from "../outputs";
 import type { MultilineString } from "../common";
 import type { OutputType, NbformatOutput } from "../outputs";
-
 import type { ExecutionCount } from "../outputs/execute-result";
 
 export type CodeCellType = "code";

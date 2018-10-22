@@ -1,6 +1,7 @@
 // @flow
-import * as actionTypes from "../../../actionTypes";
 import { combineReducers } from "redux-immutable";
+
+import * as actionTypes from "../../../actionTypes";
 import { makeModalsRecord } from "../../../state/entities/modals";
 
 const modalType = (state = "", action) => {

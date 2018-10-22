@@ -12,7 +12,6 @@ import type {
   ExecuteResultOutput
 } from "./execute-result";
 import type { UnrecognizedOutput } from "./unrecognized";
-
 import { unrecognized } from "./unrecognized";
 import { displayData } from "./display-data";
 import { streamOutput } from "./stream";

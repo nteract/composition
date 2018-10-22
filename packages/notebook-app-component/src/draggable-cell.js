@@ -13,7 +13,6 @@ import {
   ConnectDragPreview,
   ConnectDropTarget
 } from "react-dnd";
-
 import type { ContentRef } from "@nteract/core";
 
 /**

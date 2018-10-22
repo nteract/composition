@@ -1,10 +1,10 @@
 // @flow
 import * as Immutable from "immutable";
+
 import type { CommunicationRecordProps } from "./communication";
 import type { EntitiesRecordProps } from "./entities";
 import type { KernelRef, KernelspecsRef } from "./refs";
 import type { HostRecord } from "./entities/hosts";
-
 import { makeCommunicationRecord } from "./communication";
 import { makeEntitiesRecord, makeEmptyHostRecord } from "./entities";
 

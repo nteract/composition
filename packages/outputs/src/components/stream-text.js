@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Ansi from "ansi-to-react";
-
 import type { StreamOutput } from "@nteract/records";
 
 type Props = StreamOutput;

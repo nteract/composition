@@ -1,6 +1,5 @@
 // @flow
 import * as Immutable from "immutable";
-
 import { emptyNotebook } from "@nteract/commutable";
 import type { CellID } from "@nteract/commutable";
 
