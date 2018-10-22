@@ -30,7 +30,9 @@ const path = require("path");
  *
  * @oaram  {ActionObservable}  action$ ActionObservable for LAUNCH_KERNEL_SUCCESSFUL action
  */
-export const watchExecutionStateEpic = (action$: ActionsObservable<redux$Action>) =>
+export const watchExecutionStateEpic = (
+  action$: ActionsObservable<redux$Action>
+) =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_SUCCESSFUL),
     switchMap((action: actionTypes.NewKernelAction) =>
@@ -110,7 +112,9 @@ export function acquireKernelInfo(
  *
  * @param  {ActionObservable}  The action type
  */
-export const acquireKernelInfoEpic = (action$: ActionsObservable<redux$Action>) =>
+export const acquireKernelInfoEpic = (
+  action$: ActionsObservable<redux$Action>
+) =>
   action$.pipe(
     ofType(actionTypes.LAUNCH_KERNEL_SUCCESSFUL),
     switchMap((action: actionTypes.NewKernelAction) => {

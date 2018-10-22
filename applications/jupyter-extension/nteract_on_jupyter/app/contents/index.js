@@ -17,10 +17,6 @@ import { default as File } from "./file";
 
 const urljoin = require("url-join");
 
-
-
-
-
 type ContentsProps = {
   contentType: "dummy" | "notebook" | "directory" | "file",
   contentRef: ContentRef,

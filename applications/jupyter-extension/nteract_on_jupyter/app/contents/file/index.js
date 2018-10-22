@@ -15,7 +15,6 @@ import { default as Notebook } from "../notebook";
 
 import * as TextFile from "./text-file.js";
 
-
 const urljoin = require("url-join");
 
 const PaddedContainer = ({ children }) => (

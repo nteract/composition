@@ -122,9 +122,7 @@ export const outputs = () => (
     map(convertOutputMessageToNotebookFormat)
   );
 
-export const updatedOutputs = () => (
-  source: Observable<*>
-): Observable<*> =>
+export const updatedOutputs = () => (source: Observable<*>): Observable<*> =>
   source.pipe(
     ofMessageType("update_display_data"),
     map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))

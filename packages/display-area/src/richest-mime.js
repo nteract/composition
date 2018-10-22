@@ -9,7 +9,7 @@ type Props = {
   metadata: Object,
   theme: string,
   models?: Object,
-  channels?: rxjs$Subject<any>,
+  channels?: rxjs$Subject<any>
 };
 
 type ErrorInfo = {
@@ -64,7 +64,7 @@ export default class RichestMime extends React.Component<Props, State> {
     theme: "light",
     metadata: {},
     bundle: {},
-    models: {},
+    models: {}
   };
 
   render(): ?React$Element<any> | null {

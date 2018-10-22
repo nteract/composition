@@ -454,7 +454,9 @@ export function dispatchCreateCellBefore(
   ownProps: { contentRef: ContentRef },
   store: Store<DesktopNotebookAppState, *>
 ) {
-  console.log("DEPRECATION WARNING: This function is being deprecated. Please use createCellAbove() instead");
+  console.log(
+    "DEPRECATION WARNING: This function is being deprecated. Please use createCellAbove() instead"
+  );
   store.dispatch(
     actions.createCellBefore({
       cellType: "code",
@@ -467,7 +469,9 @@ export function dispatchCreateCellAfter(
   ownProps: { contentRef: ContentRef },
   store: Store<DesktopNotebookAppState, *>
 ) {
-  console.log("DEPRECATION WARNING: This function is being deprecated. Please use createCellBelow() instead");
+  console.log(
+    "DEPRECATION WARNING: This function is being deprecated. Please use createCellBelow() instead"
+  );
   store.dispatch(
     actions.createCellAfter({
       cellType: "code",
@@ -481,7 +485,9 @@ export function dispatchCreateTextCellAfter(
   ownProps: { contentRef: ContentRef },
   store: Store<DesktopNotebookAppState, *>
 ) {
-  console.log("DEPRECATION WARNING: This function is being deprecated. Please use createTextCellBelow() instead");
+  console.log(
+    "DEPRECATION WARNING: This function is being deprecated. Please use createTextCellBelow() instead"
+  );
   store.dispatch(
     actions.createCellAfter({
       cellType: "markdown",

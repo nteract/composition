@@ -24,8 +24,6 @@ import type {
   RemoteKernelProps
 } from "./state";
 
-
-
 export type ErrorAction<T: string> = {
   type: T,
   payload: Error,

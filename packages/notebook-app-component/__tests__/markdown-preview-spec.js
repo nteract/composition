@@ -5,7 +5,6 @@ import { emptyMarkdownCell } from "@nteract/commutable";
 
 import MarkdownPreview from "../src/markdown-preview";
 
-
 describe("MarkdownPreview ", () => {
   test("can be rendered", () => {
     const cell = shallow(<MarkdownPreview cell={emptyMarkdownCell} />);

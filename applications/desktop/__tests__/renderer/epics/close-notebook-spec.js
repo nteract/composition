@@ -1,8 +1,5 @@
 /* @flow strict */
 
-
-
-
 import {
   actions as coreActions,
   makeDocumentRecord,
@@ -215,15 +212,12 @@ describe("closeNotebookEpic", () => {
           })
         };
 
-        const inputMarbles =  "a          6000ms |";
+        const inputMarbles = "a          6000ms |";
         const outputMarbles = "c 4999ms d 1000ms |"; // Timeout after 5s
 
         const inputAction$ = hot(inputMarbles, inputActions);
 
-        const outputAction$ = closeNotebookEpic(
-          inputAction$,
-          { value: state }
-        );
+        const outputAction$ = closeNotebookEpic(inputAction$, { value: state });
 
         expectObservable(outputAction$).toBe(outputMarbles, outputActions);
       });

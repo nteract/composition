@@ -7,7 +7,6 @@ import type { EditorChange, CMI } from "../types";
 
 import { js_idx_to_char_idx, char_idx_to_js_idx } from "./surrogate";
 
-
 // Hint picker
 export const pick = (cm: any, handle: { pick: () => void }) => handle.pick();
 

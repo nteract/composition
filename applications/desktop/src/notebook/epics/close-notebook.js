@@ -3,8 +3,6 @@
 // Lots of open bugs around intersection types, and they're used inside Immutable.js too, so layers upon layers.
 // https://github.com/facebook/flow/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+intersect
 
-
-
 import {
   actionTypes as coreActionTypes,
   actions as coreActions,
@@ -30,7 +28,10 @@ import {
 import * as actionTypes from "../actionTypes";
 import * as actions from "../actions";
 
-export const closeNotebookEpic = (action$: ActionsObservable<redux$Action>, state$: *) =>
+export const closeNotebookEpic = (
+  action$: ActionsObservable<redux$Action>,
+  state$: *
+) =>
   action$.pipe(
     ofType(actionTypes.CLOSE_NOTEBOOK),
     exhaustMap((action: actionTypes.CloseNotebook) => {

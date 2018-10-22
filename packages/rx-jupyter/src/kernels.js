@@ -8,7 +8,6 @@ import { retryWhen, tap, delay, share } from "rxjs/operators";
 
 import { createAJAXSettings } from "./base";
 
-
 const urljoin = require("url-join");
 const URLSearchParams = require("url-search-params");
 

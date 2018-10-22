@@ -14,7 +14,6 @@ import {
 
 const Immutable = require("immutable");
 
-
 describe("executeCell", () => {
   test("returns an executeCell action", () => {
     expect(actions.executeCell({ id: "0-0-0-0" })).toEqual({

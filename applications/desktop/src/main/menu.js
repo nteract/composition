@@ -1,13 +1,12 @@
 /* @flow strict */
 import * as path from "path";
 
-import { dialog, app, shell, Menu, BrowserWindow} from "electron";
+import { dialog, app, shell, Menu, BrowserWindow } from "electron";
 import { sortBy } from "lodash";
 import { manifest } from "@nteract/examples";
 
 import { launch, launchNewNotebook } from "./launch";
 import { installShellCommand } from "./cli";
-
 
 // Overwrite the type for `process` to match Electron's process
 // https://electronjs.org/docs/api/process

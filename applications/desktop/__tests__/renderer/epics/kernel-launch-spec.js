@@ -8,7 +8,6 @@ import {
   launchKernelByNameEpic
 } from "../../../src/notebook/epics/zeromq-kernels";
 
-
 describe("launchKernelObservable", () => {
   test("returns an observable", () => {
     const obs = launchKernelObservable("python3", process.cwd());

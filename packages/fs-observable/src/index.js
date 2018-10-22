@@ -1,7 +1,6 @@
 // @flow
 import * as fs from "fs";
 
-
 import { Observable, bindNodeCallback } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 

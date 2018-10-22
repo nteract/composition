@@ -6,14 +6,13 @@ import * as Immutable from "immutable";
 
 import RichestMime from "./richest-mime";
 
-
 type Props = {
   displayOrder: Array<string>,
   output: any,
   transforms: Object,
   theme: string,
   models: Object,
-  channels?: rxjs$Subject<any>,
+  channels?: rxjs$Subject<any>
 };
 
 const classPrefix = "nteract-display-area-";

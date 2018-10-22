@@ -7,7 +7,6 @@ import type { Channels, CMI } from "../types";
 
 import { js_idx_to_char_idx } from "./surrogate";
 
-
 export function tooltipObservable(
   channels: Channels,
   editor: CMI,

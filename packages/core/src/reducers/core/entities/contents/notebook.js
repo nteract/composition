@@ -394,7 +394,6 @@ function moveCell(state: NotebookModel, action: actionTypes.MoveCell) {
   );
 }
 
-
 // DEPRECATION WARNING: The action type RemoveCell is being deprecated. Please use DeleteCell instead
 function deleteCellFromState(
   state: NotebookModel,
@@ -456,7 +455,9 @@ function createCellAfter(
   state: NotebookModel,
   action: actionTypes.CreateCellAfter
 ) {
-  console.log("DEPRECATION WARNING: This function is being deprecated. Please use createCellBelow() instead");
+  console.log(
+    "DEPRECATION WARNING: This function is being deprecated. Please use createCellBelow() instead"
+  );
   const id = action.payload.id ? action.payload.id : state.cellFocused;
   if (!id) {
     return state;
@@ -475,7 +476,9 @@ function createCellBefore(
   state: NotebookModel,
   action: actionTypes.CreateCellBefore
 ) {
-  console.log("DEPRECATION WARNING: This function is being deprecated. Please use createCellAbove() instead");
+  console.log(
+    "DEPRECATION WARNING: This function is being deprecated. Please use createCellAbove() instead"
+  );
   const id = action.payload.id ? action.payload.id : state.cellFocused;
   if (!id) {
     return state;
@@ -861,13 +864,19 @@ export function notebook(
     case actionTypes.CREATE_CELL_ABOVE:
       return createCellAbove(state, action);
     case actionTypes.REMOVE_CELL:
-      console.log('DEPRECATION WARNING: This action type is being deprecated. Please use DELETE_CELL instead');
+      console.log(
+        "DEPRECATION WARNING: This action type is being deprecated. Please use DELETE_CELL instead"
+      );
       return deleteCellFromState(state, action);
     case actionTypes.CREATE_CELL_AFTER:
-      console.log('DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_BELOW instead');
+      console.log(
+        "DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_BELOW instead"
+      );
       return createCellAfter(state, action);
     case actionTypes.CREATE_CELL_BEFORE:
-      console.log('DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_ABOVE instead');
+      console.log(
+        "DEPRECATION WARNING: This action type is being deprecated. Please use CREATE_CELL_ABOVE instead"
+      );
       return createCellBefore(state, action);
     case actionTypes.CREATE_CELL_APPEND:
       return createCellAppend(state, action);

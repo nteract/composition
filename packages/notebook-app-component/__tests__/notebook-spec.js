@@ -6,7 +6,6 @@ import { dummyStore, dummyCommutable } from "@nteract/core/dummy";
 
 import { NotebookApp } from "../src/notebook-app";
 
-
 const dummyCellStatuses = dummyCommutable
   .get("cellOrder")
   .reduce(

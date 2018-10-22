@@ -6,7 +6,6 @@ import { toArray } from "rxjs/operators";
 
 import { saveEpic, saveAsEpic } from "../../../src/notebook/epics/saving";
 
-
 describe("saveEpic", () => {
   test("saves the file using the notebook in the state tree", async function() {
     const contentRef = "123";

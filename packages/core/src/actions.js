@@ -21,8 +21,6 @@ import type {
   KernelInfo
 } from "./state";
 
-
-
 export const openModal = (payload: { modalType: string }) => ({
   type: actionTypes.OPEN_MODAL,
   payload
