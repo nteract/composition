@@ -13,6 +13,10 @@ module.exports = {
   defaultExample: false,
   sections: [
     {
+      name: "Data Explorer",
+      components: "packages/transform-dataresouce/src/*.js"
+    },
+    {
       name: "Presentational Components",
       components: "packages/presentational-components/src/components/*.js"
     },
