@@ -1,24 +1,24 @@
-// @flow
-import React from "react";
-// $FlowFixMe
+import * as React from "react";
 import Ansi from "ansi-to-react";
 import { transforms, displayOrder } from "@nteract/transforms";
-import * as Immutable from "immutable";
+import { isImmutable } from "immutable";
+
+import { Subject } from "rxjs";
 
 import RichestMime from "./richest-mime";
 
 type Props = {
-  displayOrder: Array<string>,
-  output: any,
-  transforms: Object,
-  theme: string,
-  models: Object,
-  channels?: rxjs$Subject<any>
+  displayOrder: Array<string>;
+  output: any;
+  transforms: Object;
+  theme: string;
+  models: Object;
+  channels?: Subject<any>;
 };
 
 const classPrefix = "nteract-display-area-";
 
-export default class Output extends React.Component<Props, null> {
+export default class Output extends React.Component<Props> {
   static defaultProps = {
     models: {},
     theme: "light",
@@ -44,10 +44,10 @@ export default class Output extends React.Component<Props, null> {
     let models = this.props.models;
 
     // TODO: Incorporate the new output record types into both commutable and the react components that use them
-    if (Immutable.isImmutable(output)) {
+    if (isImmutable(output)) {
       output = output.toJS();
     }
-    if (Immutable.isImmutable(models)) {
+    if (isImmutable(models)) {
       models = models.toJS();
     }
 

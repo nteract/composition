@@ -1,29 +1,30 @@
-// @flow
-import React from "react";
+import * as React from "react";
 import { richestMimetype, transforms, displayOrder } from "@nteract/transforms";
 
+import { Subject } from "rxjs";
+
 type Props = {
-  displayOrder: Array<string>,
-  transforms: Object,
-  bundle: Object,
-  metadata: Object,
-  theme: string,
-  models?: Object,
-  channels?: rxjs$Subject<any>
+  displayOrder: string[];
+  transforms: Object;
+  bundle: Object;
+  metadata: Object;
+  theme: string;
+  models?: Object;
+  channels?: Subject<any>;
 };
 
 type ErrorInfo = {
-  componentStack: string
+  componentStack: string;
 };
 
 type State = {
-  error: ?Error,
-  info: ?ErrorInfo
+  error: Error | null | undefined;
+  info: ErrorInfo | null | undefined;
 };
 
 type FallbackProps = {
-  componentStack: string,
-  error: Error
+  componentStack: string;
+  error: Error;
 };
 
 const Fallback = ({ componentStack, error }: FallbackProps) => (
@@ -31,7 +32,7 @@ const Fallback = ({ componentStack, error }: FallbackProps) => (
     style={{
       backgroundColor: "ghostwhite",
       color: "black",
-      fontWeight: "600",
+      fontWeight: 600,
       display: "block",
       padding: "10px",
       marginBottom: "20px"
@@ -67,7 +68,7 @@ export default class RichestMime extends React.Component<Props, State> {
     models: {}
   };
 
-  render(): ?React$Element<any> | null {
+  render() {
     if (this.state.error) {
       return (
         <Fallback
