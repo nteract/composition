@@ -30,7 +30,7 @@
     "@nteract/messaging": "^4.2.2",
     "@nteract/transforms": "^4.4.7",
     "babel-runtime": "^6.26.0",
-    "codemirror": "5.40.2",
+    "codemirror": "5.41.0",
     "lodash": "^4.17.4",
     "rxjs": "^6.3.3"
   },
