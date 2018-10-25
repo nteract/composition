@@ -22,7 +22,7 @@
     "react-hot-loader": "^4.1.2"
   },
   "peerDependencies": {
-    "react": "^16.3.2"
+    "react": "^16.6.0"
   },
   "publishConfig": {
     "access": "public"

@@ -28,7 +28,7 @@
     "vega-tooltip": "^0.13.0"
   },
   "peerDependencies": {
-    "react": "^16.3.2"
+    "react": "^16.6.0"
   },
   "license": "BSD-3-Clause"
 }

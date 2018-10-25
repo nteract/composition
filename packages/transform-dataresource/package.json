@@ -20,7 +20,7 @@
     "access": "public"
   },
   "peerDependencies": {
-    "react": "^16.3.2"
+    "react": "^16.6.0"
   },
   "files": [
     "lib",

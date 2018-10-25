@@ -17,6 +17,6 @@
     "@babel/runtime-corejs2": "^7.0.0"
   },
   "peerDependencies": {
-    "react": "^16.3.2"
+    "react": "^16.6.0"
   }
 }
