@@ -3,6 +3,7 @@ import * as React from "react";
 import Head from "next/head";
 import Router from "next/router";
 import CodeMirrorEditor from "@nteract/editor";
+// $FlowFixMe
 import { Display } from "@nteract/display-area";
 import { Outputs } from "@nteract/presentational-components";
 import { connect } from "react-redux";
