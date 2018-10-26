@@ -11,7 +11,7 @@ const LINK_REGEX = /(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+
  * @param {String} input The input string.
  * @return {Array} The parsed input.
  */
-function ansiToJSON(input: string): AnserJsonEntry[] {
+function ansiToJSON(input: string) {
   input = escapeCarriageReturn(input);
   return ansiToJson(input, {
     json: true,
@@ -28,7 +28,7 @@ function convertBundleIntoReact(
   linkify: boolean,
   bundle: AnserJsonEntry,
   key: number
-): React.ReactNode {
+) {
   const style: { backgroundColor?: string; color?: string } = {};
   if (bundle.bg) {
     style.backgroundColor = `rgb(${bundle.bg})`;
@@ -78,7 +78,7 @@ declare type Props = {
   linkify?: boolean;
 };
 
-export default function Ansi(props: Props): React.ReactNode {
+export default function Ansi(props: Props) {
   return React.createElement(
     "code",
     { className: props.className },

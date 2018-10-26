@@ -2,7 +2,12 @@
   "compilerOptions": {
     "strict": true,
     "declaration": true,
+    "composite": true,
     "lib": ["esnext", "dom"],
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "./packages",
+    "paths": {
+      "@nteract/*": ["./*/src"]
+    }
   }
 }

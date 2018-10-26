@@ -2,17 +2,9 @@
   "name": "@nteract/display-area",
   "version": "4.4.8",
   "description": "Display area for nteract outputs",
-  "main": "lib/",
-  "nteractDesktop": "src/index.js",
-  "scripts": {
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run build",
-    "build": "npm run build:clean && npm run build:lib",
-    "build:clean": "rimraf lib",
-    "build:lib": "tsc",
-    "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch"
-  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.ts",
   "repository": "https://github.com/nteract/nteract/tree/master/packages/display-area",
   "keywords": [
     "nteract",
