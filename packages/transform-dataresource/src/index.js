@@ -502,8 +502,8 @@ class DataResourceTransform extends React.Component<Props, State> {
 
 type IconButtonProps = {
   message: string,
-  value: ?string,
-  onClick: () => void,
+  value?: string,
+  onClick: (?string) => void,
   children?: React.Node,
   title: string,
   selected: boolean

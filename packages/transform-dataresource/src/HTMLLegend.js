@@ -12,8 +12,12 @@ type HTMLLegendProps = {
 };
 
 export default class HTMLLegend extends React.Component<HTMLLegendProps, null> {
-  handleColorsUpdate = newColorArray => {
-    this.props.setColor(newColorArray);
+  static defaultProps = {
+    setColor: () => {},
+  }
+
+  handleColorsUpdate = (newColorArray: Array<string>) => {
+    this.props.setColor && this.props.setColor(newColorArray);
   }
 
   render() { 

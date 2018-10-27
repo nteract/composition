@@ -21,16 +21,11 @@ export function createFragment(html: string): Node {
 }
 
 export class HTML extends React.Component<Props> {
-  el: ?HTMLElement;
   static defaultProps = {
     mediaType: "text/html",
     data: null
   };
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
+  elRef: React.ElementRef<*> = React.createRef();
   componentDidMount(): void {
     // clear out all DOM element children
     // This matters on server side render otherwise we'll get both the `innerHTML`ed

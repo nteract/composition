@@ -1,5 +1,5 @@
 /* @flow */
-import React from "react";
+import * as React from "react";
 
 type Props = {
   data: string
@@ -25,7 +25,6 @@ export function runCodeHere(el: ?HTMLElement, code: string): any {
 }
 
 export default class JavaScript extends React.Component<Props> {
-  el: ?HTMLElement;
   static MIMETYPE = "application/javascript";
 
   static handles(mimetype: string) {
@@ -36,11 +35,7 @@ export default class JavaScript extends React.Component<Props> {
     );
   }
 
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
+  elRef: React.ElementRef<*> = React.createRef();
 
   componentDidMount(): void {
     runCodeHere(this.elRef.current, this.props.data);

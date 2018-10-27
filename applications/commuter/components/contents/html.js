@@ -2,14 +2,10 @@
 import * as React from "react";
 
 export default class HTMLView extends React.Component<*> {
-  ifr: ?HTMLIFrameElement;
+  ifrRef: React.ElementRef<*> = React.createRef();
 
   shouldComponentUpdate() {
     return false;
-  }
-
-  setIframeRef = f => {
-    this.ifr = f;
   }
 
   render() {
@@ -33,7 +29,7 @@ export default class HTMLView extends React.Component<*> {
             display: "block"
           }}
           srcDoc={this.props.entry.content}
-          ref={this.setIframeRef}
+          ref={this.ifrRef}
           height="100%"
           width="100%"
         />

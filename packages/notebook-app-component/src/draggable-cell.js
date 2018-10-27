@@ -150,11 +150,7 @@ class DraggableCellView extends React.Component<Props, State> {
     hoverUpperHalf: true
   };
 
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
+  elRef: React.ElementRef<*> = React.createRef();
 
   componentDidMount(): void {
     const connectDragPreview = this.props.connectDragPreview;

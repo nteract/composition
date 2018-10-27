@@ -68,7 +68,7 @@ initGlobalHandlers(contentRef, store);
 export default class App extends React.PureComponent<{}, null> {
   notificationSystem: NotificationSystem;
 
-  setNotificationSystemRef = (el) => {
+  setNotificationSystemRef = (el: ?React.Element<typeof NotificationSystem>) => {
     this.notificationSystem = el;
   }
 

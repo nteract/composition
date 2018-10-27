@@ -11,13 +11,7 @@ type HijackScrollProps = {
 };
 
 export class HijackScroll extends React.Component<HijackScrollProps, *> {
-  el: ?HTMLElement;
-
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
+  elRef: React.ElementRef<*> = React.createRef();
 
   scrollIntoViewIfNeeded(prevFocused?: boolean): void {
     // Check if the element is being hovered over.

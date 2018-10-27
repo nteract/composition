@@ -1,5 +1,5 @@
 /* @flow */
-import React from "react";
+import * as React from "react";
 
 type Props = {
   data: string
@@ -20,14 +20,9 @@ export function createFragment(html: string): Node {
 }
 
 export default class HTMLDisplay extends React.Component<Props> {
-  elRef: React.Ref<HTMLElement>;
   static MIMETYPE = "text/html";
 
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
+  elRef: React.ElementRef<*> = React.createRef();
 
   componentDidMount(): void {
     // clear out all DOM element children

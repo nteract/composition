@@ -67,21 +67,21 @@ export class HeaderEditor extends React.Component<
     onChange: () => {}
   };
 
-  handleTitleChange = newText => {
+  handleTitleChange = (newText: string) => {
     this.props.onChange({
       ...this.props.headerData,
       title: newText
     });
   }
 
-  handleDescriptionChange = newText => {
+  handleDescriptionChange = (newText: string) => {
     this.props.onChange({
       ...this.props.headerData,
       description: newText
     });
   }
 
-  handleAuthorAdd = e => {
+  handleAuthorAdd = (e: string) => {
     const {onChange, headerData} = this.props;
 
     onChange({
@@ -91,7 +91,7 @@ export class HeaderEditor extends React.Component<
     this.handleCancel();
   }
 
-  handleTagAdd = e => {
+  handleTagAdd = (e: string) => {
     const {onChange, headerData} = this.props;
 
     onChange({
@@ -107,7 +107,7 @@ export class HeaderEditor extends React.Component<
 
   handleCancel = () => this.setState({ editMode: "none" })
 
-  handleTagRemove = (event, {value}) => {
+  handleTagRemove = (event: Event, {value}: {value: string}) => {
     const {onChange, headerData} = this.props;
 
     onChange({
@@ -116,7 +116,7 @@ export class HeaderEditor extends React.Component<
     });
   }
 
-  handleAuthorRemove = (event, {value}) => {
+  handleAuthorRemove = (event: Event, {value}: {value: AuthorObject}) => {
     const {onChange, headerData} = this.props;
 
     onChange({

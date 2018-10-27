@@ -3,7 +3,7 @@
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
 /* eslint jsx-a11y/no-noninteractive-tabindex: 0 */
 
-import React from "react";
+import * as React from "react";
 import Markdown from "@nteract/markdown";
 import {
   Outputs,
@@ -38,7 +38,7 @@ const noop = function() {};
 //       within the code base (or leave it alone, which is totally cool too). :)
 
 export default class MarkdownCell extends React.Component<any, State> {
-  rendered: ?HTMLElement;
+  renderedRef: React.ElementRef<*> = React.createRef();
 
   static defaultProps = {
     cellFocused: false,
@@ -59,8 +59,6 @@ export default class MarkdownCell extends React.Component<any, State> {
     (this: any).editorKeyDown = this.editorKeyDown.bind(this);
     (this: any).renderedKeyDown = this.renderedKeyDown.bind(this);
     (this: any).closeEditor = this.closeEditor.bind(this);
-
-    this.renderedRef = React.createRef();
   }
 
   componentDidMount(): void {

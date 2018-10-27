@@ -15,7 +15,6 @@ export type MonacoEditorProps = {
 
 class MonacoEditor extends React.Component<MonacoEditorProps> {
   monaco: ?monaco.IStandaloneCodeEditor;
-  monacoContainerRef: React.Ref<HTMLElement>
 
   static defaultProps = {
     onChange: () => {},
@@ -23,11 +22,7 @@ class MonacoEditor extends React.Component<MonacoEditorProps> {
     mode: "text/plain"
   };
 
-  constructor(props: MonacoEditorProps): void {
-    super(props);
-
-    this.monacoContainerRef = React.createRef();
-  }
+  monacoContainerRef: React.ElementRef<*> = React.createRef();
 
   componentWillMount() {
     (this: any).componentWillReceiveProps = debounce(

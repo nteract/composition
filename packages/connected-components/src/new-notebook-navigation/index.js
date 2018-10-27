@@ -45,7 +45,7 @@ export class NewNotebook extends React.Component<NewNotebookProps> {
   }
 
   handleClick = () => {
-    this.props.onClick(this.props.kernelspec);
+    this.props.onClick && this.props.onClick(this.props.kernelspec);
   }
 
   render() {

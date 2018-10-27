@@ -1,19 +1,14 @@
 /* @flow */
-import React from "react";
+import * as React from "react";
 
 type Props = {
   data: string
 };
 
 export default class SVGDisplay extends React.Component<Props> {
-  el: ?HTMLElement;
   static MIMETYPE = "image/svg+xml";
 
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
+  elRef: React.ElementRef<*> = React.createRef();
 
   componentDidMount(): void {
     if (this.elRef.current) {

@@ -65,7 +65,7 @@ class CodeMirrorEditor extends React.Component<
   CodeMirrorEditorProps,
   CodeMirrorEditorState
 > {
-  textareaRef: React.Ref<HTMLTextAreaElement>;
+  textareaRef: React.ElementRef<*>;
   cm: CMI;
   defaultOptions: Object;
   keyupEventsSubscriber: Subscription;

@@ -45,7 +45,7 @@ export function getTheme(theme: string = "light", el: HTMLElement): TileTheme {
 export class GeoJSONTransform extends React.Component<Props> {
   MIMETYPE: string;
   map: Object;
-  el: ?HTMLElement;
+  elRef: React.ElementRef<*> = React.createRef();  
   geoJSONLayer: Object;
   tileLayer: Object;
 
@@ -53,12 +53,6 @@ export class GeoJSONTransform extends React.Component<Props> {
     theme: "light"
   };
   static MIMETYPE = MIMETYPE;
-
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
 
   componentDidMount(): void {
     this.map = L.map(this.elRef.current);

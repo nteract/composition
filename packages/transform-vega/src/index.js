@@ -71,20 +71,13 @@ function embed(
 }
 
 export class VegaEmbed extends React.Component<EmbedProps> {
-  el: ?HTMLElement;
-
   static defaultProps = {
     renderedCallback: defaultCallback,
     embedMode: "vega-lite",
     version: "vega2"
   };
 
-  constructor(props) {
-    super(props);
-
-    this.elRef = React.createRef();
-  }
-
+  elRef: React.ElementRef<*> = React.createRef();
 
   componentDidMount(): void {
     if (this.elRef.current) {
