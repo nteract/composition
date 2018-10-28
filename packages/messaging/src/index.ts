@@ -54,8 +54,8 @@ export const childOf = (parentMessage: JupyterMessage) => (
 /**
  * ofMessageType is an Rx Operator that filters on msg.header.msg_type
  * being one of messageTypes
- * @param  {Array} messageTypes e.g. ['stream', 'error']
- * @return {Observable}                 the resulting observable
+ * @param messageTypes e.g. ['stream', 'error']
+ * @return the resulting observable
  */
 export const ofMessageType = (
   ...messageTypes: (string | [string])[]
@@ -90,8 +90,8 @@ export const ofMessageType = (
  * Create an object that adheres to the jupyter notebook specification.
  * http://jupyter-client.readthedocs.io/en/latest/messaging.html
  *
- * @param {Object} msg - Message that has content which can be converted to nbformat
- * @return {Object} formattedMsg  - Message with the associated output type
+ * @param msg - Message that has content which can be converted to nbformat
+ * @return Message with the associated output type
  */
 export const convertOutputMessageToNotebookFormat = (msg: JupyterMessage) => ({
   ...msg.content,
