@@ -8,6 +8,7 @@ import {
   kernelStatuses,
   executionCounts
 } from "@nteract/messaging";
+import type { Channels, ExecuteRequest } from "@nteract/messaging";
 import { Observable, of, merge, empty, throwError } from "rxjs";
 import {
   groupBy,

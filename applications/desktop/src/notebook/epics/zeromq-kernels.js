@@ -30,6 +30,7 @@ import type {
   LocalKernelProps
 } from "@nteract/core";
 import { childOf, ofMessageType, shutdownRequest } from "@nteract/messaging";
+import type { Channels } from "@nteract/messaging";
 
 /**
  * Instantiate a connection to a new kernel.
@@ -172,7 +173,11 @@ export const launchKernelByNameEpic = (
             });
           } else {
             return actions.launchKernelFailed({
-              error: new Error(`Kernel named ${action.payload.kernelSpecName} does not appear to be available.`),
+              error: new Error(
+                `Kernel named ${
+                  action.payload.kernelSpecName
+                } does not appear to be available.`
+              ),
               kernelRef: action.payload.kernelRef,
               contentRef: action.payload.contentRef
             });

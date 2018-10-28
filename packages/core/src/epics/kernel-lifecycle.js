@@ -2,6 +2,7 @@
 
 import { Observable, of, empty, merge } from "rxjs";
 import { createMessage, childOf, ofMessageType } from "@nteract/messaging";
+import type { Channels } from "@nteract/messaging";
 import type { ImmutableNotebook } from "@nteract/commutable";
 import {
   filter,

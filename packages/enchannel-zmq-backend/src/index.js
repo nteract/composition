@@ -3,6 +3,7 @@ import { Subject, Subscriber, fromEvent, merge } from "rxjs";
 import { map, publish, refCount } from "rxjs/operators";
 import * as moduleJMP from "jmp";
 import uuid from "uuid/v4";
+import type { Channels } from "@nteract/messaging";
 
 export const ZMQType = {
   frontend: {
