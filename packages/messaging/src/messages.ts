@@ -1,8 +1,12 @@
-// @flow
-
 import uuid from "uuid/v4";
+import {
+  JupyterMessage,
+  MessageType,
+  JupyterMessageHeader,
+  ExecuteRequest
+} from "./types";
 
-function whichChannel(messageType?: string) {
+function whichChannel(messageType?: MessageType) {
   switch (messageType) {
     case "execute_request":
     case "inspect_request":
@@ -48,12 +52,11 @@ function whichChannel(messageType?: string) {
   return "shell";
 }
 
-export function message<MT: string>(
-  header: { msg_type: MT, username?: string, session?: string },
-  content?: Object = {}
-): JupyterMessage<*, *> {
+export function message<MT extends MessageType>(
+  header: { msg_type: MT; username?: string; session?: string },
+  content: object = {}
+): JupyterMessage<MT> {
   const channel = whichChannel(header.msg_type);
-
   return {
     header: {
       msg_id: uuid(),
@@ -74,7 +77,9 @@ export function message<MT: string>(
   };
 }
 
-function createHeader<MT: string>(msg_type: MT): JupyterMessageHeader<MT> {
+function createHeader<MT extends MessageType>(
+  msg_type: MT
+): JupyterMessageHeader<MT> {
   return {
     msg_id: uuid(),
     date: new Date().toISOString(),
@@ -112,12 +117,12 @@ function createHeader<MT: string>(msg_type: MT): JupyterMessageHeader<MT> {
  */
 export function executeRequest(
   code: string = "",
-  options?: {
-    silent?: boolean,
-    store_history?: boolean,
-    user_expressions?: Object,
-    allow_stdin?: boolean,
-    stop_on_error?: boolean
+  options: {
+    silent?: boolean;
+    store_history?: boolean;
+    user_expressions?: object;
+    allow_stdin?: boolean;
+    stop_on_error?: boolean;
   } = {}
 ): ExecuteRequest {
   const channel = whichChannel("execute_request");
@@ -161,14 +166,17 @@ export function executeRequest(
  *      metadata: {},
  *      transient: {} } }
  */
-export function displayData(content: {
-  data?: Object,
-  metadata?: Object,
-  transient?: Object
-}) {
+export function displayData(
+  content: {
+    data?: Object;
+    metadata?: Object;
+    transient?: Object;
+  },
+  msg_type: MessageType = "display_data"
+) {
   return message(
     {
-      msg_type: "display_data"
+      msg_type
     },
     {
       data: {},
@@ -183,13 +191,12 @@ export function displayData(content: {
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#update-display-data
  */
 export function updateDisplayData(content: {
-  data?: Object,
-  metadata?: Object,
-  transient?: Object
+  data?: Object;
+  metadata?: Object;
+  transient?: Object;
 }) {
   // TODO: Enforce the transient display_id here?
-  const m = displayData(content);
-  m.header.msg_type = "update_display_data";
+  const m = displayData(content, "update_display_data");
   return m;
 }
 
@@ -197,14 +204,13 @@ export function updateDisplayData(content: {
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#id6
  */
 export function executeResult(content: {
-  execution_count: number,
-  data?: Object,
-  metadata?: Object,
-  transient?: Object
+  execution_count: number;
+  data?: Object;
+  metadata?: Object;
+  transient?: Object;
 }) {
   // TODO: Enforce the transient display_id here?
-  const m = displayData(content);
-  m.header.msg_type = "execute_result";
+  const m = displayData(content, "execute_result");
   m.content.execution_count = content.execution_count;
   return m;
 }
@@ -213,9 +219,9 @@ export function executeResult(content: {
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#execution-errors
  */
 export function error(content: {
-  ename?: string,
-  evalue?: string,
-  traceback?: Array<string>
+  ename?: string;
+  evalue?: string;
+  traceback?: Array<string>;
 }) {
   return message(
     {
@@ -233,7 +239,7 @@ export function error(content: {
 /**
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#streams-stdout-stderr-etc
  */
-export function stream(content: { name: "stdout" | "stderr", text: string }) {
+export function stream(content: { name: "stdout" | "stderr"; text: string }) {
   return message(
     {
       msg_type: "stream"
@@ -280,8 +286,8 @@ export function clearOutput(content?: { wait: boolean }) {
 }
 
 export function executeInput(content: {
-  code: string,
-  execution_count: number
+  code: string;
+  execution_count: number;
 }) {
   return message(
     {
@@ -296,7 +302,7 @@ export function kernelInfoRequest() {
 }
 
 export function shutdownRequest(
-  content?: { restart?: boolean } = { restart: false }
+  content: { restart?: boolean } = { restart: false }
 ) {
   return message({ msg_type: "shutdown_request" }, content);
 }

@@ -11,7 +11,8 @@ import {
   outputs,
   payloads,
   executionCounts,
-  kernelStatuses
+  kernelStatuses,
+  JupyterMessage
 } from "../src";
 import {
   executeInput,
@@ -23,14 +24,14 @@ import {
 
 describe("createMessage", () => {
   it("makes a msg", () => {
-    const msg = createMessage("a", {
+    const msg = createMessage("execute_request", {
       parent_header: { msg_id: "100" },
       content: { data: { foo: "bar" } }
     });
     expect(typeof msg).toBe("object");
     expect(typeof msg.header).toBe("object");
     expect(typeof msg.content).toBe("object");
-    expect(msg.header.msg_type).toBe("a");
+    expect(msg.header.msg_type).toBe("execute_request");
     expect(msg.parent_header.msg_id).toBe("100");
     expect(msg.content.data.foo).toBe("bar");
   });
@@ -54,9 +55,9 @@ describe("childOf", () => {
       { parent_header: { msg_id: "200" } },
       { parent_header: { msg_id: "300" } },
       { parent_header: { msg_id: "100" } }
-    ])
+    ] as JupyterMessage[])
       .pipe(
-        childOf({ header: { msg_id: "100" } }),
+        childOf({ header: { msg_id: "100" } } as JupyterMessage),
         count()
       )
       .toPromise()
@@ -65,13 +66,13 @@ describe("childOf", () => {
       }));
   // They now get logged instead if bad messages, instead of bombing the stream
   it.skip("throws an error if msg_id is not present", done =>
-    from([
+    from(([
       { parent_header: { msg_id_bad: "100" } },
       { parent_header: { msg_id_test: "100" } },
       { parent_header: { msg_id_invalid: "200" } },
       { parent_header: { msg_id_invalid: "300" } }
-    ])
-      .pipe(childOf({ header: { msg_id: "100" } }))
+    ] as any[]) as JupyterMessage[])
+      .pipe(childOf({ header: { msg_id: "100" } } as JupyterMessage))
       .subscribe(
         () => {
           throw new Error("Subscription was unexpectedly fulfilled.");
@@ -85,17 +86,19 @@ describe("childOf", () => {
 
 describe("ofMessageType", () => {
   it("filters messages of type requested", () => {
-    from([
-      { header: { msg_type: "a" } },
-      { header: { msg_type: "d" } },
-      { header: { msg_type: "b" } },
-      { header: { msg_type: "a" } },
-      { header: { msg_type: "d" } }
-    ])
+    from(([
+      { header: { msg_type: "stream" } },
+      { header: { msg_type: "error" } },
+      { header: { msg_type: "status" } },
+      { header: { msg_type: "stream" } },
+      { header: { msg_type: "status" } }
+    ] as any[]) as JupyterMessage[])
       .pipe(
-        ofMessageType(["a", "d"]),
+        ofMessageType(["stream", "status"]),
         tap(val => {
-          expect(val.header.msg_type === "a" || val.header.msg_type === "d");
+          expect(
+            val.header.msg_type === "stream" || val.header.msg_type === "error"
+          );
         }),
         map(entry => entry.header.msg_type),
         count()
@@ -106,13 +109,13 @@ describe("ofMessageType", () => {
       });
   });
   it("throws an error in msg_type is not present", done =>
-    from([
-      { header: { msg_type_invalid: "a" } },
-      { header: { msg_type_invalid: "d" } },
+    from(([
+      { header: { msg_type_invalid: "stream" } },
+      { header: { msg_type_invalid: "status" } },
       { header: {} },
-      { header: { msg_type: "a" } }
-    ])
-      .pipe(ofMessageType(["a", "d"]))
+      { header: { msg_type: "stream" } }
+    ] as any[]) as JupyterMessage[])
+      .pipe(ofMessageType(["stream", "status"]))
       .subscribe(
         () => {
           throw new Error("Subscription was unexpectedly fulfilled.");
@@ -123,17 +126,19 @@ describe("ofMessageType", () => {
         }
       ));
   it("handles both the legacy and current arguments for ofMessageType", () => {
-    from([
-      { header: { msg_type: "a" } },
-      { header: { msg_type: "d" } },
-      { header: { msg_type: "b" } },
-      { header: { msg_type: "a" } },
-      { header: { msg_type: "d" } }
-    ])
+    from(([
+      { header: { msg_type: "stream" } },
+      { header: { msg_type: "error" } },
+      { header: { msg_type: "status" } },
+      { header: { msg_type: "stream" } },
+      { header: { msg_type: "status" } }
+    ] as any[]) as JupyterMessage[])
       .pipe(
-        ofMessageType(["a", "d"]),
+        ofMessageType(["stream", "status"]),
         tap(val => {
-          expect(val.header.msg_type === "a" || val.header.msg_type === "d");
+          expect(
+            val.header.msg_type === "stream" || val.header.msg_type === "status"
+          );
         }),
         map(entry => entry.header.msg_type),
         count()
@@ -143,18 +148,20 @@ describe("ofMessageType", () => {
         expect(val).toEqual(4);
       });
 
-    from([
-      { header: { msg_type: "a" } },
-      { header: { msg_type: "d" } },
-      { header: { msg_type: "b" } },
-      { header: { msg_type: "a" } },
-      { header: { msg_type: "d" } }
-    ])
+    from(([
+      { header: { msg_type: "stream" } },
+      { header: { msg_type: "status" } },
+      { header: { msg_type: "error" } },
+      { header: { msg_type: "stream" } },
+      { header: { msg_type: "status" } }
+    ] as any[]) as JupyterMessage[])
       .pipe(
         // Note the lack of array brackets on the arguments
-        ofMessageType("a", "d"),
+        ofMessageType("stream", "status"),
         tap(val => {
-          expect(val.header.msg_type === "a" || val.header.msg_type === "d");
+          expect(
+            val.header.msg_type === "stream" || val.header.msg_type === "status"
+          );
         }),
         map(entry => entry.header.msg_type),
         count()
@@ -168,11 +175,11 @@ describe("ofMessageType", () => {
 
 describe("convertOutputMessageToNotebookFormat", () => {
   it("ensures that fields end up notebook format style", () => {
-    const message = {
+    const message = ({
       content: { yep: true },
       header: { msg_type: "test", msg_id: "10", username: "rebecca" },
       metadata: { purple: true }
-    };
+    } as any) as JupyterMessage;
 
     expect(convertOutputMessageToNotebookFormat(message)).toEqual({
       yep: true,
@@ -181,11 +188,11 @@ describe("convertOutputMessageToNotebookFormat", () => {
   });
 
   it("should not mutate the message", () => {
-    const message = {
+    const message = ({
       content: { yep: true },
       header: { msg_type: "test", msg_id: "10", username: "rebecca" },
       metadata: { purple: true }
-    };
+    } as any) as JupyterMessage;
 
     const copy = cloneDeep(message);
     convertOutputMessageToNotebookFormat(message);
@@ -236,7 +243,10 @@ describe("payloads", () => {
       executeReply({ payload: [{ c: "d" }] }),
       executeReply({ payload: [{ a: "b" }, { g: "6" }] }),
       executeReply({ status: "ok" }),
-      message({ msg_type: "fake" }, { payload: [{ should: "not be in it" }] })
+      message(
+        { msg_type: "fake" as any },
+        { payload: [{ should: "not be in it" }] }
+      )
     )
       .pipe(
         payloads(),

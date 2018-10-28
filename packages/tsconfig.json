@@ -3,6 +3,7 @@
   "references": [
     { "path": "ansi-to-react" },
     { "path": "display-area" },
-    { "path": "octicons" }
+    { "path": "octicons" },
+    { "path": "messaging" }
   ]
 }

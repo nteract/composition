@@ -1,18 +1,15 @@
-// @flow
-/* eslint camelcase: 0 */ // <-- Per Jupyter message spec
-
-import { Observable, from } from "rxjs";
+import { Observable, from, Subscriber } from "rxjs";
 import { filter, map, mergeMap } from "rxjs/operators";
-
 import { message, executeRequest } from "./messages";
+import { JupyterMessage, ExecuteRequest, MessageType } from "./types";
 
-export type { JupyterMessage, ExecuteRequest, JupyterMessageHeader };
+export * from "./types";
 
 // TODO: Deprecate
-export function createMessage<MT: string>(
+export function createMessage<MT extends MessageType>(
   msg_type: MT,
   fields: Object = {}
-): JupyterMessage<MT, *> {
+): JupyterMessage<MT> {
   return { ...message({ msg_type }), ...fields };
 }
 
@@ -25,15 +22,16 @@ export function createExecuteRequest(code: string = ""): ExecuteRequest {
  * operator for getting all messages that declare their parent header as
  * parentMessage's header
  */
-export const childOf = (parentMessage: JupyterMessage<*, *>) => (
-  source: Observable<JupyterMessage<*, *>>
+export const childOf = (parentMessage: JupyterMessage) => (
+  source: Observable<JupyterMessage>
 ) => {
   const parentMessageID = parentMessage.header.msg_id;
-  return Observable.create(subscriber =>
+  return Observable.create((subscriber: Subscriber<JupyterMessage>) =>
     source.subscribe(
       msg => {
-        // strictly speaking, in order for the message to be a child of the parent
-        // message, it has to both be a message and have a parent to begin with
+        // strictly speaking, in order for the message to be a child of the
+        // parent message, it has to both be a message and have a parent to
+        // begin with
         if (!msg || !msg.parent_header || !msg.parent_header.msg_id) {
           if (process.env.DEBUG === "true") {
             console.warn("no parent_header.msg_id on message", msg);
@@ -60,15 +58,15 @@ export const childOf = (parentMessage: JupyterMessage<*, *>) => (
  * @return {Observable}                 the resulting observable
  */
 export const ofMessageType = (
-  ...messageTypes: Array<string> | [Array<string>]
-) => {
+  ...messageTypes: (string | string[])[]
+): ((source: Observable<JupyterMessage>) => Observable<JupyterMessage>) => {
   // Switch to the splat mode
   if (messageTypes.length === 1 && Array.isArray(messageTypes[0])) {
-    return ofMessageType(...messageTypes[0]);
+    return ofMessageType(...(messageTypes[0] as string[]));
   }
 
-  return (source: Observable<JupyterMessage<*, *>>) =>
-    Observable.create(subscriber =>
+  return (source: Observable<JupyterMessage>) =>
+    Observable.create((subscriber: Subscriber<JupyterMessage>) =>
       source.subscribe(
         msg => {
           if (!msg.header || !msg.header.msg_type) {
@@ -95,13 +93,10 @@ export const ofMessageType = (
  * @param {Object} msg - Message that has content which can be converted to nbformat
  * @return {Object} formattedMsg  - Message with the associated output type
  */
-export function convertOutputMessageToNotebookFormat(
-  msg: JupyterMessage<*, *>
-) {
-  return Object.assign({}, msg.content, {
-    output_type: msg.header.msg_type
-  });
-}
+export const convertOutputMessageToNotebookFormat = (msg: JupyterMessage) => ({
+  ...msg.content,
+  output_type: msg.header.msg_type
+});
 
 /**
  * Convert raw jupyter messages that are output messages into nbformat style
@@ -112,16 +107,16 @@ export function convertOutputMessageToNotebookFormat(
  *     outputs()
  *   )
  */
-export const outputs = () => (source: Observable<JupyterMessage<*, *>>) =>
+export const outputs = () => (source: Observable<JupyterMessage>) =>
   source.pipe(
     ofMessageType("execute_result", "display_data", "stream", "error"),
     map(convertOutputMessageToNotebookFormat)
   );
 
-export const updatedOutputs = () => (source: Observable<*>) =>
+export const updatedOutputs = () => (source: Observable<JupyterMessage>) =>
   source.pipe(
     ofMessageType("update_display_data"),
-    map(msg => Object.assign({}, msg.content, { output_type: "display_data" }))
+    map(msg => ({ ...msg.content, output_type: "display_data" }))
   );
 
 /**
@@ -132,7 +127,7 @@ export const updatedOutputs = () => (source: Observable<*>) =>
  *     payloads()
  *   )
  */
-export const payloads = () => (source: Observable<JupyterMessage<*, *>>) =>
+export const payloads = () => (source: Observable<JupyterMessage>) =>
   source.pipe(
     ofMessageType("execute_reply"),
     map(entry => entry.content.payload),
@@ -143,17 +138,13 @@ export const payloads = () => (source: Observable<JupyterMessage<*, *>>) =>
 /**
  * Get all the execution counts from an observable of jupyter messages
  */
-export const executionCounts = () => (
-  source: Observable<JupyterMessage<*, *>>
-) =>
+export const executionCounts = () => (source: Observable<JupyterMessage>) =>
   source.pipe(
     ofMessageType("execute_input"),
     map(entry => entry.content.execution_count)
   );
 
-export const kernelStatuses = () => (
-  source: Observable<JupyterMessage<*, *>>
-) =>
+export const kernelStatuses = () => (source: Observable<JupyterMessage>) =>
   source.pipe(
     ofMessageType("status"),
     map(entry => entry.content.execution_state)
