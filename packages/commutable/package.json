@@ -5,6 +5,15 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "tsc -b --clean",
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
+  },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/commutable",
   "keywords": [
     "commutable",

@@ -1,0 +1,12 @@
+// Baseline config for all tsc-built packages
+// Your package tsconfig should extend from this one
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "types"]
+  }
+}

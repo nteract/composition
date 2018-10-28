@@ -43,7 +43,7 @@ export interface JupyterMessage<MT extends MessageType = MessageType, C = any> {
     | {
         msg_id?: string;
       };
-  metadata: Object;
+  metadata: object;
   content: C;
   channel: string;
   buffers?: any[] | null;
@@ -53,7 +53,7 @@ export interface ExecuteMessageContent {
   code: string;
   silent: boolean;
   store_history: boolean;
-  user_expressions: Object;
+  user_expressions: object;
   allow_stdin: boolean;
   stop_on_error: boolean;
 }

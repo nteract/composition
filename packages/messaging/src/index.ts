@@ -5,10 +5,14 @@ import { JupyterMessage, ExecuteRequest, MessageType } from "./types";
 
 export * from "./types";
 
+interface CreateMessageFields extends Partial<JupyterMessage> {
+  header?: never;
+}
+
 // TODO: Deprecate
 export function createMessage<MT extends MessageType>(
   msg_type: MT,
-  fields: Object = {}
+  fields: CreateMessageFields = {}
 ): JupyterMessage<MT> {
   return { ...message({ msg_type }), ...fields };
 }

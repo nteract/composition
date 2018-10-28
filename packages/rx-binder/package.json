@@ -4,6 +4,15 @@
   "description": "RxJS bindings to Binder",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "scripts": {
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "tsc -b --clean",
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nteract/nteract.git"
