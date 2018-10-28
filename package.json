@@ -134,7 +134,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "electron": "3.0.6",
-    "electron-builder": "20.28.4",
+    "electron-builder": "20.29.0",
     "electron-context-menu": "^0.10.0",
     "electron-log": "^2.2.13",
     "electron-updater": "^3.0.0",
