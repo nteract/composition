@@ -3,6 +3,7 @@
     "strict": true,
     "declaration": true,
     "composite": true,
+    "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "jsx": "react",
     "baseUrl": "./packages",

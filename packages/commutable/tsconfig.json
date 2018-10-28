@@ -4,6 +4,5 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "references": [{ "path": "../messaging" }],
   "include": ["src"]
 }

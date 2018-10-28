@@ -10,7 +10,7 @@
     "prepublishOnly": "npm run build",
     "build": "npm run build:clean && npm run build:lib",
     "build:clean": "rimraf lib",
-    "build:lib": "tsc",
+    "build:lib": "tsc -b",
     "build:lib:watch": "npm run build:lib -- --watch",
     "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
@@ -28,5 +28,8 @@
   "dependencies": {
     "immutable": "^4.0.0-rc.9",
     "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^3.4.4"
   }
 }

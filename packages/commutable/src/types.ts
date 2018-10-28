@@ -1,13 +1,18 @@
-// @flow
+import { Map as ImmutableMap, List as ImmutableList } from "immutable";
 
-import type { Map as ImmutableMap, List as ImmutableList } from "immutable";
-
-type PrimitiveImmutable = string | number | boolean | null;
+export type PrimitiveImmutable = string | number | boolean | null;
+export type JSONType = PrimitiveImmutable | JSONObject | JSONArray;
+export interface JSONObject {
+  [key: string]: JSONType;
+}
+export interface JSONArray extends Array<JSONType> {}
 
 export type ImmutableJSONType =
   | PrimitiveImmutable
-  | ImmutableMap<string, ImmutableJSONType>
-  | ImmutableList<ImmutableJSONType>;
+  | ImmutableJSONMap
+  | ImmutableJSONList;
+interface ImmutableJSONMap extends ImmutableMap<string, ImmutableJSONType> {}
+interface ImmutableJSONList extends ImmutableList<ImmutableJSONType> {}
 
 export type ExecutionCount = number | null;
 
