@@ -1,5 +1,10 @@
 // @flow
 
+export type PrimitiveImmutable = string | number | boolean | null;
+export type JSONType = PrimitiveImmutable | JSONObject | JSONArray;
+export type JSONObject = { [key: string]: JSONType };
+export type JSONArray = Array<JSONType>;
+
 export type ExecutionCount = number | null;
 
 export type MimeBundle = JSONObject;

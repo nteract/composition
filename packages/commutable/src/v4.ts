@@ -31,7 +31,8 @@ import {
   ImmutableMimeBundle,
   ExecutionCount,
   JSONObject,
-  JSONType
+  JSONType,
+  MultiLineString
 } from "./types";
 
 import { appendCell, CellStructure } from "./structures";
@@ -46,10 +47,6 @@ import { appendCell, CellStructure } from "./structures";
 // }
 //
 export type MimeBundle = { [key: string]: string | string[] | Object };
-
-// On disk multi-line strings are used to accomodate line-by-line diffs in tools
-// like git and GitHub. They get converted to strings for the in-memory format.
-export type MultiLineString = string | Array<string>;
 
 /** * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                             Output Types

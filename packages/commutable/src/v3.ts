@@ -11,13 +11,13 @@ import {
   ImmutableRawCell,
   ImmutableOutput,
   ImmutableMimeBundle,
+  MultiLineString,
   JSONObject
 } from "./types";
 import { CellStructure, appendCell } from "./structures";
 import {
   demultiline,
   cleanMimeAtKey,
-  MultiLineString,
   ErrorOutput,
   RawCell,
   MarkdownCell

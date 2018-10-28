@@ -1,6 +1,7 @@
 // @flow
 
 import * as Immutable from "immutable";
+import type { JSONType } from "@nteract/commutable";
 
 export type HelpLink = {
   text: string,

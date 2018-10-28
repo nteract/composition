@@ -4,6 +4,7 @@
     { "path": "ansi-to-react" },
     { "path": "display-area" },
     { "path": "octicons" },
-    { "path": "monaco-editor" }
+    { "path": "monaco-editor" },
+    { "path": "commutable" }
   ]
 }

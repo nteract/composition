@@ -9,7 +9,9 @@ import type {
   CellID,
   ImmutableCellOrder,
   ImmutableOutput,
-  ImmutableOutputs
+  ImmutableOutputs,
+  Output,
+  StreamOutput
 } from "@nteract/commutable";
 import {
   emptyCodeCell,
@@ -22,7 +24,6 @@ import {
   createImmutableMimeBundle
 } from "@nteract/commutable";
 import { has } from "lodash";
-import type { Output, StreamOutput } from "@nteract/commutable/src/v4";
 import { escapeCarriageReturnSafe } from "escape-carriage";
 
 import * as actionTypes from "../../../../actionTypes";
@@ -264,7 +265,6 @@ function updateDisplay(
   );
 
   const updatedContent = {
-    // $FlowFixMe: Not sure why this isn't accepted as mimebundle
     data: createImmutableMimeBundle(content.data),
     metadata: Immutable.fromJS(content.metadata || {})
   };

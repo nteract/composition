@@ -14,7 +14,7 @@ import {
 } from "./types";
 
 // We're hardset to nbformat v4.4 for what we use in-memory
-export interface Notebook {
+interface Notebook {
   nbformat: 4;
   nbformat_minor: 4;
   metadata: ImmutableMap<string, ImmutableJSONType>;
@@ -22,7 +22,7 @@ export interface Notebook {
   cellMap: ImmutableMap<string, ImmutableCell>;
 }
 
-export interface CodeCell {
+interface CodeCell {
   cell_type: "code";
   metadata: ImmutableMap<string, any>;
   execution_count: ExecutionCount;
@@ -30,7 +30,7 @@ export interface CodeCell {
   outputs: ImmutableList<ImmutableOutput>;
 }
 
-export interface MarkdownCell {
+interface MarkdownCell {
   cell_type: "markdown";
   source: string;
   metadata: ImmutableMap<string, any>;
@@ -135,8 +135,9 @@ export const insertCellAfter = (
     notebook.get("cellOrder").indexOf(priorCellID) + 1
   );
 
-// Deprecation Warning: removeCell() is being deprecated.
-// Please use deleteCell() instead
+/**
+ * @deprecated use `deleteCell()` instead
+ */
 export const removeCell = (
   notebook: ImmutableNotebook,
   cellID: string
