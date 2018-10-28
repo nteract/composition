@@ -58,7 +58,7 @@ export const childOf = (parentMessage: JupyterMessage) => (
  * @return the resulting observable
  */
 export const ofMessageType = (
-  ...messageTypes: (string | [string])[]
+  ...messageTypes: Array<string | [string]>
 ): ((source: Observable<JupyterMessage>) => Observable<JupyterMessage>) => {
   // Switch to the splat mode
   if (messageTypes.length === 1 && Array.isArray(messageTypes[0])) {
