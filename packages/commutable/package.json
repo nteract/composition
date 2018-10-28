@@ -3,16 +3,16 @@
   "version": "5.0.1",
   "description": "library for immutable notebook operations",
   "main": "lib/index.js",
-  "nteractDesktop": "src/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.ts",
   "scripts": {
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build && npm run build:flow",
+    "prepublishOnly": "npm run build",
     "build": "npm run build:clean && npm run build:lib",
     "build:clean": "rimraf lib",
-    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
-    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
+    "build:lib": "tsc",
     "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/commutable",
   "keywords": [
@@ -26,8 +26,6 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
-    "babel-runtime": "^6.26.0",
     "immutable": "^4.0.0-rc.9",
     "uuid": "^3.1.0"
   }
