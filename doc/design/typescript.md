@@ -48,8 +48,6 @@ Checkout the [status board](https://github.com/orgs/nteract/projects/13) and
 which packages to convert. Work your way up the dependency graph inside
 packages/, attempt to tighten strictness as we go.
 
-TODO: Link to Status Board
-
 ### Add a tsconfig.json
 
 You can usually just start by copying the one in the `ansi-to-react` package.
