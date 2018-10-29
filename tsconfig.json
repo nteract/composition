@@ -1,14 +1,9 @@
+// Top-level project - builds both applications and packages
 {
-  "compilerOptions": {
-    "strict": true,
-    "declaration": true,
-    "composite": true,
-    "esModuleInterop": true,
-    "lib": ["esnext", "dom"],
-    "jsx": "react",
-    "baseUrl": "./packages",
-    "paths": {
-      "@nteract/*": ["./*/src"]
-    }
-  }
+  "files": [],
+  "references": [
+    // Uncomment once there is something to build in this project
+    // { "path": "applications" },
+    { "path": "packages" }
+  ]
 }

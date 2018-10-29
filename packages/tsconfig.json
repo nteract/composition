@@ -1,3 +1,6 @@
+// tsc built packages
+// Any packages listed here will be built when you run tsc:build:packages
+
 {
   "files": [],
   "references": [

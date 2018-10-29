@@ -1,0 +1,8 @@
+// tsc built packages
+// Any folders listed here will be built when you run tsc:build:app
+{
+  "files": [],
+  "references": [
+    // { "path": "desktop" }
+  ]
+}

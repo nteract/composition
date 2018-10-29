@@ -1,9 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
     "noImplicitAny": false
   },
+  "include": ["src"],
   "references": [{ "path": "../ansi-to-react" }]
 }
