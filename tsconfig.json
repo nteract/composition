@@ -1,9 +1,5 @@
 // Top-level project - builds both applications and packages
 {
   "files": [],
-  "references": [
-    // Uncomment once there is something to build in this project
-    // { "path": "applications" },
-    { "path": "packages" }
-  ]
+  "references": [{ "path": "packages" }]
 }
