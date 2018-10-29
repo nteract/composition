@@ -7,10 +7,6 @@
     "composite": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "jsx": "react",
-    "baseUrl": "./packages",
-    "paths": {
-      "@nteract/*": ["./*/src"]
-    }
+    "jsx": "react"
   }
 }
