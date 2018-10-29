@@ -158,6 +158,11 @@ Here are some tips:
 
 - See following section for some notes on building your `index.js.flow` file.
 
+- If you're converting a package that relies on other local packages not yet
+  converted, add an `index.d.ts` to the root of the dependent package and fill
+  in any necessary type stubs there. This is just intended as a stopgap until
+  the packages are all converted.
+
 ### Testing your changes
 
 Usually make sure all of the following work before you submit your PR.
