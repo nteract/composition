@@ -18,18 +18,22 @@ to build all packages from the root directory.
 
 The main commands, `build`, `clean`, and `build:watch` all have
 equivalent scripts prefixed with `tsc:` which activates only the TypeScript
-system.
+system. You can limit the scope of any one of these commands by adding a
+path to a package:
+
+    yarn tsc:build packages/core  # builds just core and its dependencies
 
 Presently if you run a general command like `yarn build`, it will first invoke
 the top-level `tsc` version of the command and then runs the equivalent command
-– if it exists – in each package or application. Overtime, we expect most
-packages won't actually contain any individual scripts, although you can still
-add them if necessary as a postprocessing step.
+– if it exists – in each package or application.
 
-Currently when you run one of the top-level commands, it will first run the
-TypeScript equivalents and then invoke the older, lerna-based ones. As we move
-entirely to TypeScript, the expectation is that we can more or less completely
-eliminate per-package builds, which will make the build process much faster.
+### 2. tsc files are built sepatately
+
+The rest of our tools (webpack, IDE integrations) basically expect to see
+up-to-date built tsc files at all times, so if you are editing a tsc-enabled
+package and not seeing any changes reflected in other packages, make sure you
+have `tsc:watch` running. The standard app dev tasks all start a tsc watch
+process automatically.
 
 ---
 
