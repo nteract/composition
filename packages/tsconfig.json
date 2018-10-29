@@ -2,6 +2,9 @@
 // Any packages listed here will be built when you run tsc:build:packages
 
 {
+  "compilerOptions": {
+    "composite": true
+  },
   "files": [],
   "references": [
     { "path": "rx-jupyter" },
