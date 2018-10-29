@@ -1,5 +1,5 @@
 /* @flow */
-import React from "react";
+import * as React from "react";
 
 type Props = {
   /**
@@ -33,14 +33,15 @@ export function runCodeHere(el: ?HTMLElement, code: string): any {
 }
 
 export class JavaScript extends React.Component<Props> {
-  el: ?HTMLElement;
   static defaultProps = {
     mediaType: "application/javascript",
     data: ""
   };
 
+  elRef: React.ElementRef<*> = React.createRef();
+
   componentDidMount(): void {
-    runCodeHere(this.el, this.props.data);
+    runCodeHere(this.elRef.current, this.props.data);
   }
 
   shouldComponentUpdate(nextProps: Props): boolean {
@@ -48,16 +49,12 @@ export class JavaScript extends React.Component<Props> {
   }
 
   componentDidUpdate(): void {
-    runCodeHere(this.el, this.props.data);
+    runCodeHere(this.elRef.current, this.props.data);
   }
 
   render(): ?React$Element<any> {
     return (
-      <div
-        ref={el => {
-          this.el = el;
-        }}
-      />
+      <div ref={this.elRef} />
     );
   }
 }
