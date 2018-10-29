@@ -55,17 +55,18 @@
     "test:unit": "npm run test",
     "test:coverage": "npm run test -- --coverage",
     "test:lint": "npm run lint",
-    "test:flow": "npm run flow",
+    "test:flow": "npm run tsc:build && npm run flow",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
-    "verifyBeforePublish": "tsc -b packages && lerna run prepublishOnly && lerna run prepare",
+    "install": "npm run tsc:build",
+    "verifyBeforePublish": "npm run tsc:build packages && lerna run prepublishOnly && lerna run prepare",
     "prepublishOnly": "npm run verifyBeforePublish",
     "publish": "lerna run publish",
     "prettify": "prettier --write '**/*.{ts,js,json}' '!**/{dist,lib.git,.next,package.json,build,flow-typed,mathjax-electron}/**'",
     "pack": "lerna run pack --scope nteract --stream",
     "dist": "lerna run dist --scope nteract --stream",
     "dist:all": "lerna run dist:all --scope nteract --stream",
-    "clean": "npm run tsc:clean && lerna clean --yes && rimraf node_modules"
+    "clean": "lerna clean --yes && npm run tsc:clean && rimraf node_modules"
   },
   "jest": {
     "testURL": "http://localhost",
