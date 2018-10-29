@@ -26,6 +26,7 @@
     "clean": "rimraf lib dist",
     "install:app-deps": "electron-builder install-app-deps",
     "prestart": "npm run build",
+    "dev": "npm run spawn",
     "start": "npm run spawn",
     "prespawn": "npm run install:app-deps",
     "spawn": "cross-env NODE_ENV=development electron .",
