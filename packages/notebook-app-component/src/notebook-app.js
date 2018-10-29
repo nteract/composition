@@ -16,6 +16,7 @@ import {
 import { DragDropContext as dragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
+// $FlowFixMe
 import { RichestMime, Output } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,
@@ -29,8 +30,6 @@ import MarkdownPreviewer from "./markdown-preview";
 import Editor from "./editor";
 import Toolbar from "./toolbar";
 import { HijackScroll } from "./hijack-scroll";
-
-
 
 type AnyCellProps = {
   id: string,
@@ -58,6 +57,30 @@ type AnyCellProps = {
   unfocusEditor: () => void,
   focusAboveCell: () => void,
   focusBelowCell: () => void
+};
+
+const markdownEditorOptions = {
+  // Markdown should always be line wrapped
+  lineWrapping: true,
+  // Rely _directly_ on the codemirror mode
+  mode: {
+    name: "gfm",
+    tokenTypeOverrides: {
+      emoji: "emoji"
+    }
+  }
+};
+
+const rawEditorOptions = {
+  // Markdown should always be line wrapped
+  lineWrapping: true,
+  // Rely _directly_ on the codemirror mode
+  mode: {
+    name: "text/plain",
+    tokenTypeOverrides: {
+      emoji: "emoji"
+    }
+  }
 };
 
 const mapStateToCellProps = (state, { id, contentRef }) => {
@@ -261,50 +284,30 @@ class AnyCell extends React.PureComponent<AnyCellProps, *> {
                 cellFocused={cellFocused}
                 editorFocused={editorFocused}
                 contentRef={contentRef}
-                options={{
-                  // Markdown should always be line wrapped
-                  lineWrapping: true,
-                  // Rely _directly_ on the codemirror mode
-                  mode: {
-                    name: "gfm",
-                    tokenTypeOverrides: {
-                      emoji: "emoji"
-                    }
-                  }
-                }}
+                options={markdownEditorOptions}
               />
             </Source>
           </MarkdownPreviewer>
         );
         break;
 
-        case "raw":
-          element = (
-              <Source>
-                <Editor
-                  id={id}
-                  value={this.props.source}
-                  theme={this.props.theme}
-                  focusAbove={focusAboveCell}
-                  focusBelow={focusBelowCell}
-                  cellFocused={cellFocused}
-                  editorFocused={editorFocused}
-                  contentRef={contentRef}
-                  options={{
-                    // Markdown should always be line wrapped
-                    lineWrapping: true,
-                    // Rely _directly_ on the codemirror mode
-                    mode: {
-                      name: "text/plain",
-                      tokenTypeOverrides: {
-                        emoji: "emoji"
-                      }
-                    }
-                  }}
-                />
-              </Source>
-          );
-          break;
+      case "raw":
+        element = (
+          <Source>
+            <Editor
+              id={id}
+              value={this.props.source}
+              theme={this.props.theme}
+              focusAbove={focusAboveCell}
+              focusBelow={focusBelowCell}
+              cellFocused={cellFocused}
+              editorFocused={editorFocused}
+              contentRef={contentRef}
+              options={rawEditorOptions}
+            />
+          </Source>
+        );
+        break;
       default:
         element = <pre>{this.props.source}</pre>;
         break;

@@ -1,7 +1,7 @@
 // @flow
 
-import { ActionsObservable, combineEpics, ofType } from "redux-observable";
-import { from, merge } from "rxjs";
+import { combineEpics, ofType } from "redux-observable";
+import { of, from, merge } from "rxjs";
 import { filter, catchError, mergeMap, switchMap } from "rxjs/operators";
 import { binder } from "rx-binder";
 import { kernels, shutdown, kernelspecs } from "rx-jupyter";
@@ -11,8 +11,6 @@ import objectPath from "object-path";
 
 import * as actions from "./actions";
 import * as actionTypes from "./actionTypes";
-
-const of = ActionsObservable.of;
 
 declare var EventSource: (url: string) => *;
 

@@ -1,6 +1,6 @@
 {
   "name": "@nteract/nbextension",
-  "version": "0.5.6",
+  "version": "0.5.8",
   "description": "nteract on jupyter, as an extension",
   "scripts": {
     "build:python": "python setup.py sdist && python setup.py bdist_wheel",

@@ -4,7 +4,6 @@ import type { Middleware, $Request, $Response } from "express";
 const express = require("express");
 const bodyParser = require("body-parser");
 
-
 const defaultContentTypeMiddleware: Middleware = (
   req: $Request,
   res: $Response,

@@ -4,7 +4,6 @@ import type { MediaBundle } from "@nteract/records";
 
 import { RichMedia } from "./rich-media";
 
-
 type Props = {
   /**
    * The literal type of output, used for routing with the `<Output />` element

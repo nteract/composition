@@ -1,7 +1,6 @@
 // @flow
 import * as fs from "fs";
 
-
 import { Observable, bindNodeCallback } from "rxjs";
 import { mergeMap } from "rxjs/operators";
 
@@ -24,32 +23,16 @@ export const unlinkObservable = (path: string) =>
     }
   });
 
-export const createNewSymlinkObservable: (
-  srcpath: string,
-  dtspath: string,
-  type?: string
-) => Observable<void> = bindNodeCallback(fs.symlink);
+export const createNewSymlinkObservable = bindNodeCallback(fs.symlink);
 
-export const createSymlinkObservable = (
-  target: string,
-  path: string
-): Observable<void> =>
+export const createSymlinkObservable = (target: string, path: string) =>
   unlinkObservable(path).pipe(
     mergeMap(() => createNewSymlinkObservable(target, path))
   );
 
-// NOTE: Flow types here match our current usage rather than inferring it,
-// due to bindNodeCallback not being typed
-export const readFileObservable: (
-  pth: string
-) => Observable<Buffer> = bindNodeCallback(fs.readFile);
+export const readFileObservable = bindNodeCallback(fs.readFile);
 
-// NOTE: Flow types here match our current usage rather than inferring it,
-// due to bindNodeCallback not being typed
-export const writeFileObservable: (
-  filename: string,
-  data: Buffer | string
-) => Observable<void> = bindNodeCallback(fs.writeFile);
+export const writeFileObservable = bindNodeCallback(fs.writeFile);
 
 export const mkdirpObservable = bindNodeCallback(mkdirp);
 

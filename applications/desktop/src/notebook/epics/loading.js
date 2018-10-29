@@ -3,10 +3,17 @@
 import * as path from "path";
 import * as fs from "fs";
 
-import { of, forkJoin, empty } from "rxjs";
-import { map, tap, switchMap, catchError, timeout } from "rxjs/operators";
-import { ActionsObservable, ofType } from "redux-observable";
-import type { StateObservable } from "redux-observable";
+import { empty, of, forkJoin } from "rxjs";
+import {
+  map,
+  tap,
+  switchMap,
+  mergeMap,
+  catchError,
+  timeout
+} from "rxjs/operators";
+import { ofType } from "redux-observable";
+import type { ActionsObservable, StateObservable } from "redux-observable";
 import { readFileObservable, statObservable } from "fs-observable";
 import { monocellNotebook, toJS } from "@nteract/commutable";
 import type { ImmutableNotebook } from "@nteract/commutable";
@@ -145,7 +152,7 @@ export const launchKernelWhenNotebookSetEpic = (
 ) =>
   action$.pipe(
     ofType(actionTypes.FETCH_CONTENT_FULFILLED),
-    map((action: actionTypes.FetchContentFulfilled) => {
+    mergeMap((action: actionTypes.FetchContentFulfilled) => {
       const contentRef = action.payload.contentRef;
 
       const content = selectors.content(state$.value, { contentRef });
@@ -164,13 +171,15 @@ export const launchKernelWhenNotebookSetEpic = (
 
       const { cwd, kernelSpecName } = extractNewKernel(filepath, notebook);
 
-      return actions.launchKernelByName({
-        kernelSpecName,
-        cwd,
-        kernelRef: action.payload.kernelRef,
-        selectNextKernel: true,
-        contentRef: action.payload.contentRef
-      });
+      return of(
+        actions.launchKernelByName({
+          kernelSpecName,
+          cwd,
+          kernelRef: action.payload.kernelRef,
+          selectNextKernel: true,
+          contentRef: action.payload.contentRef
+        })
+      );
     })
   );
 

@@ -99,10 +99,6 @@ class Provider extends React.Component<Props, State> {
       if (this.props.didFinishTypeset) {
         this.props.didFinishTypeset();
       }
-
-      this.setState({
-        MathJax
-      });
     });
 
     MathJax.Hub.Register.MessageHook("Math Processing Error", message => {
@@ -114,6 +110,10 @@ class Provider extends React.Component<Props, State> {
     if (this.props.onLoad) {
       this.props.onLoad();
     }
+
+    this.setState({
+      MathJax
+    });
   };
 
   render() {

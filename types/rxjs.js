@@ -613,6 +613,20 @@ declare module "rxjs" {
       scheduler?: rxjs$SchedulerLike
     ): rxjs$Observable<number>,
     merge: (<T>(
+        ...observables: (
+          | rxjs$ObservableInput<T>
+          | rxjs$SchedulerLike
+          | number
+        )[]
+      ) => rxjs$Observable<T>) &
+      (<T, R>(
+        ...observables: (
+          | rxjs$ObservableInput<any>
+          | rxjs$SchedulerLike
+          | number
+        )[]
+      ) => rxjs$Observable<R>) &
+      (<T>(
       v1: rxjs$ObservableInput<T>,
       scheduler?: rxjs$SchedulerLike
     ) => rxjs$Observable<T>) &
@@ -695,21 +709,7 @@ declare module "rxjs" {
         v6: rxjs$ObservableInput<T6>,
         concurrent?: number,
         scheduler?: rxjs$SchedulerLike
-      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>) &
-      (<T>(
-        ...observables: (
-          | rxjs$ObservableInput<T>
-          | rxjs$SchedulerLike
-          | number
-        )[]
-      ) => rxjs$Observable<T>) &
-      (<T, R>(
-        ...observables: (
-          | rxjs$ObservableInput<any>
-          | rxjs$SchedulerLike
-          | number
-        )[]
-      ) => rxjs$Observable<R>),
+      ) => rxjs$Observable<T | T2 | T3 | T4 | T5 | T6>),
     of: (<T>(a: T, scheduler?: rxjs$SchedulerLike) => rxjs$Observable<T>) &
       (<T, T2>(
         a: T,

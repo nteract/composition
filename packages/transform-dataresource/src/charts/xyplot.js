@@ -1,12 +1,18 @@
 /* @flow */
 import * as React from "react";
 import { scaleLinear, scaleThreshold } from "d3-scale";
+import { heatmapping, hexbinning } from "semiotic";
 
 import { numeralFormatting } from "../utilities";
 import HTMLLegend from "../HTMLLegend";
 import TooltipContent from "../tooltip-content";
 
 import { sortByOrdinalRange } from "./shared";
+
+const binHash = {
+  heatmap: heatmapping,
+  hexbin: hexbinning
+};
 
 const steps = ["none", "#FBEEEC", "#f3c8c2", "#e39787", "#ce6751", "#b3331d"];
 const thresholds = scaleThreshold()
@@ -72,34 +78,36 @@ export const semioticScatterplot = (
       d[metric1] && d[metric2] && (!metric3 || metric3 === "none" || d[metric3])
   );
 
-  const pointTooltip = (d: Object) => (
-    <TooltipContent>
-      <h3>{primaryKey.map(p => d[p]).join(", ")}</h3>
-      {dimensions.map(dim => (
-        <p key={`tooltip-dim-${dim.name}`}>
-          {dim.name}:{" "}
-          {(d[dim.name].toString && d[dim.name].toString()) || d[dim.name]}
-        </p>
-      ))}
-      <p>
-        {metric1}: {d[metric1]}
-      </p>
-      <p>
-        {metric2}: {d[metric2]}
-      </p>
-      {metric3 &&
-        metric3 !== "none" && (
-          <p>
-            {metric3}: {d[metric3]}
+  const pointTooltip = (d: Object) => {
+    return (
+      <TooltipContent x={d.x} y={d.y}>
+        <h3>{primaryKey.map(p => d[p]).join(", ")}</h3>
+        {dimensions.map(dim => (
+          <p key={`tooltip-dim-${dim.name}`}>
+            {dim.name}:{" "}
+            {(d[dim.name].toString && d[dim.name].toString()) || d[dim.name]}
           </p>
-        )}
-    </TooltipContent>
-  );
+        ))}
+        <p>
+          {metric1}: {d[metric1]}
+        </p>
+        <p>
+          {metric2}: {d[metric2]}
+        </p>
+        {metric3 &&
+          metric3 !== "none" && (
+            <p>
+              {metric3}: {d[metric3]}
+            </p>
+          )}
+      </TooltipContent>
+    );
+  };
 
   const areaTooltip = (d: Object) => {
     if (d.binItems.length === 0) return null;
     return (
-      <TooltipContent>
+      <TooltipContent x={d.x} y={d.y}>
         <h3
           style={{
             fontSize: "14px",
@@ -194,31 +202,6 @@ export const semioticScatterplot = (
         colors={colors}
       />
     );
-  } else if (type !== "scatterplot" && type !== "contour") {
-    const hexValues = [
-      "0% - 20%",
-      "20% - 40%",
-      "40% - 60%",
-      "60% - 80%",
-      "80% - 100%"
-    ];
-    const hexHash = {
-      "0% - 20%": "#FBEEEC",
-      "20% - 40%": "#f3c8c2",
-      "40% - 60%": "#e39787",
-      "60% - 80%": "#ce6751",
-      "80% - 100%": "#b3331d"
-    };
-
-    //    const steps = ["none", "#FBEEEC", "#f3c8c2", "#e39787", "#ce6751", "#b3331d"]
-    additionalSettings.afterElements = (
-      <HTMLLegend
-        valueHash={{}}
-        values={hexValues}
-        colorHash={hexHash}
-        colors={colors}
-      />
-    );
   }
 
   let areas;
@@ -229,6 +212,65 @@ export const semioticScatterplot = (
     (type === "contour" && dim3 === "none")
   ) {
     areas = [{ coordinates: filteredData }];
+
+    if (type !== "contour") {
+      const calculatedAreas = binHash[type]({
+        areaType: { type, bins: 10 },
+        data: {
+          coordinates: filteredData.map(d => ({
+            ...d,
+            x: d[metric1],
+            y: d[metric2]
+          }))
+        },
+        size: [height, height]
+      });
+      areas = calculatedAreas;
+
+      const thresholdSteps = [0.2, 0.4, 0.6, 0.8, 1]
+        .map(d => Math.floor(calculatedAreas.binMax * d))
+        .reduce((p, c) => (c === 0 || p.indexOf(c) !== -1 ? p : [...p, c]), []);
+
+      const withZeroThresholdSteps = [0, ...thresholdSteps];
+
+      const hexValues = [];
+
+      withZeroThresholdSteps.forEach((t, i) => {
+        const nextValue = withZeroThresholdSteps[i + 1];
+        if (nextValue) {
+          hexValues.push(`${t + 1} - ${nextValue}`);
+        }
+      });
+
+      const thresholdColors = [
+        "#FBEEEC",
+        "#f3c8c2",
+        "#e39787",
+        "#ce6751",
+        "#b3331d"
+      ];
+      const hexHash = {};
+
+      hexValues.forEach((binLabel, i) => {
+        hexHash[binLabel] = thresholdColors[i];
+      });
+
+      thresholds
+        .domain([0.01, ...thresholdSteps])
+        .range([
+          "none",
+          ...thresholdColors.filter((d, i) => i < thresholdSteps.length)
+        ]);
+
+      additionalSettings.afterElements = (
+        <HTMLLegend
+          valueHash={{}}
+          values={hexValues}
+          colorHash={hexHash}
+          colors={colors}
+        />
+      );
+    }
   } else if (type === "contour") {
     const multiclassHash = {};
     areas = [];
@@ -249,38 +291,46 @@ export const semioticScatterplot = (
     (type === "scatterplot" || type === "contour") && data.length > 999;
 
   return {
-    xAccessor: metric1,
-    yAccessor: metric2,
+    xAccessor: type === "hexbin" || type === "heatmap" ? "x" : metric1,
+    yAccessor: type === "hexbin" || type === "heatmap" ? "y" : metric2,
     axes: [
       {
         orient: "left",
         ticks: 6,
         label: metric2,
         tickFormat: numeralFormatting,
-        footer: type === "heatmap"
+        baseline: type === "scatterplot",
+        tickSize: type === "heatmap" ? 0 : undefined
       },
       {
         orient: "bottom",
         ticks: 6,
         label: metric1,
         tickFormat: numeralFormatting,
-        footer: type === "heatmap"
+        footer: type === "heatmap",
+        baseline: type === "scatterplot",
+        tickSize: type === "heatmap" ? 0 : undefined
       }
     ],
     points: (type === "scatterplot" || type === "contour") && data,
     canvasPoints: renderInCanvas,
     areas: areas,
     areaType: { type, bins: 10, thresholds: dim3 === "none" ? 6 : 3 },
-    areaStyle: (d: Object) => ({
-      fill: type === "contour" ? "none" : thresholds(d.percent),
-      stroke:
-        type !== "contour"
-          ? "black"
-          : dim3 === "none"
-            ? "#BBB"
-            : d.parentArea.color,
-      strokeWidth: type === "contour" ? 2 : 1
-    }),
+    areaStyle: (d: Object) => {
+      return {
+        fill:
+          type === "contour"
+            ? "none"
+            : thresholds((d.binItems || d.data.binItems).length),
+        stroke:
+          type !== "contour"
+            ? undefined
+            : dim3 === "none"
+              ? "#BBB"
+              : d.parentArea.color,
+        strokeWidth: type === "contour" ? 2 : 1
+      };
+    },
     pointStyle: (d: Object) => ({
       r: renderInCanvas ? 2 : type === "contour" ? 3 : sizeScale(d[metric3]),
       fill: colorHash[d[dim1]] || "black",
@@ -289,9 +339,9 @@ export const semioticScatterplot = (
       strokeWidth: type === "contour" ? 0.5 : 1,
       strokeOpacity: 0.9
     }),
-    hoverAnnotation: !renderInCanvas,
+    hoverAnnotation: true,
     responsiveWidth: false,
-    size: [height + 200, height + 50],
+    size: [height + 225, height + 80],
     margin: { left: 75, bottom: 50, right: 150, top: 30 },
     annotations: (type === "scatterplot" && annotations) || undefined,
     annotationSettings: {

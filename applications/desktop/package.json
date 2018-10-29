@@ -1,6 +1,6 @@
 {
   "name": "nteract",
-  "version": "0.11.9",
+  "version": "0.12.2",
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
   "repository": "nteract/nteract",
@@ -60,6 +60,10 @@
         "zip"
       ]
     },
+    "asar": true,
+    "asarUnpack": [
+      "**/@nteract/examples/**"
+    ],
     "nsis": {
       "perMachine": true,
       "oneClick": false
@@ -114,6 +118,6 @@
     "nteract-assets": "^4.0.0"
   },
   "devDependencies": {
-    "electron": "3.0.5"
+    "electron": "3.0.6"
   }
 }

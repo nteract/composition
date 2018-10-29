@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "rx-jupyter" },
+    { "path": "rx-binder" },
+    { "path": "ansi-to-react" },
+    { "path": "display-area" },
+    { "path": "octicons" },
+    { "path": "monaco-editor" },
+    { "path": "commutable" },
+    { "path": "messaging" },
+    { "path": "enchannel-zmq-backend" }
+  ]
+}

@@ -24,7 +24,6 @@ class Editor extends React.Component {
         editable={true}
         headerData={this.state}
         onChange={header => {
-          console.log("header", header);
           this.setState(header);
         }}
       />

@@ -1,0 +1,93 @@
+// @flow
+/* eslint-disable */
+
+/**
+ * Temporary flow definitions until all dependent packages are converted
+ * to TypeScript.
+ */
+
+import { Observable } from "rxjs";
+
+export type JupyterMessageHeader<MT: string> = {
+  msg_id: string,
+  username: string,
+  date: string, // ISO 8601 timestamp
+  msg_type: MT, // this could be an enum
+  version: string // this could be an enum
+};
+
+export type JupyterMessage<MT, C> = {
+  header: JupyterMessageHeader<MT>,
+  parent_header: JupyterMessageHeader<*> | {},
+  metadata: Object,
+  content: C,
+  buffers?: Array<any> | null
+};
+
+export type ExecuteMessageContent = {
+  code: string,
+  silent: boolean,
+  store_history: boolean,
+  user_expressions: Object,
+  allow_stdin: boolean,
+  stop_on_error: boolean
+};
+
+export type ExecuteRequest = JupyterMessage<
+  "execute_request",
+  ExecuteMessageContent
+>;
+
+export type Channels = rxjs$Subject<JupyterMessage<*, *>>;
+
+declare export function createMessage<MT: string>(
+  msg_type: MT,
+  fields?: Object
+): JupyterMessage<MT, *>;
+
+declare export function createExecuteRequest(code?: string): ExecuteRequest;
+
+declare export function childOf(
+  parentMessage: JupyterMessage<*, *>
+): (
+  source: Observable<JupyterMessage<*, *>>
+) => Observable<JupyterMessage<*, *>>;
+
+declare export function ofMessageType(
+  ...messageTypes: Array<string> | [Array<string>]
+): (source: Observable<JupyterMessage<*, *>>) => Observable<*>;
+
+declare export function kernelStatuses(): (
+  source: Observable<JupyterMessage<*, *>>
+) => Observable<*>;
+
+declare export function outputs(): (
+  source: Observable<JupyterMessage<*, *>>
+) => Observable<*>;
+
+declare export function payloads(): (
+  source: Observable<JupyterMessage<*, *>>
+) => Observable<*>;
+
+declare export function executionCounts(): (
+  source: Observable<JupyterMessage<*, *>>
+) => Observable<*>;
+
+// messages.ts
+
+declare export function executeRequest(
+  code?: string,
+  options?: {
+    silent?: boolean,
+    store_history?: boolean,
+    user_expressions?: Object,
+    allow_stdin?: boolean,
+    stop_on_error?: boolean
+  }
+): ExecuteRequest;
+
+declare export function kernelInfoRequest(): JupyterMessage<*, *>;
+
+declare export function shutdownRequest(content?: {
+  restart?: boolean
+}): JupyterMessage<*, *>;

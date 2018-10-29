@@ -6,6 +6,7 @@ import L from "leaflet";
 type Props = {
   data: Object,
   metadata: Object,
+  mediaType: "application/geo+json",
   theme: string
 };
 type TileTheme = "dark" | "light";
@@ -50,7 +51,8 @@ export class GeoJSONTransform extends React.Component<Props> {
   tileLayer: Object;
 
   static defaultProps = {
-    theme: "light"
+    theme: "light",
+    mediaType: MIMETYPE
   };
   static MIMETYPE = MIMETYPE;
 

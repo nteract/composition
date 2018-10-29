@@ -11,3 +11,6 @@ applications/**/node_modules
 coverage
 node_modules/
 */**/__snapshots__/
+
+# the gatsby transformer writes output to the root
+packages/gatsby-transformer-ipynb/*.js

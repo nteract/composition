@@ -33,10 +33,13 @@ class MathJaxText_ extends React.Component<Props & MathJaxContextValue, null> {
         "Could not find MathJax while attempting typeset! It's likely the MathJax script hasn't been loaded or MathJax.Context is not in the hierarchy."
       );
     }
+    const typeset = ["Typeset", MathJax.Hub, this.nodeRef.current];
 
-    MathJax.Hub.Queue(
-      MathJax.Hub.Typeset(this.nodeRef.current, this.props.onRender)
-    );
+    if (!this.props.onRender) {
+      MathJax.Hub.Queue(typeset);
+    } else {
+      MathJax.Hub.Queue(typeset, this.props.onRender);
+    }
   }
 
   render() {
@@ -44,7 +47,7 @@ class MathJaxText_ extends React.Component<Props & MathJaxContextValue, null> {
   }
 }
 
-class MathJaxText extends React.Component<Props, null> {
+class MathJaxText extends React.PureComponent<Props, null> {
   static defaultProps = {
     onRender: null
   };

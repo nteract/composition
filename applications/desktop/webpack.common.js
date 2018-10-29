@@ -3,11 +3,18 @@ const path = require("path");
 const webpack = require("webpack");
 const configurator = require("@nteract/webpack-configurator");
 
+const babelFlowConfig = require("../../babel.flow.config");
+const babelTypescriptConfig = require("../../babel.typescript.config");
+
+
+
 const nodeModules = {
   jmp: "commonjs jmp",
   canvas: "commonjs canvas",
+  "canvas-prebuilt": "commonjs canvas-prebuilt",
   "nteract-assets": "commonjs nteract-assets",
-  "mathjax-electron": "commonjs mathjax-electron"
+  "mathjax-electron": "commonjs mathjax-electron",
+  "@nteract/examples": "commonjs @nteract/examples"
 };
 
 const mainConfig = {
@@ -29,13 +36,20 @@ const mainConfig = {
       {
         test: /\.js$/,
         exclude: configurator.exclude,
-        loader: "babel-loader"
-      }
+        loader: "babel-loader",
+        options: babelFlowConfig(),
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: configurator.exclude,
+        loader: "babel-loader",
+        options: babelTypescriptConfig(),
+      },
     ]
   },
   resolve: {
     mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: configurator.mergeDefaultAliases()
   },
   plugins: [new webpack.IgnorePlugin(/\.(css|less)$/)]
@@ -71,13 +85,20 @@ const rendererConfig = {
       {
         test: /\.js$/,
         exclude: configurator.exclude,
-        loader: "babel-loader"
-      }
+        loader: "babel-loader",
+        options: babelFlowConfig(),
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: configurator.exclude,
+        loader: "babel-loader",
+        options: babelTypescriptConfig(),
+      },
     ]
   },
   resolve: {
     mainFields: ["nteractDesktop", "module", "main"],
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: configurator.mergeDefaultAliases()
   },
   plugins: [

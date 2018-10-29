@@ -1,7 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id":
-    "https://raw.githubusercontent.com/fge/sample-json-schemas/master/geojson/geojson.json#",
+  "id": "https://raw.githubusercontent.com/fge/sample-json-schemas/master/geojson/geojson.json#",
   "title": "Geo JSON object",
   "description": "Schema for a Geo JSON object",
   "type": "object",
@@ -140,8 +139,7 @@
           ]
         },
         "linearRing": {
-          "description":
-            "An array of four positions where the first equals the last",
+          "description": "An array of four positions where the first equals the last",
           "allOf": [
             { "$ref": "#/definitions/geometry/definitions/positionArray" },
             { "minItems": 4 }

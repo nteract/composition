@@ -25,7 +25,6 @@ import * as Immutable from "immutable";
 
 import { default as Logo } from "./logos";
 
-
 export type AvailableNotebook = {
   kernelspec: KernelspecRecord | KernelspecProps
 };

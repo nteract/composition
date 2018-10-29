@@ -1,5 +1,6 @@
 /* @flow */
 import * as React from "react";
+// $FlowFixMe
 import { Display } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,

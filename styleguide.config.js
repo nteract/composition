@@ -1,6 +1,8 @@
 // @format
 const path = require("path");
 
+const babelFlowConfig = require("./babel.flow.config");
+const babelTypescriptConfig = require("./babel.typescript.config");
 var {
   exclude,
   mergeDefaultAliases
@@ -20,7 +22,9 @@ module.exports = {
     },
     {
       name: "Media Outputs",
-      components: "packages/outputs/src/components/media/*.js"
+      components: "packages/outputs/src/components/media/*.js",
+      content: "packages/outputs/src/components/media/index.md",
+      ignore: "packages/outputs/src/components/media/index.js"
     },
     {
       name: "Binder Hosts and Kernels",
@@ -60,6 +64,7 @@ module.exports = {
     },
     resolve: {
       mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
       alias: mergeDefaultAliases()
     },
     module: {
@@ -67,8 +72,15 @@ module.exports = {
         {
           test: /\.jsx?$/,
           exclude,
-          loader: "babel-loader"
-        }
+          loader: "babel-loader",
+          options: babelFlowConfig(),
+        },
+        {
+          test: /\.tsx?$/,
+          exclude,
+          loader: "babel-loader",
+          options: babelTypescriptConfig(),
+      },
       ]
     }
   }

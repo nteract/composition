@@ -1,6 +1,6 @@
 {
   "name": "@nteract/presentational-components",
-  "version": "0.4.3",
+  "version": "1.1.0",
   "description": "pure presentational components for nteract",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
-    "@blueprintjs/select": "^3.2.0",
     "@blueprintjs/core": "^3.7.0",
-    "@nteract/styled-blueprintjsx": "^1.0.0",
+    "@blueprintjs/select": "^3.2.0",
+    "@nteract/styled-blueprintjsx": "^1.1.1",
     "babel-runtime": "^6.26.0",
     "react-syntax-highlighter": "^9.0.0",
     "styled-jsx": "^3.1.0"

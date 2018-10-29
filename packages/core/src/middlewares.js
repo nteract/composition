@@ -1,6 +1,9 @@
 // @flow
-// NOTE: These are just default middlewares here for now until I figure out how
+// NOTE: These are just default middlewares here for now until we figure out how
 // to divide up the desktop app and this core package
+
+import { isCollection } from "immutable";
+import { createLogger } from "redux-logger";
 
 import * as selectors from "./selectors";
 
@@ -49,3 +52,18 @@ export const errorMiddleware = (
   }
   return next(action);
 };
+
+export function logger() {
+  const craftedLogger = createLogger({
+    // predicate: (getState, action) => action.type.includes('COMM'),
+    stateTransformer: state =>
+      Object.keys(state).reduce(
+        (prev, key) =>
+          Object.assign({}, prev, {
+            [key]: isCollection(state[key]) ? state[key].toJS() : state[key]
+          }),
+        {}
+      )
+  });
+  return craftedLogger;
+}

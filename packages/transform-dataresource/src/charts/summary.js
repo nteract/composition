@@ -83,17 +83,19 @@ export const semioticSummaryChart = (
     },
     baseMarkProps: { forceUpdate: true },
     pieceHoverAnnotation: summaryType === "violin",
-    tooltipContent: (d: Object) => (
-      <TooltipContent>
-        <h3>{primaryKey.map(p => d[p]).join(", ")}</h3>
-        <p>
-          {dim1}: {d[dim1]}
-        </p>
-        <p>
-          {rAccessor}: {d[rAccessor]}
-        </p>
-      </TooltipContent>
-    ),
+    tooltipContent: (d: Object) => {
+      return (
+        <TooltipContent x={d.x} y={d.y}>
+          <h3>{primaryKey.map(p => d[p]).join(", ")}</h3>
+          <p>
+            {dim1}: {d[dim1]}
+          </p>
+          <p>
+            {rAccessor}: {d[rAccessor]}
+          </p>
+        </TooltipContent>
+      );
+    },
     ...additionalSettings
   };
 

@@ -1,13 +1,12 @@
 /* @flow strict */
 import * as path from "path";
 
-import { dialog, app, shell, Menu, BrowserWindow} from "electron";
+import { dialog, app, shell, Menu, BrowserWindow } from "electron";
 import { sortBy } from "lodash";
 import { manifest } from "@nteract/examples";
 
 import { launch, launchNewNotebook } from "./launch";
 import { installShellCommand } from "./cli";
-
 
 // Overwrite the type for `process` to match Electron's process
 // https://electronjs.org/docs/api/process
@@ -199,7 +198,11 @@ export function loadFullMenu(store: * = global.store) {
     })
   );
 
-  // Plan: iterate over the manifest, creating example notebooks for multiple categories
+  // Iterate over the manifest, creating example notebooks for multiple categories
+
+  const examplesBaseDir = path
+    .join(__dirname, "..", "node_modules", "@nteract/examples")
+    .replace("app.asar", "app.asar.unpacked");
 
   const openExampleNotebooks = {
     label: "&Open Example Notebook",
@@ -210,17 +213,7 @@ export function loadFullMenu(store: * = global.store) {
         label: `&${collection.language}`,
         submenu: collection.files.map(fileInfo => {
           return {
-            click: launch.bind(
-              null,
-              path.join(
-                // Compute the path based on this file
-                __dirname,
-                "..",
-                "node_modules",
-                "@nteract/examples",
-                fileInfo.path
-              )
-            ),
+            click: launch.bind(null, path.join(examplesBaseDir, fileInfo.path)),
             label: `&${fileInfo.metadata.title}`
           };
         })

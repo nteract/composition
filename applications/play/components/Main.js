@@ -3,6 +3,7 @@ import * as React from "react";
 import Head from "next/head";
 import Router from "next/router";
 import CodeMirrorEditor from "@nteract/editor";
+// $FlowFixMe
 import { Display } from "@nteract/display-area";
 import { Outputs } from "@nteract/presentational-components";
 import { connect } from "react-redux";
@@ -18,6 +19,8 @@ const noop = () => {};
 
 const NTERACT_LOGO_URL =
   "https://media.githubusercontent.com/media/nteract/logos/master/nteract_logo_cube_book/exports/images/svg/nteract_logo_wide_purple_inverted.svg";
+
+const emptyList = [];
 
 class Main extends React.Component<*, *> {
   constructor(props) {
@@ -177,7 +180,7 @@ class Main extends React.Component<*, *> {
             logs={
               currentServer && currentServer.messages
                 ? currentServer.messages
-                : []
+                : emptyList
             }
             repo={repoValue}
             gitref={gitrefValue}
@@ -233,7 +236,7 @@ class Main extends React.Component<*, *> {
               outputs={
                 currentKernel && currentKernel.outputs
                   ? currentKernel.outputs
-                  : []
+                  : emptyList
               }
               expanded
             />

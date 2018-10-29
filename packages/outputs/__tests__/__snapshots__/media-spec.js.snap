@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<JSON />; renders JSON data 1`] = `
+exports[`<Json /> renders JSON data 1`] = `
 <ul
   style={
     Object {
@@ -495,7 +495,7 @@ exports[`<JSON />; renders JSON data 1`] = `
 </ul>
 `;
 
-exports[`<JSON />; updates the theme if it changes 1`] = `
+exports[`<Json /> updates the theme if it changes 1`] = `
 <ul
   style={
     Object {
@@ -1044,7 +1044,6 @@ exports[`<SVG /> renders SVG data 1`] = `
           </text>
         </g>
       </svg>"
-  date=""
   mediaType="image/svg+xml"
 >
   <div />
@@ -1079,6 +1078,37 @@ exports[`HTML updates the underlying HTML when data changes 1`] = `
     }
   />
 </HTML>
+`;
+
+exports[`LaTeX Should render LaTeX 1`] = `
+<LaTeX
+  data="The well known Pythagorean theorem \\\\(x^2 + y^2 = z^2\\\\) was
+    proved to be invalid for other exponents.
+    Meaning the next equation has no integer solutions:
+
+    \\\\[ x^n + y^n = z^n \\\\]"
+  mediaType="text/latex"
+>
+  <MathJaxText
+    onRender={null}
+  >
+    <Provider
+      delay={0}
+      didFinishTypeset={null}
+      input="tex"
+      loading={null}
+      noGate={false}
+      onError={[Function]}
+      onLoad={null}
+      options={Object {}}
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+    >
+      <MathJaxText
+        onRender={null}
+      />
+    </Provider>
+  </MathJaxText>
+</LaTeX>
 `;
 
 exports[`Markdown Should render markdown 1`] = `
@@ -1138,12 +1168,18 @@ exports[`Plain Should render markdown 1`] = `
   mediaType="text/plain"
 >
   <pre>
-    <span
-      key="0"
-      style={Object {}}
+    <Ansi
+      linkify={false}
     >
-      The text in Spain is mainly plain
-    </span>
+      <code>
+        <span
+          key="0"
+          style={Object {}}
+        >
+          The text in Spain is mainly plain
+        </span>
+      </code>
+    </Ansi>
   </pre>
 </Plain>
 `;

@@ -1,11 +1,13 @@
-declare type redux$Action = { type: $Subtype<string> }
-declare type redux$AnyAction = { type: $Subtype<string>, [string]: any }
+declare type redux$Action = { type: $Subtype<string> };
+declare type redux$AnyAction = { type: $Subtype<string>, [string]: any };
 declare type redux$Dispatch<A: redux$Action> = (action: A) => A;
 
 declare module "redux-observable" {
   import type { Dispatch, Middleware, MiddlewareAPI, Store } from "redux";
 
-  declare export class ActionsObservable<T: redux$Action> extends rxjs$Observable<T> {
+  declare export class ActionsObservable<
+    T: redux$Action
+  > extends rxjs$Observable<T> {
     /**
      * Just like RxJS itself, we can't actually make this method always type-safe
      * because we would need non-final position spread params e.g. `static of<T>(...items: T, scheduler?: Scheduler): ActionsObservable<T>` which isn't possible in either JavaScript or TypeScript. So instead, we provide safe typing for up to 6 items, following by a scheduler.
@@ -49,9 +51,7 @@ declare module "redux-observable" {
       item6: T,
       scheduler?: rxjs$SchedulerLike
     ): ActionsObservable<T>;
-    static of<T>(
-      ...array: Array<T | rxjs$SchedulerLike>
-    ): ActionsObservable<T>;
+    static of<T>(...array: Array<T | rxjs$SchedulerLike>): ActionsObservable<T>;
 
     static from<T>(
       ish: rxjs$ObservableInput<T>,
@@ -75,11 +75,14 @@ declare module "redux-observable" {
   }
 
   declare export interface Epic<S, A, D> {
-    (action$: ActionsObservable<A>, state$: StateObservable<S>, dependencies: D
+    (
+      action$: ActionsObservable<A>,
+      state$: StateObservable<S>,
+      dependencies: D
     ): rxjs$Observable<A>;
   }
 
-  declare export interface EpicMiddleware<S, A, D=any> {
+  declare export interface EpicMiddleware<S, A, D = any> {
     (api: MiddlewareAPI<S, A>): (next: Dispatch<A>) => Dispatch<A>;
     run(rootEpic: Epic<S, A, D>): void;
   }
@@ -92,12 +95,13 @@ declare module "redux-observable" {
     options?: Options<D>
   ): EpicMiddleware<S, A, D>;
 
-  declare export function combineEpics<S, A, D>(...epics: Array<Epic<S, A, D>>): Epic<S, A, D>;
+  declare export function combineEpics<S, A, D>(
+    ...epics: Array<Epic<S, A, D>>
+  ): Epic<S, A, D>;
   declare export function combineEpics<E>(...epics: E[]): E;
   declare export function combineEpics(...epics: any[]): any;
 
   declare export function ofType<T, R>(
     ...key: Array<$PropertyType<R, "type">>
   ): (source: rxjs$Observable<T>) => rxjs$Observable<R>;
-
 }

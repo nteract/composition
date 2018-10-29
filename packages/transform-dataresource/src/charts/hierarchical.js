@@ -124,7 +124,7 @@ export const semioticHierarchicalChart = (
     hoverAnnotation: true,
     tooltipContent: (d: Object) => {
       return (
-        <TooltipContent>
+        <TooltipContent x={d.x} y={d.y}>
           {hierarchicalTooltip(d, primaryKey, metric1)}
         </TooltipContent>
       );

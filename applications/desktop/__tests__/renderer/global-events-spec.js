@@ -58,13 +58,20 @@ describe("onBeforeUnloadOrReload", () => {
     );
 
     store.dispatch = action => {
-      expect(action).toEqual(actions.closeNotebook({ contentRef: contentRef, reloading: false }));
+      expect(action).toEqual(
+        actions.closeNotebook({ contentRef: contentRef, reloading: false })
+      );
       done();
     };
 
     const event = {};
 
-    const result = globalEvents.onBeforeUnloadOrReload(contentRef, store, false, event);
+    const result = globalEvents.onBeforeUnloadOrReload(
+      contentRef,
+      store,
+      false,
+      event
+    );
     expect(result).toBe(false);
   });
 
@@ -81,7 +88,12 @@ describe("onBeforeUnloadOrReload", () => {
       DESKTOP_NOTEBOOK_CLOSING_STARTED
     );
     const event = {};
-    const result = globalEvents.onBeforeUnloadOrReload(contentRef, store, event, false);
+    const result = globalEvents.onBeforeUnloadOrReload(
+      contentRef,
+      store,
+      event,
+      false
+    );
     expect(result).toBe(false);
   });
 
@@ -98,7 +110,12 @@ describe("onBeforeUnloadOrReload", () => {
       DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
     );
     const event = {};
-    const result = globalEvents.onBeforeUnloadOrReload(contentRef, store, event, false);
+    const result = globalEvents.onBeforeUnloadOrReload(
+      contentRef,
+      store,
+      event,
+      false
+    );
     expect(result).toBeUndefined();
   });
 });
@@ -113,11 +130,11 @@ describe("initGlobalHandlers", () => {
     expect(global.window.onbeforeunload).toBeDefined();
   });
 
-  test("wires a listener for a reload msg from main process", (done) => {
+  test("wires a listener for a reload msg from main process", done => {
     const contentRef = createContentRef();
     const store = createStore(contentRef);
 
-    ipc.on = (event) => {
+    ipc.on = event => {
       if (event == "reload") done();
     };
 

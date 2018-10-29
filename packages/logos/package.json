@@ -1,6 +1,6 @@
 {
   "name": "@nteract/logos",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "logos for nteract apps",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",

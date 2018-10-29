@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transform-vdom",
-  "version": "2.2.3",
+  "version": "2.2.5",
   "description": "VDOM Transform for jupyter outputs",
   "main": "lib/",
   "nteractDesktop": "src/index.js",

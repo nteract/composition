@@ -95,7 +95,13 @@ class MathJaxNode_ extends React.Component<Props & MathJaxContextValue, null> {
 
     if (!this.script) return;
 
-    MathJax.Hub.Queue(MathJax.Hub.Reprocess(this.script, this.props.onRender));
+    const reprocess = ["Reprocess", MathJax.Hub, this.script];
+
+    if (!this.props.onRender) {
+      MathJax.Hub.Queue(reprocess);
+    } else {
+      MathJax.Hub.Queue(reprocess, this.props.onRender);
+    }
   }
 
   /**
@@ -130,7 +136,7 @@ class MathJaxNode_ extends React.Component<Props & MathJaxContextValue, null> {
   }
 }
 
-class MathJaxNode extends React.Component<Props, null> {
+class MathJaxNode extends React.PureComponent<Props, null> {
   static defaultProps = {
     inline: false,
     onRender: null

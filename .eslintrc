@@ -32,6 +32,7 @@
     "no-unused-vars": 2,
     "react-perf/jsx-no-new-object-as-prop": "warn",
     "react-perf/jsx-no-new-array-as-prop": "warn",
+    "react-perf/jsx-no-jsx-as-prop": "error",
     "import/order": ["error", { "newlines-between": "always" }],
     "import/newline-after-import": "error",
     "import/no-duplicates": "warn"

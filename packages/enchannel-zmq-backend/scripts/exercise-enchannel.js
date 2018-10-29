@@ -30,7 +30,7 @@ async function main() {
   var identity = uuid();
   const kernel = await launch("python3");
 
-  const channel = createMainChannel(kernel.config);
+  const channel = await createMainChannel(kernel.config);
   const message = executeRequest('print("woo")');
 
   const subscription = channel.subscribe(console.log);

@@ -17,7 +17,7 @@ describe("HTML", () => {
   });
 });
 
-describe("<JSON />;", () => {
+describe("<Json />", () => {
   const population = {
     total_population: [
       { date: "2018-10-13", population: 329499086 },
@@ -27,14 +27,14 @@ describe("<JSON />;", () => {
 
   it("renders JSON data", () => {
     const component = renderer
-      .create(<Media.JSON data={population} />)
+      .create(<Media.Json data={population} />)
       .toJSON();
     expect(component).toMatchSnapshot();
   });
 
   it("updates the theme if it changes", () => {
     const component = renderer
-      .create(<Media.JSON data={population} theme={"dark"} />)
+      .create(<Media.Json data={population} theme={"dark"} />)
       .toJSON();
     expect(component).toMatchSnapshot();
   });
@@ -107,10 +107,57 @@ describe("Markdown", () => {
   });
 });
 
+describe("LaTeX", () => {
+  it("Should render LaTeX", () => {
+    const data = String.raw`The well known Pythagorean theorem \(x^2 + y^2 = z^2\) was
+    proved to be invalid for other exponents.
+    Meaning the next equation has no integer solutions:
+
+    \[ x^n + y^n = z^n \]`;
+    const component = mount(<Media.LaTeX data={data} />);
+    expect(toJson(component)).toMatchSnapshot();
+  });
+});
+
 describe("Plain", () => {
   it("Should render markdown", () => {
     const data = "The text in Spain is mainly plain";
     const component = mount(<Media.Plain data={data} />);
     expect(toJson(component)).toMatchSnapshot();
+  });
+});
+
+describe("JavaScript", () => {
+  it("renders contextual div tag", () => {
+    const component = mount(<Media.JavaScript data={""} />);
+    expect(component.html()).toEqual("<div></div>");
+  });
+  it("executes the Media.JavaScript", () => {
+    mount(<Media.JavaScript data={"window._test_variable = 5;"} />);
+    expect(window._test_variable).toEqual(5);
+  });
+
+  it("creates a nice little error area", () => {
+    const component = mount(<Media.JavaScript data={'throw "a fit"'} />);
+    const instance = component.instance();
+    expect(instance.el.firstChild.localName).toEqual("pre");
+    expect(instance.el.firstChild.textContent).toEqual("a fit");
+  });
+
+  it("creates a nice little error area with a stack", () => {
+    const component = mount(
+      <Media.JavaScript data={'throw new Error("a fit")'} />
+    );
+    const instance = component.instance();
+    expect(instance.el.firstChild.localName).toEqual("pre");
+    expect(instance.el.firstChild.textContent).toContain("Error: a fit");
+  });
+
+  it("handles updates by running again", () => {
+    global.x = 0;
+    const component = mount(<Media.JavaScript data={"x = 1"} />);
+    component.setProps({ data: "x = x + 1" });
+    expect(global.x).toEqual(2);
+    delete global.x;
   });
 });

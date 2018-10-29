@@ -1,6 +1,6 @@
 {
   "name": "@nteract/timeago",
-  "version": "3.6.3",
+  "version": "3.6.5",
   "description": "A simple Time-Ago component for React",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",

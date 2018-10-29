@@ -1,8 +1,110 @@
 import * as React from "react";
+import { Select } from "@blueprintjs/select";
+import { Button, ButtonGroup, MenuItem, Code } from "@blueprintjs/core";
+import { blueprintCSS, blueprintSelectCSS } from "@nteract/styled-blueprintjsx";
 
-import { controlHelpText } from "./docs/chart-docs";
-import chartUIStyle from "./css/viz-controls";
 import buttonGroupStyle from "./css/button-group";
+import chartUIStyle from "./css/viz-controls";
+import { controlHelpText } from "./docs/chart-docs";
+
+/*
+const FilmSelect = Select.ofType<{
+  title: string;
+  year: number;
+  rank: number;
+}>();
+*/
+
+const NoResultsItem = <MenuItem disabled={true} text="No results." />;
+
+const arrowHeadMarker = (
+  <marker
+    id="arrow"
+    refX="3"
+    refY="3"
+    markerWidth="6"
+    markerHeight="6"
+    orient="auto-start-reverse"
+  >
+    <path fill="#5c7080" d="M 0 0 L 6 3 L 0 6 z" />
+  </marker>
+);
+
+const svgIconSettings = {
+  width: "16px",
+  height: "16px",
+  className: "bp3-icon"
+};
+
+const xAxisIcon = (
+  <svg {...svgIconSettings}>
+    <defs>{arrowHeadMarker}</defs>
+    <polyline
+      points="3,3 3,13 12,13"
+      fill="none"
+      stroke="#5c7080"
+      markerEnd="url(#arrow)"
+    />
+  </svg>
+);
+
+const yAxisIcon = (
+  <svg {...svgIconSettings}>
+    <defs>{arrowHeadMarker}</defs>
+    <polyline
+      points="3,3 3,13 12,13"
+      fill="none"
+      stroke="#5c7080"
+      markerStart="url(#arrow)"
+    />
+  </svg>
+);
+
+const sizeIcon = (
+  <svg {...svgIconSettings}>
+    <circle cx={3} cy={13} r={2} fill="none" stroke="#5c7080" />
+    <circle cx={6} cy={9} r={3} fill="none" stroke="#5c7080" />
+    <circle cx={9} cy={5} r={4} fill="none" stroke="#5c7080" />
+  </svg>
+);
+
+const colorIcon = (
+  <svg {...svgIconSettings}>
+    <circle cx={3} cy={11} r={3} fill="rgb(179, 51, 29)" />
+    <circle cx={13} cy={11} r={3} fill="rgb(87, 130, 220)" />
+    <circle cx={8} cy={5} r={3} fill="rgb(229, 194, 9)" />
+  </svg>
+);
+
+const iconHash = {
+  Y: yAxisIcon,
+  X: xAxisIcon,
+  Size: sizeIcon,
+  Color: colorIcon
+};
+
+const identity = x => x;
+
+const renderMenuItem = (item, { handleClick, modifiers }) => {
+  if (!modifiers.matchesPredicate) {
+    return null;
+  }
+  const text = `${item.label}`;
+  return (
+    <MenuItem
+      active={modifiers.active}
+      disabled={modifiers.disabled}
+      label={text}
+      key={text}
+      onClick={handleClick}
+      text={identity}
+    />
+  );
+};
+
+const filterItem = (query, item) => {
+  return `${item.label.toLowerCase()}`.indexOf(query.toLowerCase()) >= 0;
+};
 
 const metricDimSelector = (
   values,
@@ -16,22 +118,28 @@ const metricDimSelector = (
   let displayMetrics;
   if (metricsList.length > 1)
     displayMetrics = (
-      <select
+      <Select
+        items={metricsList.map(d => ({ value: d, label: d }))}
         value={selectedValue}
-        onChange={selectionFunction}
+        noResults={NoResultsItem}
+        onItemSelect={selectionFunction}
+        itemRenderer={renderMenuItem}
+        itemPredicate={filterItem}
       >
-        {metricsList.map(d => (
-          <option key={`selector-option-${d}`} value={d} label={d}>
-            {d}
-          </option>
-        ))}
-      </select>
+        <Button
+          icon={iconHash[title]}
+          text={selectedValue}
+          rightIcon="double-caret-vertical"
+        />
+      </Select>
     );
   else displayMetrics = <p style={{ margin: 0 }}>{metricsList[0]}</p>;
 
   return (
     <div className="control-wrapper" title={contextTooltip}>
-      <h2>{title}</h2>
+      <div>
+        <Code>{title}</Code>
+      </div>
       {displayMetrics}
       <style jsx>{chartUIStyle}</style>
     </div>
@@ -113,7 +221,7 @@ export default class VizControls extends React.Component {
             view === "hierarchy") &&
             metricDimSelector(
               metrics.map(d => d.name),
-              d => updateChart({ chart: { ...chart, metric1: d.target.value } }),
+              d => updateChart({ chart: { ...chart, metric1: d.value } }),
               view === "scatter" || view === "hexbin" ? "X" : "Metric",
               true,
               chart.metric1,
@@ -122,7 +230,7 @@ export default class VizControls extends React.Component {
           {(view === "scatter" || view === "hexbin") &&
             metricDimSelector(
               metrics.map(d => d.name),
-              d => updateChart({ chart: { ...chart, metric2: d.target.value } }),
+              d => updateChart({ chart: { ...chart, metric2: d.value } }),
               "Y",
               true,
               chart.metric2,
@@ -131,7 +239,7 @@ export default class VizControls extends React.Component {
           {(view === "scatter" || view === "bar") &&
             metricDimSelector(
               metrics.map(d => d.name),
-              d => updateChart({ chart: { ...chart, metric3: d.target.value } }),
+              d => updateChart({ chart: { ...chart, metric3: d.value } }),
               view === "bar" ? "Width" : "Size",
               false,
               chart.metric3,
@@ -144,7 +252,7 @@ export default class VizControls extends React.Component {
             view === "parallel") &&
             metricDimSelector(
               dimensions.map(d => d.name),
-              d => updateChart({ chart: { ...chart, dim1: d.target.value } }),
+              d => updateChart({ chart: { ...chart, dim1: d.value } }),
               view === "summary" ? "Category" : "Color",
               true,
               chart.dim1,
@@ -153,7 +261,7 @@ export default class VizControls extends React.Component {
           {view === "scatter" &&
             metricDimSelector(
               dimensions.map(d => d.name),
-              d => updateChart({ chart: { ...chart, dim2: d.target.value } }),
+              d => updateChart({ chart: { ...chart, dim2: d.value } }),
               "Labels",
               false,
               chart.dim2,
@@ -162,7 +270,7 @@ export default class VizControls extends React.Component {
           {areaType === "contour" &&
             metricDimSelector(
               ["by color"],
-              d => updateChart({ chart: { ...chart, dim3: d.target.value } }),
+              d => updateChart({ chart: { ...chart, dim3: d.value } }),
               "Multiclass",
               false,
               chart.dim3,
@@ -171,7 +279,7 @@ export default class VizControls extends React.Component {
           {view === "network" &&
             metricDimSelector(
               dimensions.map(d => d.name),
-              d => updateChart({ chart: { ...chart, dim1: d.target.value } }),
+              d => updateChart({ chart: { ...chart, dim1: d.value } }),
               "SOURCE",
               true,
               chart.dim1,
@@ -180,7 +288,7 @@ export default class VizControls extends React.Component {
           {view === "network" &&
             metricDimSelector(
               dimensions.map(d => d.name),
-              d => updateChart({ chart: { ...chart, dim2: d.target.value } }),
+              d => updateChart({ chart: { ...chart, dim2: d.value } }),
               "TARGET",
               true,
               chart.dim2,
@@ -198,7 +306,7 @@ export default class VizControls extends React.Component {
           {view === "hierarchy" &&
             metricDimSelector(
               ["dendrogram", "treemap", "partition"],
-              d => updateChart({ hierarchyType: d.target.value }),
+              d => updateChart({ hierarchyType: d.value }),
               "Type",
               true,
               hierarchyType,
@@ -207,7 +315,7 @@ export default class VizControls extends React.Component {
           {view === "summary" &&
             metricDimSelector(
               ["violin", "boxplot", "joy", "heatmap", "histogram"],
-              d => updateChart({ summaryType: d.target.value }),
+              d => updateChart({ summaryType: d.value }),
               "Type",
               true,
               summaryType,
@@ -216,7 +324,7 @@ export default class VizControls extends React.Component {
           {view === "line" &&
             metricDimSelector(
               ["array-order", ...metrics.map(d => d.name)],
-              d => updateChart({ chart: { ...chart, timeseriesSort: d.target.value } }),
+              d => updateChart({ chart: { ...chart, timeseriesSort: d.value } }),
               "Sort by",
               true,
               chart.timeseriesSort,
@@ -227,34 +335,43 @@ export default class VizControls extends React.Component {
               title={controlHelpText.lineType}
               style={{ display: "inline-block" }}
             >
-              <h2>Chart Type</h2>
-              {availableLineTypes.map(d => (
-                <button
-                  key={d.lineType}
-                  className={`button-text ${lineType === d.type && "selected"}`}
-                  value={d.type}
-                  onClick={this.handleLineTypeClick}
-                >
-                  {d.label}
-                </button>
-              ))}
+              <div>
+                <Code>Chart Type</Code>
+              </div>
+              <ButtonGroup vertical={true}>
+                {availableLineTypes.map(d => (
+                  <Button
+                    key={d.lineType}
+                    className={`button-text ${lineType === d.type && "selected"}`}
+                    active={lineType === d.type}
+                    value={d.type}
+                    onClick={this.handleLineTypeClick}
+                  >
+                    {d.label}
+                  </Button>
+                ))}
+              </ButtonGroup>
             </div>
           )}
           {view === "hexbin" && (
             <div className="control-wrapper" title={controlHelpText.areaType}>
-              <h2>Chart Type</h2>
-              <div className="button-group">
+              <div>
+                <Code>Chart Type</Code>
+              </div>
+              <ButtonGroup vertical={true}>
                 {availableAreaTypes.map(d => (
-                  <button
+                  <Button
                     className={`button-text ${areaType === d.type && "selected"}`}
                     key={d.type}
                     value={d.type}
                     onClick={this.handleAreaTypeClick}
+                    //                  active={areaType === d.type}
+                    active={true}
                   >
                     {d.label}
-                  </button>
+                  </Button>
                 ))}
-              </div>
+              </ButtonGroup>
             </div>
           )}
           {view === "hierarchy" && (
@@ -262,7 +379,9 @@ export default class VizControls extends React.Component {
               className="control-wrapper"
               title={controlHelpText.nestingDimensions}
             >
-              <h2>Nesting</h2>
+              <div>
+                <Code>Nesting</Code>
+              </div>
               {selectedDimensions.length === 0
                 ? "Select categories to nest"
                 : `root, ${selectedDimensions.join(", ")}`}
@@ -273,18 +392,24 @@ export default class VizControls extends React.Component {
               className="control-wrapper"
               title={controlHelpText.barDimensions}
             >
-              <h2>Categories</h2>
-              {dimensions.map(d => (
-                <button
-                  key={`dimensions-select-${d.name}`}
-                  className={`button-text ${selectedDimensions.indexOf(d.name) !==
-                    -1 && "selected"}`}
-                  value={d.name}
-                  onClick={this.handleDimensionsClick}
-                >
-                  {d.name}
-                </button>
-              ))}
+              <div>
+                <Code>Categories</Code>
+              </div>
+              <ButtonGroup vertical={true}>
+                {dimensions.map(d => (
+                  <Button
+                    key={`dimensions-select-${d.name}`}
+                    className={`button-text ${selectedDimensions.indexOf(
+                      d.name
+                    ) !== -1 && "selected"}`}
+                    value={d.name}
+                    onClick={this.handleDimensionsClick}
+                    active={selectedDimensions.indexOf(d.name) !== -1}
+                  >
+                    {d.name}
+                  </Button>
+                ))}
+              </ButtonGroup>
             </div>
           )}
           {view === "line" && (
@@ -292,23 +417,30 @@ export default class VizControls extends React.Component {
               className="control-wrapper"
               title={controlHelpText.lineDimensions}
             >
-              <h2>Metrics</h2>
-              {metrics.map(d => (
-                <button
-                  key={`metrics-select-${d.name}`}
-                  className={`button-text ${selectedMetrics.indexOf(d.name) !==
-                    -1 && "selected"}`}
-                  value={d.name}
-                  onClick={this.handleMetricsClick}
-                >
-                  {d.name}
-                </button>
-              ))}
+              <div>
+                <Code>Metrics</Code>
+              </div>
+              <ButtonGroup vertical={true}>
+                {metrics.map(d => (
+                  <Button
+                    key={`metrics-select-${d.name}`}
+                    className={`button-text ${selectedMetrics.indexOf(d.name) !==
+                      -1 && "selected"}`}
+                    value={d.name}
+                    onClick={this.handleMetricsClick}
+                    active={selectedMetrics.indexOf(d.name) !== -1}
+                  >
+                    {d.name}
+                  </Button>
+                ))}
+              </ButtonGroup>
             </div>
           )}
         </div>
         <style jsx>{chartUIStyle}</style>
         <style jsx>{buttonGroupStyle}</style>
+        <style jsx>{blueprintCSS}</style>
+        <style jsx>{blueprintSelectCSS}</style>
       </React.Fragment>
     );
   }

@@ -33,7 +33,10 @@
     "build:apps": "lerna run build --scope nteract --scope @nteract/play --scope @nteract/commuter --scope nteract-on-jupyter --parallel --stream",
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
-    "build:packages": "NODE_ENV=production lerna run build --parallel --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
+    "build:clean:ts": "tsc -b --clean packages",
+    "build:packages:ts": "tsc -b packages",
+    "build:watch:ts": "tsc -b -w packages",
+    "build:packages": "npm run build:packages:ts && NODE_ENV=production lerna run build --parallel --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
     "build:packages:watch": "lerna run build:lib:watch --parallel --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
     "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:only": "lerna run build --scope",
@@ -53,10 +56,10 @@
     "test:flow": "npm run flow",
     "flow": "flow",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
-    "verifyBeforePublish": "lerna run prepublishOnly && lerna run prepare",
+    "verifyBeforePublish": "tsc -b packages && lerna run prepublishOnly && lerna run prepare",
     "prepublishOnly": "npm run verifyBeforePublish",
     "publish": "lerna run publish",
-    "prettify": "prettier --write '**/*.{js,json}' '!**/{dist,lib,.git,.next,package.json,build,flow-typed,mathjax-electron}/**'",
+    "prettify": "prettier --write '**/*.{ts,js,json}' '!**/{dist,lib.git,.next,package.json,build,flow-typed,mathjax-electron}/**'",
     "pack": "lerna run pack --scope nteract --stream",
     "dist": "lerna run dist --scope nteract --stream",
     "dist:all": "lerna run dist:all --scope nteract --stream",
@@ -80,10 +83,27 @@
     "coveragePathIgnorePatterns": [
       "<rootDir>/scripts",
       "/node_modules/"
-    ]
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.[tj]s?(x)",
+      "**/?(*.)+(spec|test).[tj]s?(x)"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/.*types\\.tsx?"
+    ],
+    "transform": {
+      ".*": "babel-jest"
+    }
   },
   "lint-staged": {
-    "*.js,!*js.snap": [
+    "*.ts,*.js,!*js.snap": [
       "prettier --write",
       "git add"
     ],
@@ -101,11 +121,17 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/plugin-transform-typescript": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@babel/runtime-corejs2": "^7.0.0",
+    "@types/immutable": "^3.8.7",
+    "@types/jest": "^23.3.8",
+    "@types/lodash": "^4.14.117",
+    "@types/react": "^16.4.18",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.0",
     "babel-jest": "^23.6.0",
@@ -115,8 +141,8 @@
     "cpy-cli": "^2.0.0",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
-    "electron": "3.0.5",
-    "electron-builder": "20.28.4",
+    "electron": "3.0.6",
+    "electron-builder": "20.29.0",
     "electron-context-menu": "^0.10.0",
     "electron-log": "^2.2.13",
     "electron-updater": "^3.0.0",
@@ -150,7 +176,7 @@
     "react-dom": "^16.3.2",
     "react-notification-system": "^0.2.16",
     "react-redux": "^5.0.7",
-    "react-styleguidist": "^7.3.6",
+    "react-styleguidist": "^8.0.0",
     "react-test-renderer": "^16.2.0",
     "redux": "^4.0.0",
     "redux-electron-store": "^0.6.1",
@@ -166,6 +192,7 @@
     "spawnteract": "^5.0.0",
     "style-loader": "^0.23.0",
     "styled-jsx": "^3.1.0",
+    "typescript": "^3.1.3",
     "unified": "^7.0.0",
     "unist-builder": "^1.0.2",
     "webfontloader": "^1.6.28",

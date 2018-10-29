@@ -15,7 +15,9 @@ import type {
   ImmutableOutputs,
   ImmutableMimeBundle,
   ImmutableCellOrder,
-  ImmutableCellMap
+  ImmutableCellMap,
+  JSONObject,
+  JSONType
 } from "./types";
 
 export type ExecutionCount = number | null;

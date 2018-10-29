@@ -37,7 +37,8 @@ export const wrapEpic = (epic: Epic<AppState, redux$AnyAction, *>) => (
   ...args: *
 ) => epic(...args).pipe(catchError(retryAndEmitError));
 
-const epics: Array<Epic<AppState, redux$AnyAction, *>> = [
+
+const epics = [
   coreEpics.restartKernelEpic,
   coreEpics.acquireKernelInfoEpic,
   coreEpics.watchExecutionStateEpic,
@@ -61,7 +62,8 @@ const epics: Array<Epic<AppState, redux$AnyAction, *>> = [
   saveConfigEpic,
   saveConfigOnChangeEpic,
   closeNotebookEpic
-  // $FlowFixMe: There's probably something wrong with our types here
-].map(wrapEpic);
+];
 
-export default epics;
+// Type arguments are needed currently because of Flow export limitations
+// https://github.com/facebook/flow/issues/6828#issuecomment-418495625
+export default epics.map<Epic<AppState, redux$AnyAction, *>>(epic => wrapEpic(epic));;

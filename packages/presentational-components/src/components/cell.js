@@ -17,6 +17,7 @@ type CellProps = {
   children?: React.Node
 };
 
+/** @component */
 export const Cell = (props: CellProps) => {
   const children = props.children;
 

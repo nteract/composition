@@ -3,10 +3,11 @@ import type {
   CellID,
   CellType,
   ImmutableJSONType,
-  MimeBundle
+  MimeBundle,
+  Output,
+  JSONObject
 } from "@nteract/commutable";
 import type { ExecuteRequest } from "@nteract/messaging";
-import type { Output } from "@nteract/commutable/src/v4";
 
 import type {
   ContentRef,
@@ -23,8 +24,6 @@ import type {
   LocalKernelProps,
   RemoteKernelProps
 } from "./state";
-
-
 
 export type ErrorAction<T: string> = {
   type: T,

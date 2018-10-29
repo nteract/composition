@@ -11,7 +11,6 @@ import {
 import * as actions from "../../src/actions";
 import { COMM_OPEN, COMM_MESSAGE } from "../../src/actionTypes";
 
-
 describe("createCommMessage", () => {
   test("creates a comm_msg", () => {
     const commMessage = createCommMessage("0000", { hey: "is for horses" });

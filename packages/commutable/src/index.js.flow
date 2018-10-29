@@ -1,0 +1,259 @@
+// @flow
+/* eslint-disable */
+
+/**
+ * These types are to be maintained by hand until all dependent packages have
+ * converted to typescript.
+ */
+
+import type { Map as ImmutableMap, List as ImmutableList } from "immutable";
+
+// .....................................
+// from types
+//
+
+export type PrimitiveImmutable = string | number | boolean | null;
+export type JSONType = PrimitiveImmutable | JSONObject | JSONArray;
+export type JSONObject = { [key: string]: JSONType };
+export type JSONArray = Array<JSONType>;
+
+export type ImmutableJSONType =
+  | PrimitiveImmutable
+  | ImmutableJSONMap
+  | ImmutableJSONList;
+export type ImmutableJSONMap = ImmutableMap<string, ImmutableJSONType>;
+export type ImmutableJSONList = ImmutableList<ImmutableJSONType>;
+
+export type ExecutionCount = number | null;
+
+export type MimeBundle = JSONObject;
+
+export type CellType = "markdown" | "code";
+export type CellID = string;
+
+// On disk multi-line strings are used to accomodate line-by-line diffs in
+// tools like git and GitHub. They get converted to strings for the in-memory
+// format.
+export type MultiLineString = string | Array<string>;
+
+// These are very unserious types, since Records are not quite typable
+export type ImmutableNotebook = ImmutableMap<string, any>;
+export type ImmutableCodeCell = ImmutableMap<string, any>;
+export type ImmutableMarkdownCell = ImmutableMap<string, any>;
+export type ImmutableRawCell = ImmutableMap<string, any>;
+export type ImmutableCell = ImmutableCodeCell | ImmutableMarkdownCell;
+export type ImmutableOutput = ImmutableMap<string, any>;
+export type ImmutableOutputs = ImmutableList<ImmutableOutput>;
+
+export type ImmutableMimeBundle = ImmutableMap<string, any>;
+
+export type ImmutableCellOrder = ImmutableList<CellID>;
+export type ImmutableCellMap = ImmutableMap<CellID, ImmutableCell>;
+
+// .....................................
+// from structures
+//
+
+type CodeCellOptions = {|
+  cell_type: "code",
+  metadata: ImmutableMap<string, any>,
+  execution_count: ExecutionCount,
+  source: string,
+  outputs: ImmutableList<ImmutableOutput>
+|};
+
+declare export var emptyCodeCell: ImmutableCodeCell;
+declare export var emptyMarkdownCell: ImmutableMarkdownCell;
+declare export var emptyNotebook: ImmutableNotebook;
+declare export var monocellNotebook: ImmutableNotebook;
+
+declare export function createCodeCell(
+  cell?: CodeCellOptions
+): ImmutableCodeCell;
+
+declare export function insertCellAt(
+  notebook: ImmutableNotebook,
+  cell: ImmutableCell,
+  cellID: string,
+  index: number
+): ImmutableNotebook;
+
+declare export function insertCellAfter(
+  notebook: ImmutableNotebook,
+  cell: ImmutableCell,
+  cellID: string,
+  priorCellID: string
+): ImmutableNotebook;
+
+declare export function deleteCell(
+  notebook: ImmutableNotebook,
+  cellID: string
+): ImmutableNotebook;
+
+declare export function appendCellToNotebook(
+  immnb: ImmutableNotebook,
+  immCell: ImmutableCell
+): ImmutableNotebook;
+
+// ..................................
+// v4
+//
+
+// Output Types
+
+type ExecuteResult = {|
+  output_type: "execute_result",
+  execution_count: ExecutionCount,
+  data: MimeBundle,
+  metadata: JSONObject
+|};
+
+type DisplayData = {|
+  output_type: "display_data",
+  data: MimeBundle,
+  metadata: JSONObject
+|};
+
+type ErrorOutput = {|
+  output_type: "error" | "pyerr",
+  ename: string,
+  evalue: string,
+  traceback: Array<string>
+|};
+
+// Cell Types
+
+type RawCell = {|
+  cell_type: "raw",
+  metadata: JSONObject,
+  source: MultiLineString
+|};
+
+type MarkdownCell = {|
+  cell_type: "markdown",
+  metadata: JSONObject,
+  source: MultiLineString
+|};
+
+type CodeCell = {|
+  cell_type: "code",
+  metadata: JSONObject,
+  execution_count: ExecutionCount,
+  source: MultiLineString,
+  outputs: Array<Output>
+|};
+
+type Cell = CodeCell | MarkdownCell | RawCell;
+
+type v4Notebook = {|
+  cells: Array<Cell>,
+  metadata: Object,
+  nbformat: 4,
+  nbformat_minor: number
+|};
+
+export type StreamOutput = {|
+  output_type: "stream",
+  name: "stdout" | "stderr",
+  text: MultiLineString
+|};
+
+export type Output = ExecuteResult | DisplayData | StreamOutput | ErrorOutput;
+
+declare export function createImmutableMimeBundle(
+  mimeBundle: MimeBundle
+): ImmutableMimeBundle;
+
+declare export function createImmutableOutput(output: Output): ImmutableOutput;
+
+// .....................................
+// v3
+//
+
+// Output Types
+
+type v3ExecuteResult = {|
+  output_type: "pyout",
+  prompt_number: number,
+  metadata: Object,
+  text?: MultiLineString,
+  latex?: MultiLineString,
+  png?: MultiLineString,
+  jpeg?: MultiLineString,
+  svg?: MultiLineString,
+  html?: MultiLineString,
+  javascript?: MultiLineString,
+  json?: MultiLineString,
+  pdf?: MultiLineString
+|};
+
+type v3DisplayData = {|
+  output_type: "display_data",
+  metadata: Object,
+  prompt_number?: number,
+  text?: MultiLineString,
+  latex?: MultiLineString,
+  png?: MultiLineString,
+  jpeg?: MultiLineString,
+  svg?: MultiLineString,
+  html?: MultiLineString,
+  javascript?: MultiLineString,
+  json?: MultiLineString,
+  pdf?: MultiLineString
+|};
+
+type v3StreamOutput = {|
+  output_type: "stream",
+  stream: string,
+  text: MultiLineString
+|};
+
+type v3Output = v3ExecuteResult | v3DisplayData | v3StreamOutput | ErrorOutput;
+
+// Cell Types
+
+type v3HeadingCell = {|
+  cell_type: "heading",
+  metadata: JSONObject,
+  source: MultiLineString,
+  level: number
+|};
+
+type v3CodeCell = {|
+  cell_type: "code",
+  language: string,
+  collapsed: boolean,
+  metadata: JSONObject,
+  input: MultiLineString,
+  prompt_number: number,
+  outputs: Array<Output>
+|};
+
+type v3Cell = RawCell | MarkdownCell | v3HeadingCell | v3CodeCell;
+
+type v3Worksheet = {|
+  cells: Array<v3Cell>,
+  metadata: Object
+|};
+
+type v3Notebook = {|
+  worksheets: Array<v3Worksheet>,
+  metadata: Object,
+  nbformat: 3,
+  nbformat_minor: number
+|};
+
+// ..................................
+// general
+//
+
+export type Notebook = v3Notebook | v4Notebook;
+
+declare export function parseNotebook(notebookString: string): Notebook;
+declare export function fromJS(
+  notebook: Notebook | ImmutableNotebook
+): ImmutableNotebook;
+declare export function toJS(immnb: ImmutableNotebook): v4Notebook;
+
+// Expected usage is stringifyNotebook(toJS(immutableNotebook))
+declare export function stringifyNotebook(notebook: v4Notebook): string;

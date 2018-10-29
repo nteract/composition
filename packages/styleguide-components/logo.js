@@ -24,7 +24,8 @@ export default () => (
       </a>
     </div>
     <div>
-      Made with ❤️<br /> by <a href="https://nteract.io">nteract.io</a>
+      Made with ❤️
+      <br /> by <a href="https://nteract.io">nteract.io</a>
     </div>
     <style jsx>{`
       line-height: 1.5;

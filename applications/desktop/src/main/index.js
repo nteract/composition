@@ -91,12 +91,13 @@ ipc.on("open-notebook", (event, filename) => {
   launch(resolve(filename));
 });
 
-ipc.on("reload", (event) => { // Based on https://github.com/electron/electron/blob/b50f86ef43b17f90c295349d8ca93751ad9045a6/lib/browser/rpc-server.js#L411-L418
+ipc.on("reload", event => {
+  // Based on https://github.com/electron/electron/blob/b50f86ef43b17f90c295349d8ca93751ad9045a6/lib/browser/rpc-server.js#L411-L418
   const window = event.sender.getOwnerBrowserWindow();
   if (window) {
     window.reload();
   }
-  event.returnValue = null
+  event.returnValue = null;
 });
 
 ipc.on("show-message-box", (event, arg) => {
@@ -197,7 +198,14 @@ electronReady$
   .subscribe(createSplashSubscriber());
 
 app.on("before-quit", e => {
-  // When notebook windows are open we need to orchestrate shutdown manually.
+  // We use Electron's before-quit to give us a hook to into full app quit events,
+  // such as Command+Q on macOS.
+
+  // This is broken on Windows due to a bug in Electron; see #3549.
+  // For most Windows workflows the user will be closing individual notebook windows directly,
+  // so we just avoid this code path for now.
+  if (process.platform === "win32") return;
+
   const windows = BrowserWindow.getAllWindows();
   if (
     windows.length > 0 &&

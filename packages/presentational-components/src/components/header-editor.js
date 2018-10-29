@@ -23,6 +23,9 @@ const authorStyle = {
   fontStyle: "italic",
   background: "#E5E5E5"
 };
+
+const authorStyleBlack = { ...authorStyle, color: "black" };
+
 export type AuthorObject = {
   name: string
 };
@@ -43,6 +46,9 @@ export type HeaderEditorProps = {
 export type HeaderEditorState = {
   editMode: "none" | "author" | "tag"
 };
+
+const addTagMessage = <span>Add a tag</span>;
+const addAuthorMessage = <span>Add an author</span>;
 
 export class HeaderEditor extends React.Component<
   HeaderEditorProps,
@@ -153,7 +159,7 @@ export class HeaderEditor extends React.Component<
               </Tag>
             ))}
             {(this.state.editMode === "author" && (
-              <Tag style={{ ...authorStyle, color: "black" }}>
+              <Tag style={authorStyleBlack}>
                 <EditableText
                   maxLength={40}
                   className="author-entry"
@@ -165,7 +171,7 @@ export class HeaderEditor extends React.Component<
               </Tag>
             )) || (
               <Tooltip
-                content={<span>Add an author</span>}
+                content={addAuthorMessage}
                 position={Position.RIGHT}
                 usePortal={false}
                 disabled={!editable}
@@ -204,7 +210,7 @@ export class HeaderEditor extends React.Component<
               </Tag>
             )) || (
               <Tooltip
-                content={<span>Add a tag</span>}
+                content={addTagMessage}
                 position={Position.RIGHT}
                 usePortal={false}
                 disabled={!editable}

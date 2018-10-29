@@ -13,6 +13,7 @@ import {
   switchMap,
   takeUntil
 } from "rxjs/operators";
+// $FlowFixMe
 import { RichestMime } from "@nteract/display-area";
 import { debounce } from "lodash";
 

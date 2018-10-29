@@ -22,6 +22,8 @@ type Props = {
   options: Object
 };
 
+const axisSize = [40, 380];
+
 const connectorFunction = d => d.Country;
 
 function parallelizeData(data, metrics, schemaFields, primaryKey) {
@@ -244,26 +246,30 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
           oPadding={40}
           pixelColumnWidth={80}
           interaction={
-            filterMode && {
-              columnsBrush: true,
-              during: this.brushing,
-              extent: Object.keys(this.state.columnExtent)
-            }
+            filterMode
+              ? {
+                  columnsBrush: true,
+                  during: this.brushing,
+                  extent: Object.keys(this.state.columnExtent)
+                }
+              : null
           }
           pieceHoverAnnotation={!filterMode}
-          tooltipContent={d => (
-            <TooltipContent>
-              <h3>{primaryKey.map(key => d[key]).join(", ")}</h3>
-              {d[dim1] && (
-                <h3 style={{ color: colorHash[d[dim1]] }}>
-                  {dim1}: {d[dim1]}
-                </h3>
-              )}
-              <p>
-                {d.metric}: {d.rawvalue}
-              </p>
-            </TooltipContent>
-          )}
+          tooltipContent={d => {
+            return (
+              <TooltipContent x={d.x} y={d.y}>
+                <h3>{primaryKey.map(key => d[key]).join(", ")}</h3>
+                {d[dim1] && (
+                  <h3 style={{ color: colorHash[d[dim1]] }}>
+                    {dim1}: {d[dim1]}
+                  </h3>
+                )}
+                <p>
+                  {d.metric}: {d.rawvalue}
+                </p>
+              </TooltipContent>
+            );
+          }}
           canvasPieces={true}
           canvasConnectors={true}
           oLabel={d => (
@@ -272,7 +278,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
               <g transform="translate(-20,-395)">
                 <Axis
                   scale={this.state.dataScales[d]}
-                  size={[40, 380]}
+                  size={axisSize}
                   orient="left"
                   ticks={5}
                   tickFormat={d => (

@@ -1,16 +1,39 @@
 import css from "styled-jsx/css";
 
 export default css`
+  :global(.html-legend-item) {
+    color: var(--theme-app-fg);
+  }
+
   :global(.tick > path) {
     stroke: lightgray;
   }
 
-  :global(.axis-labels) {
-    fill: #aaa;
+  :global(.axis-labels, .ordinal-labels) {
+    fill: var(--theme-app-fg);
     font-size: 14px;
   }
+
+  :global(path.connector, path.connector-end) {
+    stroke: var(--theme-app-fg);
+  }
+
+  :global(path.connector-end) {
+    fill: var(--theme-app-fg);
+  }
+
+  :global(text.annotation-note-label, text.legend-title, .legend-item text) {
+    fill: var(--theme-app-fg);
+    stroke: none;
+  }
+
+  :global(.xyframe-area > path) {
+    stroke: var(--theme-app-fg);
+  }
+
   :global(.axis-baseline) {
     stroke-opacity: 0.25;
+    stroke: var(--theme-app-fg);
   }
   :global(circle.frame-hover) {
     fill: none;

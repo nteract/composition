@@ -7,7 +7,6 @@ import { stringifyNotebook } from "@nteract/commutable";
 import { downloadString } from "../../src/epics/contents";
 import { bigDummyJSON } from "../../src/dummy/dummy-nb";
 
-
 describe("downloadString", () => {
   beforeEach(() => {
     FileSaver.saveAs.mockClear();

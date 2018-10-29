@@ -17,6 +17,7 @@ html{
   -webkit-box-sizing:inherit;
           box-sizing:inherit; }
 
+/*
 body{
   text-transform:none;
   line-height:1.28581;
@@ -41,11 +42,15 @@ strong{
 
 ::selection{
   background:rgba(125, 188, 255, 0.6); }
+
+  */
+
 .bp3-heading{
   color:#182026;
   font-weight:600;
   margin:0 0 10px;
   padding:0; }
+
   .bp3-dark .bp3-heading{
     color:#f5f8fa; }
 

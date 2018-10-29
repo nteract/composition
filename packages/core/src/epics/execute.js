@@ -8,6 +8,7 @@ import {
   kernelStatuses,
   executionCounts
 } from "@nteract/messaging";
+import type { Channels, ExecuteRequest } from "@nteract/messaging";
 import { Observable, of, merge, empty, throwError } from "rxjs";
 import {
   groupBy,
@@ -80,21 +81,18 @@ export function executeCellStream(
     ),
 
     // All actions for updating cell status
-    // $FlowFixMe: Somehow .pipe is broken in the typings
     cellMessages.pipe(
       kernelStatuses(),
       map(status => actions.updateCellStatus({ id, status, contentRef }))
     ),
 
     // Update the input numbering: `[ ]`
-    // $FlowFixMe: Somehow .pipe is broken in the typings
     cellMessages.pipe(
       executionCounts(),
       map(ct => actions.updateCellExecutionCount({ id, value: ct, contentRef }))
     ),
 
     // All actions for new outputs
-    // $FlowFixMe: Somehow .pipe is broken in the typings
     cellMessages.pipe(
       outputs(),
       map(output => actions.appendOutput({ id, output, contentRef }))

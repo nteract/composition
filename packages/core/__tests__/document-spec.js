@@ -19,7 +19,6 @@ import {
 import { makeDocumentRecord } from "../src/state";
 import { dummyCommutable } from "../src/dummy";
 
-
 const initialDocument = new Immutable.Map();
 const monocellDocument = initialDocument
   .set("notebook", appendCellToNotebook(dummyCommutable, emptyCodeCell))

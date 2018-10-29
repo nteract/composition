@@ -72,7 +72,7 @@ export const semioticNetwork = (
     hoverAnnotation: true,
     tooltipContent: (d: Object) => {
       return (
-        <TooltipContent>
+        <TooltipContent x={d.x} y={d.y}>
           <h3>{d.id}</h3>
           <p>Links: {d.degree}</p>
           {d.value && <p>Value: {d.value}</p>}

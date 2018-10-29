@@ -20,12 +20,24 @@ import {
 } from "./icons";
 import { chartHelpText } from "./docs/chart-docs";
 
+const mediaType = "application/vnd.dataresource+json";
+
+type dataProps = {
+  schema: {
+    fields: Array<{ name: string, type: string }>,
+    pandas_version: string,
+    primaryKey: Array<string>
+  },
+  data: Array<Object>
+};
+
 type Props = {
-  data: Object,
+  data: dataProps,
   metadata: Object,
   theme?: string,
   expanded?: boolean,
-  height?: number
+  height?: number,
+  mediaType: "application/vnd.dataresource+json"
 };
 
 type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
@@ -119,16 +131,16 @@ const MetadataWarning = ({ metadata }) => {
 ///////////////////////////////
 
 class DataResourceTransform extends React.Component<Props, State> {
-  static MIMETYPE = "application/vnd.dataresource+json";
+  static MIMETYPE = mediaType;
 
   static defaultProps = {
     metadata: {},
-    height: 500
+    height: 500,
+    mediaType
   };
 
   constructor(props: Props) {
     super(props);
-    //DEFAULT FROM PROPS
 
     const { fields = [], primaryKey = [] } = props.data.schema;
 
@@ -220,7 +232,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       data: stateData
     } = { ...this.state, ...updatedState };
 
-    const { data, height = 500 } = this.props;
+    const { data, height } = this.props;
 
     const { Frame, chartGenerator } = semioticSettings[view];
 
@@ -256,14 +268,11 @@ class DataResourceTransform extends React.Component<Props, State> {
     });
 
     const display = (
-      <div style={{ marginLeft: "50px", width: "calc(100vw - 200px)" }}>
-        <Frame
-          responsiveWidth={true}
-          size={[500, height - 200]}
-          {...frameSettings}
-        />
+      <div style={{ width: "calc(100vw - 200px)" }}>
+        <Frame responsiveWidth={true} size={[500, 300]} {...frameSettings} />
         <VizControls
           {...{
+            data: stateData,
             view,
             chart,
             metrics,
@@ -383,8 +392,7 @@ class DataResourceTransform extends React.Component<Props, State> {
           style={{
             display: "flex",
             flexFlow: "row nowrap",
-            width: "100%",
-            height: this.props.height
+            width: "100%"
           }}
         >
           <div
@@ -399,8 +407,7 @@ class DataResourceTransform extends React.Component<Props, State> {
               display: "flex",
               flexFlow: "column nowrap",
               zIndex: 1,
-              padding: "5px",
-              background: "white"
+              padding: "5px"
             }}
           >
             <IconButton
@@ -525,8 +532,12 @@ export class IconButton extends React.Component<IconButtonProps> {
     let style: Object = {
       width: "32px",
       height: "32px",
-      cursor: "pointer"
+      cursor: "pointer",
+      color: "var(--theme-app-fg)",
+      border: "1px solid var(--theme-app-fg)",
+      backgroundColor: "var(--theme-app-bg)"
     };
+
     if (selected) {
       style.border = "1px outset #666";
       style.backgroundColor = "#aaa";

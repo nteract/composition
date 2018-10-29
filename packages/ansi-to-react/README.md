@@ -11,12 +11,12 @@ npm install --save ansi-to-react
 # OR
 yarn add ansi-to-react
 ```
+## Type Checking
+In order to type check, we invoke yarn build, which calls the typescript compiler. 
 
 ## Usage
-
 ```js
 const Ansi = require('ansi-to-react');
-
 ...
 
 <Ansi>

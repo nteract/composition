@@ -2,8 +2,15 @@
 import * as React from "react";
 
 type Props = {
+  /**
+   * The HTML string that will be rendered.
+   */
   data: string,
-  mediaType: string
+  /**
+   * The media type associated with the HTML
+   * string. This defaults to text/html.
+   */
+  mediaType: 'text/html'
 };
 
 // Note: createRange and Range must be polyfilled on older browsers with

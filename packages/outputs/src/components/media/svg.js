@@ -10,7 +10,7 @@ export class SVG extends React.Component<Props> {
   elRef: React.ElementRef<*> = React.createRef();
   static defaultProps = {
     mediaType: "image/svg+xml",
-    date: ""
+    data: ""
   };
   componentDidMount(): void {
     if (this.elRef.current) {

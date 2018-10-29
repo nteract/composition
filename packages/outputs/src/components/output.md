@@ -2,7 +2,7 @@ The `<Output />` element is a glorified Switch statement for picking what to ren
 
 ```jsx
 // Until we create <Stream />
-const StreamText = require("./stream-text").default;
+const { StreamText } = require("./stream-text");
 
 const output = Object.freeze({
   outputType: "stream",
@@ -28,14 +28,13 @@ const output = Object.freeze({
 <Output output={output}>
   <KernelOutputError />
 </Output>;
-
 ```
 
 ```jsx
 const { RichMedia } = require("./rich-media");
 const { DisplayData } = require("./display-data");
 
-const StreamText = require("./stream-text").default;
+const { StreamText } = require("./stream-text");
 
 // Some "rich" handlers for Media
 const Plain = props => <marquee>{props.data}</marquee>;
@@ -69,8 +68,8 @@ const outputs = [
 ];
 
 <div>
-  {outputs.map(output => (
-    <Output output={output}>
+  {outputs.map((output, index) => (
+    <Output output={output} key={index}>
       <StreamText />
       <DisplayData>
         <Plain />

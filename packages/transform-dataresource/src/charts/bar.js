@@ -68,7 +68,7 @@ export const semioticBarChart = (
       additionalSettings.pieceHoverAnnotation = true;
       additionalSettings.tooltipContent = d => {
         return (
-          <TooltipContent>
+          <TooltipContent x={d.x} y={d.y}>
             {dim1 && dim1 !== "none" && <p>{d[dim1]}</p>}
             <p>
               {typeof oAccessor === "function" ? oAccessor(d) : d[oAccessor]}
@@ -119,7 +119,7 @@ export const semioticBarChart = (
     },
     tooltipContent: (d: Object) => {
       return (
-        <TooltipContent>
+        <TooltipContent x={d.column.xyData[0].xy.x} y={d.column.xyData[0].xy.y}>
           <p>
             {typeof oAccessor === "function"
               ? oAccessor(d.pieces[0])

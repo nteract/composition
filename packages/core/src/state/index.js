@@ -1,5 +1,6 @@
 // @flow
 import * as Immutable from "immutable";
+import type { ImmutableJSONMap } from "@nteract/commutable";
 
 import type { CommunicationRecordProps } from "./communication";
 import type { EntitiesRecordProps } from "./entities";
