@@ -4,21 +4,32 @@ We are in the process of converting from flow types to TypeScript. Here are the
 basic things you need to know about how to help with the conversion and how
 things will work in the future once it is complete.
 
-## About the New Build Workflow
+## Workflow Changes
+
+As we move packages over to TypeScript, our workflow will change in the
+following ways.
+
+### 1. No more per-project builds
 
 TypeScript packages are built in a single pass using the built-in project build
-system provided by `tsc`. This means that instead of building packages one by
-one, you generally will just want to build all packages from the root
-directory. The main commands, `build`, `clean`, and `build:watch` all have
-equivalent scripts prefixed with `ts:` which activates only the TypeScript
+system provided by `tsc`, which is much faster and easier to maintain. This
+means that instead of building packages one by one, you generally will just want
+to build all packages from the root directory.
+
+The main commands, `build`, `clean`, and `build:watch` all have
+equivalent scripts prefixed with `tsc:` which activates only the TypeScript
 system.
+
+Presently if you run a general command like `yarn build`, it will first invoke
+the top-level `tsc` version of the command and then runs the equivalent command
+– if it exists – in each package or application. Overtime, we expect most
+packages won't actually contain any individual scripts, although you can still
+add them if necessary as a postprocessing step.
 
 Currently when you run one of the top-level commands, it will first run the
 TypeScript equivalents and then invoke the older, lerna-based ones. As we move
 entirely to TypeScript, the expectation is that we can more or less completely
 eliminate per-package builds, which will make the build process much faster.
-
-## Custom Types
 
 ---
 
@@ -28,7 +39,10 @@ Want to help convert to TypeScript? Great! Here is how you can help:
 
 ### Pick a package to convert
 
-Checkout [this issue](https://github.com/nteract/nteract/issues/3462) to find out which packages to convert. Work your way up the dependency graph inside packages/, attempt to tighten strictness as we go.
+Checkout the [status board](https://github.com/orgs/nteract/projects/13) and
+[tracking issue](https://github.com/nteract/nteract/issues/3462) to find out
+which packages to convert. Work your way up the dependency graph inside
+packages/, attempt to tighten strictness as we go.
 
 TODO: Link to Status Board
 
