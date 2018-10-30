@@ -34,7 +34,10 @@
     "react-perf/jsx-no-jsx-as-prop": "error",
     "import/order": ["error", { "newlines-between": "always" }],
     "import/newline-after-import": "error",
-    "import/no-duplicates": "warn"
+    "import/no-duplicates": "warn",
+    "import/no-extraneous-dependencies": [
+      "error", { "peerDependencies": true }
+    ]
   },
   "settings": {
     "react": {

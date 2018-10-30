@@ -115,7 +115,9 @@
     "ijavascript": "lgeiger/ijavascript",
     "jmp": "^2.0.0",
     "mathjax-electron": "^3.0.0",
-    "nteract-assets": "^4.0.0"
+    "nteract-assets": "^4.0.0",
+    "redux-observable": "^1.0.0",
+    "rxjs": "^6.3.3"
   },
   "devDependencies": {
     "electron": "3.0.6"
