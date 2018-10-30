@@ -33,5 +33,8 @@
     "notebook tree view"
   ],
   "author": "Alexander C. Booth <alexander.c.booth@gmail.com",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "enzyme": "^3.7.0"
+  }
 }

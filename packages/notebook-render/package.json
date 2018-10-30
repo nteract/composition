@@ -40,5 +40,8 @@
     "styled-jsx": "^3.1.0"
   },
   "author": "Benjamin Abel <dev.abel@laposte.net>",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "enzyme": "^3.7.0"
+  }
 }
