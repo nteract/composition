@@ -1,5 +1,7 @@
 # TypeScript Conversion
 
+TODO: This document is out of date. Update before merging to master.
+
 We are in the process of converting from flow types to TypeScript. Here are the
 basic things you need to know about how to help with the conversion and how
 things will work in the future once it is complete.
