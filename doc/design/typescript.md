@@ -1,47 +1,7 @@
 # TypeScript Conversion
 
-TODO: This document is out of date. Update before merging to master.
-
-We are in the process of converting from flow types to TypeScript. Here are the
-basic things you need to know about how to help with the conversion and how
-things will work in the future once it is complete.
-
-## Workflow Changes
-
-As we move packages over to TypeScript, our workflow will change in the
-following ways.
-
-### 1. No more per-project builds
-
-TypeScript packages are built in a single pass using the built-in project build
-system provided by `tsc`, which is much faster and easier to maintain. This
-means that instead of building packages one by one, you generally will just want
-to build all packages from the root directory.
-
-The main commands, `build`, `clean`, and `build:watch` all have
-equivalent scripts prefixed with `tsc:` which activates only the TypeScript
-system. You can limit the scope of any one of these commands by adding a
-path to a package:
-
-    yarn tsc:build packages/core  # builds just core and its dependencies
-
-Presently if you run a general command like `yarn build`, it will first invoke
-the top-level `tsc` version of the command and then runs the equivalent command
-– if it exists – in each package or application.
-
-### 2. tsc files are built sepatately
-
-The rest of our tools (webpack, IDE integrations) basically expect to see
-up-to-date built tsc files at all times, so if you are editing a tsc-enabled
-package and not seeing any changes reflected in other packages, make sure you
-have `tsc:watch` running. The standard app dev tasks all start a tsc watch
-process automatically.
-
----
-
-## Conversion Notes
-
-Want to help convert to TypeScript? Great! Here is how you can help:
+We are in the process of converting from flow types to TypeScript. If you want
+to help convert, here is how you do it:
 
 ### Pick a package to convert
 
@@ -50,31 +10,16 @@ Checkout the [status board](https://github.com/orgs/nteract/projects/13) and
 which packages to convert. Work your way up the dependency graph inside
 packages/, attempt to tighten strictness as we go.
 
-### Add a tsconfig.json
+### Add a tsconfig.json and index.ts
 
-You can usually just start by copying the one in the `ansi-to-react` package.
-
-Generally you will not need to modify the tsconfig settings here except if
-your package references another package in the local repo you need to add
-that package as an explicit reference. For example, if your package depended
-on the `@nteract/messaging` package you should add:
-
-```json
-{
-  // other settings
-  "include": ["src"],
-  "references": [
-    { "paths": "../messaging" }
-    // paths to other local package dependencies here
-  ]
-}
-```
+You can usually just start by copying the both files from the root of the
+`ansi-to-react` package. Generally you will not need to modify either file.
 
 ### Update the package.json
 
 Update the keys thus:
 
-```json
+```js
 {
   // update these keys, add them if they are missing
   "main": "lib/index.js",
@@ -83,17 +28,16 @@ Update the keys thus:
   // update this key if present, otherwise omit
   "nteractDesktop": "src/index.ts",
 
-  // delete any of the scripts listed below. If there are no other scripts
-  // present, delete the entire key
+  // modify the scripts below, delete the ones noted, and add any missing
   "scripts": {
-    "prepare": "...",
-    "prepublishOnly": "...",
-    "build": "...",
-    "build:clean": "...",
-    "build:flow": "...",
-    "build:lib": "...",
-    "build:lib:watch": "...",
-    "build:watch": "..."
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run:build",
+    "build": "npm run build:clean && npm run build:lib",
+    "build:clean": "tsc -b --clean",
+    //"build:flow": "...", // DELETE!
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
 
   // delete any package dependencies not explicitly imported by the package
@@ -200,7 +144,3 @@ that your actual TypeScript exports exactly match.
 ### Submit a PR
 
 Once you have all your tests passing, submit your PR!
-
----
-
-## Improvement Goals / Issues
