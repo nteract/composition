@@ -35,6 +35,7 @@
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
     "build:packages": "NODE_ENV=production lerna run build --parallel --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
+    "build:packages:ci": "NODE_ENV=production lerna run build --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
     "build:packages:watch": "lerna run build:lib:watch --parallel --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
     "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:only": "lerna run build --scope",
