@@ -6,6 +6,8 @@ import { createAJAXSettings, ServerConfig } from "./base";
 import urljoin from "url-join";
 import URLSearchParams from "url-search-params";
 
+import { JupyterMessage } from "@nteract/messaging";
+
 /**
  * Creates an AjaxObservable for listing running kernels.
  *
@@ -119,7 +121,7 @@ export const connect = (
   kernelID: string,
   sessionID?: string
 ) => {
-  const wsSubject = webSocket<string>(
+  const wsSubject = webSocket<JupyterMessage>(
     formWebSocketURL(serverConfig, kernelID, sessionID)
   );
 
@@ -156,7 +158,7 @@ export const connect = (
   // and ensuring it's serialized
   return Subject.create(
     Subscriber.create(
-      (message: any) => {
+      (message?: JupyterMessage) => {
         if (typeof message === "object") {
           const sessionizedMessage = {
             ...message,
@@ -171,7 +173,7 @@ export const connect = (
           console.error("Message must be an object, the app sent", message);
         }
       },
-      e => wsSubject.error(e),
+      (e: Error) => wsSubject.error(e),
       () => wsSubject.complete()
     ), // Subscriber
     // Subject.create takes a subscriber and an observable. We're only
