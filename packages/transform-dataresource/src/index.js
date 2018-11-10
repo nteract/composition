@@ -22,6 +22,10 @@ import { chartHelpText } from "./docs/chart-docs";
 
 const mediaType = "application/vnd.dataresource+json";
 
+const defaultMetadataFn = newMetadata => {
+  console.log("NEW METADATA FROM YOUR SETTINGS: ", newMetadata);
+};
+
 type dataProps = {
   schema: {
     fields: Array<{ name: string, type: string }>,
@@ -37,7 +41,8 @@ type Props = {
   theme?: string,
   expanded?: boolean,
   height?: number,
-  mediaType: "application/vnd.dataresource+json"
+  mediaType: "application/vnd.dataresource+json",
+  onMetadataChange: Function
 };
 
 type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
@@ -61,13 +66,6 @@ type State = {
   networkType: "force" | "sankey",
   hierarchyType: "dendrogram" | "treemap" | "partition",
   pieceType: "bar" | "point" | "swarm" | "clusterbar",
-  colorValue: string,
-  sizeValue: string,
-  xValue: string,
-  yValue: string,
-  targetDimension: string,
-  sourceDimension: string,
-  labelValue: string,
   summaryType: "violin" | "joy" | "histogram" | "heatmap" | "boxplot",
   lineType: LineType,
   chart: Object,
@@ -133,14 +131,65 @@ const MetadataWarning = ({ metadata }) => {
 class DataResourceTransform extends React.Component<Props, State> {
   static MIMETYPE = mediaType;
 
+  //FOR TESTING PURPOSES ONLY THE METADATA HAS SAMPLE SETTINGS FOR A GRADUATED SYMBOL PLOT
+
   static defaultProps = {
-    metadata: {},
+    metadata: {
+      dx: {
+        view: "scatter",
+        lineType: "line",
+        areaType: "hexbin",
+        selectedDimensions: [],
+        selectedMetrics: [],
+        pieceType: "bar",
+        summaryType: "violin",
+        networkType: "force",
+        hierarchyType: "dendrogram",
+        colors: [
+          "#DA752E",
+          "#E5C209",
+          "#1441A0",
+          "#B86117",
+          "#4D430C",
+          "#1DB390",
+          "#B3331D",
+          "#088EB2",
+          "#417505",
+          "#E479A8",
+          "#F9F39E",
+          "#5782DC",
+          "#EBA97B",
+          "#A2AB60",
+          "#B291CF",
+          "#8DD2C2",
+          "#E6A19F",
+          "#3DC7E0",
+          "#98CE5B"
+        ],
+        chart: {
+          metric1: "Happiness Rank",
+          metric2: "Standard Error",
+          metric3: "Happiness Score",
+          dim1: "Region",
+          dim2: "Country",
+          dim3: "none",
+          timeseriesSort: "array-order"
+        }
+      }
+    },
     height: 500,
-    mediaType
+    mediaType,
+    onMetadataChange: defaultMetadataFn
   };
 
   constructor(props: Props) {
     super(props);
+
+    const { metadata } = props;
+
+    const { dx: baseDX = {} } = metadata;
+
+    const { chart = {}, ...dx } = baseDX;
 
     const { fields = [], primaryKey = [] } = props.data.schema;
 
@@ -181,13 +230,6 @@ class DataResourceTransform extends React.Component<Props, State> {
       summaryType: "violin",
       networkType: "force",
       hierarchyType: "dendrogram",
-      colorValue: "none",
-      labelValue: "none",
-      sizeValue: "none",
-      sourceDimension: "none",
-      targetDimension: "none",
-      xValue: "none",
-      yValue: "none",
       dimensions,
       metrics,
       colors,
@@ -199,11 +241,13 @@ class DataResourceTransform extends React.Component<Props, State> {
         dim1: (dimensions[0] && dimensions[0].name) || "none",
         dim2: (dimensions[1] && dimensions[1].name) || "none",
         dim3: "none",
-        timeseriesSort: "array-order"
+        timeseriesSort: "array-order",
+        ...chart
       },
       displayChart: {},
       primaryKey,
-      data
+      data,
+      ...dx
     };
   }
 
@@ -213,6 +257,12 @@ class DataResourceTransform extends React.Component<Props, State> {
   //UI CHOICES
   //CHART CHOICES
   //DERIVED DATA
+
+  componentWillMount() {
+    if (this.state.view !== "grid") {
+      this.updateChart(this.state);
+    }
+  }
 
   shouldComponentUpdate(): boolean {
     return true;
@@ -237,7 +287,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       data: stateData
     } = { ...this.state, ...updatedState };
 
-    const { data, height } = this.props;
+    const { data, height, onMetadataChange } = this.props;
 
     const { Frame, chartGenerator } = semioticSettings[view];
 
@@ -300,6 +350,33 @@ class DataResourceTransform extends React.Component<Props, State> {
       </div>
     );
 
+    onMetadataChange({
+      dx: {
+        view,
+        lineType,
+        areaType,
+        selectedDimensions,
+        selectedMetrics,
+        pieceType,
+        summaryType,
+        networkType,
+        hierarchyType,
+        colors,
+        chart
+      }
+    });
+
+    this.setState(() => {
+      return {
+        ...updatedState,
+        displayChart: {
+          ...this.state.displayChart,
+          [chartKey]: display
+        }
+      };
+    });
+
+    /*
     this.setState({
       displayChart: {
         ...this.state.displayChart,
@@ -307,6 +384,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       },
       ...updatedState
     });
+    */
   };
   setView = view => {
     this.updateChart({ view });
