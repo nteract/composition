@@ -73,7 +73,7 @@ export function createTitleFeed(contentRef: ContentRef, state$: *) {
     distinctUntilChanged()
   );
 
-  // $FlowFixMe: Somehow .pipe is broken in the typings
+  // $FlowFixMe somehow isDirty confuses flow
   const modified$ = content$.pipe(
     map(content => selectors.notebook.isDirty(content.model)),
     distinctUntilChanged()

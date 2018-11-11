@@ -1,6 +1,6 @@
 {
   "name": "@nteract/iron-icons",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "description": "iron-icon react components, styled for use within nteract packages",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",

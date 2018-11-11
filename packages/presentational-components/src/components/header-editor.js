@@ -37,9 +37,21 @@ export type HeaderDataProps = {
 };
 
 export type HeaderEditorProps = {
+  /**
+   * The data that the header should be populated with.
+   */
   headerData: HeaderDataProps,
+  /**
+   * Whether or not the fields of the header can be edited.
+   */
   editable: boolean,
+  /**
+   * An event handler to run whenever header fields are modified.
+   */
   onChange: HeaderDataProps => void,
+  /**
+   * The theme of the header.
+   */
   theme: "light" | "dark"
 };
 

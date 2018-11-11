@@ -20,14 +20,15 @@ const HTMLLegend = ({
 }: HTMLLegendProps) => (
   <div style={{ marginTop: "20px" }}>
     {(values.length > 18
-      ? [...values.filter((d, i) => i < 18), "Other"]
+      ? //limit the displayed values to the top 18 and bin everything else into Other
+        [...values.filter((d, index) => index < 18), "Other"]
       : values
     ).map(
-      (v, vi) =>
-        colorHash[v] && (
+      (value, index) =>
+        colorHash[value] && (
           <span
             style={{ display: "inline-block", minWidth: "80px", margin: "5px" }}
-            key={`legend-item-${vi}`}
+            key={`legend-item-${index}`}
           >
             <span
               style={{
@@ -37,11 +38,14 @@ const HTMLLegend = ({
                 marginRight: "5px",
                 borderRadius: "20px",
                 marginBottom: "-5px",
-                background: colorHash[v]
+                background: colorHash[value]
               }}
             />
-            {v}
-            {(valueHash[v] && valueHash[v] > 1 && `(${valueHash[v]})`) || ""}
+            <span className="html-legend-item">{value}</span>
+            {(valueHash[value] &&
+              valueHash[value] > 1 &&
+              `(${valueHash[value]})`) ||
+              ""}
           </span>
         )
     )}

@@ -1,0 +1,27 @@
+// @flow
+/* eslint-disable */
+
+export type MathJaxObject = {
+  Hub: {
+    getJaxFor: HTMLElement => void,
+    Config: (options: *) => void,
+    Register: {
+      StartupHook: (str: string, cb: () => void) => void,
+      MessageHook: (string, cb: (msg: string) => void) => void
+    },
+    Queue(...*): void,
+    processSectionDelay: number
+  }
+};
+
+export type MathJaxContextValue = {
+  MathJax: ?MathJaxObject,
+  input: "tex" | "ascii",
+  // Allow detecting if there's a <Provider> above a <Consumer>
+  hasProviderAbove: ?boolean
+};
+
+declare export var Text: (props: any) => any;
+declare export var Node: (props: any) => any;
+declare export var Context: (props: any) => any;
+declare export var Provider: (props: any) => any;

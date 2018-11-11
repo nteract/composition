@@ -3,12 +3,19 @@ import * as React from "react";
 
 type Props = {
   data: string,
+  mediaType: "application/x-nteract-model-debug+json",
   models: Object,
   modelID: string
 };
 
+const mediaType = "application/x-nteract-model-debug+json";
+
 class ModelDebug extends React.Component<Props> {
-  static MIMETYPE = "application/x-nteract-model-debug+json";
+  static MIMETYPE = mediaType;
+
+  static defaultProps = {
+    mediaType
+  };
 
   shouldComponentUpdate(): boolean {
     return true;

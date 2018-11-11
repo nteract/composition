@@ -96,19 +96,19 @@ class PalettePicker extends React.Component<Props, State> {
         <div className="grid-wrapper">
           <div>
             <h3>Select Color</h3>
-            {colors.map((d, i) => (
+            {colors.map((color, index) => (
               <div
-                key={`color-${i}`}
+                key={`color-${index}`}
                 className="box"
-                style={{ background: d }}
+                style={{ background: color }}
                 role="button"
                 tabIndex="0"
                 onKeyPress={(e: Object) => {
                   if (e.keyCode === 13) {
-                    this.handleChange(d, i);
+                    this.handleChange(color, index);
                   }
                 }}
-                onClick={() => this.handleChange(d, i)}
+                onClick={() => this.handleChange(color, index)}
               />
             ))}
           </div>

@@ -27,54 +27,63 @@ export const semioticLineChart = (
   const sortType =
     timeseriesSort === "array-order"
       ? "integer"
-      : schema.fields.find(p => p.name === timeseriesSort).type;
+      : schema.fields.find(field => field.name === timeseriesSort).type;
 
   const formatting =
     sortType === "datetime"
-      ? d => d.toLocaleString().split(",")[0]
+      ? tickValue => tickValue.toLocaleString().split(",")[0]
       : numeralFormatting;
 
   const xScale = sortType === "datetime" ? scaleTime() : scaleLinear();
 
   lineData = metrics
-    .map((d, i) => {
+    .map((metric, index) => {
       const metricData =
         timeseriesSort === "array-order"
           ? data
-          : data.sort((a, b) => a[timeseriesSort] - b[timeseriesSort]);
+          : data.sort(
+              (datapointA, datapointB) =>
+                datapointA[timeseriesSort] - datapointB[timeseriesSort]
+            );
       return {
-        color: colors[i % colors.length],
-        label: d.name,
-        type: d.type,
-        coordinates: metricData.map((p, q) => ({
-          value: p[d.name],
-          x: timeseriesSort === "array-order" ? q : p[timeseriesSort],
-          label: d.name,
-          color: colors[i % colors.length],
-          originalData: p
+        color: colors[index % colors.length],
+        label: metric.name,
+        type: metric.type,
+        coordinates: metricData.map((datapoint, datapointValue) => ({
+          value: datapoint[metric.name],
+          x:
+            timeseriesSort === "array-order"
+              ? datapointValue
+              : datapoint[timeseriesSort],
+          label: metric.name,
+          color: colors[index % colors.length],
+          originalData: datapoint
         }))
       };
     })
     .filter(
-      d =>
-        selectedMetrics.length === 0 || selectedMetrics.find(p => p === d.label)
+      metric =>
+        selectedMetrics.length === 0 ||
+        selectedMetrics.find(selectedMetric => selectedMetric === metric.label)
     );
 
   return {
     lineType: { type: lineType, interpolator: curveMonotoneX },
     lines: lineData,
     xScaleType: xScale,
-    renderKey: (d: Object, i: number) => {
-      return d.coordinates ? `line-${d.label}` : `linepoint=${d.label}-${i}`;
+    renderKey: (line: Object, index: number) => {
+      return line.coordinates
+        ? `line-${line.label}`
+        : `linepoint=${line.label}-${index}`;
     },
-    lineStyle: (d: Object) => ({
-      fill: lineType === "line" ? "none" : d.color,
-      stroke: d.color,
+    lineStyle: (line: Object) => ({
+      fill: lineType === "line" ? "none" : line.color,
+      stroke: line.color,
       fillOpacity: 0.75
     }),
-    pointStyle: (d: Object) => {
+    pointStyle: (point: Object) => {
       return {
-        fill: d.color,
+        fill: point.color,
         fillOpacity: 0.75
       };
     },
@@ -83,8 +92,8 @@ export const semioticLineChart = (
       {
         orient: "bottom",
         ticks: 5,
-        tickFormat: (d: any) => {
-          const label = formatting(d);
+        tickFormat: (tickValue: any) => {
+          const label = formatting(tickValue);
           const rotation = label.length > 4 ? "45" : "0";
           const textAnchor = label.length > 4 ? "start" : "middle";
           return (
@@ -112,24 +121,31 @@ export const semioticLineChart = (
       legendGroups: [
         {
           label: "",
-          styleFn: (d: Object) => ({ fill: d.color }),
+          styleFn: (legendItem: Object) => ({ fill: legendItem.color }),
           items: lineData
         }
       ]
     },
-    tooltipContent: (d: Object) => {
+    tooltipContent: (hoveredDatapoint: Object) => {
       return (
-        <TooltipContent>
-          <p>{d.parentLine && d.parentLine.label}</p>
-          <p>{(d.value && d.value.toLocaleString()) || d.value}</p>
+        <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
           <p>
-            {timeseriesSort}: {formatting(d.x)}
+            {hoveredDatapoint.parentLine && hoveredDatapoint.parentLine.label}
           </p>
-          {primaryKey.map((k, ki) => (
-            <p key={`key-${ki}`}>
-              {k}:{" "}
-              {(d.originalData[k].toString && d.originalData[k].toString()) ||
-                d.originalData[k]}
+          <p>
+            {(hoveredDatapoint.value &&
+              hoveredDatapoint.value.toLocaleString()) ||
+              hoveredDatapoint.value}
+          </p>
+          <p>
+            {timeseriesSort}: {formatting(hoveredDatapoint.x)}
+          </p>
+          {primaryKey.map((pkey, index) => (
+            <p key={`key-${index}`}>
+              {pkey}:{" "}
+              {(hoveredDatapoint.originalData[pkey].toString &&
+                hoveredDatapoint.originalData[pkey].toString()) ||
+                hoveredDatapoint.originalData[pkey]}
             </p>
           ))}
         </TooltipContent>

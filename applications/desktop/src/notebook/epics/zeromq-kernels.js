@@ -30,6 +30,7 @@ import type {
   LocalKernelProps
 } from "@nteract/core";
 import { childOf, ofMessageType, shutdownRequest } from "@nteract/messaging";
+import type { Channels } from "@nteract/messaging";
 
 /**
  * Instantiate a connection to a new kernel.
@@ -159,18 +160,29 @@ export const launchKernelByNameEpic = (
     }),
     mergeMap((action: actionTypes.LaunchKernelByNameAction) =>
       kernelSpecsObservable.pipe(
-        mergeMap(specs =>
-          // Defer to a launchKernel action to _actually_ launch
-          of(
-            actions.launchKernel({
-              kernelSpec: specs[action.payload.kernelSpecName],
+        map(specs => {
+          const kernelSpec = specs[action.payload.kernelSpecName];
+          if (kernelSpec) {
+            // Defer to a launchKernel action to _actually_ launch
+            return actions.launchKernel({
+              kernelSpec,
               cwd: action.payload.cwd,
               kernelRef: action.payload.kernelRef,
               selectNextKernel: action.payload.selectNextKernel,
               contentRef: action.payload.contentRef
-            })
-          )
-        )
+            });
+          } else {
+            return actions.launchKernelFailed({
+              error: new Error(
+                `Kernel named ${
+                  action.payload.kernelSpecName
+                } does not appear to be available.`
+              ),
+              kernelRef: action.payload.kernelRef,
+              contentRef: action.payload.contentRef
+            });
+          }
+        })
       )
     )
   );

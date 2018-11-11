@@ -2,9 +2,10 @@
 import type {
   CellID,
   CellType,
-  MimeBundle
-} from "@nteract/commutable/src/types";
-import type { Output } from "@nteract/commutable/src/v4";
+  MimeBundle,
+  Output,
+  JSONObject
+} from "@nteract/commutable";
 
 import * as actionTypes from "./actionTypes";
 import type {

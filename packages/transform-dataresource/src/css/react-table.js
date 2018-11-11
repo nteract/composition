@@ -263,8 +263,14 @@ export default css.global`
   .ReactTable .rt-tfoot .rt-td:last-child {
     border-right: 0;
   }
-  .ReactTable.-striped .rt-tr.-odd {
-    background: rgba(0, 0, 0, 0.03);
+  .ReactTable .rt-thead.-header .rt-th {
+    background: var(--cm-background);
+  }
+  .ReactTable.-striped .rt-tr.-odd > div {
+    background: var(--theme-app-bg);
+  }
+  .ReactTable.-striped .rt-tr.-even > div {
+    background: var(--cm-background);
   }
   .ReactTable.-highlight .rt-tbody .rt-tr:not(.-padRow):hover {
     background: rgba(0, 0, 0, 0.05);
@@ -307,8 +313,8 @@ export default css.global`
     border-radius: 3px;
     padding: 6px;
     font-size: 1em;
-    color: rgba(0, 0, 0, 0.6);
-    background: rgba(0, 0, 0, 0.1);
+    color: var(--theme-app-fg);
+    background: var(--cm-background);
     transition: all 0.1s ease;
     cursor: pointer;
     outline: none;

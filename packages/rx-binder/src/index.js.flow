@@ -1,0 +1,17 @@
+// @flow
+/* eslint-disable */
+
+import type { Observable } from "rxjs";
+
+type BinderOptions = {
+  repo: string,
+  ref?: string,
+  binderURL?: string
+};
+
+declare export function formBinderURL(opts?: BinderOptions): string;
+
+declare export function binder(
+  opts: BinderOptions,
+  EvenSourceDI?: Object
+): Observable<*>;

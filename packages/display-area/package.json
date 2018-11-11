@@ -1,18 +1,18 @@
 {
   "name": "@nteract/display-area",
-  "version": "4.4.5",
+  "version": "5.0.0-alpha.0",
   "description": "Display area for nteract outputs",
-  "main": "lib/",
-  "nteractDesktop": "src/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.ts",
   "scripts": {
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build && npm run build:flow",
+    "prepublishOnly": "npm run build",
     "build": "npm run build:clean && npm run build:lib",
-    "build:clean": "rimraf lib",
-    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
-    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
-    "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+    "build:clean": "tsc -b --clean",
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/display-area",
   "keywords": [
@@ -24,10 +24,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
-    "@nteract/transforms": "^4.4.4",
-    "ansi-to-react": "^3.3.3",
-    "babel-runtime": "^6.26.0",
+    "@nteract/transforms": "^5.0.0-alpha.0",
+    "ansi-to-react": "^4.0.0-alpha.0",
     "immutable": "^4.0.0-rc.9"
   },
   "peerDependencies": {

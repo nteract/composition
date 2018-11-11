@@ -1,0 +1,5 @@
+// @flow
+/* eslint-disable */
+
+declare var Markdown: any;
+export default Markdown;

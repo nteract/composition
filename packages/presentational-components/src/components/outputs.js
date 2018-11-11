@@ -3,7 +3,13 @@ import * as React from "react";
 
 export type OutputsProps = {
   children: React.Node,
+  /**
+   * Whether or not to collapse the children of the component.
+   */
   expanded: boolean,
+  /**
+   * Whether or not to show the children of the component.
+   */
   hidden: boolean
 };
 

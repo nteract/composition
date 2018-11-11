@@ -2,6 +2,7 @@
 import produce from "immer";
 
 import type { MultilineString } from "../common";
+import type { JSONObject } from "../types";
 
 export type RawCellType = "raw";
 export const RAWCELL = "raw";

@@ -24,6 +24,19 @@ class App extends React.Component<{ contentRef: ContentRef }, null> {
           :root {
             ${themes.light};
           }
+
+          html {
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+          }
+
+          *,
+          *::before,
+          *::after {
+            -webkit-box-sizing: inherit;
+            box-sizing: inherit;
+          }
+
           body {
             font-family: "Source Sans Pro";
             font-size: 16px;

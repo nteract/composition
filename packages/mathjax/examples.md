@@ -1,27 +1,27 @@
 The MathJax component provides a way to both load MathJax on the page and render MathJax Nodes. Many people love ❤️ beautifully typeset mathematics, and these components are the way to provide it.
 
 ```jsx
-var MathJax = require(".");
+const { Provider, Node } = require("@nteract/mathjax");
 
 const tex = String.raw`f(x) = \int_{-\infty}^\infty
     \hat f(\xi)\,e^{2 \pi i \xi x}
     \,d\xi`;
 
-<MathJax.Provider>
+<Provider>
   <p>
-    This is an inline math formula: <MathJax.Node inline>a = b</MathJax.Node>
+    This is an inline math formula: <Node inline>a = b</Node>
     <span> and a block one:</span>
-    <MathJax.Node>{tex}</MathJax.Node>
+    <Node>{tex}</Node>
   </p>
-</MathJax.Provider>;
+</Provider>;
 ```
 
-The components are written in a React 16+ way to both load mathjax through a `<Provider />` and render individual MathJax nodes with `<MathJax.Node />`. React does the heavy lifting of knowing what changed and the `<MathJax.Node>` component triggers having MathJax do what it's good at — _typesetting mathematics_!
+The components are written in a React 16+ way to both load mathjax through a `<Provider />` and render individual MathJax nodes with `<Node />`. React does the heavy lifting of knowing what changed and the `<Node>` component triggers having MathJax do what it's good at — _typesetting mathematics_!
 
 This semi-contrived example shows
 
 ```jsx
-var MathJax = require(".");
+const { Provider, Node } = require("@nteract/mathjax");
 
 const verbs = ["do", "can", "should", "will"];
 
@@ -56,7 +56,7 @@ class CleanUpdates extends React.Component {
 
   render() {
     return (
-      <MathJax.Provider options={{ messageStyle: "none" }}>
+      <Provider options={{ messageStyle: "none" }}>
         <p>
           We{" "}
           <span
@@ -72,10 +72,10 @@ class CleanUpdates extends React.Component {
             {this.state.verb}
           </span>{" "}
           update
-          <MathJax.Node inline>{"n^" + this.state.exponent}</MathJax.Node> pieces
-          of a paragraph without triggering a MathJax re-render.
+          <Node inline>{"n^" + this.state.exponent}</Node> pieces of a paragraph
+          without triggering a MathJax re-render.
         </p>
-      </MathJax.Provider>
+      </Provider>
     );
   }
 }
@@ -83,10 +83,10 @@ class CleanUpdates extends React.Component {
 <CleanUpdates />;
 ```
 
-If you use `<MathJax.Node />` with no provider, a `<MathJax.Provider />` is created for you automatically.
+If you use `<Node />` with no provider, a `<Provider />` is created for you automatically.
 
 ```jsx
-var MathJax = require(".");
+const { Node } = require("@nteract/mathjax");
 
-<MathJax.Node>a = b</MathJax.Node>;
+<Node>a = b</Node>;
 ```

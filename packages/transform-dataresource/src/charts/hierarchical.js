@@ -5,38 +5,43 @@ import { scaleLinear } from "d3-scale";
 
 import TooltipContent from "../tooltip-content";
 
-const parentPath = (d, pathArray) => {
-  if (d.parent) {
-    pathArray = parentPath(d.parent, [d.key, ...pathArray]);
+const parentPath = (datapoint, pathArray) => {
+  if (datapoint.parent) {
+    pathArray = parentPath(datapoint.parent, [datapoint.key, ...pathArray]);
   } else {
     pathArray = ["root", ...pathArray];
   }
   return pathArray;
 };
 
-const hierarchicalTooltip = (d, primaryKey, metric) => {
-  const pathString = d.parent
-    ? parentPath(d.parent, (d.key && [d.key]) || []).join("->")
+const hierarchicalTooltip = (datapoint, primaryKey, metric) => {
+  const pathString = datapoint.parent
+    ? parentPath(
+        datapoint.parent,
+        (datapoint.key && [datapoint.key]) || []
+      ).join("->")
     : "";
   const content = [];
-  if (!d.parent) {
+  if (!datapoint.parent) {
     content.push(<h2 key="hierarchy-title">Root</h2>);
-  } else if (d.key) {
-    content.push(<h2 key="hierarchy-title">{d.key}</h2>);
+  } else if (datapoint.key) {
+    content.push(<h2 key="hierarchy-title">{datapoint.key}</h2>);
     content.push(<p key="path-string">{pathString}</p>);
-    content.push(<p key="hierarchy-value">Total Value: {d.value}</p>);
-    content.push(<p key="hierarchy-children">Children: {d.children.length}</p>);
+    content.push(<p key="hierarchy-value">Total Value: {datapoint.value}</p>);
+    content.push(
+      <p key="hierarchy-children">Children: {datapoint.children.length}</p>
+    );
   } else {
     content.push(
       <p key="leaf-label">
         {pathString}
         ->
-        {primaryKey.map(p => d[p]).join(", ")}
+        {primaryKey.map(pkey => datapoint[pkey]).join(", ")}
       </p>
     );
     content.push(
       <p key="hierarchy-value">
-        {metric}: {d[metric]}
+        {metric}: {datapoint[metric]}
       </p>
     );
   }
@@ -44,11 +49,11 @@ const hierarchicalTooltip = (d, primaryKey, metric) => {
   return content;
 };
 
-const hierarchicalColor = (colorHash: Object, d: Object) => {
-  if (d.depth === 0) return "white";
-  if (d.depth === 1) return colorHash[d.key];
-  let colorNode = d;
-  for (let x = d.depth; x > 1; x--) {
+const hierarchicalColor = (colorHash: Object, datapoint: Object) => {
+  if (datapoint.depth === 0) return "white";
+  if (datapoint.depth === 1) return colorHash[datapoint.key];
+  let colorNode = datapoint;
+  for (let x = datapoint.depth; x > 1; x--) {
     colorNode = colorNode.parent;
   }
   const lightenScale = scaleLinear()
@@ -56,7 +61,7 @@ const hierarchicalColor = (colorHash: Object, d: Object) => {
     .clamp(true)
     .range(["white", colorHash[colorNode.key]]);
 
-  return lightenScale(d.depth);
+  return lightenScale(datapoint.depth);
 };
 
 export const semioticHierarchicalChart = (
@@ -79,19 +84,19 @@ export const semioticHierarchicalChart = (
 
   const nestingParams = nest();
 
-  selectedDimensions.forEach(d => {
-    nestingParams.key(p => p[d]);
+  selectedDimensions.forEach(dim => {
+    nestingParams.key(param => param[dim]);
   });
   const colorHash = {};
   const sanitizedData = [];
-  data.forEach(d => {
-    if (!colorHash[d[selectedDimensions[0]]])
-      colorHash[d[selectedDimensions[0]]] =
+  data.forEach(datapoint => {
+    if (!colorHash[datapoint[selectedDimensions[0]]])
+      colorHash[datapoint[selectedDimensions[0]]] =
         colors[Object.keys(colorHash).length];
 
     sanitizedData.push({
-      ...d,
-      sanitizedR: d.r,
+      ...datapoint,
+      sanitizedR: datapoint.r,
       r: undefined
     });
   });
@@ -102,30 +107,30 @@ export const semioticHierarchicalChart = (
   return {
     edges: rootNode,
     edgeStyle: () => ({ fill: "lightgray", stroke: "gray" }),
-    nodeStyle: (d: Object) => {
+    nodeStyle: (node: Object) => {
       return {
-        fill: hierarchicalColor(colorHash, d),
-        stroke: d.depth === 1 ? "white" : "black",
-        strokeOpacity: d.depth * 0.1 + 0.2
+        fill: hierarchicalColor(colorHash, node),
+        stroke: node.depth === 1 ? "white" : "black",
+        strokeOpacity: node.depth * 0.1 + 0.2
       };
     },
     networkType: {
       type: hierarchyType,
-      hierarchySum: (d: Object) => d[metric1],
-      hierarchyChildren: (d: Object) => d.values,
+      hierarchySum: (node: Object) => node[metric1],
+      hierarchyChildren: (node: Object) => node.values,
       padding:
         hierarchyType === "treemap" ? 3 : hierarchyType === "circlepack" ? 2 : 0
     },
-    edgeRenderKey: (d: Object, i: number) => {
-      return i;
+    edgeRenderKey: (edge: Object, index: number) => {
+      return index;
     },
     baseMarkProps: { forceUpdate: true },
     margin: { left: 100, right: 100, top: 10, bottom: 10 },
     hoverAnnotation: true,
-    tooltipContent: (d: Object) => {
+    tooltipContent: (hoveredDatapoint: Object) => {
       return (
-        <TooltipContent>
-          {hierarchicalTooltip(d, primaryKey, metric1)}
+        <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
+          {hierarchicalTooltip(hoveredDatapoint, primaryKey, metric1)}
         </TooltipContent>
       );
     }

@@ -16,4 +16,9 @@ export default css`
   select {
     height: 30px;
   }
+
+  :global(.selected) {
+    background-color: #d8e1e8 !important;
+    background-image: none !important;
+  }
 `;

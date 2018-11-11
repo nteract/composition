@@ -1,18 +1,18 @@
 {
   "name": "fs-observable",
-  "version": "2.2.4",
+  "version": "3.0.2",
   "description": "Observables for node fs",
   "main": "lib/index.js",
-  "nteractDesktop": "src/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.ts",
   "scripts": {
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build && npm run build:flow",
+    "prepublishOnly": "npm run:build",
     "build": "npm run build:clean && npm run build:lib",
-    "build:clean": "rimraf lib",
-    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
-    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
-    "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+    "build:clean": "tsc -b --clean",
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/fs-observable",
   "keywords": [
@@ -30,8 +30,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
     "mkdirp": "^0.5.1"
+  },
+  "devDependencies": {
+    "@types/mkdirp": "^0.5.1"
   },
   "peerDependencies": {
     "rxjs": "^6.3.3"

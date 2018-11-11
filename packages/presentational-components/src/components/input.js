@@ -3,6 +3,9 @@ import * as React from "react";
 
 export type InputProps = {
   children: React.Node,
+  /**
+   * Whether or not to render the children.
+   */
   hidden: boolean
 };
 

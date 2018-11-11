@@ -1,21 +1,21 @@
 {
   "name": "@nteract/markdown",
-  "version": "2.1.4",
+  "version": "3.0.1",
   "description": "Markdown/MathJax renderer for nteract",
   "main": "lib/index.js",
-  "nteractDesktop": "src/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.ts",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build && npm run build:flow",
+    "prepublishOnly": "npm run build",
     "build": "npm run build:clean && npm run build:lib",
-    "build:clean": "rimraf lib",
-    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
-    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
-    "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+    "build:clean": "tsc -b --clean",
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/markdown",
   "keywords": [
@@ -25,9 +25,7 @@
   "author": "Trevor Lyon <github.com/tlyon3>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
-    "@nteract/mathjax": "^2.1.4",
-    "babel-runtime": "^6.26.0",
+    "@nteract/mathjax": "^3.0.1",
     "react-markdown": "^4.0.0"
   }
 }

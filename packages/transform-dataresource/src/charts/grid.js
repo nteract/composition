@@ -10,10 +10,10 @@ export const DataResourceTransformGrid = ({
   data: { data, schema },
   height
 }) => {
-  const tableColumns = schema.fields.map(f => ({
-    Header: f.name,
-    accessor: f.name,
-    fixed: schema.primaryKey.indexOf(f.name) !== -1 && "left"
+  const tableColumns = schema.fields.map(field => ({
+    Header: field.name,
+    accessor: field.name,
+    fixed: schema.primaryKey.indexOf(field.name) !== -1 && "left"
   }));
 
   return (

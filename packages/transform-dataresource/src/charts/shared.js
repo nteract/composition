@@ -1,7 +1,9 @@
 /* @flow */
 
-function stringOrFnAccessor(d: Object, accessor: string | Function) {
-  return typeof accessor === "function" ? accessor(d) : d[accessor];
+function stringOrFnAccessor(datapoint: Object, accessor: string | Function) {
+  return typeof accessor === "function"
+    ? accessor(datapoint)
+    : datapoint[accessor];
 }
 
 export const sortByOrdinalRange = (
@@ -12,35 +14,38 @@ export const sortByOrdinalRange = (
 ): any[] => {
   const subsortData = {};
   let subsortArrays = [];
-  data.forEach(d => {
-    const oD = stringOrFnAccessor(d, oAccessor);
-    if (!subsortData[oD]) {
-      subsortData[oD] = { array: [], value: 0, label: oD };
-      subsortArrays.push(subsortData[oD]);
+  data.forEach(datapoint => {
+    const ordinalValue = stringOrFnAccessor(datapoint, oAccessor);
+    if (!subsortData[ordinalValue]) {
+      subsortData[ordinalValue] = { array: [], value: 0, label: ordinalValue };
+      subsortArrays.push(subsortData[ordinalValue]);
     }
-    subsortData[oD].array.push(d);
-    subsortData[oD].value += stringOrFnAccessor(d, rAccessor);
+    subsortData[ordinalValue].array.push(datapoint);
+    subsortData[ordinalValue].value += stringOrFnAccessor(datapoint, rAccessor);
   });
 
-  subsortArrays = subsortArrays.sort((a, b) => {
-    if (b.value === a.value) {
-      if (a.label < b.label) return -1;
-      if (a.label > b.label) return 1;
+  subsortArrays = subsortArrays.sort((ordinalAData, ordinalBData) => {
+    if (ordinalBData.value === ordinalAData.value) {
+      if (ordinalAData.label < ordinalBData.label) return -1;
+      if (ordinalAData.label > ordinalBData.label) return 1;
       return 1;
     }
 
-    return b.value - a.value;
+    return ordinalBData.value - ordinalAData.value;
   });
 
   if (secondarySort !== "none") {
-    subsortArrays.forEach(a => {
-      a.array = a.array.sort(
-        (a, b) =>
-          stringOrFnAccessor(b, secondarySort) -
-          stringOrFnAccessor(a, secondarySort)
+    subsortArrays.forEach(ordinalData => {
+      ordinalData.array = ordinalData.array.sort(
+        (ordinalAData, ordinalBData) =>
+          stringOrFnAccessor(ordinalBData, secondarySort) -
+          stringOrFnAccessor(ordinalAData, secondarySort)
       );
     });
   }
 
-  return subsortArrays.reduce((p, c) => [...p, ...c.array], []);
+  return subsortArrays.reduce(
+    (combinedArray, ordinalData) => [...combinedArray, ...ordinalData.array],
+    []
+  );
 };

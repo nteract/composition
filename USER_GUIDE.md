@@ -115,3 +115,19 @@ Cut Cell | `Shift ⌘ X` | `Shift Ctrl X`
 
 * Autocomplete Suggestions: `Ctrl Space`
 * Documentation/Tips Expansion: `Ctrl Period(.)` (on Windows/Linux) or `⌘ Period(.)` (on MacOS)
+
+## Command Line
+
+Usage: `nteract <notebooks> [options]`
+
+Examples:
+
+Open multiple notebooks: `nteract notebook1.ipynb notebook2.ipynb`
+
+Open new notebook with specific kernel: `nteract --kernel javascript`
+
+## Environment Variables
+
+* `NTERACT_DESKTOP_DISABLE_AUTO_UPDATE` - Set to "1" to disable auto-updates.
+* `DEBUG` - Set to "true" to enable additional logging.
+* `ELECTRON_ENABLE_LOGGING` - Set to "1" and launch from a terminal to pipe Javascript console logs to that terminal.

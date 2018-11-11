@@ -5,7 +5,6 @@ import { middlewares as coreMiddlewares, reducers } from "@nteract/core";
 
 import type { DesktopNotebookAppState } from "./state";
 import { handleDesktopNotebook } from "./reducers";
-import logger from "./logger";
 import epics from "./epics";
 
 const rootEpic = combineEpics(...epics);
@@ -13,7 +12,7 @@ const epicMiddleware = createEpicMiddleware();
 const middlewares = [epicMiddleware, coreMiddlewares.errorMiddleware];
 
 if (process.env.DEBUG === "true") {
-  middlewares.push(logger());
+  middlewares.push(coreMiddlewares.logger());
 }
 
 const rootReducer = combineReducers({

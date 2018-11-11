@@ -29,17 +29,16 @@ export const semioticSummaryChart = (
 
   if (dim1 && dim1 !== "none") {
     const uniqueValues = data.reduce(
-      (p, c) =>
-        (!p.find(d => d === c[dim1].toString()) && [
-          ...p,
-          c[dim1].toString()
-        ]) ||
-        p,
+      (uniqueArray, datapoint) =>
+        (!uniqueArray.find(
+          dimValue => dimValue === datapoint[dim1].toString()
+        ) && [...uniqueArray, datapoint[dim1].toString()]) ||
+        uniqueArray,
       []
     );
 
-    uniqueValues.forEach((d, i) => {
-      colorHash[d] = colors[i % colors.length];
+    uniqueValues.forEach((dimValue, index) => {
+      colorHash[dimValue] = colors[index % colors.length];
     });
 
     additionalSettings.afterElements = (
@@ -60,19 +59,22 @@ export const semioticSummaryChart = (
     data: data,
     oAccessor,
     rAccessor,
-    summaryStyle: (d: Object) => ({
-      fill: colorHash[d[dim1]] || colors[0],
+    summaryStyle: (summaryDatapoint: Object) => ({
+      fill: colorHash[summaryDatapoint[dim1]] || colors[0],
       fillOpacity: 0.8,
-      stroke: colorHash[d[dim1]] || colors[0]
+      stroke: colorHash[summaryDatapoint[dim1]] || colors[0]
     }),
-    style: (d: Object) => ({
-      fill: colorHash[d[dim1]] || colors[0],
+    style: (pieceDatapoint: Object) => ({
+      fill: colorHash[pieceDatapoint[dim1]] || colors[0],
       stroke: "white"
     }),
     oPadding: 5,
-    oLabel: (d: Object) => (
-      <text textAnchor="end" fontSize={`${(d && fontScale(d.length)) || 12}px`}>
-        {d}
+    oLabel: (columnName: string) => (
+      <text
+        textAnchor="end"
+        fontSize={`${(columnName && fontScale(columnName.length)) || 12}px`}
+      >
+        {columnName}
       </text>
     ),
     margin: { top: 25, right: 10, bottom: 50, left: 100 },
@@ -83,17 +85,19 @@ export const semioticSummaryChart = (
     },
     baseMarkProps: { forceUpdate: true },
     pieceHoverAnnotation: summaryType === "violin",
-    tooltipContent: (d: Object) => (
-      <TooltipContent>
-        <h3>{primaryKey.map(p => d[p]).join(", ")}</h3>
-        <p>
-          {dim1}: {d[dim1]}
-        </p>
-        <p>
-          {rAccessor}: {d[rAccessor]}
-        </p>
-      </TooltipContent>
-    ),
+    tooltipContent: (hoveredDatapoint: Object) => {
+      return (
+        <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
+          <h3>{primaryKey.map(pkey => hoveredDatapoint[pkey]).join(", ")}</h3>
+          <p>
+            {dim1}: {hoveredDatapoint[dim1]}
+          </p>
+          <p>
+            {rAccessor}: {hoveredDatapoint[rAccessor]}
+          </p>
+        </TooltipContent>
+      );
+    },
     ...additionalSettings
   };
 

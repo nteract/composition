@@ -1,15 +1,15 @@
 // @flow
 import * as Immutable from "immutable";
 import { emptyNotebook } from "@nteract/commutable";
-import type { CellID } from "@nteract/commutable";
+import type { CellID, ImmutableNotebook } from "@nteract/commutable";
 
 import type { KernelRef } from "../..";
 
 export type DocumentRecordProps = {
   type: "notebook",
   // TODO: This _needs_ to become a Record
-  notebook: Immutable.Map<string, any>,
-  savedNotebook: Immutable.Map<string, any>,
+  notebook: ImmutableNotebook,
+  savedNotebook: ImmutableNotebook,
   transient: Immutable.Map<string, any>, // has the keypaths for updating displays
   // transient should be more fully typed (be a record itself)
   // right now it's keypaths and then it looks like it's able to handle any per

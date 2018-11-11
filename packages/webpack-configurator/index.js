@@ -9,6 +9,9 @@ opaque type Aliases = {[string]: string }
 
 const rxAliases /* : Aliases */ = require("rxjs/_esm5/path-mapping")();
 
+const babelFlowConfig = require("../../babel.flow.config");
+const babelTypescriptConfig = require("../../babel.typescript.config");
+
 const { aliases } = require("./aliases");
 
 // We don't transpile packages in node_modules, unless it's _our_ package
@@ -63,10 +66,7 @@ type WebpackConfig = {
 };
 */
 
-function nextWebpack(
-  config /*: WebpackConfig */,
-  options /*: ?NextWebPackOptions */
-) /*: WebpackConfig */ {
+function nextWebpack(config /*: WebpackConfig */) /*: WebpackConfig */ {
   config.externals = ["canvas", ...config.externals];
   config.module.rules = config.module.rules.map(rule => {
     if (
@@ -79,19 +79,27 @@ function nextWebpack(
     return rule;
   });
 
-  if (options && options.defaultLoaders) {
-    config.module.rules.push({
+  config.module.rules.push(
+    {
       test: /\.js$/,
       exclude: exclude,
-      use: [options.defaultLoaders.babel]
-    });
-  }
+      loader: "babel-loader",
+      options: babelFlowConfig()
+    },
+    {
+      test: /\.tsx?$/,
+      exclude: exclude,
+      loader: "babel-loader",
+      options: babelTypescriptConfig()
+    }
+  );
 
   config.resolve = Object.assign({}, config.resolve, {
     mainFields: ["nteractDesktop", "jsnext:main", "module", "main"],
     alias: mergeDefaultAliases(
       config.resolve ? config.resolve.alias : undefined
-    )
+    ),
+    extensions: [".js", ".jsx", ".ts", ".tsx"]
   });
   return config;
 }

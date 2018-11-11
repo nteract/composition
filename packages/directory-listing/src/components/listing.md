@@ -8,7 +8,7 @@ import {
 } from "@nteract/directory-listing";
 ```
 
-Show any listing of directories and files in a tabular layout for users. Works best with `<Entry>` for each item in a content listing.
+The `Listing` component is a container component to show any listing of directories and files in a tabular layout for users. This component works best with `<Entry>` for each item in a content listing.
 
 ```jsx
 <Listing>

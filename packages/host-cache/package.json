@@ -1,6 +1,6 @@
 {
   "name": "@mybinder/host-cache",
-  "version": "0.2.3",
+  "version": "1.0.0-alpha.0",
   "description": "Local Storage backed cache of binder hosts",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
@@ -33,8 +33,8 @@
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
     "babel-runtime": "^6.26.0",
-    "rx-binder": "^2.1.4",
-    "rx-jupyter": "^3.2.3",
+    "rx-binder": "^3.0.0-alpha.0",
+    "rx-jupyter": "^4.0.0-alpha.0",
     "rxjs": "^6.3.3"
   }
 }

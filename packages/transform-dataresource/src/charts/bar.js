@@ -18,7 +18,10 @@ export const semioticBarChart = (
   const oAccessor =
     selectedDimensions.length === 0
       ? dim1
-      : (d: Object) => selectedDimensions.map(p => d[p]).join(",");
+      : (datapoint: Object) =>
+          selectedDimensions
+            .map(selectedDim => datapoint[selectedDim])
+            .join(",");
 
   const rAccessor = metric1;
 
@@ -38,17 +41,18 @@ export const semioticBarChart = (
 
   if (dim1 && dim1 !== "none") {
     const uniqueValues = sortedData.reduce(
-      (p, c) =>
-        (!p.find(d => d === c[dim1].toString()) && [
-          ...p,
-          c[dim1].toString()
-        ]) ||
-        p,
+      (uniques, datapoint) =>
+        !uniques.find(
+          uniqueDimName => uniqueDimName === datapoint[dim1].toString()
+        )
+          ? [...uniques, datapoint[dim1].toString()]
+          : uniques,
       []
     );
 
-    uniqueValues.forEach((d: string, i: number) => {
-      colorHash[d] = i > 18 ? "grey" : colors[i % colors.length];
+    uniqueValues.forEach((value: string, index: number) => {
+      //Color the first 18 values after that everything gets grey because more than 18 colors is unreadable no matter what you want
+      colorHash[value] = index > 18 ? "grey" : colors[index % colors.length];
     });
 
     additionalSettings.afterElements = (
@@ -66,20 +70,22 @@ export const semioticBarChart = (
       selectedDimensions.join(",") !== dim1
     ) {
       additionalSettings.pieceHoverAnnotation = true;
-      additionalSettings.tooltipContent = d => {
+      additionalSettings.tooltipContent = hoveredDatapoint => {
         return (
-          <TooltipContent>
-            {dim1 && dim1 !== "none" && <p>{d[dim1]}</p>}
+          <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
+            {dim1 && dim1 !== "none" && <p>{hoveredDatapoint[dim1]}</p>}
             <p>
-              {typeof oAccessor === "function" ? oAccessor(d) : d[oAccessor]}
+              {typeof oAccessor === "function"
+                ? oAccessor(hoveredDatapoint)
+                : hoveredDatapoint[oAccessor]}
             </p>
             <p>
-              {rAccessor}: {d[rAccessor]}
+              {rAccessor}: {hoveredDatapoint[rAccessor]}
             </p>
             {metric3 &&
               metric3 !== "none" && (
                 <p>
-                  {metric3}: {d[metric3]}
+                  {metric3}: {hoveredDatapoint[metric3]}
                 </p>
               )}
           </TooltipContent>
@@ -93,8 +99,14 @@ export const semioticBarChart = (
     (selectedDimensions.length > 0 &&
       !(selectedDimensions.length === 1 && dim1 === selectedDimensions[0]) &&
       sortedData
-        .map(d => d[dim1])
-        .reduce((p, c) => (p.indexOf(c) === -1 ? [...p, c] : p), []).length) ||
+        .map(datapoint => datapoint[dim1])
+        .reduce(
+          (uniqueDimValues, dimName) =>
+            uniqueDimValues.indexOf(dimName) === -1
+              ? [...uniqueDimValues, dimName]
+              : uniqueDimValues,
+          []
+        ).length) ||
     0;
 
   const barSettings = {
@@ -102,13 +114,13 @@ export const semioticBarChart = (
     data: sortedData,
     oAccessor,
     rAccessor,
-    style: (d: Object) => ({
-      fill: colorHash[d[dim1]] || colors[0],
-      stroke: colorHash[d[dim1]] || colors[0]
+    style: (datapoint: Object) => ({
+      fill: colorHash[datapoint[dim1]] || colors[0],
+      stroke: colorHash[datapoint[dim1]] || colors[0]
     }),
     oPadding: 5,
-    oLabel: (d: Object) => {
-      return <text transform="rotate(90)">{d}</text>;
+    oLabel: (columnLabel: Object) => {
+      return <text transform="rotate(90)">{columnLabel}</text>;
     },
     hoverAnnotation: true,
     margin: { top: 10, right: 10, bottom: 100, left: 70 },
@@ -117,23 +129,30 @@ export const semioticBarChart = (
       label: rAccessor,
       tickFormat: numeralFormatting
     },
-    tooltipContent: (d: Object) => {
+    tooltipContent: (hoveredDatapoint: Object) => {
       return (
-        <TooltipContent>
+        <TooltipContent
+          x={hoveredDatapoint.column.xyData[0].xy.x}
+          y={hoveredDatapoint.column.xyData[0].xy.y}
+        >
           <p>
             {typeof oAccessor === "function"
-              ? oAccessor(d.pieces[0])
-              : d.pieces[0][oAccessor]}
+              ? oAccessor(hoveredDatapoint.pieces[0])
+              : hoveredDatapoint.pieces[0][oAccessor]}
           </p>
           <p>
             {rAccessor}:{" "}
-            {d.pieces.map(p => p[rAccessor]).reduce((p, c) => p + c, 0)}
+            {hoveredDatapoint.pieces
+              .map(piece => piece[rAccessor])
+              .reduce((total, value) => total + value, 0)}
           </p>
           {metric3 &&
             metric3 !== "none" && (
               <p>
                 {metric3}:{" "}
-                {d.pieces.map(p => p[metric3]).reduce((p, c) => p + c, 0)}
+                {hoveredDatapoint.pieces
+                  .map(piece => piece[metric3])
+                  .reduce((total, value) => total + value, 0)}
               </p>
             )}
         </TooltipContent>

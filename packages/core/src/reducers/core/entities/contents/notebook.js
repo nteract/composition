@@ -9,9 +9,14 @@ import type {
   CellID,
   ImmutableCellOrder,
   ImmutableOutput,
-  ImmutableOutputs
+  ImmutableOutputs,
+  Output,
+  StreamOutput
 } from "@nteract/commutable";
 import {
+  makeCodeCell,
+  makeRawCell,
+  makeMarkdownCell,
   emptyCodeCell,
   emptyMarkdownCell,
   insertCellAt,
@@ -22,7 +27,6 @@ import {
   createImmutableMimeBundle
 } from "@nteract/commutable";
 import { has } from "lodash";
-import type { Output, StreamOutput } from "@nteract/commutable/src/v4";
 import { escapeCarriageReturnSafe } from "escape-carriage";
 
 import * as actionTypes from "../../../../actionTypes";
@@ -264,7 +268,6 @@ function updateDisplay(
   );
 
   const updatedContent = {
-    // $FlowFixMe: Not sure why this isn't accepted as mimebundle
     data: createImmutableMimeBundle(content.data),
     metadata: Immutable.fromJS(content.metadata || {})
   };
@@ -741,24 +744,56 @@ function changeCellType(
   }
 
   const { to } = action.payload;
-  const from = state.getIn(["notebook", "cellMap", id, "cell_type"]);
 
+  // $FlowFixMe: flow types in immutable need to be updated
+  const cell = state.getIn(["notebook", "cellMap", id]);
+
+  const from = cell.cell_type;
+
+  // NOOP, since we're already that cell type
   if (from === to) {
     return state;
-  } else if (from === "markdown") {
-    return state
-      .setIn(["notebook", "cellMap", id, "cell_type"], to)
-      .setIn(["notebook", "cellMap", id, "execution_count"], null)
-      .setIn(["notebook", "cellMap", id, "outputs"], new Immutable.List());
   }
 
-  return cleanCellTransient(
-    state
-      .setIn(["notebook", "cellMap", id, "cell_type"], to)
-      .deleteIn(["notebook", "cellMap", id, "execution_count"])
-      .deleteIn(["notebook", "cellMap", id, "outputs"]),
-    id
-  );
+  let nextState = state;
+
+  // from === "code"
+  if (from === "code") {
+    nextState = cleanCellTransient(
+      state
+        .deleteIn(["notebook", "cellMap", id, "execution_count"])
+        .deleteIn(["notebook", "cellMap", id, "outputs"]),
+      id
+    );
+  }
+
+  switch (to) {
+    case "code":
+      return nextState.setIn(
+        ["notebook", "cellMap", id],
+        makeCodeCell({
+          source: cell.source
+        })
+      );
+    case "markdown":
+      return nextState.setIn(
+        ["notebook", "cellMap", id],
+        makeMarkdownCell({
+          source: cell.source
+        })
+      );
+    case "raw":
+      return nextState.setIn(
+        ["notebook", "cellMap", id],
+        makeRawCell({
+          source: cell.source
+        })
+      );
+  }
+
+  // If we didn't match on the `to`, we should change nothing as we don't implement
+  // other cell types (as there aren't any)
+  return state;
 }
 
 function toggleOutputExpansion(

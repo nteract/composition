@@ -7,6 +7,7 @@ import katex from "rehype-katex";
 import stringify from "rehype-stringify";
 import { InlineMath, BlockMath } from "react-katex";
 import flush from "styled-jsx/server";
+// $FlowFixMe
 import { Display } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,

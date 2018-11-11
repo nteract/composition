@@ -1,6 +1,6 @@
 {
   "name": "@nteract/outputs",
-  "version": "0.0.4",
+  "version": "1.0.0-alpha.0",
   "description": "components for rendering outputs",
   "main": "lib/index.js",
   "nteractDesktop": "src/index.js",
@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
-    "ansi-to-react": "^3.3.3"
+    "ansi-to-react": "^4.0.0-alpha.0"
   },
   "peerDependencies": {
     "react": "^16.3.2"

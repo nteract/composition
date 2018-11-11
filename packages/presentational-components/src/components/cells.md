@@ -1,7 +1,6 @@
 ```jsx static
-import { Cells } from "@nteract/presentational-components"
+import { Cells } from "@nteract/presentational-components";
 ```
-
 
 `<Cells />` is a wrapper component to provide buffers between cells if you're building a notebook app.
 
@@ -54,7 +53,7 @@ import { Cells } from "@nteract/presentational-components"
               <th>2</th>
               <td>3</td>
             </tr>
-          </tbody>{" "}
+          </tbody>
         </table>
       </div>
     </Outputs>

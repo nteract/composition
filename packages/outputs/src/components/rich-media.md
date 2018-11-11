@@ -1,5 +1,5 @@
 ```jsx
-const Media = require('./media')
+const Media = require("./media");
 
 /**
  * First we'll create some simple components that take data and a mediaType for rendering
@@ -93,7 +93,7 @@ const Media = require('./media')
 The `<RichMedia />` component will pass the appropriate data from the media bundle to the element that accepts the media type. In this case, `<Plain />` is picked as the richest since `text/plain` is the only available. `"SparkContext ⚡️"` is passed as `<Plain data="SparkContext ⚡️" />` to render the richest media.
 
 ```jsx
-const Media = require('./media')
+const Media = require("./media");
 
 const Plain = props => <pre>{props.data}</pre>;
 Plain.defaultProps = {
@@ -109,7 +109,7 @@ Plain.defaultProps = {
 Whereas this output has a richer HTML output:
 
 ```jsx
-const Media = require('./media')
+const Media = require("./media");
 
 const Plain = props => <pre>{props.data}</pre>;
 Plain.defaultProps = {
@@ -178,7 +178,7 @@ Plain.defaultProps = {
 Which means that you can customize outputs as props!
 
 ```jsx
-const Media = require('./media')
+const Media = require("./media");
 
 const Plain = props => <pre>{props.data}</pre>;
 Plain.defaultProps = {
@@ -245,11 +245,12 @@ class Output extends React.Component {
 
 ### Handling Errors from `<Media />` components
 
-The `<RichMedia />` component comes with a built-in `componentDidCatch` fallback
+The `<RichMedia />` component comes with a built-in `componentDidCatch` fallback. To spare this style guide from being spammed with errors, we're not showing the error. To trigger it, uncomment the `throw new Error` line after clicking "View Code"
 
 ```jsx
 const Plain = props => {
-  throw new Error("💥 Broken Media Component");
+  // throw new Error("💥 Broken Media Component");
+  return <pre>{props.data}</pre>;
 };
 Plain.defaultProps = {
   mediaType: "text/plain"
@@ -257,7 +258,7 @@ Plain.defaultProps = {
 
 <RichMedia
   data={{
-    "text/plain": "<b>.____.</b>"
+    "text/plain": "Click View Code below to edit"
   }}
 >
   <Plain />
@@ -269,7 +270,8 @@ You can override the error formatting by passing a render callback as `renderErr
 ```jsx
 /* Purposefully broken component */
 const Plain = props => {
-  throw new Error("💥 Broken Media Component");
+  // throw new Error("💥 Broken Media Component");
+  return <pre>{props.data}</pre>;
 };
 Plain.defaultProps = {
   mediaType: "text/plain"
@@ -326,7 +328,7 @@ ${info.componentStack}
 
 <RichMedia
   data={{
-    "text/plain": "<b>.____.</b>"
+    "text/plain": "Click View Code below to edit"
   }}
   renderError={IssueCreator}
 >

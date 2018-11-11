@@ -4,6 +4,7 @@ import type { AppState, ContentRef } from "@nteract/core";
 import { selectors, actions } from "@nteract/core";
 import { connect } from "react-redux";
 
+// $FlowFixMe
 import type { MonacoEditorProps } from "../../../../../../node_modules/@nteract/monaco-editor";
 
 type MappedStateProps = {
@@ -45,6 +46,7 @@ export class TextFile extends React.PureComponent<
     this.props.handleChange(source);
   }
   componentDidMount() {
+    // $FlowFixMe
     import(/* webpackChunkName: "monaco-editor" */ "@nteract/monaco-editor").then(
       module => {
         this.setState({ Editor: module.default });

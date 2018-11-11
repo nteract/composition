@@ -21,6 +21,8 @@
       -webkit-text-size-adjust: 100%; /* 2 */
     }
 
+
+
     /* Sections
        ========================================================================== */
 
@@ -259,6 +261,20 @@
     summary {
       display: list-item;
     }
+
+    /** Cribbed from blueprint.js' CSS */
+    /** Default to including padding and border in element's total width + height */
+
+    html{
+      -webkit-box-sizing:border-box;
+              box-sizing:border-box; }
+
+    *,
+    *::before,
+    *::after{
+      -webkit-box-sizing:inherit;
+              box-sizing:inherit; }
+
 
     /**
      * styled-jsx can't handle nesting so these have to end up in an inline

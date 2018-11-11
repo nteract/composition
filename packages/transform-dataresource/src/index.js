@@ -20,12 +20,24 @@ import {
 } from "./icons";
 import { chartHelpText } from "./docs/chart-docs";
 
+const mediaType = "application/vnd.dataresource+json";
+
+type dataProps = {
+  schema: {
+    fields: Array<{ name: string, type: string }>,
+    pandas_version: string,
+    primaryKey: Array<string>
+  },
+  data: Array<Object>
+};
+
 type Props = {
-  data: Object,
+  data: dataProps,
   metadata: Object,
   theme?: string,
   expanded?: boolean,
-  height?: number
+  height?: number,
+  mediaType: "application/vnd.dataresource+json"
 };
 
 type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
@@ -119,40 +131,45 @@ const MetadataWarning = ({ metadata }) => {
 ///////////////////////////////
 
 class DataResourceTransform extends React.Component<Props, State> {
-  static MIMETYPE = "application/vnd.dataresource+json";
+  static MIMETYPE = mediaType;
 
   static defaultProps = {
     metadata: {},
-    height: 500
+    height: 500,
+    mediaType
   };
 
   constructor(props: Props) {
     super(props);
-    //DEFAULT FROM PROPS
 
     const { fields = [], primaryKey = [] } = props.data.schema;
 
     const dimensions = fields.filter(
-      d => d.type === "string" || d.type === "boolean" || d.type === "datetime"
+      field =>
+        field.type === "string" ||
+        field.type === "boolean" ||
+        field.type === "datetime"
     );
 
     //Should datetime data types be transformed into js dates before getting to this resource?
-    const data = props.data.data.map(d => {
-      const mappedD = { ...d };
-      fields.forEach(p => {
-        if (p.type === "datetime") {
-          mappedD[p.name] = new Date(mappedD[p.name]);
+    const data = props.data.data.map(datapoint => {
+      const mappedDatapoint = { ...datapoint };
+      fields.forEach(field => {
+        if (field.type === "datetime") {
+          mappedDatapoint[field.name] = new Date(mappedDatapoint[field.name]);
         }
       });
-      return mappedD;
+      return mappedDatapoint;
     });
 
     const metrics = fields
       .filter(
-        d =>
-          d.type === "integer" || d.type === "number" || d.type === "datetime"
+        field =>
+          field.type === "integer" ||
+          field.type === "number" ||
+          field.type === "datetime"
       )
-      .filter(d => !primaryKey.find(p => p === d.name));
+      .filter(field => !primaryKey.find(pkey => pkey === field.name));
 
     this.state = {
       view: "grid",
@@ -220,7 +237,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       data: stateData
     } = { ...this.state, ...updatedState };
 
-    const { data, height = 500 } = this.props;
+    const { data, height } = this.props;
 
     const { Frame, chartGenerator } = semioticSettings[view];
 
@@ -256,14 +273,11 @@ class DataResourceTransform extends React.Component<Props, State> {
     });
 
     const display = (
-      <div style={{ marginLeft: "50px", width: "calc(100vw - 200px)" }}>
-        <Frame
-          responsiveWidth={true}
-          size={[500, height - 200]}
-          {...frameSettings}
-        />
+      <div style={{ width: "calc(100vw - 200px)" }}>
+        <Frame responsiveWidth={true} size={[500, 300]} {...frameSettings} />
         <VizControls
           {...{
+            data: stateData,
             view,
             chart,
             metrics,
@@ -306,28 +320,28 @@ class DataResourceTransform extends React.Component<Props, State> {
     this.updateChart({ colors: newColorArray });
   };
 
-  setLineType = (e: LineType) => {
-    this.updateChart({ lineType: e });
+  setLineType = (selectedLineType: LineType) => {
+    this.updateChart({ lineType: selectedLineType });
   };
 
-  setAreaType = (e: LineType) => {
-    this.updateChart({ areaType: e });
+  setAreaType = (selectedAreaType: LineType) => {
+    this.updateChart({ areaType: selectedAreaType });
   };
 
-  updateDimensions = (e: string) => {
+  updateDimensions = (selectedDimension: string) => {
     const oldDims = this.state.selectedDimensions;
     const newDimensions =
-      oldDims.indexOf(e) === -1
-        ? [...oldDims, e]
-        : oldDims.filter(d => d !== e);
+      oldDims.indexOf(selectedDimension) === -1
+        ? [...oldDims, selectedDimension]
+        : oldDims.filter(dimension => dimension !== selectedDimension);
     this.updateChart({ selectedDimensions: newDimensions });
   };
-  updateMetrics = (e: string) => {
-    const oldDims = this.state.selectedMetrics;
+  updateMetrics = (selectedMetric: string) => {
+    const oldMetrics = this.state.selectedMetrics;
     const newMetrics =
-      oldDims.indexOf(e) === -1
-        ? [...oldDims, e]
-        : oldDims.filter(d => d !== e);
+      oldMetrics.indexOf(selectedMetric) === -1
+        ? [...oldMetrics, selectedMetric]
+        : oldMetrics.filter(metric => metric !== selectedMetric);
     this.updateChart({ selectedMetrics: newMetrics });
   };
 
@@ -383,8 +397,7 @@ class DataResourceTransform extends React.Component<Props, State> {
           style={{
             display: "flex",
             flexFlow: "row nowrap",
-            width: "100%",
-            height: this.props.height
+            width: "100%"
           }}
         >
           <div
@@ -399,8 +412,7 @@ class DataResourceTransform extends React.Component<Props, State> {
               display: "flex",
               flexFlow: "column nowrap",
               zIndex: 1,
-              padding: "5px",
-              background: "white"
+              padding: "5px"
             }}
           >
             <IconButton
@@ -513,8 +525,12 @@ export class IconButton extends React.Component<IconButtonProps> {
     let style: Object = {
       width: "32px",
       height: "32px",
-      cursor: "pointer"
+      cursor: "pointer",
+      color: "var(--theme-app-fg)",
+      border: "1px solid var(--theme-app-fg)",
+      backgroundColor: "var(--theme-app-bg)"
     };
+
     if (selected) {
       style.border = "1px outset #666";
       style.backgroundColor = "#aaa";

@@ -16,6 +16,7 @@ import {
 import { DragDropContext as dragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
+// $FlowFixMe
 import { RichestMime, Output } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,

@@ -1,6 +1,6 @@
 {
   "name": "@nteract/gatsby-transformer-ipynb",
-  "version": "1.2.8",
+  "version": "3.0.0-alpha.0",
   "description": "Gatsby transformer plugin for jupyter notebooks",
   "keywords": [
     "gatsby",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.0.0",
-    "@nteract/notebook-render": "^2.0.1",
+    "@nteract/notebook-render": "^5.0.0-alpha.0",
     "babel-runtime": "^6.26.0"
   },
   "author": "Benjamin Abel <dev.abel@laposte.net>",

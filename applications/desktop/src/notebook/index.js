@@ -3,7 +3,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { ipcRenderer as ipc, remote } from "electron";
 import { Provider } from "react-redux";
-import MathJax from "@nteract/mathjax";
+import * as MathJax from "@nteract/mathjax";
 import { mathJaxPath } from "mathjax-electron";
 import NotificationSystem from "react-notification-system";
 import { Styles } from "@nteract/presentational-components";

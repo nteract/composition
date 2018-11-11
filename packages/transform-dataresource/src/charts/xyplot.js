@@ -1,12 +1,18 @@
 /* @flow */
 import * as React from "react";
 import { scaleLinear, scaleThreshold } from "d3-scale";
+import { heatmapping, hexbinning } from "semiotic";
 
 import { numeralFormatting } from "../utilities";
 import HTMLLegend from "../HTMLLegend";
 import TooltipContent from "../tooltip-content";
 
 import { sortByOrdinalRange } from "./shared";
+
+const binHash = {
+  heatmap: heatmapping,
+  hexbin: hexbinning
+};
 
 const steps = ["none", "#FBEEEC", "#f3c8c2", "#e39787", "#ce6751", "#b3331d"];
 const thresholds = scaleThreshold()
@@ -20,29 +26,29 @@ function combineTopAnnotations(
 ): any[] {
   const combinedAnnotations = [];
   const combinedHash = {};
-  [...topQ, ...topSecondQ].forEach(d => {
-    const hashD = combinedHash[d[dim2]];
+  [...topQ, ...topSecondQ].forEach(topDatapoint => {
+    const hashD = combinedHash[topDatapoint[dim2]];
 
     if (hashD) {
       const newCoordinates = (hashD.coordinates && [
         ...hashD.coordinates,
-        d
-      ]) || [d, hashD];
-      Object.keys(combinedHash[d[dim2]]).forEach(k => {
-        delete combinedHash[d[dim2]][k];
+        topDatapoint
+      ]) || [topDatapoint, hashD];
+      Object.keys(combinedHash[topDatapoint[dim2]]).forEach(key => {
+        delete combinedHash[topDatapoint[dim2]][key];
       });
-      combinedHash[d[dim2]].id = d[dim2];
-      combinedHash[d[dim2]].label = d[dim2];
-      combinedHash[d[dim2]].type = "react-annotation";
-      combinedHash[d[dim2]].coordinates = newCoordinates;
+      combinedHash[topDatapoint[dim2]].id = topDatapoint[dim2];
+      combinedHash[topDatapoint[dim2]].label = topDatapoint[dim2];
+      combinedHash[topDatapoint[dim2]].type = "react-annotation";
+      combinedHash[topDatapoint[dim2]].coordinates = newCoordinates;
     } else {
-      combinedHash[d[dim2]] = {
+      combinedHash[topDatapoint[dim2]] = {
         type: "react-annotation",
-        label: d[dim2],
-        id: d[dim2],
-        ...d
+        label: topDatapoint[dim2],
+        id: topDatapoint[dim2],
+        ...topDatapoint
       };
-      combinedAnnotations.push(combinedHash[d[dim2]]);
+      combinedAnnotations.push(combinedHash[topDatapoint[dim2]]);
     }
   });
   return combinedAnnotations;
@@ -68,38 +74,44 @@ export const semioticScatterplot = (
 
   const { dim1, dim2, dim3, metric1, metric2, metric3 } = chart;
   const filteredData: Array<Object> = data.filter(
-    (d: Object) =>
-      d[metric1] && d[metric2] && (!metric3 || metric3 === "none" || d[metric3])
+    (datapoint: Object) =>
+      datapoint[metric1] &&
+      datapoint[metric2] &&
+      (!metric3 || metric3 === "none" || datapoint[metric3])
   );
 
-  const pointTooltip = (d: Object) => (
-    <TooltipContent>
-      <h3>{primaryKey.map(p => d[p]).join(", ")}</h3>
-      {dimensions.map(dim => (
-        <p key={`tooltip-dim-${dim.name}`}>
-          {dim.name}:{" "}
-          {(d[dim.name].toString && d[dim.name].toString()) || d[dim.name]}
-        </p>
-      ))}
-      <p>
-        {metric1}: {d[metric1]}
-      </p>
-      <p>
-        {metric2}: {d[metric2]}
-      </p>
-      {metric3 &&
-        metric3 !== "none" && (
-          <p>
-            {metric3}: {d[metric3]}
-          </p>
-        )}
-    </TooltipContent>
-  );
-
-  const areaTooltip = (d: Object) => {
-    if (d.binItems.length === 0) return null;
+  const pointTooltip = (hoveredDatapoint: Object) => {
     return (
-      <TooltipContent>
+      <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
+        <h3>{primaryKey.map(pkey => hoveredDatapoint[pkey]).join(", ")}</h3>
+        {dimensions.map(dim => (
+          <p key={`tooltip-dim-${dim.name}`}>
+            {dim.name}:{" "}
+            {(hoveredDatapoint[dim.name].toString &&
+              hoveredDatapoint[dim.name].toString()) ||
+              hoveredDatapoint[dim.name]}
+          </p>
+        ))}
+        <p>
+          {metric1}: {hoveredDatapoint[metric1]}
+        </p>
+        <p>
+          {metric2}: {hoveredDatapoint[metric2]}
+        </p>
+        {metric3 &&
+          metric3 !== "none" && (
+            <p>
+              {metric3}: {hoveredDatapoint[metric3]}
+            </p>
+          )}
+      </TooltipContent>
+    );
+  };
+
+  const areaTooltip = (hoveredDatapoint: Object) => {
+    if (hoveredDatapoint.binItems.length === 0) return null;
+    return (
+      <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
         <h3
           style={{
             fontSize: "14px",
@@ -110,11 +122,13 @@ export const semioticScatterplot = (
         >
           ID, {metric1}, {metric2}
         </h3>
-        {d.binItems.map(d => {
+        {hoveredDatapoint.binItems.map(binnedDatapoint => {
           const id = dimensions
             .map(
               dim =>
-                (d[dim.name].toString && d[dim.name].toString()) || d[dim.name]
+                (binnedDatapoint[dim.name].toString &&
+                  binnedDatapoint[dim.name].toString()) ||
+                binnedDatapoint[dim.name]
             )
             .join(",");
           return (
@@ -126,7 +140,7 @@ export const semioticScatterplot = (
                 margin: "5px"
               }}
             >
-              {id}, {d[metric1]}, {d[metric2]}
+              {id}, {binnedDatapoint[metric1]}, {binnedDatapoint[metric2]}
             </p>
           );
         })}
@@ -142,19 +156,27 @@ export const semioticScatterplot = (
 
   if (dim2 && dim2 !== "none") {
     const topQ = [...filteredData]
-      .sort((a, b) => b[metric1] - a[metric1])
-      .filter((d, i) => i < 3);
+      .sort(
+        (datapointA, datapointB) => datapointB[metric1] - datapointA[metric1]
+      )
+      .filter((d, index) => index < 3);
     const topSecondQ = [...filteredData]
-      .sort((a, b) => b[metric2] - a[metric2])
-      .filter(d => topQ.indexOf(d) === -1)
-      .filter((d, i) => i < 3);
+      .sort(
+        (datapointA, datapointB) => datapointB[metric2] - datapointA[metric2]
+      )
+      .filter(datapoint => topQ.indexOf(datapoint) === -1)
+      .filter((d, index) => index < 3);
 
     annotations = combineTopAnnotations(topQ, topSecondQ, dim2);
   }
 
   if (metric3 && metric3 !== "none") {
-    const dataMin = Math.min(...filteredData.map(d => d[metric3]));
-    const dataMax = Math.max(...filteredData.map(d => d[metric3]));
+    const dataMin = Math.min(
+      ...filteredData.map(datapoint => datapoint[metric3])
+    );
+    const dataMax = Math.max(
+      ...filteredData.map(datapoint => datapoint[metric3])
+    );
     sizeScale = scaleLinear()
       .domain([dataMin, dataMax])
       .range([2, 20]);
@@ -172,17 +194,16 @@ export const semioticScatterplot = (
     dim1 !== "none"
   ) {
     const uniqueValues = sortedData.reduce(
-      (p, c) =>
-        (!p.find(d => d === c[dim1].toString()) && [
-          ...p,
-          c[dim1].toString()
-        ]) ||
-        p,
+      (uniqueArray, datapoint) =>
+        (!uniqueArray.find(
+          uniqueDim => uniqueDim === datapoint[dim1].toString()
+        ) && [...uniqueArray, datapoint[dim1].toString()]) ||
+        uniqueArray,
       []
     );
 
-    uniqueValues.forEach((d, i) => {
-      colorHash[d] = i > 18 ? "grey" : colors[i % colors.length];
+    uniqueValues.forEach((dimValue, index) => {
+      colorHash[dimValue] = index > 18 ? "grey" : colors[index % colors.length];
     });
 
     additionalSettings.afterElements = (
@@ -191,31 +212,6 @@ export const semioticScatterplot = (
         values={uniqueValues}
         colorHash={colorHash}
         setColor={setColor}
-        colors={colors}
-      />
-    );
-  } else if (type !== "scatterplot" && type !== "contour") {
-    const hexValues = [
-      "0% - 20%",
-      "20% - 40%",
-      "40% - 60%",
-      "60% - 80%",
-      "80% - 100%"
-    ];
-    const hexHash = {
-      "0% - 20%": "#FBEEEC",
-      "20% - 40%": "#f3c8c2",
-      "40% - 60%": "#e39787",
-      "60% - 80%": "#ce6751",
-      "80% - 100%": "#b3331d"
-    };
-
-    //    const steps = ["none", "#FBEEEC", "#f3c8c2", "#e39787", "#ce6751", "#b3331d"]
-    additionalSettings.afterElements = (
-      <HTMLLegend
-        valueHash={{}}
-        values={hexValues}
-        colorHash={hexHash}
         colors={colors}
       />
     );
@@ -229,19 +225,87 @@ export const semioticScatterplot = (
     (type === "contour" && dim3 === "none")
   ) {
     areas = [{ coordinates: filteredData }];
+
+    if (type !== "contour") {
+      const calculatedAreas = binHash[type]({
+        areaType: { type, bins: 10 },
+        data: {
+          coordinates: filteredData.map(datapoint => ({
+            ...datapoint,
+            x: datapoint[metric1],
+            y: datapoint[metric2]
+          }))
+        },
+        size: [height, height]
+      });
+      areas = calculatedAreas;
+
+      const thresholdSteps = [0.2, 0.4, 0.6, 0.8, 1]
+        .map(thresholdValue =>
+          Math.floor(calculatedAreas.binMax * thresholdValue)
+        )
+        .reduce(
+          (thresholdArray, thresholdValue) =>
+            thresholdValue === 0 ||
+            thresholdArray.indexOf(thresholdValue) !== -1
+              ? thresholdArray
+              : [...thresholdArray, thresholdValue],
+          []
+        );
+
+      const withZeroThresholdSteps = [0, ...thresholdSteps];
+
+      const hexValues = [];
+
+      withZeroThresholdSteps.forEach((thresholdValue, index) => {
+        const nextValue = withZeroThresholdSteps[index + 1];
+        if (nextValue) {
+          hexValues.push(`${thresholdValue + 1} - ${nextValue}`);
+        }
+      });
+
+      const thresholdColors = [
+        "#FBEEEC",
+        "#f3c8c2",
+        "#e39787",
+        "#ce6751",
+        "#b3331d"
+      ];
+      const hexHash = {};
+
+      hexValues.forEach((binLabel, index) => {
+        hexHash[binLabel] = thresholdColors[index];
+      });
+
+      thresholds
+        .domain([0.01, ...thresholdSteps])
+        .range([
+          "none",
+          ...thresholdColors.filter((d, index) => index < thresholdSteps.length)
+        ]);
+
+      additionalSettings.afterElements = (
+        <HTMLLegend
+          valueHash={{}}
+          values={hexValues}
+          colorHash={hexHash}
+          colors={colors}
+        />
+      );
+    }
   } else if (type === "contour") {
     const multiclassHash = {};
     areas = [];
-    filteredData.forEach(d => {
-      if (!multiclassHash[d[dim1]]) {
-        multiclassHash[d[dim1]] = {
-          label: d[dim1],
-          color: colorHash[d[dim1]],
+    filteredData.forEach(datapoint => {
+      if (!multiclassHash[datapoint[dim1]]) {
+        multiclassHash[datapoint[dim1]] = {
+          label: datapoint[dim1],
+          color: colorHash[datapoint[dim1]],
           coordinates: []
         };
-        areas.push(multiclassHash[d[dim1]]);
+        areas.push(multiclassHash[datapoint[dim1]]);
       }
-      multiclassHash[d[dim1]].coordinates.push(d);
+      multiclassHash[datapoint[dim1]].coordinates.push(datapoint);
     });
   }
 
@@ -249,49 +313,63 @@ export const semioticScatterplot = (
     (type === "scatterplot" || type === "contour") && data.length > 999;
 
   return {
-    xAccessor: metric1,
-    yAccessor: metric2,
+    xAccessor: type === "hexbin" || type === "heatmap" ? "x" : metric1,
+    yAccessor: type === "hexbin" || type === "heatmap" ? "y" : metric2,
     axes: [
       {
         orient: "left",
         ticks: 6,
         label: metric2,
         tickFormat: numeralFormatting,
-        footer: type === "heatmap"
+        baseline: type === "scatterplot",
+        tickSize: type === "heatmap" ? 0 : undefined
       },
       {
         orient: "bottom",
         ticks: 6,
         label: metric1,
         tickFormat: numeralFormatting,
-        footer: type === "heatmap"
+        footer: type === "heatmap",
+        baseline: type === "scatterplot",
+        tickSize: type === "heatmap" ? 0 : undefined
       }
     ],
     points: (type === "scatterplot" || type === "contour") && data,
     canvasPoints: renderInCanvas,
     areas: areas,
     areaType: { type, bins: 10, thresholds: dim3 === "none" ? 6 : 3 },
-    areaStyle: (d: Object) => ({
-      fill: type === "contour" ? "none" : thresholds(d.percent),
-      stroke:
-        type !== "contour"
-          ? "black"
-          : dim3 === "none"
-            ? "#BBB"
-            : d.parentArea.color,
-      strokeWidth: type === "contour" ? 2 : 1
-    }),
-    pointStyle: (d: Object) => ({
-      r: renderInCanvas ? 2 : type === "contour" ? 3 : sizeScale(d[metric3]),
-      fill: colorHash[d[dim1]] || "black",
+    areaStyle: (areaDatapoint: Object) => {
+      return {
+        fill:
+          type === "contour"
+            ? "none"
+            : thresholds(
+                (areaDatapoint.binItems || areaDatapoint.data.binItems).length
+              ),
+        stroke:
+          type !== "contour"
+            ? undefined
+            : dim3 === "none"
+              ? "#BBB"
+              : areaDatapoint.parentArea.color,
+        strokeWidth: type === "contour" ? 2 : 1
+      };
+    },
+    pointStyle: (datapoint: Object) => ({
+      r: renderInCanvas
+        ? 2
+        : type === "contour"
+          ? 3
+          : sizeScale(datapoint[metric3]),
+      fill: colorHash[datapoint[dim1]] || "black",
       fillOpacity: 0.75,
       stroke: renderInCanvas ? "none" : type === "contour" ? "white" : "black",
       strokeWidth: type === "contour" ? 0.5 : 1,
       strokeOpacity: 0.9
     }),
-    hoverAnnotation: !renderInCanvas,
+    hoverAnnotation: true,
     responsiveWidth: false,
-    size: [height + 200, height + 50],
+    size: [height + 225, height + 80],
     margin: { left: 75, bottom: 50, right: 150, top: 30 },
     annotations: (type === "scatterplot" && annotations) || undefined,
     annotationSettings: {

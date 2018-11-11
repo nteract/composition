@@ -1,0 +1,80 @@
+// @flow
+/* eslint-disable */
+
+import { Subject } from "rxjs";
+import type { Channels } from "@nteract/messaging";
+import { Socket } from "jmp";
+
+export const ZMQType = {
+  frontend: {
+    iopub: "sub",
+    stdin: "dealer",
+    shell: "dealer",
+    control: "dealer"
+  }
+};
+
+export type ChannelName = "iopub" | "stdin" | "shell" | "control";
+
+export type JupyterConnectionInfo = {
+  iopub_port: number,
+  shell_port: number,
+  stdin_port: number,
+  control_port: number,
+  // Allows practically any string, they're really constrained though
+  signature_scheme: "hmac-sha256" | string,
+  hb_port: number,
+  ip: string,
+  key: string,
+  // Only known transports at the moment, we'll allow string in general though
+  transport: "tcp" | "ipc" | string
+};
+
+export type HeaderFiller = {
+  session: string,
+  username: string
+};
+
+declare export function formConnectionString(
+  config: JupyterConnectionInfo,
+  channel: ChannelName
+): string;
+
+declare export function createSocket(
+  channel: ChannelName,
+  identity: string,
+  config: JupyterConnectionInfo
+): Promise<Socket>;
+
+/**
+ * ensures the socket is ready after connecting
+ */
+declare export function verifiedConnect(
+  socket: Socket,
+  url: string
+): Promise<Socket>;
+
+declare export function createMainChannel(
+  config: JupyterConnectionInfo,
+  subscription?: string,
+  identity?: string,
+  header?: HeaderFiller
+): Promise<Channels>;
+
+declare export function createSockets(
+  config: JupyterConnectionInfo,
+  subscription?: string,
+  identity?: string
+): Promise<{
+  shell: Socket,
+  control: Socket,
+  stdin: Socket,
+  iopub: Socket
+}>;
+
+declare export function createMainChannelFromSockets(
+  sockets: {
+    [string]: Socket
+  },
+  header?: HeaderFiller
+): Channels;

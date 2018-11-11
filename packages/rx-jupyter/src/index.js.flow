@@ -1,0 +1,93 @@
+// @flow
+/* eslint-disable */
+
+/**
+ * These types are to be maintained by hand until all dependent packages have
+ * converted to typescript.
+ */
+
+import type { AjaxResponse } from "rxjs/ajax";
+import type { Observable, Subject } from "rxjs";
+
+declare export function apiVersion(config: Object): Observable<AjaxResponse>;
+declare export function shutdown(config: Object): Observable<AjaxResponse>;
+
+declare export var kernels: {
+  list: (config: Object) => Observable<AjaxResponse>,
+  get: (config: Object, id: string) => Observable<AjaxResponse>,
+  start: (
+    config: Object,
+    name: string,
+    path: string
+  ) => Observable<AjaxResponse>,
+  kill: (config: Object, id: string) => Observable<AjaxResponse>,
+  interrupt: (config: Object, id: string) => Observable<AjaxResponse>,
+  restart: (config: Object, id: string) => Observable<AjaxResponse>,
+  formWebSocketURL: (
+    config: Object,
+    kernelID: string,
+    sessionID: ?string
+  ) => string,
+  connect: (config: Object, kid: string, sid: ?string) => Subject<*>
+};
+
+declare export var contents: {
+  remove: (config: Object, path: string) => Observable<AjaxResponse>,
+  get: (
+    config: Object,
+    path: string,
+    params?: Object
+  ) => Observable<AjaxResponse>,
+  update: (
+    config: Object,
+    path: string,
+    model: Object
+  ) => Observable<AjaxResponse>,
+  create: (
+    config: Object,
+    path: string,
+    model: Object
+  ) => Observable<AjaxResponse>,
+  save: (
+    config: Object,
+    path: string,
+    model: Object
+  ) => Observable<AjaxResponse>,
+  listCheckpoints: (config: Object, path: string) => Observable<AjaxResponse>,
+  createCheckpoint: (config: Object, path: string) => Observable<AjaxResponse>,
+  deleteCheckpoint: (
+    config: Object,
+    path: string,
+    checkpointID: string
+  ) => Observable<AjaxResponse>,
+  restoreFromCheckpoint: (
+    config: Object,
+    path: string,
+    checkpointID: string
+  ) => Observable<AjaxResponse>
+};
+
+declare export var kernelspecs: {
+  list: (config: Object) => Observable<AjaxResponse>,
+  get: (config: Object, name: string) => Observable<AjaxResponse>
+};
+
+declare export var sessions: {
+  list: (config: Object) => Observable<AjaxResponse>,
+  get: (config: Object, sessionID: string) => Observable<AjaxResponse>,
+  destroy: (config: Object, sessionID: string) => Observable<AjaxResponse>,
+  update: (
+    config: Object,
+    sessionID: string,
+    body: Object
+  ) => Observable<AjaxResponse>,
+  create: (config: Object, body: Object) => Observable<AjaxResponse>
+};
+
+declare export var terminals: {
+  list: (config: Object) => Observable<AjaxResponse>,
+  create: (config: Object) => Observable<AjaxResponse>,
+  get: (config: Object, id: string) => Observable<AjaxResponse>,
+  destroy: (config: Object, id: string) => Observable<AjaxResponse>,
+  formWebSocketURL: (config: Object, id: string) => string
+};

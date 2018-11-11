@@ -7,7 +7,6 @@ suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
 suppress_comment= \\(.\\|\n\\)*\\$FlowAllowFeatureDetection
 module.name_mapper='^@nteract/\(.+\)$' -> '<PROJECT_ROOT>/packages/\1/src'
 module.name_mapper='^@mybinder/\(.+\)$' -> '<PROJECT_ROOT>/packages/\1/src'
-module.name_mapper='^ansi-to-react$' -> '<PROJECT_ROOT>/packages/ansi-to-react/src'
 module.name_mapper='^enchannel-zmq-backend$' -> '<PROJECT_ROOT>/packages/enchannel-zmq-backend/src'
 module.name_mapper='^fs-observable$' -> '<PROJECT_ROOT>/packages/fs-observable/src'
 module.name_mapper='^rx-binder$' -> '<PROJECT_ROOT>/packages/rx-binder/src'
@@ -18,8 +17,8 @@ emoji=true
 [ignore]
 <PROJECT_ROOT>/node_modules/webpack-cli/.nyc_output/.*
 <PROJECT_ROOT>/packages/.*/node_modules
-<PROJECT_ROOT>/packages/.*/lib
 <PROJECT_ROOT>/applications/jupyter-extension/build/.*
+<PROJECT_ROOT>/packages/.*/lib
 node_modules/
 dist/
 .*static/*

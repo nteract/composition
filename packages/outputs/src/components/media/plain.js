@@ -1,6 +1,7 @@
 /* @flow strict */
 import * as React from "react";
-import { ansiToInlineStyle } from "ansi-to-react";
+// $FlowFixMe
+import Ansi from "ansi-to-react";
 
 type Props = {
   data: string,
@@ -9,11 +10,7 @@ type Props = {
 
 export const Plain = (props: Props) => (
   <pre>
-    {ansiToInlineStyle(props.data).map((bundle, key) => (
-      <span style={bundle.style} key={key}>
-        {bundle.content}
-      </span>
-    ))}
+    <Ansi linkify={false}>{props.data}</Ansi>
   </pre>
 );
 

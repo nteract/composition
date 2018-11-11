@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transform-dataresource",
-  "version": "4.3.5",
+  "version": "5.0.0-alpha.0",
   "description": "Transform for data resource JSON",
   "main": "lib/",
   "nteractDesktop": "src/index.js",
@@ -31,8 +31,11 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@babel/runtime-corejs2": "^7.0.0",
-    "@nteract/octicons": "^0.4.3",
-    "@nteract/transform-plotly": "^3.2.3",
+    "@blueprintjs/core": "^3.7.0",
+    "@blueprintjs/select": "^3.2.0",
+    "@nteract/octicons": "^1.0.0-alpha.0",
+    "@nteract/styled-blueprintjsx": "^1.1.1",
+    "@nteract/transform-plotly": "^4.0.0-alpha.0",
     "d3-collection": "^1.0.7",
     "d3-scale": "^2.1.2",
     "d3-shape": "^1.2.2",
@@ -44,7 +47,7 @@
     "react-hot-loader": "^4.1.2",
     "react-table": "^6.8.6",
     "react-table-hoc-fixed-columns": "1.0.2",
-    "semiotic": "^1.14.4",
+    "semiotic": "^1.15.6",
     "styled-jsx": "^3.1.0",
     "tv4": "^1.3.0"
   }

@@ -10,7 +10,7 @@ export class SVG extends React.Component<Props> {
   el: ?HTMLElement;
   static defaultProps = {
     mediaType: "image/svg+xml",
-    date: ""
+    data: ""
   };
 
   componentDidMount(): void {

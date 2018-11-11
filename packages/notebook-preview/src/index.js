@@ -1,5 +1,6 @@
 /* @flow */
 import * as React from "react";
+// $FlowFixMe
 import { Display } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,
@@ -21,7 +22,7 @@ import {
   Cells
 } from "@nteract/presentational-components";
 import Markdown from "@nteract/markdown";
-import MathJax from "@nteract/mathjax";
+import * as MathJax from "@nteract/mathjax";
 
 import { PapermillView } from "./papermill";
 

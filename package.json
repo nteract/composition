@@ -20,20 +20,22 @@
   },
   "homepage": "https://github.com/nteract/nteract",
   "scripts": {
-    "app:desktop": "lerna run start --scope nteract --stream",
-    "app:play": "lerna run dev --scope @nteract/play --stream",
-    "app:commuter": "lerna run dev --scope @nteract/commuter --stream",
-    "app:jupyter-extension": "lerna run dev --scope nteract-on-jupyter --stream",
+    "app:desktop": "lerna run dev --stream --scope nteract",
+    "app:play": "lerna run dev --stream --scope @nteract/play",
+    "app:commuter": "lerna run dev --stream --scope @nteract/commuter",
+    "app:jupyter-extension": "lerna run dev --stream --scope nteract-on-jupyter",
     "start": "npm run app:desktop",
     "spawn": "lerna run spawn --scope nteract",
     "spawn:debug": "lerna run spawn:debug --scope nteract",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build": "NODE_ENV=production npm run build:packages",
+    "build:clean": "lerna run build:clean --parallel",
     "build:apps": "lerna run build --scope nteract --scope @nteract/play --scope @nteract/commuter --scope nteract-on-jupyter --parallel --stream",
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
     "build:packages": "NODE_ENV=production lerna run build --parallel --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
+    "build:packages:ci": "NODE_ENV=production lerna run build --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
     "build:packages:watch": "lerna run build:lib:watch --parallel --ignore @nteract/play --ignore @nteract/commuter --ignore nteract --ignore nteract-on-jupyter",
     "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:only": "lerna run build --scope",
@@ -56,11 +58,11 @@
     "verifyBeforePublish": "lerna run prepublishOnly && lerna run prepare",
     "prepublishOnly": "npm run verifyBeforePublish",
     "publish": "lerna run publish",
-    "prettify": "prettier --write '**/*.{js,json}' '!**/{dist,lib,.git,.next,package.json,build,flow-typed,mathjax-electron}/**'",
+    "prettify": "prettier --write '**/*.{ts,tsx,js,json}' '!**/{dist,lib.git,.next,package.json,build,flow-typed,mathjax-electron}/**'",
     "pack": "lerna run pack --scope nteract --stream",
     "dist": "lerna run dist --scope nteract --stream",
     "dist:all": "lerna run dist:all --scope nteract --stream",
-    "clean": "lerna clean --yes && rimraf node_modules"
+    "clean": "lerna clean --yes && npm run build:clean && rimraf node_modules"
   },
   "jest": {
     "testURL": "http://localhost",
@@ -80,10 +82,27 @@
     "coveragePathIgnorePatterns": [
       "<rootDir>/scripts",
       "/node_modules/"
-    ]
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.[tj]s?(x)",
+      "**/?(*.)+(spec|test).[tj]s?(x)"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/.*types\\.tsx?"
+    ],
+    "transform": {
+      ".*": "babel-jest"
+    }
   },
   "lint-staged": {
-    "*.js,!*js.snap": [
+    "*.tsx,*.ts,*.js,!*js.snap": [
       "prettier --write",
       "git add"
     ],
@@ -97,15 +116,23 @@
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/plugin-transform-typescript": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "@babel/runtime-corejs2": "^7.0.0",
+    "@types/immutable": "^3.8.7",
+    "@types/jest": "^23.3.8",
+    "@types/lodash": "^4.14.117",
+    "@types/react": "^16.4.18",
+    "@types/react-test-renderer": "^16.0.3",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.0",
     "babel-jest": "^23.6.0",
@@ -115,8 +142,8 @@
     "cpy-cli": "^2.0.0",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
-    "electron": "3.0.5",
-    "electron-builder": "20.28.4",
+    "electron": "3.0.7",
+    "electron-builder": "20.31.2",
     "electron-context-menu": "^0.10.0",
     "electron-log": "^2.2.13",
     "electron-updater": "^3.0.0",
@@ -133,13 +160,13 @@
     "eslint-plugin-react-perf": "^2.0.9",
     "flow-bin": "^0.81.0",
     "flow-copy-source": "^2.0.0",
-    "husky": "^1.0.0",
+    "husky": "^1.1.3",
     "immutable": "^4.0.0-rc.9",
     "jest": "^23.0.1",
     "jupyter-paths": "^2.0.0",
     "kernelspecs": "^2.0.0",
     "lerna": "^3.0.0",
-    "lint-staged": "^7.2.0",
+    "lint-staged": "^8.0.0",
     "lodash": "^4.17.4",
     "lodash-webpack-plugin": "^0.11.4",
     "mkdirp": "^0.5.1",
@@ -150,7 +177,7 @@
     "react-dom": "^16.3.2",
     "react-notification-system": "^0.2.16",
     "react-redux": "^5.0.7",
-    "react-styleguidist": "^7.3.6",
+    "react-styleguidist": "^8.0.0",
     "react-test-renderer": "^16.2.0",
     "redux": "^4.0.0",
     "redux-electron-store": "^0.6.1",
@@ -166,6 +193,8 @@
     "spawnteract": "^5.0.0",
     "style-loader": "^0.23.0",
     "styled-jsx": "^3.1.0",
+    "ts-jest": "^23.10.4",
+    "typescript": "^3.1.3",
     "unified": "^7.0.0",
     "unist-builder": "^1.0.2",
     "webfontloader": "^1.6.28",

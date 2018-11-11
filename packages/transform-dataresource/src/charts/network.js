@@ -22,60 +22,62 @@ export const semioticNetwork = (
   const edgeHash = {};
   const networkData = [];
 
-  data.forEach(d => {
-    if (!edgeHash[`${d[sourceDimension]}-${d[targetDimension]}`]) {
-      edgeHash[`${d[sourceDimension]}-${d[targetDimension]}`] = {
-        source: d[sourceDimension],
-        target: d[targetDimension],
+  data.forEach(edge => {
+    if (!edgeHash[`${edge[sourceDimension]}-${edge[targetDimension]}`]) {
+      edgeHash[`${edge[sourceDimension]}-${edge[targetDimension]}`] = {
+        source: edge[sourceDimension],
+        target: edge[targetDimension],
         value: 0,
         weight: 0
       };
-      networkData.push(edgeHash[`${d[sourceDimension]}-${d[targetDimension]}`]);
+      networkData.push(
+        edgeHash[`${edge[sourceDimension]}-${edge[targetDimension]}`]
+      );
     }
-    edgeHash[`${d[sourceDimension]}-${d[targetDimension]}`].value +=
-      d[metric1] || 1;
-    edgeHash[`${d[sourceDimension]}-${d[targetDimension]}`].weight += 1;
+    edgeHash[`${edge[sourceDimension]}-${edge[targetDimension]}`].value +=
+      edge[metric1] || 1;
+    edgeHash[`${edge[sourceDimension]}-${edge[targetDimension]}`].weight += 1;
   });
 
   const colorHash = {};
-  data.forEach(d => {
-    if (!colorHash[d[sourceDimension]])
-      colorHash[d[sourceDimension]] =
+  data.forEach(edge => {
+    if (!colorHash[edge[sourceDimension]])
+      colorHash[edge[sourceDimension]] =
         colors[Object.keys(colorHash).length % colors.length];
-    if (!colorHash[d[targetDimension]])
-      colorHash[d[targetDimension]] =
+    if (!colorHash[edge[targetDimension]])
+      colorHash[edge[targetDimension]] =
         colors[Object.keys(colorHash).length % colors.length];
   });
 
-  networkData.forEach(d => {
-    d.weight = Math.min(10, d.weight);
+  networkData.forEach(edge => {
+    edge.weight = Math.min(10, edge.weight);
   });
 
   return {
     edges: networkData,
     edgeType: "halfarrow",
-    edgeStyle: (d: Object) => ({
-      fill: colorHash[d.source.id],
-      stroke: colorHash[d.source.id],
+    edgeStyle: (edge: Object) => ({
+      fill: colorHash[edge.source.id],
+      stroke: colorHash[edge.source.id],
       strokeOpacity: 0.5
     }),
-    nodeStyle: (d: Object) => ({
-      fill: colorHash[d.id],
-      stroke: colorHash[d.id],
+    nodeStyle: (node: Object) => ({
+      fill: colorHash[node.id],
+      stroke: colorHash[node.id],
       strokeOpacity: 0.5
     }),
-    nodeSizeAccessor: (d: Object) => d.degree,
+    nodeSizeAccessor: (node: Object) => node.degree,
     networkType: {
       type: networkType,
       iterations: 1000
     },
     hoverAnnotation: true,
-    tooltipContent: (d: Object) => {
+    tooltipContent: (hoveredNode: Object) => {
       return (
-        <TooltipContent>
-          <h3>{d.id}</h3>
-          <p>Links: {d.degree}</p>
-          {d.value && <p>Value: {d.value}</p>}
+        <TooltipContent x={hoveredNode.x} y={hoveredNode.y}>
+          <h3>{hoveredNode.id}</h3>
+          <p>Links: {hoveredNode.degree}</p>
+          {hoveredNode.value && <p>Value: {hoveredNode.value}</p>}
         </TooltipContent>
       );
     },

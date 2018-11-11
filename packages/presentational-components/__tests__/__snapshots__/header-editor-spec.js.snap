@@ -2,10 +2,10 @@
 
 exports[`Header Editor renders a static view when not editable 1`] = `
 <header
-  className="jsx-2279537447"
+  className="jsx-4281394543"
 >
   <div
-    className="jsx-2279537447"
+    className="jsx-4281394543"
     style={
       Object {
         "background": "#EEE",
@@ -36,7 +36,7 @@ exports[`Header Editor renders a static view when not editable 1`] = `
       </div>
     </h1>
     <div
-      className="jsx-2279537447"
+      className="jsx-4281394543"
     >
       <span
         className="bp3-popover-wrapper"
@@ -80,7 +80,7 @@ exports[`Header Editor renders a static view when not editable 1`] = `
       </span>
     </div>
     <div
-      className="jsx-2279537447"
+      className="jsx-4281394543"
     >
       <span
         className="bp3-popover-wrapper"
@@ -124,7 +124,7 @@ exports[`Header Editor renders a static view when not editable 1`] = `
       </span>
     </div>
     <div
-      className="jsx-2279537447"
+      className="jsx-4281394543"
       style={
         Object {
           "marginTop": "10px",
@@ -154,10 +154,10 @@ exports[`Header Editor renders a static view when not editable 1`] = `
 
 exports[`Header Editor renders correctly with no props 1`] = `
 <header
-  className="jsx-2279537447"
+  className="jsx-4281394543"
 >
   <div
-    className="jsx-2279537447"
+    className="jsx-4281394543"
     style={
       Object {
         "background": "#EEE",
@@ -188,7 +188,7 @@ exports[`Header Editor renders correctly with no props 1`] = `
       </div>
     </h1>
     <div
-      className="jsx-2279537447"
+      className="jsx-4281394543"
     >
       <span
         className="bp3-popover-wrapper"
@@ -232,7 +232,7 @@ exports[`Header Editor renders correctly with no props 1`] = `
       </span>
     </div>
     <div
-      className="jsx-2279537447"
+      className="jsx-4281394543"
     >
       <span
         className="bp3-popover-wrapper"
@@ -276,7 +276,7 @@ exports[`Header Editor renders correctly with no props 1`] = `
       </span>
     </div>
     <div
-      className="jsx-2279537447"
+      className="jsx-4281394543"
       style={
         Object {
           "marginTop": "10px",

@@ -5,14 +5,21 @@ import { cloneDeep } from "lodash";
 import { objectToReactElement } from "./object-to-react";
 
 type Props = {
+  mediaType: "application/vdom.v1+json",
   data: Object
 };
 
 // Provide object-to-react as an available helper on the library
 export { objectToReactElement };
 
+const mediaType = "application/vdom.v1+json";
+
 export default class VDOM extends React.Component<Props> {
-  static MIMETYPE = "application/vdom.v1+json";
+  static MIMETYPE = mediaType;
+
+  static defaultProps = {
+    mediaType
+  };
 
   shouldComponentUpdate(nextProps: Props): boolean {
     return nextProps.data !== this.props.data;

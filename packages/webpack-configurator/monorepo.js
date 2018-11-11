@@ -229,6 +229,11 @@ module.exports = {
       name: "@nteract/webpack-configurator",
       version: "1.2.0",
       private: false
+    },
+    {
+      name: "@nteract/jupyter-widgets",
+      version: "1.0.0-alpha.0",
+      private: false
     }
   ]
 };

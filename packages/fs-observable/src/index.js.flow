@@ -1,0 +1,40 @@
+// @flow
+
+/**
+ * These types are to be maintained by hand until all dependent packages have
+ * converted to typescript.
+ */
+
+import type { Observable } from "rxjs";
+
+declare export function unlinkObservable(path: string): Observable<any>;
+declare export function createNewSymlinkObservable(
+  target: string,
+  path: string
+): Observable<any>;
+
+declare export function createSymlinkObservable(
+  target: string,
+  path: string
+): Observable<any>;
+
+declare export function readFileObservable(
+  path: string
+): Observable<string | Buffer>;
+
+declare export function writeFileObservable(
+  path: string,
+  data: string,
+  options?:
+    | string
+    | {
+        encoding?: ?string,
+        mode?: number,
+        flag?: string
+      }
+): Observable<any>;
+
+declare export function statObservable(path: string): Observable<any>;
+declare export function mkdirpObservable(path: string): Observable<any>;
+
+declare export function readdirObservable(path: string): Observable<any>;
