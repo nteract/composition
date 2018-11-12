@@ -6,7 +6,7 @@ import { actionTypes, selectors, actions } from "@nteract/core";
 import type { AppState } from "@nteract/core";
 import { toJS, stringifyNotebook } from "@nteract/commutable";
 import { of } from "rxjs";
-import { mergeMap, catchError, map } from "rxjs/operators";
+import { mergeMap, catchError, map, concatMap } from "rxjs/operators";
 
 /**
  * Cleans up the notebook document and saves the file.
@@ -91,10 +91,10 @@ export function saveEpic(
 export function saveAsEpic(action$: ActionsObservable<redux$Action>) {
   return action$.pipe(
     ofType(actionTypes.SAVE_AS),
-    mergeMap((action: actionTypes.SaveAs) => {
+    concatMap((action: actionTypes.SaveAs) => {
       return [
-        // order matters here, since we need the filename set in the state
-        // before we save the document
+        // Using concatMap because order matters here.
+        // Filename state MUST be updated before save in all cases
         actions.changeFilename({
           filepath: action.payload.filepath,
           contentRef: action.payload.contentRef
