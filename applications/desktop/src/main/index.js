@@ -233,6 +233,7 @@ windowAllClosed.pipe(skipUntil(appAndKernelSpecsReady)).subscribe(() => {
     process.platform !== "darwin" ||
     store.getState().get("quittingState") === QUITTING_STATE_QUITTING
   ) {
+    store.dispatch(setQuittingState(QUITTING_STATE_QUITTING));
     app.quit();
   }
 });
