@@ -449,6 +449,18 @@ export function dispatchCreateTextCellBelow(
     })
   );
 }
+export function dispatchCreateRawCellBelow(
+  ownProps: { contentRef: ContentRef },
+  store: Store<DesktopNotebookAppState, *>
+) {
+  store.dispatch(
+    actions.createCellBelow({
+      cellType: "raw",
+      source: "",
+      contentRef: ownProps.contentRef
+    })
+  );
+}
 
 export function dispatchCreateCellBefore(
   ownProps: { contentRef: ContentRef },
@@ -721,6 +733,7 @@ export function initMenuHandlers(
     "menu:new-code-cell-below",
     dispatchCreateCellBelow.bind(null, opts, store)
   );
+  ipc.on("menu:new-raw-cell-below", dispatchCreateRawCellBelow.bind(null,opts, store));
   ipc.on("menu:copy-cell", dispatchCopyCell.bind(null, opts, store));
   ipc.on("menu:cut-cell", dispatchCutCell.bind(null, opts, store));
   ipc.on("menu:paste-cell", dispatchPasteCell.bind(null, opts, store));
