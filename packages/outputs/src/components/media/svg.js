@@ -2,25 +2,22 @@
 import React from "react";
 
 type Props = {
-  mediaType: string,
-  data: string
+  data: string,
+  mediaType: "image/svg+xml",
 };
 
-export class SVG extends React.Component<Props> {
+export class SVG extends React.PureComponent<Props> {
   el: ?HTMLElement;
+
   static defaultProps = {
+    data: '',
     mediaType: "image/svg+xml",
-    data: ""
   };
 
   componentDidMount(): void {
     if (this.el) {
       this.el.insertAdjacentHTML("beforeend", this.props.data);
     }
-  }
-
-  shouldComponentUpdate(nextProps: Props): boolean {
-    return nextProps.data !== this.props.data;
   }
 
   componentDidUpdate(): void {

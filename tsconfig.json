@@ -1,4 +1,0 @@
-// prevent tsc from building on accident
-{
-  "files": []
-}

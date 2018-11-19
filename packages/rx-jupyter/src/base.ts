@@ -7,6 +7,7 @@ export interface ServerConfig extends Partial<AjaxRequest> {
   endpoint?: string;
   url?: string;
   token?: string;
+  xsrfToken?: string;
 }
 
 export const createAJAXSettings = (
@@ -16,7 +17,8 @@ export const createAJAXSettings = (
 ): AjaxRequest => {
   const baseURL = normalizeBaseURL(serverConfig.endpoint || serverConfig.url);
   const url = `${baseURL}${uri}`;
-  const xsrfToken = Cookies.get("_xsrf");
+  // Use the server config provided token if available before trying cookies
+  const xsrfToken = serverConfig.xsrfToken || Cookies.get("_xsrf");
   const headers = {
     "X-XSRFToken": xsrfToken,
     Authorization: `token ${serverConfig.token ? serverConfig.token : ""}`

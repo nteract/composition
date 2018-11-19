@@ -26,7 +26,7 @@
   "dependencies": {
     "@nteract/transforms": "^5.0.0-alpha.0",
     "ansi-to-react": "^4.0.0-alpha.0",
-    "immutable": "^4.0.0-rc.9"
+    "immutable": "^4.0.0-rc.12"
   },
   "peerDependencies": {
     "react": "^16.3.2"

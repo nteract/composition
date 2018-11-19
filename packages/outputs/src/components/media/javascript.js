@@ -3,13 +3,13 @@ import React from "react";
 
 type Props = {
   /**
-   * The media type associated with our component.
-   */
-  mediaType: "text/javascript",
-  /**
    * The JavaScript code that we would like to execute.
    */
-  data: string
+  data: string,
+  /**
+   * The media type associated with our component.
+   */
+  mediaType: "text/javascript"
 };
 
 export function runCodeHere(el: ?HTMLElement, code: string): any {
@@ -32,19 +32,16 @@ export function runCodeHere(el: ?HTMLElement, code: string): any {
   }
 }
 
-export class JavaScript extends React.Component<Props> {
+export class JavaScript extends React.PureComponent<Props> {
   el: ?HTMLElement;
+
   static defaultProps = {
-    mediaType: "application/javascript",
-    data: ""
+    data: '',
+    mediaType: "application/javascript"
   };
 
   componentDidMount(): void {
     runCodeHere(this.el, this.props.data);
-  }
-
-  shouldComponentUpdate(nextProps: Props): boolean {
-    return nextProps.data !== this.props.data;
   }
 
   componentDidUpdate(): void {

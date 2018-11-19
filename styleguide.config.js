@@ -1,5 +1,10 @@
 // @format
+
 const path = require("path");
+
+const reactDocgenTypescript = require("react-docgen-typescript").withCustomConfig(
+  "./tsconfig.base.json"
+);
 
 const babelFlowConfig = require("./babel.flow.config");
 const babelTypescriptConfig = require("./babel.typescript.config");
@@ -8,38 +13,41 @@ var {
   mergeDefaultAliases
 } = require("./packages/webpack-configurator");
 
+const typescriptPropsParser = reactDocgenTypescript.parse;
+
 module.exports = {
   title: "nteract components",
   defaultExample: false,
   sections: [
     {
-      name: "Presentational Components",
-      components: "packages/presentational-components/src/components/*.js"
+      name: "@nteract/presentational-components",
+      components: "packages/presentational-components/src/components/*.tsx"
     },
     {
-      name: "Outputs",
+      name: "@nteract/outputs",
       components: "packages/outputs/src/components/*.js"
     },
     {
-      name: "Media Outputs",
+      name: "@nteract/outputs/media",
       components: "packages/outputs/src/components/media/*.js",
       content: "packages/outputs/src/components/media/index.md",
       ignore: "packages/outputs/src/components/media/index.js"
     },
     {
-      name: "Binder Hosts and Kernels",
-      components: "packages/host-cache/src/components/*.js"
+      name: "@mybinder/host-cache",
+      components: "packages/host-cache/src/components/*.tsx",
+      propsParser: typescriptPropsParser
     },
     {
-      name: "Directory Listing",
+      name: "@nteract/directory-listing",
       components: "packages/directory-listing/src/components/*.js"
     },
     {
-      name: "MarkdownRender",
+      name: "@nteract/markdown",
       content: "packages/markdown/examples.md"
     },
     {
-      name: "Maths",
+      name: "@nteract/mathjax",
       content: "packages/mathjax/examples.md"
     }
   ],

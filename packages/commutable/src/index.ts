@@ -30,12 +30,14 @@ export {
   makeExecuteResult
 } from "./outputs";
 
-export { makeRawCell, makeCodeCell, makeMarkdownCell } from "./cells";
+export { makeRawCell, makeCodeCell, makeMarkdownCell, ImmutableCodeCell } from "./cells";
 
 export {
   toJS,
   stringifyNotebook,
   fromJS,
   parseNotebook,
-  makeNotebookRecord
+  makeNotebookRecord,
+  Notebook,
+  ImmutableNotebook
 } from "./notebook";

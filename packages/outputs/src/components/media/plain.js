@@ -5,7 +5,7 @@ import Ansi from "ansi-to-react";
 
 type Props = {
   data: string,
-  mediaType: string
+  mediaType: "text/plain"
 };
 
 export const Plain = (props: Props) => (
@@ -15,5 +15,6 @@ export const Plain = (props: Props) => (
 );
 
 Plain.defaultProps = {
+  data: '',
   mediaType: "text/plain"
 };

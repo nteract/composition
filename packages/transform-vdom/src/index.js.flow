@@ -1,0 +1,8 @@
+// @flow
+/* eslint-disable */
+
+declare class VDOMDisplay extends React.Component {
+    static MIMETYPE: string;
+}
+
+export default VDOMDisplay;

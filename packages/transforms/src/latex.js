@@ -3,13 +3,19 @@ import React from "react";
 import * as MathJax from "@nteract/mathjax";
 
 type Props = {
-  data: string
+  data: string,
+  mediaType: "text/latex"
 };
 
-export const LaTeXDisplay = (props: Props) => {
-  return <MathJax.Text>{props.data}</MathJax.Text>;
-};
+export default class LaTeX extends React.PureComponent<Props> {
+  static MIMETYPE = "text/latex";
 
-LaTeXDisplay.MIMETYPE = "text/latex";
+  static defaultProps = {
+    data: "",
+    mediaType: "text/latex"
+  };
 
-export default LaTeXDisplay;
+  render() {
+    return <MathJax.Text>{this.props.data}</MathJax.Text>;
+  }
+}

@@ -1,24 +1,13 @@
 /* @flow */
 import { hot } from "react-hot-loader";
 import * as React from "react";
-import { DatabaseOcticon } from "@nteract/octicons";
 
 import { colors } from "./settings";
 import { semioticSettings } from "./charts/settings";
 import { DataResourceTransformGrid } from "./charts/grid";
 import VizControls from "./VizControls";
 import semioticStyle from "./css/semiotic";
-import {
-  TreeIcon,
-  NetworkIcon,
-  BoxplotIcon,
-  ScatterplotIcon,
-  LineChartIcon,
-  BarChartIcon,
-  HexbinIcon,
-  ParallelCoordinatesIcon
-} from "./icons";
-import { chartHelpText } from "./docs/chart-docs";
+import { Toolbar } from "./components/Toolbar";
 
 const mediaType = "application/vnd.dataresource+json";
 
@@ -31,45 +20,75 @@ type dataProps = {
   data: Array<Object>
 };
 
+type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
+
+type AreaType = "hexbin" | "heatmap" | "contour";
+
+type SummaryType = "violin" | "joy" | "histogram" | "heatmap" | "boxplot";
+
+type PieceType = "bar" | "point" | "swarm" | "clusterbar";
+
+type HierarchyType = "dendrogram" | "treemap" | "partition";
+
+type NetworkType = "force" | "sankey" | "arc" | "matrix";
+
+export type View =
+  | "line"
+  | "bar"
+  | "scatter"
+  | "grid"
+  | "network"
+  | "summary"
+  | "hexbin"
+  | "parallel"
+  | "hierarchy";
+
+type dxMetaProps = {
+  view?: View,
+  lineType?: LineType,
+  areaType?: AreaType,
+  selectedDimensions?: Array<string>,
+  selectedMetrics?: Array<string>,
+  pieceType?: PieceType,
+  summaryType?: SummaryType,
+  networkType?: NetworkType,
+  hierarchyType?: HierarchyType,
+  colors?: Array<string>,
+  chart?: {
+    metric1?: string,
+    metric2?: string,
+    metric3?: string,
+    dim1?: string,
+    dim2?: string,
+    dim3?: string,
+    timeseriesSort?: string
+  }
+};
+
 type Props = {
   data: dataProps,
-  metadata: Object,
+  metadata: { dx: dxMetaProps },
   theme?: string,
   expanded?: boolean,
   height?: number,
-  mediaType: "application/vnd.dataresource+json"
+  mediaType: "application/vnd.dataresource+json",
+  initialView: View,
+  onMetadataChange?: ({ dx: dxMetaProps }) => void
 };
 
-type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
-
 type State = {
-  view:
-    | "line"
-    | "bar"
-    | "scatter"
-    | "grid"
-    | "network"
-    | "summary"
-    | "hexbin"
-    | "parallel"
-    | "hierarchy",
+  view: View,
   colors: Array<string>,
   metrics: Array<Object>,
   dimensions: Array<Object>,
   selectedMetrics: Array<string>,
   selectedDimensions: Array<string>,
-  networkType: "force" | "sankey",
-  hierarchyType: "dendrogram" | "treemap" | "partition",
-  pieceType: "bar" | "point" | "swarm" | "clusterbar",
-  colorValue: string,
-  sizeValue: string,
-  xValue: string,
-  yValue: string,
-  targetDimension: string,
-  sourceDimension: string,
-  labelValue: string,
-  summaryType: "violin" | "joy" | "histogram" | "heatmap" | "boxplot",
+  networkType: NetworkType,
+  hierarchyType: HierarchyType,
+  pieceType: PieceType,
+  summaryType: SummaryType,
   lineType: LineType,
+  areaType: AreaType,
   chart: Object,
   displayChart: Object,
   primaryKey: Array<string>,
@@ -133,14 +152,25 @@ const MetadataWarning = ({ metadata }) => {
 class DataResourceTransform extends React.Component<Props, State> {
   static MIMETYPE = mediaType;
 
+  //FOR TESTING PURPOSES ONLY THE METADATA HAS SAMPLE SETTINGS FOR A GRADUATED SYMBOL PLOT
+
   static defaultProps = {
-    metadata: {},
+    metadata: {
+      dx: {}
+    },
     height: 500,
-    mediaType
+    mediaType,
+    initialView: "grid"
   };
 
   constructor(props: Props) {
     super(props);
+
+    const { metadata, initialView } = props;
+
+    const { dx: baseDX = {} } = metadata;
+
+    const { chart = {}, ...dx } = baseDX;
 
     const { fields = [], primaryKey = [] } = props.data.schema;
 
@@ -172,7 +202,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       .filter(field => !primaryKey.find(pkey => pkey === field.name));
 
     this.state = {
-      view: "grid",
+      view: initialView,
       lineType: "line",
       areaType: "hexbin",
       selectedDimensions: [],
@@ -181,13 +211,6 @@ class DataResourceTransform extends React.Component<Props, State> {
       summaryType: "violin",
       networkType: "force",
       hierarchyType: "dendrogram",
-      colorValue: "none",
-      labelValue: "none",
-      sizeValue: "none",
-      sourceDimension: "none",
-      targetDimension: "none",
-      xValue: "none",
-      yValue: "none",
       dimensions,
       metrics,
       colors,
@@ -199,23 +222,21 @@ class DataResourceTransform extends React.Component<Props, State> {
         dim1: (dimensions[0] && dimensions[0].name) || "none",
         dim2: (dimensions[1] && dimensions[1].name) || "none",
         dim3: "none",
-        timeseriesSort: "array-order"
+        timeseriesSort: "array-order",
+        ...chart
       },
       displayChart: {},
       primaryKey,
-      data
+      data,
+      ...dx
     };
   }
 
-  //SET STATE WHENEVER CHANGES
-
-  //HELD IN STATE LIKE SO
-  //UI CHOICES
-  //CHART CHOICES
-  //DERIVED DATA
-
-  shouldComponentUpdate(): boolean {
-    return true;
+  componentDidMount() {
+    // This is necessary to render any charts based on passed metadata because the grid doesn't result from the updateChart function but any other view does
+    if (this.state.view !== "grid") {
+      this.updateChart(this.state);
+    }
   }
 
   updateChart = (updatedState: Object) => {
@@ -237,7 +258,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       data: stateData
     } = { ...this.state, ...updatedState };
 
-    const { data, height } = this.props;
+    const { data, height, onMetadataChange } = this.props;
 
     const { Frame, chartGenerator } = semioticSettings[view];
 
@@ -300,12 +321,32 @@ class DataResourceTransform extends React.Component<Props, State> {
       </div>
     );
 
-    this.setState({
-      displayChart: {
-        ...this.state.displayChart,
-        [chartKey]: display
-      },
-      ...updatedState
+    //If you pass an onMetadataChange function, then fire it and pass the updated dx settings so someone upstream can update the metadata or otherwise use it
+    onMetadataChange &&
+      onMetadataChange({
+        dx: {
+          view,
+          lineType,
+          areaType,
+          selectedDimensions,
+          selectedMetrics,
+          pieceType,
+          summaryType,
+          networkType,
+          hierarchyType,
+          colors,
+          chart
+        }
+      });
+
+    this.setState(() => {
+      return {
+        ...updatedState,
+        displayChart: {
+          ...this.state.displayChart,
+          [chartKey]: display
+        }
+      };
     });
   };
   setView = view => {
@@ -407,139 +448,14 @@ class DataResourceTransform extends React.Component<Props, State> {
           >
             {display}
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexFlow: "column nowrap",
-              zIndex: 1,
-              padding: "5px"
-            }}
-          >
-            <IconButton
-              title={chartHelpText.grid}
-              onClick={this.setGrid}
-              message={"Data Table"}
-              selected={false}
-            >
-              <DatabaseOcticon />
-            </IconButton>
-            {dimensions.length > 0 && (
-              <IconButton
-                title={chartHelpText.bar}
-                onClick={() => this.setView("bar")}
-                selected={view === "bar"}
-                message={"Bar Graph"}
-              >
-                <BarChartIcon />
-              </IconButton>
-            )}
-            <IconButton
-              title={chartHelpText.summary}
-              onClick={() => this.setView("summary")}
-              selected={view === "summary"}
-              message={"Summary"}
-            >
-              <BoxplotIcon />
-            </IconButton>
-            <IconButton
-              title={chartHelpText.scatter}
-              onClick={() => this.setView("scatter")}
-              selected={view === "scatter"}
-              message={"Scatter Plot"}
-            >
-              <ScatterplotIcon />
-            </IconButton>
-            <IconButton
-              title={chartHelpText.hexbin}
-              onClick={() => this.setView("hexbin")}
-              selected={view === "hexbin"}
-              message={"Area Plot"}
-            >
-              <HexbinIcon />
-            </IconButton>
-            {dimensions.length > 1 && (
-              <IconButton
-                title={chartHelpText.network}
-                onClick={() => this.setView("network")}
-                selected={view === "network"}
-                message={"Network"}
-              >
-                <NetworkIcon />
-              </IconButton>
-            )}
-            {dimensions.length > 0 && (
-              <IconButton
-                title={chartHelpText.hierarchy}
-                onClick={() => this.setView("hierarchy")}
-                selected={view === "hierarchy"}
-                message={"Hierarchy"}
-              >
-                <TreeIcon />
-              </IconButton>
-            )}
-            {dimensions.length > 0 && (
-              <IconButton
-                title={chartHelpText.parallel}
-                onClick={() => this.setView("parallel")}
-                selected={view === "parallel"}
-                message={"Parallel Coordinates"}
-              >
-                <ParallelCoordinatesIcon />
-              </IconButton>
-            )}
-            <IconButton
-              title={chartHelpText.line}
-              onClick={() => this.setView("line")}
-              selected={view === "line"}
-              message={"Line Graph"}
-            >
-              <LineChartIcon />
-            </IconButton>
-          </div>
+          <Toolbar
+            dimensions={dimensions}
+            setGrid={this.setGrid}
+            setView={this.setView}
+            currentView={view}
+          />
         </div>
       </div>
-    );
-  }
-}
-
-/////////////////////////////
-
-type IconButtonProps = {
-  message: string,
-  onClick: () => void,
-  children?: React.Node,
-  title: string,
-  selected: boolean
-};
-
-export class IconButton extends React.Component<IconButtonProps> {
-  render() {
-    const {
-      message,
-      onClick,
-      children,
-      selected,
-      title = message
-    } = this.props;
-
-    let style: Object = {
-      width: "32px",
-      height: "32px",
-      cursor: "pointer",
-      color: "var(--theme-app-fg)",
-      border: "1px solid var(--theme-app-fg)",
-      backgroundColor: "var(--theme-app-bg)"
-    };
-
-    if (selected) {
-      style.border = "1px outset #666";
-      style.backgroundColor = "#aaa";
-    }
-
-    return (
-      <button onClick={onClick} key={message} title={title} style={style}>
-        {children}
-      </button>
     );
   }
 }

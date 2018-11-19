@@ -54,7 +54,7 @@ describe("PNGDisplay", () => {
     const component = shallow(<PNGDisplay data={imageData} />);
 
     expect(
-      component.equals(<ImageDisplay mimetype="image/png" data={imageData} />)
+      component.equals(<ImageDisplay mediaType="image/png" data={imageData} />)
     ).toEqual(true);
   });
 });
@@ -64,7 +64,7 @@ describe("JPEGDisplay", () => {
     const component = shallow(<JPEGDisplay data={imageData} />);
 
     expect(
-      component.equals(<ImageDisplay mimetype="image/jpeg" data={imageData} />)
+      component.equals(<ImageDisplay mediaType="image/jpeg" data={imageData} />)
     ).toEqual(true);
   });
 });
@@ -74,7 +74,7 @@ describe("GIFDisplay", () => {
     const component = shallow(<GIFDisplay data={imageData} />);
 
     expect(
-      component.equals(<ImageDisplay mimetype="image/gif" data={imageData} />)
+      component.equals(<ImageDisplay mediaType="image/gif" data={imageData} />)
     ).toEqual(true);
   });
 });

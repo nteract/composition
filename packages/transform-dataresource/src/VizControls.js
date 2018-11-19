@@ -92,10 +92,9 @@ const renderMenuItem = (item, { handleClick, modifiers }) => {
     <MenuItem
       active={modifiers.active}
       disabled={modifiers.disabled}
-      label={text}
       key={text}
       onClick={handleClick}
-      text={menuText => menuText}
+      text={text}
     />
   );
 };

@@ -31,3 +31,8 @@ export function Image(props: Props): ?React$Element<any> {
     </React.Fragment>
   );
 }
+
+Image.defaultProps = {
+  data: '',
+  mediaType: "image/jpeg"
+}

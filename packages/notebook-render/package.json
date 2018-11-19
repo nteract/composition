@@ -3,28 +3,26 @@
   "version": "5.0.0-alpha.0",
   "description": "Render a notebook using a React Component",
   "main": "lib/index.js",
-  "nteractDesktop": "src/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.tsx",
   "scripts": {
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build && npm run build:flow",
+    "prepublishOnly": "npm run:build",
     "build": "npm run build:clean && npm run build:lib",
-    "build:clean": "rimraf lib",
-    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
-    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
-    "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+    "build:clean": "tsc -b --clean",
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/notebook-render",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
     "@nteract/commutable": "^6.0.0-alpha.0",
     "@nteract/display-area": "^5.0.0-alpha.0",
     "@nteract/presentational-components": "^2.0.0-alpha.0",
     "@nteract/transforms": "^5.0.0-alpha.0",
-    "babel-runtime": "^6.26.0",
     "katex": "^0.10.0-alpha",
     "react-katex": "^2.0.2",
     "react-markdown": "^4.0.0",
@@ -32,12 +30,12 @@
     "rehype-stringify": "^4.0.0",
     "remark": "^9.0.0",
     "remark-math": "^1.0.4",
-    "remark-rehype": "^3.0.0"
+    "remark-rehype": "^3.0.0",
+    "styled-jsx": "^3.1.0"
   },
   "peerDependencies": {
-    "immutable": "^4.0.0-rc.9",
-    "react": "^16.3.2",
-    "styled-jsx": "^3.1.0"
+    "immutable": "^4.0.0-rc.12",
+    "react": "^16.3.2"
   },
   "author": "Benjamin Abel <dev.abel@laposte.net>",
   "license": "BSD-3-Clause"

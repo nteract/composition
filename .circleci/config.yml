@@ -6,7 +6,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8.12.0-browsers
+      - image: circleci/node:10
 
     working_directory: ~/nteract
 
@@ -20,7 +20,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - yarn-packages-
 
-      - run: yarn --verbose
+      - run: yarn
 
       - save_cache:
           paths:

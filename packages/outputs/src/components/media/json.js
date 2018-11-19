@@ -25,32 +25,22 @@ const darkTheme = Object.assign({}, defaultTheme, { base0B: "#EDF3F7" });
 
 type Props = {
   data: Object,
-  mediaType: string,
+  mediaType: "application/json",
   theme: string,
   metadata: { expanded: boolean }
 };
 
 /** @component */
-export class Json extends React.Component<Props> {
+export class Json extends React.PureComponent<Props> {
   static defaultProps = {
+    data: null,
     mediaType: "application/json",
-    data: {},
     theme: "light",
     metadata: { expanded: true }
   };
 
-  shouldComponentUpdate(nextProps: Props): boolean {
-    if (
-      nextProps.theme !== this.props.theme ||
-      nextProps.data !== this.props.data
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   //   #3435
-  shouldExpandNode = () => {
+  shouldExpandNode = (): boolean => {
     if (this.props.metadata && this.props.metadata.expanded) {
       return true;
     }

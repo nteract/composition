@@ -100,10 +100,10 @@ export const semioticScatterplot = (
         </p>
         {metric3 &&
           metric3 !== "none" && (
-            <p>
-              {metric3}: {hoveredDatapoint[metric3]}
-            </p>
-          )}
+          <p>
+            {metric3}: {hoveredDatapoint[metric3]}
+          </p>
+        )}
       </TooltipContent>
     );
   };
@@ -122,7 +122,7 @@ export const semioticScatterplot = (
         >
           ID, {metric1}, {metric2}
         </h3>
-        {hoveredDatapoint.binItems.map(binnedDatapoint => {
+        {hoveredDatapoint.binItems.map((binnedDatapoint, index) => {
           const id = dimensions
             .map(
               dim =>
@@ -133,7 +133,7 @@ export const semioticScatterplot = (
             .join(",");
           return (
             <p
-              key={id}
+              key={id + index}
               style={{
                 fontSize: "12px",
                 textTransform: "uppercase",
@@ -350,8 +350,8 @@ export const semioticScatterplot = (
           type !== "contour"
             ? undefined
             : dim3 === "none"
-              ? "#BBB"
-              : areaDatapoint.parentArea.color,
+            ? "#BBB"
+            : areaDatapoint.parentArea.color,
         strokeWidth: type === "contour" ? 2 : 1
       };
     },
@@ -359,8 +359,8 @@ export const semioticScatterplot = (
       r: renderInCanvas
         ? 2
         : type === "contour"
-          ? 3
-          : sizeScale(datapoint[metric3]),
+        ? 3
+        : sizeScale(datapoint[metric3]),
       fill: colorHash[datapoint[dim1]] || "black",
       fillOpacity: 0.75,
       stroke: renderInCanvas ? "none" : type === "contour" ? "white" : "black",

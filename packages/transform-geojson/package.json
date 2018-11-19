@@ -2,23 +2,21 @@
   "name": "@nteract/transform-geojson",
   "version": "4.0.0-alpha.0",
   "description": "GeoJSON Transform",
-  "main": "lib/",
-  "nteractDesktop": "src/index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.tsx",
   "scripts": {
     "prepare": "npm run build",
-    "prepublishOnly": "npm run build && npm run build:flow",
+    "prepublishOnly": "npm run:build",
     "build": "npm run build:clean && npm run build:lib",
-    "build:clean": "rimraf lib",
-    "build:flow": "flow-copy-source -v -i '**/__tests__/**' src lib",
-    "build:lib": "babel -d lib src --ignore '**/__tests__/**' --config-file ../../babel.config.js",
-    "build:lib:watch": "npm run build:lib -- --watch",
-    "build:watch": "npm run build:clean && npm run build:lib:watch && npm run build:flow"
+    "build:clean": "tsc -b --clean",
+    "build:lib": "tsc -b",
+    "build:lib:watch": "tsc -b --watch",
+    "build:watch": "npm run build:clean && npm run build:lib:watch"
   },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/transform-geojson",
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
-    "babel-runtime": "^6.26.0",
-    "leaflet": "^1.0.3"
+    "leaflet": "^1.3.4"
   },
   "peerDependencies": {
     "react": "^16.3.2"

@@ -45,46 +45,33 @@ function getTheme(themeName: string): Object {
 
 type Props = {
   data: Object,
+  mediaType: "application/json",
   theme: string,
   metadata: Object
 };
 
-export default class JsonDisplay extends React.Component<Props> {
+export default class JsonDisplay extends React.PureComponent<Props> {
   static MIMETYPE = "application/json";
+
+  static defaultProps = {
+    data: {},
+    mediaType: "application/json",
+    theme: "light",
+    metadata: {}
+  };
 
   static handles(mimetype: string) {
     return mimetype.startsWith("application/json");
   }
 
-  static defaultProps = {
-    data: {},
-    theme: "light",
-    metadata: {}
-  };
-
-  constructor(props: Props): void {
-    super(props);
-    (this: any).shouldExpandNode = this.shouldExpandNode.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps: Props): boolean {
-    if (
-      nextProps.theme !== this.props.theme ||
-      nextProps.data !== this.props.data
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  shouldExpandNode(): boolean {
+  shouldExpandNode = (): boolean => {
     if (this.props.metadata && this.props.metadata.expanded) {
       return true;
     }
     return false;
-  }
+  };
 
-  render(): ?React$Element<any> {
+  render() {
     const theme = getTheme(this.props.theme);
     return (
       <JSONTree

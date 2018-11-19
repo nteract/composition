@@ -23,7 +23,7 @@
     "uuid": "^3.1.0"
   },
   "peerDependencies": {
-    "immutable": "^4.0.0-rc.9"
+    "immutable": "^4.0.0-rc.12"
   },
   "publishConfig": {
     "access": "public"

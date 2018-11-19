@@ -2,7 +2,8 @@
 import React from "react";
 
 type Props = {
-  data: string
+  data: string,
+  mediaType: "text/javascript"
 };
 
 export function runCodeHere(el: ?HTMLElement, code: string): any {
@@ -24,9 +25,15 @@ export function runCodeHere(el: ?HTMLElement, code: string): any {
   }
 }
 
-export default class JavaScript extends React.Component<Props> {
+export default class JavaScript extends React.PureComponent<Props> {
   el: ?HTMLElement;
+
   static MIMETYPE = "application/javascript";
+
+  static defaultProps = {
+    data: "",
+    mediaType: "application/javascript"
+  };
 
   static handles(mimetype: string) {
     return (
@@ -38,10 +45,6 @@ export default class JavaScript extends React.Component<Props> {
 
   componentDidMount(): void {
     runCodeHere(this.el, this.props.data);
-  }
-
-  shouldComponentUpdate(nextProps: Props): boolean {
-    return nextProps.data !== this.props.data;
   }
 
   componentDidUpdate(): void {

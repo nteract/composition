@@ -186,7 +186,7 @@ export function dispatchSave(
 
   const filepath = selectors.filepath(state, ownProps);
 
-  if (filepath == null) {
+  if (filepath == null || filepath == "") {
     triggerSaveAs(ownProps, store);
   } else {
     store.dispatch(actions.save(ownProps));

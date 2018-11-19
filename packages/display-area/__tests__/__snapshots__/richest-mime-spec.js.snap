@@ -3,6 +3,7 @@
 exports[`RichestMime renders a mimebundle 1`] = `
 <TextDisplay
   data="THE DATA"
+  mediaType="text/plain"
   metadata={
     Object {
       "alright": "alright alright",

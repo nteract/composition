@@ -1,0 +1,85 @@
+type CellProps = {
+    /**
+     * Indicates if a cell is selected
+     */
+    isSelected: boolean,
+    /**
+     * Indicates if hovering over a cell
+     */
+    _hovered: boolean,
+    /**
+     * Style children when a cell is selected or hovered over
+     */
+    children?: React.Node
+  };
+  type CellsProps = {
+    children: React.ChildrenArray<any>
+  };
+
+  export type AuthorObject = {
+    name: string
+  };
+  export type HeaderDataProps = {
+    authors: Array<AuthorObject>,
+    title: string,
+    description: string,
+    tags: Array<string>
+  };
+  
+  export type HeaderEditorProps = {
+    /**
+     * The data that the header should be populated with.
+     */
+    headerData: HeaderDataProps,
+    /**
+     * Whether or not the fields of the header can be edited.
+     */
+    editable: boolean,
+    /**
+     * An event handler to run whenever header fields are modified.
+     */
+    onChange: HeaderDataProps => void,
+    /**
+     * The theme of the header.
+     */
+    theme: "light" | "dark"
+  };
+  
+  export type HeaderEditorState = {
+    editMode: "none" | "author" | "tag"
+  };
+  export type InputProps = {
+    children: React.Node,
+    /**
+     * Whether or not to render the children.
+     */
+    hidden: boolean
+  };
+  export type OutputsProps = {
+    children: React.Node,
+    /**
+     * Whether or not to collapse the children of the component.
+     */
+    expanded: boolean,
+    /**
+     * Whether or not to show the children of the component.
+     */
+    hidden: boolean
+  };
+
+  export type PagersProps = {
+    children: React.Node,
+    hidden: boolean
+  };
+  export type SourceProps = {
+    language: string,
+    children: React.Node,
+    className?: string,
+    theme: "light" | "dark"
+  }; 
+  type HighlighterProps = {
+    language: string,
+    className: string,
+    children: React.Node,
+    theme: "light" | "dark"
+  };

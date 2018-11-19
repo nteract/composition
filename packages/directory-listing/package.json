@@ -19,7 +19,8 @@
     "@babel/runtime-corejs2": "^7.0.0",
     "@nteract/octicons": "^1.0.0-alpha.0",
     "@nteract/timeago": "^3.6.5",
-    "react-hot-loader": "^4.1.2"
+    "react-hot-loader": "^4.1.2",
+    "styled-jsx": "^3.1.0"
   },
   "peerDependencies": {
     "react": "^16.3.2"

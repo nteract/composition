@@ -1,18 +1,19 @@
 /* @flow */
 import React from "react";
 
-type TopProps = {
+type Props = {
   data: string,
-  mimetype: string,
-  metadata: any
+  metadata: any,
+  mediaType: "image/png" | "image/jpeg" | "image/gif"
 };
 
-type ImageProps = {
-  data: string,
-  metadata: string
+type ImageDisplayProps = Props & {
+  mimetype?: "image/png" | "image/jpeg" | "image/gif"
 };
 
-export default function ImageDisplay(props: TopProps): ?React$Element<any> {
+export default function ImageDisplay(
+  props: ImageDisplayProps
+): ?React$Element<any> {
   let size = {};
 
   if (props.metadata) {
@@ -20,28 +21,60 @@ export default function ImageDisplay(props: TopProps): ?React$Element<any> {
     size = { width, height };
   }
 
+  const mediaType = props.mediaType || props.mimetype;
+
   return (
-    <img alt="" src={`data:${props.mimetype};base64,${props.data}`} {...size} />
+    <React.Fragment>
+      <img
+        alt=""
+        src={`data:${mediaType};base64,${props.data}`}
+        {...size}
+      />
+      <style jsx>{`
+        img {
+          display: block;
+          max-width: 100%;
+        }
+      `}</style>
+    </React.Fragment>
   );
 }
 
-export class PNGDisplay extends React.Component<ImageProps> {
+export class PNGDisplay extends React.PureComponent<Props> {
   static MIMETYPE = "image/png";
+
+  static defaultProps = {
+    data: "",
+    mediaType: "image/png"
+  };
+
   render() {
-    return <ImageDisplay mimetype="image/png" {...this.props} />;
+    return <ImageDisplay {...this.props} />;
   }
 }
 
-export class JPEGDisplay extends React.Component<ImageProps> {
+export class JPEGDisplay extends React.PureComponent<Props> {
   static MIMETYPE = "image/jpeg";
+
+  static defaultProps = {
+    data: "",
+    mediaType: "image/jpeg"
+  };
+
   render() {
-    return <ImageDisplay mimetype="image/jpeg" {...this.props} />;
+    return <ImageDisplay {...this.props} />;
   }
 }
 
-export class GIFDisplay extends React.Component<ImageProps> {
+export class GIFDisplay extends React.PureComponent<Props> {
   static MIMETYPE = "image/gif";
+
+  static defaultProps = {
+    data: "",
+    mediaType: "image/gif"
+  };
+
   render() {
-    return <ImageDisplay mimetype="image/gif" {...this.props} />;
+    return <ImageDisplay {...this.props} />;
   }
 }

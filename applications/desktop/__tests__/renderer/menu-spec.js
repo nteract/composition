@@ -356,10 +356,11 @@ describe("dispatchRestartKernel", () => {
 
 describe("dispatchInterruptKernel", () => {
   test("dispatches INTERRUPT_KERNEL actions", () => {
+    const notificationSystem = { addNotification: jest.fn() };
     const store = {
       dispatch: jest.fn(),
       getState: () => ({
-        app: Immutable.Map(),
+        app: Immutable.Map(notificationSystem),
         core: {
           entities: {
             contents: {
@@ -395,6 +396,8 @@ describe("dispatchInterruptKernel", () => {
           kernelRef: "k1"
         }
       });
+    } else {
+      expect(notificationSystem.addNotification).toHaveBeenCalled();
     }
   });
 });

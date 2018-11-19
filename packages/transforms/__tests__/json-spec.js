@@ -27,20 +27,4 @@ describe("JsonDisplay", () => {
     expect(instance.shouldExpandNode()).toBeTruthy();
   });
 
-  it("shouldComponentUpdate returns false if theme doesn't change", () => {
-    const component = shallow(<JsonDisplay data={baseData} theme="light" />);
-    const instance = component.instance();
-    expect(
-      instance.shouldComponentUpdate({
-        theme: "light",
-        data: baseData
-      })
-    ).toBeFalsy();
-  });
-
-  it("shouldComponentUpdate returns true if theme changes", () => {
-    const component = shallow(<JsonDisplay data={baseData} theme="light" />);
-    const instance = component.instance();
-    expect(instance.shouldComponentUpdate({ theme: "dark" })).toBeTruthy();
-  });
 });

@@ -27,12 +27,14 @@ export function createFragment(html: string): Node {
   return fragment;
 }
 
-export class HTML extends React.Component<Props> {
+export class HTML extends React.PureComponent<Props> {
   el: ?HTMLElement;
+
   static defaultProps = {
-    mediaType: "text/html",
-    data: null
+    data: '',
+    mediaType: "text/html"
   };
+
   componentDidMount(): void {
     // clear out all DOM element children
     // This matters on server side render otherwise we'll get both the `innerHTML`ed
@@ -47,9 +49,6 @@ export class HTML extends React.Component<Props> {
     this.el.appendChild(createFragment(this.props.data));
   }
 
-  shouldComponentUpdate(nextProps: Props): boolean {
-    return nextProps.data !== this.props.data;
-  }
   componentDidUpdate(): void {
     if (!this.el) return;
     // clear out all DOM element children
