@@ -52,7 +52,7 @@ describe("dispatchCreateRawCellBelow", () => {
       contentRef: "123"
     };
 
-    menu.dispatchCreateTextCellBelow(props, store);
+    menu.dispatchCreateRawCellBelow(props, store);
     expect(store.dispatch).toHaveBeenCalledWith(
       actions.createCellBelow({
         cellType: "raw",
