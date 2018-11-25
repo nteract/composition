@@ -1,5 +1,7 @@
 import React from "react";
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import {Editor, EditorState, RichUtils, convertFromRaw} from 'draft-js';
+
+import { markdownToDraft } from 'markdown-draft-js';
 
 
 class StyleButton extends React.Component {
@@ -121,7 +123,8 @@ const InlineStyleControls = (props) => {
 export default class MyMarkdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {editorState: EditorState.createEmpty()};
+    const raw = markdownToDraft(this.props.source);
+    this.state = {editorState: EditorState.createWithContent(convertFromRaw(raw))};
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);

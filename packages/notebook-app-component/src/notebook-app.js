@@ -266,7 +266,9 @@ class AnyCell extends React.PureComponent<AnyCellProps, *> {
         break;
       case "markdown":
         element = (
-          <MyMarkdown />
+          <MyMarkdown
+            source={this.props.source}
+          />
           /*<MarkdownPreviewer
             focusAbove={focusAboveCell}
             focusBelow={focusBelowCell}
