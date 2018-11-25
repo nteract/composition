@@ -27,6 +27,7 @@ import DraggableCell from "./draggable-cell";
 import CellCreator from "./cell-creator";
 import StatusBar from "./status-bar";
 import MarkdownPreviewer from "./markdown-preview";
+import MyMarkdown from "./markdown-draft";
 import Editor from "./editor";
 import Toolbar from "./toolbar";
 import { HijackScroll } from "./hijack-scroll";
@@ -265,7 +266,8 @@ class AnyCell extends React.PureComponent<AnyCellProps, *> {
         break;
       case "markdown":
         element = (
-          <MarkdownPreviewer
+          <MyMarkdown />
+          /*<MarkdownPreviewer
             focusAbove={focusAboveCell}
             focusBelow={focusBelowCell}
             focusEditor={focusEditor}
@@ -287,7 +289,7 @@ class AnyCell extends React.PureComponent<AnyCellProps, *> {
                 options={markdownEditorOptions}
               />
             </Source>
-          </MarkdownPreviewer>
+          </MarkdownPreviewer> */
         );
         break;
 

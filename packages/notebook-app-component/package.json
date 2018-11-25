@@ -33,6 +33,7 @@
     "@nteract/transforms": "^5.0.0-alpha.0",
     "babel-runtime": "^6.26.0",
     "date-fns": "^1.29.0",
+    "draft-js": "^0.10.5",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.0",
     "react-hot-loader": "^4.1.2",
