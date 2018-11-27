@@ -5128,16 +5128,6 @@ dmg-builder@6.1.2:
     parse-color "^1.0.0"
     sanitize-filename "^1.6.1"
 
-dnd-core@^4.0.5:
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-4.0.5.tgz#3b83d138d0d5e265c73ec978dec5e1ed441dc665"
-  integrity sha1-O4PRONDV4mXHPsl43sXh7UQdxmU=
-  dependencies:
-    asap "^2.0.6"
-    invariant "^2.2.4"
-    lodash "^4.17.10"
-    redux "^4.0.0"
-
 dnd-core@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/dnd-core/-/dnd-core-7.0.0.tgz#2eca34d5f166c5c9546e7c117fd7029be03b110b"
@@ -11678,17 +11668,17 @@ react-dnd-html5-backend@^7.0.0:
     dnd-core "^7.0.0"
     lodash "^4.17.11"
 
-react-dnd@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-5.0.0.tgz#c4a17c70109e456dad8906be838e6ee8f32b06b5"
-  integrity sha1-xKF8cBCeRW2tiQa+g45u6PMrBrU=
+react-dnd@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-dnd/-/react-dnd-7.0.0.tgz#f730ad3b01a61c5119ceb7dcf384d1e24321bcc6"
+  integrity sha512-5OoZEEEwp9SEoZzMVxMExOrRjCFdlO2i6NzdJ71UAF0reqVwmgWvdu95WJX7LM2KllYNO+/RIOr3UkiSq6MMeg==
   dependencies:
-    dnd-core "^4.0.5"
-    hoist-non-react-statics "^2.5.0"
+    dnd-core "^7.0.0"
+    hoist-non-react-statics "^3.1.0"
     invariant "^2.1.0"
-    lodash "^4.17.10"
-    recompose "^0.27.1"
-    shallowequal "^1.0.2"
+    lodash "^4.17.11"
+    recompose "^0.30.0"
+    shallowequal "^1.1.0"
 
 react-docgen-annotation-resolver@^1.0.0:
   version "1.1.0"
@@ -12207,12 +12197,12 @@ rechoir@^0.6.2:
   dependencies:
     resolve "^1.1.6"
 
-recompose@^0.27.1:
-  version "0.27.1"
-  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.27.1.tgz#1a49e931f183634516633bbb4f4edbfd3f38a7ba"
-  integrity sha512-p7xsyi/rfNjHfdP7vPU02uSFa+Q1eHhjKrvO+3+kRP4Ortj+MxEmpmd+UQtBGM2D2iNAjzNI5rCyBKp9Ob5McA==
+recompose@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/recompose/-/recompose-0.30.0.tgz#82773641b3927e8c7d24a0d87d65aeeba18aabd0"
+  integrity sha512-ZTrzzUDa9AqUIhRk4KmVFihH0rapdCSMFXjhHbNrjAWxBuUD/guYlyysMnuHjlZC/KRiOKRtB4jf96yYSkKE8w==
   dependencies:
-    babel-runtime "^6.26.0"
+    "@babel/runtime" "^7.0.0"
     change-emitter "^0.1.2"
     fbjs "^0.8.1"
     hoist-non-react-statics "^2.3.1"
@@ -13083,7 +13073,7 @@ shallowequal@^0.2.2:
   dependencies:
     lodash.keys "^3.1.2"
 
-shallowequal@^1.0.2:
+shallowequal@^1.0.2, shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
   integrity sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==
