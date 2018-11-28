@@ -155,6 +155,7 @@
     "electron": "3.0.7",
     "electron-builder": "20.31.2",
     "electron-context-menu": "^0.10.0",
+    "electron-devtools-installer": "^2.2.4",
     "electron-log": "^2.2.13",
     "electron-updater": "^3.0.0",
     "enzyme": "^3.3.0",
