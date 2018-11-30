@@ -1,6 +1,7 @@
 HTML, or HyperText Markup Language, is markup language used for create web pages and web apps. The `Media.HTML` component allows you to render raw HTML in your nteract contexts. To use the component, you'll need to the pass the HTML that you would like to render in string form to the `data` prop, like so.
 
 ```
+const HTML = require("./html").HTML;
 <HTML data={"<b>This is some <em>HTML</em> code.</b>"} />
 ```
 
