@@ -1,5 +1,5 @@
 /**
- * @module @nteract/selectors
+ * @module selectors
  */
 import * as Immutable from "immutable";
 import * as commutable from "@nteract/commutable";

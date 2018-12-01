@@ -48,7 +48,7 @@
     "predocs:deploy": "npm run docs:build",
     "docs:deploy": "now ./styleguide",
     "docs:promote": "cd ./styleguide && now alias",
-    "package:docs": "typedoc --options typedoc.js packages/commutable packages/rx-jupyter packages/rx-binder packages/enchannel-zmq-backend packages/messaging",
+    "package:docs": "typedoc --options typedoc.js packages/commutable packages/rx-jupyter packages/rx-binder packages/enchannel-zmq-backend packages/messaging packages/selectors",
     "prepackage:docs:deploy": "npm run package:docs",
     "package:docs:deploy": "now ./nteract-packages",
     "package:docs:promote": "cd ./nteract-packages && now alias",
