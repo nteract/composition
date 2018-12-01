@@ -1,3 +1,6 @@
+/**
+ * @module messaging
+ */
 import { Observable, from, Subscriber } from "rxjs";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { message, executeRequest } from "./messages";
