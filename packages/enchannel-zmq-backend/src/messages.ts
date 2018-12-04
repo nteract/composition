@@ -1,3 +1,6 @@
+/**
+ * @module enchannel-zmq-backend
+ */
 import { createHmac } from "crypto";
 
 import { JupyterMessage } from "@nteract/messaging";
