@@ -1,6 +1,6 @@
-// @flow
-
 import { createHmac } from "crypto";
+
+import { JupyterMessage } from "@nteract/messaging";
 
 /**
  *
@@ -26,32 +26,15 @@ import { createHmac } from "crypto";
 // The delimiter is expected after zmq identities and before the HMAC signature for a message
 const DELIMITER = "<IDS|MSG>";
 
-export class Message {
-  idents: Array<string>;
-  header: Object;
-  parent_header: Object;
-  metadata: Object;
-  content: Object;
-  buffers: Array<string | Buffer>;
-  constructor(properties: ?Object) {
-    this.idents = (properties && properties.idents) || [];
-    this.header = (properties && properties.header) || {};
-    this.parent_header = (properties && properties.parent_header) || {};
-    this.metadata = (properties && properties.metadata) || {};
-    this.content = (properties && properties.content) || {};
-    this.buffers = (properties && properties.buffers) || [];
-  }
-}
-
 export function encodeJupyterMessage(
-  message: Message,
+  message: JupyterMessage,
   scheme: string,
   key: string
 ) {
   scheme = scheme || "sha256";
   key = key || "";
 
-  const idents = message.idents;
+  const idents: any[] = [];
 
   const header = JSON.stringify(message.header);
   const parent_header = JSON.stringify(message.parent_header);
@@ -62,27 +45,32 @@ export function encodeJupyterMessage(
   if (key) {
     const hmac = createHmac(scheme, key);
     const encoding = "utf8";
-    hmac.update(new Buffer.from(header, encoding));
-    hmac.update(new Buffer.from(parent_header, encoding));
-    hmac.update(new Buffer.from(metadata, encoding));
-    hmac.update(new Buffer.from(content, encoding));
+    hmac.update(Buffer.from(header, encoding));
+    hmac.update(Buffer.from(parent_header, encoding));
+    hmac.update(Buffer.from(metadata, encoding));
+    hmac.update(Buffer.from(content, encoding));
     signature = hmac.digest("hex");
   }
 
-  return [
+  const frames = [
     ...idents,
     DELIMITER,
     signature,
     header,
     parent_header,
     metadata,
-    content,
-    ...message.buffers
+    content
   ];
+
+  if (Array.isArray(message.buffers)) {
+    frames.concat(message.buffers);
+  }
+
+  return frames;
 }
 
 export function decodeJupyterMessage(
-  messageFrames: Array<*>,
+  messageFrames: Array<any>,
   scheme: string,
   key: string
 ) {
@@ -129,16 +117,18 @@ export function decodeJupyterMessage(
     }
   }
 
-  return new Message({
-    idents: idents,
+  return {
+    // NOTE: We don't use idents in @nteract/messaging since jupyter websockets don't
+    //       use them
+    // idents: idents,
     header: toJSON(messageFrames[i + 2]),
     parent_header: toJSON(messageFrames[i + 3]),
     content: toJSON(messageFrames[i + 5]),
     metadata: toJSON(messageFrames[i + 4]),
     buffers: messageFrames.slice(i + 6)
-  });
+  };
 }
 
-function toJSON(value) {
+function toJSON(value: Buffer) {
   return JSON.parse(value.toString());
 }
