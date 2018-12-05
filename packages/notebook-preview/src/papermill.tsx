@@ -1,8 +1,7 @@
-// @flow
 import * as React from "react";
 
 type PapermillMetadata = {
-  status?: "pending" | "running" | "completed"
+  status?: "pending" | "running" | "completed";
   // TODO: Acknowledge / use other papermill metadata
 };
 

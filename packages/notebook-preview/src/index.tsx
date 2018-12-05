@@ -1,10 +1,9 @@
-/* @flow */
 import * as React from "react";
-// $FlowFixMe
 import { Display } from "@nteract/display-area";
 import {
   displayOrder as defaultDisplayOrder,
-  transforms as defaultTransforms
+  transforms as defaultTransforms,
+  Transforms
 } from "@nteract/transforms";
 import {
   emptyNotebook,
@@ -27,14 +26,14 @@ import * as MathJax from "@nteract/mathjax";
 import { PapermillView } from "./papermill";
 
 type Props = {
-  displayOrder: Array<string>,
-  notebook: any,
-  transforms: Object,
-  theme: "light" | "dark"
+  displayOrder: Array<string>;
+  notebook: any;
+  transforms: Transforms;
+  theme: "light" | "dark";
 };
 
 type State = {
-  notebook: any
+  notebook: any;
 };
 
 export class NotebookPreview extends React.PureComponent<Props, State> {
@@ -62,7 +61,7 @@ export class NotebookPreview extends React.PureComponent<Props, State> {
     }
   }
 
-  render(): ?React$Element<any> {
+  render() {
     // TODO: Rely on setState to convert notebook from plain JS to commutable format
 
     const notebook = this.state.notebook;
@@ -85,7 +84,7 @@ export class NotebookPreview extends React.PureComponent<Props, State> {
       <MathJax.Provider>
         <div className="notebook-preview">
           <Cells>
-            {cellOrder.map(cellId => {
+            {cellOrder.map((cellId: string) => {
               const cell = cellMap.get(cellId);
               const cellType = cell.get("cell_type");
               const source = cell.get("source");
