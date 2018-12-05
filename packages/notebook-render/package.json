@@ -30,7 +30,7 @@
     "rehype-stringify": "^5.0.0",
     "remark": "^9.0.0",
     "remark-math": "^1.0.4",
-    "remark-rehype": "^3.0.0",
+    "remark-rehype": "^4.0.0",
     "styled-jsx": "^3.1.0"
   },
   "peerDependencies": {
