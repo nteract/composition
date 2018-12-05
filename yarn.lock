@@ -14998,10 +14998,10 @@ vega-tooltip@^0.11.0:
   dependencies:
     vega-util "^1.7.0"
 
-vega-tooltip@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/vega-tooltip/-/vega-tooltip-0.13.0.tgz#008d06a1c8f94ba3f23f52bb2498661b21dbf5e6"
-  integrity sha512-NbeHzpxwKZ+yk+CION3wRH66rx9XGx5v6M82LT6qSIAnUrH8eh+sFtjK6pO7ErXGF5AieAhg8Hfb/NvC8uNMuA==
+vega-tooltip@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/vega-tooltip/-/vega-tooltip-0.14.0.tgz#4b8655bf3ea0bdf8c527238f41c69d1bd8f0d988"
+  integrity sha512-lcse840tvMmg909LlJGPwQY4qB4GvOgyiYu3slCc6kPLjiG6eDmtSX9qtDSFYK4V8zifZOHMobEPz/kmNy7jUA==
   dependencies:
     vega-util "^1.7.0"
 
