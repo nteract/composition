@@ -24,7 +24,7 @@
     "@nteract/presentational-components": "^2.0.0-alpha.0",
     "@nteract/webpack-configurator": "^2.0.0-alpha.0",
     "ansi-to-react": "^4.0.0-alpha.0",
-    "deepmerge": "^2.0.1",
+    "deepmerge": "^3.0.0",
     "lodash": "^4.17.4",
     "next": "7.0.2",
     "next-redux-wrapper": "^2.0.0",
