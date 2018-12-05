@@ -36,74 +36,33 @@ import * as crypto from "crypto";
 import * as uuid from "uuid/v4";
 import * as zmq from "zeromq";
 
+import { EventEmitter } from "events";
+
 import { JupyterMessage } from "@nteract/messaging";
 import { encodeJupyterMessage, decodeJupyterMessage } from "./messages";
 
-function respond(message: JupyterMessage, socket: Socket) {
-  // LEFT OFF at encoding here
-  // Q: Do we need to add in some idents here
-  const encodedMessage = encodeJupyterMessage(
-    message,
-    socket.scheme,
-    socket.key
-  );
+class JupyterSocket extends EventEmitter {
+  scheme: string;
+  key: string;
 
-  socket.send(encodedMessage);
-}
+  private zmqSocket: zmq.Socket;
 
-/**
- * Decode message received over a ZMQ socket
- *
- * @param {argsArray} messageFrames    argsArray of a message listener on a JMP
- *                                     socket
- * @param {String}    [scheme=sha256]  Hashing scheme
- * @param {String}    [key=""]         Hashing key
- * @returns {?module:jmp~Message} JMP message or `null` if failed to decode
- * @protected
- */
-Message._decode = function(messageFrames, scheme, key) {
-  // Workaround for Buffer.toString failure caused by exceeding the maximum
-  // supported length in V8.
-  //
-  // See issue #4266 https://github.com/nodejs/node/issues/4266
-  // and PR #4394 https://github.com/nodejs/node/pull/4394
-  try {
-    return _decode(messageFrames, scheme, key);
-  } catch (err) {
-    if (err.message.indexOf("toString") === -1) throw err;
+  constructor(socketType: string, scheme: string, key: string) {
+    super();
+    this.zmqSocket = zmq.createSocket(socketType);
+
+    this.scheme = scheme;
+    this.key = key;
   }
 
-  return null;
-};
+  send(message: JupyterMessage) {
+    // LEFT OFF at encoding here
+    // Q: Do we need to add in some idents here
+    const encodedMessage = encodeJupyterMessage(message, this.scheme, this.key);
 
-/**
- * @class
- * @classdesc ZMQ socket that parses the Jupyter Messaging Protocol
- *
- */
-function Socket(socketType: string | number, scheme: string, key: string) {
-  zmq.Socket.call(this, socketType);
-  this._jmp = {
-    scheme: scheme,
-    key: key,
-    _listeners: []
-  };
+    this.zmqSocket.send(encodedMessage);
+  }
 }
-
-Socket.prototype = Object.create(zmq.Socket.prototype);
-Socket.prototype.constructor = Socket;
-
-/**
- * Send the given message.
- *
- * @param {module:jmp~Message|String|Buffer|Array} message
- * @param {Number} flags
- * @returns {module:jmp~Socket} `this` to allow chaining
- *
- */
-Socket.prototype.send = function(message: JupyterMessage) {
-  return respond(message, this);
-};
 
 /**
  * Add listener to the end of the listeners array for the specified event

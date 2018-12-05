@@ -33,7 +33,7 @@ export function encodeJupyterMessage(
   message: JupyterMessage,
   scheme: string,
   key: string
-) {
+): Array<string> {
   scheme = scheme || "sha256";
   key = key || "";
 
