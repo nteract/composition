@@ -25,13 +25,30 @@ class StyleButton extends React.Component {
     };
   }
   render() {
+    let className = 'RichEditor-styleButton';
     if (this.props.active) {
-      //className += " RichEditor-activeButton";
+      className += ' RichEditor-activeButton';
     }
     return (
-        <span className="octicon" onMouseDown={this.onToggle}>
-          <TrashOcticon />
+      <React.Fragment>
+        <span className={className} onMouseDown={this.onToggle}>
+          {this.props.label}
         </span>
+        <style jsx>{`
+          .RichEditor-styleButton {
+            color: #999;
+            cursor: pointer;
+            margin-right: 16px;
+            padding: 2px 0;
+            display: inline-block;
+          }
+
+          .RichEditor-activeButton {
+            color: #5890ff;
+          }
+          `}
+        </style>
+      </React.Fragment>
     );
   }
 }
@@ -40,9 +57,6 @@ const BLOCK_TYPES = [
   { label: "H1", style: "header-one" },
   { label: "H2", style: "header-two" },
   { label: "H3", style: "header-three" },
-  { label: "H4", style: "header-four" },
-  { label: "H5", style: "header-five" },
-  { label: "H6", style: "header-six" },
   { label: "Blockquote", style: "blockquote" },
   { label: "UL", style: "unordered-list-item" },
   { label: "OL", style: "ordered-list-item" },
