@@ -7,10 +7,17 @@ import { numeralFormatting } from "../utilities";
 
 import { sortByOrdinalRange } from "./shared";
 
+type SemioticOptions = {
+  selectedDimensions: Array<string>;
+  chart: any;
+  colors: any;
+  setColor: any;
+};
+
 export const semioticBarChart = (
-  data: Array<Object>,
-  schema: Object,
-  options: Object
+  data: Array<object>,
+  schema: object,
+  options: SemioticOptions
 ) => {
   const { selectedDimensions, chart, colors, setColor } = options;
   const { dim1, metric1, metric3 } = chart;
@@ -18,14 +25,14 @@ export const semioticBarChart = (
   const oAccessor =
     selectedDimensions.length === 0
       ? dim1
-      : (datapoint: Object) =>
+      : (datapoint: any) =>
           selectedDimensions
             .map(selectedDim => datapoint[selectedDim])
             .join(",");
 
   const rAccessor = metric1;
 
-  const additionalSettings = {};
+  const additionalSettings: { dynamicColumnWidth?: string } = {};
   const colorHash = { Other: "grey" };
 
   const sortedData = sortByOrdinalRange(

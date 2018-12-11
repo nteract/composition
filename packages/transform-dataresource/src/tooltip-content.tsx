@@ -3,9 +3,9 @@
 import * as React from "react";
 
 const TooltipContent = (props: {
-  children: React.Node,
-  x: number,
-  y: number
+  children: React.ReactNode;
+  x: number;
+  y: number;
 }) => {
   const { x, y } = props;
 

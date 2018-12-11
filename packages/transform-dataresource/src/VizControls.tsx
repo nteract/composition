@@ -7,14 +7,6 @@ import buttonGroupStyle from "./css/button-group";
 import chartUIStyle from "./css/viz-controls";
 import { controlHelpText } from "./docs/chart-docs";
 
-/*
-const FilmSelect = Select.ofType<{
-  title: string;
-  year: number;
-  rank: number;
-}>();
-*/
-
 const NoResultsItem = <MenuItem disabled={true} text="No results." />;
 
 const arrowHeadMarker = (

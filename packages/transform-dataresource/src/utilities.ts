@@ -1,5 +1,3 @@
-/* @flow */
-
 import numeral from "numeral";
 
 export function numeralFormatting(tickValue: number): string {

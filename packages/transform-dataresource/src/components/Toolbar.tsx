@@ -1,5 +1,3 @@
-/* @flow */
-
 import * as React from "react";
 import { DatabaseOcticon } from "@nteract/octicons";
 
@@ -14,15 +12,16 @@ import {
   HexbinIcon,
   ParallelCoordinatesIcon
 } from "../icons";
-import type View from "../index.js";
+
+import { View } from "../types";
 
 import { IconButton } from "./IconButton";
 
 type Props = {
-  setGrid: () => void,
-  dimensions: Array<Object>,
-  setView: (view: View) => void,
-  currentView: string
+  setGrid: () => void;
+  dimensions: Array<Object>;
+  setView: (view: View) => void;
+  currentView: string;
 };
 
 export const Toolbar = ({

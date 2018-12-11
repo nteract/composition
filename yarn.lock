@@ -1726,6 +1726,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.38.tgz#01fb3f7ee5da861fa7dd4c518f1fa7b01ba39b7f"
   integrity sha512-DQpoqhq5wxekTecxnf33SRGqpPNfyQLW/TmOZpNssSkZZStN9ujzRS6+aReY3qNzGuIyX77LoCUcm0qYgET7aQ==
 
+"@types/numeral@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@types/numeral/-/numeral-0.0.25.tgz#b6f55062827a4787fe4ab151cf3412a468e65271"
+  integrity sha512-ShHzHkYD+Ldw3eyttptCpUhF1/mkInWwasQkCNXZHOsJMJ/UMa8wXrxSrTJaVk0r4pLK/VnESVM0wFsfQzNEKQ==
+
 "@types/prop-types@*":
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
@@ -1735,6 +1740,13 @@
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.1.tgz#a38f69c62528d56ba7bd1f91335a8004988d72f7"
   integrity sha512-mNhVdZHdtKHMMxbqzNK3RzkBcN1cux3AvuCYGTvjEIQT2uheH3eCAyYsbMbh2Bq8nXkeOWs1kyDiF7geWRFQ4Q==
+
+"@types/react-color@^2.13.6":
+  version "2.13.6"
+  resolved "https://registry.yarnpkg.com/@types/react-color/-/react-color-2.13.6.tgz#8ba9c600fbc4c6c43037d3a5eeeff77c0db995d7"
+  integrity sha512-c9DgSaSsSm4xR3FLoYAicaS1m93Jg4utkz04B02/9gq4hm6pcbeoCDv26jQAL5KKpAnaEI0LqY5CdRgA2RCAbQ==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-dom@^16.0.10":
   version "16.0.10"
@@ -1770,6 +1782,13 @@
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-0.0.8.tgz#ed44e2ead992c513327bcf2ede5eda7daa981421"
   integrity sha512-vxnOl0C1ZDkFneMdEtuZttwKmuznHH7Ml5C1g589Kif+FyiKoMzuD7GlnTTaVv+sS+y9MtwqQ5gy6B1+brvT9A==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-table@^6.7.18":
+  version "6.7.18"
+  resolved "https://registry.yarnpkg.com/@types/react-table/-/react-table-6.7.18.tgz#40ca00835493ec176da1fabaca4e853015488570"
+  integrity sha512-I4vzqZr7KsaFY2pG6ueDIrvUV8YmxfoTFk2TM+1txspTmOunpxFH2eJRXxnGcI/US0wttEnX86NTyxNV6XKHiA==
   dependencies:
     "@types/react" "*"
 

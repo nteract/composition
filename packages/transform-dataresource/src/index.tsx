@@ -1,5 +1,4 @@
 /* @flow */
-import { hot } from "react-hot-loader";
 import * as React from "react";
 
 import { colors } from "./settings";
@@ -13,11 +12,11 @@ const mediaType = "application/vnd.dataresource+json";
 
 type dataProps = {
   schema: {
-    fields: Array<{ name: string, type: string }>,
-    pandas_version: string,
-    primaryKey: Array<string>
-  },
-  data: Array<Object>
+    fields: Array<{ name: string; type: string }>;
+    pandas_version: string;
+    primaryKey: Array<string>;
+  };
+  data: Array<Object>;
 };
 
 type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
@@ -32,68 +31,59 @@ type HierarchyType = "dendrogram" | "treemap" | "partition" | "sunburst";
 
 type NetworkType = "force" | "sankey" | "arc" | "matrix";
 
-export type View =
-  | "line"
-  | "bar"
-  | "scatter"
-  | "grid"
-  | "network"
-  | "summary"
-  | "hexbin"
-  | "parallel"
-  | "hierarchy";
+import { View } from "./types";
 
 type dxMetaProps = {
-  view?: View,
-  lineType?: LineType,
-  areaType?: AreaType,
-  selectedDimensions?: Array<string>,
-  selectedMetrics?: Array<string>,
-  pieceType?: PieceType,
-  summaryType?: SummaryType,
-  networkType?: NetworkType,
-  hierarchyType?: HierarchyType,
-  colors?: Array<string>,
+  view?: View;
+  lineType?: LineType;
+  areaType?: AreaType;
+  selectedDimensions?: Array<string>;
+  selectedMetrics?: Array<string>;
+  pieceType?: PieceType;
+  summaryType?: SummaryType;
+  networkType?: NetworkType;
+  hierarchyType?: HierarchyType;
+  colors?: Array<string>;
   chart?: {
-    metric1?: string,
-    metric2?: string,
-    metric3?: string,
-    dim1?: string,
-    dim2?: string,
-    dim3?: string,
-    networkLabel?: string,
-    timeseriesSort?: string
-  }
+    metric1?: string;
+    metric2?: string;
+    metric3?: string;
+    dim1?: string;
+    dim2?: string;
+    dim3?: string;
+    networkLabel?: string;
+    timeseriesSort?: string;
+  };
 };
 
 type Props = {
-  data: dataProps,
-  metadata: { dx: dxMetaProps },
-  theme?: string,
-  expanded?: boolean,
-  height?: number,
-  mediaType: "application/vnd.dataresource+json",
-  initialView: View,
-  onMetadataChange?: ({ dx: dxMetaProps }) => void
+  data: dataProps;
+  metadata: { dx: dxMetaProps };
+  theme?: string;
+  expanded?: boolean;
+  height?: number;
+  mediaType: "application/vnd.dataresource+json";
+  initialView: View;
+  onMetadataChange?: ({ dx: dxMetaProps }) => void;
 };
 
 type State = {
-  view: View,
-  colors: Array<string>,
-  metrics: Array<Object>,
-  dimensions: Array<Object>,
-  selectedMetrics: Array<string>,
-  selectedDimensions: Array<string>,
-  networkType: NetworkType,
-  hierarchyType: HierarchyType,
-  pieceType: PieceType,
-  summaryType: SummaryType,
-  lineType: LineType,
-  areaType: AreaType,
-  chart: Object,
-  displayChart: Object,
-  primaryKey: Array<string>,
-  data: Array<Object>
+  view: View;
+  colors: Array<string>;
+  metrics: Array<Object>;
+  dimensions: Array<Object>;
+  selectedMetrics: Array<string>;
+  selectedDimensions: Array<string>;
+  networkType: NetworkType;
+  hierarchyType: HierarchyType;
+  pieceType: PieceType;
+  summaryType: SummaryType;
+  lineType: LineType;
+  areaType: AreaType;
+  chart: Object;
+  displayChart: Object;
+  primaryKey: Array<string>;
+  data: Array<Object>;
 };
 
 const generateChartKey = ({
@@ -390,7 +380,7 @@ class DataResourceTransform extends React.Component<Props, State> {
     this.updateChart({ selectedMetrics: newMetrics });
   };
 
-  render(): ?React$Element<any> {
+  render() {
     const {
       view,
       dimensions,
@@ -464,4 +454,4 @@ class DataResourceTransform extends React.Component<Props, State> {
   }
 }
 
-export default hot(module)(DataResourceTransform);
+export default DataResourceTransform;
