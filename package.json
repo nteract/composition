@@ -136,7 +136,6 @@
     "@types/leaflet": "^1.2.14",
     "@types/lodash": "^4.14.117",
     "@types/react": "^16.4.18",
-    "@types/react-dnd": "^3.0.2",
     "@types/react-dom": "^16.0.10",
     "@types/react-json-tree": "^0.6.8",
     "@types/react-notification-system": "^0.2.39",
