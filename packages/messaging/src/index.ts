@@ -5,6 +5,7 @@ import { Observable, from, Subscriber } from "rxjs";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { message, executeRequest } from "./messages";
 import { JupyterMessage, ExecuteRequest, MessageType } from "./types";
+import { PayloadMessage } from "@nteract/types";
 
 export * from "./types";
 
@@ -28,11 +29,11 @@ export function createExecuteRequest(code: string = ""): ExecuteRequest {
 /**
  * operator for getting all messages that declare their parent header as
  * parentMessage's header.
- * 
+ *
  * @param parentMessage The parent message whose children we should fetch
- * 
+ *
  * @returns A function that takes an Observable of kernel messages and returns
- * messages that are children of parentMessage. 
+ * messages that are children of parentMessage.
  */
 export const childOf = (parentMessage: JupyterMessage) => (
   source: Observable<JupyterMessage>
@@ -66,9 +67,9 @@ export const childOf = (parentMessage: JupyterMessage) => (
 /**
  * ofMessageType is an Rx Operator that filters on msg.header.msg_type
  * being one of messageTypes.
- * 
+ *
  * @param messageTypes The message types to filter on
- * 
+ *
  * @returns An Observable containing only messages of the specified types
  */
 export const ofMessageType = (
@@ -105,7 +106,7 @@ export const ofMessageType = (
  * http://jupyter-client.readthedocs.io/en/latest/messaging.html
  *
  * @param msg Message that has content which can be converted to nbformat
- * 
+ *
  * @returns Message with the associated output type
  */
 export const convertOutputMessageToNotebookFormat = (msg: JupyterMessage) => ({
@@ -145,7 +146,9 @@ export const updatedOutputs = () => (source: Observable<JupyterMessage>) =>
  *     payloads()
  *   )
  */
-export const payloads = () => (source: Observable<JupyterMessage>) =>
+export const payloads = () => (
+  source: Observable<JupyterMessage>
+): Observable<PayloadMessage> =>
   source.pipe(
     ofMessageType("execute_reply"),
     map(entry => entry.content.payload),
@@ -162,9 +165,9 @@ export const executionCounts = () => (source: Observable<JupyterMessage>) =>
     map(entry => entry.content.execution_count)
   );
 
-  /**
-   * Get all statuses of all running kernels.
-   */
+/**
+ * Get all statuses of all running kernels.
+ */
 export const kernelStatuses = () => (source: Observable<JupyterMessage>) =>
   source.pipe(
     ofMessageType("status"),

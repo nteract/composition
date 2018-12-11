@@ -9,7 +9,7 @@ import {
   ImmutableJSONType
 } from "@nteract/commutable";
 
-import { ContentRef, HostRef, KernelRef } from "@nteract/types";
+import { ContentRef, HostRef, KernelRef, PayloadMessage } from "@nteract/types";
 import { HostRecord } from "@nteract/types";
 import { LanguageInfoMetadata } from "@nteract/types";
 
@@ -92,7 +92,7 @@ export type AcceptPayloadMessage = {
   type: "ACCEPT_PAYLOAD_MESSAGE";
   payload: {
     id: CellId;
-    payload: object;
+    payload: PayloadMessage;
     contentRef: ContentRef;
   };
 };

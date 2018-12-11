@@ -26,7 +26,7 @@ import { has } from "lodash";
 import { escapeCarriageReturnSafe } from "escape-carriage";
 
 import * as actionTypes from "@nteract/actions";
-import { makeDocumentRecord } from "@nteract/types";
+import { makeDocumentRecord, PayloadMessage } from "@nteract/types";
 import { NotebookModel } from "@nteract/types";
 
 type KeyPath = Immutable.List<string | number>;
@@ -532,14 +532,7 @@ function acceptPayloadMessage(
   action: actionTypes.AcceptPayloadMessage
 ): NotebookModel {
   const id: string = action.payload.id;
-  type ActionPayload = {
-    source: string;
-    data: object;
-    text: string;
-    replace: boolean;
-    start: number;
-  };
-  const payload = action.payload.payload as Partial<ActionPayload>;
+  const payload = action.payload.payload as PayloadMessage;
 
   if (payload.source === "page") {
     // append pager

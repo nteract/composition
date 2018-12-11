@@ -7,6 +7,7 @@ import { HostRecord } from "./entities/hosts";
 import { makeCommunicationRecord } from "./communication";
 import { makeEntitiesRecord, makeEmptyHostRecord } from "./entities";
 import { Notification } from "react-notification-system";
+import { MimeBundle } from "@nteract/commutable/src";
 
 export * from "./communication";
 export * from "./entities";
@@ -48,6 +49,35 @@ export type NotebookMetadata = {
   //
   // orig_nbformat?: number,
 };
+
+type PagePayloadMessage = {
+  source: "page";
+  data: MimeBundle;
+  start: number;
+};
+
+type SetNextInputPayloadMessage = {
+  source: "set_next_input";
+  text: string;
+  replace: boolean;
+};
+
+type EditPayloadMessage = {
+  source: "edit";
+  filename: string;
+  line_number: number;
+};
+
+type AskExitPayloadMessage = {
+  source: "ask_exit";
+  keepkernel: boolean;
+};
+
+export type PayloadMessage =
+  | PagePayloadMessage
+  | SetNextInputPayloadMessage
+  | EditPayloadMessage
+  | AskExitPayloadMessage;
 
 export type CommsRecordProps = {
   targets: Immutable.Map<any, any>;

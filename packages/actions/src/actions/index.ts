@@ -9,7 +9,8 @@ import {
   ContentRef,
   HostRef,
   KernelRef,
-  LanguageInfoMetadata
+  LanguageInfoMetadata,
+  PayloadMessage
 } from "@nteract/types";
 
 export * from "./cells";
@@ -177,7 +178,7 @@ export function acceptPayloadMessage(payload: {
   id: CellId;
   // TODO: Properly type acceptPayloadMessage as taking jupyter payload message
   // Not to be confused with a redux style action payload
-  payload: any;
+  payload: PayloadMessage;
   contentRef: ContentRef;
 }): actionTypes.AcceptPayloadMessage {
   return {

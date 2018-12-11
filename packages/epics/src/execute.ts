@@ -30,7 +30,7 @@ import {
 import { ofType } from "redux-observable";
 import { ActionsObservable, StateObservable } from "redux-observable";
 
-import { ContentRef } from "@nteract/types";
+import { ContentRef, PayloadMessage } from "@nteract/types";
 import { AppState } from "@nteract/types";
 import * as actions from "@nteract/actions";
 import * as selectors from "@nteract/selectors";
@@ -76,14 +76,16 @@ export function executeCellStream(
   const cellMessages = channels.pipe(
     childOf(executeRequest),
     share()
-  );
+  ) as Observable<JupyterMessage>;
 
   // All the payload streams, intended for one user
-  const payloadStream = cellMessages.pipe(payloads() as any);
+  const payloadStream = cellMessages.pipe(payloads());
 
   const cellAction$ = merge(
     payloadStream.pipe(
-      map(payload => actions.acceptPayloadMessage({ id, payload, contentRef }))
+      map((payload: PayloadMessage) =>
+        actions.acceptPayloadMessage({ id, payload, contentRef })
+      )
     ),
 
     // All actions for updating cell status
