@@ -1,13 +1,11 @@
-/* @flow */
-
 import * as React from "react";
 
 type IconButtonProps = {
-  message: string,
-  onClick: () => void,
-  children?: React.Node,
-  title: string,
-  selected: boolean
+  message: string;
+  onClick: () => void;
+  children?: React.ReactNode;
+  title: string;
+  selected: boolean;
 };
 
 export class IconButton extends React.Component<IconButtonProps> {
@@ -20,7 +18,7 @@ export class IconButton extends React.Component<IconButtonProps> {
       title = message
     } = this.props;
 
-    let style: Object = {
+    let style = {
       width: "32px",
       height: "32px",
       cursor: "pointer",

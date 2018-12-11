@@ -4,11 +4,11 @@ import * as React from "react";
 import PalettePicker from "./PalettePicker";
 
 type HTMLLegendProps = {
-  values: Array<string>,
-  colorHash: Object,
-  valueHash: Object,
-  colors?: Array<string>,
-  setColor?: Function
+  values: Array<string>;
+  colorHash: object;
+  valueHash: object;
+  colors?: Array<string>;
+  setColor?: Function;
 };
 
 const HTMLLegend = ({
