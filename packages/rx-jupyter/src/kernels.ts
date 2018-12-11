@@ -7,7 +7,7 @@ import { Subject, Subscriber } from "rxjs";
 import { retryWhen, tap, delay, share } from "rxjs/operators";
 import { createAJAXSettings, ServerConfig } from "./base";
 import urljoin from "url-join";
-import URLSearchParams from "url-search-params";
+import URLSearchParams from "@ungap/url-search-params";
 
 import { JupyterMessage } from "@nteract/messaging";
 
@@ -98,11 +98,11 @@ export const restart = (serverConfig: ServerConfig, id: string) =>
 /**
  * Creates a Websocket URL that can be used to initialize a
  * connection with a kernel.
- * 
+ *
  * @param serverConfig The server configuration
  * @param kernelID The ID of the kernel to connect to
  * @param sessionID The ID of the session to connect as
- * 
+ *
  * @returns A string with the fully formed Websocket URL
  */
 export const formWebSocketURL = (
@@ -132,11 +132,11 @@ export const formWebSocketURL = (
 /**
  * Creates a connection to a kernel with the given kernelID scoped under
  * a particular sessionID.
- * 
+ *
  * @param serverConfig The server configuration
  * @param kernelID The ID of the kernel to connect to
  * @param sessionID The ID of the session to connect as
- * 
+ *
  * @returns A websocket Subject that can be subscribed to
  */
 export const connect = (

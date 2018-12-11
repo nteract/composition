@@ -27,10 +27,10 @@
   },
   "dependencies": {
     "@types/js-cookie": "^2.2.0",
+    "@ungap/url-search-params": "^0.1.2",
     "js-cookie": "^2.2.0",
     "rxjs": "^6.3.3",
-    "url-join": "^4.0.0",
-    "url-search-params": "^1.0.0"
+    "url-join": "^4.0.0"
   },
   "devDependencies": {
     "@types/url-join": "^0.8.2",
