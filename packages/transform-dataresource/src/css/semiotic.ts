@@ -1,5 +1,8 @@
 import css from "styled-jsx/css";
 
+// NOTE: All these CSS variables should have defaults set so that a developer can drop the data explorer in without
+//       needing our CSS variables set
+
 export default css`
   :global(.html-legend-item) {
     color: var(--theme-app-fg);

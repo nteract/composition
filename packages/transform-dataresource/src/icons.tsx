@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SVGWrapper } from "@nteract/octicons";
 
-export const BoxplotIcon = (props: any) => (
+export const BoxplotIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Summary Diagram</title>
     <path
@@ -12,7 +12,7 @@ export const BoxplotIcon = (props: any) => (
   </SVGWrapper>
 );
 
-export const TreeIcon = (props: any) => (
+export const TreeIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Dendrogram</title>
     <path
@@ -23,7 +23,7 @@ export const TreeIcon = (props: any) => (
   </SVGWrapper>
 );
 
-export const NetworkIcon = (props: any) => (
+export const NetworkIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Network</title>
     <path
@@ -34,7 +34,7 @@ export const NetworkIcon = (props: any) => (
   </SVGWrapper>
 );
 
-export const ScatterplotIcon = (props: any) => (
+export const ScatterplotIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Scatterplot</title>
     <path
@@ -45,7 +45,7 @@ export const ScatterplotIcon = (props: any) => (
   </SVGWrapper>
 );
 
-export const LineChartIcon = (props: any) => (
+export const LineChartIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Line Chart</title>
     <path
@@ -56,7 +56,7 @@ export const LineChartIcon = (props: any) => (
   </SVGWrapper>
 );
 
-export const HexbinIcon = (props: any) => (
+export const HexbinIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Hexbin</title>
     <path
@@ -67,7 +67,7 @@ export const HexbinIcon = (props: any) => (
   </SVGWrapper>
 );
 
-export const BarChartIcon = (props: any) => (
+export const BarChartIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Bar Chart</title>
     <path
@@ -78,7 +78,7 @@ export const BarChartIcon = (props: any) => (
   </SVGWrapper>
 );
 
-export const ParallelCoordinatesIcon = (props: any) => (
+export const ParallelCoordinatesIcon = (props: React.SVGAttributes<any>) => (
   <SVGWrapper width={16} height={16} viewBox="0 0 16 16" outerProps={props}>
     <title>Bar Chart</title>
     <path

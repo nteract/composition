@@ -5,15 +5,15 @@ import { ChromePicker } from "react-color";
 import paletteStyle from "./css/palette-picker";
 
 type Props = {
-  colors: Array<string>,
-  updateColor: Function
+  colors: Array<string>;
+  updateColor: Function;
 };
 
 type State = {
-  colors: string,
-  selectedColor: string,
-  open: boolean,
-  selectedPosition: number
+  colors: string;
+  selectedColor: string;
+  open: boolean;
+  selectedPosition: number;
 };
 
 class PalettePicker extends React.Component<Props, State> {
