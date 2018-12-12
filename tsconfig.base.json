@@ -6,6 +6,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
+    "target": "es2017",
     "jsx": "react",
     "typeRoots": ["./node_modules/@types", "types"],
     "baseUrl": ".",
