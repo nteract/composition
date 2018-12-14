@@ -56,15 +56,21 @@ type dxMetaProps = {
   };
 };
 
+type Metadata = { 
+  dx: dxMetaProps; 
+  sampled?: boolean;
+};
+
+
 type Props = {
   data: dataProps;
-  metadata: { dx: dxMetaProps };
+  metadata: Metadata;
   theme?: string;
   expanded?: boolean;
   height?: number;
   mediaType: "application/vnd.dataresource+json";
   initialView: View;
-  onMetadataChange?: ({ dx: dxMetaProps }) => void;
+  onMetadataChange?:({ dx }: { dx: dxMetaProps }) => void;
 };
 
 type State = {
@@ -81,7 +87,7 @@ type State = {
   lineType: LineType;
   areaType: AreaType;
   chart: Object;
-  displayChart: Object;
+  displayChart: any;
   primaryKey: Array<string>;
   data: Array<Object>;
 };
@@ -89,6 +95,7 @@ type State = {
 const generateChartKey = ({
   view,
   lineType,
+  areaType,
   selectedDimensions,
   selectedMetrics,
   pieceType,
@@ -96,8 +103,21 @@ const generateChartKey = ({
   networkType,
   hierarchyType,
   chart
+}: {
+  view: View;
+  lineType: LineType;
+  areaType: AreaType;
+  selectedDimensions: string[];
+  selectedMetrics: string[];
+  pieceType: PieceType;
+  summaryType: SummaryType;
+  networkType: NetworkType;
+  hierarchyType: HierarchyType;
+  chart: Object;
 }) =>
-  `${view}-${lineType}-${selectedDimensions.join(",")}-${selectedMetrics.join(
+  `${view}-${lineType}-${areaType}-${selectedDimensions.join(
+    ","
+  )}-${selectedMetrics.join(
     ","
   )}-${pieceType}-${summaryType}-${networkType}-${hierarchyType}-${JSON.stringify(
     chart
@@ -108,7 +128,7 @@ const generateChartKey = ({
   pie is a transform on bar
 */
 
-const MetadataWarning = ({ metadata }) => {
+const MetadataWarning = ({metadata}: {metadata : Metadata}) => {
   const warning =
     metadata && metadata.sampled ? (
       <span>
@@ -159,7 +179,7 @@ class DataResourceTransform extends React.Component<Props, State> {
 
     const { metadata, initialView } = props;
 
-    const { dx: baseDX = {} } = metadata;
+    const { dx: baseDX } = metadata;
 
     const { chart = {}, ...dx } = baseDX;
 
@@ -174,7 +194,9 @@ class DataResourceTransform extends React.Component<Props, State> {
 
     //Should datetime data types be transformed into js dates before getting to this resource?
     const data = props.data.data.map(datapoint => {
-      const mappedDatapoint = { ...datapoint };
+      const mappedDatapoint: any = {
+        ...datapoint
+      };
       fields.forEach(field => {
         if (field.type === "datetime") {
           mappedDatapoint[field.name] = new Date(mappedDatapoint[field.name]);
@@ -205,7 +227,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       dimensions,
       metrics,
       colors,
-      ui: {},
+      // ui: {},
       chart: {
         metric1: (metrics[0] && metrics[0].name) || "none",
         metric2: (metrics[1] && metrics[1].name) || "none",
@@ -231,7 +253,7 @@ class DataResourceTransform extends React.Component<Props, State> {
     }
   }
 
-  updateChart = (updatedState: Object) => {
+  updateChart = (updatedState: Partial<State>) => {
     const {
       view,
       dimensions,
@@ -333,17 +355,17 @@ class DataResourceTransform extends React.Component<Props, State> {
         }
       });
 
-    this.setState(() => {
-      return {
-        ...updatedState,
-        displayChart: {
-          ...this.state.displayChart,
-          [chartKey]: display
-        }
-      };
-    });
-  };
-  setView = view => {
+      this.setState((prevState): any => {
+        return {
+          ...updatedState,
+          displayChart: {
+            ...prevState.displayChart,
+            [chartKey]: display
+          }
+        };
+      });
+    };
+  setView = (view: View) => {
     this.updateChart({ view });
   };
 
@@ -351,7 +373,7 @@ class DataResourceTransform extends React.Component<Props, State> {
     this.setState({ view: "grid" });
   };
 
-  setColor = newColorArray => {
+  setColor = (newColorArray: string[]) => {
     this.updateChart({ colors: newColorArray });
   };
 
@@ -359,7 +381,7 @@ class DataResourceTransform extends React.Component<Props, State> {
     this.updateChart({ lineType: selectedLineType });
   };
 
-  setAreaType = (selectedAreaType: LineType) => {
+  setAreaType = (selectedAreaType: AreaType) => {
     this.updateChart({ areaType: selectedAreaType });
   };
 
@@ -386,6 +408,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       dimensions,
       chart,
       lineType,
+      areaType,
       selectedDimensions,
       selectedMetrics,
       pieceType,
@@ -413,6 +436,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       const chartKey = generateChartKey({
         view,
         lineType,
+        areaType,
         selectedDimensions,
         selectedMetrics,
         pieceType,
@@ -427,7 +451,7 @@ class DataResourceTransform extends React.Component<Props, State> {
 
     return (
       <div>
-        <MetadataWarning metadata={this.props.metadata} />
+        <MetadataWarning metadata={this.props.metadata } />
         <div
           style={{
             display: "flex",
