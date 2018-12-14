@@ -27,7 +27,7 @@ const semioticParallelCoordinates = (
   };
 };
 
-export const semioticSettings = {
+export const semioticSettings: any = {
   line: {
     Frame: ResponsiveXYFrame,
     controls: "switch between linetype",
