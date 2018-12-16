@@ -10,15 +10,7 @@ import { Toolbar } from "./components/Toolbar";
 
 const mediaType = "application/vnd.dataresource+json";
 
-type dataProps = {
-  schema: {
-    fields: Array<{ name: string; type: string }>;
-    pandas_version: string;
-    primaryKey: Array<string>;
-  };
-  data: Array<Object>;
-};
-
+import * as Dx from 'Dx'
 type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
 
 type AreaType = "hexbin" | "heatmap" | "contour";
@@ -63,7 +55,7 @@ type Metadata = {
 
 
 type Props = {
-  data: dataProps;
+  data: Dx.dataProps;
   metadata: Metadata;
   theme?: string;
   expanded?: boolean;
