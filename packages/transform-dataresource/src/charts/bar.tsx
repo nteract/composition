@@ -6,17 +6,18 @@ import HTMLLegend from "../HTMLLegend";
 import { numeralFormatting } from "../utilities";
 
 import { sortByOrdinalRange } from "./shared";
+import * as Dx from "Dx";
 
-type SemioticOptions = {
+interface SemioticOptions {
   selectedDimensions: Array<string>;
   chart: any;
   colors: any;
   setColor: any;
-};
+}
 
 export const semioticBarChart = (
   data: Array<object>,
-  schema: object,
+  schema: Dx.Schema,
   options: SemioticOptions
 ) => {
   const { selectedDimensions, chart, colors, setColor } = options;
@@ -32,8 +33,18 @@ export const semioticBarChart = (
 
   const rAccessor = metric1;
 
-  const additionalSettings: { dynamicColumnWidth?: string } = {};
-  const colorHash = { Other: "grey" };
+  interface AdditionalSettings {
+    afterElements?: JSX.Element;
+    dynamicColumnWidth?: string;
+    tooltipContent?: (
+      hoveredDataPoint: { x: number; y: number; [key: string]: any }
+    ) => JSX.Element;
+    pieceHoverAnnotation?: boolean;
+  }
+
+  const additionalSettings: AdditionalSettings = {};
+
+  const colorHash: { [key: string]: string; Other: "grey" } = { Other: "grey" };
 
   const sortedData = sortByOrdinalRange(
     oAccessor,
@@ -49,7 +60,7 @@ export const semioticBarChart = (
   const uniqueValues = sortedData.reduce(
     (uniques, datapoint) =>
       !uniques.find(
-        uniqueDimName => uniqueDimName === datapoint[dim1].toString()
+        (uniqueDimName: string) => uniqueDimName === datapoint[dim1].toString()
       )
         ? [...uniques, datapoint[dim1].toString()]
         : uniques,
@@ -120,7 +131,7 @@ export const semioticBarChart = (
     data: sortedData,
     oAccessor,
     rAccessor,
-    style: (datapoint: Object) => ({
+    style: (datapoint: Dx.Datapoint) => ({
       fill: colorHash[datapoint[dim1]] || colors[0],
       stroke: colorHash[datapoint[dim1]] || colors[0]
     }),
@@ -138,7 +149,7 @@ export const semioticBarChart = (
       label: rAccessor,
       tickFormat: numeralFormatting
     },
-    tooltipContent: (hoveredDatapoint: Object) => {
+    tooltipContent: (hoveredDatapoint: { [key: string]: any }) => {
       return (
         <TooltipContent
           x={hoveredDatapoint.column.xyData[0].xy.x}
@@ -152,15 +163,15 @@ export const semioticBarChart = (
           <p>
             {rAccessor}:{" "}
             {hoveredDatapoint.pieces
-              .map(piece => piece[rAccessor])
-              .reduce((total, value) => total + value, 0)}
+              .map((piece: { [key: string]: number }) => piece[rAccessor])
+              .reduce((total: number, value: number) => total + value, 0)}
           </p>
           {metric3 && metric3 !== "none" && (
             <p>
               {metric3}:{" "}
               {hoveredDatapoint.pieces
-                .map(piece => piece[metric3])
-                .reduce((total, value) => total + value, 0)}
+                .map((piece: { [key: string]: number }) => piece[metric3])
+                .reduce((total: number, value: number) => total + value, 0)}
             </p>
           )}
         </TooltipContent>
