@@ -20,7 +20,7 @@ import * as Dx from 'Dx'
 const semioticParallelCoordinates = (
   data: Dx.Data,
   schema: Dx.Schema,
-  options: Object
+  options: any
 ) => {
   return {
     data,
