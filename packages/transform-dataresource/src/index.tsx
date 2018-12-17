@@ -11,7 +11,8 @@ import { Toolbar } from "./components/Toolbar";
 const mediaType = "application/vnd.dataresource+json";
 
 import * as Dx from 'Dx'
-type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
+import {LineType} from 'Dx'
+
 
 type AreaType = "hexbin" | "heatmap" | "contour";
 
@@ -36,16 +37,7 @@ type dxMetaProps = {
   networkType?: NetworkType;
   hierarchyType?: HierarchyType;
   colors?: Array<string>;
-  chart?: {
-    metric1?: string;
-    metric2?: string;
-    metric3?: string;
-    dim1?: string;
-    dim2?: string;
-    dim3?: string;
-    networkLabel?: string;
-    timeseriesSort?: string;
-  };
+  chart?: Dx.Chart
 };
 
 type Metadata = { 
@@ -68,7 +60,7 @@ type Props = {
 type State = {
   view: View;
   colors: Array<string>;
-  metrics: Array<Object>;
+  metrics: Dx.Field[];
   dimensions: Array<Object>;
   selectedMetrics: Array<string>;
   selectedDimensions: Array<string>;
@@ -197,7 +189,7 @@ class DataResourceTransform extends React.Component<Props, State> {
       return mappedDatapoint;
     });
 
-    const metrics = fields
+    const metrics: Dx.Fields = fields
       .filter(
         field =>
           field.type === "integer" ||
