@@ -12,14 +12,13 @@ declare module "Dx" {
   export interface Field {
     name: string;
     type: string;
-    
   }
   export type Fields = Array<Field>;
 
   export interface Metric extends Field {
     type: "integer" | "datetime" | "number";
   }
-  
+
   export interface Dimension extends Field {
     type: "string" | "boolean" | "datetime";
   }
@@ -33,13 +32,13 @@ declare module "Dx" {
     label: string;
     color: string;
     originalData: Datapoint;
-  }
+  };
 
   export type LineData = {
     color: string;
     label: string;
     type: "number" | "integer" | "datetime";
-    coordinates: LineCoordinate[]
+    coordinates: LineCoordinate[];
   };
 
   export type Chart = {
@@ -53,4 +52,38 @@ declare module "Dx" {
     timeseriesSort?: string;
   };
   export type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
+  export type AreaType = "hexbin" | "heatmap" | "contour";
+
+  export type SummaryType =
+    | "violin"
+    | "joy"
+    | "histogram"
+    | "heatmap"
+    | "boxplot";
+  export type PieceType = "bar" | "point" | "swarm" | "clusterbar";
+  export type HierarchyType =
+    | "dendrogram"
+    | "treemap"
+    | "partition"
+    | "sunburst";
+
+  export type NetworkType = "force" | "sankey" | "arc" | "matrix";
+
+  export interface ChartOptions {
+    metrics: Metric[];
+    dimensions: Dimension[];
+    chart: Chart;
+    colors: string[];
+    height: number;
+    lineType: LineType;
+    areaType: AreaType;
+    selectedDimensions: Dimension[];
+    selectedMetrics: Metric[];
+    pieceType: PieceType;
+    summaryType: SummaryType;
+    networkType: NetworkType;
+    hierarchyType: HierarchyType;
+    primaryKey: string[];
+    setColor: () => void;
+  }
 }
