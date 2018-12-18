@@ -6,10 +6,14 @@ import { BlueprintCSS } from "@nteract/styled-blueprintjsx";
 
 import ReactTableStyles from "../css/react-table";
 
+import { JSONObject } from "@nteract/commutable";
+
+import * as Dx from "Dx";
+
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 
-const switchMode = currentMode => {
-  const nextMode = {
+const switchMode = (currentMode: string) => {
+  const nextMode: JSONObject = {
     "=": ">",
     ">": "<",
     "<": "="
@@ -17,7 +21,18 @@ const switchMode = currentMode => {
   return nextMode[currentMode];
 };
 
-const NumberFilter = props => {
+type OnChangeProps = (input: number | string) => void;
+
+type FilterIndexSignature = "integer" | "number" | "string";
+
+type NumberFilterProps = {
+  onChange: OnChangeProps;
+  filterState: { [key: string]: string };
+  filterName: string;
+  updateFunction: (input: JSONObject) => void;
+};
+
+const NumberFilter = (props: NumberFilterProps) => {
   const { filterState, filterName, updateFunction, onChange } = props;
   const mode = filterState[filterName] || "=";
 
@@ -36,32 +51,36 @@ const NumberFilter = props => {
 
   return (
     <InputGroup
-      allowNumericCharactersOnly={true}
+      //      allowNumericCharactersOnly={true}
       large={true}
       placeholder="number"
       rightElement={lockButton}
       small={false}
       type={"text"}
-      onChange={event => onChange(event.target.value)}
+      onChange={(event: React.FormEvent<HTMLInputElement>) => {
+        onChange(event.currentTarget.value);
+      }}
     />
   );
 };
 
-const stringFilter = () => ({ onChange }) => (
+const stringFilter = () => ({ onChange }: { onChange: OnChangeProps }) => (
   <InputGroup
     large={true}
     placeholder="string"
     type={"text"}
-    onChange={event => onChange(event.target.value)}
+    onChange={(event: React.FormEvent<HTMLInputElement>) => {
+      onChange(event.currentTarget.value);
+    }}
   />
 );
 
-const numberFilterWrapper = (filterState, filterName, updateFunction) => ({
-  filter,
-  onChange
-}) => (
+const numberFilterWrapper = (
+  filterState: NumberFilterProps["filterState"],
+  filterName: NumberFilterProps["filterName"],
+  updateFunction: NumberFilterProps["updateFunction"]
+) => ({ onChange }: { onChange: OnChangeProps }) => (
   <NumberFilter
-    filter={filter}
     onChange={onChange}
     filterState={filterState}
     filterName={filterName}
@@ -69,13 +88,10 @@ const numberFilterWrapper = (filterState, filterName, updateFunction) => ({
   />
 );
 
-const columnFilters = {
-  integer: numberFilterWrapper,
-  number: numberFilterWrapper,
-  string: stringFilter
-};
-
-const filterNumbers = (mode = "=") => (filter, row) => {
+const filterNumbers = (mode = "=") => (
+  filter: FilterObject,
+  row: RowObject
+) => {
   if (mode === "=") {
     return row[filter.id] == filter.value;
   } else if (mode === "<") {
@@ -86,26 +102,43 @@ const filterNumbers = (mode = "=") => (filter, row) => {
   return row[filter.id];
 };
 
-const filterStrings = () => (filter, row) => {
+const filterStrings = () => (filter: FilterObject, row: RowObject) => {
   return (
     row[filter.id].toLowerCase().indexOf(filter.value.toLowerCase()) !== -1
   );
 };
 
-const filterMethod = {
+const columnFilters: { [index in FilterIndexSignature]: Function } = {
+  integer: numberFilterWrapper,
+  number: numberFilterWrapper,
+  string: stringFilter
+};
+
+type FilterMethodType = { [index in FilterIndexSignature]: Function };
+
+const filterMethod: FilterMethodType = {
   integer: filterNumbers,
   number: filterNumbers,
   string: filterStrings
 };
 
+type FilterObject = {
+  id: string;
+  value: string;
+};
+
+type RowObject = {
+  [key: string]: string;
+};
+
 type State = {
-  filters: Object,
-  showFilters: boolean
+  filters: { [key: string]: Function };
+  showFilters: boolean;
 };
 
 type Props = {
-  data: { data: Array<Object>, schema: Object },
-  height: number
+  data: { data: Dx.Datapoint[]; schema: Dx.Schema };
+  height: number;
 };
 
 class DataResourceTransformGrid extends React.Component<Props, State> {
@@ -122,7 +155,7 @@ class DataResourceTransformGrid extends React.Component<Props, State> {
     };
   }
 
-  render(): ?React$Element<any> {
+  render() {
     const {
       data: { data, schema },
       height
@@ -130,20 +163,29 @@ class DataResourceTransformGrid extends React.Component<Props, State> {
 
     const { filters, showFilters } = this.state;
 
-    const tableColumns = schema.fields.map(field => {
+    const tableColumns = schema.fields.map((field: Dx.Field) => {
       return {
         Header: field.name,
         accessor: field.name,
         fixed: schema.primaryKey.indexOf(field.name) !== -1 && "left",
-        filterMethod: (filter, row) => {
-          return filterMethod[field.type](filters[field.name])(filter, row);
+        filterMethod: (filter: JSONObject, row: JSONObject) => {
+          return (
+            filterMethod[field.type] &&
+            filterMethod[field.type](filters[field.name])(filter, row)
+          );
         },
         //If we don't have a filter defined for this field type, pass an empty div
-        Filter:
-          columnFilters[field.type] &&
-          columnFilters[field.type](filters, field.name, newFilter => {
-            this.setState({ filters: { ...filters, ...newFilter } }) || <div />;
-          })
+        Filter: columnFilters[field.type] ? (
+          columnFilters[field.type](
+            filters,
+            field.name,
+            (newFilter: JSONObject) => {
+              this.setState({ filters: { ...filters, ...newFilter } });
+            }
+          )
+        ) : (
+          <div />
+        )
       };
     });
 
