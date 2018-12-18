@@ -15,10 +15,10 @@ import { semioticBarChart } from "./bar";
 import { semioticScatterplot, semioticHexbin } from "./xyplot";
 import { semioticSummaryChart } from "./summary";
 
-import * as Dx from 'Dx'
+import * as Dx from "Dx";
 
 const semioticParallelCoordinates = (
-  data: Dx.Data,
+  data: Dx.Datapoint[],
   schema: Dx.Schema,
   options: Dx.ChartOptions
 ) => {

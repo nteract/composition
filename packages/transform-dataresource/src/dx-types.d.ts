@@ -1,11 +1,11 @@
 declare module "Dx" {
-  export interface dataProps {
+  export interface DataProps {
     schema: Schema;
-    data: Data;
+    data: Datapoint[];
   }
 
   export interface Schema {
-    fields: Fields;
+    fields: Field[];
     pandas_version: string;
     primaryKey: Array<string>;
   }
@@ -13,7 +13,6 @@ declare module "Dx" {
     name: string;
     type: string;
   }
-  export type Fields = Array<Field>;
 
   export interface Metric extends Field {
     type: "integer" | "datetime" | "number";
@@ -23,7 +22,6 @@ declare module "Dx" {
     type: "string" | "boolean" | "datetime";
   }
 
-  export type Data = Array<Datapoint>;
   export type Datapoint = { [fieldName: string]: any };
 
   export type LineCoordinate = {
@@ -42,14 +40,14 @@ declare module "Dx" {
   };
 
   export type Chart = {
-    metric1?: string;
-    metric2?: string;
-    metric3?: string;
-    dim1?: string;
-    dim2?: string;
-    dim3?: string;
-    networkLabel?: string;
-    timeseriesSort?: string;
+    metric1: string;
+    metric2: string;
+    metric3: string;
+    dim1: string;
+    dim2: string;
+    dim3: string;
+    networkLabel: string;
+    timeseriesSort: string;
   };
   export type LineType = "line" | "stackedarea" | "bumparea" | "stackedpercent";
   export type AreaType = "hexbin" | "heatmap" | "contour";
@@ -84,6 +82,6 @@ declare module "Dx" {
     networkType: NetworkType;
     hierarchyType: HierarchyType;
     primaryKey: string[];
-    setColor: () => void;
+    setColor: (color: string) => void;
   }
 }
