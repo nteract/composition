@@ -43,7 +43,7 @@ type Metadata = {
 };
 
 type Props = {
-  data: Dx.dataProps;
+  data: Dx.DataProps;
   metadata: Metadata;
   theme?: string;
   expanded?: boolean;
@@ -69,7 +69,7 @@ type State = {
   chart: Chart;
   displayChart: DisplayChart;
   primaryKey: string[];
-  data: Dx.Data;
+  data: Dx.Datapoint[];
 };
 
 const generateChartKey = ({
@@ -188,14 +188,16 @@ class DataResourceTransform extends React.Component<Props, State> {
       return mappedDatapoint;
     });
 
-    const metrics: Dx.Fields = fields
+    const metrics = fields
       .filter(
         field =>
           field.type === "integer" ||
           field.type === "number" ||
           field.type === "datetime"
       )
-      .filter(field => !primaryKey.find(pkey => pkey === field.name));
+      .filter(
+        field => !primaryKey.find(pkey => pkey === field.name)
+      ) as Dx.Metric[];
 
     const displayChart: DisplayChart = {};
     this.state = {

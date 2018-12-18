@@ -5,19 +5,19 @@ import { scaleLinear, scaleTime } from "d3-scale";
 
 import TooltipContent from "../tooltip-content";
 import { numeralFormatting } from "../utilities";
-import * as Dx from 'Dx'
+import * as Dx from "Dx";
 
-interface LineOptions{
+interface LineOptions {
   chart: Dx.Chart;
-    selectedMetrics: string[]
-    lineType: Dx.LineType;
-    metrics: Dx.Metric[];
-    primaryKey: string[];
-    colors: string[];
+  selectedMetrics: string[];
+  lineType: Dx.LineType;
+  metrics: Dx.Metric[];
+  primaryKey: string[];
+  colors: string[];
 }
 
 export const semioticLineChart = (
-  data: Dx.Data,
+  data: Dx.Datapoint[],
   schema: Dx.Schema,
   options: LineOptions
 ) => {
@@ -34,56 +34,65 @@ export const semioticLineChart = (
   // const F = (a: number, b:Dx.Chart): string[]=> selectedMetrics;
   const { timeseriesSort } = chart;
 
-  const timeSeriesFields = schema.fields.find(field => field && field.name === timeseriesSort)
-  
-  const sortType = timeseriesSort === "array-order" ? "integer" 
-      : timeSeriesFields  && timeSeriesFields.type ? timeSeriesFields.type : null
+  const timeSeriesFields = schema.fields.find(
+    field => field && field.name === timeseriesSort
+  );
 
-  const formatting = (tickValue: Date | number) => sortType === "datetime"
-    ? (tickValue as Date).toLocaleString().split(",")[0]
-    : numeralFormatting(tickValue as number)
+  const sortType =
+    timeseriesSort === "array-order"
+      ? "integer"
+      : timeSeriesFields && timeSeriesFields.type
+      ? timeSeriesFields.type
+      : null;
+
+  const formatting = (tickValue: Date | number) =>
+    sortType === "datetime"
+      ? (tickValue as Date).toLocaleString().split(",")[0]
+      : numeralFormatting(tickValue as number);
 
   const xScale = sortType === "datetime" ? scaleTime() : scaleLinear();
   lineData = metrics
-    .map((metric: Dx.Metric, index: number): Dx.LineData => {
-      const metricData =
-        timeseriesSort === "array-order"
-          ? data
-          : data.sort(
-            // Using some questionable type assertions here
-            (datapointA, datapointB) => {
-              const dA = datapointA[timeseriesSort as string]  as number
-              const dB = datapointB[timeseriesSort as string]  as number
-              return dA - dB
-            }
-            );
-      return {
-        color: colors[index % colors.length],
-        label: metric.name,
-        type: metric.type,
-        coordinates: metricData.map((datapoint, datapointValue) => ({
-          value: datapoint[metric.name] as number,
-          x:
-            timeseriesSort === "array-order"
-              ? datapointValue
-              : datapoint[timeseriesSort as string] as number,
-          label: metric.name,
+    .map(
+      (metric: Dx.Metric, index: number): Dx.LineData => {
+        const metricData =
+          timeseriesSort === "array-order"
+            ? data
+            : data.sort(
+                // Using some questionable type assertions here
+                (datapointA, datapointB) =>
+                  datapointA[timeseriesSort] - datapointB[timeseriesSort]
+              );
+        return {
           color: colors[index % colors.length],
-          originalData: datapoint
-        }))
-      };
-    })
+          label: metric.name,
+          type: metric.type,
+          coordinates: metricData.map((datapoint, datapointValue) => ({
+            value: datapoint[metric.name],
+            x:
+              timeseriesSort === "array-order"
+                ? datapointValue
+                : datapoint[timeseriesSort],
+            label: metric.name,
+            color: colors[index % colors.length],
+            originalData: datapoint
+          }))
+        };
+      }
+    )
     .filter(
-      (metric: Dx.LineData )=>
+      (metric: Dx.LineData) =>
         selectedMetrics.length === 0 ||
-        selectedMetrics.some((selectedMetric) => selectedMetric === metric.label)
+        selectedMetrics.some(selectedMetric => selectedMetric === metric.label)
     );
 
   return {
     lineType: { type: lineType, interpolator: curveMonotoneX },
     lines: lineData,
     xScaleType: xScale,
-    renderKey: (line: {coordinates: Dx.LineCoordinate[]; label: string, line: string}, index: number) => {
+    renderKey: (
+      line: { coordinates: Dx.LineCoordinate[]; label: string; line: string },
+      index: number
+    ) => {
       return line.coordinates
         ? `line-${line.label}`
         : `linepoint=${line.label}-${index}`;

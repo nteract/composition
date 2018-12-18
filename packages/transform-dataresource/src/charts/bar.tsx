@@ -8,17 +8,17 @@ import { numeralFormatting } from "../utilities";
 import { sortByOrdinalRange } from "./shared";
 import * as Dx from "Dx";
 
-interface SemioticOptions {
-  selectedDimensions: Array<string>;
-  chart: any;
-  colors: any;
-  setColor: any;
+interface BarOptions {
+  selectedDimensions: string[];
+  chart: Dx.Chart;
+  colors: string[];
+  setColor: (color: string) => void;
 }
 
 export const semioticBarChart = (
-  data: Array<object>,
+  data: Dx.Datapoint[],
   schema: Dx.Schema,
-  options: SemioticOptions
+  options: BarOptions
 ) => {
   const { selectedDimensions, chart, colors, setColor } = options;
   const { dim1, metric1, metric3 } = chart;
@@ -26,23 +26,21 @@ export const semioticBarChart = (
   const oAccessor =
     selectedDimensions.length === 0
       ? dim1
-      : (datapoint: any) =>
+      : (datapoint: Dx.Datapoint) =>
           selectedDimensions
             .map(selectedDim => datapoint[selectedDim])
             .join(",");
 
   const rAccessor = metric1;
 
-  interface AdditionalSettings {
+  const additionalSettings: {
     afterElements?: JSX.Element;
     dynamicColumnWidth?: string;
     tooltipContent?: (
       hoveredDataPoint: { x: number; y: number; [key: string]: any }
     ) => JSX.Element;
     pieceHoverAnnotation?: boolean;
-  }
-
-  const additionalSettings: AdditionalSettings = {};
+  } = {};
 
   const colorHash: { [key: string]: string; Other: "grey" } = { Other: "grey" };
 
