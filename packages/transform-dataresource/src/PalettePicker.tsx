@@ -1,4 +1,3 @@
-/* @flow */
 import * as React from "react";
 import { ChromePicker } from "react-color";
 
@@ -43,7 +42,7 @@ class PalettePicker extends React.Component<Props, State> {
     this.setState({ selectedColor: color, selectedPosition: position });
   };
 
-  pickerChange = (color: Object) => {
+  pickerChange = (color: { hex: string }) => {
     const { colors } = this.props;
     colors[this.state.selectedPosition] = color.hex;
     this.props.updateColor(colors);
@@ -62,7 +61,7 @@ class PalettePicker extends React.Component<Props, State> {
     this.props.updateColor(parsedTextValue);
   };
 
-  updateTextArea = (e: Object) => {
+  updateTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({ colors: e.target.value });
   };
 
@@ -83,9 +82,9 @@ class PalettePicker extends React.Component<Props, State> {
         <div
           className="close"
           role="button"
-          tabIndex="0"
+          tabIndex={0}
           onClick={this.openClose}
-          onKeyPress={(e: Object) => {
+          onKeyPress={(e: React.KeyboardEvent<HTMLDivElement>) => {
             if (e.keyCode === 13) {
               this.openClose();
             }
@@ -102,8 +101,8 @@ class PalettePicker extends React.Component<Props, State> {
                 className="box"
                 style={{ background: color }}
                 role="button"
-                tabIndex="0"
-                onKeyPress={(e: Object) => {
+                tabIndex={0}
+                onKeyPress={(e: React.KeyboardEvent<HTMLDivElement>) => {
                   if (e.keyCode === 13) {
                     this.handleChange(color, index);
                   }
