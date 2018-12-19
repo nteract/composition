@@ -3,6 +3,24 @@ import * as React from "react";
 import { scaleLinear } from "d3-scale";
 
 import TooltipContent from "../tooltip-content";
+import { JSONObject } from "@nteract/commutable";
+import * as Dx from "Dx";
+
+type NodeObject = {
+  id: string;
+  nodeSize?: number;
+  degree: number;
+  x: number;
+  y: number;
+  value: number;
+};
+
+type EdgeObject = {
+  source: NodeObject;
+  target: NodeObject;
+  weight: number;
+  value: number;
+};
 
 const fontScale = scaleLinear()
   .domain([5, 30])
@@ -10,21 +28,21 @@ const fontScale = scaleLinear()
   .clamp(true);
 
 const edgeStyles = {
-  force: (colorHash: Object) => (edge: Object) => ({
+  force: (colorHash: JSONObject) => (edge: EdgeObject) => ({
     fill: colorHash[edge.source.id],
     stroke: colorHash[edge.source.id],
     strokeOpacity: 0.25
   }),
-  sankey: (colorHash: Object) => (edge: Object) => ({
+  sankey: (colorHash: JSONObject) => (edge: EdgeObject) => ({
     fill: colorHash[edge.source.id],
     stroke: colorHash[edge.source.id],
     strokeOpacity: 0.25
   }),
-  matrix: (colorHash: Object) => (edge: Object) => ({
+  matrix: (colorHash: JSONObject) => (edge: EdgeObject) => ({
     fill: colorHash[edge.source.id],
     stroke: "none"
   }),
-  arc: (colorHash: Object) => (edge: Object) => ({
+  arc: (colorHash: JSONObject) => (edge: EdgeObject) => ({
     fill: "none",
     stroke: colorHash[edge.source.id],
     strokeWidth: edge.weight || 1,
@@ -33,22 +51,22 @@ const edgeStyles = {
 };
 
 const nodeStyles = {
-  force: (colorHash: Object) => (node: Object) => ({
+  force: (colorHash: JSONObject) => (node: NodeObject) => ({
     fill: colorHash[node.id],
     stroke: colorHash[node.id],
     strokeOpacity: 0.5
   }),
-  sankey: (colorHash: Object) => (node: Object) => ({
+  sankey: (colorHash: JSONObject) => (node: NodeObject) => ({
     fill: colorHash[node.id],
     stroke: colorHash[node.id],
     strokeOpacity: 0.5
   }),
-  matrix: () => () => ({
+  matrix: (colorHash: JSONObject) => (node: NodeObject) => ({
     fill: "none",
     stroke: "#666",
     strokeOpacity: 1
   }),
-  arc: (colorHash: Object) => (node: Object) => ({
+  arc: (colorHash: JSONObject) => (node: NodeObject) => ({
     fill: colorHash[node.id],
     stroke: colorHash[node.id],
     strokeOpacity: 0.5
@@ -71,10 +89,10 @@ const hoverAnnotationSettings = {
   arc: nodeLinkHover
 };
 
-const nodeLabeling = {
+const nodeLabeling: { [index: string]: Function | boolean } = {
   none: false,
   static: true,
-  scaled: d => {
+  scaled: (d: NodeObject) => {
     if (!d.nodeSize || d.nodeSize < 5) {
       return null;
     }
@@ -91,9 +109,9 @@ const nodeLabeling = {
 };
 
 export const semioticNetwork = (
-  data: Array<Object>,
-  schema: Object,
-  options: Object
+  data: Dx.DataProps["data"],
+  schema: Dx.DataProps["schema"],
+  options: Dx.DataProps["options"]
 ) => {
   const { networkType = "force", chart, colors } = options;
   const {
@@ -111,8 +129,8 @@ export const semioticNetwork = (
   ) {
     return {};
   }
-  const edgeHash = {};
-  const networkData = [];
+  const edgeHash: { [index: string]: EdgeObject } = {};
+  const networkData: EdgeObject[] = [];
 
   data.forEach(edge => {
     if (!edgeHash[`${edge[sourceDimension]}-${edge[targetDimension]}`]) {
@@ -131,7 +149,7 @@ export const semioticNetwork = (
     edgeHash[`${edge[sourceDimension]}-${edge[targetDimension]}`].weight += 1;
   });
 
-  const colorHash = {};
+  const colorHash: { [index: string]: string } = {};
   data.forEach(edge => {
     if (!colorHash[edge[sourceDimension]])
       colorHash[edge[sourceDimension]] =
@@ -150,13 +168,13 @@ export const semioticNetwork = (
     edgeType: networkType === "force" && "halfarrow",
     edgeStyle: edgeStyles[networkType](colorHash),
     nodeStyle: nodeStyles[networkType](colorHash),
-    nodeSizeAccessor: (node: Object) => node.degree,
+    nodeSizeAccessor: (node: NodeObject) => node.degree,
     networkType: {
       type: networkType,
       iterations: 1000
     },
     hoverAnnotation: hoverAnnotationSettings[networkType],
-    tooltipContent: (hoveredNode: Object) => {
+    tooltipContent: (hoveredNode: NodeObject) => {
       return (
         <TooltipContent x={hoveredNode.x} y={hoveredNode.y}>
           <h3>{hoveredNode.id}</h3>
