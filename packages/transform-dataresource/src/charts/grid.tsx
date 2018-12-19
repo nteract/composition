@@ -108,11 +108,7 @@ const filterStrings = () => (filter: FilterObject, row: RowObject) => {
   );
 };
 
-type FilterMethodType = {
-  integer: Function;
-  number: Function;
-  string: Function;
-};
+type FilterMethodType = { [index in FilterIndexSignature]: Function };
 
 const columnFilters: FilterMethodType = {
   integer: numberFilterWrapper,

@@ -1,11 +1,14 @@
 /* @flow */
 import * as React from "react";
 import { nest } from "d3-collection";
-import { scaleLinear } from "d3-scale";
+import { interpolateLab } from "d3-interpolate";
 
 import TooltipContent from "../tooltip-content";
 
-const parentPath = (datapoint, pathArray) => {
+import * as Dx from "Dx";
+import { JSONObject } from "@nteract/commutable";
+
+const parentPath = (datapoint: Dx.Datapoint, pathArray: string[]) => {
   if (datapoint.parent) {
     pathArray = parentPath(datapoint.parent, [datapoint.key, ...pathArray]);
   } else {
@@ -14,7 +17,11 @@ const parentPath = (datapoint, pathArray) => {
   return pathArray;
 };
 
-const hierarchicalTooltip = (datapoint, primaryKey, metric) => {
+const hierarchicalTooltip = (
+  datapoint: Dx.Datapoint,
+  primaryKey: string[],
+  metric: string
+) => {
   const pathString = datapoint.parent
     ? parentPath(
         datapoint.parent,
@@ -36,7 +43,7 @@ const hierarchicalTooltip = (datapoint, primaryKey, metric) => {
       <p key="leaf-label">
         {pathString}
         ->
-        {primaryKey.map(pkey => datapoint[pkey]).join(", ")}
+        {primaryKey.map((pkey: string) => datapoint[pkey]).join(", ")}
       </p>
     );
     content.push(
@@ -49,25 +56,25 @@ const hierarchicalTooltip = (datapoint, primaryKey, metric) => {
   return content;
 };
 
-const hierarchicalColor = (colorHash: Object, datapoint: Object) => {
+const hierarchicalColor = (
+  colorHash: { [index: string]: string },
+  datapoint: Dx.Datapoint
+) => {
   if (datapoint.depth === 0) return "white";
   if (datapoint.depth === 1) return colorHash[datapoint.key];
   let colorNode = datapoint;
   for (let x = datapoint.depth; x > 1; x--) {
     colorNode = colorNode.parent;
   }
-  const lightenScale = scaleLinear()
-    .domain([6, 1])
-    .clamp(true)
-    .range(["white", colorHash[colorNode.key]]);
+  const lightenScale = interpolateLab("white", colorHash[colorNode.key]);
 
-  return lightenScale(datapoint.depth);
+  return lightenScale(Math.max(0, datapoint.depth / 6));
 };
 
 export const semioticHierarchicalChart = (
-  data: Array<Object>,
-  schema: Object,
-  options: Object
+  data: Dx.DataProps["data"],
+  schema: Dx.DataProps["schema"],
+  options: Dx.DataProps["options"]
 ) => {
   const {
     hierarchyType: baseHierarchyType = "dendrogram",
@@ -88,12 +95,14 @@ export const semioticHierarchicalChart = (
 
   const nestingParams = nest();
 
-  selectedDimensions.forEach(dim => {
-    nestingParams.key(param => param[dim]);
+  selectedDimensions.forEach((dim: string) => {
+    nestingParams.key((param: {}) => param[dim]);
   });
-  const colorHash = {};
-  const sanitizedData = [];
-  data.forEach(datapoint => {
+
+  const colorHash: { [index: string]: string } = {};
+  const sanitizedData: {}[] = [];
+
+  data.forEach((datapoint: Dx.Datapoint) => {
     if (!colorHash[datapoint[selectedDimensions[0]]])
       colorHash[datapoint[selectedDimensions[0]]] =
         colors[Object.keys(colorHash).length];
@@ -111,7 +120,7 @@ export const semioticHierarchicalChart = (
   return {
     edges: rootNode,
     edgeStyle: () => ({ fill: "lightgray", stroke: "gray" }),
-    nodeStyle: (node: Object) => {
+    nodeStyle: (node: { depth: number }) => {
       return {
         fill: hierarchicalColor(colorHash, node),
         stroke: node.depth === 1 ? "white" : "black",
@@ -121,10 +130,10 @@ export const semioticHierarchicalChart = (
     networkType: {
       type: hierarchyType,
       projection: baseHierarchyType === "sunburst" && "radial",
-      hierarchySum: (node: Object) => node[metric1],
-      hierarchyChildren: (node: Object) => node.values,
+      hierarchySum: (node: { [index: string]: number }) => node[metric1],
+      hierarchyChildren: (node: { values: {}[] }) => node.values,
       padding:
-        hierarchyType === "treemap" ? 3 : hierarchyType === "circlepack" ? 2 : 0
+        hierarchyType === "treemap" || hierarchyType === "circlepack" ? 2 : 0
     },
     edgeRenderKey: (edge: Object, index: number) => {
       return index;

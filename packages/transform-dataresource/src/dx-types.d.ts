@@ -1,7 +1,26 @@
 declare module "Dx" {
+  export interface ChartOptions {
+    metrics: Metric[];
+    dimensions: Dimension[];
+    chart: Chart;
+    colors: string[];
+    height: number;
+    lineType: LineType;
+    areaType: AreaType;
+    selectedDimensions: string[];
+    selectedMetrics: Metric[];
+    pieceType: PieceType;
+    summaryType: SummaryType;
+    networkType: NetworkType;
+    hierarchyType: HierarchyType;
+    primaryKey: string[];
+    setColor: (color: string) => void;
+  }
+
   export interface DataProps {
     schema: Schema;
     data: Datapoint[];
+    options: ChartOptions;
   }
 
   export interface Schema {
@@ -66,22 +85,4 @@ declare module "Dx" {
     | "sunburst";
 
   export type NetworkType = "force" | "sankey" | "arc" | "matrix";
-
-  export interface ChartOptions {
-    metrics: Metric[];
-    dimensions: Dimension[];
-    chart: Chart;
-    colors: string[];
-    height: number;
-    lineType: LineType;
-    areaType: AreaType;
-    selectedDimensions: Dimension[];
-    selectedMetrics: Metric[];
-    pieceType: PieceType;
-    summaryType: SummaryType;
-    networkType: NetworkType;
-    hierarchyType: HierarchyType;
-    primaryKey: string[];
-    setColor: (color: string) => void;
-  }
 }
