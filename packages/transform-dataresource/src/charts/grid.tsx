@@ -168,29 +168,40 @@ class DataResourceTransformGrid extends React.Component<Props, State> {
     const { filters, showFilters } = this.state;
 
     const tableColumns = schema.fields.map((field: Dx.Field) => {
-      return {
-        Header: field.name,
-        accessor: field.name,
-        fixed: schema.primaryKey.indexOf(field.name) !== -1 && "left",
-        filterMethod: (filter: JSONObject, row: JSONObject) => {
-          return (
-            filterMethod[field.type] &&
-            filterMethod[field.type](filters[field.name])(filter, row)
-          );
-        },
-        //If we don't have a filter defined for this field type, pass an empty div
-        Filter: columnFilters[field.type] ? (
-          columnFilters[field.type](
+      if (
+        field.type === "string" ||
+        field.type === "number" ||
+        field.type === "integer"
+      ) {
+        return {
+          Header: field.name,
+          accessor: field.name,
+          fixed: schema.primaryKey.indexOf(field.name) !== -1 && "left",
+          filterMethod: (filter: JSONObject, row: JSONObject) => {
+            if (
+              field.type === "string" ||
+              field.type === "number" ||
+              field.type === "integer"
+            ) {
+              filterMethod[field.type](filters[field.name])(filter, row);
+            }
+          },
+          //If we don't have a filter defined for this field type, pass an empty div
+          Filter: columnFilters[field.type](
             filters,
             field.name,
-            (newFilter: JSONObject) => {
+            (newFilter: { [key: string]: Function }) => {
               this.setState({ filters: { ...filters, ...newFilter } });
             }
           )
-        ) : (
-          <div />
-        )
-      };
+        };
+      } else {
+        return {
+          Header: field.name,
+          accessor: field.name,
+          fixed: schema.primaryKey.indexOf(field.name) !== -1 && "left"
+        };
+      }
     });
 
     return (
