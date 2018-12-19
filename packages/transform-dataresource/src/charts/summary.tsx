@@ -1,10 +1,10 @@
-/* @flow */
 import * as React from "react";
 import { scaleLinear } from "d3-scale";
 
 import HTMLLegend from "../HTMLLegend";
 import { numeralFormatting } from "../utilities";
 import TooltipContent from "../tooltip-content";
+import * as Dx from "Dx";
 
 const fontScale = scaleLinear()
   .domain([8, 25])
@@ -12,12 +12,12 @@ const fontScale = scaleLinear()
   .clamp(true);
 
 export const semioticSummaryChart = (
-  data: Array<Object>,
-  schema: Object,
-  options: Object
+  data: Dx.DataProps["data"],
+  schema: Dx.DataProps["schema"],
+  options: Dx.DataProps["options"]
 ) => {
-  const additionalSettings = {};
-  const colorHash = {};
+  const additionalSettings: { afterElements?: JSX.Element } = {};
+  const colorHash: { [index: string]: string } = {};
 
   const { chart, summaryType, primaryKey, colors, setColor } = options;
 
@@ -28,9 +28,9 @@ export const semioticSummaryChart = (
   const rAccessor = metric1;
 
   const uniqueValues = data.reduce(
-    (uniqueArray, datapoint) =>
+    (uniqueArray: string[], datapoint) =>
       (!uniqueArray.find(
-        dimValue => dimValue === datapoint[dim1].toString()
+        (dimValue: string) => dimValue === datapoint[dim1].toString()
       ) && [...uniqueArray, datapoint[dim1].toString()]) ||
       uniqueArray,
     []
@@ -59,12 +59,12 @@ export const semioticSummaryChart = (
     data: data,
     oAccessor,
     rAccessor,
-    summaryStyle: (summaryDatapoint: Object) => ({
+    summaryStyle: (summaryDatapoint: Dx.Datapoint) => ({
       fill: colorHash[summaryDatapoint[dim1]] || colors[0],
       fillOpacity: 0.8,
       stroke: colorHash[summaryDatapoint[dim1]] || colors[0]
     }),
-    style: (pieceDatapoint: Object) => ({
+    style: (pieceDatapoint: Dx.Datapoint) => ({
       fill: colorHash[pieceDatapoint[dim1]] || colors[0],
       stroke: "white"
     }),
@@ -89,7 +89,7 @@ export const semioticSummaryChart = (
     },
     baseMarkProps: { forceUpdate: true },
     pieceHoverAnnotation: summaryType === "violin",
-    tooltipContent: (hoveredDatapoint: Object) => {
+    tooltipContent: (hoveredDatapoint: Dx.Datapoint) => {
       return (
         <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
           <h3>{primaryKey.map(pkey => hoveredDatapoint[pkey]).join(", ")}</h3>
