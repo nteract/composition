@@ -96,7 +96,15 @@ export const semioticHierarchicalChart = (
   const nestingParams = nest();
 
   selectedDimensions.forEach((dim: string) => {
-    nestingParams.key((param: {}) => param[dim]);
+    nestingParams.key((param: {}) => {
+      //still can't seem to figure out away around the shoddy @types/d3-collection nest() type being expected here
+      const dimValue = param[dim];
+      if (typeof param[dim] === "string") {
+        return param[dim];
+      } else {
+        return "none";
+      }
+    });
   });
 
   const colorHash: { [index: string]: string } = {};
@@ -132,8 +140,7 @@ export const semioticHierarchicalChart = (
       projection: baseHierarchyType === "sunburst" && "radial",
       hierarchySum: (node: { [index: string]: number }) => node[metric1],
       hierarchyChildren: (node: { values: {}[] }) => node.values,
-      padding:
-        hierarchyType === "treemap" || hierarchyType === "circlepack" ? 2 : 0
+      padding: hierarchyType === "treemap" ? 3 : 0
     },
     edgeRenderKey: (edge: Object, index: number) => {
       return index;
@@ -152,7 +159,7 @@ export const semioticHierarchicalChart = (
         }
       }
     ],
-    tooltipContent: (hoveredDatapoint: Object) => {
+    tooltipContent: (hoveredDatapoint: Dx.Datapoint) => {
       return (
         <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
           {hierarchicalTooltip(hoveredDatapoint, primaryKey, metric1)}
