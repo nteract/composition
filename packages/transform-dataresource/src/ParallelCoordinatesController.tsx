@@ -1,5 +1,3 @@
-/* @flow */
-
 import * as React from "react";
 import { scaleLinear } from "d3-scale";
 import { ResponsiveOrdinalFrame, Axis } from "semiotic";
@@ -9,24 +7,32 @@ import { numeralFormatting } from "./utilities";
 import buttonGroupStyle from "./css/button-group";
 import TooltipContent from "./tooltip-content";
 
+import * as Dx from "Dx";
+import { JSONObject } from "@nteract/commutable/src";
+
 type State = {
-  filterMode: boolean,
-  data: Array<Object>,
-  dataScales: Object,
-  columnExtent: Object
+  filterMode: boolean;
+  data: Array<Object>;
+  dataScales: { [index: string]: Function };
+  columnExtent: { [index: string]: number[] };
 };
 
 type Props = {
-  data: Array<Object>,
-  schema: Object,
-  options: Object
+  data: Dx.DataProps["data"];
+  schema: Dx.DataProps["schema"];
+  options: Dx.DataProps["options"];
 };
 
 const axisSize = [40, 380];
 
-function parallelizeData(data, metrics, schemaFields, primaryKey) {
-  const minmax = {};
-  const screenScales = {};
+function parallelizeData(
+  data: Dx.Datapoint[],
+  metrics: { name: string }[],
+  schemaFields: { name: string; type: string }[],
+  primaryKey: string[]
+) {
+  const minmax: { [index: string]: Function } = {};
+  const screenScales: { [index: string]: Function } = {};
 
   metrics.forEach(metric => {
     const dataExtent = [
@@ -46,15 +52,15 @@ function parallelizeData(data, metrics, schemaFields, primaryKey) {
     screenScales[metric.name] = screenScale;
   });
 
-  const dataPieces = [];
+  const dataPieces: Dx.Datapoint[] = [];
   data.forEach(datapoint => {
     metrics.forEach(metric => {
-      const dataPiece = {
+      const dataPiece: Dx.Datapoint = {
         metric: metric.name,
         rawvalue: datapoint[metric.name],
         pctvalue: minmax[metric.name](datapoint[metric.name])
       };
-      schemaFields.forEach(field => {
+      schemaFields.forEach((field: { type: string; name: string }) => {
         if (field.type === "string")
           dataPiece[field.name] = datapoint[field.name];
       });
@@ -91,10 +97,16 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
       filterMode: true,
       data: parallelizeResults.dataPieces,
       dataScales: parallelizeResults.scales,
-      columnExtent: options.metrics.reduce((metricHash, metric) => {
-        metricHash[metric.name] = undefined;
-        return metricHash;
-      }, {})
+      columnExtent: options.metrics.reduce(
+        (
+          metricHash: { [index: string]: number[] },
+          metric: { name: string }
+        ) => {
+          metricHash[metric.name] = [-Infinity, Infinity];
+          return metricHash;
+        },
+        {}
+      )
     };
   }
 
@@ -105,10 +117,10 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
   brushing = (selectedExtent: Array<number>, columnName: string) => {
     const columnExtent = this.state.columnExtent;
     columnExtent[columnName] = selectedExtent;
-    this.setState(columnExtent);
+    this.setState({ columnExtent });
   };
 
-  render(): ?React$Element<any> {
+  render() {
     const { options, data } = this.props;
 
     const { primaryKey, metrics, chart, colors } = options;
@@ -118,28 +130,26 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
 
     const hiddenHash = new Map();
 
-    const connectorFunction = columnDatapoint =>
+    const connectorFunction = (columnDatapoint: Dx.Datapoint) =>
       primaryKey.map(key => columnDatapoint[key]).join(",");
 
-    Object.keys(columnExtent).forEach(key => {
-      if (columnExtent[key]) {
-        const extent = columnExtent[key].sort((a, b) => a - b);
-        this.state.data
-          .filter(
-            datapoint =>
-              datapoint.metric === key &&
-              (datapoint.pctvalue < extent[0] || datapoint.pctvalue > extent[1])
-          )
-          .forEach(datapoint => {
-            hiddenHash.set(
-              primaryKey.map(key => datapoint[key]).join(","),
-              true
-            );
-          });
-      }
+    Object.keys(columnExtent).forEach((key: string) => {
+      const extent = columnExtent[key].sort((a, b) => a - b);
+      this.state.data
+        .filter(
+          (datapoint: Dx.Datapoint) =>
+            datapoint.metric === key &&
+            (datapoint.pctvalue < extent[0] || datapoint.pctvalue > extent[1])
+        )
+        .forEach((datapoint: Dx.Datapoint) => {
+          hiddenHash.set(primaryKey.map(key => datapoint[key]).join(","), true);
+        });
     });
 
-    const additionalSettings = {};
+    const additionalSettings: {
+      afterElements?: JSX.Element;
+      annotations?: JSONObject[];
+    } = {};
 
     const shownData = data.filter(
       datapoint =>
@@ -149,7 +159,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
       primaryKey.map(key => datapoint[key]).join(" - ")
     );
 
-    const colorHash = { Other: "grey" };
+    const colorHash: { [index: string]: string } = { Other: "grey" };
 
     if (dim1 && dim1 !== "none") {
       const { uniqueValues, valueHash } = shownData.reduce(
@@ -162,10 +172,9 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
             1;
 
           valueReducer.uniqueValues =
-            (!valueReducer.uniqueValues.find(d => d === value) && [
-              ...valueReducer.uniqueValues,
-              value
-            ]) ||
+            (!valueReducer.uniqueValues.find(
+              (uniqueValue: string) => uniqueValue === value
+            ) && [...valueReducer.uniqueValues, value]) ||
             valueReducer.uniqueValues;
 
           return valueReducer;
@@ -174,7 +183,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
       );
 
       const uniqueDimsForColors = data.reduce(
-        (colorArray, datapoint) =>
+        (colorArray: Dx.Datapoint[], datapoint) =>
           colorArray.indexOf(datapoint[dim1]) === -1
             ? [...colorArray, datapoint[dim1]]
             : colorArray,
@@ -241,7 +250,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
             r: 2
           }}
           connectorType={connectorFunction}
-          style={datapoint => ({
+          style={(datapoint: Dx.Datapoint) => ({
             fill: hiddenHash.get(
               primaryKey.map(key => datapoint[key]).join(",")
             )
@@ -253,7 +262,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
               ? 0.15
               : 0.99
           })}
-          connectorStyle={datapoint => ({
+          connectorStyle={(datapoint: Dx.Datapoint) => ({
             stroke: hiddenHash.get(
               primaryKey.map(key => datapoint.source[key]).join(",")
             )
@@ -284,7 +293,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
               : null
           }
           pieceHoverAnnotation={!filterMode}
-          tooltipContent={hoveredDatapoint => {
+          tooltipContent={(hoveredDatapoint: Dx.Datapoint) => {
             const textColor = hiddenHash.get(
               primaryKey.map(key => hoveredDatapoint[key]).join(",")
             )
@@ -308,7 +317,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
           }}
           canvasPieces={true}
           canvasConnectors={true}
-          oLabel={columnLabel => (
+          oLabel={(columnLabel: string) => (
             <g>
               <text transform="rotate(45)">{columnLabel}</text>
               <g transform="translate(-20,-395)">
@@ -317,7 +326,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
                   size={axisSize}
                   orient="left"
                   ticks={5}
-                  tickFormat={tickValue => (
+                  tickFormat={(tickValue: number) => (
                     <g>
                       <text
                         fill="white"
