@@ -1,4 +1,3 @@
-/* @flow */
 import * as React from "react";
 
 import { colors } from "./settings";
@@ -141,12 +140,8 @@ const MetadataWarning = ({ metadata }: { metadata: Metadata }) => {
   );
 };
 
-///////////////////////////////
-
 class DataResourceTransform extends React.Component<Props, State> {
   static MIMETYPE = mediaType;
-
-  //FOR TESTING PURPOSES ONLY THE METADATA HAS SAMPLE SETTINGS FOR A GRADUATED SYMBOL PLOT
 
   static defaultProps = {
     metadata: {
