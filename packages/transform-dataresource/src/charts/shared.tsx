@@ -1,19 +1,24 @@
-/* @flow */
+import * as Dx from "Dx";
 
-function stringOrFnAccessor(datapoint: Object, accessor: string | Function) {
+function stringOrFnAccessor(
+  datapoint: Dx.Datapoint,
+  accessor: string | Function
+) {
   return typeof accessor === "function"
     ? accessor(datapoint)
     : datapoint[accessor];
 }
 
+type SubsortObject = { array: Dx.Datapoint[]; value: number; label: string };
+
 export const sortByOrdinalRange = (
   oAccessor: Function | string,
   rAccessor: Function | string,
   secondarySort: string,
-  data: Array<Object>
+  data: Dx.DataProps["data"]
 ): any[] => {
-  const subsortData = {};
-  let subsortArrays = [];
+  const subsortData: { [index: string]: SubsortObject } = {};
+  let subsortArrays: SubsortObject[] = [];
   data.forEach(datapoint => {
     const ordinalValue = stringOrFnAccessor(datapoint, oAccessor);
     if (!subsortData[ordinalValue]) {
@@ -45,7 +50,10 @@ export const sortByOrdinalRange = (
   }
 
   return subsortArrays.reduce(
-    (combinedArray, ordinalData) => [...combinedArray, ...ordinalData.array],
+    (combinedArray: Dx.Datapoint[], ordinalData) => [
+      ...combinedArray,
+      ...ordinalData.array
+    ],
     []
   );
 };
