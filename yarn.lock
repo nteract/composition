@@ -1697,6 +1697,23 @@
   dependencies:
     "@types/node" "*"
 
+"@types/d3-collection@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/d3-collection/-/d3-collection-1.0.7.tgz#829e1db477d6bbbcdc038cbc489f22798752d707"
+  integrity sha512-vR3BT0GwHc5y93Jv6bxn3zoxP/vGu+GdXu/r1ApjbP9dLk9I2g6NiV7iP/QMQSuFZd0It0n/qWrfXHxCWwHIkg==
+
+"@types/d3-color@*":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@types/d3-color/-/d3-color-1.2.1.tgz#26141c3c554e320edd40726b793570a3ae57397e"
+  integrity sha512-xwb1tqvYNWllbHuhMFhiXk63Imf+QNq/dJdmbXmr2wQVnwGenCuj3/0IWJ9hdIFQIqzvhT7T37cvx93jtAsDbQ==
+
+"@types/d3-interpolate@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@types/d3-interpolate/-/d3-interpolate-1.3.0.tgz#65b9627900bfdd82474875d9b23d574a4388af7c"
+  integrity sha512-Ng4ds7kPSvP/c3W3J5PPUQlgewif1tGBqCeh5lgY+UG82Y7H9zQ8c2gILsEFDLg7wRGOwnuKZ940Q/LSN14w9w==
+  dependencies:
+    "@types/d3-color" "*"
+
 "@types/d3-path@*":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@types/d3-path/-/d3-path-1.0.7.tgz#a0736fceed688a695f48265a82ff7a3369414b81"
