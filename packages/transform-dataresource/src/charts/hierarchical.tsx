@@ -93,18 +93,10 @@ export const semioticHierarchicalChart = (
     return {};
   }
 
-  const nestingParams = nest();
+  const nestingParams = nest<{ [index: string]: string }>();
 
   selectedDimensions.forEach((dim: string) => {
-    nestingParams.key((param: {}) => {
-      //still can't seem to figure out away around the shoddy @types/d3-collection nest() type being expected here
-      const dimValue = param[dim];
-      if (typeof param[dim] === "string") {
-        return param[dim];
-      } else {
-        return "none";
-      }
-    });
+    nestingParams.key((param: { [index: string]: string }) => param[dim]);
   });
 
   const colorHash: { [index: string]: string } = {};
