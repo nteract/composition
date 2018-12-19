@@ -1,4 +1,3 @@
-/* @flow */
 import * as React from "react";
 import { curveMonotoneX } from "d3-shape";
 import { scaleLinear, scaleTime } from "d3-scale";

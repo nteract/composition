@@ -1,4 +1,3 @@
-/* @flow */
 import * as React from "react";
 import { nest } from "d3-collection";
 import { interpolateLab } from "d3-interpolate";
