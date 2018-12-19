@@ -222,7 +222,7 @@ export const semioticScatterplot = (
     );
   }
 
-  let areas: { coordinates: Dx.Datapoint[] }[];
+  let areas: { coordinates: Dx.Datapoint[] }[] = [];
 
   if (
     type === "heatmap" ||
@@ -347,8 +347,7 @@ export const semioticScatterplot = (
     ],
     points: (type === "scatterplot" || type === "contour") && data,
     canvasPoints: renderInCanvas,
-    // VS Code is telling me areas is used before being defined but I don't see it
-    areas: areas,
+    areas: type !== "scatterplot" && areas,
     areaType: { type, bins: 10, thresholds: dim3 === "none" ? 6 : 3 },
     areaStyle: (areaDatapoint: Dx.Datapoint) => {
       return {
