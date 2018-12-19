@@ -1,4 +1,3 @@
-/* @flow */
 import * as React from "react";
 import { scaleLinear, scaleThreshold } from "d3-scale";
 import { heatmapping, hexbinning } from "semiotic";
@@ -8,6 +7,8 @@ import HTMLLegend from "../HTMLLegend";
 import TooltipContent from "../tooltip-content";
 
 import { sortByOrdinalRange } from "./shared";
+import * as Dx from "Dx";
+import { JSONObject } from "@nteract/commutable/src";
 
 const binHash = {
   heatmap: heatmapping,
@@ -15,17 +16,19 @@ const binHash = {
 };
 
 const steps = ["none", "#FBEEEC", "#f3c8c2", "#e39787", "#ce6751", "#b3331d"];
-const thresholds = scaleThreshold()
+const thresholds = scaleThreshold<number, string>()
   .domain([0.01, 0.2, 0.4, 0.6, 0.8])
   .range(steps);
 
 function combineTopAnnotations(
-  topQ: Array<Object>,
-  topSecondQ: Array<Object>,
+  topQ: Array<Dx.Datapoint>,
+  topSecondQ: Array<Dx.Datapoint>,
   dim2: string
 ): any[] {
-  const combinedAnnotations = [];
-  const combinedHash = {};
+  const combinedAnnotations: JSONObject[] = [];
+  const combinedHash: {
+    [index: string]: { [index: string]: any; coordinates: Dx.Datapoint[] };
+  } = {};
   [...topQ, ...topSecondQ].forEach(topDatapoint => {
     const hashD = combinedHash[topDatapoint[dim2]];
 
@@ -46,6 +49,7 @@ function combineTopAnnotations(
         type: "react-annotation",
         label: topDatapoint[dim2],
         id: topDatapoint[dim2],
+        coordinates: [],
         ...topDatapoint
       };
       combinedAnnotations.push(combinedHash[topDatapoint[dim2]]);
@@ -55,17 +59,17 @@ function combineTopAnnotations(
 }
 
 export const semioticHexbin = (
-  data: Array<Object>,
-  schema: Object,
-  options: Object
+  data: Dx.DataProps["data"],
+  schema: Dx.DataProps["schema"],
+  options: Dx.DataProps["options"]
 ) => {
   return semioticScatterplot(data, schema, options, options.areaType);
 };
 
 export const semioticScatterplot = (
-  data: Array<Object>,
-  schema: Object,
-  options: Object,
+  data: Dx.DataProps["data"],
+  schema: Dx.DataProps["schema"],
+  options: Dx.DataProps["options"],
   type: string = "scatterplot"
 ) => {
   const height = options.height - 150 || 500;
@@ -73,14 +77,14 @@ export const semioticScatterplot = (
   const { chart, primaryKey, colors, setColor, dimensions } = options;
 
   const { dim1, dim2, dim3, metric1, metric2, metric3 } = chart;
-  const filteredData: Array<Object> = data.filter(
-    (datapoint: Object) =>
+  const filteredData: Array<Dx.Datapoint> = data.filter(
+    (datapoint: Dx.Datapoint) =>
       datapoint[metric1] &&
       datapoint[metric2] &&
       (!metric3 || metric3 === "none" || datapoint[metric3])
   );
 
-  const pointTooltip = (hoveredDatapoint: Object) => {
+  const pointTooltip = (hoveredDatapoint: Dx.Datapoint) => {
     return (
       <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
         <h3>{primaryKey.map(pkey => hoveredDatapoint[pkey]).join(", ")}</h3>
@@ -107,7 +111,7 @@ export const semioticScatterplot = (
     );
   };
 
-  const areaTooltip = (hoveredDatapoint: Object) => {
+  const areaTooltip = (hoveredDatapoint: Dx.Datapoint) => {
     if (hoveredDatapoint.binItems.length === 0) return null;
     return (
       <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
@@ -121,35 +125,37 @@ export const semioticScatterplot = (
         >
           ID, {metric1}, {metric2}
         </h3>
-        {hoveredDatapoint.binItems.map((binnedDatapoint, index) => {
-          const id = dimensions
-            .map(
-              dim =>
-                (binnedDatapoint[dim.name].toString &&
-                  binnedDatapoint[dim.name].toString()) ||
-                binnedDatapoint[dim.name]
-            )
-            .join(",");
-          return (
-            <p
-              key={id + index}
-              style={{
-                fontSize: "12px",
-                textTransform: "uppercase",
-                margin: "5px"
-              }}
-            >
-              {id}, {binnedDatapoint[metric1]}, {binnedDatapoint[metric2]}
-            </p>
-          );
-        })}
+        {hoveredDatapoint.binItems.map(
+          (binnedDatapoint: { [index: string]: any }, index: number) => {
+            const id = dimensions
+              .map(
+                dim =>
+                  (binnedDatapoint[dim.name].toString &&
+                    binnedDatapoint[dim.name].toString()) ||
+                  binnedDatapoint[dim.name]
+              )
+              .join(",");
+            return (
+              <p
+                key={id + index}
+                style={{
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  margin: "5px"
+                }}
+              >
+                {id}, {binnedDatapoint[metric1]}, {binnedDatapoint[metric2]}
+              </p>
+            );
+          }
+        )}
       </TooltipContent>
     );
   };
 
-  let sizeScale = e => 5; // eslint-disable-line no-unused-vars
-  const colorHash = { Other: "grey" };
-  const additionalSettings = {};
+  let sizeScale: Function = () => 5; // eslint-disable-line no-unused-vars
+  const colorHash: { [index: string]: string } = { Other: "grey" };
+  const additionalSettings: { afterElements?: JSX.Element } = {};
 
   let annotations;
 
@@ -195,13 +201,13 @@ export const semioticScatterplot = (
     const uniqueValues = sortedData.reduce(
       (uniqueArray, datapoint) =>
         (!uniqueArray.find(
-          uniqueDim => uniqueDim === datapoint[dim1].toString()
+          (uniqueDim: string) => uniqueDim === datapoint[dim1].toString()
         ) && [...uniqueArray, datapoint[dim1].toString()]) ||
         uniqueArray,
       []
     );
 
-    uniqueValues.forEach((dimValue, index) => {
+    uniqueValues.forEach((dimValue: string, index: number) => {
       colorHash[dimValue] = index > 18 ? "grey" : colors[index % colors.length];
     });
 
@@ -216,7 +222,7 @@ export const semioticScatterplot = (
     );
   }
 
-  let areas;
+  let areas: { coordinates: Dx.Datapoint[] }[];
 
   if (
     type === "heatmap" ||
@@ -244,7 +250,7 @@ export const semioticScatterplot = (
           Math.floor(calculatedAreas.binMax * thresholdValue)
         )
         .reduce(
-          (thresholdArray, thresholdValue) =>
+          (thresholdArray: number[], thresholdValue: number) =>
             thresholdValue === 0 ||
             thresholdArray.indexOf(thresholdValue) !== -1
               ? thresholdArray
@@ -254,7 +260,7 @@ export const semioticScatterplot = (
 
       const withZeroThresholdSteps = [0, ...thresholdSteps];
 
-      const hexValues = [];
+      const hexValues: string[] = [];
 
       withZeroThresholdSteps.forEach((thresholdValue, index) => {
         const nextValue = withZeroThresholdSteps[index + 1];
@@ -270,7 +276,7 @@ export const semioticScatterplot = (
         "#ce6751",
         "#b3331d"
       ];
-      const hexHash = {};
+      const hexHash: { [index: string]: string } = {};
 
       hexValues.forEach((binLabel, index) => {
         hexHash[binLabel] = thresholdColors[index];
@@ -293,7 +299,13 @@ export const semioticScatterplot = (
       );
     }
   } else if (type === "contour") {
-    const multiclassHash = {};
+    const multiclassHash: {
+      [index: string]: {
+        label: string;
+        color: string;
+        coordinates: Dx.Datapoint[];
+      };
+    } = {};
     areas = [];
     filteredData.forEach(datapoint => {
       if (!multiclassHash[datapoint[dim1]]) {
@@ -335,9 +347,10 @@ export const semioticScatterplot = (
     ],
     points: (type === "scatterplot" || type === "contour") && data,
     canvasPoints: renderInCanvas,
+    // VS Code is telling me areas is used before being defined but I don't see it
     areas: areas,
     areaType: { type, bins: 10, thresholds: dim3 === "none" ? 6 : 3 },
-    areaStyle: (areaDatapoint: Object) => {
+    areaStyle: (areaDatapoint: Dx.Datapoint) => {
       return {
         fill:
           type === "contour"
@@ -354,7 +367,7 @@ export const semioticScatterplot = (
         strokeWidth: type === "contour" ? 2 : 1
       };
     },
-    pointStyle: (datapoint: Object) => ({
+    pointStyle: (datapoint: Dx.Datapoint) => ({
       r: renderInCanvas
         ? 2
         : type === "contour"

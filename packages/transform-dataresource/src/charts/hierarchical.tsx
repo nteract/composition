@@ -6,7 +6,6 @@ import { interpolateLab } from "d3-interpolate";
 import TooltipContent from "../tooltip-content";
 
 import * as Dx from "Dx";
-import { JSONObject } from "@nteract/commutable";
 
 const parentPath = (datapoint: Dx.Datapoint, pathArray: string[]) => {
   if (datapoint.parent) {
