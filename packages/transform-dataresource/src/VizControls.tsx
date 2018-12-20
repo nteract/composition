@@ -1,12 +1,19 @@
 import * as React from "react";
 import { Select } from "@blueprintjs/select";
-import { Button, ButtonGroup, MenuItem, Code, IconName } from "@blueprintjs/core";
+import {
+  Button,
+  ButtonGroup,
+  MenuItem,
+  Code,
+  IconName
+} from "@blueprintjs/core";
 import { blueprintCSS, blueprintSelectCSS } from "@nteract/styled-blueprintjsx";
 
 import buttonGroupStyle from "./css/button-group";
 import chartUIStyle from "./css/viz-controls";
-import { controlHelpText, ExplorationTypes } from "./docs/chart-docs";
-import { JSONObject } from "@nteract/commutable/src";
+import { controlHelpText, ChartOptionTypes } from "./docs/chart-docs";
+
+import * as Dx from "Dx";
 
 const NoResultsItem = <MenuItem disabled={true} text="No results." />;
 
@@ -69,23 +76,32 @@ const colorIcon = (
   </svg>
 );
 
-const iconHash: { [key in 'Y' | 'X' | 'Size' | 'Color']: JSX.Element } = {
+const iconHash: { [key in "Y" | "X" | "Size" | "Color"]: JSX.Element } = {
   Y: yAxisIcon,
   X: xAxisIcon,
   Size: sizeIcon,
   Color: colorIcon
-}
+};
 
 type MenuItemType = {
-  label: string,
-}
+  label: string;
+};
 type ModifiersType = {
-  matchesPredicate: boolean,
-  active: boolean,
-  disabled: boolean,
-}
+  matchesPredicate: boolean;
+  active: boolean;
+  disabled: boolean;
+};
 
-const renderMenuItem = (item: MenuItemType, { handleClick, modifiers}: { handleClick: (event: React.MouseEvent<HTMLElement>) => void, modifiers: ModifiersType}) => {
+const renderMenuItem = (
+  item: MenuItemType,
+  {
+    handleClick,
+    modifiers
+  }: {
+    handleClick: (event: React.MouseEvent<HTMLElement>) => void;
+    modifiers: ModifiersType;
+  }
+) => {
   if (!modifiers.matchesPredicate) {
     return null;
   }
@@ -106,13 +122,13 @@ const filterItem = (query: string, item: MenuItemType) => {
 };
 
 const getIcon = (title: string) => {
-  if (title === 'X' || title === 'Y' || title === 'Size' || title == 'Color') {
-    return iconHash[title]
+  if (title === "X" || title === "Y" || title === "Size" || title == "Color") {
+    return iconHash[title];
   } else {
-    console.warn('Icon title not supported');
+    console.warn("Icon title not supported");
     return title as IconName;
   }
-}
+};
 
 const metricDimSelector = (
   values: Array<string>,
@@ -125,7 +141,7 @@ const metricDimSelector = (
   const metricsList = required ? values : ["none", ...values];
   let displayMetrics;
   let icon;
-  
+
   if (metricsList.length > 1)
     displayMetrics = (
       <Select
@@ -135,7 +151,10 @@ const metricDimSelector = (
         }))}
         query={selectedValue}
         noResults={NoResultsItem}
-        onItemSelect={(item: {value: string, label: string}, event?: React.SyntheticEvent<HTMLElement>): void => {
+        onItemSelect={(
+          item: { value: string; label: string },
+          event?: React.SyntheticEvent<HTMLElement>
+        ): void => {
           selectionFunction(item.value);
         }}
         itemRenderer={renderMenuItem}
@@ -195,26 +214,26 @@ const availableAreaTypes = [
   }
 ];
 
-type ChartTypes = { [key in ExplorationTypes]: string }
+type ChartOptions = { [key in ChartOptionTypes]: string };
 type VizControlParams = {
-  view: string,
-  chart: ChartTypes,
-  metrics: Array<{name: string}>,
-  dimensions: Array<{name: string}>,
-  updateChart: Function,
-  selectedDimensions: Array<string>,
-  selectedMetrics: Array<string>,
-  hierarchyType: string,
-  summaryType: string,
-  networkType: string,
-  setLineType: Function,
-  updateMetrics: Function,
-  updateDimensions: Function,
-  lineType: string,
-  areaType: string,
-  setAreaType: (label: string) => void,
-  data: Array<Object>,
-}
+  view: string;
+  chart: ChartOptions;
+  metrics: Array<{ name: string }>;
+  dimensions: Array<{ name: string }>;
+  updateChart: Function;
+  selectedDimensions: Array<string>;
+  selectedMetrics: Array<string>;
+  hierarchyType: string;
+  summaryType: string;
+  networkType: string;
+  setLineType: Function;
+  updateMetrics: Function;
+  updateDimensions: Function;
+  lineType: string;
+  areaType: string;
+  setAreaType: (label: Dx.AreaType) => void;
+  data: Array<Object>;
+};
 export default ({
   view,
   chart,
@@ -244,23 +263,23 @@ export default ({
 
   const getControlHelpText = (view: string, metricOrDim: string) => {
     if (Object.keys(controlHelpText).find(mOrD => mOrD === metricOrDim)) {
-      let mOrD = metricOrDim as ExplorationTypes;
-      const views = controlHelpText[mOrD] != null ? controlHelpText[mOrD] : null;
+      let mOrD = metricOrDim as ChartOptionTypes;
+      const views =
+        controlHelpText[mOrD] != null ? controlHelpText[mOrD] : null;
       if (views == null) {
-        return ''
+        return "";
       }
-      if (typeof views === 'string') {
+      if (typeof views === "string") {
         return views;
       }
       if (views[view] != null) {
-        return views[view]
+        return views[view];
       } else {
-        return views.default
+        return views.default;
       }
     }
-    return '';
-  }
-
+    return "";
+  };
 
   return (
     <React.Fragment>
@@ -277,7 +296,7 @@ export default ({
             view === "scatter" || view === "hexbin" ? "X" : "Metric",
             true,
             chart.metric1,
-            getControlHelpText(view, 'metric1')
+            getControlHelpText(view, "metric1")
           )}
         {(view === "scatter" || view === "hexbin") &&
           metricDimSelector(
@@ -419,22 +438,36 @@ export default ({
           </div>
         )}
         {view === "hexbin" && (
-          <div className="control-wrapper" title={controlHelpText.areaType as string}>
+          <div
+            className="control-wrapper"
+            title={controlHelpText.areaType as string}
+          >
             <div>
               <Code>Chart Type</Code>
             </div>
             <ButtonGroup vertical={true}>
-              {availableAreaTypes.map(areaTypeOption => (
-                <Button
-                  className={`button-text ${areaType === areaTypeOption.type &&
-                    "selected"}`}
-                  key={areaTypeOption.type}
-                  onClick={() => setAreaType(areaTypeOption.type)}
-                  active={areaType === areaTypeOption.type}
-                >
-                  {areaTypeOption.label}
-                </Button>
-              ))}
+              {availableAreaTypes.map(areaTypeOption => {
+                const areaTypeOptionType = areaTypeOption.type;
+                if (
+                  areaTypeOptionType === "contour" ||
+                  areaTypeOptionType === "hexbin" ||
+                  areaTypeOptionType === "heatmap"
+                ) {
+                  return (
+                    <Button
+                      className={`button-text ${areaType ===
+                        areaTypeOptionType && "selected"}`}
+                      key={areaTypeOptionType}
+                      onClick={() => setAreaType(areaTypeOptionType)}
+                      active={areaType === areaTypeOptionType}
+                    >
+                      {areaTypeOption.label}
+                    </Button>
+                  );
+                } else {
+                  return <div />;
+                }
+              })}
             </ButtonGroup>
           </div>
         )}
