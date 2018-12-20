@@ -1,4 +1,9 @@
 {
   "files": [],
-  "references": [{ "path": "ansi-to-react" }, { "path": "messaging" }]
+  "references": [
+    { "path": "ansi-to-react" },
+    { "path": "messaging" },
+    { "path": "types" },
+    { "path": "commutable" }
+  ]
 }
