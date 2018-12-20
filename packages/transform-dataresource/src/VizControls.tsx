@@ -1,11 +1,12 @@
 import * as React from "react";
 import { Select } from "@blueprintjs/select";
-import { Button, ButtonGroup, MenuItem, Code } from "@blueprintjs/core";
+import { Button, ButtonGroup, MenuItem, Code, IconName } from "@blueprintjs/core";
 import { blueprintCSS, blueprintSelectCSS } from "@nteract/styled-blueprintjsx";
 
 import buttonGroupStyle from "./css/button-group";
 import chartUIStyle from "./css/viz-controls";
-import { controlHelpText } from "./docs/chart-docs";
+import { controlHelpText, ExplorationTypes } from "./docs/chart-docs";
+import { JSONObject } from "@nteract/commutable/src";
 
 const NoResultsItem = <MenuItem disabled={true} text="No results." />;
 
@@ -68,14 +69,23 @@ const colorIcon = (
   </svg>
 );
 
-const iconHash = {
+const iconHash: { [key in 'Y' | 'X' | 'Size' | 'Color']: JSX.Element } = {
   Y: yAxisIcon,
   X: xAxisIcon,
   Size: sizeIcon,
   Color: colorIcon
-};
+}
 
-const renderMenuItem = (item, { handleClick, modifiers }) => {
+type MenuItemType = {
+  label: string,
+}
+type ModifiersType = {
+  matchesPredicate: boolean,
+  active: boolean,
+  disabled: boolean,
+}
+
+const renderMenuItem = (item: MenuItemType, { handleClick, modifiers}: { handleClick: (event: React.MouseEvent<HTMLElement>) => void, modifiers: ModifiersType}) => {
   if (!modifiers.matchesPredicate) {
     return null;
   }
@@ -91,37 +101,48 @@ const renderMenuItem = (item, { handleClick, modifiers }) => {
   );
 };
 
-const filterItem = (query, item) => {
+const filterItem = (query: string, item: MenuItemType) => {
   return `${item.label.toLowerCase()}`.indexOf(query.toLowerCase()) >= 0;
 };
 
+const getIcon = (title: string) => {
+  if (title === 'X' || title === 'Y' || title === 'Size' || title == 'Color') {
+    return iconHash[title]
+  } else {
+    console.warn('Icon title not supported');
+    return title as IconName;
+  }
+}
+
 const metricDimSelector = (
-  values,
-  selectionFunction,
-  title,
-  required,
-  selectedValue,
+  values: Array<string>,
+  selectionFunction: (val: string) => void,
+  title: string,
+  required: boolean,
+  selectedValue: string,
   contextTooltip = "Help me help you help yourself"
 ) => {
   const metricsList = required ? values : ["none", ...values];
   let displayMetrics;
+  let icon;
+  
   if (metricsList.length > 1)
     displayMetrics = (
       <Select
-        items={metricsList.map(metricName => ({
+        items={metricsList.map((metricName: string) => ({
           value: metricName,
           label: metricName
         }))}
-        value={selectedValue}
+        query={selectedValue}
         noResults={NoResultsItem}
-        onItemSelect={e => {
-          selectionFunction(e.value);
+        onItemSelect={(item: {value: string, label: string}, event?: React.SyntheticEvent<HTMLElement>): void => {
+          selectionFunction(item.value);
         }}
         itemRenderer={renderMenuItem}
         itemPredicate={filterItem}
       >
         <Button
-          icon={iconHash[title]}
+          icon={getIcon(title)}
           text={selectedValue}
           rightIcon="double-caret-vertical"
         />
@@ -174,6 +195,26 @@ const availableAreaTypes = [
   }
 ];
 
+type ChartTypes = { [key in ExplorationTypes]: string }
+type VizControlParams = {
+  view: string,
+  chart: ChartTypes,
+  metrics: Array<{name: string}>,
+  dimensions: Array<{name: string}>,
+  updateChart: Function,
+  selectedDimensions: Array<string>,
+  selectedMetrics: Array<string>,
+  hierarchyType: string,
+  summaryType: string,
+  networkType: string,
+  setLineType: Function,
+  updateMetrics: Function,
+  updateDimensions: Function,
+  lineType: string,
+  areaType: string,
+  setAreaType: (label: string) => void,
+  data: Array<Object>,
+}
 export default ({
   view,
   chart,
@@ -192,14 +233,34 @@ export default ({
   areaType,
   setAreaType,
   data
-}) => {
+}: VizControlParams) => {
   const metricNames = metrics.map(metric => metric.name);
   const dimensionNames = dimensions.map(dim => dim.name);
 
-  const updateChartGenerator = chartProperty => {
-    return metricOrDim =>
+  const updateChartGenerator = (chartProperty: string) => {
+    return (metricOrDim: string) =>
       updateChart({ chart: { ...chart, [chartProperty]: metricOrDim } });
   };
+
+  const getControlHelpText = (view: string, metricOrDim: string) => {
+    if (Object.keys(controlHelpText).find(mOrD => mOrD === metricOrDim)) {
+      let mOrD = metricOrDim as ExplorationTypes;
+      const views = controlHelpText[mOrD] != null ? controlHelpText[mOrD] : null;
+      if (views == null) {
+        return ''
+      }
+      if (typeof views === 'string') {
+        return views;
+      }
+      if (views[view] != null) {
+        return views[view]
+      } else {
+        return views.default
+      }
+    }
+    return '';
+  }
+
 
   return (
     <React.Fragment>
@@ -216,7 +277,7 @@ export default ({
             view === "scatter" || view === "hexbin" ? "X" : "Metric",
             true,
             chart.metric1,
-            controlHelpText.metric1[view] || controlHelpText.metric1.default
+            getControlHelpText(view, 'metric1')
           )}
         {(view === "scatter" || view === "hexbin") &&
           metricDimSelector(
@@ -225,7 +286,7 @@ export default ({
             "Y",
             true,
             chart.metric2,
-            controlHelpText.metric2[view] || controlHelpText.metric2.default
+            getControlHelpText(view, "metric2")
           )}
         {((view === "scatter" && data.length < 1000) || view === "bar") &&
           metricDimSelector(
@@ -234,7 +295,7 @@ export default ({
             view === "bar" ? "Width" : "Size",
             false,
             chart.metric3,
-            controlHelpText.metric3[view] || controlHelpText.metric3.default
+            getControlHelpText(view, "metric3")
           )}
         {(view === "summary" ||
           view === "scatter" ||
@@ -247,7 +308,7 @@ export default ({
             view === "summary" ? "Category" : "Color",
             true,
             chart.dim1,
-            controlHelpText.dim1[view] || controlHelpText.dim1.default
+            getControlHelpText(view, "dim1")
           )}
         {view === "scatter" &&
           metricDimSelector(
@@ -256,7 +317,7 @@ export default ({
             "Labels",
             false,
             chart.dim2,
-            controlHelpText.dim2[view] || controlHelpText.dim2.default
+            getControlHelpText(view, "dim2")
           )}
         {view === "hexbin" &&
           areaType === "contour" &&
@@ -266,7 +327,7 @@ export default ({
             "Multiclass",
             false,
             chart.dim3,
-            controlHelpText.dim3[view] || controlHelpText.dim3.default
+            getControlHelpText(view, "dim3")
           )}
         {view === "network" &&
           metricDimSelector(
@@ -275,7 +336,7 @@ export default ({
             "SOURCE",
             true,
             chart.dim1,
-            controlHelpText.dim1[view] || controlHelpText.dim1.default
+            getControlHelpText(view, "dim1")
           )}
         {view === "network" &&
           metricDimSelector(
@@ -284,7 +345,7 @@ export default ({
             "TARGET",
             true,
             chart.dim2,
-            controlHelpText.dim2[view] || controlHelpText.dim2.default
+            getControlHelpText(view, "dim2")
           )}
         {view === "network" &&
           metricDimSelector(
@@ -294,7 +355,7 @@ export default ({
             "Type",
             true,
             networkType,
-            controlHelpText.networkType
+            controlHelpText.networkType as string
           )}
         {view === "network" &&
           metricDimSelector(
@@ -303,7 +364,7 @@ export default ({
             "Show Labels",
             false,
             chart.networkLabel,
-            controlHelpText.networkLabel
+            controlHelpText.networkLabel as string
           )}
         {view === "hierarchy" &&
           metricDimSelector(
@@ -313,7 +374,7 @@ export default ({
             "Type",
             true,
             hierarchyType,
-            controlHelpText.hierarchyType
+            controlHelpText.hierarchyType as string
           )}
         {view === "summary" &&
           metricDimSelector(
@@ -323,7 +384,7 @@ export default ({
             "Type",
             true,
             summaryType,
-            controlHelpText.summaryType
+            controlHelpText.summaryType as string
           )}
         {view === "line" &&
           metricDimSelector(
@@ -332,11 +393,11 @@ export default ({
             "Sort by",
             true,
             chart.timeseriesSort,
-            controlHelpText.timeseriesSort
+            controlHelpText.timeseriesSort as string
           )}
         {view === "line" && (
           <div
-            title={controlHelpText.lineType}
+            title={controlHelpText.lineType as string}
             style={{ display: "inline-block" }}
           >
             <div>
@@ -358,7 +419,7 @@ export default ({
           </div>
         )}
         {view === "hexbin" && (
-          <div className="control-wrapper" title={controlHelpText.areaType}>
+          <div className="control-wrapper" title={controlHelpText.areaType as string}>
             <div>
               <Code>Chart Type</Code>
             </div>
@@ -380,7 +441,7 @@ export default ({
         {view === "hierarchy" && (
           <div
             className="control-wrapper"
-            title={controlHelpText.nestingDimensions}
+            title={controlHelpText.nestingDimensions as string}
           >
             <div>
               <Code>Nesting</Code>
@@ -393,7 +454,7 @@ export default ({
         {(view === "bar" || view === "hierarchy") && (
           <div
             className="control-wrapper"
-            title={controlHelpText.barDimensions}
+            title={controlHelpText.barDimensions as string}
           >
             <div>
               <Code>Categories</Code>
@@ -417,7 +478,7 @@ export default ({
         {view === "line" && (
           <div
             className="control-wrapper"
-            title={controlHelpText.lineDimensions}
+            title={controlHelpText.lineDimensions as string}
           >
             <div>
               <Code>Metrics</Code>
