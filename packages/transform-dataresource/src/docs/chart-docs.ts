@@ -17,24 +17,30 @@ export const chartHelpText = {
 
 const hexScatterX = "Plot this metric along the X axis";
 
-export type ExplorationTypes = 'metric1' 
-| 'metric2' 
-| 'metric3' 
-| 'dim1' 
-| 'dim2' 
-| 'dim3' 
-| 'networkType' 
-| 'summaryType'
-| 'hierarchyType'
-| 'timeseriesSort'
-| 'lineType'
-| 'areaType'
-| 'lineDimensions'
-| 'networkLabel'
-| 'nestingDimensions'
-| 'barDimensions'
+export type ChartOptionTypes =
+  | "metric1"
+  | "metric2"
+  | "metric3"
+  | "dim1"
+  | "dim2"
+  | "dim3"
+  | "timeseriesSort"
+  | "networkLabel";
 
-export const controlHelpText: { [key in ExplorationTypes]?: { [key: string]: string } | string } = {
+export type ExplorationTypes =
+  | ChartOptionTypes
+  | "lineDimensions"
+  | "lineType"
+  | "areaType"
+  | "networkType"
+  | "summaryType"
+  | "hierarchyType"
+  | "nestingDimensions"
+  | "barDimensions";
+
+export const controlHelpText: {
+  [key in ExplorationTypes]?: { [key: string]: string } | string
+} = {
   metric1: {
     default: "Plot this metric",
     scatter: hexScatterX,

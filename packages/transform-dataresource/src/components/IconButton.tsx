@@ -10,13 +10,9 @@ type IconButtonProps = {
 
 export class IconButton extends React.Component<IconButtonProps> {
   render() {
-    const {
-      message,
-      onClick,
-      children,
-      selected,
-      title = message
-    } = this.props;
+    const { message, onClick, children, selected } = this.props;
+
+    const { title = message } = this.props;
 
     let style = {
       width: "32px",
