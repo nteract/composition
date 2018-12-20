@@ -252,29 +252,29 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
           connectorType={connectorFunction}
           style={(datapoint: Dx.Datapoint) => ({
             fill: hiddenHash.get(
-              primaryKey.map(key => datapoint[key]).join(",")
+              primaryKey.map((key: string) => datapoint[key]).join(",")
             )
               ? "lightgray"
               : colorHash[datapoint[dim1]],
             opacity: hiddenHash.get(
-              primaryKey.map(key => datapoint[key]).join(",")
+              primaryKey.map((key: string) => datapoint[key]).join(",")
             )
               ? 0.15
               : 0.99
           })}
           connectorStyle={(datapoint: Dx.Datapoint) => ({
             stroke: hiddenHash.get(
-              primaryKey.map(key => datapoint.source[key]).join(",")
+              primaryKey.map((key: string) => datapoint.source[key]).join(",")
             )
               ? "gray"
               : colorHash[datapoint.source[dim1]],
             strokeWidth: hiddenHash.get(
-              primaryKey.map(key => datapoint.source[key]).join(",")
+              primaryKey.map((key: string) => datapoint.source[key]).join(",")
             )
               ? 1
               : 1.5,
             strokeOpacity: hiddenHash.get(
-              primaryKey.map(key => datapoint.source[key]).join(",")
+              primaryKey.map((key: string) => datapoint.source[key]).join(",")
             )
               ? 0.1
               : 1
@@ -295,14 +295,16 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
           pieceHoverAnnotation={!filterMode}
           tooltipContent={(hoveredDatapoint: Dx.Datapoint) => {
             const textColor = hiddenHash.get(
-              primaryKey.map(key => hoveredDatapoint[key]).join(",")
+              primaryKey.map((key: string) => hoveredDatapoint[key]).join(",")
             )
               ? "grey"
               : colorHash[hoveredDatapoint[dim1]];
             return (
               <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
                 <h3>
-                  {primaryKey.map(key => hoveredDatapoint[key]).join(", ")}
+                  {primaryKey
+                    .map((key: string) => hoveredDatapoint[key])
+                    .join(", ")}
                 </h3>
                 {hoveredDatapoint[dim1] && (
                   <h3 style={{ color: textColor }}>
