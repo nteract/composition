@@ -4,22 +4,16 @@
   "compilerOptions": {
     "strict": true,
     "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "composite": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "target": "es2017",
     "module": "commonjs",
     "jsx": "react",
     "typeRoots": ["./node_modules/@types", "types"],
-    "baseUrl": ".",
-    "moduleResolution": "node",
-    "paths": {
-      // Attempt to allow our namespace packages to get resolved
-      "@nteract/*": ["./packages/*/src"],
-      "@mybinder/*": ["./packages/*/src"],
-      "rx-jupyter": ["./packages/rx-jupyter/src"],
-      "rx-binder": ["./packages/rx-binder/src"],
-      "enchannel-zmq-backend": ["./packages/enchannel-zmq-backend/src"],
-      "fs-observable": ["./packages/fs-observable/src"]
-    }
+    "moduleResolution": "node"
   }
 }
