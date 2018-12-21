@@ -7,6 +7,7 @@
   "include": ["src"],
   "references": [
     { "path": "../commutable" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../rx-jupyter" }
   ]
 }
