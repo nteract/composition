@@ -6,7 +6,7 @@ import HTMLLegend from "../HTMLLegend";
 import { numeralFormatting } from "../utilities";
 
 import { sortByOrdinalRange } from "./shared";
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 interface BarOptions {
   selectedDimensions: string[];

@@ -4,7 +4,7 @@ import { scaleLinear } from "d3-scale";
 import HTMLLegend from "../HTMLLegend";
 import { numeralFormatting } from "../utilities";
 import TooltipContent from "../tooltip-content";
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 const fontScale = scaleLinear()
   .domain([8, 25])

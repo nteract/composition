@@ -13,7 +13,7 @@ import buttonGroupStyle from "./css/button-group";
 import chartUIStyle from "./css/viz-controls";
 import { controlHelpText, ChartOptionTypes } from "./docs/chart-docs";
 
-import * as Dx from "Dx";
+import * as Dx from "./types";
 
 const NoResultsItem = <MenuItem disabled={true} text="No results." />;
 
