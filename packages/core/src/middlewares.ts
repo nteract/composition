@@ -4,6 +4,8 @@
 import { isCollection } from "immutable";
 import { createLogger } from "redux-logger";
 
+import { Middleware } from "redux";
+
 import * as selectors from "@nteract/selectors";
 
 type ErrorAction = {
@@ -48,7 +50,7 @@ export const errorMiddleware = (store: any, console = global.console) => (
   return next(action);
 };
 
-export function logger() {
+export function logger(): Middleware {
   const craftedLogger = createLogger({
     // predicate: (getState, action) => action.type.includes('COMM'),
     stateTransformer: (state: any) =>
