@@ -6,5 +6,5 @@
     "rootDir": "src"
   },
   "include": ["src/*", "src/**/*"],
-  "references": [{ "path": "../transforms" }, { "path": "ansi-to-react" }]
+  "references": [{ "path": "../transforms" }, { "path": "../ansi-to-react" }]
 }
