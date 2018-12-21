@@ -4,7 +4,7 @@
     "outDir": "lib",
     "rootDir": "src"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/*", "src/**/*"],
   "references": [
     { "path": "../display-area" },
     { "path": "../messaging" },

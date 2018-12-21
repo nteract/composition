@@ -12,6 +12,7 @@
     { "path": "../commutable" },
     { "path": "../actions" },
     { "path": "../selectors" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../rx-jupyter" }
   ]
 }

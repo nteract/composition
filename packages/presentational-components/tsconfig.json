@@ -4,8 +4,6 @@
     "outDir": "lib",
     "rootDir": "src"
   },
-  "include": ["src/**/*.ts"],
-  "references": [
-    { "path": "../styled-blueprintjsx" }
-  ]
+  "include": ["src/**/*", "src/*"],
+  "references": [{ "path": "../styled-blueprintjsx" }]
 }
