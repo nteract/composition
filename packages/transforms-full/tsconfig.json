@@ -7,7 +7,7 @@
   "include": ["src"],
   "references": [
     { "path": "../jupyter-widgets" },
-    // { "path": "../transform-dataresource" },
+    { "path": "../transform-dataresource" },
     { "path": "../transform-geojson" },
     { "path": "../transform-model-debug" },
     { "path": "../transform-plotly" },
