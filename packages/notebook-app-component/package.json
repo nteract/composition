@@ -37,8 +37,7 @@
     "react-dnd-html5-backend": "^7.0.0",
     "react-hot-loader": "^4.1.2",
     "react-redux": "^5.0.7",
-    "redux": "^4.0.0",
-    "styled-jsx": "^3.1.0"
+    "redux": "^4.0.0"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc.12",

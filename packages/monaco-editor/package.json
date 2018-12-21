@@ -29,11 +29,9 @@
     "@types/lodash": "^4.14.117"
   },
   "dependencies": {
-    "@babel/runtime-corejs2": "^7.0.0",
     "@nteract/display-area": "^5.0.0-alpha.0",
     "@nteract/messaging": "^5.0.0-alpha.0",
     "@nteract/transforms": "^5.0.0-alpha.0",
-    "babel-runtime": "^6.26.0",
     "lodash": "^4.17.4",
     "monaco-editor": "^0.15.0",
     "monaco-editor-webpack-plugin": "^1.5.1",
@@ -42,8 +40,7 @@
   "peerDependencies": {
     "immutable": "^4.0.0-rc.12",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2",
-    "styled-jsx": "^3.1.0"
+    "react-dom": "^16.3.2"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
