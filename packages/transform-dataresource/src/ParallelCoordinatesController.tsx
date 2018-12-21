@@ -183,7 +183,7 @@ class ParallelCoordinatesController extends React.Component<Props, State> {
       );
 
       const uniqueDimsForColors = data.reduce(
-        (colorArray: Dx.Datapoint[], datapoint) =>
+        (colorArray: any[], datapoint) =>
           colorArray.indexOf(datapoint[dim1]) === -1
             ? [...colorArray, datapoint[dim1]]
             : colorArray,
