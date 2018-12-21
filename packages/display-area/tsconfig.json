@@ -5,6 +5,6 @@
     "noImplicitAny": false,
     "rootDir": "src"
   },
-  "include": ["src/*", "src/**/*"],
+  "include": ["src"],
   "references": [{ "path": "../transforms" }, { "path": "../ansi-to-react" }]
 }

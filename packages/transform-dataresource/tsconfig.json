@@ -4,7 +4,7 @@
     "outDir": "lib",
     "rootDir": "src"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src"],
   "references": [
       { "path": "../octicons" },
       { "path": "../styled-blueprintjsx" }
