@@ -35,7 +35,7 @@
     "build:desktop": "lerna run build --scope nteract --stream",
     "build:desktop:watch": "lerna run build:watch --scope nteract --stream",
     "build:packages": "tsc -b packages",
-    "build:packages:ci": "npm run build:packages",
+    "build:packages:ci": "npm run build:packages -- --verbose",
     "build:packages:watch": "npm run build:packages -- --watch",
     "build:icon": "./scripts/make_icons.sh && cd static/icons && iconutil -c icns nteract.iconset && mv nteract.icns ../icon.icns",
     "build:only": "lerna run build --scope",
