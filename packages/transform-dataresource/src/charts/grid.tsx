@@ -8,7 +8,7 @@ import ReactTableStyles from "../css/react-table";
 
 import { JSONObject } from "@nteract/commutable";
 
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 const ReactTableFixedColumns = withFixedColumns(ReactTable);
 

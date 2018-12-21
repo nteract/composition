@@ -3,7 +3,7 @@ import { scaleLinear } from "d3-scale";
 
 import TooltipContent from "../tooltip-content";
 import { JSONObject } from "@nteract/commutable";
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 type NodeObject = {
   id: string;

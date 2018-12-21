@@ -7,7 +7,7 @@ import { numeralFormatting } from "./utilities";
 import buttonGroupStyle from "./css/button-group";
 import TooltipContent from "./tooltip-content";
 
-import * as Dx from "Dx";
+import * as Dx from "./types";
 import { JSONObject } from "@nteract/commutable/src";
 
 type State = {

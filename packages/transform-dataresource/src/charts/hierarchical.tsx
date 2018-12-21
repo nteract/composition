@@ -4,7 +4,7 @@ import { interpolateLab } from "d3-interpolate";
 
 import TooltipContent from "../tooltip-content";
 
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 const parentPath = (datapoint: Dx.Datapoint, pathArray: string[]) => {
   if (datapoint.parent) {

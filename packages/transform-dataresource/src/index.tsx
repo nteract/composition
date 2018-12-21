@@ -9,7 +9,7 @@ import { Toolbar } from "./components/Toolbar";
 
 const mediaType = "application/vnd.dataresource+json";
 
-import * as Dx from "Dx";
+import * as Dx from "./types";
 import {
   LineType,
   AreaType,
@@ -17,10 +17,9 @@ import {
   SummaryType,
   NetworkType,
   HierarchyType,
-  Chart
-} from "Dx";
-
-import { View } from "./types";
+  Chart,
+  View
+} from "./types";
 
 type dxMetaProps = {
   view?: View;

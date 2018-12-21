@@ -13,7 +13,7 @@ import { semioticBarChart } from "./bar";
 import { semioticScatterplot, semioticHexbin } from "./xyplot";
 import { semioticSummaryChart } from "./summary";
 
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 const semioticParallelCoordinates = (
   data: Dx.Datapoint[],

@@ -4,7 +4,7 @@ import { scaleLinear, scaleTime } from "d3-scale";
 
 import TooltipContent from "../tooltip-content";
 import { numeralFormatting } from "../utilities";
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 interface LineOptions {
   chart: Dx.Chart;

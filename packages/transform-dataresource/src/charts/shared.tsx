@@ -1,4 +1,4 @@
-import * as Dx from "Dx";
+import * as Dx from "../types";
 
 function stringOrFnAccessor(
   datapoint: Dx.Datapoint,

@@ -7,7 +7,7 @@ import HTMLLegend from "../HTMLLegend";
 import TooltipContent from "../tooltip-content";
 
 import { sortByOrdinalRange } from "./shared";
-import * as Dx from "Dx";
+import * as Dx from "../types";
 import { JSONObject } from "@nteract/commutable/src";
 
 const binHash = {
