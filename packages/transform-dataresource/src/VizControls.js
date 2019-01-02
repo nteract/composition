@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Select } from "@blueprintjs/select";
-import { Button, ButtonGroup, MenuItem, Code } from "@blueprintjs/core";
+import { Button, MenuItem, Code } from "@blueprintjs/core";
 import { BlueprintCSS, BlueprintSelectCSS } from "@nteract/styled-blueprintjsx";
 
-import buttonGroupStyle from "./css/button-group";
+import { StyledButtonGroup, StyledButton } from "./components/button-group";
 import chartUIStyle from "./css/viz-controls";
 import { controlHelpText } from "./docs/chart-docs";
 
@@ -350,9 +350,9 @@ export default ({
             <div>
               <Code>Chart Type</Code>
             </div>
-            <ButtonGroup vertical={true}>
+            <StyledButtonGroup vertical={true}>
               {availableLineTypes.map(lineTypeOption => (
-                <Button
+                <StyledButton
                   key={lineTypeOption.type}
                   className={`button-text ${lineType === lineTypeOption.type &&
                     "selected"}`}
@@ -360,9 +360,9 @@ export default ({
                   onClick={() => setLineType(lineTypeOption.type)}
                 >
                   {lineTypeOption.label}
-                </Button>
+                </StyledButton>
               ))}
-            </ButtonGroup>
+            </StyledButtonGroup>
           </div>
         )}
         {view === "hexbin" && (
@@ -370,9 +370,9 @@ export default ({
             <div>
               <Code>Chart Type</Code>
             </div>
-            <ButtonGroup vertical={true}>
+            <StyledButtonGroup vertical={true}>
               {availableAreaTypes.map(areaTypeOption => (
-                <Button
+                <StyledButton
                   className={`button-text ${areaType === areaTypeOption.type &&
                     "selected"}`}
                   key={areaTypeOption.type}
@@ -380,9 +380,9 @@ export default ({
                   active={areaType === areaTypeOption.type}
                 >
                   {areaTypeOption.label}
-                </Button>
+                </StyledButton>
               ))}
-            </ButtonGroup>
+            </StyledButtonGroup>
           </div>
         )}
         {view === "hierarchy" && (
@@ -406,9 +406,9 @@ export default ({
             <div>
               <Code>Categories</Code>
             </div>
-            <ButtonGroup vertical={true}>
+            <StyledButtonGroup vertical={true}>
               {dimensions.map(dim => (
-                <Button
+                <StyledButton
                   key={`dimensions-select-${dim.name}`}
                   className={`button-text ${selectedDimensions.indexOf(
                     dim.name
@@ -417,9 +417,9 @@ export default ({
                   active={selectedDimensions.indexOf(dim.name) !== -1}
                 >
                   {dim.name}
-                </Button>
+                </StyledButton>
               ))}
-            </ButtonGroup>
+            </StyledButtonGroup>
           </div>
         )}
         {view === "line" && (
@@ -430,9 +430,9 @@ export default ({
             <div>
               <Code>Metrics</Code>
             </div>
-            <ButtonGroup vertical={true}>
+            <StyledButtonGroup vertical={true}>
               {metrics.map(metric => (
-                <Button
+                <StyledButton
                   key={`metrics-select-${metric.name}`}
                   className={`button-text ${selectedMetrics.indexOf(
                     metric.name
@@ -441,14 +441,13 @@ export default ({
                   active={selectedMetrics.indexOf(metric.name) !== -1}
                 >
                   {metric.name}
-                </Button>
+                </StyledButton>
               ))}
-            </ButtonGroup>
+            </StyledButtonGroup>
           </div>
         )}
       </div>
       <style jsx>{chartUIStyle}</style>
-      <style jsx>{buttonGroupStyle}</style>
       <BlueprintCSS />
       <BlueprintSelectCSS />
     </React.Fragment>

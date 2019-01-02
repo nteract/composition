@@ -1,6 +1,12 @@
-import css from "styled-jsx/css";
+// @flow
+import styled from "styled-components";
+import { ButtonGroup, Button } from "@blueprintjs/core";
 
-export default css`
+/**
+ * This ports over some of the overridden styles within the data
+ * explorer from the migration away from styled-jsx.
+ */
+export const StyledButtonGroup = styled(ButtonGroup)`
   .button-text {
     margin: 0 10px 10px 0;
     -webkit-appearance: none;
@@ -15,22 +21,24 @@ export default css`
     border-color: #1d8bf1;
     color: #1d8bf1;
   }
-  .button-group .button-text {
+  .button-text {
     margin-right: -1px;
     border-radius: 0;
   }
-  .button-group .button-text:first-child {
+  .button-text:first-child {
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
   }
-  .button-group .button-text:last-child {
+  .button-text:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
   }
-  .button-group .button-text.selected {
+  .button-text.selected {
     background: white;
     color: #1d8bf1;
     z-index: 1;
     position: relative;
   }
 `;
+
+export const StyledButton = styled(Button);
