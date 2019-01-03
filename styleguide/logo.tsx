@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import * as React from "react";
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 const GitHubLogo = () => (
   <svg width="17" height="17" viewBox="0 0 17 17">

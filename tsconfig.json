@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "composite": true,
+    "lib": ["esnext", "dom"],
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "preserveWatchOutput": true,
+    "jsx": "react",
+    "typeRoots": ["./node_modules/@types", "types"]
+  },
+  "files": [],
+  "references": [{ "path": "packages" }]
+}

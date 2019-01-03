@@ -3,15 +3,10 @@
 const path = require("path");
 
 const reactDocgenTypescript = require("react-docgen-typescript").withCustomConfig(
-  "./tsconfig.base.json"
+  "../tsconfig.json"
 );
 
-const babelFlowConfig = require("./babel.flow.config");
-const babelTypescriptConfig = require("./babel.typescript.config");
-var {
-  exclude,
-  mergeDefaultAliases
-} = require("./packages/webpack-configurator");
+console.log("wtf mate");
 
 const typescriptPropsParser = reactDocgenTypescript.parse;
 
@@ -21,53 +16,56 @@ module.exports = {
   sections: [
     {
       name: "Introduction",
-      content: "doc/components.md"
+      content: "../doc/components.md"
     },
     {
       name: "@nteract/presentational-components",
-      components: "packages/presentational-components/src/components/*.tsx",
+      components: "../packages/presentational-components/src/components/*.tsx",
       propsParser: typescriptPropsParser
     },
     {
       name: "@nteract/outputs",
-      components: "packages/outputs/src/components/*.tsx",
+      components: "../packages/outputs/src/components/*.tsx",
       propsParser: typescriptPropsParser
     },
     {
       name: "@nteract/outputs/media",
-      components: "packages/outputs/src/components/media/*.tsx",
-      content: "packages/outputs/src/components/media/index.md",
-      ignore: "packages/outputs/src/components/media/index.tsx",
+      components: "../packages/outputs/src/components/media/*.tsx",
+      content: "../packages/outputs/src/components/media/index.md",
+      ignore: "../packages/outputs/src/components/media/index.tsx",
       propsParser: typescriptPropsParser
     },
     {
       name: "@mybinder/host-cache",
-      components: "packages/host-cache/src/components/*.tsx",
+      components: "../packages/host-cache/src/components/*.tsx",
       propsParser: typescriptPropsParser
     },
     {
       name: "@nteract/directory-listing",
-      components: "packages/directory-listing/src/components/*.tsx",
+      components: "../packages/directory-listing/src/components/*.tsx",
       propsParser: typescriptPropsParser
     },
     {
       name: "@nteract/markdown",
-      content: "packages/markdown/examples.md"
+      content: "../packages/markdown/examples.md"
     },
     {
       name: "@nteract/mathjax",
-      content: "packages/mathjax/examples.md"
+      content: "../packages/mathjax/examples.md"
     }
   ],
   // For overriding the components styleguidist uses
   styleguideComponents: {
     LogoRenderer: path.join(
       __dirname,
+      "..",
       "packages",
       "styleguide-components",
       "logo.js"
     )
   },
+  resolver: require("react-docgen").resolver.findAllComponentDefinitions,
+  propsParser: typescriptPropsParser,
   compilerConfig: {
     // Allow us to use {...props}
     objectAssign: "Object.assign",
@@ -87,34 +85,6 @@ module.exports = {
           gtag('js', new Date());
           gtag('config', 'UA-129108362-2');
         </script>`
-    }
-  },
-  webpackConfig: {
-    node: {
-      fs: "empty",
-      child_process: "empty",
-      net: "empty"
-    },
-    resolve: {
-      mainFields: ["nteractDesktop", "es2015", "jsnext:main", "module", "main"],
-      extensions: [".js", ".jsx", ".ts", ".tsx"],
-      alias: mergeDefaultAliases()
-    },
-    module: {
-      rules: [
-        {
-          test: /\.jsx?$/,
-          exclude,
-          loader: "babel-loader",
-          options: babelFlowConfig()
-        },
-        {
-          test: /\.tsx?$/,
-          exclude,
-          loader: "babel-loader",
-          options: babelTypescriptConfig()
-        }
-      ]
     }
   }
 };
