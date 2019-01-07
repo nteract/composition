@@ -1897,10 +1897,10 @@
     "@types/react" "*"
     redux "^4.0.0"
 
-"@types/react-syntax-highlighter@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-0.0.8.tgz#ed44e2ead992c513327bcf2ede5eda7daa981421"
-  integrity sha512-vxnOl0C1ZDkFneMdEtuZttwKmuznHH7Ml5C1g589Kif+FyiKoMzuD7GlnTTaVv+sS+y9MtwqQ5gy6B1+brvT9A==
+"@types/react-syntax-highlighter@^10.0.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-10.1.0.tgz#9c534e29bbe05dba9beae1234f3ae944836685d4"
+  integrity sha512-dF49hC4FZp1dIKyzacOrHvqMUe8U2IXyQCQXOcT1e6n64gLBp+xM6qGtPsThIT9XjiIHSg2W5Jc2V5IqekBfnA==
   dependencies:
     "@types/react" "*"
 
@@ -3071,7 +3071,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.x, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.6.1:
+babel-runtime@6.x, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.6.1:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
@@ -12097,12 +12097,12 @@ react-styleguidist@^8.0.0:
     webpack-dev-server "^3.1.10"
     webpack-merge "^4.1.4"
 
-react-syntax-highlighter@^9.0.0:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-9.0.1.tgz#cad91692e1976f68290f24762ac3451b1fec3d26"
-  integrity sha512-rL5wJ0V23arSBahsRs0yhDxEFoA1dRjJ7hK6xKvIi6hd3fUXx950AhjYBQbR05CwYsAIQDWGMhH4Oh/v9XK67g==
+react-syntax-highlighter@^10.0.0:
+  version "10.1.2"
+  resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-10.1.2.tgz#645ad5e3d8667fd7a2b73fc1059f871055d23f82"
+  integrity sha512-p/xy9rb13Cr+SaErdOvJWTYH8moDrlszv4LPDd314pk5PmT6OTWQYFy66tBZFWhM2xk6bh4BttTU9SYje5c75g==
   dependencies:
-    babel-runtime "^6.18.0"
+    "@babel/runtime" "^7.1.2"
     highlight.js "~9.12.0"
     lowlight "~1.9.1"
     prismjs "^1.8.4"
