@@ -188,7 +188,7 @@
     "cpy-cli": "^2.0.0",
     "cross-env": "^5.2.0",
     "css-loader": "^2.0.0",
-    "electron": "3.1.0",
+    "electron": "4.0.1",
     "electron-builder": "^20.38.4",
     "electron-context-menu": "^0.10.0",
     "electron-log": "^2.2.13",
