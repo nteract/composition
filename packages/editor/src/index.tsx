@@ -14,7 +14,7 @@ import {
 } from "rxjs/operators";
 import { RichestMime } from "@nteract/display-area";
 import { debounce } from "lodash";
-import CodeMirror from "codemirror";
+import CodeMirror, { Mode, EditorConfiguration } from "codemirror";
 
 import excludedIntelliSenseTriggerKeys from "./excludedIntelliSenseKeys";
 import { codeComplete, pick } from "./jupyter/complete";
@@ -48,15 +48,67 @@ const Tip = styled.div`
   z-index: 9999999;
 `;
 
+const configurableCodeMirrorOptions: {
+  // Ensure we capture each of the editor configuration options
+  [k in keyof EditorConfiguration]: boolean
+} = {
+  // Do nothing with value, we handle it above
+  value: false,
+  mode: true,
+  // We don't allow overriding the theme as we use this to help theme codemirror
+  theme: false,
+  indentUnit: true,
+  smartIndent: true,
+  tabSize: true,
+  indentWithTabs: true,
+  electricChars: true,
+  rtlMoveVisually: true,
+  keyMap: true,
+  extraKeys: true,
+  lineWrapping: true,
+  lineNumbers: true,
+  firstLineNumber: true,
+  lineNumberFormatter: true,
+  gutters: true,
+  fixedGutter: true,
+  readOnly: true,
+  showCursorWhenSelecting: true,
+  undoDepth: true,
+  historyEventDelay: true,
+  tabindex: true,
+  autofocus: true,
+  dragDrop: true,
+  onDragEvent: true,
+  onKeyEvent: true,
+  cursorBlinkRate: true,
+  cursorHeight: true,
+  workTime: true,
+  workDelay: true,
+  pollInterval: true,
+  flattenSpans: true,
+  maxHighlightLength: true,
+  viewportMargin: true,
+  lint: true,
+  placeholder: true,
+
+  // CodeMirror addon configurations
+  hintOptions: false
+};
+
 function normalizeLineEndings(str: string) {
   if (!str) return str;
   return str.replace(/\r\n|\r/g, "\n");
 }
 
+function isConfigurableOption(
+  props: Partial<EditorConfiguration> & { [key: string]: any }
+) {}
+
 export type CodeMirrorEditorProps = {
   editorFocused: boolean;
   completion: boolean;
   tip?: boolean;
+  cursorBlinkRate: number;
   focusAbove?: () => void;
   focusBelow?: () => void;
   theme: string;
@@ -67,10 +119,7 @@ export type CodeMirrorEditorProps = {
   kernelStatus: string;
   onChange?: (value: string, change: EditorChange) => void;
   onFocusChange?: (focused: boolean) => void;
-  value: string;
-  defaultValue?: string;
-  options: Options;
-};
+} & Partial<EditorConfiguration>;
 
 type CodeMirrorEditorState = {
   isFocused: boolean;
@@ -100,9 +149,9 @@ class CodeMirrorEditor extends React.Component<
     completion: false,
     tip: false,
     kernelStatus: "not connected",
-    options: {},
     editorFocused: false,
-    channels: null
+    channels: null,
+    cursorBlinkRate: 530
   };
 
   textareaRef = React.createRef<HTMLTextAreaElement>();
@@ -116,41 +165,38 @@ class CodeMirrorEditor extends React.Component<
     this.debounceNextCompletionRequest = true;
     this.state = { isFocused: true, tipElement: null };
 
-    this.defaultOptions = Object.assign(
-      {
-        autoCloseBrackets: true,
-        lineNumbers: false,
-        matchBrackets: true,
-        // This sets the class on the codemirror <div> that gets created to cm-s-composition
-        theme: "composition",
-        autofocus: false,
-        hintOptions: {
-          hint: this.hint,
-          completeSingle: false, // In automatic autocomplete mode we don't want override
-          extraKeys: {
-            Right: pick
-          }
-        },
+    this.defaultOptions = Object.assign({
+      autoCloseBrackets: true,
+      lineNumbers: false,
+      matchBrackets: true,
+      // This sets the class on the codemirror <div> that gets created to cm-s-composition
+      theme: "composition",
+      autofocus: false,
+      hintOptions: {
+        hint: this.hint,
+        completeSingle: false, // In automatic autocomplete mode we don't want override
         extraKeys: {
-          "Ctrl-Space": (editor: CodeMirror.Editor) => {
-            this.debounceNextCompletionRequest = false;
-            return editor.execCommand("autocomplete");
-          },
-          Tab: this.executeTab,
-          "Shift-Tab": (editor: CodeMirror.Editor) =>
-            editor.execCommand("indentLess"),
-          Up: this.goLineUpOrEmit,
-          Down: this.goLineDownOrEmit,
-          "Cmd-/": "toggleComment",
-          "Ctrl-/": "toggleComment",
-          "Cmd-.": this.tips,
-          "Ctrl-.": this.tips
-        },
-        indentUnit: 4,
-        preserveScrollPosition: false
+          Right: pick
+        }
       },
-      props.options
-    );
+      extraKeys: {
+        "Ctrl-Space": (editor: CodeMirror.Editor) => {
+          this.debounceNextCompletionRequest = false;
+          return editor.execCommand("autocomplete");
+        },
+        Tab: this.executeTab,
+        "Shift-Tab": (editor: CodeMirror.Editor) =>
+          editor.execCommand("indentLess"),
+        Up: this.goLineUpOrEmit,
+        Down: this.goLineDownOrEmit,
+        "Cmd-/": "toggleComment",
+        "Ctrl-/": "toggleComment",
+        "Cmd-.": this.tips,
+        "Ctrl-.": this.tips
+      },
+      indentUnit: 4,
+      preserveScrollPosition: false
+    });
   }
 
   componentWillMount() {
@@ -190,7 +236,7 @@ class CodeMirrorEditor extends React.Component<
       this.defaultOptions
     );
 
-    this.cm.setValue(this.props.defaultValue || this.props.value || "");
+    this.cm.setValue(this.props.value || "");
 
     // On first load, if focused, set codemirror to focus
     if (editorFocused) {
@@ -277,7 +323,7 @@ class CodeMirrorEditor extends React.Component<
   componentDidUpdate(prevProps: CodeMirrorEditorProps): void {
     if (!this.cm) return;
     const { editorFocused, theme } = this.props;
-    const { cursorBlinkRate } = this.props.options;
+    const { cursorBlinkRate } = this.props;
 
     if (prevProps.theme !== theme) {
       this.cm.refresh();
@@ -287,7 +333,7 @@ class CodeMirrorEditor extends React.Component<
       editorFocused ? this.cm.focus() : this.cm.getInputField().blur();
     }
 
-    if (prevProps.options.cursorBlinkRate !== cursorBlinkRate) {
+    if (prevProps.cursorBlinkRate !== cursorBlinkRate) {
       this.cm.setOption("cursorBlinkRate", cursorBlinkRate);
       if (editorFocused) {
         // code mirror doesn't change the blink rate immediately, we have to
@@ -298,8 +344,8 @@ class CodeMirrorEditor extends React.Component<
       }
     }
 
-    if (prevProps.options.mode !== this.props.options.mode) {
-      this.cm.setOption("mode", this.props.options.mode);
+    if (prevProps.mode !== this.props.mode) {
+      this.cm.setOption("mode", this.props.mode);
     }
   }
 
@@ -310,22 +356,51 @@ class CodeMirrorEditor extends React.Component<
       normalizeLineEndings(this.cm.getValue()) !==
         normalizeLineEndings(nextProps.value)
     ) {
-      if (this.props.options.preserveScrollPosition) {
+      /*if (this.props.preserveScrollPosition) {
         var prevScrollPosition = this.cm.getScrollInfo();
         this.cm.setValue(nextProps.value);
         this.cm.scrollTo(prevScrollPosition.left, prevScrollPosition.top);
-      } else {
-        this.cm.setValue(nextProps.value);
-      }
+      } else {*/
+      this.cm.setValue(nextProps.value);
+      /*}*/
     }
-    if (typeof nextProps.options === "object") {
-      for (let optionName in nextProps.options) {
-        if (
-          nextProps.options.hasOwnProperty(optionName) &&
-          this.props.options[optionName] === nextProps.options[optionName]
-        ) {
-          this.cm.setOption(optionName, nextProps.options[optionName]);
-        }
+
+    for (let optionName in nextProps) {
+      // Sanity check on the properties of the props, go to next prop if this fails
+      if (!nextProps.hasOwnProperty(optionName)) {
+        continue;
+      }
+
+      // NOTE: This is playing loose with types, with the expectation we'll check for anything untrue on our
+      // .     configurable setup
+      const configurable =
+        configurableCodeMirrorOptions[optionName as keyof EditorConfiguration];
+      if (!configurable) {
+        continue;
+      }
+      const validOptionName = optionName as keyof EditorConfiguration;
+
+      // We can now assume `optionName` is one of EditorConfiguration's valid keys for propagating
+      this.cm.setOption(validOptionName, nextProps[validOptionName]);
+
+      switch (optionName) {
+        case "mode":
+        case "indentUnit":
+        case "smartIndent":
+        case "tabSize":
+        case "indentWithTabs":
+        case "electricChars":
+        case "rtlMoveVisually":
+        case "lineWrapping":
+        case "lineNumbers":
+        case "firstLineNumber":
+        case "readOnly":
+          this.cm.setOption(optionName, nextProps[optionName]);
+        // Do nothing with value, we handle it above
+        case "value":
+        // This is our theme prop (for light or dark, not a codemirror theme)
+        case "theme":
+          break;
       }
     }
   }

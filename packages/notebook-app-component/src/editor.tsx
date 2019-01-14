@@ -4,6 +4,8 @@ import * as actions from "@nteract/actions";
 import * as selectors from "@nteract/selectors";
 import { ContentRef, AppState } from "@nteract/types";
 import EditorView from "@nteract/editor";
+import { isThisQuarter } from "date-fns";
+import { codeMirrorMode } from "@nteract/selectors/lib/notebook";
 
 type InitialProps = {
   id: string;
@@ -12,27 +14,17 @@ type InitialProps = {
   focusBelow: () => void;
 };
 
-const markdownEditorOptions = {
-  // Markdown should always be line wrapped
-  lineWrapping: true,
-  // Rely _directly_ on the codemirror mode
-  mode: {
-    name: "gfm",
-    tokenTypeOverrides: {
-      emoji: "emoji"
-    }
+const markdownMode = {
+  name: "gfm",
+  tokenTypeOverrides: {
+    emoji: "emoji"
   }
 };
 
-const rawEditorOptions = {
-  // Markdown should always be line wrapped
-  lineWrapping: true,
-  // Rely _directly_ on the codemirror mode
-  mode: {
-    name: "text/plain",
-    tokenTypeOverrides: {
-      emoji: "emoji"
-    }
+const rawMode = {
+  name: "text/plain",
+  tokenTypeOverrides: {
+    emoji: "emoji"
   }
 };
 
@@ -62,15 +54,16 @@ const makeMapStateToProps = (
     const theme = selectors.userTheme(state);
     let channels = null;
     let kernelStatus = "not connected";
+    let codeMirrorMode = rawMode;
 
-    // Bring all changes to the options based on cell type
-    let cellBasedEditorOptions = {};
+    // Select props based on cell type
     switch (cell.cell_type) {
-      case "markdown":
-        cellBasedEditorOptions = markdownEditorOptions;
-        break;
       case "raw":
-        cellBasedEditorOptions = rawEditorOptions;
+        // Just to be explicit even though we set the raw mode above
+        codeMirrorMode = rawMode;
+        break;
+      case "markdown":
+        codeMirrorMode = markdownMode;
         break;
       case "code": {
         const kernelRef = model.kernelRef;
@@ -88,22 +81,8 @@ const makeMapStateToProps = (
           kernel && kernel.info
             ? kernel.info
             : selectors.notebook.codeMirrorMode(model);
-        cellBasedEditorOptions = {
-          mode: codeMirrorMode
-        };
       }
     }
-
-    // Build options according to cell in use.
-    const options = {
-      // Handle the legacy config option
-      cursorBlinkRate: state.config.get("cursorBlinkRate", 530),
-      // Bring in user configuration, if we had it
-      // IDEA:
-      // ...state.config.editorOptions
-      // Set the properties that apply to this cell
-      ...cellBasedEditorOptions
-    };
 
     return {
       tip: true,
@@ -115,9 +94,14 @@ const makeMapStateToProps = (
       focusBelow,
       theme,
       value: cell.source,
-      options,
       channels,
-      kernelStatus
+      kernelStatus,
+
+      cursorBlinkRate: state.config.get("cursorBlinkRate", 530),
+
+      lineWrapping: cell.cell_type === "code" ? false : true,
+
+      mode: codeMirrorMode
     };
   }
   return mapStateToProps;
