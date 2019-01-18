@@ -3699,7 +3699,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.1, create-react-class@^15.5.2:
+create-react-class@^15.5.1:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -7264,6 +7264,11 @@ isexe@^2.0.0:
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
   integrity sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
 
+ismobilejs@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/ismobilejs/-/ismobilejs-0.5.1.tgz#0e3f825e29e32f84ad5ddbb60e9e04a894046488"
+  integrity sha512-QX4STsOcBYqlTjVGuAdP1MiRVxtiUbRHOKH0v7Gn1EvfUVIQnrSdgCM4zB4VCZuIejnb2NUMUx0Bwd3EIG6yyA==
+
 isobject@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-2.1.0.tgz#f065561096a3f1da2ef46272f815c840d87e0c89"
@@ -8972,10 +8977,10 @@ mini-html-webpack-plugin@^0.2.3:
   dependencies:
     webpack-sources "^1.1.0"
 
-mini-store@^1.0.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/mini-store/-/mini-store-1.1.2.tgz#cc150e0878e080ca58219d47fccefefe2c9aea3e"
-  integrity sha512-2gU6dRzyv/79jrPw/SLtnj6EAdYlktW10e5jPqyIVeFgyFHxcP1BoqAH5Uf5WfKXbTdeHgJ+fuoAFP4falptdw==
+mini-store@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/mini-store/-/mini-store-2.0.0.tgz#0843c048d6942ce55e3e78b1b67fc063022b5488"
+  integrity sha512-EG0CuwpQmX+XL4QVS0kxNwHW5ftSbhygu1qxQH0pipugjnPkbvkalCdQbEihMwtQY6d3MTN+MS0q+aurs+RfLQ==
   dependencies:
     hoist-non-react-statics "^2.3.1"
     prop-types "^15.6.0"
@@ -9168,6 +9173,11 @@ multimatch@^2.1.0:
     array-union "^1.0.1"
     arrify "^1.0.0"
     minimatch "^3.0.0"
+
+mutationobserver-shim@^0.3.2:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/mutationobserver-shim/-/mutationobserver-shim-0.3.3.tgz#65869630bc89d7bf8c9cd9cb82188cd955aacd2b"
+  integrity sha512-gciOLNN8Vsf7YzcqRjKzlAJ6y7e+B86u7i3KXes0xfxx/nfLmozlW1Vn+Sc9x3tPIePFgc1AeIFhtRgkqTjzDQ==
 
 mute-stream@0.0.7:
   version "0.0.7"
@@ -10770,20 +10780,22 @@ rc-animate@2.x:
     raf "^3.4.0"
     react-lifecycles-compat "^3.0.4"
 
-rc-menu@6.2.11:
-  version "6.2.11"
-  resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-6.2.11.tgz#56bed3ed840c2d1fdc9c9dda7bc71e975acd21d4"
-  integrity sha512-aKvLMgKl+3G/ar46nCzTWVBmd0A9BjmwZJYTj7pICbAPkC2xSiYfKq+ywJd/QJO57sj7Sz7OD62LDnlOg99VNw==
+rc-menu@7.4.21:
+  version "7.4.21"
+  resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-7.4.21.tgz#8a728afd8db81312c913511b6502d9de596d72fd"
+  integrity sha512-TfcwybKLuw2WhEkplYH7iFMGlDbH6KhPcd+gv5J2oLQcgiGeUECzyOWSVaFRRlkpB7g2eNzXbha/AXN/Xyzvnw==
   dependencies:
     babel-runtime "6.x"
     classnames "2.x"
-    create-react-class "^15.5.2"
     dom-scroll-into-view "1.x"
-    mini-store "^1.0.2"
+    ismobilejs "^0.5.1"
+    mini-store "^2.0.0"
+    mutationobserver-shim "^0.3.2"
     prop-types "^15.5.6"
     rc-animate "2.x"
     rc-trigger "^2.3.0"
     rc-util "^4.1.0"
+    resize-observer-polyfill "^1.5.0"
 
 rc-trigger@^2.3.0:
   version "2.6.2"

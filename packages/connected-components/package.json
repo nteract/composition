@@ -14,7 +14,7 @@
     "@nteract/commutable": "^6.0.4-alpha.0",
     "@nteract/core": "^9.0.4-alpha.0",
     "@nteract/types": "^3.1.4-alpha.0",
-    "rc-menu": "6.2.11",
+    "rc-menu": "7.4.21",
     "react-redux": "^6.0.0",
     "redux": "^4.0.0",
     "styled-components": "^4.1.3"
