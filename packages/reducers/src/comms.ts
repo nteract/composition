@@ -36,7 +36,7 @@ function processCommMessage(
 ): CommsRecord {
   const { data, comm_id } = action;
 
-  const commInfo = state.getIn(["info", comm_id]);
+  const commInfo = state.info.get(comm_id);
   if (
     commInfo &&
     commInfo.get("target_module") === "reducers" &&

@@ -1,12 +1,13 @@
 import {
   CellId,
+  CellType,
+  CodeCellParams,
   ImmutableCell,
   ImmutableCodeCell,
   ImmutableMarkdownCell,
   ImmutableNotebook,
   ImmutableOutput,
-  OnDiskOutput,
-  OnDiskStreamOutput
+  OnDiskOutput
 } from "@nteract/commutable";
 import {
   createFrozenMediaBundle,
@@ -122,7 +123,7 @@ function clearOutputs(state: NotebookModel, action: actionTypes.ClearOutputs) {
     return state;
   }
 
-  const type = state.getIn(["notebook", "cellMap", id, "cell_type"]);
+  const type: CellType = state.notebook.cellMap.get(id)!.cell_type;
 
   const cleanedState = cleanCellTransient(state, id);
 
@@ -166,8 +167,7 @@ function clearAllOutputs(
   }
 
   // For every cell, clear the outputs and execution counts
-  const cellMap = state
-    .getIn(["notebook", "cellMap"])
+  const cellMap = state.notebook.cellMap
     // NOTE: My kingdom for a mergeMap
     .map((cell: ImmutableCell) => {
       if ((cell as any).get("cell_type") === "code") {
@@ -222,9 +222,10 @@ function appendOutput(state: NotebookModel, action: actionTypes.AppendOutput) {
   // to the output
 
   // Determine the next output index
-  const outputIndex = state
-    .getIn(["notebook", "cellMap", cellId, "outputs"])
-    .count();
+  const codeCellParams: CodeCellParams = state.notebook.cellMap.get(
+    cellId
+  ) as CodeCellParams;
+  const outputIndex = codeCellParams.outputs.count();
 
   // Construct the path to the output for updating later
   const keyPath: KeyPath = Immutable.List([
@@ -236,10 +237,9 @@ function appendOutput(state: NotebookModel, action: actionTypes.AppendOutput) {
   ]);
 
   const keyPaths: KeyPaths = (
-    state
+    state.transient
       // Extract the current list of keypaths for this displayID
-      .getIn(["transient", "keyPathsForDisplays", displayID]) ||
-    Immutable.List()
+      .getIn(["keyPathsForDisplays", displayID]) || Immutable.List()
   )
     // Append our current output's keyPath
     .push(keyPath);
@@ -266,8 +266,7 @@ function updateDisplay(
   }
   const displayID = content.transient.display_id;
 
-  const keyPaths: KeyPaths = state.getIn([
-    "transient",
+  const keyPaths: KeyPaths = state.transient.getIn([
     "keyPathsForDisplays",
     displayID
   ]);
@@ -290,7 +289,7 @@ function focusNextCell(
   state: NotebookModel,
   action: actionTypes.FocusNextCell
 ) {
-  const cellOrder = state.getIn(["notebook", "cellOrder"]);
+  const cellOrder = state.notebook.cellOrder;
 
   const id = action.payload.id ? action.payload.id : state.get("cellFocused");
   // If for some reason we neither have an ID here or a focused cell, we just
@@ -300,7 +299,7 @@ function focusNextCell(
   }
 
   const curIndex = cellOrder.findIndex((foundId: CellId) => id === foundId);
-  const curCellType = state.getIn(["notebook", "cellMap", id, "cell_type"]);
+  const curCellType: CellType = state.notebook.cellMap.get(id)!.cell_type;
 
   const nextIndex = curIndex + 1;
 
@@ -328,7 +327,7 @@ function focusPreviousCell(
   state: NotebookModel,
   action: actionTypes.FocusPreviousCell
 ): NotebookModel {
-  const cellOrder = state.getIn(["notebook", "cellOrder"]);
+  const cellOrder = state.notebook.cellOrder;
   const curIndex = cellOrder.findIndex(
     (id: CellId) => id === action.payload.id
   );
@@ -348,10 +347,7 @@ function focusNextCellEditor(
   state: NotebookModel,
   action: actionTypes.FocusNextCellEditor
 ) {
-  const cellOrder: Immutable.List<CellId> = state.getIn([
-    "notebook",
-    "cellOrder"
-  ]);
+  const cellOrder: Immutable.List<CellId> = state.notebook.cellOrder;
 
   const id = action.payload.id ? action.payload.id : state.get("editorFocused");
 
@@ -371,10 +367,7 @@ function focusPreviousCellEditor(
   state: NotebookModel,
   action: actionTypes.FocusPreviousCellEditor
 ) {
-  const cellOrder: Immutable.List<CellId> = state.getIn([
-    "notebook",
-    "cellOrder"
-  ]);
+  const cellOrder: Immutable.List<CellId> = state.notebook.cellOrder;
   const curIndex = cellOrder.findIndex(
     (id: CellId) => id === action.payload.id
   );
@@ -619,7 +612,7 @@ function toggleCellOutputVisibility(
 
   return state.setIn(
     ["notebook", "cellMap", id, "metadata", "outputHidden"],
-    !state.getIn(["notebook", "cellMap", id, "metadata", "outputHidden"])
+    !state.notebook.cellMap.get(id)!.metadata.get("outputHidden")
   );
 }
 
@@ -649,7 +642,7 @@ function toggleCellInputVisibility(
 
   return state.setIn(
     ["notebook", "cellMap", id, "metadata", "inputHidden"],
-    !state.getIn(["notebook", "cellMap", id, "metadata", "inputHidden"])
+    !state.notebook.cellMap.get(id)!.metadata.get("inputHidden")
   );
 }
 
@@ -666,7 +659,8 @@ function updateOutputMetadata(
   action: actionTypes.UpdateOutputMetadata
 ) {
   const { id, metadata, index } = action.payload;
-  const currentOutputs = state.getIn(["notebook", "cellMap", id, "outputs"]);
+  const currentOutputs = (state.notebook.cellMap.get(id) as CodeCellParams)
+    .outputs;
 
   const updatedOutputs = currentOutputs.update(index, (item: any) =>
     item.set("metadata", Immutable.fromJS(metadata))
@@ -718,7 +712,7 @@ function deleteMetadataField(
 function copyCell(state: NotebookModel, action: actionTypes.CopyCell) {
   const id = action.payload.id || state.cellFocused;
 
-  const cell = state.getIn(["notebook", "cellMap", id]);
+  const cell = state.notebook.cellMap.get(id!);
   if (!cell) {
     return state;
   }
@@ -731,7 +725,7 @@ function cutCell(state: NotebookModel, action: actionTypes.CutCell) {
     return state;
   }
 
-  const cell = state.getIn(["notebook", "cellMap", id]);
+  const cell = state.notebook.cellMap.get(id);
 
   if (!cell) {
     return state;
@@ -774,7 +768,7 @@ function changeCellType(
 
   const { to } = action.payload;
 
-  const cell = state.getIn(["notebook", "cellMap", id]);
+  const cell = state.notebook.cellMap.get(id)!;
 
   const from = cell.cell_type;
 
@@ -838,7 +832,7 @@ function toggleOutputExpansion(
     (cells: Immutable.Map<CellId, ImmutableCell>) =>
       cells.setIn(
         [id, "metadata", "outputExpanded"],
-        !cells.getIn([id, "metadata", "outputExpanded"])
+        !cells.get(id)!.metadata.get("outputExpanded")
       )
   );
 }

@@ -17,7 +17,8 @@ import {
   makeDummyContentRecord,
   makeFileContentRecord,
   makeFileModelRecord,
-  makeNotebookContentRecord
+  makeNotebookContentRecord,
+  NotebookModel
 } from "@nteract/types";
 
 import { file } from "./file";
@@ -166,7 +167,7 @@ const byRef = (
                   keyPathsForDisplays: Immutable.Map(),
                   cellMap: Immutable.Map()
                 }),
-                cellFocused: immutableNotebook.getIn(["cellOrder", 0])
+                cellFocused: immutableNotebook.cellOrder.get(0)
               }),
               loading: false,
               saving: false,
@@ -252,13 +253,15 @@ const byRef = (
     case actionTypes.UNHIDE_ALL: {
       const cellAction = action as actionTypes.FocusCell;
       const path = [cellAction.payload.contentRef, "model"];
-      const model = state.getIn(path);
+      const model: NotebookModel = state.get(cellAction.payload.contentRef)!
+        .model as NotebookModel;
       return state.setIn(path, notebook(model, cellAction));
     }
     case actionTypes.UPDATE_FILE_TEXT: {
       const fileAction = action as actionTypes.UpdateFileText;
       const path = [fileAction.payload.contentRef, "model"];
-      const model: ContentModel = state.getIn(path);
+      const model: ContentModel = state.get(fileAction.payload.contentRef)!
+        .model;
       if (model && model.type === "file") {
         return state.setIn(path, file(model, fileAction));
       }
