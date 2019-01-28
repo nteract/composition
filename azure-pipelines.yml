@@ -22,8 +22,8 @@ steps:
 
   - script: |
       yarn
-      yarn install
-      yarn test
+      yarn install --verbose
+      npx jest --silent
     displayName: "yarn install and test"
 
   - task: PublishTestResults@2
