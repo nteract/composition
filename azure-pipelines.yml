@@ -22,8 +22,10 @@ steps:
 
   - script: |
       yarn
+      yarn install
       yarn test
     displayName: "yarn install and test"
+
   - task: PublishTestResults@2
     displayName: "Publish Test Results"
     inputs:
