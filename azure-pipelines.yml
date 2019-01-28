@@ -22,12 +22,4 @@ steps:
 
   - script: |
       yarn
-      yarn install --verbose
-      npx jest --silent
-    displayName: "yarn install and test"
-
-  - task: PublishTestResults@2
-    displayName: "Publish Test Results"
-    inputs:
-      testResultsFiles: "**junit*.xml"
-      testRunTitle: TestRun ${{ parameters.name }} $(node_version)
+      ls node_modules
