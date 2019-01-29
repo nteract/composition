@@ -25,14 +25,13 @@ def load_jupyter_server_extension(nbapp):
     app_dir = here  # bundle is part of the python package
 
     web_app = nbapp.web_app
-    config = NteractConfig(parent=nbapp)
-
+    config = nbapp.config
+    
     # original
-    # config.assets_dir = os.path.join(app_dir, 'static')
-    config.assets_dir = app_dir
+    # config.NteractConfig.assets_dir = os.path.join(app_dir, 'static')
+    config.NteractConfig.assets_dir = app_dir
 
-    config.page_url = '/nteract'
-    config.dev_mode = False
+    config.NteractConfig.page_url = '/nteract'
 
     # Check for core mode.
     core_mode = ''
@@ -42,13 +41,14 @@ def load_jupyter_server_extension(nbapp):
     # Check for an app dir that is local.
     if app_dir == here or app_dir == os.path.join(here, 'build'):
         core_mode = True
-        config.settings_dir = ''
+        config.NteractConfig.settings_dir = ''
 
     web_app.settings.setdefault('page_config_data', dict())
     web_app.settings['page_config_data']['token'] = nbapp.token
-    web_app.settings['page_config_data']['ga_code'] = config.ga_code
-    web_app.settings['page_config_data']['asset_url'] = config.asset_url
+    web_app.settings['page_config_data']['ga_code'] = config.NteractConfig.ga_code
+    web_app.settings['page_config_data']['asset_url'] = config.NteractConfig.asset_url
 
-    web_app.settings['nteract_config'] = config
+    web_app.settings['config'] = config
 
-    add_handlers(web_app, config)
+    # add_handlers(web_app, nbapp.config)
+    add_handlers(web_app)
