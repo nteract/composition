@@ -61,6 +61,15 @@ class NAppHandler(IPythonHandler):
             page_title = '{filename} - nteract'.format(filename=filename)
         else:
             page_title = 'nteract'
+            
+        try:
+            from bookstore.bookstore_config import BookstoreSettings, validate_bookstore
+            bookstore_settings = BookstoreSettings(config=config)
+            bookstore_enabled = validate_bookstore(bookstore_settings)
+
+        except ImportError:
+            print("Bookstore module not installed.")
+            bookstore_enabled = False
 
         config = dict(
             ga_code=config.ga_code,
@@ -72,6 +81,7 @@ class NAppHandler(IPythonHandler):
             public_url=url,
             contents_path=path,
             page=self.page,
+            bookstore_enabled=bookstore_enabled,
         )
         self.write(self.render_template('index.html', **config))
 
