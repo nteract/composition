@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { CellType } from "@nteract/commutable";
 import { actions, selectors } from "@nteract/core";
 import {

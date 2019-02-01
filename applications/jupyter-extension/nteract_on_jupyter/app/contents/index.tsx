@@ -19,7 +19,9 @@ import { ConnectedDirectory } from "./directory";
 import { default as File } from "./file";
 import { ConnectedFileHeader as FileHeader, DirectoryHeader } from "./headers";
 
-import { NotebookMenu } from "@nteract/connected-components";
+import { NotebookMenu as OldNotebookMenu } from "@nteract/connected-components";
+
+import { NotebookMenu } from "./notebook-menu";
 
 interface IContentsProps {
   appBase: string;
@@ -96,7 +98,10 @@ class Contents extends React.PureComponent<
                 saving={saving}
               >
                 {contentType === "notebook" ? (
-                  <NotebookMenu contentRef={this.props.contentRef} />
+                  <>
+                    <OldNotebookMenu contentRef={this.props.contentRef} />
+                    <NotebookMenu contentRef={this.props.contentRef} />
+                  </>
                 ) : null}
               </FileHeader>
               <File contentRef={contentRef} appBase={appBase} />
