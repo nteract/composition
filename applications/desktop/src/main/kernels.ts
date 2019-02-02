@@ -3,7 +3,7 @@ import { JupyterConnectionInfo } from "enchannel-zmq-backend";
 import { readdirObservable, readFileObservable } from "fs-observable";
 import * as jupyterPaths from "jupyter-paths";
 import * as path from "path";
-import { EMPTY, empty, Observable } from "rxjs";
+import { EMPTY, Observable } from "rxjs";
 import {
   catchError,
   filter,
@@ -24,7 +24,7 @@ export function ipyKernelTryObservable(env: { prefix: string; name: string }) {
   }) as Observable<{ source: "stdout" | "stderr"; text: string }>).pipe(
     filter(x => x.source && x.source === "stdout"),
     mapTo(env),
-    catchError(() => empty())
+    catchError(() => EMPTY)
   );
 }
 
