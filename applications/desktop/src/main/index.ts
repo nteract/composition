@@ -27,18 +27,22 @@ import {
   catchError,
   first,
   mergeMap,
+  reduce,
   skipUntil,
-  takeUntil
+  takeUntil,
+  tap
 } from "rxjs/operators";
 
 import {
   QUITTING_STATE_NOT_STARTED,
   QUITTING_STATE_QUITTING,
   setKernelSpecs,
-  setQuittingState
+  setQuittingState,
+  setRunningKernels
 } from "./actions";
 import { initAutoUpdater } from "./auto-updater";
 import initializeKernelSpecs from "./kernel-specs";
+import { runningKernelsObservable } from "./kernels";
 import { launch, launchNewNotebook } from "./launch";
 import { loadFullMenu, loadTrayMenu } from "./menu";
 import prepareEnv from "./prepare-env";
@@ -51,16 +55,40 @@ const store = configureStore();
 (global as any).store = store;
 
 const argv = yargs()
-  .version((() => require("./../../package.json").version)())
-  .usage("Usage: nteract <notebooks> [options]")
-  .example("nteract notebook1.ipynb notebook2.ipynb", "Open notebooks")
-  .example("nteract --kernel javascript", "Launch a kernel")
-  .describe("kernel", "Launch a kernel")
-  .default("kernel", "python3")
-  .alias("k", "kernel")
-  .alias("v", "version")
-  .alias("h", "help")
-  .describe("verbose", "Display debug information")
+  .usage(
+    "Usage: nteract <notebooks> [options]"
+  )
+  .options({
+    existing: {
+      desc:     "Connect to an existing kernel",
+    },
+    help:     {
+      alias:    "h",
+      desc:     "Display usage and exit",
+    },
+    kernel:   {
+      alias:    "k",
+      default:  "python3",
+      desc:     "Launch a kernel",
+    },
+    verbose:  {
+      desc:     "Display debug information",
+    },
+    version:  {
+      alias:    "v",
+      desc:     "Display version and exit",
+    },
+  })
+  .example(
+    "nteract notebook1.ipynb notebook2.ipynb", "Open notebooks"
+  )
+  .example(
+    "nteract --kernel javascript", "Launch a kernel"
+  )
+  .example(
+    "nteract --existing kernel-1234.json", "Connect to an existing kernel"
+  )
+  .version("version", (() => require("./../../package.json").version)())
   .help("help")
   .parse(process.argv.slice(1));
 
@@ -110,20 +138,27 @@ const prepJupyterObservable = prepareEnv.pipe(
       mkdirpObservable(jupyterConfigDir)
     )
   ),
-  // Set up our configuration file
   mergeMap(() =>
-    readFileObservable(nteractConfigFilename).pipe(
-      catchError(err => {
-        if (err.code === "ENOENT") {
-          return writeFileObservable(
-            nteractConfigFilename,
-            JSON.stringify({
-              theme: "light"
-            })
-          );
-        }
-        throw err;
-      })
+    forkJoin(
+      // Set up our configuration file
+      readFileObservable(nteractConfigFilename).pipe(
+        catchError(err => {
+          if (err.code === "ENOENT") {
+            return writeFileObservable(
+              nteractConfigFilename,
+              JSON.stringify({
+                theme: "light"
+              })
+            );
+          }
+          throw err;
+        })
+      ),
+      // Fetch the running kernels
+      runningKernelsObservable().pipe(
+        reduce((acc, value) => [...acc, value], []),
+        tap(x => store.dispatch(setRunningKernels(x))),
+      ),
     )
   )
 );

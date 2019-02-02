@@ -192,7 +192,8 @@ export function loadFullMenu(store = global.store) {
   // NOTE for those looking for selectors -- this state is not the same as the
   //      "core" state -- it's a main process side model in the electron app
   const state = store.getState();
-  const kernelSpecs = state.get("kernelSpecs") ? state.get("kernelSpecs") : {};
+  const kernelSpecs = state.get("kernelSpecs");
+  const runningKernels = state.get("runningKernels");
 
   function generateSubMenu(kernel: KernelspecInfo) {
     return {
@@ -578,7 +579,17 @@ export function loadFullMenu(store = global.store) {
         type: "separator"
       },
       // All the available kernels
-      ...kernelMenuItems
+      ...kernelMenuItems,
+      {
+        type: "separator"
+      },
+      ...sortBy(
+        runningKernels.map(x => ({   // TODO Really needs a better label
+            label: `${x.ip}:${x.control_port}`,
+            click: createSender("menu:connect-to-kernel", x)
+        })),
+        "label"
+      ),
     ]
   };
 

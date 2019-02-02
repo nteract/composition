@@ -1,4 +1,5 @@
 import { Kernelspecs } from "@nteract/types";
+import { JupyterConnectionInfo } from "enchannel-zmq-backend";
 
 export type QuittingState =
   | "Not Started" // Not currently orchestrating a quit
@@ -18,6 +19,22 @@ export function setKernelSpecs(kernelSpecs: Kernelspecs): SetKernelSpecsAction {
     type: "SET_KERNELSPECS",
     payload: {
       kernelSpecs
+    }
+  };
+}
+
+export interface SetRunningKernelsAction {
+  type: "SET_RUNNINGKERNELS";
+  payload: {
+    runningKernels: JupyterConnectionInfo[];
+  };
+}
+
+export function setRunningKernels(runningKernels: JupyterConnectionInfo[]): SetRunningKernelsAction {
+  return {
+    type: "SET_RUNNINGKERNELS",
+    payload: {
+      runningKernels
     }
   };
 }
