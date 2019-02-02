@@ -1,6 +1,9 @@
 import { KernelspecInfo } from "@nteract/core";
+import { JupyterConnectionInfo } from "enchannel-zmq-backend";
+import { readdirObservable, readFileObservable } from "fs-observable";
+import * as jupyterPaths from "jupyter-paths";
 import * as path from "path";
-import { empty, Observable } from "rxjs";
+import { EMPTY, empty, Observable } from "rxjs";
 import {
   catchError,
   filter,
@@ -137,5 +140,25 @@ export function createKernelSpecsFromEnvs(
 export function condaKernelsObservable() {
   return condaEnvsObservable(condaInfoObservable()).pipe(
     map(createKernelSpecsFromEnvs)
+  );
+}
+
+/**
+ * runningKernelsObservable generates an observable containing the connection
+ * info for all kernels found in the jupyter runtime dir.
+ */
+export function runningKernelsObservable(): Observable<JupyterConnectionInfo> {
+  return (
+    readdirObservable(jupyterPaths.runtimeDir()) as
+      Observable<string[]> // FIXME ts should infer this
+  ).pipe(
+    mergeAll(),
+    map(x => path.join(jupyterPaths.runtimeDir(), x)),
+    map(x => readFileObservable(x).pipe(
+      catchError(() => EMPTY)
+    )),
+    mergeAll(),
+    map(x => x.toString()),
+    map(x => JSON.parse(x))
   );
 }
