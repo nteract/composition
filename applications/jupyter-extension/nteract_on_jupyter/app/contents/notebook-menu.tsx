@@ -11,7 +11,8 @@ import {
   MenuDivider,
   MenuItem,
   Popover,
-  Position
+  Position,
+  PopoverInteractionKind
 } from "@blueprintjs/core";
 import { AppState, ContentRef } from "@nteract/core";
 import { Dispatch } from "redux";
@@ -32,7 +33,12 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
   render() {
     return (
       <ButtonGroup minimal>
-        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+        <Popover
+          position={Position.BOTTOM_LEFT}
+          minimal
+          usePortal
+          interactionKind={PopoverInteractionKind.HOVER}
+        >
           <Button text={"File"} minimal />
           <Menu>
             <MenuItem
@@ -61,7 +67,39 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
               icon="cut"
               onClick={this.props.triggers.edit.cut}
             />
+            <MenuItem
+              text="Copy Cell"
+              icon="clipboard"
+              onClick={this.props.triggers.edit.copy}
+            />
+            <MenuItem
+              text="Paste Cell Below"
+              icon="clipboard"
+              onClick={this.props.triggers.edit.paste}
+            />
+            <MenuDivider />
+            <MenuItem
+              text="Cell Type"
+              icon="code-block"
+              onClick={this.props.triggers.edit.paste}
+            />
           </Menu>
+        </Popover>
+        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+          <Button text={"View"} />
+          <Menu />
+        </Popover>
+        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+          <Button text={"Cell"} />
+          <Menu />
+        </Popover>
+        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+          <Button text={"Runtime"} />
+          <Menu />
+        </Popover>
+        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+          <Button text={"Help"} />
+          <Menu />
         </Popover>
       </ButtonGroup>
     );
