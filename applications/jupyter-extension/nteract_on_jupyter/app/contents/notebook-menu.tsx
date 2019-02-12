@@ -67,7 +67,7 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
         <Popover
           position={Position.BOTTOM_LEFT}
           minimal
-          interactionKind={PopoverInteractionKind.HOVER}
+          // interactionKind={PopoverInteractionKind.HOVER}
         >
           <Button text={"File"} minimal />
           <Menu>
@@ -147,15 +147,28 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
         <Popover
           position={Position.BOTTOM_LEFT}
           minimal
-          interactionKind={PopoverInteractionKind.HOVER}
+          // interactionKind={PopoverInteractionKind.HOVER}
         >
           <Button text={"Cell"} />
-          <Menu />
+          <Menu>
+            <MenuItem text="New Cell" icon="code-block">
+              <MenuItem
+                text="Code"
+                icon="code"
+                onClick={this.props.triggers.cell.newCell.code}
+              />
+              <MenuItem
+                text="Markdown"
+                icon="new-text-box"
+                onClick={this.props.triggers.cell.newCell.markdown}
+              />
+            </MenuItem>
+          </Menu>
         </Popover>
         <Popover
           position={Position.BOTTOM_LEFT}
           minimal
-          interactionKind={PopoverInteractionKind.HOVER}
+          // interactionKind={PopoverInteractionKind.HOVER}
         >
           <Button text={"Runtime"} />
           <Menu />
@@ -163,7 +176,7 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
         <Popover
           position={Position.BOTTOM_LEFT}
           minimal
-          interactionKind={PopoverInteractionKind.HOVER}
+          // interactionKind={PopoverInteractionKind.HOVER}
         >
           <Button text={"Help"} />
           <Menu />
