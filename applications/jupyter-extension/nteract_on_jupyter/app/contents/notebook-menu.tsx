@@ -59,7 +59,12 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             />
           </Menu>
         </Popover>
-        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+        <Popover
+          position={Position.BOTTOM_LEFT}
+          minimal
+          usePortal
+          interactionKind={PopoverInteractionKind.HOVER}
+        >
           <Button text={"Edit"} />
           <Menu>
             <MenuItem
@@ -85,19 +90,39 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             />
           </Menu>
         </Popover>
-        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+        <Popover
+          position={Position.BOTTOM_LEFT}
+          minimal
+          usePortal
+          interactionKind={PopoverInteractionKind.HOVER}
+        >
           <Button text={"View"} />
           <Menu />
         </Popover>
-        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+        <Popover
+          position={Position.BOTTOM_LEFT}
+          minimal
+          usePortal
+          interactionKind={PopoverInteractionKind.HOVER}
+        >
           <Button text={"Cell"} />
           <Menu />
         </Popover>
-        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+        <Popover
+          position={Position.BOTTOM_LEFT}
+          minimal
+          usePortal
+          interactionKind={PopoverInteractionKind.HOVER}
+        >
           <Button text={"Runtime"} />
           <Menu />
         </Popover>
-        <Popover position={Position.BOTTOM_LEFT} minimal usePortal>
+        <Popover
+          position={Position.BOTTOM_LEFT}
+          minimal
+          usePortal
+          interactionKind={PopoverInteractionKind.HOVER}
+        >
           <Button text={"Help"} />
           <Menu />
         </Popover>
