@@ -21,6 +21,17 @@ import { connect } from "react-redux";
 
 type MenuEntry = () => void | { [item: string]: MenuEntry };
 
+const popoverProps = {
+  position: Position.BOTTOM_LEFT,
+  minimal: true,
+  interactionKind: PopoverInteractionKind.HOVER,
+  autofocus: false
+};
+
+const submenuPopoverProps = Object.assign({}, popoverProps, {
+  position: Position.RIGHT
+});
+
 interface Props {
   // Since we create the mapDispatchToProps only once (? should verify this)
   // We can make a grab bag of actions nested by menu name
@@ -64,11 +75,7 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
   render() {
     return (
       <ButtonGroup minimal>
-        <Popover
-          position={Position.BOTTOM_LEFT}
-          minimal
-          // interactionKind={PopoverInteractionKind.HOVER}
-        >
+        <Popover {...popoverProps}>
           <Button text={"File"} minimal />
           <Menu>
             <MenuItem
@@ -89,12 +96,7 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             />
           </Menu>
         </Popover>
-        <Popover
-          position={Position.BOTTOM_LEFT}
-          minimal
-
-          // interactionKind={PopoverInteractionKind.HOVER}
-        >
+        <Popover {...popoverProps}>
           <Button text={"Edit"} />
           <Menu>
             <MenuItem
@@ -113,7 +115,11 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
               onClick={this.props.triggers.edit.pasteCell}
             />
             <MenuDivider />
-            <MenuItem text="Cell Type" icon="code-block">
+            <MenuItem
+              text="Cell Type"
+              icon="code-block"
+              popoverProps={submenuPopoverProps}
+            >
               <MenuItem
                 text="Code"
                 icon="code"
@@ -127,10 +133,14 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             </MenuItem>
           </Menu>
         </Popover>
-        <Popover position={Position.BOTTOM_LEFT} minimal>
+        <Popover {...popoverProps}>
           <Button text={"View"} />
           <Menu>
-            <MenuItem text="Themes" icon="cog">
+            <MenuItem
+              text="Themes"
+              icon="cog"
+              popoverProps={submenuPopoverProps}
+            >
               <MenuItem
                 text="light"
                 icon="flash"
@@ -144,14 +154,14 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             </MenuItem>
           </Menu>
         </Popover>
-        <Popover
-          position={Position.BOTTOM_LEFT}
-          minimal
-          // interactionKind={PopoverInteractionKind.HOVER}
-        >
+        <Popover {...popoverProps}>
           <Button text={"Cell"} />
           <Menu>
-            <MenuItem text="New Cell" icon="code-block">
+            <MenuItem
+              text="New Cell"
+              icon="code-block"
+              popoverProps={submenuPopoverProps}
+            >
               <MenuItem
                 text="Code"
                 icon="code"
@@ -165,19 +175,11 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             </MenuItem>
           </Menu>
         </Popover>
-        <Popover
-          position={Position.BOTTOM_LEFT}
-          minimal
-          // interactionKind={PopoverInteractionKind.HOVER}
-        >
+        <Popover {...popoverProps}>
           <Button text={"Runtime"} />
           <Menu />
         </Popover>
-        <Popover
-          position={Position.BOTTOM_LEFT}
-          minimal
-          // interactionKind={PopoverInteractionKind.HOVER}
-        >
+        <Popover {...popoverProps}>
           <Button text={"Help"} />
           <Menu />
         </Popover>
