@@ -163,15 +163,15 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
           </Menu>
         </Popover> */}
         <Popover {...popoverProps}>
-          <Button text={"Cell"} />
+          <Button text={"Insert"} />
           <Menu>
             <MenuItem
-              text="New Code Cell"
+              text="Code Cell"
               icon="code"
               onClick={this.props.triggers.cell.newCell.code}
             />
             <MenuItem
-              text="New Markdown Cell"
+              text="Markdown Cell"
               icon="new-text-box"
               onClick={this.props.triggers.cell.newCell.markdown}
             />
