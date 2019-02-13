@@ -28,8 +28,13 @@ const popoverProps = {
   autofocus: false
 };
 
+/**
+ * Written to be a workaround for submenu bugs
+ * xref: https://github.com/palantir/blueprint/issues/3352
+ */
 const submenuPopoverProps = Object.assign({}, popoverProps, {
-  position: Position.RIGHT
+  position: Position.RIGHT,
+  autofocus: false
 });
 
 interface Props {
@@ -116,23 +121,26 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             />
             <MenuDivider />
             <MenuItem
-              text="Cell Type"
-              icon="code-block"
-              popoverProps={submenuPopoverProps}
-            >
-              <MenuItem
-                text="Code"
-                icon="code"
-                onClick={this.props.triggers.edit.cellType.code}
-              />
-              <MenuItem
-                text="Markdown"
-                icon="new-text-box"
-                onClick={this.props.triggers.edit.cellType.code}
-              />
-            </MenuItem>
+              text="Change Focused Cell to Code"
+              icon="code"
+              onClick={this.props.triggers.edit.cellType.code}
+            />
+            <MenuItem
+              text="Change Focused Cell to Markdown"
+              icon="new-text-box"
+              onClick={this.props.triggers.edit.cellType.markdown}
+            />
           </Menu>
         </Popover>
+        {/*
+          Until we have implemented themes to match up with blueprint, we
+          need to stick with only the light theme. As a result, we won't have a
+          "View" menu.
+
+          To implement dark mode for a blueprint app, specify `bp3-dark` as a
+          className on the top most component.
+        */}
+        {/*
         <Popover {...popoverProps}>
           <Button text={"View"} />
           <Menu>
@@ -153,26 +161,20 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
               />
             </MenuItem>
           </Menu>
-        </Popover>
+        </Popover> */}
         <Popover {...popoverProps}>
           <Button text={"Cell"} />
           <Menu>
             <MenuItem
-              text="New Cell"
-              icon="code-block"
-              popoverProps={submenuPopoverProps}
-            >
-              <MenuItem
-                text="Code"
-                icon="code"
-                onClick={this.props.triggers.cell.newCell.code}
-              />
-              <MenuItem
-                text="Markdown"
-                icon="new-text-box"
-                onClick={this.props.triggers.cell.newCell.markdown}
-              />
-            </MenuItem>
+              text="New Code Cell"
+              icon="code"
+              onClick={this.props.triggers.cell.newCell.code}
+            />
+            <MenuItem
+              text="New Markdown Cell"
+              icon="new-text-box"
+              onClick={this.props.triggers.cell.newCell.markdown}
+            />
           </Menu>
         </Popover>
         <Popover {...popoverProps}>
@@ -223,6 +225,7 @@ function makeMapDispatchToProps(
           },
           cellType: {
             markdown: () => {
+              console.log("change to markdown");
               dispatch(actions.changeCellType({ to: "markdown", contentRef }));
             },
             code: () => {
@@ -233,7 +236,6 @@ function makeMapDispatchToProps(
         view: {
           themes: {
             dark: () => {
-              console.log("go dark");
               dispatch(actions.setTheme("dark"));
             },
             light: () => {
