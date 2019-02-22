@@ -22,10 +22,10 @@ import { connect } from "react-redux";
 type MenuEntry = () => void | { [item: string]: MenuEntry };
 
 const popoverProps = {
-  position: Position.BOTTOM_LEFT,
-  minimal: true,
-  interactionKind: PopoverInteractionKind.HOVER,
-  autofocus: false
+  position: Position.BOTTOM_LEFT
+  // minimal: true,
+  // interactionKind: PopoverInteractionKind.HOVER,
+  // autofocus: false
 };
 
 /**
@@ -79,59 +79,53 @@ interface Props {
 export class PureNotebookMenu extends React.PureComponent<Props> {
   render() {
     return (
-      <ButtonGroup minimal>
-        <Popover {...popoverProps}>
-          <Button text={"File"} minimal />
-          <Menu>
-            <MenuItem
-              text="Open..."
-              icon="folder-shared"
-              onClick={this.props.triggers.file.open}
-            />
-            <MenuDivider />
-            <MenuItem
-              text="Save"
-              icon="floppy-disk"
-              onClick={this.props.triggers.file.save}
-            />
-            <MenuItem
-              text="Download (.ipynb)"
-              icon="cloud-download"
-              onClick={this.props.triggers.file.download}
-            />
-          </Menu>
-        </Popover>
-        <Popover {...popoverProps}>
-          <Button text={"Edit"} />
-          <Menu>
-            <MenuItem
-              text="Cut Cell"
-              icon="cut"
-              onClick={this.props.triggers.edit.cutCell}
-            />
-            <MenuItem
-              text="Copy Cell"
-              icon="clipboard"
-              onClick={this.props.triggers.edit.copyCell}
-            />
-            <MenuItem
-              text="Paste Cell Below"
-              icon="clipboard"
-              onClick={this.props.triggers.edit.pasteCell}
-            />
-            <MenuDivider />
-            <MenuItem
-              text="Change Focused Cell to Code"
-              icon="code"
-              onClick={this.props.triggers.edit.cellType.code}
-            />
-            <MenuItem
-              text="Change Focused Cell to Markdown"
-              icon="new-text-box"
-              onClick={this.props.triggers.edit.cellType.markdown}
-            />
-          </Menu>
-        </Popover>
+      <Menu className="bp3-button-group">
+        <MenuItem text={"File"} popoverProps={popoverProps}>
+          <MenuItem
+            text="Open..."
+            icon="folder-shared"
+            onClick={this.props.triggers.file.open}
+          />
+          <MenuDivider />
+          <MenuItem
+            text="Save"
+            icon="floppy-disk"
+            onClick={this.props.triggers.file.save}
+          />
+          <MenuItem
+            text="Download (.ipynb)"
+            icon="cloud-download"
+            onClick={this.props.triggers.file.download}
+          />
+        </MenuItem>
+        <MenuItem text={"Edit"} popoverProps={popoverProps}>
+          <MenuItem
+            text="Cut Cell"
+            icon="cut"
+            onClick={this.props.triggers.edit.cutCell}
+          />
+          <MenuItem
+            text="Copy Cell"
+            icon="clipboard"
+            onClick={this.props.triggers.edit.copyCell}
+          />
+          <MenuItem
+            text="Paste Cell Below"
+            icon="clipboard"
+            onClick={this.props.triggers.edit.pasteCell}
+          />
+          <MenuDivider />
+          <MenuItem
+            text="Change Focused Cell to Code"
+            icon="code"
+            onClick={this.props.triggers.edit.cellType.code}
+          />
+          <MenuItem
+            text="Change Focused Cell to Markdown"
+            icon="new-text-box"
+            onClick={this.props.triggers.edit.cellType.markdown}
+          />
+        </MenuItem>
         {/*
           Until we have implemented themes to match up with blueprint, we
           need to stick with only the light theme. As a result, we won't have a
@@ -162,30 +156,21 @@ export class PureNotebookMenu extends React.PureComponent<Props> {
             </MenuItem>
           </Menu>
         </Popover> */}
-        <Popover {...popoverProps}>
-          <Button text={"Insert"} />
-          <Menu>
-            <MenuItem
-              text="Code Cell"
-              icon="code"
-              onClick={this.props.triggers.cell.newCell.code}
-            />
-            <MenuItem
-              text="Markdown Cell"
-              icon="new-text-box"
-              onClick={this.props.triggers.cell.newCell.markdown}
-            />
-          </Menu>
-        </Popover>
-        <Popover {...popoverProps}>
-          <Button text={"Runtime"} />
-          <Menu />
-        </Popover>
-        <Popover {...popoverProps}>
-          <Button text={"Help"} />
-          <Menu />
-        </Popover>
-      </ButtonGroup>
+        <MenuItem text={"Insert"} popoverProps={popoverProps}>
+          <MenuItem
+            text="Code Cell"
+            icon="code"
+            onClick={this.props.triggers.cell.newCell.code}
+          />
+          <MenuItem
+            text="Markdown Cell"
+            icon="new-text-box"
+            onClick={this.props.triggers.cell.newCell.markdown}
+          />
+        </MenuItem>
+        <MenuItem text={"Runtime"} popoverProps={popoverProps} />
+        <MenuItem text={"Help"} popoverProps={popoverProps} />
+      </Menu>
     );
   }
 }
