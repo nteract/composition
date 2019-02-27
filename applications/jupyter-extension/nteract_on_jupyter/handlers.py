@@ -19,6 +19,14 @@ from . import PACKAGE_DIR
 FILE_LOADER = FileSystemLoader(PACKAGE_DIR)
 
 
+from tornado.httpclient import AsyncHTTPClient
+
+
+BOOKSTORE_VALIDATION_CONFIG = "bookstore_validation"
+
+cache = {}
+
+
 class NAppHandler(IPythonHandler):
     """Render the nteract view"""
 
@@ -27,7 +35,7 @@ class NAppHandler(IPythonHandler):
         self.page = page
 
     @web.authenticated
-    def get(self, path="/"):
+    async def get(self, path="/"):
         config = self.nteract_config
         settings_dir = config.settings_dir
         assets_dir = config.assets_dir
@@ -58,6 +66,33 @@ class NAppHandler(IPythonHandler):
         else:
             page_title = 'nteract'
 
+        # Since we can't reliably check to see if bookstore is enabled within the settings we can access,
+        # we check now
+
+        if BOOKSTORE_VALIDATION_CONFIG in cache:
+            # Place the bookstore validation in our config for the page template
+            pass
+        else:
+            # TODO: Check to see if it's already enabled within the config we do have available
+            http_client = AsyncHTTPClient()
+            try:
+                bookstoreAPIUrl = ujoin(
+                    page_config['connection_url'], self.settings.get('base_url'), '/api/bookstore'
+                )
+                headers = {'Authorization': "token {token}".format(token=page_config['token'])}
+
+                response = await http_client.fetch(bookstoreAPIUrl, headers=headers)
+                payload = json.loads(response.body)
+
+                bookstore_config = dict()
+                bookstore_config.update(payload)
+                bookstore_config.setdefault('valid', True)
+
+                cache[BOOKSTORE_VALIDATION_CONFIG] = bookstore_config
+            except Exception as e:
+                # Assume bookstore is not available
+                cache[BOOKSTORE_VALIDATION_CONFIG] = {"valid": False}
+
         config = dict(
             ga_code=config.ga_code,
             asset_url=asset_url,
@@ -68,6 +103,7 @@ class NAppHandler(IPythonHandler):
             public_url=url,
             contents_path=path,
             page=self.page,
+            bookstore=bookstore_config,
         )
         self.write(self.render_template('index.html', **config))
 
@@ -78,6 +114,7 @@ class NAppHandler(IPythonHandler):
 def add_handlers(web_app, config):
     """Add the appropriate handlers to the web app.
     """
+
     base_url = web_app.settings['base_url']
     url = ujoin(base_url, config.page_url)
     assets_dir = config.assets_dir

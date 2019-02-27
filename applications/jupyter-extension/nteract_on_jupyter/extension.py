@@ -44,6 +44,7 @@ def load_jupyter_server_extension(nbapp):
         config.settings_dir = ''
 
     web_app.settings.setdefault('page_config_data', dict())
+    web_app.settings['page_config_data']['connection_url'] = nbapp.connection_url
     web_app.settings['page_config_data']['token'] = nbapp.token
     web_app.settings['page_config_data']['ga_code'] = config.ga_code
     web_app.settings['page_config_data']['asset_url'] = config.asset_url
