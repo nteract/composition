@@ -14,7 +14,7 @@
   "dependencies": {
     "@nteract/vega-embed-v2": "^1.1.0",
     "lodash": "^4.17.4",
-    "vega-embed": "3.29.1",
+    "vega-embed": "4.0.0",
     "vega-tooltip": "^0.15.0"
   },
   "peerDependencies": {
