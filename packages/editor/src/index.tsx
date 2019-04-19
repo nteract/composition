@@ -1,5 +1,5 @@
 import { Channels } from "@nteract/messaging";
-import { Media, RichMedia } from "@nteract/outputs";
+
 import CodeMirror, {
   Doc,
   Editor,
@@ -17,7 +17,6 @@ import {
 
 import { debounce } from "lodash";
 import * as React from "react";
-import ReactDOM from "react-dom";
 import {
   empty,
   fromEvent,
@@ -42,31 +41,12 @@ import { codeComplete, pick } from "./jupyter/complete";
 import { tool } from "./jupyter/tooltip";
 
 import { InitialTextArea } from "./components/initial-text-area";
+import { ToolTip } from "./components/tooltip";
 
 import CodeMirrorCSS from "./vendored/codemirror";
 import ShowHintCSS from "./vendored/show-hint";
 
 export { CodeMirrorCSS, ShowHintCSS };
-
-import styled, { StyledComponent } from "styled-components";
-
-const TipButton: StyledComponent<"button", never> = styled.button`
-  float: right;
-  display: inline-block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  font-size: 11.5px;
-`;
-
-const Tip: StyledComponent<"div", never> = styled.div`
-  padding: 20px 20px 50px 20px;
-  margin: 30px 20px 50px 20px;
-  box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.2);
-  white-space: pre-wrap;
-  background-color: var(--theme-app-bg);
-  z-index: 9999999;
-`;
 
 function normalizeLineEndings(str: string): string {
   if (!str) {
@@ -101,7 +81,8 @@ export type CodeMirrorEditorProps = {
 
 interface CodeMirrorEditorState {
   isFocused: boolean;
-  tipElement?: any;
+
+  toolTipBundle: any;
 }
 
 interface CodeCompletionEvent {
@@ -138,6 +119,7 @@ export default class CodeMirrorEditor extends React.PureComponent<
   completionSubject!: Subject<CodeCompletionEvent>;
   completionEventsSubscriber!: Subscription;
   debounceNextCompletionRequest: boolean;
+  toolTipRef = React.createRef<HTMLDivElement>();
 
   textareaRef: React.RefObject<HTMLTextAreaElement> = React.createRef<
     HTMLTextAreaElement
@@ -148,9 +130,8 @@ export default class CodeMirrorEditor extends React.PureComponent<
     this.hint = this.hint.bind(this);
     (this.hint as any).async = true;
     this.tips = this.tips.bind(this);
-    this.deleteTip = this.deleteTip.bind(this);
     this.debounceNextCompletionRequest = true;
-    this.state = { isFocused: true, tipElement: null };
+    this.state = { isFocused: true, toolTipBundle: null };
 
     this.fullOptions = this.fullOptions.bind(this);
     this.cleanMode = this.cleanMode.bind(this);
@@ -438,9 +419,9 @@ export default class CodeMirrorEditor extends React.PureComponent<
     }
   }
 
-  deleteTip(): void {
-    this.setState({ tipElement: null });
-  }
+  deleteTip = () => {
+    this.setState({ toolTipBundle: null });
+  };
 
   tips(editor: Editor & Doc): void {
     const { tip, channels } = this.props;
@@ -452,32 +433,7 @@ export default class CodeMirrorEditor extends React.PureComponent<
         if (Object.keys(bundle).length === 0) {
           return;
         }
-
-        const node: HTMLElement = document.getElementsByClassName(
-          "tip-holder"
-        )[0] as HTMLElement;
-
-        const expanded: { expanded: boolean } = { expanded: true };
-        const tipElement: React.ReactPortal = ReactDOM.createPortal(
-          <Tip className="CodeMirror-hint">
-            <RichMedia data={bundle} metadata={{ expanded }}>
-              <Media.Plain />
-            </RichMedia>
-            <TipButton onClick={this.deleteTip}>{"\u2715"}</TipButton>
-          </Tip>,
-          node
-        );
-
-        this.setState({ tipElement });
-
-        editor.addWidget({ line: editor.getCursor().line, ch: 0 }, node, true);
-
-        const body: HTMLElement = document.body;
-        if (node != null && body != null) {
-          const pos: ClientRect | DOMRect = node.getBoundingClientRect();
-          body.appendChild(node);
-          node.style.top = `${pos.top}px`;
-        }
+        this.setState({ toolTipBundle: bundle });
       });
     }
   }
@@ -523,17 +479,25 @@ export default class CodeMirrorEditor extends React.PureComponent<
   }
 
   render(): JSX.Element {
+    const { toolTipBundle } = this.state;
     return (
       <React.Fragment>
         {/* Global CodeMirror CSS packaged up by styled-components */}
 
-        <div className="tip-holder" />
+        <div className="tip-holder" ref={this.toolTipRef} />
         <InitialTextArea
           ref={this.textareaRef}
           defaultValue={this.props.value}
         />
         {/* CodeMirror will inject a div right below the TextArea above */}
-        {this.state.tipElement}
+        {toolTipBundle ? (
+          <ToolTip
+            editor={this.cm}
+            bundle={toolTipBundle}
+            toolTipRef={this.toolTipRef}
+            deleteTip={this.deleteTip}
+          />
+        ) : null}
       </React.Fragment>
     );
   }
