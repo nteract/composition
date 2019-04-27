@@ -53,13 +53,25 @@ export class ToolTip extends React.PureComponent<ToolTipProps, ToolTipState> {
     this.mountToolTip();
   };
 
+  handleKeydown = (event: React.KeyboardEvent) => {
+    const key = event.key;
+    if (key === "Escape" || key === ",") {
+      this.props.editor.focus();
+      this.props.deleteTip();
+    }
+  };
+
   render() {
     const expanded: { expanded: boolean } = { expanded: true };
     const { bundle, toolTipRef, deleteTip } = this.props;
     const tipElement = toolTipRef.current;
     return tipElement && bundle
       ? ReactDOM.createPortal(
-          <Tip className="CodeMirror-hint">
+          <Tip
+            className="CodeMirror-hint"
+            onKeyDown={this.handleKeydown}
+            tabIndex={0}
+          >
             <RichMedia data={bundle} metadata={{ expanded }}>
               <Media.Plain />
             </RichMedia>
