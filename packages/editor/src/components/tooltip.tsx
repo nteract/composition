@@ -13,6 +13,7 @@ const TipButton: StyledComponent<"button", never> = styled.button`
 `;
 
 const Tip: StyledComponent<"div", never> = styled.div`
+  position: absolute;
   padding: 20px 20px 50px 20px;
   margin: 30px 20px 50px 20px;
   box-shadow: 2px 2px 50px rgba(0, 0, 0, 0.2);
