@@ -425,8 +425,11 @@ export default class CodeMirrorEditor extends React.PureComponent<
 
   tips(editor: Editor & Doc): void {
     const { tip, channels } = this.props;
-
-    if (tip) {
+    const { toolTipBundle } = this.state;
+    if (!tip) {
+      return;
+    }
+    if (!toolTipBundle) {
       tool(channels!, editor).subscribe((resp: { [dict: string]: any }) => {
         const bundle = resp.dict;
 
@@ -435,6 +438,8 @@ export default class CodeMirrorEditor extends React.PureComponent<
         }
         this.setState({ toolTipBundle: bundle });
       });
+    } else {
+      this.deleteTip();
     }
   }
 
