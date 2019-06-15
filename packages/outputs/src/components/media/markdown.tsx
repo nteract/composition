@@ -20,7 +20,8 @@ export class Markdown extends React.PureComponent<Props> {
   };
 
   render() {
-    return <MarkdownComponent source={this.props.data} />;
+    const { data, mediaType, ...other } = this.props;
+    return <MarkdownComponent source={data} {...other} />;
   }
 }
 
