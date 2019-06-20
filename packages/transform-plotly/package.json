@@ -12,7 +12,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/plotly": "^1.0.0",
+    "plotly.js-dist": "^1.48.3",
     "lodash": "^4.17.4"
   },
   "peerDependencies": {
