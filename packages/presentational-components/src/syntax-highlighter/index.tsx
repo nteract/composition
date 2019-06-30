@@ -3,7 +3,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   vs as lightTheme,
   xonokai as darkTheme
-} from "react-syntax-highlighter/styles/prism";
+} from "react-syntax-highlighter/dist/styles/prism";
 
 // import syntax from "./theme";
 
