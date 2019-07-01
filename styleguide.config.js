@@ -61,6 +61,10 @@ module.exports = {
     {
       name: "@nteract/mathjax",
       content: "packages/mathjax/examples.md"
+    },
+    {
+      name: "@nteract/monaco-editor",
+      content: "packages/monaco-editor/src/monaco.md"
     }
   ],
   // For overriding the components styleguidist uses
@@ -96,11 +100,17 @@ module.exports = {
       canvas: "empty"
     },
     resolve: {
-      extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
+      extensions: [".ts", ".tsx", ".js", ".jsx", ".json", ".css"]
     },
     externals: ["canvas"],
     module: {
       rules: [
+        
+        // Add support for CSS
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader']
+        },
         {
           test: /\.tsx?$/,
           loader: "ts-loader",
@@ -114,6 +124,7 @@ module.exports = {
             transpileOnly: true
           }
         }
+
       ]
     }
   }
