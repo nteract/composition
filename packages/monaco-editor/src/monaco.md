@@ -1,24 +1,30 @@
 
 The Monaco Editor component facilitates the use of the Monaco Editor within code cells. 
-The Monaco Editor provides a more robust editing experience though rich intellisense and
-validation. It is popularized by it's use in the popular code editor, Visual Studio Code. 
+The Monaco Editor provides a robust editing experience though rich intellisense and
+validation. It is popularized by its use in Visual Studio Code. 
 
-```js
-   monaco.editor.create(document.getElementById("container"), {
-	value: "function hello() {\n\talert('Hello world!');\n}",
-	language: "javascript"
-});
-```
-
-The monaco editor includes type colorization:
+The Monaco Editor includes syntax highlighting:
 ```javascript
     const MonacoEditor = require(".");
     console.log(MonacoEditor);
     console.log(MonacoEditor.default);
     <MonacoEditor.default
       theme="vscode"
-      value="function hello() {\n\tlet x = 10;\n\tvar y = 'word';\n\talert('Hello world!');\n}"
+      value="function hello() {\n\tlet x = 10;\n\tlet y = 'world';\n\talert('Hello World');\n}"
       language="javascript"
+    />
+    
+```
+It also works across languages.
+
+```javascript
+    const MonacoEditor = require(".");
+    console.log(MonacoEditor);
+    console.log(MonacoEditor.default);
+    <MonacoEditor.default
+      theme="vscode"
+      value={"print('This is python.')\nx = 2\ny = 3\nif x == 2:\n\tprint('3')\nelse:\n\tprint('2')"}
+      language="python"
     />
     
 ```

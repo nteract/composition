@@ -2,10 +2,11 @@ import { debounce } from "lodash";
 import { editor } from "monaco-editor";
 import * as React from "react";
 import styled from "styled-components";
+import language from "react-syntax-highlighter/languages/prism/makefile";
 
 export interface MonacoEditorProps {
   theme: string;
-  mode?: string;
+  language?: string;
   onChange: (value: string) => void;
   value: string;
   editorFocused: boolean;
@@ -23,8 +24,7 @@ export default class MonacoEditor extends React.Component<MonacoEditorProps> {
   static defaultProps = {
     onChange: () => {},
     editorFocused: false,
-   
-    mode: "text/plain"
+    language: "plaintext"
   };
 
   monaco?: editor.IStandaloneCodeEditor;
@@ -46,13 +46,12 @@ export default class MonacoEditor extends React.Component<MonacoEditorProps> {
   componentDidMount() {
     this.monaco = editor.create(this.monacoContainerRef.current!, {
       value: this.props.value,
-      language: this.props.mode,
+      language: this.props.language,
       theme: this.props.theme,
       minimap: {
         enabled: false
       },
-      autoIndent: true,
-      automaticLayout: true
+      autoIndent: true
       
     });
 
@@ -76,8 +75,8 @@ export default class MonacoEditor extends React.Component<MonacoEditorProps> {
     }
 
     const model = this.monaco.getModel();
-    if (model && this.props.mode && model.getModeId() !== this.props.mode) {
-      editor.setModelLanguage(model, this.props.mode);
+    if (model && this.props.language && model.getModeId() !== this.props.language) {
+      editor.setModelLanguage(model, this.props.language);
     }
 
     if (this.props.theme) {
