@@ -1,6 +1,7 @@
 import { debounce } from "lodash";
 import { editor } from "monaco-editor";
 import * as React from "react";
+import styled from "styled-components";
 
 export interface MonacoEditorProps {
   theme: string;
@@ -10,10 +11,19 @@ export interface MonacoEditorProps {
   editorFocused: boolean;
 }
 
+const MonacoContainer = styled.div`
+  background-color: powderblue;
+  height: 300px;
+  overflow: auto;
+  
+`
+
+
 export default class MonacoEditor extends React.Component<MonacoEditorProps> {
   static defaultProps = {
     onChange: () => {},
     editorFocused: false,
+   
     mode: "text/plain"
   };
 
@@ -41,7 +51,9 @@ export default class MonacoEditor extends React.Component<MonacoEditorProps> {
       minimap: {
         enabled: false
       },
-      autoIndent: true
+      autoIndent: true,
+      automaticLayout: true
+      
     });
 
     if (this.props.editorFocused) {
@@ -88,7 +100,10 @@ export default class MonacoEditor extends React.Component<MonacoEditorProps> {
 
   render() {
     return (
-      <div className="monaco cm-s-composition" ref={this.monacoContainerRef} />
+      <MonacoContainer className="monaco cm-s-composition" ref={this.monacoContainerRef} >
+        
+      </MonacoContainer>
+      
     );
   }
 }
