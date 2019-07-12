@@ -50,7 +50,6 @@ export default class MonacoEditor extends React.Component<MonacoEditorProps> {
         enabled: false
       },
       autoIndent: true
-      
     });
 
     if (this.props.editorFocused) {
