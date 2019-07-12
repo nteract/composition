@@ -16,9 +16,7 @@ const MonacoContainer = styled.div`
   background-color: powderblue;
   height: 300px;
   overflow: auto;
-  
-`
-
+`;
 
 export default class MonacoEditor extends React.Component<MonacoEditorProps> {
   static defaultProps = {
@@ -99,10 +97,7 @@ export default class MonacoEditor extends React.Component<MonacoEditorProps> {
 
   render() {
     return (
-      <MonacoContainer className="monaco cm-s-composition" ref={this.monacoContainerRef} >
-        
-      </MonacoContainer>
-      
+      <MonacoContainer className="monaco cm-s-composition" ref={this.monacoContainerRef} />
     );
   }
 }

@@ -105,7 +105,6 @@ module.exports = {
     externals: ["canvas"],
     module: {
       rules: [
-        
         // Add support for CSS
         {
           test: /\.css$/,
@@ -124,7 +123,6 @@ module.exports = {
             transpileOnly: true
           }
         }
-
       ]
     }
   }
