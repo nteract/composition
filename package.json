@@ -206,7 +206,7 @@
     "react-docgen-typescript": "^1.12.0",
     "react-dom": "^16.3.2",
     "react-notification-system": "^0.2.16",
-    "react-redux": "^6.0.0",
+    "react-redux": "^7.0.0",
     "react-styleguidist": "^9.1.2",
     "react-test-renderer": "^16.2.0",
     "redux": "^4.0.0",

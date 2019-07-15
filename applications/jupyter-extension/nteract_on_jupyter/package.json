@@ -46,7 +46,7 @@
     "react-hot-loader": "^4.1.2",
     "react-hotkeys": "^1.1.4",
     "react-notification-system": "^0.2.16",
-    "react-redux": "^6.0.0",
+    "react-redux": "^7.0.0",
     "react-router-dom": "^5.0.0",
     "redux": "^4.0.0",
     "redux-observable": "^1.0.0",

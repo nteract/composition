@@ -15,7 +15,7 @@
     "@nteract/commutable": "^7.1.2",
     "@nteract/core": "^10.6.0",
     "@nteract/types": "^4.3.0",
-    "react-redux": "^6.0.0",
+    "react-redux": "^7.0.0",
     "redux": "^4.0.0",
     "styled-components": "^4.1.3"
   },
