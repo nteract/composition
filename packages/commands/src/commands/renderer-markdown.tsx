@@ -2,7 +2,9 @@ import { CellType } from "@nteract/commutable";
 import { actions } from "@nteract/core";
 import { MarkdownOcticon } from "@nteract/octicons";
 import * as React from "react";
-import { CellCommandSets, deriveAction, GapCommandSets } from "../model";
+import { CellCommandSets, GapCommandSets, withParams } from "../model";
+
+const MARKDOWN: CellType = "markdown";
 
 export const GAP_COMMANDS: GapCommandSets = [
   {
@@ -13,12 +15,7 @@ export const GAP_COMMANDS: GapCommandSets = [
         label: "Append Markdown Cell",
         name: "append-markdown-cell",
         icon: <MarkdownOcticon/>,
-        actions: [
-          deriveAction(
-            actions.createCellAppend,
-            {cellType: "markdown" as CellType},
-          ),
-        ],
+        actions: [withParams(actions.createCellAppend, {cellType: MARKDOWN})],
       },
     ],
   },
@@ -30,12 +27,7 @@ export const GAP_COMMANDS: GapCommandSets = [
         label: "Create Markdown Cell Above",
         name: "create-markdown-cell-above",
         icon: <MarkdownOcticon/>,
-        actions: [
-          deriveAction(
-            actions.createCellAbove,
-            { cellType: "markdown" as CellType },
-          ),
-        ],
+        actions: [withParams(actions.createCellAbove, {cellType: MARKDOWN})],
       },
     ],
   },
@@ -49,9 +41,7 @@ export const CELL_COMMANDS: CellCommandSets = [
       {
         label: "Convert to Markdown Cell",
         name: "change-to-markdown",
-        actions: [
-          deriveAction(actions.changeCellType, {to: "markdown" as CellType}),
-        ],
+        actions: [withParams(actions.changeCellType, {to: MARKDOWN})],
       },
     ],
   },
