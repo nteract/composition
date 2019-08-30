@@ -11,6 +11,15 @@
     "access": "public"
   },
   "dependencies": {
+    "@nteract/actions": "^2.7.0",
+    "@nteract/commands": "^1.0.0",
+    "@nteract/commutable": "^7.1.2",
+    "@nteract/core": "^10.6.0",
+    "@nteract/data-explorer": "^7.1.0",
+    "@nteract/dropdown-menu": "^1.0.0",
+    "@nteract/editor": "^9.2.0",
+    "@nteract/jupyter-widgets": "^2.0.0",
+    "@nteract/markdown": "^4.0.0",
     "@nteract/actions": "^2.8.2",
     "@nteract/commutable": "^7.1.4",
     "@nteract/core": "^10.8.2",

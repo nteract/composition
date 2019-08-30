@@ -1,22 +1,9 @@
 /* eslint-disable no-return-assign */
-import {
-  CellId,
-  CellType,
-  ExecutionCount,
-  ImmutableCodeCell,
-  JSONObject
-} from "@nteract/commutable";
+import { CellId, CellType, ExecutionCount, ImmutableCodeCell, JSONObject } from "@nteract/commutable";
 import { actions, selectors } from "@nteract/core";
+import { KernelOutputError, Media, Output, PromptRequest, RichMedia, StreamText } from "@nteract/outputs";
 import {
-  KernelOutputError,
-  Media,
-  Output,
-  PromptRequest,
-  RichMedia,
-  StreamText
-} from "@nteract/outputs";
-import {
-  Cell as PlainCell,
+  Cell,
   DarkTheme,
   Input,
   LightTheme,
@@ -33,6 +20,7 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Subject } from "rxjs";
+import styled from "styled-components";
 
 import CellCreator from "./cell-creator";
 import DraggableCell from "./draggable-cell";
@@ -41,12 +29,10 @@ import { HijackScroll } from "./hijack-scroll";
 import MarkdownPreviewer from "./markdown-preview";
 import NotebookHelmet from "./notebook-helmet";
 import StatusBar from "./status-bar";
-import Toolbar, { CellToolbarMask } from "./toolbar";
+import { CellToolbar } from "./toolbar";
 import TransformMedia from "./transform-media";
 
-import styled from "styled-components";
-
-function getTheme(theme: string) {
+function getTheme(theme: string): JSX.Element {
   switch (theme) {
     case "dark":
       return <DarkTheme />;
@@ -59,27 +45,12 @@ function getTheme(theme: string) {
 const emptyList = Immutable.List();
 const emptySet = Immutable.Set();
 
-const Cell = styled(PlainCell).attrs((props: { isSelected: boolean }) => ({
-  className: props.isSelected ? "selected" : ""
-}))`
-  /*
-   * Show the cell-toolbar-mask if hovering on cell,
-   * cell was the last clicked
-   */
-  &:hover ${CellToolbarMask}, &.selected ${CellToolbarMask} {
-    display: block;
-  }
-`;
-
-Cell.displayName = "Cell";
-
 interface AnyCellProps {
   id: string;
   tags: Immutable.Set<string>;
   contentRef: ContentRef;
   channels?: Subject<any>;
-  cellType: "markdown" | "code" | "raw";
-  theme: string;
+  cellType: CellType;
   source: string;
   executionCount: ExecutionCount;
   outputs: Immutable.List<any>;
@@ -89,14 +60,6 @@ interface AnyCellProps {
   cellFocused: boolean; // not the ID of which is focused
   editorFocused: boolean;
   sourceHidden: boolean;
-  executeCell: () => void;
-  deleteCell: () => void;
-  clearOutputs: () => void;
-  toggleParameterCell: () => void;
-  toggleCellInputVisibility: () => void;
-  toggleCellOutputVisibility: () => void;
-  toggleOutputExpansion: () => void;
-  changeCellType: (to: CellType) => void;
   outputHidden: boolean;
   outputExpanded: boolean;
   selectCell: () => void;
@@ -175,8 +138,7 @@ const makeMapStateToCellProps = (
       prompt,
       source: cell.get("source", ""),
       sourceHidden,
-      tags,
-      theme: selectors.userTheme(state)
+      tags
     };
   };
   return mapStateToCellProps;
@@ -202,25 +164,6 @@ const makeMapDispatchToCellProps = (
     unfocusEditor: () =>
       dispatch(actions.focusCellEditor({ id: undefined, contentRef })),
 
-    changeCellType: (to: CellType) =>
-      dispatch(
-        actions.changeCellType({
-          contentRef,
-          id,
-          to
-        })
-      ),
-    clearOutputs: () => dispatch(actions.clearOutputs({ id, contentRef })),
-    deleteCell: () => dispatch(actions.deleteCell({ id, contentRef })),
-    executeCell: () => dispatch(actions.executeCell({ id, contentRef })),
-    toggleCellInputVisibility: () =>
-      dispatch(actions.toggleCellInputVisibility({ id, contentRef })),
-    toggleCellOutputVisibility: () =>
-      dispatch(actions.toggleCellOutputVisibility({ id, contentRef })),
-    toggleOutputExpansion: () =>
-      dispatch(actions.toggleOutputExpansion({ id, contentRef })),
-    toggleParameterCell: () =>
-      dispatch(actions.toggleParameterCell({ id, contentRef })),
     sendInputReply: (value: string) =>
       dispatch(actions.sendInputReply({ value, contentRef })),
 
@@ -255,38 +198,29 @@ const CellBanner = styled.div`
 CellBanner.displayName = "CellBanner";
 
 class AnyCell extends React.PureComponent<AnyCellProps> {
-  toggleCellType = () => {
-    this.props.changeCellType(
-      this.props.cellType === "markdown" ? "code" : "markdown"
-    );
-  };
-
-  render() {
+  render(): JSX.Element {
     const {
-      executeCell,
-      deleteCell,
-      clearOutputs,
-      toggleParameterCell,
-      toggleCellInputVisibility,
-      toggleCellOutputVisibility,
-      toggleOutputExpansion,
-      changeCellType,
       cellFocused,
       cellStatus,
       cellType,
       editorFocused,
+      executionCount,
       focusAboveCell,
       focusBelowCell,
       focusEditor,
       id,
       prompt,
       tags,
-      theme,
       selectCell,
+      source,
       unfocusEditor,
       contentRef,
       sourceHidden,
-      sendInputReply
+      sendInputReply,
+      outputExpanded,
+      outputHidden,
+      outputs,
+      pager,
     } = this.props;
     const running = cellStatus === "busy";
     const queued = cellStatus === "queued";
@@ -296,9 +230,9 @@ class AnyCell extends React.PureComponent<AnyCellProps> {
       case "code":
         element = (
           <React.Fragment>
-            <Input hidden={this.props.sourceHidden}>
+            <Input hidden={sourceHidden}>
               <Prompt
-                counter={this.props.executionCount}
+                counter={executionCount}
                 running={running}
                 queued={queued}
               />
@@ -312,8 +246,12 @@ class AnyCell extends React.PureComponent<AnyCellProps> {
               </Source>
             </Input>
             <Pagers>
-              {this.props.pager.map((pager, key) => (
-                <RichMedia data={pager.data} metadata={pager.metadata}>
+              {pager.map((each, key) => (
+                <RichMedia
+                  data={each.data}
+                  metadata={each.metadata}
+                  key={key}
+                >
                   <Media.Json />
                   <Media.JavaScript />
                   <Media.HTML />
@@ -326,10 +264,10 @@ class AnyCell extends React.PureComponent<AnyCellProps> {
               ))}
             </Pagers>
             <Outputs
-              hidden={this.props.outputHidden}
-              expanded={this.props.outputExpanded}
+              hidden={outputHidden}
+              expanded={outputExpanded}
             >
-              {this.props.outputs.map((output, index) => (
+              {outputs.map((output, index) => (
                 <Output output={output} key={index}>
                   <TransformMedia
                     output_type={"display_data"}
@@ -364,7 +302,7 @@ class AnyCell extends React.PureComponent<AnyCellProps> {
             cellFocused={cellFocused}
             editorFocused={editorFocused}
             unfocusEditor={unfocusEditor}
-            source={this.props.source}
+            source={source}
           >
             <Source>
               <Editor
@@ -391,7 +329,7 @@ class AnyCell extends React.PureComponent<AnyCellProps> {
         );
         break;
       default:
-        element = <pre>{this.props.source}</pre>;
+        element = <pre>{source}</pre>;
         break;
     }
 
@@ -407,18 +345,11 @@ class AnyCell extends React.PureComponent<AnyCellProps> {
           {tags.has("default parameters") ? (
             <CellBanner>Papermill - Default Parameters</CellBanner>
           ) : null}
-          <Toolbar
-            type={cellType}
-            cellFocused={cellFocused}
-            executeCell={executeCell}
-            deleteCell={deleteCell}
-            clearOutputs={clearOutputs}
-            toggleParameterCell={toggleParameterCell}
-            toggleCellInputVisibility={toggleCellInputVisibility}
-            toggleCellOutputVisibility={toggleCellOutputVisibility}
-            toggleOutputExpansion={toggleOutputExpansion}
-            changeCellType={this.toggleCellType}
-            sourceHidden={sourceHidden}
+          <CellToolbar
+            contentRef={contentRef}
+            id={id}
+            isCellFocused={cellFocused}
+            isSourceHidden={sourceHidden}
           />
           {element}
         </Cell>
@@ -431,6 +362,8 @@ export const ConnectedCell = connect(
   makeMapStateToCellProps,
   makeMapDispatchToCellProps
 )(AnyCell);
+
+ConnectedCell.displayName = "ConnectedCell";
 
 type NotebookProps = NotebookStateProps & NotebookDispatchProps;
 
@@ -552,7 +485,7 @@ const mapDispatchToProps = (dispatch: Dispatch): NotebookDispatchProps => ({
 
 // tslint:disable max-classes-per-file
 export class NotebookApp extends React.PureComponent<NotebookProps> {
-  static defaultProps = {
+  static defaultProps: Partial<NotebookProps> = {
     theme: "light"
   };
 

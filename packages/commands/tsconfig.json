@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../commutable" },
+    { "path": "../dropdown-menu" },
+    { "path": "../octicons" },
+    { "path": "../types" }
+  ]
+}
