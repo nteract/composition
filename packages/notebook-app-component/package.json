@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nteract/actions": "^2.7.0",
+    "@nteract/commands": "^1.0.0",
     "@nteract/commutable": "^7.1.2",
     "@nteract/core": "^10.6.0",
     "@nteract/data-explorer": "^7.1.0",

@@ -5,7 +5,7 @@ import toJSON from "enzyme-to-json";
 import * as React from "react";
 import { Provider } from "react-redux";
 
-import Toolbar, { PureToolbar } from "../src/toolbar";
+import Toolbar, { CellToolbar } from "../src/toolbar";
 
 const {
   DELETE_CELL,
@@ -19,14 +19,14 @@ const {
 
 describe("Toolbar View", () => {
   test("should be able to render a toolbar", () => {
-    const toolbar = mount(<PureToolbar />);
+    const toolbar = mount(<CellToolbar />);
     expect(toJSON(toolbar)).toMatchSnapshot();
     toolbar.find(".toggle-menu").simulate("click");
     expect(toJSON(toolbar)).toMatchSnapshot();
   });
   test("clearOutputs can be clicked", () => {
     const dummyFunc = jest.fn();
-    const toolbar = mount(<PureToolbar type="code" clearOutputs={dummyFunc} />);
+    const toolbar = mount(<CellToolbar type="code" clearOutputs={dummyFunc} />);
     toolbar.find(".toggle-menu").simulate("click");
     toolbar.find(".clearOutput").simulate("click");
     expect(dummyFunc).toHaveBeenCalled();
@@ -34,7 +34,7 @@ describe("Toolbar View", () => {
   test("toggleCellInputVisibility can be clicked", () => {
     const dummyFunc = jest.fn();
     const toolbar = mount(
-      <PureToolbar type="code" toggleCellInputVisibility={dummyFunc} />
+      <CellToolbar type="code" toggleCellInputVisibility={dummyFunc} />
     );
     toolbar.find(".toggle-menu").simulate("click");
     toolbar.find(".inputVisibility").simulate("click");
@@ -43,7 +43,7 @@ describe("Toolbar View", () => {
   test("toggleCellOutputVisibility can be clicked", () => {
     const dummyFunc = jest.fn();
     const toolbar = mount(
-      <PureToolbar type="code" toggleCellOutputVisibility={dummyFunc} />
+      <CellToolbar type="code" toggleCellOutputVisibility={dummyFunc} />
     );
     toolbar.find(".toggle-menu").simulate("click");
     toolbar.find(".outputVisibility").simulate("click");
@@ -52,7 +52,7 @@ describe("Toolbar View", () => {
   test("toggleOutputExpaned can be clicked", () => {
     const dummyFunc = jest.fn();
     const toolbar = mount(
-      <PureToolbar type="code" toggleOutputExpansion={dummyFunc} />
+      <CellToolbar type="code" toggleOutputExpansion={dummyFunc} />
     );
     toolbar.find(".toggle-menu").simulate("click");
     toolbar.find(".outputExpanded").simulate("click");
@@ -61,19 +61,19 @@ describe("Toolbar View", () => {
   test("changeCellType can be clicked", () => {
     const dummyFunc = jest.fn();
     const toolbar = mount(
-      <PureToolbar type="code" changeCellType={dummyFunc} />
+      <CellToolbar type="code" changeCellType={dummyFunc} />
     );
     toolbar.find(".toggle-menu").simulate("click");
     toolbar.find(".changeType").simulate("click");
     expect(dummyFunc).toHaveBeenCalled();
   });
   test('shows "convert to code cell" menu entry for markdown type', () => {
-    const toolbar = mount(<PureToolbar type={"markdown"} />);
+    const toolbar = mount(<CellToolbar type={"markdown"} />);
     toolbar.find(".toggle-menu").simulate("click");
     expect(toolbar.text()).toContain("Convert to Code Cell");
   });
   test('shows "convert to markdown cell" menu entry for code type', () => {
-    const toolbar = mount(<PureToolbar type="code" />);
+    const toolbar = mount(<CellToolbar type="code" />);
     toolbar.find(".toggle-menu").simulate("click");
     expect(toolbar.text()).toContain("Convert to Markdown Cell");
   });
