@@ -1,7 +1,7 @@
 import { actions } from "@nteract/core";
 import { TrashOcticon } from "@nteract/octicons";
 import * as React from "react";
-import { CellCommandSets, deriveAction } from "../model";
+import { CellCommandSets, withParams } from "../model";
 
 export const CELL_COMMANDS: CellCommandSets = [
   {
@@ -23,7 +23,7 @@ export const CELL_COMMANDS: CellCommandSets = [
         label: "Focus Next Cell",
         name: "focus-next-cell",
         actions: [
-          deriveAction(actions.focusNextCell, {createCellIfUndefined: true}),
+          withParams(actions.focusNextCell, {createCellIfUndefined: true}),
           actions.focusNextCellEditor,
         ],
       },

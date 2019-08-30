@@ -2,40 +2,32 @@ import { CellType } from "@nteract/commutable";
 import { actions } from "@nteract/core";
 import { CodeOcticon, TriangleRightOcticon } from "@nteract/octicons";
 import * as React from "react";
-import { CellCommandSets, deriveAction, GapCommandSets } from "../model";
+import { CellCommandSets, GapCommandSets, withParams } from "../model";
+
+const CODE: CellType = "code";
 
 export const GAP_COMMANDS: GapCommandSets = [
   {
     appliesTo: ({ isLastGap }) => isLastGap,
-    location: "toolbar-dropdown",
+    location: "cell-creator",
     commands: [
       {
         label: "Append Code Cell",
         name: "append-code-cell",
         icon: <CodeOcticon/>,
-        actions: [
-          deriveAction(
-            actions.createCellAppend,
-            {cellType: "code" as CellType},
-          ),
-        ],
+        actions: [withParams(actions.createCellAppend, {cellType: CODE})],
       },
     ],
   },
   {
     appliesTo: ({ isLastGap }) => !isLastGap,
-    location: "toolbar-dropdown",
+    location: "cell-creator",
     commands: [
       {
         label: "Create Code Cell Above",
         name: "create-code-cell-above",
         icon: <CodeOcticon/>,
-        actions: [
-          deriveAction(
-            actions.createCellAbove,
-            { cellType: "code" as CellType },
-          ),
-        ],
+        actions: [withParams(actions.createCellAbove, {cellType: CODE})],
       },
     ],
   },
@@ -93,9 +85,7 @@ export const CELL_COMMANDS: CellCommandSets = [
       {
         label: "Convert to Code Cell",
         name: "change-to-code",
-        actions: [
-          deriveAction(actions.changeCellType, {to: "code" as CellType}),
-        ],
+        actions: [withParams(actions.changeCellType, {to: CODE})],
       },
     ],
   },

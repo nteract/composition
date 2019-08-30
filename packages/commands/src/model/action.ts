@@ -7,7 +7,7 @@ export interface Action {
 export type ActionFactory<T> = (params: T) => Action;
 export type ActionHandler = () => void;
 
-export function deriveAction<T, U>(
+export function withParams<T, U>(
   action: ActionFactory<T & U>,
   fixed: U,
 ): ActionFactory<T> {
