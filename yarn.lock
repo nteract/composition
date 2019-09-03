@@ -1174,10 +1174,10 @@
     "@types/react" "*"
     redux "^4.0.0"
 
-"@types/react-syntax-highlighter@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-0.0.8.tgz#ed44e2ead992c513327bcf2ede5eda7daa981421"
-  integrity sha512-vxnOl0C1ZDkFneMdEtuZttwKmuznHH7Ml5C1g589Kif+FyiKoMzuD7GlnTTaVv+sS+y9MtwqQ5gy6B1+brvT9A==
+"@types/react-syntax-highlighter@^10.0.0":
+  version "10.2.1"
+  resolved "https://registry.yarnpkg.com/@types/react-syntax-highlighter/-/react-syntax-highlighter-10.2.1.tgz#b0f75c22cbe7d12104581648348d91d3cd7f13fa"
+  integrity sha512-M2BAOiiQ2KDkCiuhO1UxAsSNfrSegUfXL1MabRggOoqJoPpaoSuTxGF+TgLuAjMEVW8dJDtp7WpBjjRLMxWgrQ==
   dependencies:
     "@types/react" "*"
 
