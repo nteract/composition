@@ -315,10 +315,8 @@ export const restartKernelEpic = (
         })
       );
 
-      const kernel = selectors.currentKernel(state);
-
       const actionsDispatched =
-        kernel.type !== "websocket" ? of(kill, relaunch) : of(relaunch);
+        oldKernel.type !== "websocket" ? of(kill, relaunch) : of(relaunch);
 
       return merge(actionsDispatched, awaitKernelReady);
     })
