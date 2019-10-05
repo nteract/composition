@@ -315,6 +315,11 @@ export const restartKernelEpic = (
         })
       );
 
-      return merge(of(kill, relaunch), awaitKernelReady);
+      const kernel = selectors.currentKernel(state);
+
+      const actionsDispatched =
+        kernel.type !== "websocket" ? of(kill, relaunch) : of(relaunch);
+
+      return merge(actionsDispatched, awaitKernelReady);
     })
   );
