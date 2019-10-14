@@ -21,7 +21,7 @@
   "dependencies": {
     "@nteract/messaging": "^6.1.3",
     "enchannel-zmq-backend": "^9.1.3",
-    "execa": "^1.0.0",
+    "execa": "^3.0.0",
     "jsonfile": "^5.0.0",
     "mkdirp": "^0.5.1",
     "pidusage": "^2.0.17",
