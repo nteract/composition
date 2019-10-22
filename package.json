@@ -241,7 +241,7 @@
     "webfontloader": "^1.6.28",
     "webpack": "^4.28.3",
     "webpack-cli": "^3.3.7",
-    "webpack-dev-server": "3.4.0",
+    "webpack-dev-server": "3.9.0",
     "webpack-merge": "^4.2.1",
     "yargs": "^13.0.0"
   },
