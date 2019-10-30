@@ -35,19 +35,21 @@ export const CommandSets =
   (props: InnerProps) =>
     props.dropdown
       ?
-        <DropdownMenu>
-          <DropdownTrigger>
-            <button><ChevronDownOcticon/></button>
-          </DropdownTrigger>
-          <DropdownContent>
-            {items(props).map(each => <li
-              key={`li-${each.key}`}
-              role="presentation" // Since we're doing nothing
-              onClick={DO_NOTHING_SINCE_OUR_CHILD_HANDLES_THAT}
-            >{each}</li>)}
-          </DropdownContent>
-        </DropdownMenu>
+        <div className={props.location}>
+          <DropdownMenu>
+            <DropdownTrigger>
+              <button><ChevronDownOcticon/></button>
+            </DropdownTrigger>
+            <DropdownContent>
+              {items(props).map(each => <li
+                key={`li-${each.key}`}
+                role="presentation" // Since we're doing nothing
+                onClick={DO_NOTHING_SINCE_OUR_CHILD_HANDLES_THAT}
+              >{each}</li>)}
+            </DropdownContent>
+          </DropdownMenu>
+        </div>
       :
-        <React.Fragment>
+        <div className={props.location}>
           {items(props)}
-        </React.Fragment>;
+        </div>;

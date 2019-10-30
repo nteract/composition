@@ -1,322 +1,73 @@
-import { actions } from "@nteract/core";
 import { fixtureStore } from "@nteract/fixtures";
+import { ContentRecord, ContentRef } from "@nteract/types";
 import { mount } from "enzyme";
 import toJSON from "enzyme-to-json";
+import * as Immutable from "immutable";
 import * as React from "react";
 import { Provider } from "react-redux";
 
-import Toolbar, { CellToolbar } from "../src/toolbar";
+import { CellToolbar } from "../src/toolbar";
 
-const {
-  DELETE_CELL,
-  SEND_EXECUTE_REQUEST,
-  CLEAR_OUTPUTS,
-  TOGGLE_CELL_INPUT_VISIBILITY,
-  TOGGLE_CELL_OUTPUT_VISIBILITY,
-  CHANGE_CELL_TYPE,
-  TOGGLE_OUTPUT_EXPANSION
-} = actions;
+const getContentFromStore = (store) => {
+  const contents: Immutable.Map<ContentRef, ContentRecord> =
+    store.getState().core.entities.contents.byRef;
+  const contentRef = contents.keys().next().value;
+  const contentRecord = contents.values().next().value.toJS();
+  const cellID = contentRecord.model.notebook.cellOrder[0];
+  const cellRecord = contentRecord.model.notebook.cellMap[cellID];
 
-describe("Toolbar View", () => {
+  return {
+    contentRef,
+    contentRecord,
+    cellID,
+    cellRecord,
+  };
+};
+
+const makeToolbar = () => {
+  const store = fixtureStore({codeCellCount: 1});
+  const { contentRef, cellID } = getContentFromStore(store);
+  const toolbar = mount(
+    <Provider store={store}>
+      <CellToolbar
+        isCellFocused
+        isSourceHidden={false}
+        contentRef={contentRef}
+        id={cellID}
+      />
+    </Provider>
+  );
+
+  return {
+    toolbar,
+    store,
+  };
+};
+
+describe("Toolbar", () => {
   test("should be able to render a toolbar", () => {
-    const toolbar = mount(<CellToolbar />);
-    expect(toJSON(toolbar)).toMatchSnapshot();
-    toolbar.find(".toggle-menu").simulate("click");
-    expect(toJSON(toolbar)).toMatchSnapshot();
-  });
-  test("clearOutputs can be clicked", () => {
-    const dummyFunc = jest.fn();
-    const toolbar = mount(<CellToolbar type="code" clearOutputs={dummyFunc} />);
-    toolbar.find(".toggle-menu").simulate("click");
-    toolbar.find(".clearOutput").simulate("click");
-    expect(dummyFunc).toHaveBeenCalled();
-  });
-  test("toggleCellInputVisibility can be clicked", () => {
-    const dummyFunc = jest.fn();
-    const toolbar = mount(
-      <CellToolbar type="code" toggleCellInputVisibility={dummyFunc} />
-    );
-    toolbar.find(".toggle-menu").simulate("click");
-    toolbar.find(".inputVisibility").simulate("click");
-    expect(dummyFunc).toHaveBeenCalled();
-  });
-  test("toggleCellOutputVisibility can be clicked", () => {
-    const dummyFunc = jest.fn();
-    const toolbar = mount(
-      <CellToolbar type="code" toggleCellOutputVisibility={dummyFunc} />
-    );
-    toolbar.find(".toggle-menu").simulate("click");
-    toolbar.find(".outputVisibility").simulate("click");
-    expect(dummyFunc).toHaveBeenCalled();
-  });
-  test("toggleOutputExpaned can be clicked", () => {
-    const dummyFunc = jest.fn();
-    const toolbar = mount(
-      <CellToolbar type="code" toggleOutputExpansion={dummyFunc} />
-    );
-    toolbar.find(".toggle-menu").simulate("click");
-    toolbar.find(".outputExpanded").simulate("click");
-    expect(dummyFunc).toHaveBeenCalled();
-  });
-  test("changeCellType can be clicked", () => {
-    const dummyFunc = jest.fn();
-    const toolbar = mount(
-      <CellToolbar type="code" changeCellType={dummyFunc} />
-    );
-    toolbar.find(".toggle-menu").simulate("click");
-    toolbar.find(".changeType").simulate("click");
-    expect(dummyFunc).toHaveBeenCalled();
-  });
-  test('shows "convert to code cell" menu entry for markdown type', () => {
-    const toolbar = mount(<CellToolbar type={"markdown"} />);
-    toolbar.find(".toggle-menu").simulate("click");
-    expect(toolbar.text()).toContain("Convert to Code Cell");
-  });
-  test('shows "convert to markdown cell" menu entry for code type', () => {
-    const toolbar = mount(<CellToolbar type="code" />);
-    toolbar.find(".toggle-menu").simulate("click");
-    expect(toolbar.text()).toContain("Convert to Markdown Cell");
-  });
-});
-
-describe.skip("toolbar provider", () => {
-  const store = fixtureStore();
-  const dropdown = { hide: () => {} };
-
-  const setup = props =>
-    mount(
-      <Provider store={store}>
-        <Toolbar {...props} />
-      </Provider>
-    );
-
-  test("Delete Cell works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(DELETE_CELL);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ type: "code", id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .deleteCell();
+    const { toolbar } = makeToolbar();
+    expect(toJSON(toolbar.render())).toMatchSnapshot();
+    toolbar.find(".toolbar-dropdown button").simulate("click");
+    expect(toJSON(toolbar.render())).toMatchSnapshot();
   });
 
-  test("execute cell works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.source).toBe("source");
-      expect(action.type).toBe(SEND_EXECUTE_REQUEST);
-      done();
-    };
-    store.dispatch = dispatch;
-    const func = args => args;
-    const cell = { get: func };
-    const toolbar = setup({ id: "cell", cell });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .executeCell();
+  test("can change cell type", () => {
+    const { toolbar, store } = makeToolbar();
+    const { cellRecord: cellPre } = getContentFromStore(store);
+    toolbar.find(".toolbar-dropdown button").simulate("click");
+    toolbar.find(".change-to-markdown").simulate("click");
+    const { cellRecord: cellPost } = getContentFromStore(store);
+    expect(cellPre.cell_type).toBe("code");
+    expect(cellPost.cell_type).toBe("markdown");
   });
 
-  test("clear outputs works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(CLEAR_OUTPUTS);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .clearOutputs(dropdown);
-  });
-
-  test("change Input Visibility works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(TOGGLE_CELL_INPUT_VISIBILITY);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .toggleCellInputVisibility(dropdown);
-  });
-
-  test("change Output Visibility works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(TOGGLE_CELL_OUTPUT_VISIBILITY);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .toggleCellOutputVisibility(dropdown);
-  });
-
-  test("change Cell Type works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.to).toBe("markdown");
-      expect(action.type).toBe(CHANGE_CELL_TYPE);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell", type: "code" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .changeCellType(dropdown);
-  });
-
-  test("toggle output expansion works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(TOGGLE_OUTPUT_EXPANSION);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .toggleOutputExpansion(dropdown);
-  });
-});
-
-describe.skip("toolbar provider", () => {
-  const store = fixtureStore();
-  const dropdown = { hide: () => {} };
-
-  const setup = props =>
-    mount(
-      <Provider store={store}>
-        <Toolbar {...props} />
-      </Provider>
-    );
-
-  test("Delete Cell works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(DELETE_CELL);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ type: "code", id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .deleteCell();
-  });
-
-  test("execute cell works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.source).toBe("source");
-      expect(action.type).toBe(SEND_EXECUTE_REQUEST);
-      done();
-    };
-    store.dispatch = dispatch;
-    const func = args => args;
-    const cell = { get: func };
-    const toolbar = setup({ id: "cell", cell });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .executeCell();
-  });
-
-  test("clear outputs works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(CLEAR_OUTPUTS);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .clearOutputs(dropdown);
-  });
-
-  test("change Input Visibility works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(TOGGLE_CELL_INPUT_VISIBILITY);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .toggleCellInputVisibility(dropdown);
-  });
-
-  test("change Output Visibility works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(TOGGLE_CELL_OUTPUT_VISIBILITY);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .toggleCellOutputVisibility(dropdown);
-  });
-
-  test("change Cell Type works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.to).toBe("markdown");
-      expect(action.type).toBe(CHANGE_CELL_TYPE);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell", type: "code" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .changeCellType(dropdown);
-  });
-
-  test("toggle output expansion works", done => {
-    const dispatch = action => {
-      expect(action.id).toBe("cell");
-      expect(action.type).toBe(TOGGLE_OUTPUT_EXPANSION);
-      done();
-    };
-    store.dispatch = dispatch;
-    const toolbar = setup({ id: "cell" });
-    toolbar
-      .find("ToolbarView")
-      .childAt(0)
-      .getElement()
-      .toggleOutputExpansion(dropdown);
+  test("can delete cell", () => {
+    const { toolbar, store } = makeToolbar();
+    const { cellRecord: cellPre } = getContentFromStore(store);
+    toolbar.find(".delete-cell").simulate("click");
+    const { cellRecord: cellPost } = getContentFromStore(store);
+    expect(cellPre).toBeDefined();
+    expect(cellPost).toBeUndefined();
   });
 });

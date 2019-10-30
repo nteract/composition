@@ -47,10 +47,13 @@ const CommandItemStyle = styled.div`
 const CommandCheckBox =
   ({data, isEnabled, isChecked, handler}: Command) =>
     <label key={data.name}
+           className={[
+             data.name,
+             isChecked ? "checked" : "not-checked",
+           ].join(" ")}
            onClick={handler}
            role="menuitemcheckbox"
-           aria-checked={isChecked}
-           className={isChecked ? "checked" : "not-checked"}>
+           aria-checked={isChecked}>
       <input type="checkbox"
              onChange={handler}
              checked={isChecked}
@@ -63,7 +66,10 @@ const CommandCheckBox =
 const CommandButton =
   ({data, isEnabled, handler}: Command) =>
     <button key={data.name}
-            className={data.icon ? "icon" : "text"}
+            className={[
+              data.name,
+              data.icon ? "icon" : "text",
+            ].join(" ")}
             onClick={handler}
             role="menuitem"
             disabled={!isEnabled}>

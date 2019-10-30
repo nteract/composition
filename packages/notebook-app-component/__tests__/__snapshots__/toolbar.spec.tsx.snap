@@ -1,843 +1,317 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Toolbar View should be able to render a toolbar 1`] = `
-<PureToolbar
-  type="code"
+exports[`Toolbar should be able to render a toolbar 1`] = `
+<div
+  class="sc-ifAKCX fYqCVQ"
 >
-  <styled.div>
-    <StyledComponent
-      forwardedComponent={
-        Object {
-          "$$typeof": Symbol(react.forward_ref),
-          "attrs": Array [
-            [Function],
-          ],
-          "componentStyle": ComponentStyle {
-            "componentId": "sc-ifAKCX",
-            "isStatic": false,
-            "lastClassName": "iXeJZQ",
-            "rules": Array [
-              "
-  z-index: 9;
-  position: sticky; /* keep visible with large code cells that need scrolling */
-  float: right;
-  top: 0;
-  right: 0;
-  height: 34px;
-  margin: 0 0 0 -100%; /* allow code cell to completely overlap (underlap?) */
-  padding: 0 0 0 50px; /* give users extra room to move their mouse to the
-                          toolbar without causing the cell to go out of
-                          focus/hide the toolbar before they get there */
-",
-            ],
-          },
-          "displayName": "styled.div",
-          "foldedComponentIds": Array [],
-          "render": [Function],
-          "styledComponentId": "sc-ifAKCX",
-          "target": "div",
-          "toString": [Function],
-          "warnTooManyClasses": [Function],
-          "withComponent": [Function],
-        }
-      }
-      forwardedRef={null}
+  <div
+    class="toolbar"
+  >
+    <div
+      class="sc-bxivhb eccFiY"
+    >
+      <button
+        class="run-cell icon"
+        role="menuitem"
+      >
+        <span>
+          <svg
+            height="16"
+            style="fill: currentColor; display: inline-block; vertical-align: text-bottom;"
+            viewBox="0 0 6 16"
+            width="6"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              Run Cell
+            </title>
+            <path
+              d="M0 14l6-6-6-6z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div
+    class="toolbar-dropdown"
+  >
+    <div
+      class="sc-bdVaJa igpjjl"
     >
       <div
-        className="sc-ifAKCX iXeJZQ"
-        style={
-          Object {
-            "display": "none",
-          }
-        }
+        class="sc-bwzfXH iaRngl"
       >
-        <styled.div>
-          <StyledComponent
-            forwardedComponent={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "attrs": Array [],
-                "componentStyle": ComponentStyle {
-                  "componentId": "sc-bxivhb",
-                  "isStatic": true,
-                  "lastClassName": "grkuc",
-                  "rules": Array [
-                    "
-  background-color: var(--theme-cell-toolbar-bg);
-  opacity: 0.4;
-  transition: opacity 0.4s;
-
-  & > div {
-    display: inline-block;
-  }
-
-  :hover {
-    opacity: 1;
-  }
-
-  @media print {
-    display: none;
-  }
-
-  button {
-    display: inline-block;
-
-    width: 22px;
-    height: 20px;
-    padding: 0px 4px;
-
-    text-align: center;
-
-    border: none;
-    outline: none;
-    background: none;
-  }
-
-  span {
-    font-size: 15px;
-    line-height: 1;
-    color: var(--theme-cell-toolbar-fg);
-  }
-
-  button span:hover {
-    color: var(--theme-cell-toolbar-fg-hover);
-  }
-
-  .octicon {
-    transition: color 0.5s;
-  }
-
-  span.spacer {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 1px 5px 3px 5px;
-    height: 11px;
-  }
-",
-                  ],
-                },
-                "displayName": "styled.div",
-                "foldedComponentIds": Array [],
-                "render": [Function],
-                "styledComponentId": "sc-bxivhb",
-                "target": "div",
-                "toString": [Function],
-                "warnTooManyClasses": [Function],
-                "withComponent": [Function],
-              }
-            }
-            forwardedRef={null}
-          >
-            <div
-              className="sc-bxivhb grkuc"
+        <button>
+          <span>
+            <svg
+              height="16"
+              style="fill: currentColor; display: inline-block; vertical-align: text-bottom;"
+              viewBox="0 0 10 16"
+              width="10"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <button
-                className="executeButton"
-                title="execute cell"
-              >
-                <span
-                  className="octicon"
-                >
-                  <Component>
-                    <SVGWrapper
-                      height={16}
-                      outerProps={Object {}}
-                      viewBox="0 0 6 16"
-                      width={6}
-                    >
-                      <span>
-                        <svg
-                          height={16}
-                          style={
-                            Object {
-                              "display": "inline-block",
-                              "fill": "currentColor",
-                              "verticalAlign": "text-bottom",
-                            }
-                          }
-                          viewBox="0 0 6 16"
-                          width={6}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Run Cell
-                          </title>
-                          <path
-                            d="M0 14l6-6-6-6z"
-                            fillRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </SVGWrapper>
-                  </Component>
-                </span>
-              </button>
-              <DropdownMenu>
-                <DropdownDiv>
-                  <StyledComponent
-                    forwardedComponent={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "attrs": Array [],
-                        "componentStyle": ComponentStyle {
-                          "componentId": "sc-bdVaJa",
-                          "isStatic": true,
-                          "lastClassName": "igpjjl",
-                          "rules": Array [
-                            "
-  z-index: 10000;
-  display: inline-block;
-",
-                          ],
-                        },
-                        "displayName": "DropdownDiv",
-                        "foldedComponentIds": Array [],
-                        "render": [Function],
-                        "styledComponentId": "sc-bdVaJa",
-                        "target": "div",
-                        "toString": [Function],
-                        "warnTooManyClasses": [Function],
-                        "withComponent": [Function],
-                      }
-                    }
-                    forwardedRef={null}
-                  >
-                    <div
-                      className="sc-bdVaJa igpjjl"
-                    >
-                      <DropdownTrigger
-                        key=".0"
-                        onClick={[Function]}
-                      >
-                        <DropdownTriggerDiv
-                          onClick={[Function]}
-                        >
-                          <StyledComponent
-                            forwardedComponent={
-                              Object {
-                                "$$typeof": Symbol(react.forward_ref),
-                                "attrs": Array [],
-                                "componentStyle": ComponentStyle {
-                                  "componentId": "sc-bwzfXH",
-                                  "isStatic": true,
-                                  "lastClassName": "iaRngl",
-                                  "rules": Array [
-                                    "
-  user-select: none;
-  margin: 0px;
-  padding: 0px;
-",
-                                  ],
-                                },
-                                "displayName": "DropdownTriggerDiv",
-                                "foldedComponentIds": Array [],
-                                "render": [Function],
-                                "styledComponentId": "sc-bwzfXH",
-                                "target": "div",
-                                "toString": [Function],
-                                "warnTooManyClasses": [Function],
-                                "withComponent": [Function],
-                              }
-                            }
-                            forwardedRef={null}
-                            onClick={[Function]}
-                          >
-                            <div
-                              className="sc-bwzfXH iaRngl"
-                              onClick={[Function]}
-                            >
-                              <button
-                                title="show additional actions"
-                              >
-                                <span
-                                  className="octicon toggle-menu"
-                                >
-                                  <Component>
-                                    <SVGWrapper
-                                      height={16}
-                                      outerProps={Object {}}
-                                      viewBox="0 0 10 16"
-                                      width={10}
-                                    >
-                                      <span>
-                                        <svg
-                                          height={16}
-                                          style={
-                                            Object {
-                                              "display": "inline-block",
-                                              "fill": "currentColor",
-                                              "verticalAlign": "text-bottom",
-                                            }
-                                          }
-                                          viewBox="0 0 10 16"
-                                          width={10}
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <title>
-                                            Show Additional Actions
-                                          </title>
-                                          <path
-                                            d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"
-                                            fillRule="evenodd"
-                                          />
-                                        </svg>
-                                      </span>
-                                    </SVGWrapper>
-                                  </Component>
-                                </span>
-                              </button>
-                            </div>
-                          </StyledComponent>
-                        </DropdownTriggerDiv>
-                      </DropdownTrigger>
-                    </div>
-                  </StyledComponent>
-                </DropdownDiv>
-              </DropdownMenu>
-              <span
-                className="spacer"
+              <title>
+                Show Additional Actions
+              </title>
+              <path
+                d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"
+                fill-rule="evenodd"
               />
-              <button
-                className="deleteButton"
-                title="delete cell"
-              >
-                <span
-                  className="octicon"
-                >
-                  <Component>
-                    <SVGWrapper
-                      height={16}
-                      outerProps={Object {}}
-                      viewBox="0 0 12 16"
-                      width={12}
-                    >
-                      <span>
-                        <svg
-                          height={16}
-                          style={
-                            Object {
-                              "display": "inline-block",
-                              "fill": "currentColor",
-                              "verticalAlign": "text-bottom",
-                            }
-                          }
-                          viewBox="0 0 12 16"
-                          width={12}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Delete Cell
-                          </title>
-                          <path
-                            d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"
-                            fillRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </SVGWrapper>
-                  </Component>
-                </span>
-              </button>
-            </div>
-          </StyledComponent>
-        </styled.div>
+            </svg>
+          </span>
+        </button>
       </div>
-    </StyledComponent>
-  </styled.div>
-</PureToolbar>
+    </div>
+  </div>
+  <div
+    class="toolbar-end"
+  >
+    <div
+      class="sc-bxivhb eccFiY"
+    >
+      <button
+        class="delete-cell icon"
+        role="menuitem"
+      >
+        <span>
+          <svg
+            height="16"
+            style="fill: currentColor; display: inline-block; vertical-align: text-bottom;"
+            viewBox="0 0 12 16"
+            width="12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              Delete Cell
+            </title>
+            <path
+              d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
 `;
 
-exports[`Toolbar View should be able to render a toolbar 2`] = `
-<PureToolbar
-  type="code"
+exports[`Toolbar should be able to render a toolbar 2`] = `
+<div
+  class="sc-ifAKCX fYqCVQ"
 >
-  <styled.div>
-    <StyledComponent
-      forwardedComponent={
-        Object {
-          "$$typeof": Symbol(react.forward_ref),
-          "attrs": Array [
-            [Function],
-          ],
-          "componentStyle": ComponentStyle {
-            "componentId": "sc-ifAKCX",
-            "isStatic": false,
-            "lastClassName": "iXeJZQ",
-            "rules": Array [
-              "
-  z-index: 9;
-  position: sticky; /* keep visible with large code cells that need scrolling */
-  float: right;
-  top: 0;
-  right: 0;
-  height: 34px;
-  margin: 0 0 0 -100%; /* allow code cell to completely overlap (underlap?) */
-  padding: 0 0 0 50px; /* give users extra room to move their mouse to the
-                          toolbar without causing the cell to go out of
-                          focus/hide the toolbar before they get there */
-",
-            ],
-          },
-          "displayName": "styled.div",
-          "foldedComponentIds": Array [],
-          "render": [Function],
-          "styledComponentId": "sc-ifAKCX",
-          "target": "div",
-          "toString": [Function],
-          "warnTooManyClasses": [Function],
-          "withComponent": [Function],
-        }
-      }
-      forwardedRef={null}
+  <div
+    class="toolbar"
+  >
+    <div
+      class="sc-bxivhb eccFiY"
+    >
+      <button
+        class="run-cell icon"
+        role="menuitem"
+      >
+        <span>
+          <svg
+            height="16"
+            style="fill: currentColor; display: inline-block; vertical-align: text-bottom;"
+            viewBox="0 0 6 16"
+            width="6"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              Run Cell
+            </title>
+            <path
+              d="M0 14l6-6-6-6z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div
+    class="toolbar-dropdown"
+  >
+    <div
+      class="sc-bdVaJa igpjjl"
     >
       <div
-        className="sc-ifAKCX iXeJZQ"
-        style={
-          Object {
-            "display": "none",
-          }
-        }
+        class="sc-bwzfXH iaRngl"
       >
-        <styled.div>
-          <StyledComponent
-            forwardedComponent={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "attrs": Array [],
-                "componentStyle": ComponentStyle {
-                  "componentId": "sc-bxivhb",
-                  "isStatic": true,
-                  "lastClassName": "grkuc",
-                  "rules": Array [
-                    "
-  background-color: var(--theme-cell-toolbar-bg);
-  opacity: 0.4;
-  transition: opacity 0.4s;
-
-  & > div {
-    display: inline-block;
-  }
-
-  :hover {
-    opacity: 1;
-  }
-
-  @media print {
-    display: none;
-  }
-
-  button {
-    display: inline-block;
-
-    width: 22px;
-    height: 20px;
-    padding: 0px 4px;
-
-    text-align: center;
-
-    border: none;
-    outline: none;
-    background: none;
-  }
-
-  span {
-    font-size: 15px;
-    line-height: 1;
-    color: var(--theme-cell-toolbar-fg);
-  }
-
-  button span:hover {
-    color: var(--theme-cell-toolbar-fg-hover);
-  }
-
-  .octicon {
-    transition: color 0.5s;
-  }
-
-  span.spacer {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 1px 5px 3px 5px;
-    height: 11px;
-  }
-",
-                  ],
-                },
-                "displayName": "styled.div",
-                "foldedComponentIds": Array [],
-                "render": [Function],
-                "styledComponentId": "sc-bxivhb",
-                "target": "div",
-                "toString": [Function],
-                "warnTooManyClasses": [Function],
-                "withComponent": [Function],
-              }
-            }
-            forwardedRef={null}
+        <button>
+          <span>
+            <svg
+              height="16"
+              style="fill: currentColor; display: inline-block; vertical-align: text-bottom;"
+              viewBox="0 0 10 16"
+              width="10"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>
+                Show Additional Actions
+              </title>
+              <path
+                d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div
+        class="sc-htpNat juMQnP"
+      >
+        <ul
+          aria-label="dropdown-content"
+          role="listbox"
+        >
+          <li
+            role="presentation"
           >
             <div
-              className="sc-bxivhb grkuc"
+              class="sc-bxivhb eccFiY"
             >
               <button
-                className="executeButton"
-                title="execute cell"
+                class="clear-output text"
+                disabled=""
+                role="menuitem"
               >
-                <span
-                  className="octicon"
-                >
-                  <Component>
-                    <SVGWrapper
-                      height={16}
-                      outerProps={Object {}}
-                      viewBox="0 0 6 16"
-                      width={6}
-                    >
-                      <span>
-                        <svg
-                          height={16}
-                          style={
-                            Object {
-                              "display": "inline-block",
-                              "fill": "currentColor",
-                              "verticalAlign": "text-bottom",
-                            }
-                          }
-                          viewBox="0 0 6 16"
-                          width={6}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Run Cell
-                          </title>
-                          <path
-                            d="M0 14l6-6-6-6z"
-                            fillRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </SVGWrapper>
-                  </Component>
-                </span>
-              </button>
-              <DropdownMenu>
-                <DropdownDiv>
-                  <StyledComponent
-                    forwardedComponent={
-                      Object {
-                        "$$typeof": Symbol(react.forward_ref),
-                        "attrs": Array [],
-                        "componentStyle": ComponentStyle {
-                          "componentId": "sc-bdVaJa",
-                          "isStatic": true,
-                          "lastClassName": "igpjjl",
-                          "rules": Array [
-                            "
-  z-index: 10000;
-  display: inline-block;
-",
-                          ],
-                        },
-                        "displayName": "DropdownDiv",
-                        "foldedComponentIds": Array [],
-                        "render": [Function],
-                        "styledComponentId": "sc-bdVaJa",
-                        "target": "div",
-                        "toString": [Function],
-                        "warnTooManyClasses": [Function],
-                        "withComponent": [Function],
-                      }
-                    }
-                    forwardedRef={null}
-                  >
-                    <div
-                      className="sc-bdVaJa igpjjl"
-                    >
-                      <DropdownTrigger
-                        key=".0"
-                        onClick={[Function]}
-                      >
-                        <DropdownTriggerDiv
-                          onClick={[Function]}
-                        >
-                          <StyledComponent
-                            forwardedComponent={
-                              Object {
-                                "$$typeof": Symbol(react.forward_ref),
-                                "attrs": Array [],
-                                "componentStyle": ComponentStyle {
-                                  "componentId": "sc-bwzfXH",
-                                  "isStatic": true,
-                                  "lastClassName": "iaRngl",
-                                  "rules": Array [
-                                    "
-  user-select: none;
-  margin: 0px;
-  padding: 0px;
-",
-                                  ],
-                                },
-                                "displayName": "DropdownTriggerDiv",
-                                "foldedComponentIds": Array [],
-                                "render": [Function],
-                                "styledComponentId": "sc-bwzfXH",
-                                "target": "div",
-                                "toString": [Function],
-                                "warnTooManyClasses": [Function],
-                                "withComponent": [Function],
-                              }
-                            }
-                            forwardedRef={null}
-                            onClick={[Function]}
-                          >
-                            <div
-                              className="sc-bwzfXH iaRngl"
-                              onClick={[Function]}
-                            >
-                              <button
-                                title="show additional actions"
-                              >
-                                <span
-                                  className="octicon toggle-menu"
-                                >
-                                  <Component>
-                                    <SVGWrapper
-                                      height={16}
-                                      outerProps={Object {}}
-                                      viewBox="0 0 10 16"
-                                      width={10}
-                                    >
-                                      <span>
-                                        <svg
-                                          height={16}
-                                          style={
-                                            Object {
-                                              "display": "inline-block",
-                                              "fill": "currentColor",
-                                              "verticalAlign": "text-bottom",
-                                            }
-                                          }
-                                          viewBox="0 0 10 16"
-                                          width={10}
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <title>
-                                            Show Additional Actions
-                                          </title>
-                                          <path
-                                            d="M5 11L0 6l1.5-1.5L5 8.25 8.5 4.5 10 6z"
-                                            fillRule="evenodd"
-                                          />
-                                        </svg>
-                                      </span>
-                                    </SVGWrapper>
-                                  </Component>
-                                </span>
-                              </button>
-                            </div>
-                          </StyledComponent>
-                        </DropdownTriggerDiv>
-                      </DropdownTrigger>
-                      <DropdownContent
-                        key=".1"
-                        onItemClick={[Function]}
-                      >
-                        <DropdownContentDiv>
-                          <StyledComponent
-                            forwardedComponent={
-                              Object {
-                                "$$typeof": Symbol(react.forward_ref),
-                                "attrs": Array [],
-                                "componentStyle": ComponentStyle {
-                                  "componentId": "sc-htpNat",
-                                  "isStatic": true,
-                                  "lastClassName": "juMQnP",
-                                  "rules": Array [
-                                    "
-  user-select: none;
-  margin: 0px;
-  padding: 0px;
-
-  width: 200px;
-
-  opacity: 1;
-  position: absolute;
-  top: 0.2em;
-  right: 0;
-  border-style: none;
-  padding: 0;
-  font-family: var(--nt-font-family-normal);
-  font-size: var(--nt-font-size-m);
-  line-height: 1.5;
-  margin: 20px 0;
-  background-color: var(--theme-cell-menu-bg);
-
-  ul {
-    list-style: none;
-    text-align: left;
-    padding: 0;
-    margin: 0;
-    opacity: 1;
-  }
-
-  ul li {
-    padding: 0.5rem;
-  }
-
-  ul li:hover {
-    background-color: var(--theme-cell-menu-bg-hover, #e2dfe3);
-    cursor: pointer;
-  }
-",
-                                  ],
-                                },
-                                "displayName": "DropdownContentDiv",
-                                "foldedComponentIds": Array [],
-                                "render": [Function],
-                                "styledComponentId": "sc-htpNat",
-                                "target": "div",
-                                "toString": [Function],
-                                "warnTooManyClasses": [Function],
-                                "withComponent": [Function],
-                              }
-                            }
-                            forwardedRef={null}
-                          >
-                            <div
-                              className="sc-htpNat juMQnP"
-                            >
-                              <ul
-                                aria-label="dropdown-content"
-                                role="listbox"
-                              >
-                                <li
-                                  aria-selected="false"
-                                  className="clearOutput"
-                                  key=".0"
-                                  onClick={[Function]}
-                                  role="option"
-                                  tabIndex={0}
-                                >
-                                  <a>
-                                    Clear Cell Output
-                                  </a>
-                                </li>
-                                <li
-                                  aria-selected="false"
-                                  className="inputVisibility"
-                                  key=".1"
-                                  onClick={[Function]}
-                                  role="option"
-                                  tabIndex={0}
-                                >
-                                  <a>
-                                    Toggle Input Visibility
-                                  </a>
-                                </li>
-                                <li
-                                  aria-selected="false"
-                                  className="outputVisibility"
-                                  key=".2"
-                                  onClick={[Function]}
-                                  role="option"
-                                  tabIndex={0}
-                                >
-                                  <a>
-                                    Toggle Output Visibility
-                                  </a>
-                                </li>
-                                <li
-                                  aria-selected="false"
-                                  className="outputExpanded"
-                                  key=".3"
-                                  onClick={[Function]}
-                                  role="option"
-                                  tabIndex={0}
-                                >
-                                  <a>
-                                    Toggle Expanded Output
-                                  </a>
-                                </li>
-                                <li
-                                  aria-selected="false"
-                                  key=".4"
-                                  onClick={[Function]}
-                                  role="option"
-                                  tabIndex={0}
-                                >
-                                  <a>
-                                    Toggle Parameter Cell
-                                  </a>
-                                </li>
-                                <li
-                                  aria-selected="false"
-                                  className="changeType"
-                                  key=".5"
-                                  onClick={[Function]}
-                                  role="option"
-                                  tabIndex={0}
-                                >
-                                  <a>
-                                    Convert to Markdown Cell
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </StyledComponent>
-                        </DropdownContentDiv>
-                      </DropdownContent>
-                    </div>
-                  </StyledComponent>
-                </DropdownDiv>
-              </DropdownMenu>
-              <span
-                className="spacer"
-              />
-              <button
-                className="deleteButton"
-                title="delete cell"
-              >
-                <span
-                  className="octicon"
-                >
-                  <Component>
-                    <SVGWrapper
-                      height={16}
-                      outerProps={Object {}}
-                      viewBox="0 0 12 16"
-                      width={12}
-                    >
-                      <span>
-                        <svg
-                          height={16}
-                          style={
-                            Object {
-                              "display": "inline-block",
-                              "fill": "currentColor",
-                              "verticalAlign": "text-bottom",
-                            }
-                          }
-                          viewBox="0 0 12 16"
-                          width={12}
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <title>
-                            Delete Cell
-                          </title>
-                          <path
-                            d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"
-                            fillRule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </SVGWrapper>
-                  </Component>
-                </span>
+                Clear Cell Output
               </button>
             </div>
-          </StyledComponent>
-        </styled.div>
+          </li>
+          <li
+            role="presentation"
+          >
+            <div
+              class="sc-bxivhb eccFiY"
+            >
+              <label
+                aria-checked="true"
+                class="toggle-input checked"
+                role="menuitemcheckbox"
+              >
+                <input
+                  aria-checked="true"
+                  checked=""
+                  role="menuitemcheckbox"
+                  type="checkbox"
+                />
+                Show Cell Input
+              </label>
+            </div>
+          </li>
+          <li
+            role="presentation"
+          >
+            <div
+              class="sc-bxivhb eccFiY"
+            >
+              <label
+                aria-checked="true"
+                class="toggle-output checked"
+                role="menuitemcheckbox"
+              >
+                <input
+                  aria-checked="true"
+                  checked=""
+                  role="menuitemcheckbox"
+                  type="checkbox"
+                />
+                Show Cell Output
+              </label>
+            </div>
+          </li>
+          <li
+            role="presentation"
+          >
+            <div
+              class="sc-bxivhb eccFiY"
+            >
+              <label
+                aria-checked="false"
+                class="toggle-output-expanded not-checked"
+                role="menuitemcheckbox"
+              >
+                <input
+                  aria-checked="false"
+                  role="menuitemcheckbox"
+                  type="checkbox"
+                />
+                Expanded Cell Output
+              </label>
+            </div>
+          </li>
+          <li
+            role="presentation"
+          >
+            <div
+              class="sc-bxivhb eccFiY"
+            >
+              <button
+                class="change-to-markdown text"
+                role="menuitem"
+              >
+                Convert to Markdown Cell
+              </button>
+            </div>
+          </li>
+          <li
+            role="presentation"
+          >
+            <div
+              class="sc-bxivhb eccFiY"
+            >
+              <label
+                aria-checked="false"
+                class="toggle-parameter not-checked"
+                role="menuitemcheckbox"
+              >
+                <input
+                  aria-checked="false"
+                  role="menuitemcheckbox"
+                  type="checkbox"
+                />
+                Is Parameter Cell
+              </label>
+            </div>
+          </li>
+        </ul>
       </div>
-    </StyledComponent>
-  </styled.div>
-</PureToolbar>
+    </div>
+  </div>
+  <div
+    class="toolbar-end"
+  >
+    <div
+      class="sc-bxivhb eccFiY"
+    >
+      <button
+        class="delete-cell icon"
+        role="menuitem"
+      >
+        <span>
+          <svg
+            height="16"
+            style="fill: currentColor; display: inline-block; vertical-align: text-bottom;"
+            viewBox="0 0 12 16"
+            width="12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              Delete Cell
+            </title>
+            <path
+              d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"
+              fill-rule="evenodd"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
 `;
