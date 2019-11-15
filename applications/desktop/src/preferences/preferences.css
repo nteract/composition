@@ -1,0 +1,35 @@
+main {
+    margin: 2rem;
+    font-family: sans-serif;
+    user-select: none;
+}
+
+main > h1 {
+    font-size: 133%;
+    font-weight: normal;
+    margin: 2em 0 1em;
+}
+
+main > * + h1 {
+    padding-top: 1em;
+    border-top: 1px solid lightgray;
+}
+
+main > section > h1 {
+    font-size: 100%;
+    font-weight: bold;
+    margin: 1.5em 0 0.5em;
+}
+
+main > section > section h1 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+input[type=checkbox], input[type=radio] {
+    width: 1em;
+    height: 1em;
+    position: relative;
+    top: 0.125em;
+    margin-bottom: 0.5rem;
+}

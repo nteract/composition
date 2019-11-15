@@ -4,6 +4,7 @@ import * as path from "path";
 import { actions, ContentRef, createKernelRef, selectors } from "@nteract/core";
 import { ipcRenderer as ipc, remote, shell, webFrame } from "electron";
 import { throttle } from "lodash";
+import { launchConfigWindow } from "../preferences/api";
 import { DesktopStore } from "./store";
 
 type NotificationSystemRef = any;
@@ -368,6 +369,10 @@ export function dispatchZoomOut(): void {
 
 export function dispatchZoomReset(): void {
   webFrame.setZoomLevel(0);
+}
+
+export function dispatchOpenConfigWindow(): void {
+  launchConfigWindow();
 }
 
 export function dispatchSetTheme(
@@ -792,6 +797,7 @@ export function initMenuHandlers(
     "menu:restart-and-run-all",
     dispatchRestartKernel.bind(null, opts, store, "Run All")
   );
+  ipc.on("menu:open-config-window", dispatchOpenConfigWindow.bind(null, opts, store));
   ipc.on("menu:theme", dispatchSetTheme.bind(null, opts, store));
   ipc.on("menu:set-blink-rate", dispatchSetCursorBlink.bind(null, opts, store));
   ipc.on(

@@ -24,7 +24,7 @@ const mainConfig = {
   },
   node: {
     __dirname: false,
-    __filename: false
+    __filename: false,
   },
   module: {
     rules: [
@@ -45,7 +45,8 @@ const mainConfig = {
 const rendererConfig = {
   mode: "development",
   entry: {
-    app: "./src/notebook/index.tsx"
+    app: "./src/notebook/index.tsx",
+    preferences: "./src/preferences/index.tsx",
   },
   target: "electron-renderer",
   output: {
@@ -54,6 +55,10 @@ const rendererConfig = {
     filename: "[name].js"
   },
   externals: nodeModules,
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
   module: {
     rules: [
       {

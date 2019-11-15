@@ -39,29 +39,6 @@ function createSender(
   };
 }
 
-const theme_menu = [
-  {
-    label: "Light",
-    click: createSender("menu:theme", "light")
-  },
-  {
-    label: "Dark",
-    click: createSender("menu:theme", "dark")
-  }
-];
-const blink_menu = [
-  // TODO: replace the with one `type: 'checkbox'` item once we have state to
-  // know which way it should be set initially.
-  {
-    label: "Do Not Blink Editor Cursor",
-    click: createSender("menu:set-blink-rate", 0)
-  },
-  {
-    label: "Blink Editor Cursor",
-    click: createSender("menu:set-blink-rate", 530)
-  }
-];
-
 const windowDraft = {
   label: "Window",
   role: "window",
@@ -437,7 +414,14 @@ export function loadFullMenu(store = global.store) {
         enabled: BrowserWindow.getAllWindows().length > 0,
         accelerator: "CmdOrCtrl+Shift+D",
         click: createSender("menu:delete-cell")
-      }
+      },
+      {
+        type: "separator"
+      },
+      {
+        label: "Preferences",
+        click: createSender("menu:open-config-window"),
+      },
     ]
   };
 
@@ -539,24 +523,6 @@ export function loadFullMenu(store = global.store) {
         accelerator: "CmdOrCtrl+-",
         click: createSender("menu:zoom-out")
       },
-      {
-        label: "Theme",
-        submenu: theme_menu
-      },
-
-      {
-        label: "Editor options",
-        submenu: blink_menu
-      },
-      {
-        label: "Set default kernel",
-        submenu: sortBy(kernelSpecs, "spec.display_name").map(
-          kernel => ({
-            label: kernel.spec.display_name,
-            click: createSender("menu:set-default-kernel", kernel.name),
-          })
-        ),
-      }
     ]
   };
 
