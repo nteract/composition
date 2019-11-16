@@ -1,8 +1,11 @@
+import { ChangeEvent } from "react";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { actions } from "../../common/use-cases";
 
 import { PreferencesAppState } from "../setup/state";
+import { ConfigOptionEnum } from "./option-enum";
 
 export interface ConfigOptionBoolean {
   id: string;
@@ -24,14 +27,18 @@ const makeMapStateToProps =
   });
 
 const makeMapDispatchToProps =
-  (dispatch: Dispatch, { id, values }: ConfigOptionBoolean) => ({
+  (dispatch: Dispatch, { id }: ConfigOptionEnum) => ({
+    makeSetValue: (value: any) => (event: ChangeEvent<HTMLInputElement>) =>
+      dispatch(actions.setConfigAtKey(id, value)),
   });
 
 const PureBooleanOption = ({
   id,
   label,
+  values,
   checked,
-}: ConfigOptionBoolean & { checked: boolean }) =>
+  makeSetValue,
+}: ConfigOptionBoolean & { checked: boolean, makeSetValue: (value: any) => (event: ChangeEvent<HTMLInputElement>) => void}) =>
   <section>
     <h1>
       <input
@@ -39,6 +46,7 @@ const PureBooleanOption = ({
         id={id}
         checked={checked}
         aria-checked={checked}
+        onChange={makeSetValue(values ? values[!checked ? "true" : "false"] : !checked)}
       />
       &nbsp;
       <label htmlFor={id}>{label}</label>

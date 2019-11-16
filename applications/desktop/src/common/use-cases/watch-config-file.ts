@@ -32,7 +32,7 @@ export const loadConfigEpic = combineEpics(
         readFileObservable(CONFIG_FILE_PATH).pipe(
           mapErrorTo("{}", err => err.code === "ENOENT"),
           map(data => JSON.parse(data.toString())),
-          mapErrorTo(undefined, err => true),
+          mapErrorTo(undefined, err => true), // File probably being written
           skipWhile(data => data === undefined),
           map(config => ({ type: "MERGE_CONFIG", payload: { config } })),
         )
