@@ -1,9 +1,8 @@
+import chokidar from "chokidar";
 import * as fs from "fs";
-
+import mkdirp from "mkdirp";
 import { bindNodeCallback, Observable } from "rxjs";
 import { mergeMap } from "rxjs/operators";
-
-import mkdirp from "mkdirp";
 
 /**
  * Deletes a file, if it exists
@@ -47,7 +46,7 @@ export const mkdirpObservable = bindNodeCallback(mkdirp);
 export function readdirObservable(
   path: string,
   options?: { encoding?: string | null } | string | null
-) {
+): Observable<string[] | Buffer[]> {
   return new Observable(observer => {
     const cb = (err: Error | null = null, files: string[] | Buffer[]) => {
       if (err) {
@@ -70,3 +69,22 @@ export function readdirObservable(
 export const statObservable: (
   path: string
 ) => Observable<fs.Stats> = bindNodeCallback(fs.stat);
+
+/**
+ * Watches a file for change
+ */
+export function watchFileObservable(
+  path: string,
+): Observable<{path: string, event: "add" | "change" | "unlink"}> {
+  return new Observable(observer => {
+    const watcher = chokidar.watch(path);
+    watcher.on("error",
+        err => observer.error(err));
+    watcher.on("add",
+        filepath => observer.next({path: filepath, event: "add"}));
+    watcher.on("change",
+        filepath => observer.next({path: filepath, event: "change"}));
+    watcher.on("unlink",
+        filepath => observer.next({path: filepath, event: "unlink"}));
+  });
+}

@@ -170,38 +170,6 @@ export interface CommMessageAction {
   comm_id: string;
 }
 
-export const SET_CONFIG_AT_KEY = "SET_CONFIG_AT_KEY";
-export interface SetConfigAction<T> {
-  type: "SET_CONFIG_AT_KEY";
-  payload: {
-    key: string;
-    value: T;
-  };
-}
-
-export const MERGE_CONFIG = "MERGE_CONFIG";
-export interface MergeConfigAction {
-  type: "MERGE_CONFIG";
-  payload: {
-    config: { [key: string]: any };
-  };
-}
-
-export const LOAD_CONFIG = "LOAD_CONFIG";
-export interface LoadConfigAction {
-  type: "LOAD_CONFIG";
-}
-
-export const SAVE_CONFIG = "SAVE_CONFIG";
-export interface SaveConfigAction {
-  type: "SAVE_CONFIG";
-}
-
-export const DONE_SAVING_CONFIG = "DONE_SAVING_CONFIG";
-export interface DoneSavingConfigAction {
-  type: "DONE_SAVING_CONFIG";
-}
-
 export const TOGGLE_OUTPUT_EXPANSION = "TOGGLE_OUTPUT_EXPANSION";
 export interface ToggleCellExpansion {
   type: "TOGGLE_OUTPUT_EXPANSION";

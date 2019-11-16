@@ -96,29 +96,6 @@ export function setGithubToken(
   };
 }
 
-export function setConfigAtKey<T>(
-  key: string,
-  value: T
-): actionTypes.SetConfigAction<T> {
-  return {
-    type: actionTypes.SET_CONFIG_AT_KEY,
-    payload: {
-      key,
-      value
-    }
-  };
-}
-
-export function setTheme(theme: string): actionTypes.SetConfigAction<string> {
-  return setConfigAtKey("theme", theme);
-}
-
-export function setCursorBlink(
-  value: string
-): actionTypes.SetConfigAction<string> {
-  return setConfigAtKey("cursorBlinkRate", value);
-}
-
 export function toggleOutputExpansion(payload: {
   id: string;
   contentRef: ContentRef;
@@ -128,25 +105,6 @@ export function toggleOutputExpansion(payload: {
     payload
   };
 }
-
-export const loadConfig = () => ({ type: actionTypes.LOAD_CONFIG });
-
-export const saveConfig = () => ({ type: actionTypes.SAVE_CONFIG });
-
-export const doneSavingConfig = () => ({
-  type: actionTypes.DONE_SAVING_CONFIG
-});
-
-interface ConfigPayload {
-  config: { [key: string]: string; theme: string };
-}
-
-export const configLoaded = (
-  payload: ConfigPayload
-): actionTypes.MergeConfigAction => ({
-  payload,
-  type: actionTypes.MERGE_CONFIG
-});
 
 /**
  * Action creator for comm_open messages

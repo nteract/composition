@@ -2,6 +2,7 @@
  * Main entry point for the desktop preference window
  */
 
+import { actions } from "@nteract/core";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { Item } from "./items";
@@ -18,6 +19,7 @@ declare global {
 }
 
 window.store = configurePreferencesStore();
+window.store.dispatch(actions.loadConfig());
 
 export const App = () =>
   <main>

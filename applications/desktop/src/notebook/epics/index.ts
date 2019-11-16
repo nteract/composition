@@ -4,12 +4,12 @@ import { Observable } from "rxjs";
 import { catchError, startWith } from "rxjs/operators";
 import { DesktopNotebookAppState } from "../state";
 
-import { closeNotebookEpic } from "./close-notebook";
 import {
   loadConfigEpic,
   saveConfigEpic,
   saveConfigOnChangeEpic
-} from "./config";
+} from "../../common/epics/config";
+import { closeNotebookEpic } from "./close-notebook";
 import { publishEpic } from "./github-publish";
 import {
   fetchContentEpic,

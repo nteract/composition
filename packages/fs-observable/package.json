@@ -22,7 +22,8 @@
     "access": "public"
   },
   "dependencies": {
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.1",
+    "chokidar": "^3.3.0"
   },
   "devDependencies": {
     "@types/mkdirp": "^0.5.1"
