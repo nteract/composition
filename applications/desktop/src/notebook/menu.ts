@@ -4,6 +4,7 @@ import * as path from "path";
 import { actions, ContentRef, createKernelRef, selectors } from "@nteract/core";
 import { ipcRenderer as ipc, remote, shell, webFrame } from "electron";
 import { throttle } from "lodash";
+import { actions as configActions } from "../common/use-cases";
 import { DesktopStore } from "./store";
 
 type NotificationSystemRef = any;
@@ -696,11 +697,11 @@ export function storeToPDF(
   }
 }
 
-export function dispatchLoadConfig(
+export function dispatchWatchConfig(
   _ownProps: { contentRef: ContentRef },
   store: DesktopStore
 ): void {
-  store.dispatch(actions.loadConfig());
+  store.dispatch(configActions.watchConfigFile());
 }
 
 export function initMenuHandlers(
@@ -772,7 +773,7 @@ export function initMenuHandlers(
   ipc.on("menu:publish:gist", dispatchPublishGist.bind(null, opts, store));
   ipc.on("menu:exportPDF", storeToPDF.bind(null, opts, store));
   ipc.on("main:load", dispatchLoad.bind(null, opts, store));
-  ipc.on("main:load-config", dispatchLoadConfig.bind(null, opts, store));
+  ipc.on("main:watch-config", dispatchWatchConfig.bind(null, opts, store));
 
   /* Global non-content aware actions */
   ipc.on("menu:zoom-in", dispatchZoomIn);

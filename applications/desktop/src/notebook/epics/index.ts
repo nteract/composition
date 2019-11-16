@@ -4,11 +4,7 @@ import { Observable } from "rxjs";
 import { catchError, startWith } from "rxjs/operators";
 import { DesktopNotebookAppState } from "../state";
 
-import {
-  loadConfigEpic,
-  saveConfigEpic,
-  saveConfigOnChangeEpic
-} from "../../common/epics/config";
+
 import { closeNotebookEpic } from "./close-notebook";
 import { publishEpic } from "./github-publish";
 import {
@@ -63,9 +59,6 @@ const epics = [
   launchKernelByNameEpic,
   interruptKernelEpic,
   killKernelEpic,
-  loadConfigEpic,
-  saveConfigEpic,
-  saveConfigOnChangeEpic,
   closeNotebookEpic
 ];
 

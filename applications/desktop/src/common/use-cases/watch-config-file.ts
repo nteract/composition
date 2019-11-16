@@ -2,26 +2,28 @@ import { ConfigState } from "@nteract/types";
 import { readFileObservable, watchFileObservable } from "fs-observable";
 import { Action, Reducer } from "redux";
 import { combineEpics, ofType } from "redux-observable";
-import { map, mapTo, switchMap } from "rxjs/operators";
+import { concat, of } from "rxjs";
+import { catchError, map, mapTo, skipWhile, switchMap } from "rxjs/operators";
 import { CONFIG_FILE_PATH } from "../paths";
 import { mapErrorTo } from "../utils";
 
 export type WatchConfigFileAction = Action<"WATCH_CONFIG_FILE">;
 
 export const watchConfigFile =
-  () => ({ type: "WATCH_CONFIG_FILE" });
+  (): WatchConfigFileAction => ({ type: "WATCH_CONFIG_FILE" });
 
 export const loadConfigEpic = combineEpics(
   (action$) =>
     action$.pipe(
       ofType("WATCH_CONFIG_FILE"),
       switchMap(() =>
-        watchFileObservable(
-          CONFIG_FILE_PATH,
-        ).pipe(
-          mapTo({ type: "LOAD_CONFIG" }),
+        concat(
+          of({ type: "LOAD_CONFIG" }),
+          watchFileObservable(CONFIG_FILE_PATH).pipe(
+            mapTo({ type: "LOAD_CONFIG" }),
+          ),
         )
-      )
+      ),
     ),
   (action$) =>
     action$.pipe(
@@ -30,9 +32,11 @@ export const loadConfigEpic = combineEpics(
         readFileObservable(CONFIG_FILE_PATH).pipe(
           mapErrorTo("{}", err => err.code === "ENOENT"),
           map(data => JSON.parse(data.toString())),
-          map(config => ({ type: "MERGE_CONFIG", payload: { config  } })),
+          mapErrorTo(undefined, err => true),
+          skipWhile(data => data === undefined),
+          map(config => ({ type: "MERGE_CONFIG", payload: { config } })),
         )
-      )
+      ),
     ),
 );
 
@@ -45,4 +49,4 @@ export interface MergeConfigAction {
 
 export const mergeConfigReducer: Reducer<ConfigState, MergeConfigAction> =
   (state, action) =>
-    state.merge(action.payload);
+    state!.merge(action.payload.config);

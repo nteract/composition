@@ -1,4 +1,5 @@
-import chokidar from "chokidar";
+// @ts-ignore
+import filewatcher from "filewatcher";
 import * as fs from "fs";
 import mkdirp from "mkdirp";
 import { bindNodeCallback, Observable } from "rxjs";
@@ -75,16 +76,13 @@ export const statObservable: (
  */
 export function watchFileObservable(
   path: string,
-): Observable<{path: string, event: "add" | "change" | "unlink"}> {
+): Observable<{path: string}> {
   return new Observable(observer => {
-    const watcher = chokidar.watch(path);
-    watcher.on("error",
-        err => observer.error(err));
-    watcher.on("add",
-        filepath => observer.next({path: filepath, event: "add"}));
+    const watcher = filewatcher({ persistent: false });
+    watcher.add(path);
     watcher.on("change",
-        filepath => observer.next({path: filepath, event: "change"}));
-    watcher.on("unlink",
-        filepath => observer.next({path: filepath, event: "unlink"}));
+      (filepath: string) =>
+        observer.next({path: filepath})
+    );
   });
 }

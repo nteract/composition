@@ -1,15 +1,15 @@
 import { AppState } from "@nteract/core";
 import * as Immutable from "immutable";
-import { ConfigSchema, ALL_PREFERENCES } from "../schema";
+import { ALL_PREFERENCES, ConfigSchema } from "../schema";
 
 export type PreferencesAppState = Pick<AppState, "config">;
 
 function makeState(schema: ConfigSchema): PreferencesAppState {
-  const config: { [key: string]: string | number | boolean } = {};
+  const config: { [key: string]: any } = {};
 
   schema
-    .filter(({ id }) => id)
-    .forEach(({ id, default: value }) => config[id!] = value!);
+    .filter(({ id }: any) => id)
+    .forEach(({ id, initial: value }: any) => config[id] = value);
 
   return { config: Immutable.fromJS(config) };
 }

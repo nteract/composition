@@ -54,7 +54,7 @@ export function launchIpynb(
   const win = createWindow("index.html", loadFullMenu);
   win.webContents.on("did-finish-load", () => {
     win.webContents.send("main:load", filepath);
-    win.webContents.send("main:load-config");
+    win.webContents.send("main:watch-config");
   });
   return win;
 }
@@ -66,7 +66,7 @@ export function launchNewNotebook(
   const win = createWindow("index.html", loadFullMenu);
   win.webContents.on("did-finish-load", () => {
     win.webContents.send("main:new", filepath, kernelSpec);
-    win.webContents.send("main:load-config");
+    win.webContents.send("main:watch-config");
   });
   return win;
 }

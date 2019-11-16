@@ -39,7 +39,7 @@ import {
 } from "./actions";
 import { initAutoUpdater } from "./auto-updater";
 import initializeKernelSpecs from "./kernel-specs";
-import { launch, launchNewNotebook } from "./launch";
+import { launchIpynb, launchNewNotebook } from "./launch";
 import { loadFullMenu, loadTrayMenu } from "./menu";
 import prepareEnv from "./prepare-env";
 
@@ -72,7 +72,7 @@ ipc.on("new-kernel", (_event: any, k: KernelspecInfo) => {
 });
 
 ipc.on("open-notebook", (_event: any, filename: string) => {
-  launch(resolve(filename));
+  launchIpynb(resolve(filename));
 });
 
 ipc.on("reload", (event: Event) => {
@@ -263,7 +263,7 @@ function openFileFromEvent({
   filename: string;
 }) {
   event.preventDefault();
-  launch(resolve(filename));
+  launchIpynb(resolve(filename));
 }
 
 // Since we can't launch until app is ready
@@ -308,7 +308,7 @@ openFile$
       notebooks.forEach(f => {
         if (existsSync(resolve(f))) {
           try {
-            launch(resolve(f));
+            launchIpynb(resolve(f));
           } catch (e) {
             log.error(e);
             console.error(e);

@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  font-family: "Source Sans Pro";
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 16px;
   background-color: var(--theme-app-bg);
   color: var(--theme-app-fg);

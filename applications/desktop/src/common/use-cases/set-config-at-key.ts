@@ -2,7 +2,7 @@ import { AppState, ConfigState } from "@nteract/types";
 import { writeFileObservable } from "fs-observable";
 import { Reducer } from "redux";
 import { combineEpics, ofType, StateObservable } from "redux-observable";
-import { mapTo, mergeMap } from "rxjs/operators";
+import { ignoreElements, mapTo, switchMap, switchMapTo, tap } from "rxjs/operators";
 import { CONFIG_FILE_PATH } from "../paths";
 
 export interface SetConfigAction<T> {
@@ -18,24 +18,19 @@ export const setConfigAtKey =
 
 export const setConfigReducer: Reducer<ConfigState, SetConfigAction<any>> =
   (state, action) =>
-    state.set(action.payload.key, action.payload.value);
+    state!.set(action.payload.key, action.payload.value);
 
 export const saveConfigEpic = combineEpics(
-  (action$) =>
-    action$.pipe(
-      ofType("SET_CONFIG_AT_KEY"),
-      mapTo({ type: "SAVE_CONFIG" })
-    ),
   (action$, state$: StateObservable<Pick<AppState, "config">>) =>
     action$.pipe(
-      ofType("SAVE_CONFIG"),
-      mergeMap(() =>
+      ofType("SET_CONFIG_AT_KEY"),
+      switchMap(() =>
         writeFileObservable(
           CONFIG_FILE_PATH,
           JSON.stringify(state$.value.config.toJS())
         ).pipe(
-          mapTo({ type: "DONE_SAVING_CONFIG" }),
+          mapTo({ type: "CONFIG_SAVED" }),
         )
-      )
+      ),
     ),
 );

@@ -1,4 +1,9 @@
+import { ChangeEvent } from "react";
 import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { actions } from "../../common/use-cases";
+import { PreferencesAppState } from "../setup/state";
 
 export interface ConfigOptionEnum {
   id: string;
@@ -13,12 +18,28 @@ export interface ConfigOptionEnum {
 export const isEnum = (props: any): props is ConfigOptionEnum =>
   "options" in props;
 
-export const EnumOption = ({
+const makeMapStateToProps =
+  (state: PreferencesAppState, { id }: ConfigOptionEnum) => ({
+    current: state.config.get(id),
+  });
+
+const makeMapDispatchToProps =
+  (dispatch: Dispatch, { id }: ConfigOptionEnum) => ({
+    makeSetValue: (value: any) => (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.checked) {
+        dispatch(actions.setConfigAtKey(id, value));
+      }
+    },
+  });
+
+const PureEnumOption = ({
   id,
   label,
   initial,
   options,
-}: ConfigOptionEnum) =>
+  current,
+  makeSetValue,
+}: ConfigOptionEnum & {current: any, makeSetValue: (value: any) => (event: ChangeEvent<HTMLInputElement>) => void}) =>
   <section>
     <h1>{label}</h1>
     {options.map(option =>
@@ -28,13 +49,18 @@ export const EnumOption = ({
             type={initial instanceof Array ? "checkbox" : "radio"}
             name={id}
             value={option.value}
-            defaultChecked={option.value === initial || (initial instanceof Array && initial.includes(option.value))}
-            aria-checked={option.value === initial || (initial instanceof Array && initial.includes(option.value))}
+            checked={option.value === current || (initial instanceof Array && current.includes(option.value))}
+            onChange={makeSetValue(option.value)}
           />
           &nbsp;
           {option.label}
         </label>
       </div>)}
   </section>;
+
+export const EnumOption = connect(
+  makeMapStateToProps,
+  makeMapDispatchToProps,
+)(PureEnumOption);
 
 EnumOption.displayName = "EnumOption";
