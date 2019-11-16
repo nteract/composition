@@ -14,7 +14,7 @@ import { sortBy } from "lodash";
 
 import { KernelspecInfo } from "@nteract/types";
 import { installShellCommand } from "./cli";
-import { launch, launchNewNotebook } from "./launch";
+import { launchIpynb, launchNewNotebook } from "./launch";
 
 function send(
   focusedWindow: BrowserWindow,
@@ -209,7 +209,7 @@ export function loadFullMenu(store = global.store) {
         label: `&${collection.language}`,
         submenu: collection.files.map(fileInfo => {
           return {
-            click: launch.bind(null, path.join(examplesBaseDir, fileInfo.path)),
+            click: launchIpynb.bind(null, path.join(examplesBaseDir, fileInfo.path)),
             label: `&${fileInfo.metadata.title}`
           };
         })
@@ -242,7 +242,7 @@ export function loadFullMenu(store = global.store) {
 
         dialog.showOpenDialog(opts, (fname?: string[]) => {
           if (fname) {
-            launch(fname[0]);
+            launchIpynb(fname[0]);
             app.addRecentDocument(fname[0]);
           }
         });
@@ -655,7 +655,7 @@ export function loadTrayMenu(store = global.store) {
 
       dialog.showOpenDialog(opts, (fname?: string[]) => {
         if (fname) {
-          launch(fname[0]);
+          launchIpynb(fname[0]);
           app.addRecentDocument(fname[0]);
         }
       });
