@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { ConfigItem } from "../../common/config/schema";
+import { ConfigItem } from "../../common/config";
 import { Heading, isHeading } from "./heading";
 import { BooleanOption, isBoolean } from "./option-boolean";
 import { EnumOption, isEnum } from "./option-enum";

@@ -1,4 +1,5 @@
-import { ConfigOptions } from "./schema";
+import * as Immutable from "immutable";
+import { ConfigOptions, Configuration } from "./schema";
 
 export const ALL_CONFIG_OTIONS: ConfigOptions = [
   { heading: "Startup" },
@@ -34,3 +35,11 @@ export const ALL_CONFIG_OTIONS: ConfigOptions = [
     initial: false,
   },
 ];
+
+const initial: Configuration = { kernelspecs: undefined };
+
+ALL_CONFIG_OTIONS
+  .filter(({ id }: any) => id)
+  .forEach(({ id, initial: value }: any) => initial[id] = value);
+
+export const INITIAL_CONFIGURATION = Immutable.fromJS(initial);

@@ -1,17 +1,17 @@
+import { RecordOf } from "immutable";
 import { ChangeEvent } from "react";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ConfigOptionEnum, setConfigAtKey } from "../../common/config";
-import { PreferencesAppState } from "../setup/state";
+import { ConfigOptionEnum, Configuration, ConfigurationState, setConfigAtKey } from "../../common/config";
 
 
 export const isEnum = (props: any): props is ConfigOptionEnum =>
   "options" in props;
 
 const makeMapStateToProps =
-  (state: PreferencesAppState, { id }: ConfigOptionEnum) => ({
+  (state: ConfigurationState, { id }: ConfigOptionEnum) => ({
     current: state.config.get(id),
   });
 

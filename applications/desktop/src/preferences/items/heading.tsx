@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ConfigHeading } from "../../common/config/schema";
+import { ConfigHeading } from "../../common/config";
 
 export const isHeading = (props: any): props is ConfigHeading =>
   "heading" in props;

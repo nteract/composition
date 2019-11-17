@@ -1,5 +1,7 @@
+import { Kernelspecs } from "@nteract/types";
 import { mkdirpObservable, writeFileObservable } from "fs-observable";
 import { RecordOf } from "immutable";
+import * as Immutable from "immutable";
 import * as path from "path";
 import { Reducer } from "redux";
 import { combineEpics, ofType, StateObservable } from "redux-observable";
@@ -8,22 +10,21 @@ import { Configuration, ConfigurationState } from "../schema";
 
 import { CONFIG_FILE_PATH } from "../paths";
 
-
-export interface SetConfigAction<T> {
-  type: "SET_CONFIG_AT_KEY";
-  payload: { key: string; value: T };
+export interface ReceiveKernelspecsAction {
+  type: "RECEIVE_KERNELSPECS";
+  payload: Kernelspecs;
 }
 
-export const setConfigAtKey =
-  <T>(key: string, value: T): SetConfigAction<T> => ({
-    type: "SET_CONFIG_AT_KEY",
-    payload: { key, value },
+export const receiveKernelspecs =
+  (kernelspecs: Kernelspecs): ReceiveKernelspecsAction => ({
+    type: "RECEIVE_KERNELSPECS",
+    payload: kernelspecs,
   });
 
-export const setConfigReducer:
-  Reducer<RecordOf<Configuration>, SetConfigAction<any>> =
+export const receiveKernelspecsReducer:
+  Reducer<RecordOf<Configuration>, ReceiveKernelspecsAction> =
   (state, action) =>
-    state!.set(action.payload.key, action.payload.value);
+    state!.set("kernelspecs", Immutable.fromJS(action.payload));
 
 export const saveConfigEpic = combineEpics(
   (action$, state$: StateObservable<ConfigurationState>) =>

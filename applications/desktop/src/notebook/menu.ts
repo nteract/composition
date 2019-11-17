@@ -4,7 +4,7 @@ import * as path from "path";
 import { actions, ContentRef, createKernelRef, selectors } from "@nteract/core";
 import { ipcRenderer as ipc, remote, shell, webFrame } from "electron";
 import { throttle } from "lodash";
-import { actions as configActions } from "../common/use-cases";
+import { watchConfigFile } from "../common/config/use-cases";
 import { DesktopStore } from "./store";
 
 type NotificationSystemRef = any;
@@ -701,7 +701,7 @@ export function dispatchWatchConfig(
   _ownProps: { contentRef: ContentRef },
   store: DesktopStore
 ): void {
-  store.dispatch(configActions.watchConfigFile());
+  store.dispatch(watchConfigFile());
 }
 
 export function initMenuHandlers(

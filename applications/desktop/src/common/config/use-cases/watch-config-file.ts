@@ -1,11 +1,13 @@
-import { ConfigState } from "@nteract/types";
 import { readFileObservable, watchFileObservable } from "fs-observable";
+import { RecordOf } from "immutable";
 import { Action, Reducer } from "redux";
 import { combineEpics, ofType } from "redux-observable";
 import { concat, of } from "rxjs";
-import { catchError, map, mapTo, skipWhile, switchMap } from "rxjs/operators";
+import { map, mapTo, skipWhile, switchMap } from "rxjs/operators";
+
+import { mapErrorTo } from "../../utils";
 import { CONFIG_FILE_PATH } from "../paths";
-import { mapErrorTo } from "../utils";
+import { Configuration } from "../schema";
 
 export type WatchConfigFileAction = Action<"WATCH_CONFIG_FILE">;
 
@@ -48,6 +50,7 @@ export interface MergeConfigAction {
   };
 }
 
-export const mergeConfigReducer: Reducer<ConfigState, MergeConfigAction> =
+export const mergeConfigReducer:
+  Reducer<RecordOf<Configuration>, MergeConfigAction> =
   (state, action) =>
     state!.merge(action.payload.config);

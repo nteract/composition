@@ -1,20 +1,12 @@
 import { middlewares as coreMiddlewares } from "@nteract/core";
-import {
-  Action,
-  applyMiddleware,
-  combineReducers,
-  createStore,
-  Middleware, Reducer,
-  ReducersMapObject,
-  Store
-} from "redux";
+import { Action, applyMiddleware, createStore, Middleware, Reducer, Store } from "redux";
 import { ActionsObservable, combineEpics, createEpicMiddleware, Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 export default function configureStore<S, A extends Action>(
   initialState: S,
-  reducers: ReducersMapObject<S, A>,
+  reducer: Reducer<S, A>,
   epics: Array<Epic<A, A, S>>,
 ): Store<S, A> {
   const epicMiddleware = createEpicMiddleware<A, A, S>();
@@ -24,7 +16,7 @@ export default function configureStore<S, A extends Action>(
     process.env.DEBUG === "true" ? coreMiddlewares.logger() : null,
   ].filter(x => x !== null) as Middleware[];
   const store = createStore(
-    combineReducers(reducers) as Reducer<any, A>,   // TS overflows if it checks
+    reducer as Reducer<any, A>, // Prevent TS from failing with a stack overfl.
     initialState,
     applyMiddleware(...middlewares),
   );

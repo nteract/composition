@@ -3,15 +3,15 @@
  */
 
 import { DarkTheme, LightTheme } from "@nteract/presentational-components";
+import { Kernelspecs } from "@nteract/types";
+import { Event, ipcRenderer as ipc } from "electron";
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
 
-import { actions } from "../common/use-cases";
+import { ALL_CONFIG_OTIONS, ConfigurationState, ConfigurationValue, receiveKernelspecs } from "../common/config";
+import { watchConfigFile } from "../common/config/use-cases";
 import { Item } from "./items";
-
-import * as schema from "./schema";
-import { PreferencesAppState } from "./setup/state";
 import { configurePreferencesStore, PreferencesStore } from "./setup/store";
 
 import "../../../../packages/styles/app.css";
@@ -25,14 +25,20 @@ declare global {
 }
 
 window.store = configurePreferencesStore();
-window.store.dispatch(actions.watchConfigFile());
+window.store.dispatch(watchConfigFile());
+
+ipc.on("kernel_specs_reply", (_event: Event, kernelspecs: Kernelspecs) => {
+  window.store.dispatch(receiveKernelspecs(kernelspecs));
+});
+
+ipc.send("kernel_specs_request");
 
 interface AppProps {
-  theme: string;
+  theme: ConfigurationValue;
 }
 
 const makeMapStateToProps =
-  (state: PreferencesAppState): AppProps => ({
+  (state: ConfigurationState): AppProps => ({
     theme: state.config.get("theme"),
   });
 
@@ -40,7 +46,7 @@ export const PureApp = ({theme}: AppProps) =>
   <main>
     {theme === "light" ? <LightTheme/> : null}
     {theme === "dark"  ? <DarkTheme/> : null}
-    {schema.ALL_PREFERENCES.map(item => <Item {...item} key={
+    {ALL_CONFIG_OTIONS.map(item => <Item {...item} key={
       "id" in item ? item.id : "heading" in item ? item.heading : undefined
     }/>)}
   </main>;

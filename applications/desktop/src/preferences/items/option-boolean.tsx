@@ -2,18 +2,14 @@ import { ChangeEvent } from "react";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { ConfigOptionBoolean, ConfigOptionEnum, setConfigAtKey } from "../../common/config";
-
-import { PreferencesAppState } from "../setup/state";
-
-
+import { ConfigOptionBoolean, ConfigOptionEnum, ConfigurationState, setConfigAtKey } from "../../common/config";
 
 export const isBoolean = (props: any): props is ConfigOptionBoolean =>
   "initial" in props &&
   typeof props.initial === "boolean";
 
 const makeMapStateToProps =
-  (state: PreferencesAppState, { id, values }: ConfigOptionBoolean) => ({
+  (state: ConfigurationState, { id, values }: ConfigOptionBoolean) => ({
     checked: state.config.get(id) === (values || {true: true}).true,
   });
 

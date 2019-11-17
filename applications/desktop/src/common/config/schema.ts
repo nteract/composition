@@ -1,3 +1,6 @@
+import { Kernelspecs } from "@nteract/types";
+import { RecordOf } from "immutable";
+
 export interface ConfigOptionBoolean {
   id: string;
   label: string;
@@ -15,7 +18,7 @@ export interface ConfigOptionEnum {
     value: string | number;
     label: string;
   }>;
-  initial: string | number | Array<string | number>;
+  initial: string | number | string[] | number[];
 }
 
 export interface ConfigOptionKernels {
@@ -37,3 +40,21 @@ export type ConfigOption =
 
 export type ConfigItem = ConfigHeading | ConfigOption;
 export type ConfigOptions = ConfigItem[];
+
+export type ConfigurationValue =
+  | boolean
+  | string
+  | number
+  | string[]
+  | number[]
+  ;
+
+export type Configuration = {
+  [key: string]: ConfigurationValue;
+} & {
+  kernelspecs?: Kernelspecs;
+}
+
+export interface ConfigurationState {
+  config: RecordOf<Configuration>;
+}
