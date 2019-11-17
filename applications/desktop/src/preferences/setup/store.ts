@@ -1,11 +1,10 @@
 import { Reducer, Store } from "redux";
 
 import configureStore from "../../common/store";
-import { ConfigInterfaceAction, epic, reducer } from "../../common/use-cases";
+import { epic, reducer } from "../../common/use-cases";
 import { DEFAULT_STATE, PreferencesAppState } from "./state";
 
-export type PreferencesStore =
-  Store<PreferencesAppState, ConfigInterfaceAction>;
+export type PreferencesStore = Store<PreferencesAppState>;
 
 export const configurePreferencesStore = () =>
   configureStore(

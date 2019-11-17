@@ -24,7 +24,7 @@ const iconPath = path.join(resourcePath, "icon.png");
 
 function createWindow(
   index: string,
-  makeMenu: () => any = () => null,
+  makeMenu: () => Menu,
 ): BrowserWindow {
   const win = new BrowserWindow({
     width: 800,
@@ -72,7 +72,8 @@ export function launchNewNotebook(
 }
 
 export function launchPreferences(): BrowserWindow {
-  const win = createWindow("preferences.html");
+  const win = createWindow("preferences.html",
+    () => Menu.buildFromTemplate([]));
   return win;
 }
 

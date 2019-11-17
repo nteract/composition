@@ -13,7 +13,7 @@ import * as Immutable from "immutable";
 import { combineReducers, createStore } from "redux";
 import { Subject } from "rxjs";
 
-import { comms, config, core } from "@nteract/reducers";
+import { comms, core } from "@nteract/reducers";
 import {
   AppState,
   createContentRef,
@@ -34,7 +34,6 @@ export { fixtureCommutable, fixture, fixtureJSON } from "./fixture-nb";
 const rootReducer = combineReducers({
   app: (state = makeAppRecord()) => state,
   comms,
-  config,
   core
 });
 

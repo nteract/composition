@@ -2,20 +2,11 @@ import { ChangeEvent } from "react";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { actions } from "../../common/use-cases";
+import { ConfigOptionBoolean, ConfigOptionEnum, setConfigAtKey } from "../../common/config";
 
 import { PreferencesAppState } from "../setup/state";
-import { ConfigOptionEnum } from "./option-enum";
 
-export interface ConfigOptionBoolean {
-  id: string;
-  label: string;
-  values?: {
-    true: string | number | boolean;
-    false: string | number | boolean;
-  };
-  initial: boolean;
-}
+
 
 export const isBoolean = (props: any): props is ConfigOptionBoolean =>
   "initial" in props &&
@@ -28,8 +19,9 @@ const makeMapStateToProps =
 
 const makeMapDispatchToProps =
   (dispatch: Dispatch, { id }: ConfigOptionEnum) => ({
-    makeSetValue: (value: any) => (event: ChangeEvent<HTMLInputElement>) =>
-      dispatch(actions.setConfigAtKey(id, value)),
+    makeSetValue: (value: any) =>
+      (_event: ChangeEvent<HTMLInputElement>) =>
+        dispatch(setConfigAtKey(id, value)),
   });
 
 const PureBooleanOption = ({

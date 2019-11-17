@@ -1,9 +1,12 @@
 import { AppState, ConfigState } from "@nteract/types";
-import { writeFileObservable } from "fs-observable";
+import { mkdirpObservable, writeFileObservable } from "fs-observable";
+import * as path from "path";
 import { Reducer } from "redux";
 import { combineEpics, ofType, StateObservable } from "redux-observable";
-import { ignoreElements, mapTo, switchMap, switchMapTo, tap } from "rxjs/operators";
+import { mapTo, switchMap } from "rxjs/operators";
+
 import { CONFIG_FILE_PATH } from "../paths";
+
 
 export interface SetConfigAction<T> {
   type: "SET_CONFIG_AT_KEY";
@@ -24,6 +27,9 @@ export const saveConfigEpic = combineEpics(
   (action$, state$: StateObservable<Pick<AppState, "config">>) =>
     action$.pipe(
       ofType("SET_CONFIG_AT_KEY"),
+      switchMap(
+        () => mkdirpObservable(path.dirname(CONFIG_FILE_PATH)),
+      ),
       switchMap(() =>
         writeFileObservable(
           CONFIG_FILE_PATH,

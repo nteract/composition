@@ -2,18 +2,10 @@ import { ChangeEvent } from "react";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { actions } from "../../common/use-cases";
+
+import { ConfigOptionEnum, setConfigAtKey } from "../../common/config";
 import { PreferencesAppState } from "../setup/state";
 
-export interface ConfigOptionEnum {
-  id: string;
-  label: string;
-  options: Array<{
-    value: string | number;
-    label: string;
-  }>;
-  initial: string | number | Array<string | number>;
-}
 
 export const isEnum = (props: any): props is ConfigOptionEnum =>
   "options" in props;
@@ -26,7 +18,7 @@ const makeMapStateToProps =
 const makeMapDispatchToProps =
   (dispatch: Dispatch, { id }: ConfigOptionEnum) => ({
     makeSetValue: (value: any) => (event: ChangeEvent<HTMLInputElement>) =>
-      dispatch(actions.setConfigAtKey(id, value)),
+      dispatch(setConfigAtKey(id, value)),
   });
 
 const PureEnumOption = ({
@@ -54,6 +46,7 @@ const PureEnumOption = ({
     else {
       if (isChecked(value)) {
         // do nothing; radio group switched away from us
+        return () => undefined;
       }
       else {
         return makeSetValue(value);

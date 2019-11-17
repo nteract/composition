@@ -1,8 +1,6 @@
-import { ConfigItem } from "./items";
+import { ConfigOptions } from "./schema";
 
-export type ConfigSchema = ConfigItem[];
-
-export const ALL_PREFERENCES: ConfigSchema = [
+export const ALL_CONFIG_OTIONS: ConfigOptions = [
   { heading: "Startup" },
   {
     id: "initialKernel",

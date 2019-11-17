@@ -30,6 +30,7 @@ import {
   skipUntil,
   takeUntil, tap
 } from "rxjs/operators";
+import { JUPYTER_CONFIG_DIR } from "../common/paths";
 
 import {
   QUITTING_STATE_NOT_STARTED,
@@ -94,44 +95,14 @@ const windowReady$ = fromEvent(ipc, "react-ready");
 
 const fullAppReady$ = zip(electronReady$, prepareEnv).pipe(first());
 
-const jupyterConfigDir = join(app.getPath("home"), ".jupyter");
-const nteractConfigFilename = join(jupyterConfigDir, "nteract.json");
-
-const CONFIG = {
-  defaultKernel: "python3",
-};
-
 const prepJupyterObservable = prepareEnv.pipe(
   mergeMap(() =>
     // Create all the directories we need in parallel
     forkJoin(
       // Ensure the runtime Dir is setup for kernels
       mkdirpObservable(jupyterPaths.runtimeDir()),
-      // Ensure the config directory is all set up
-      mkdirpObservable(jupyterConfigDir)
     )
   ),
-  // Set up our configuration file
-  mergeMap(() =>
-    readFileObservable(nteractConfigFilename).pipe(
-      catchError(err => {
-        if (err.code === "ENOENT") {
-          return writeFileObservable(
-            nteractConfigFilename,
-            JSON.stringify({
-              theme: "light"
-            })
-          );
-        }
-        throw err;
-      })
-    )
-  ),
-  tap(file => {
-    if(file) {
-      Object.assign(CONFIG, JSON.parse(file.toString("utf8")));
-    }
-  }),
 );
 
 const kernelSpecsPromise = prepJupyterObservable

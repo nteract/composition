@@ -1,8 +1,5 @@
 import * as React from "react";
-
-export interface ConfigHeading {
-  heading: string;
-}
+import { ConfigHeading } from "../../common/config/schema";
 
 export const isHeading = (props: any): props is ConfigHeading =>
   "heading" in props;

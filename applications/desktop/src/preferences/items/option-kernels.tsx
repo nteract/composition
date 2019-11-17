@@ -1,13 +1,9 @@
 import * as React from "react";
+import { ConfigOptionEnum, ConfigOptionKernels } from "../../common/config";
 
-import { ConfigOptionEnum, EnumOption } from "./option-enum";
+import { EnumOption } from "./option-enum";
 
-export interface ConfigOptionKernels {
-  id: string;
-  label: string;
-  kind: "kernels";
-  initial: string;
-}
+
 
 export const isKernels = (props: any): props is ConfigOptionKernels =>
   "kind" in props &&

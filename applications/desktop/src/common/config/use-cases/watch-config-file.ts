@@ -32,7 +32,8 @@ export const loadConfigEpic = combineEpics(
         readFileObservable(CONFIG_FILE_PATH).pipe(
           mapErrorTo("{}", err => err.code === "ENOENT"),
           map(data => JSON.parse(data.toString())),
-          mapErrorTo(undefined, err => true), // File probably being written
+          // SyntaxError means the file is probably in the middle of a write
+          mapErrorTo(undefined, err => err.name === "SyntaxError"),
           skipWhile(data => data === undefined),
           map(config => ({ type: "MERGE_CONFIG", payload: { config } })),
         )
