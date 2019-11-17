@@ -216,7 +216,7 @@
     "react-dom": "^16.3.2",
     "react-notification-system": "^0.3.0",
     "react-redux": "^6.0.0",
-    "react-styleguidist": "^9.1.2",
+    "react-styleguidist": "^10.0.0",
     "react-test-renderer": "^16.2.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
