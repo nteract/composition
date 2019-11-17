@@ -254,7 +254,7 @@ openFile$
       kernelSpecsPromise.then((specs: Kernelspecs) => {
         let kernel: string;
         const passedKernel = argv.kernel as string;
-        const defaultKernel = CONFIG.defaultKernel;
+        const defaultKernel = store.getState().config.defaultKernel;
 
         if (passedKernel && passedKernel in specs) {
           kernel = passedKernel;

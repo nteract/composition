@@ -766,10 +766,6 @@ export function initMenuHandlers(
     dispatchRestartKernel.bind(null, opts, store, "Run All")
   );
   ipc.on("menu:open-config-window", () => ipc.send("main:open-config-window"));
-  ipc.on(
-    "menu:set-default-kernel",
-    dispatchSetConfigAtKey.bind(null, opts, store, "defaultKernel"),
-  );
   ipc.on("menu:publish:gist", dispatchPublishGist.bind(null, opts, store));
   ipc.on("menu:exportPDF", storeToPDF.bind(null, opts, store));
   ipc.on("main:load", dispatchLoad.bind(null, opts, store));

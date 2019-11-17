@@ -1,6 +1,7 @@
 import { Record, RecordOf } from "immutable";
 
 import { Kernelspecs } from "@nteract/types";
+import { Configuration } from "../common/config";
 
 import {
   QUITTING_STATE_NOT_STARTED,
@@ -10,6 +11,7 @@ import {
 } from "./actions";
 
 interface MainStateProps {
+  config: Configuration;
   kernelSpecs: Kernelspecs;
   quittingState: QuittingState;
 }
@@ -17,6 +19,7 @@ interface MainStateProps {
 type MainStateRecord = RecordOf<MainStateProps>;
 
 const makeMainStateRecord = Record<MainStateProps>({
+  config: {},
   kernelSpecs: {},
   quittingState: QUITTING_STATE_NOT_STARTED
 });
