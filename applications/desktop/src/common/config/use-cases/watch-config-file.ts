@@ -1,5 +1,5 @@
 import { readFileObservable, watchFileObservable } from "fs-observable";
-import { RecordOf } from "immutable";
+import { Record, RecordOf } from "immutable";
 import { Action, Reducer } from "redux";
 import { combineEpics, ofType } from "redux-observable";
 import { concat, of } from "rxjs";
@@ -46,11 +46,11 @@ export const loadConfigEpic = combineEpics(
 export interface MergeConfigAction {
   type: "MERGE_CONFIG";
   payload: {
-    config: { [key: string]: any };
+    config: Configuration;
   };
 }
 
 export const mergeConfigReducer:
   Reducer<RecordOf<Configuration>, MergeConfigAction> =
   (state, action) =>
-    state!.merge(action.payload.config);
+    state!.mergeDeep(action.payload.config);

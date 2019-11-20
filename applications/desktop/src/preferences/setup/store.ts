@@ -1,10 +1,10 @@
 import { combineReducers, Store } from "redux";
 
-import { Configuration, epic, reducer } from "../../common/config";
+import { ConfigurationState, epic, reducer } from "../../common/config";
 import configureStore from "../../common/store";
 import { DEFAULT_STATE } from "./state";
 
-export type PreferencesStore = Store<{config: Configuration}>;
+export type PreferencesStore = Store<ConfigurationState>;
 
 export const configurePreferencesStore = () =>
   configureStore(

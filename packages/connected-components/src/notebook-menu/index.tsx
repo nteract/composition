@@ -107,7 +107,6 @@ function makeMapDispatchToProps(
       to: CellType;
       contentRef: string;
     }) => dispatch(actions.changeCellType(payload)),
-    setTheme: (theme: string) => dispatch(actions.setTheme(theme)),
     openAboutModal: () =>
       dispatch(actions.openModal({ modalType: MODAL_TYPES.ABOUT })),
     changeKernelByName: (payload: {

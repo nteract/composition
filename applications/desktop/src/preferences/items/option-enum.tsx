@@ -53,13 +53,13 @@ const PureEnumOption = ({
       }
     }
   };
-
+  console.log("options", options);
   return (
     <section>
       <h1>{label}</h1>
       {options.map(option =>
-        <div key={option.value}>
-          <label>
+        <label key={option.value}>
+          <h2>
             <input
               type={initial instanceof Array ? "checkbox" : "radio"}
               name={id}
@@ -69,8 +69,12 @@ const PureEnumOption = ({
             />
             &nbsp;
             {option.label}
-          </label>
-        </div>)}
+          </h2>
+          {(option.info || []).map(
+            (each, i) => <div key={i} className="info">{each}</div>
+          )}
+        </label>
+      )}
     </section>
   );
 }

@@ -1,3 +1,4 @@
+import { RecordOf } from "immutable";
 import * as Immutable from "immutable";
 import { ConfigOptions, Configuration } from "./schema";
 
@@ -42,4 +43,5 @@ ALL_CONFIG_OTIONS
   .filter(({ id }: any) => id)
   .forEach(({ id, initial: value }: any) => initial[id] = value);
 
-export const INITIAL_CONFIGURATION = Immutable.fromJS(initial);
+export const INITIAL_CONFIGURATION: RecordOf<Configuration> =
+  Immutable.Record<Configuration>(initial)();

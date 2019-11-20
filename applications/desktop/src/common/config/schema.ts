@@ -1,5 +1,5 @@
-import { Kernelspecs } from "@nteract/types";
-import { RecordOf } from "immutable";
+import { KernelspecInfo, KernelspecRecord, Kernelspecs } from "@nteract/types";
+import { Map, RecordOf } from "immutable";
 
 export interface ConfigOptionBoolean {
   id: string;
@@ -17,6 +17,7 @@ export interface ConfigOptionEnum {
   options: Array<{
     value: string | number;
     label: string;
+    info?: string[];
   }>;
   initial: string | number | string[] | number[];
 }
@@ -52,7 +53,7 @@ export type ConfigurationValue =
 export type Configuration = {
   [key: string]: ConfigurationValue;
 } & {
-  kernelspecs?: Kernelspecs;
+  kernelspecs?: Map<string, RecordOf<KernelspecInfo>>;
 }
 
 export interface ConfigurationState {

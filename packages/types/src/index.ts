@@ -29,6 +29,8 @@ export interface KernelspecMetadata {
  */
 export interface KernelspecInfo {
   name: string;
+  files?: string[];
+  resources_dir?: string;
   spec: KernelspecMetadata;
 }
 

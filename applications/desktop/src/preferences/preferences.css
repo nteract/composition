@@ -20,6 +20,18 @@ main > section > h1 {
     margin: 1.5em 0 0.5em;
 }
 
+main > section > label > h2 {
+    font-size: 100%;
+    font-weight: normal;
+    margin: 0.33rem 0 -0.33rem;
+}
+
+main > section > label > div.info {
+    margin: 0.25rem 1.75rem;
+    font-style: italic;
+    font-size: 0.8em;
+}
+
 input[type=checkbox], input[type=radio] {
     width: 1em;
     height: 1em;
