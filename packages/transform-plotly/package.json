@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "plotly.js-dist": "^1.48.3"
+    "plotly.js-dist": "^1.51.2"
   },
   "peerDependencies": {
     "react": "^16.3.2"
