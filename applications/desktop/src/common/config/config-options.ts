@@ -21,7 +21,15 @@ export const ALL_CONFIG_OTIONS: ConfigOptions = [
     initial: "light",
   },
   {
-    id: "autoClose",
+    id: "autocomplete",
+    label: "Autocomplete",
+    options: [
+      { value: "typeahead", label: "Show suggestions as you type" },
+    ],
+    initial: [],
+  },
+  {
+    id: "autoclose",
     label: "Automatically close",
     options: [
       { value: "quotes", label: "Quotes" },

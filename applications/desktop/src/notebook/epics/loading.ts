@@ -1,3 +1,4 @@
+import { KernelspecInfo, KernelspecMetadata } from "@nteract/types";
 import * as fs from "fs";
 import * as path from "path";
 
@@ -9,13 +10,14 @@ import {
 } from "@nteract/commutable";
 import { actions, AppState, selectors } from "@nteract/core";
 import { readFileObservable, statObservable } from "fs-observable";
+import { AnyAction } from "redux";
 import { ActionsObservable, ofType, StateObservable } from "redux-observable";
-import { empty, forkJoin, of } from "rxjs";
+import { combineLatest, empty, forkJoin, of } from "rxjs";
 import {
   catchError,
   map,
   mergeMap,
-  switchMap,
+  switchMap, take,
   tap,
   timeout
 } from "rxjs/operators";
@@ -185,16 +187,25 @@ export const launchKernelWhenNotebookSetEpic = (
  * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
  */
 export const newNotebookEpic = (
-  action$: ActionsObservable<actions.NewNotebook>
+  action$: ActionsObservable<AnyAction>,
+  state$: StateObservable<AppState>,
 ) =>
-  action$.pipe(
-    ofType(actions.NEW_NOTEBOOK),
+  combineLatest(
+    action$.ofType("MERGE_CONFIG_DONE").pipe(take(1)),
+    action$.ofType(actions.NEW_NOTEBOOK),
+  ).pipe(
+    map(([_, action]) => action as actions.NewNotebook),
     map((action: actions.NewNotebook) => {
-      const {
-        payload: {
-          kernelSpec: { name, spec }
-        }
-      } = action;
+      let name: string;
+      let spec: KernelspecMetadata | undefined;
+
+      if (action.payload.kernelSpec !== null) {
+        name = action.payload.kernelSpec.name;
+        spec = action.payload.kernelSpec.spec;
+      }
+      else {
+        name = state$.value.config.get("initialKernel");
+      }
 
       // TODO: work on a raw javascript object since we convert it over again
       let notebook = monocellNotebook;
@@ -231,7 +242,7 @@ export const newNotebookEpic = (
           last_modified: timestamp.toString()
         },
         kernelRef: action.payload.kernelRef,
-        contentRef: action.payload.contentRef
+        contentRef: action.payload.contentRef,
       });
     })
   );

@@ -34,7 +34,9 @@ const PureBooleanOption = ({
         id={id}
         checked={checked}
         aria-checked={checked}
-        onChange={makeSetValue(values ? values[!checked ? "true" : "false"] : !checked)}
+        onChange={
+          makeSetValue(values ? values[!checked ? "true" : "false"] : !checked)
+        }
       />
       &nbsp;
       <label htmlFor={id}>{label}</label>

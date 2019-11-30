@@ -11,7 +11,6 @@ export const isKernels = (props: any): props is ConfigOptionKernels =>
 const makeMapStateToProps =
   (state: ConfigurationState) => {
     const kernelspecs = state.config.kernelspecs;
-    console.log(kernelspecs);
 
     return {
       options: kernelspecs === undefined

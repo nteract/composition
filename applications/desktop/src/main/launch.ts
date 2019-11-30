@@ -61,7 +61,7 @@ export function launchIpynb(
 
 export function launchNewNotebook(
   filepath: string | null,
-  kernelSpec: KernelspecInfo,
+  kernelSpec: KernelspecInfo | null,
 ): BrowserWindow {
   const win = createWindow("index.html", loadFullMenu);
   win.webContents.on("did-finish-load", () => {

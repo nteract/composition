@@ -1,11 +1,9 @@
-import { RecordOf } from "immutable";
-import { ChangeEvent } from "react";
 import * as React from "react";
+import { ChangeEvent } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ConfigOptionEnum, Configuration, ConfigurationState, setConfigAtKey } from "../../common/config";
-
+import { ConfigOptionEnum, ConfigurationState, setConfigAtKey } from "../../common/config";
 
 export const isEnum = (props: any): props is ConfigOptionEnum =>
   "options" in props;

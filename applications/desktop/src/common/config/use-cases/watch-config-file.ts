@@ -41,6 +41,11 @@ export const loadConfigEpic = combineEpics(
         )
       ),
     ),
+  (action$) =>
+    action$.pipe(
+      ofType("MERGE_CONFIG"),
+      mapTo({ type: "MERGE_CONFIG_DONE" }),
+    ),
 );
 
 export interface MergeConfigAction {

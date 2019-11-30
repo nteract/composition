@@ -159,7 +159,7 @@ export interface NewNotebook {
   payload: {
     filepath: string | null;
     cwd: string;
-    kernelSpec: KernelspecInfo;
+    kernelSpec: KernelspecInfo | null;
     kernelRef: KernelRef;
     contentRef: ContentRef;
   };

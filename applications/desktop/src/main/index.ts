@@ -246,29 +246,21 @@ openFile$
     first()
   )
   .subscribe((buffer: Array<{ filename: string; event: Event }>) => {
-    // Form an array of open-file events from before app-ready // Should only be the first
+    // Form an array of open-file events from before app-ready
+    // Should only be the first
     // Now we can choose whether to open the default notebook
     // based on if arguments went through argv or through open-file events
 
     const cliLaunchNewNotebook = (filepath: string | null) => {
       kernelSpecsPromise.then((specs: Kernelspecs) => {
-        let kernel: string;
+        let kernel: string | undefined;
         const passedKernel = argv.kernel as string;
-        const defaultKernel = store.getState().config.defaultKernel;
 
         if (passedKernel && passedKernel in specs) {
           kernel = passedKernel;
-        } else if (defaultKernel && defaultKernel in specs) {
-          kernel = defaultKernel;
-        } else {
-          const specList = Object.keys(specs);
-          specList.sort();
-          kernel = specList[0];
         }
 
-        if (kernel && specs[kernel]) {
-          launchNewNotebook(filepath, specs[kernel]);
-        }
+        launchNewNotebook(filepath, kernel ? specs[kernel] : null);
       });
     };
 
