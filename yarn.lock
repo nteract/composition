@@ -11676,10 +11676,10 @@ react-table-hoc-fixed-columns@2.1.2:
     classnames "^2.2.6"
     uniqid "^5.0.3"
 
-react-table@6.10.3:
-  version "6.10.3"
-  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.10.3.tgz#d085487a5a1b18b76486b71cf1d388d87c8c7362"
-  integrity sha512-sVlq2/rxVaQJywGD95+qGiMr/SMHFIFnXdx619BLOWE/Os5FOGtV6pQJNAjZixbQZiOu7dmBO1kME28uxh6wmA==
+react-table@6.11.2:
+  version "6.11.2"
+  resolved "https://registry.yarnpkg.com/react-table/-/react-table-6.11.2.tgz#d814ade6523e53f3ff2639ad171e0e64c606e55f"
+  integrity sha512-UspBbCrPc+zZM5b+y6wRU9TYOcb/iknbAni3Gs1SnO47akj5eLkURwJTAvmBP3bBBFBsM4pYjq+5VeCZZc0wSw==
   dependencies:
     classnames "^2.2.5"
 
