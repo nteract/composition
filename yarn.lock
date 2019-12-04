@@ -14612,18 +14612,6 @@ vega-dataflow@^5.1.0, vega-dataflow@^5.1.1, vega-dataflow@^5.2.1:
     vega-loader "^4.0.0"
     vega-util "^1.10.0"
 
-vega-embed@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/vega-embed/-/vega-embed-4.2.0.tgz#59e8478faa6e1e33d0eb601a5b98be9b79d4c4ad"
-  integrity sha512-+WaCaoESZBnF80OiA3UUTO/2qlruj5iTyK1mXYIqdfygEldFLQSZS1DSbLwy0m6BlTZz7mkEWMIe6cX4/P3ufw==
-  dependencies:
-    d3-selection "^1.4.0"
-    json-stringify-pretty-compact "^2.0.0"
-    semver "^6.0.0"
-    vega-schema-url-parser "^1.1.0"
-    vega-themes "^2.3.0"
-    vega-tooltip "^0.17.0"
-
 vega-encode@^4.3.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/vega-encode/-/vega-encode-4.3.0.tgz#cf719c052e6dc63ee260941bdb7c4c1ee71cd0fb"

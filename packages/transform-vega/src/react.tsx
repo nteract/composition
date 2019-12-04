@@ -62,12 +62,18 @@ export class VegaEmbed<T extends VegaMediaType>
   }
 
   componentWillUnmount(): void {
-    if (
-      this.embedResult &&
-      this.embedResult.view &&
-      this.embedResult.view.finalize
-    ) {
-      this.embedResult.view.finalize();
+    if (this.embedResult) {
+      if (this.embedResult.finalize) {
+        // For Vega-Embed 6.2+
+        this.embedResult.finalize();
+      } else {
+        if (
+          this.embedResult.view &&
+          this.embedResult.view.finalize
+        ) {
+          this.embedResult.view.finalize();
+        }
+      }
     }
 
     this.embedResult = undefined;

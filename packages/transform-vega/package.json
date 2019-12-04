@@ -16,7 +16,7 @@
     "@nteract/vega-embed-v3": "^1.1.1",
     "lodash": "^4.17.4",
     "vega": "^5.4.0",
-    "vega-embed": "^4.2.0",
+    "vega-embed": "^6.2.0",
     "vega-lite": "^3.3.0"
   },
   "peerDependencies": {
