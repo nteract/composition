@@ -28,7 +28,7 @@
     "d3-shape": "^1.2.2",
     "numeral": "^2.0.6",
     "react-color": "^2.14.1",
-    "react-table": "6.10.3",
+    "react-table": "6.11.4",
     "react-table-hoc-fixed-columns": "2.1.2",
     "semiotic": "^1.19.8"
   },
