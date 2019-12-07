@@ -17,7 +17,7 @@
     "lodash": "^4.17.4",
     "vega": "^5.4.0",
     "vega-embed": "^4.2.0",
-    "vega-lite": "^3.3.0"
+    "vega-lite": "^4.0.0"
   },
   "peerDependencies": {
     "react": "^16.3.2"
