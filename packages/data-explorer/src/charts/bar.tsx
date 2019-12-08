@@ -149,7 +149,7 @@ export const semioticBarChart = (
         return (
           <TooltipContent x={hoveredDatapoint.x} y={hoveredDatapoint.y}>
             <div
-              style={{ heightMax: "300px", display: "flex", flexWrap: "wrap" }}
+              style={{ maxHeight: "300px", display: "flex", flexWrap: "wrap" }}
             >
               {combinedOptions.map((dim: { name: string }, index: number) => (
                 <div
