@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "lib",
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../messaging"
+    },
+    { "path": "../commutable" },
+    { "path": "../actions" },
+    { "path": "../selectors" },
+    { "path": "../types" },
+    { "path": "../rx-jupyter" }
+  ]
+}

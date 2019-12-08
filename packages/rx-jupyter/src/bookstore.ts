@@ -7,7 +7,7 @@ import urljoin from "url-join";
 // Local modules
 import { createAJAXSettings } from "./base";
 
-const formURI = (path: string) => urljoin("/api/bookstore/published", path);
+const formURI = (path: string) => urljoin("/api/bookstore/publish", path);
 
 /**
  * Creates an AjaxObservable for publishing content to `Bookstore`

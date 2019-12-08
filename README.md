@@ -3,7 +3,6 @@
 [![codecov.io](https://codecov.io/github/nteract/nteract/coverage.svg?branch=master)](https://codecov.io/github/nteract/nteract?branch=master)
 [![slack in](https://slack.nteract.io/badge.svg)](https://slack.nteract.io)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
-[![Azure Pipelines CI status](https://dev.azure.com/nteract/nteract/_apis/build/status/nteract.nteract?branch=master)](https://dev.azure.com/nteract/nteract/_build/latest?definitionId=1&branch=master)
 [![Circle CI status](https://circleci.com/gh/nteract/nteract/tree/master.svg?style=shield)](https://circleci.com/gh/nteract/nteract/tree/master)
 
 || [**Basics**](#basics) • [**Users**](#users) || [**Contributors**](#contributors) • [**Development**](#development) • [**Maintainers**](#maintainers) || [**Sponsors**](#sponsors) • [**Made possible by**](#made-possible-by) ||

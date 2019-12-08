@@ -63,6 +63,7 @@ export type CodeMirrorEditorProps = {
   onChange?: (value: string, change: EditorChangeLinkedList) => void;
   onFocusChange?: (focused: boolean) => void;
   value: string;
+  editorType: "codemirror";
 } & Partial<FullEditorConfiguration>;
 
 interface CodeMirrorEditorState {
@@ -94,7 +95,8 @@ export default class CodeMirrorEditor extends React.PureComponent<
     matchBrackets: true,
     indentUnit: 4,
     lineNumbers: false,
-    cursorBlinkRate: 530
+    cursorBlinkRate: 530,
+    editorType: "codemirror"
   };
 
   textarea?: HTMLTextAreaElement | null;

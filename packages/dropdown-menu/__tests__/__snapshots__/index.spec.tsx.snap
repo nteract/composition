@@ -2,7 +2,9 @@
 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 1`] = `
 <DropdownMenu>
-  <DropdownDiv>
+  <DropdownDiv
+    onKeyUp={[Function]}
+  >
     <StyledComponent
       forwardedComponent={
         Object {
@@ -30,9 +32,11 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
         }
       }
       forwardedRef={null}
+      onKeyUp={[Function]}
     >
       <div
         className="sc-bdVaJa igpjjl"
+        onKeyUp={[Function]}
       >
         <DropdownTrigger
           key=".0"
@@ -92,7 +96,9 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 2`] = `
 <DropdownMenu>
-  <DropdownDiv>
+  <DropdownDiv
+    onKeyUp={[Function]}
+  >
     <StyledComponent
       forwardedComponent={
         Object {
@@ -120,9 +126,11 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
         }
       }
       forwardedRef={null}
+      onKeyUp={[Function]}
     >
       <div
         className="sc-bdVaJa igpjjl"
+        onKeyUp={[Function]}
       >
         <DropdownTrigger
           key=".0"
@@ -182,7 +190,9 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 3`] = `
 <DropdownMenu>
-  <DropdownDiv>
+  <DropdownDiv
+    onKeyUp={[Function]}
+  >
     <StyledComponent
       forwardedComponent={
         Object {
@@ -210,9 +220,11 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
         }
       }
       forwardedRef={null}
+      onKeyUp={[Function]}
     >
       <div
         className="sc-bdVaJa igpjjl"
+        onKeyUp={[Function]}
       >
         <DropdownTrigger
           key=".0"
@@ -267,6 +279,20 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
         <DropdownContent
           key=".1"
           onItemClick={[Function]}
+          ulRef={
+            Object {
+              "current": <ul
+                aria-label="dropdown-content"
+                role="listbox"
+              >
+                <li
+                  class="alsoClickMe"
+                >
+                  1
+                </li>
+              </ul>,
+            }
+          }
         >
           <DropdownContentDiv>
             <StyledComponent
@@ -340,6 +366,7 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
                     className="alsoClickMe"
                     key=".0"
                     onClick={[Function]}
+                    onKeyUp={[Function]}
                   >
                     1
                   </li>
@@ -356,7 +383,9 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
 
 exports[`DropdownMenu clicking dropdown content triggers the items callback and closes the menu 4`] = `
 <DropdownMenu>
-  <DropdownDiv>
+  <DropdownDiv
+    onKeyUp={[Function]}
+  >
     <StyledComponent
       forwardedComponent={
         Object {
@@ -384,9 +413,298 @@ exports[`DropdownMenu clicking dropdown content triggers the items callback and 
         }
       }
       forwardedRef={null}
+      onKeyUp={[Function]}
     >
       <div
         className="sc-bdVaJa igpjjl"
+        onKeyUp={[Function]}
+      >
+        <DropdownTrigger
+          key=".0"
+          onClick={[Function]}
+        >
+          <DropdownTriggerDiv
+            onClick={[Function]}
+          >
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "sc-bwzfXH",
+                    "isStatic": true,
+                    "lastClassName": "iaRngl",
+                    "rules": Array [
+                      "
+  user-select: none;
+  margin: 0px;
+  padding: 0px;
+",
+                    ],
+                  },
+                  "displayName": "DropdownTriggerDiv",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "sc-bwzfXH",
+                  "target": "div",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+              onClick={[Function]}
+            >
+              <div
+                className="sc-bwzfXH iaRngl"
+                onClick={[Function]}
+              >
+                <div
+                  className="clickMe"
+                >
+                  Click me
+                </div>
+              </div>
+            </StyledComponent>
+          </DropdownTriggerDiv>
+        </DropdownTrigger>
+      </div>
+    </StyledComponent>
+  </DropdownDiv>
+</DropdownMenu>
+`;
+
+exports[`DropdownMenu pressing escape on dropdown closes the menu 1`] = `
+<DropdownMenu>
+  <DropdownDiv
+    onKeyUp={[Function]}
+  >
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "sc-bdVaJa",
+            "isStatic": true,
+            "lastClassName": "igpjjl",
+            "rules": Array [
+              "
+  z-index: 10000;
+  display: inline-block;
+",
+            ],
+          },
+          "displayName": "DropdownDiv",
+          "foldedComponentIds": Array [],
+          "render": [Function],
+          "styledComponentId": "sc-bdVaJa",
+          "target": "div",
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+        }
+      }
+      forwardedRef={null}
+      onKeyUp={[Function]}
+    >
+      <div
+        className="sc-bdVaJa igpjjl"
+        onKeyUp={[Function]}
+      >
+        <DropdownTrigger
+          key=".0"
+          onClick={[Function]}
+        >
+          <DropdownTriggerDiv
+            onClick={[Function]}
+          >
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "sc-bwzfXH",
+                    "isStatic": true,
+                    "lastClassName": "iaRngl",
+                    "rules": Array [
+                      "
+  user-select: none;
+  margin: 0px;
+  padding: 0px;
+",
+                    ],
+                  },
+                  "displayName": "DropdownTriggerDiv",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "sc-bwzfXH",
+                  "target": "div",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+              onClick={[Function]}
+            >
+              <div
+                className="sc-bwzfXH iaRngl"
+                onClick={[Function]}
+              >
+                <div
+                  className="clickMe"
+                >
+                  Click me
+                </div>
+              </div>
+            </StyledComponent>
+          </DropdownTriggerDiv>
+        </DropdownTrigger>
+        <DropdownContent
+          key=".1"
+          onItemClick={[Function]}
+          ulRef={
+            Object {
+              "current": <ul
+                aria-label="dropdown-content"
+                role="listbox"
+              >
+                <li
+                  class="alsoClickMe"
+                >
+                  1
+                </li>
+              </ul>,
+            }
+          }
+        >
+          <DropdownContentDiv>
+            <StyledComponent
+              forwardedComponent={
+                Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "sc-htpNat",
+                    "isStatic": true,
+                    "lastClassName": "juMQnP",
+                    "rules": Array [
+                      "
+  user-select: none;
+  margin: 0px;
+  padding: 0px;
+
+  width: 200px;
+
+  opacity: 1;
+  position: absolute;
+  top: 0.2em;
+  right: 0;
+  border-style: none;
+  padding: 0;
+  font-family: var(--nt-font-family-normal);
+  font-size: var(--nt-font-size-m);
+  line-height: 1.5;
+  margin: 20px 0;
+  background-color: var(--theme-cell-menu-bg);
+
+  ul {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    opacity: 1;
+  }
+
+  ul li {
+    padding: 0.5rem;
+  }
+
+  ul li:hover {
+    background-color: var(--theme-cell-menu-bg-hover, #e2dfe3);
+    cursor: pointer;
+  }
+",
+                    ],
+                  },
+                  "displayName": "DropdownContentDiv",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "sc-htpNat",
+                  "target": "div",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                }
+              }
+              forwardedRef={null}
+            >
+              <div
+                className="sc-htpNat juMQnP"
+              >
+                <ul
+                  aria-label="dropdown-content"
+                  role="listbox"
+                >
+                  <li
+                    className="alsoClickMe"
+                    key=".0"
+                    onClick={[Function]}
+                    onKeyUp={[Function]}
+                  >
+                    1
+                  </li>
+                </ul>
+              </div>
+            </StyledComponent>
+          </DropdownContentDiv>
+        </DropdownContent>
+      </div>
+    </StyledComponent>
+  </DropdownDiv>
+</DropdownMenu>
+`;
+
+exports[`DropdownMenu pressing escape on dropdown closes the menu 2`] = `
+<DropdownMenu>
+  <DropdownDiv
+    onKeyUp={[Function]}
+  >
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "sc-bdVaJa",
+            "isStatic": true,
+            "lastClassName": "igpjjl",
+            "rules": Array [
+              "
+  z-index: 10000;
+  display: inline-block;
+",
+            ],
+          },
+          "displayName": "DropdownDiv",
+          "foldedComponentIds": Array [],
+          "render": [Function],
+          "styledComponentId": "sc-bdVaJa",
+          "target": "div",
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+        }
+      }
+      forwardedRef={null}
+      onKeyUp={[Function]}
+    >
+      <div
+        className="sc-bdVaJa igpjjl"
+        onKeyUp={[Function]}
       >
         <DropdownTrigger
           key=".0"

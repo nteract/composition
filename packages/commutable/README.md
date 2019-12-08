@@ -49,7 +49,7 @@ export default () => (
 ## Documentation
 
 You can view the reference documentation for `@nteract/commutable` in the
-[package docs](https://packages.nteract.io/modules/commutable).
+[package docs](https://packages.nteract.io/modules/commutable.html).
 
 ## Support
 

@@ -2699,7 +2699,7 @@ array-reduce@~0.0.0:
   resolved "https://registry.yarnpkg.com/array-reduce/-/array-reduce-0.0.0.tgz#173899d3ffd1c7d9383e4479525dbe278cab5f2b"
   integrity sha1-FziZ0//Rx9k4PkR5Ul2+J4yrXys=
 
-array-union@^1.0.1:
+array-union@^1.0.1, array-union@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/array-union/-/array-union-1.0.2.tgz#9a34410e4f4e3da23dea375be5be70f24778ec39"
   integrity sha1-mjRBDk9OPaI96jdb5b5w8kd47Dk=
@@ -2729,6 +2729,11 @@ arrify@^1.0.0, arrify@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arrify/-/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
   integrity sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=
+
+arrify@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/arrify/-/arrify-2.0.1.tgz#c9655e9331e0abcd588d2a7cad7e9956f66701fa"
+  integrity sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
 
 asap@^2.0.0, asap@^2.0.6, asap@~2.0.3, asap@~2.0.6:
   version "2.0.6"
@@ -4231,34 +4236,36 @@ cosmiconfig@^5.2.1:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-cp-file@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/cp-file/-/cp-file-6.0.0.tgz#f38477ece100b403fcf780fd34d030486beb693e"
-  integrity sha512-OtHMgPugkgwHlbph25wlMKd358lZNhX1Y2viUpPoFmlBPlEiPIRhztYWha11grbGPnlM+urp5saVmwsChCIOEg==
+cp-file@^7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/cp-file/-/cp-file-7.0.0.tgz#b9454cfd07fe3b974ab9ea0e5f29655791a9b8cd"
+  integrity sha512-0Cbj7gyvFVApzpK/uhCtQ/9kE9UnYpxMzaq5nQQC/Dh4iaj5fxp7iEFIullrYwzj8nf0qnsI1Qsx34hAeAebvw==
   dependencies:
     graceful-fs "^4.1.2"
-    make-dir "^1.0.0"
+    make-dir "^3.0.0"
     nested-error-stacks "^2.0.0"
-    pify "^3.0.0"
-    safe-buffer "^5.0.1"
+    p-event "^4.1.0"
 
-cpy-cli@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/cpy-cli/-/cpy-cli-2.0.0.tgz#13f1528a231605c52ee7b7f74848e4be82253274"
-  integrity sha512-LzrtY3lBWvFZcw4lXgkEbbDUd7y78juC3C5l7gj3UyezMEZF0Be9fjCVLN1HoZAzdMDeC3KHehWpHBJvgVAPkw==
+cpy-cli@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/cpy-cli/-/cpy-cli-3.0.0.tgz#429eb6a5ee2d4805bfe454d9d86a3eb72df20e26"
+  integrity sha512-fxNNpGrnuVMbaDBpHdgwReMy48BelhAoS6OUUX6Zv5nMwSPZOMxL/kB5VxM9xQoB1vvw38zG9drLRS8gvavxeg==
   dependencies:
-    cpy "^7.0.0"
+    cpy "^8.0.0"
     meow "^5.0.0"
 
-cpy@^7.0.0:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/cpy/-/cpy-7.0.1.tgz#d817e4d81bd7f0f25ff812796c5f1392dc0fb485"
-  integrity sha512-Zo52tXKLJcgy/baacn6KaNoRAakkl2wb+R4u6qJ4wlD0uchncwRQcIk66PlGlkzuToCJO6A6PWX27Tdwc8LU2g==
+cpy@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/cpy/-/cpy-8.0.0.tgz#8195db0db19a9ea6aa4f229784cbf3e3f53c3158"
+  integrity sha512-iTjLUqtVr45e17GFAyxA0lqFinbGMblMCTtAqrPzT/IETNtDuyyhDDk8weEZ08MiCc6EcuyNq2KtGH5J2BIAoQ==
   dependencies:
-    arrify "^1.0.1"
-    cp-file "^6.0.0"
-    globby "^8.0.1"
-    nested-error-stacks "^2.0.0"
+    arrify "^2.0.1"
+    cp-file "^7.0.0"
+    globby "^9.2.0"
+    is-glob "^4.0.1"
+    junk "^3.1.0"
+    nested-error-stacks "^2.1.0"
+    p-all "^2.1.0"
 
 create-ecdh@^4.0.0:
   version "4.0.3"
@@ -5184,6 +5191,13 @@ dir-glob@^2.0.0:
   dependencies:
     path-type "^3.0.0"
 
+dir-glob@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
+  integrity sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==
+  dependencies:
+    path-type "^3.0.0"
+
 discontinuous-range@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/discontinuous-range/-/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"
@@ -6060,6 +6074,18 @@ fast-glob@^2.0.2:
     merge2 "^1.2.3"
     micromatch "^3.1.10"
 
+fast-glob@^2.2.6:
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-2.2.7.tgz#6953857c3afa475fff92ee6015d52da70a4cd39d"
+  integrity sha512-g1KuQwHOZAmOZMuBtHdxDtju+T2RT8jgCC9aANsbpdiDDTSnjgfuVsIBNKbUeJI3oKMRExcfNDtJl4OhbffMsw==
+  dependencies:
+    "@mrmlnc/readdir-enhanced" "^2.2.1"
+    "@nodelib/fs.stat" "^1.1.2"
+    glob-parent "^3.1.0"
+    is-glob "^4.0.0"
+    merge2 "^1.2.3"
+    micromatch "^3.1.10"
+
 fast-json-patch@^3.0.0-1:
   version "3.0.0-1"
   resolved "https://registry.yarnpkg.com/fast-json-patch/-/fast-json-patch-3.0.0-1.tgz#4c68f2e7acfbab6d29d1719c44be51899c93dabb"
@@ -6727,6 +6753,20 @@ globby@^8.0.1:
     pify "^3.0.0"
     slash "^1.0.0"
 
+globby@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-9.2.0.tgz#fd029a706c703d29bdd170f4b6db3a3f7a7cb63d"
+  integrity sha512-ollPHROa5mcxDEkwg6bPt3QbEf4pDQSNtd6JPL1YvOvAo/7/0VAm9TccUeoTmarjPw4pfUthSCqcyfNB1I3ZSg==
+  dependencies:
+    "@types/glob" "^7.1.1"
+    array-union "^1.0.2"
+    dir-glob "^2.2.2"
+    fast-glob "^2.2.6"
+    glob "^7.1.3"
+    ignore "^4.0.3"
+    pify "^4.0.1"
+    slash "^2.0.0"
+
 glogg@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/glogg/-/glogg-1.0.2.tgz#2d7dd702beda22eb3bffadf880696da6d846313f"
@@ -7232,6 +7272,11 @@ ignore@^3.3.5:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
   integrity sha512-Pgs951kaMm5GXP7MOvxERINe3gsaVjUWFm+UZPSq9xYriQAksyhg0csnS0KXSNRD5NmNdapXEpjxG49+AKh/ug==
 
+ignore@^4.0.3:
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
+  integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
+
 ijavascript@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ijavascript/-/ijavascript-5.2.0.tgz#ebcb2d5143f41e90c04ed56e9afcad425d9850ed"
@@ -7614,6 +7659,13 @@ is-glob@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.0.tgz#9521c76845cc2610a85203ddf080a958c2ffabc0"
   integrity sha1-lSHHaEXMJhCoUgPd8ICpWML/q8A=
+  dependencies:
+    is-extglob "^2.1.1"
+
+is-glob@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/is-glob/-/is-glob-4.0.1.tgz#7567dbe9f2f5e2467bc77ab83c4a29482407a5dc"
+  integrity sha512-5G0tKtBTFImOqDnLB2hG6Bp2qcKEFduo4tZu9MT/H6NQv/ghhy30o55ufafxJ/LdH79LLs2Kfrn85TLKyA7BUg==
   dependencies:
     is-extglob "^2.1.1"
 
@@ -8584,6 +8636,11 @@ jss@^9.8.7:
     symbol-observable "^1.1.0"
     warning "^3.0.0"
 
+junk@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/junk/-/junk-3.1.0.tgz#31499098d902b7e98c5d9b9c80f43457a88abfa1"
+  integrity sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==
+
 jupyter-paths@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/jupyter-paths/-/jupyter-paths-2.0.0.tgz#282d0b28134e4b60f74e48527768efdf2875bde3"
@@ -9189,6 +9246,13 @@ make-dir@^1.0.0, make-dir@^1.3.0:
   integrity sha512-2w31R7SJtieJJnQtGc7RVL2StM2vGYVfqUOvUDxH6bC6aJTxPxTF0GnIgCyu7tjockiUWAYQRbxa7vKn34s5sQ==
   dependencies:
     pify "^3.0.0"
+
+make-dir@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-3.0.0.tgz#1b5f39f6b9270ed33f9f054c5c0f84304989f801"
+  integrity sha512-grNJDhb8b1Jm1qeqW5R/O63wUo4UXo2v2HMic6YT9i/HBlF93S8jkMgH7yugvY9ABDShH4VZMn8I+U8+fCNegw==
+  dependencies:
+    semver "^6.0.0"
 
 make-error@1.x, make-error@^1.1.1:
   version "1.3.5"
@@ -9821,7 +9885,7 @@ neo-async@^2.6.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.1.tgz#ac27ada66167fa8849a6addd837f6b189ad2081c"
   integrity sha512-iyam8fBuCUpWeKPGpaNMetEocMt364qkCsfL9JuhjXX6dRnguRVOfk2GZaDpPjcOKiiXCPINZC1GczQ7iTq3Zw==
 
-nested-error-stacks@^2.0.0:
+nested-error-stacks@^2.0.0, nested-error-stacks@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/nested-error-stacks/-/nested-error-stacks-2.1.0.tgz#0fbdcf3e13fe4994781280524f8b96b0cdff9c61"
   integrity sha512-AO81vsIO1k1sM4Zrd6Hu7regmJN1NSiAja10gc4bX3F0wd+9rQmcuHQaHVQCYIEC8iFXnE+mavh23GOt7wBgug==
@@ -10386,6 +10450,13 @@ osenv@0, osenv@^0.1.4, osenv@^0.1.5:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
+p-all@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/p-all/-/p-all-2.1.0.tgz#91419be56b7dee8fe4c5db875d55e0da084244a0"
+  integrity sha512-HbZxz5FONzz/z2gJfk6bFca0BCiSRF8jU3yCsWOen/vR6lZjfPOu/e7L3uFzTW1i0H8TlC3vqQstEJPQL4/uLA==
+  dependencies:
+    p-map "^2.0.0"
+
 p-cancelable@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-1.1.0.tgz#d078d15a3af409220c886f1d9a0ca2e441ab26cc"
@@ -10402,6 +10473,13 @@ p-each-series@^1.0.0:
   integrity sha1-kw89Et0fUOdDRFeiLNbwSsatf3E=
   dependencies:
     p-reduce "^1.0.0"
+
+p-event@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/p-event/-/p-event-4.1.0.tgz#e92bb866d7e8e5b732293b1c8269d38e9982bf8e"
+  integrity sha512-4vAd06GCsgflX4wHN1JqrMzBh/8QZ4j+rzp0cd2scXRwuBEv+QR3wrVA5aLhWDLw4y2WgDKvzWF3CCLmVM1UgA==
+  dependencies:
+    p-timeout "^2.0.1"
 
 p-finally@^1.0.0:
   version "1.0.0"
@@ -10486,6 +10564,13 @@ p-reduce@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-reduce/-/p-reduce-1.0.0.tgz#18c2b0dd936a4690a529f8231f58a0fdb6a47dfa"
   integrity sha1-GMKw3ZNqRpClKfgjH1ig/bakffo=
+
+p-timeout@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/p-timeout/-/p-timeout-2.0.1.tgz#d8dd1979595d2dc0139e1fe46b8b646cb3cdf038"
+  integrity sha512-88em58dDVB/KzPEx1X0N3LwFfYZPyDc4B6eF38M1rk9VTZMbxXXgjugz8mmwpS9Ox4BDZ+t6t3QP5+/gazweIA==
+  dependencies:
+    p-finally "^1.0.0"
 
 p-try@^1.0.0:
   version "1.0.0"
@@ -12067,6 +12152,14 @@ redux@^4.0.0, redux@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.1.tgz#436cae6cc40fbe4727689d7c8fae44808f1bfef5"
   integrity sha512-R7bAtSkk7nY6O/OYMVR9RiBI+XghjF9rlbl5806HJbQph0LJVHZrU5oaO4q70eUKiqMRqm4y07KLTlMZ2BlVmg==
+  dependencies:
+    loose-envify "^1.4.0"
+    symbol-observable "^1.2.0"
+
+redux@^4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
+  integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==
   dependencies:
     loose-envify "^1.4.0"
     symbol-observable "^1.2.0"

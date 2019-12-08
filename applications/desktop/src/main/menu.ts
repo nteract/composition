@@ -6,7 +6,9 @@ import {
   BrowserWindow,
   dialog,
   FileFilter,
+  globalShortcut,
   Menu,
+  MenuItemConstructorOptions,
   shell,
   WebContents
 } from "electron";
@@ -440,6 +442,23 @@ export function loadFullMenu(store = global.store) {
       }
     ]
   };
+
+  // Pasting cells will also paste text, so we need to intercept the event with
+  // a global shortcut and then only trigger the IPC call.
+  function interceptAcceleratorAndForceOnlyMenuAction(
+    item: MenuItemConstructorOptions,
+  ): void {
+    globalShortcut.register(item.accelerator!, () => {
+      const focusedWindow = BrowserWindow.getFocusedWindow();
+      if (focusedWindow) { (item.click as Sender)({}, focusedWindow) }
+    });
+  }
+
+  const pasteCell = edit.submenu.find(
+    each => each.label === "Paste Cell"
+  ) as MenuItemConstructorOptions;
+
+  interceptAcceleratorAndForceOnlyMenuAction(pasteCell);
 
   const cell = {
     label: "Cell",

@@ -27,16 +27,55 @@ export class DropdownMenu extends React.PureComponent<
   DropdownMenuProps,
   DropdownMenuState
 > {
+  listRef = React.createRef<HTMLUListElement>();
+
   constructor(props: DropdownMenuProps) {
     super(props);
     this.state = {
       menuHidden: true
     };
   }
-
+  handleKeyUp = (ev: React.KeyboardEvent<HTMLElement>) => {
+    if (!this.state.menuHidden) {
+      if (ev.key === "Escape") {
+        this.setState({ menuHidden: true });
+      } else if (ev.key === "ArrowDown") {
+        this.moveListChildFocus(1);
+      } else if (ev.key === "ArrowUp") {
+        this.moveListChildFocus(-1);
+      }
+    }
+  };
+  /***
+   * Looks at the children of the ul, finds the focused child, and moves the focus the specified amount
+   */
+  moveListChildFocus(amount: number) {
+    let ulEl = this.listRef.current;
+    if (ulEl) {
+      let activeIndex;
+      for (let i = 0; i < ulEl.children.length; i++) {
+        let li = ulEl.children[i];
+        if (li == document.activeElement) {
+          activeIndex = i;
+          break;
+        }
+      }
+      let nextActiveIndex =
+        activeIndex === undefined
+          ? 0
+          : (activeIndex + amount) % ulEl.children.length;
+      // Because JS mod can produce negative numbers, we need a negative check also
+      nextActiveIndex =
+        nextActiveIndex < 0
+          ? ulEl.children.length + nextActiveIndex
+          : nextActiveIndex;
+      let nextItem = ulEl.children[nextActiveIndex] as HTMLElement;
+      nextItem.focus();
+    }
+  }
   render() {
     return (
-      <DropdownDiv>
+      <DropdownDiv onKeyUp={this.handleKeyUp}>
         {React.Children.map(this.props.children, child => {
           const childElement = child as React.ReactElement<any>;
           if (
@@ -64,7 +103,8 @@ export class DropdownMenu extends React.PureComponent<
               return React.cloneElement(childElement, {
                 onItemClick: () => {
                   this.setState({ menuHidden: true });
-                }
+                },
+                ulRef: this.listRef
               });
             }
           } else {
@@ -141,6 +181,7 @@ DropdownContentDiv.displayName = "DropdownContentDiv";
 export class DropdownContent extends React.PureComponent<{
   children: React.ReactNode;
   onItemClick: (ev: React.MouseEvent<HTMLElement>) => void;
+  ulRef?: React.RefObject<HTMLUListElement>;
 }> {
   static defaultProps = {
     // Completely silly standalone, because DropdownMenu injects the onItemClick handler
@@ -150,15 +191,25 @@ export class DropdownContent extends React.PureComponent<{
   render() {
     return (
       <DropdownContentDiv>
-        <ul role="listbox" aria-label="dropdown-content">
+        <ul role="listbox" aria-label="dropdown-content" ref={this.props.ulRef}>
           {React.Children.map(this.props.children, child => {
             const childElement = child as React.ReactElement<any>;
+            const elRef: React.RefObject<HTMLElement> = React.createRef();
             return React.cloneElement(childElement, {
               onClick: (ev: React.MouseEvent<HTMLElement>) => {
                 childElement.props.onClick(ev);
                 // Hide the menu
                 this.props.onItemClick(ev);
-              }
+              },
+              onKeyUp: (ev: React.KeyboardEvent<HTMLElement>) => {
+                if (childElement.props.onKeyUp) {
+                  childElement.props.onKeyUp(ev); //forward the event
+                }
+                if (ev.key === "Enter" && elRef.current) {
+                  (elRef.current as HTMLElement).click();
+                }
+              },
+              ref: elRef
             });
           })}
         </ul>

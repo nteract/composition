@@ -1,0 +1,39 @@
+{
+  "name": "@nteract/stateful-components",
+  "version": "1.0.0",
+  "description": "A collection of sub-components pre-connected to nteract's Redux state",
+  "keywords": [
+    "redux",
+    "react",
+    "nteract"
+  ],
+  "author": "Safia Abdalla <safia@microsoft.com>",
+  "homepage": "https://github.com/nteract/nteract/tree/master/packages/stateful-components#readme",
+  "license": "BSD-3-Clause",
+  "main": "lib/stateful-components.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nteract/nteract.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/nteract/nteract/issues"
+  },
+  "dependencies": {
+    "@nteract/commutable": "^7.1.4",
+    "@nteract/core": "^10.9.0",
+    "@nteract/outputs": "^2.6.0",
+    "@nteract/presentational-components": "^3.2.0",
+    "immutable": "^4.0.0-rc.12",
+    "redux": "^4.0.4"
+  }
+}

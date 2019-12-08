@@ -76,10 +76,41 @@ describe("acquireKernelInfo", () => {
       setTimeout(() => received.next(response), 100);
     });
 
+    const state = {
+      core: stateModule.makeStateRecord({
+        kernelRef: "kernelRef",
+        currentKernelspecsRef: "currentKernelspecsRef",
+        entities: stateModule.makeEntitiesRecord({
+          kernels: stateModule.makeKernelsRecord({
+            byRef: Immutable.Map({
+              kernelRef: stateModule.makeLocalKernelRecord({
+                status: "not connected"
+              })
+            })
+          }),
+          contents: stateModule.makeContentsRecord({
+            byRef: Immutable.Map({
+              contentRef: stateModule.makeNotebookContentRecord({
+                model: stateModule.makeDocumentRecord({
+                  kernelRef: "oldKernelRef"
+                })
+              })
+            })
+          })
+        })
+      }),
+      app: stateModule.makeAppRecord({
+        notificationSystem: { addNotification: () => {} }
+      }),
+      comms: stateModule.makeCommsRecord(),
+      config: Immutable.Map({})
+    };
+
     const obs = acquireKernelInfo(
       mockSocket,
       "fakeKernelRef",
-      "fakeContentRef"
+      "fakeContentRef",
+      state
     );
 
     const actions = await obs.pipe(toArray()).toPromise();
@@ -147,6 +178,16 @@ describe("acquireKernelInfo", () => {
           },
           kernelRef: "fakeKernelRef"
         }
+      },
+      {
+        payload: {
+          contentRef: "fakeContentRef",
+          kernelInfo: {
+            name: "python",
+            spec: null
+          }
+        },
+        type: "SET_KERNELSPEC_INFO"
       }
     ]);
 

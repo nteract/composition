@@ -117,7 +117,8 @@ export const mockAppState = (config: JSONObject): AppState => {
                 cellFocused:
                   config && config.codeCellCount && config.codeCellCount > 1
                     ? dummyNotebook.get("cellOrder", Immutable.List()).get(1)
-                    : null
+                    : null,
+                kernelRef
               }),
               filepath:
                 config && config.noFilename ? "" : "dummy-store-nb.ipynb"

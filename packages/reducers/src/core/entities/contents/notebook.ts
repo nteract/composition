@@ -740,16 +740,19 @@ function setKernelspecInfo(
   action: actionTypes.SetKernelspecInfo
 ): RecordOf<DocumentRecordProps> {
   const { kernelInfo } = action.payload;
-  return state
-    .setIn(
-      ["notebook", "metadata", "kernelspec"],
-      fromJS({
-        name: kernelInfo.name,
-        language: kernelInfo.spec.language,
-        display_name: kernelInfo.spec.display_name
-      })
-    )
-    .setIn(["notebook", "metadata", "kernel_info", "name"], kernelInfo.name);
+  if (kernelInfo.spec) {
+    return state
+      .setIn(
+        ["notebook", "metadata", "kernelspec"],
+        fromJS({
+          name: kernelInfo.name,
+          language: kernelInfo.spec.language,
+          display_name: kernelInfo.spec.display_name
+        })
+      )
+      .setIn(["notebook", "metadata", "kernel_info", "name"], kernelInfo.name);
+  }
+  return state;
 }
 
 function overwriteMetadataField(

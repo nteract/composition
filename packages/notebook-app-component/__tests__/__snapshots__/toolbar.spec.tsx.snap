@@ -173,7 +173,9 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
                 </span>
               </button>
               <DropdownMenu>
-                <DropdownDiv>
+                <DropdownDiv
+                  onKeyUp={[Function]}
+                >
                   <StyledComponent
                     forwardedComponent={
                       Object {
@@ -201,9 +203,11 @@ exports[`Toolbar View should be able to render a toolbar 1`] = `
                       }
                     }
                     forwardedRef={null}
+                    onKeyUp={[Function]}
                   >
                     <div
                       className="sc-bdVaJa igpjjl"
+                      onKeyUp={[Function]}
                     >
                       <DropdownTrigger
                         key=".0"
@@ -520,7 +524,9 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                 </span>
               </button>
               <DropdownMenu>
-                <DropdownDiv>
+                <DropdownDiv
+                  onKeyUp={[Function]}
+                >
                   <StyledComponent
                     forwardedComponent={
                       Object {
@@ -548,9 +554,11 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                       }
                     }
                     forwardedRef={null}
+                    onKeyUp={[Function]}
                   >
                     <div
                       className="sc-bdVaJa igpjjl"
+                      onKeyUp={[Function]}
                     >
                       <DropdownTrigger
                         key=".0"
@@ -640,6 +648,74 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                       <DropdownContent
                         key=".1"
                         onItemClick={[Function]}
+                        ulRef={
+                          Object {
+                            "current": <ul
+                              aria-label="dropdown-content"
+                              role="listbox"
+                            >
+                              <li
+                                aria-selected="false"
+                                class="clearOutput"
+                                role="option"
+                                tabindex="0"
+                              >
+                                <a>
+                                  Clear Cell Output
+                                </a>
+                              </li>
+                              <li
+                                aria-selected="false"
+                                class="inputVisibility"
+                                role="option"
+                                tabindex="0"
+                              >
+                                <a>
+                                  Toggle Input Visibility
+                                </a>
+                              </li>
+                              <li
+                                aria-selected="false"
+                                class="outputVisibility"
+                                role="option"
+                                tabindex="0"
+                              >
+                                <a>
+                                  Toggle Output Visibility
+                                </a>
+                              </li>
+                              <li
+                                aria-selected="false"
+                                class="outputExpanded"
+                                role="option"
+                                tabindex="0"
+                              >
+                                <a>
+                                  Toggle Expanded Output
+                                </a>
+                              </li>
+                              <li
+                                aria-selected="false"
+                                role="option"
+                                tabindex="0"
+                              >
+                                <a>
+                                  Toggle Parameter Cell
+                                </a>
+                              </li>
+                              <li
+                                aria-selected="false"
+                                class="changeType"
+                                role="option"
+                                tabindex="0"
+                              >
+                                <a>
+                                  Convert to Markdown Cell
+                                </a>
+                              </li>
+                            </ul>,
+                          }
+                        }
                       >
                         <DropdownContentDiv>
                           <StyledComponent
@@ -714,6 +790,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                                   className="clearOutput"
                                   key=".0"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
                                   role="option"
                                   tabIndex={0}
                                 >
@@ -726,6 +803,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                                   className="inputVisibility"
                                   key=".1"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
                                   role="option"
                                   tabIndex={0}
                                 >
@@ -738,6 +816,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                                   className="outputVisibility"
                                   key=".2"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
                                   role="option"
                                   tabIndex={0}
                                 >
@@ -750,6 +829,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                                   className="outputExpanded"
                                   key=".3"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
                                   role="option"
                                   tabIndex={0}
                                 >
@@ -761,6 +841,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                                   aria-selected="false"
                                   key=".4"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
                                   role="option"
                                   tabIndex={0}
                                 >
@@ -773,6 +854,7 @@ exports[`Toolbar View should be able to render a toolbar 2`] = `
                                   className="changeType"
                                   key=".5"
                                   onClick={[Function]}
+                                  onKeyUp={[Function]}
                                   role="option"
                                   tabIndex={0}
                                 >
