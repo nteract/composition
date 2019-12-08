@@ -238,7 +238,7 @@ export const payloads = () => (
     ofMessageType("execute_reply"),
     map(entry => entry.content.payload),
     filter(Boolean),
-    mergeMap(p => from(p))
+    mergeMap<any, any>(p => from(p))
   );
 
 /**

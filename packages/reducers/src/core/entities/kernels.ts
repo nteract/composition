@@ -17,7 +17,7 @@ import { combineReducers } from "redux-immutable";
 // TODO: we need to clean up references to old kernels at some point. Listening
 // for KILL_KERNEL_SUCCESSFUL seems like a good candidate, but I think you can
 // also end up with a dead kernel if that fails and you hit KILL_KERNEL_FAILED.
-const byRef = (state = Map(), action: Action): Map<{}, {}> => {
+const byRef = (state = Map<any, any>(), action: Action): Map<{}, {}> => {
   let typedAction;
   switch (action.type) {
     case actionTypes.SET_LANGUAGE_INFO:

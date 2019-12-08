@@ -9,7 +9,7 @@ import { List, Map } from "immutable";
 import { Action, Reducer } from "redux";
 import { combineReducers } from "redux-immutable";
 
-const byRef = (state = Map(), action: Action): Map<{}, {}> => {
+const byRef = (state = Map<any, any>(), action: Action): Map<{}, {}> => {
   const typedAction = action as actionTypes.FetchKernelspecsFulfilled;
   switch (action.type) {
     case actionTypes.FETCH_KERNELSPECS_FULFILLED:
