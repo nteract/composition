@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
-    "monaco-editor": "^0.18.0",
+    "monaco-editor": "^0.19.0",
     "monaco-editor-webpack-plugin": "^1.5.1"
   },
   "peerDependencies": {
