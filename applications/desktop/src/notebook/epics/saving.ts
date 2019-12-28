@@ -49,16 +49,8 @@ export function saveEpic(
       );
       return writeFileObservable(filepath, notebook).pipe(
         map(() => {
-          if (process.platform !== "darwin") {
-            const notificationSystem = selectors.notificationSystem(
-              state$.value
-            );
-            notificationSystem.addNotification({
-              autoDismiss: 2,
-              level: "success",
-              title: "Save successful!"
-            });
-          }
+          //Save Successful - removed notification
+
           return actions.saveFulfilled({
             contentRef: action.payload.contentRef,
             model: {

@@ -76,7 +76,6 @@ export const publishEpic = (
       }
 
       const filepath = content.filepath;
-      const notificationSystem = selectors.notificationSystem(state);
 
       const model = content.model;
 
@@ -107,21 +106,9 @@ export const publishEpic = (
       // TODO: Check to see if the token matches that of the username listed
       //       in the notebook itself
       if (gistId) {
-        notificationSystem.addNotification({
-          title: "Updating Gist...",
-          message: "💖📓💖",
-          dismissible: true,
-          position: "tr",
-          level: "success"
-        });
+        // Updating Gist - removed notification
       } else {
-        notificationSystem.addNotification({
-          title: "Publishing a New Gist...",
-          message: "✨📓✨",
-          dismissible: true,
-          position: "tr",
-          level: "success"
-        });
+        // Publishing a New Gist - removed notification
       }
 
       const filename = filepath ? path.parse(filepath).base : "Untitled.ipynb";
@@ -135,25 +122,13 @@ export const publishEpic = (
         gistId
       ).pipe(
         mergeMap(xhr => {
-          const notificationSystem = selectors.notificationSystem(state$.value);
 
           const { id, login } = xhr.response;
 
           // NOTE: One day we need to make this part of our proper store
           //       instead of hidden side effects
-          notificationSystem.addNotification({
-            title: "Gist uploaded",
-            message: "📓 📢",
-            dismissible: true,
-            position: "tr",
-            level: "success",
-            action: {
-              label: "Open Gist",
-              callback() {
-                shell.openExternal(`https://nbviewer.jupyter.org/${id}`);
-              }
-            }
-          });
+          
+          // Gist uploaded - removed notification
 
           // TODO: Turn this into one action that does both, even if its
           // sometimes a no-op
@@ -187,14 +162,7 @@ export const publishEpic = (
             headers.hasOwnProperty("X-OAuth-Scopes") &&
             !headers["X-OAuth-Scopes"].includes("gist")
           ) {
-            notificationSystem.addNotification({
-              title: "Bad GitHub Token",
-              message:
-                "The gist API reports that the token doesn't have gist scopes 🤷‍♀️",
-              dismissible: true,
-              position: "tr",
-              level: "error"
-            });
+            // Bad Github Token - removed notification
             return of(
               actions.coreError(
                 new Error("Current token doesn't allow for gists")
@@ -206,13 +174,7 @@ export const publishEpic = (
           // /gists endpoint, it's a
           if (err.status > 500) {
             // Likely a GitHub API error
-            notificationSystem.addNotification({
-              title: "Gist publishing failed",
-              message: "😩 GitHub API not feelin' good today",
-              dismissible: true,
-              position: "tr",
-              level: "error"
-            });
+            // Gist publishing failed - removed notification
           }
           return of(actions.coreError(err));
         })

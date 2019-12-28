@@ -29,9 +29,6 @@ import { ipcRenderer as ipc, remote } from "electron";
 import { mathJaxPath } from "mathjax-electron";
 import * as React from "react";
 import ReactDOM from "react-dom";
-import NotificationSystem, {
-  System as ReactNotificationSystem
-} from "react-notification-system";
 import { Provider } from "react-redux";
 
 import {
@@ -157,10 +154,8 @@ initMenuHandlers(contentRef, store);
 initGlobalHandlers(contentRef, store);
 
 export default class App extends React.PureComponent {
-  notificationSystem!: ReactNotificationSystem;
 
   componentDidMount(): void {
-    store.dispatch(actions.setNotificationSystem(this.notificationSystem));
     ipc.send("react-ready");
   }
 
@@ -176,11 +171,6 @@ export default class App extends React.PureComponent {
             />
           </Provider>
         </MathJax.Provider>
-        <NotificationSystem
-          ref={(notificationSystem: ReactNotificationSystem) => {
-            this.notificationSystem = notificationSystem;
-          }}
-        />
       </React.Fragment>
     );
   }

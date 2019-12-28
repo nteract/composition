@@ -261,13 +261,7 @@ export function dispatchPublishGist(
           const accessToken = JSON.parse(auth).access_token;
           store.dispatch(actions.setGithubToken(accessToken));
 
-          const notificationSystem = selectors.notificationSystem(state);
-
-          notificationSystem.addNotification({
-            title: "Authenticated",
-            message: "🔒",
-            level: "info"
-          });
+          // Authenticated - removed notification
 
           // We are now authenticated and can finally publish
           store.dispatch(actions.publishGist(ownProps));
@@ -338,13 +332,8 @@ export function dispatchInterruptKernel(
 ): void {
   const state = store.getState();
 
-  const notificationSystem = selectors.notificationSystem(state);
   if (process.platform === "win32") {
-    notificationSystem.addNotification({
-      title: "Not supported in Windows",
-      message: "Kernel interruption is not supported in Windows.",
-      level: "error"
-    });
+    //Kernel interruption is not supported in Windows - removed notification
   } else {
     const kernelRef = selectors.kernelRefByContentRef(state, ownProps);
     if (!kernelRef) {
