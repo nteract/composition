@@ -26,6 +26,6 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "styled-components": "^4.4.1"
+    "styled-components": "^5.0.0"
   }
 }

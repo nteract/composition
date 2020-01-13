@@ -29,6 +29,6 @@
     "color-parse": "^1.3.8",
     "color-space": "^1.16.0",
     "css": "^2.2.4",
-    "styled-components": "^4.4.1"
+    "styled-components": "^5.0.0"
   }
 }
