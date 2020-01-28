@@ -1008,36 +1008,223 @@ describe("acceptPayloadMessage", () => {
       notebook,
       cellPagers: Immutable.Map({})
     });
-    const state = reducers(
+    const statePage = reducers(
       initialState,
       actions.acceptPayloadMessage({
         id: firstCellId,
+        contentRef: undefined,    
         payload: {
-          source: "page",
-          data: { well: "alright" }
-        }
+          "header":{
+             "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+             "msg_type":"execute_reply",
+             "username":"username",
+             "session":"3e37709b-9eae434d4f21a1641a80a792",
+             "date":"2020-02-04T19:36:38.753971Z",
+             "version":"5.3"
+          },
+          "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+          "msg_type":"execute_reply",
+          "parent_header":{
+             "msg_id":"27ad5f9cecea41408e4ffea0fb126298",
+             "username":"username",
+             "session":"67f06f92bdf241728e2c602cc6d15bfe",
+             "msg_type":"execute_request",
+             "version":"5.2",
+             "date":"2020-02-04T19:36:38.749972Z"
+          },
+          "metadata":{
+             "started":"2020-02-04T19:36:38.749972Z",
+             "dependencies_met":true,
+             "engine":"9678b838-0f3c-4e59-ae18-0bd17bc15af3",
+             "status":"ok"
+          },
+          "content":{
+             "status":"ok",
+             "execution_count":2,
+             "user_expressions":{
+       
+             },
+             "payload":[
+                {
+                   "source":"page",
+                   "data":{ well: "alright" },
+                }
+             ]
+          },
+          "buffers":[
+          ],
+          "channel":"shell"
+       }
       })
     );
-
-    expect(state.getIn(["cellPagers", firstCellId])).toEqual(
+    
+    expect(statePage.getIn(["cellPagers", firstCellId])).toEqual(
       Immutable.List([{ well: "alright" }])
     );
 
-    const nextState = reducers(
-      state,
+    const stateSetNextInput = reducers(
+      statePage,
       actions.acceptPayloadMessage({
         id: firstCellId,
+        contentRef: undefined,
         payload: {
-          source: "set_next_input",
-          replace: true,
-          text: "this is now the text"
-        }
+          "header":{
+             "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+             "msg_type":"execute_reply",
+             "username":"username",
+             "session":"3e37709b-9eae434d4f21a1641a80a792",
+             "date":"2020-02-04T19:36:38.753971Z",
+             "version":"5.3"
+          },
+          "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+          "msg_type":"execute_reply",
+          "parent_header":{
+             "msg_id":"27ad5f9cecea41408e4ffea0fb126298",
+             "username":"username",
+             "session":"67f06f92bdf241728e2c602cc6d15bfe",
+             "msg_type":"execute_request",
+             "version":"5.2",
+             "date":"2020-02-04T19:36:38.749972Z"
+          },
+          "metadata":{
+             "started":"2020-02-04T19:36:38.749972Z",
+             "dependencies_met":true,
+             "engine":"9678b838-0f3c-4e59-ae18-0bd17bc15af3",
+             "status":"ok"
+          },
+          "content":{
+             "status":"ok",
+             "execution_count":2,
+             "user_expressions":{
+       
+             },
+             "payload":[
+                {
+                   "source":"set_next_input",
+                   "text":"this is now the test",
+                   "replace":true
+                }
+             ]
+          },
+          "buffers":[
+          ],
+          "channel":"shell"
+       }
       })
     );
 
     expect(
-      nextState.getIn(["notebook", "cellMap", firstCellId, "source"])
-    ).toEqual("this is now the text");
+      stateSetNextInput.getIn(["notebook", "cellMap", firstCellId, "source"])
+    ).toEqual("this is now the test");
+
+    const stateSetNextInputReplace = reducers(
+      statePage,
+      actions.acceptPayloadMessage({
+        id: firstCellId,
+        contentRef: undefined,
+        payload: {
+          "header":{
+             "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+             "msg_type":"execute_reply",
+             "username":"username",
+             "session":"3e37709b-9eae434d4f21a1641a80a792",
+             "date":"2020-02-04T19:36:38.753971Z",
+             "version":"5.3"
+          },
+          "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+          "msg_type":"execute_reply",
+          "parent_header":{
+             "msg_id":"27ad5f9cecea41408e4ffea0fb126298",
+             "username":"username",
+             "session":"67f06f92bdf241728e2c602cc6d15bfe",
+             "msg_type":"execute_request",
+             "version":"5.2",
+             "date":"2020-02-04T19:36:38.749972Z"
+          },
+          "metadata":{
+             "started":"2020-02-04T19:36:38.749972Z",
+             "dependencies_met":true,
+             "engine":"9678b838-0f3c-4e59-ae18-0bd17bc15af3",
+             "status":"ok"
+          },
+          "content":{
+             "status":"ok",
+             "execution_count":2,
+             "user_expressions":{
+       
+             },
+             "payload":[
+                {
+                   "source":"set_next_input",
+                   "text":"this is now the test",
+                   "replace":true
+                }
+             ]
+          },
+          "buffers":[
+          ],
+          "channel":"shell"
+       }
+      })
+    );
+
+    expect(
+      stateSetNextInputReplace.getIn(["notebook", "cellMap", firstCellId, "source"])
+    ).toEqual("this is now the test");
+
+    const unsupportedPayload = reducers(
+      statePage,
+      actions.acceptPayloadMessage({
+        id: firstCellId,
+        contentRef: undefined,
+        payload: {
+          "header":{
+             "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+             "msg_type":"execute_reply",
+             "username":"username",
+             "session":"3e37709b-9eae434d4f21a1641a80a792",
+             "date":"2020-02-04T19:36:38.753971Z",
+             "version":"5.3"
+          },
+          "msg_id":"82f36e0e-17af3c883025ae499dc1f660",
+          "msg_type":"execute_reply",
+          "parent_header":{
+             "msg_id":"27ad5f9cecea41408e4ffea0fb126298",
+             "username":"username",
+             "session":"67f06f92bdf241728e2c602cc6d15bfe",
+             "msg_type":"execute_request",
+             "version":"5.2",
+             "date":"2020-02-04T19:36:38.749972Z"
+          },
+          "metadata":{
+             "started":"2020-02-04T19:36:38.749972Z",
+             "dependencies_met":true,
+             "engine":"9678b838-0f3c-4e59-ae18-0bd17bc15af3",
+             "status":"ok"
+          },
+          "content":{
+             "status":"ok",
+             "execution_count":2,
+             "user_expressions":{
+       
+             },
+             "payload":[
+                {
+                   "source":"unsupported",
+                }
+             ]
+          },
+          "buffers":[
+          ],
+          "channel":"shell"
+       }
+      })
+    );
+  
+      expect(
+        unsupportedPayload.getIn(["notebook", "cellMap", firstCellId, "source"])
+      ).toEqual("this is now the test");  
+
   });
 });
 

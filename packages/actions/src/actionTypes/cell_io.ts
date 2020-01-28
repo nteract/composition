@@ -1,6 +1,6 @@
 // tslint:disable:max-line-length
 import { JSONObject, OnDiskOutput } from "@nteract/commutable";
-import { PayloadMessage } from "@nteract/types";
+import { JupyterMessage } from "@nteract/messaging";
 import { Action, HasCell, HasContent, makeActionFunction, MaybeHasCell } from "../utils";
 
 export const PROMPT_INPUT_REQUEST           = "PROMPT_INPUT_REQUEST";
@@ -24,7 +24,7 @@ export type ToggleCellOutputVisibility      = Action<typeof TOGGLE_CELL_OUTPUT_V
 export type ClearOutputs                    = Action<typeof CLEAR_OUTPUTS,                  MaybeHasCell>;
 export type UpdateOutputMetadata            = Action<typeof UPDATE_OUTPUT_METADATA,         HasCell & { metadata: JSONObject; index: number; mediaType: string }>;
 export type AppendOutput                    = Action<typeof APPEND_OUTPUT,                  HasCell &  { output: OnDiskOutput }>;
-export type AcceptPayloadMessage            = Action<typeof ACCEPT_PAYLOAD_MESSAGE,         HasCell &  { payload: PayloadMessage }>;
+export type AcceptPayloadMessage            = Action<typeof ACCEPT_PAYLOAD_MESSAGE,         HasCell &  { payload: JupyterMessage }>;
 export type ToggleCellExpansion             = Action<typeof TOGGLE_OUTPUT_EXPANSION,        HasCell>;
 
 export const promptInputRequest             = makeActionFunction<PromptInputRequest>        (PROMPT_INPUT_REQUEST);

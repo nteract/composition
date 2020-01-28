@@ -2,7 +2,7 @@ import { JSONObject, MediaBundle } from "@nteract/commutable";
 import { Subject } from "rxjs";
 
 export type MessageType =
-  | "execute_request"
+  "execute_request"
   | "inspect_request"
   | "inspect_reply"
   | "kernel_info_request"
@@ -35,7 +35,11 @@ export type MessageType =
   | "is_complete_reply"
   | "execute_reply"
   | "interrupt_request"
-  | "interrupt_reply";
+  | "interrupt_reply"
+  | "page"
+  | "set_next_input"
+  | "edit"
+  | "ask_exit";
 
 export interface JupyterMessageHeader<MT extends MessageType = MessageType> {
   msg_id: string;

@@ -42,8 +42,7 @@ import {
   AppState,
   ContentRef,
   InputRequestMessage,
-  KernelStatus,
-  PayloadMessage
+  KernelStatus
 } from "@nteract/types";
 import { List } from "immutable";
 
@@ -80,7 +79,7 @@ export function executeCellStream(
 
   const cellAction$ = merge(
     payloadStream.pipe(
-      map((payload: PayloadMessage) =>
+      map((payload: JupyterMessage) =>
         actions.acceptPayloadMessage({ id, payload, contentRef })
       )
     ),

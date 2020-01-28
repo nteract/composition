@@ -25,7 +25,7 @@ import {
   OnDiskOutput,
   OnDiskStreamOutput
 } from "@nteract/commutable";
-import { UpdateDisplayDataContent } from "@nteract/messaging";
+import { UpdateDisplayDataContent, JupyterMessage } from "@nteract/messaging";
 import {
   DocumentRecordProps,
   makeDocumentRecord,
@@ -477,7 +477,7 @@ function unmarkCellAsDeleting(
 
 function deleteCellFromState(
   state: NotebookModel,
-  action: actionTypes.DeleteCell,
+  action: actionTypes.DeleteCell
 ): RecordOf<DocumentRecordProps> {
   const id = action.payload.id ? action.payload.id : state.cellFocused;
   if (!id) {
@@ -552,35 +552,41 @@ function acceptPayloadMessage(
   action: actionTypes.AcceptPayloadMessage
 ): NotebookModel {
   const id: string = action.payload.id;
-  const payload: PayloadMessage = action.payload.payload;
+  const message: JupyterMessage = action.payload.payload;
 
-  if (payload.source === "page") {
-    // append pager
-    return state.updateIn(["cellPagers", id], l =>
-      (l || List()).push(payload.data)
-    );
-  } else if (payload.source === "set_next_input") {
-    if (payload.replace) {
-      // this payload is sent in IPython when you use %load
-      // and is intended to replace cell source
-      return state.setIn(["notebook", "cellMap", id, "source"], payload.text);
-    } else {
-      // create the next cell
-      // FIXME: This is a weird pattern. We're basically faking a dispatch here
-      // inside a reducer and then appending to the result. I think that both of
-      // these reducers should just handle the original action.
-      return createCellBelow(state, {
-        type: actionTypes.CREATE_CELL_BELOW,
-        payload: {
-          cellType: "code",
-          // TODO: is payload.text guaranteed to be defined?
-          source: payload.text || "",
-          id,
-          contentRef: action.payload.contentRef
-        }
-      });
+  if (message.content.status === "ok") {
+    const payload: PayloadMessage = message.content.payload[0];
+
+    if (payload.source === "page") {
+      // append pager
+      return state.updateIn(["cellPagers", id], l =>
+        (l || List()).push(payload.data)
+      );
+    } else if (payload.source === "set_next_input") {
+      if (payload.replace) {
+        //payload replace
+        // this payload is sent in IPython when you use %load
+        // and is intended to replace cell source
+        return state.setIn(["notebook", "cellMap", id, "source"], payload.text);
+      } else {
+        // create the next cell
+        // FIXME: This is a weird pattern. We're basically faking a dispatch here
+        // inside a reducer and then appending to the result. I think that both of
+        // these reducers should just handle the original action.
+        return createCellBelow(state, {
+          type: actionTypes.CREATE_CELL_BELOW,
+          payload: {
+            cellType: "code",
+            // TODO: is payload.text guaranteed to be defined?
+            source: payload.text || "",
+            id,
+            contentRef: action.payload.contentRef
+          }
+        });
+      }
     }
   }
+
   // If the payload is unsupported, just return the current state
   return state;
 }
