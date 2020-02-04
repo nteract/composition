@@ -1,6 +1,6 @@
 import { join } from "path";
 
-import { Event, ipcMain as ipc } from "electron";
+import { IpcMainEvent, ipcMain as ipc } from "electron";
 
 import { KernelspecInfo, Kernelspecs } from "@nteract/types";
 
@@ -34,6 +34,6 @@ export default function initializeKernelSpecs(
   return KERNEL_SPECS;
 }
 
-ipc.on("kernel_specs_request", (event: Event) => {
-  event.sender.send("kernel_specs_reply", KERNEL_SPECS);
+ipc.on("kernel_specs_request", (event: IpcMainEvent) => {
+  event.reply("kernel_specs_reply", KERNEL_SPECS);
 });

@@ -12,6 +12,7 @@ import {
   BrowserWindow,
   dialog,
   Event,
+  IpcMainEvent,
   ipcMain as ipc,
   Menu,
   Tray
@@ -76,12 +77,12 @@ ipc.on("open-notebook", (_event: any, filename: string) => {
   launch(resolve(filename));
 });
 
-ipc.on("reload", (event: Event) => {
+ipc.on("reload", (event: IpcMainEvent) => {
   event.sender.reload();
   event.returnValue = null;
 });
 
-ipc.on("show-message-box", (event: Event, arg: any) => {
+ipc.on("show-message-box", (event: IpcMainEvent, arg: any) => {
   const response = dialog.showMessageBox(arg);
   event.sender.send("show-message-box-response", response);
 });
@@ -89,8 +90,9 @@ ipc.on("show-message-box", (event: Event, arg: any) => {
 app.on("ready", initAutoUpdater);
 
 const electronReady$ = new Observable(observer => {
-  app.on("ready", (event: Event) => observer.next(event));
+  app.on("ready", (launchInfo: Object) => observer.next(launchInfo));
 });
+
 const windowReady$ = fromEvent(ipc, "react-ready");
 
 const fullAppReady$ = zip(electronReady$, prepareEnv).pipe(first());

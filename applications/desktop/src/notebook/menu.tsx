@@ -67,7 +67,8 @@ export function showSaveAsDialog(): Promise<string> {
       options.defaultPath = defaultPath;
     }
 
-    dialog.showSaveDialog(options, filepath => {
+    dialog.showSaveDialog(options).then(result => {
+      const filepath = result.filePath;
       // If there was a filepath set and the extension name for it is blank,
       // append `.ipynb`
       resolve(
@@ -111,8 +112,9 @@ export function dispatchSave(
 
   if (filepath === null || filepath === "") {
     showSaveAsDialog().then(filepath => {
-      if (filepath)
+      if (filepath) {
         store.dispatch(actions.saveAs({ filepath, contentRef: ownProps.contentRef }));
+      }
     });
   } else {
     store.dispatch(actions.save(ownProps));
@@ -505,15 +507,12 @@ export function exportPDF(
     )
   );
 
-  remote.getCurrentWindow().webContents.printToPDF(
-    {
+  remote
+    .getCurrentWindow()
+    .webContents.printToPDF({
       printBackground: true
-    },
-    (error, data) => {
-      if (error) {
-        throw error;
-      }
-
+    })
+    .then(data => {
       // Restore the modified cells to their unexpanded state.
       unexpandedCells.map((cellId: string) =>
         store.dispatch(
@@ -577,8 +576,10 @@ export function exportPDF(
           })
         );
       });
-    }
-  );
+    })
+    .catch((error: Error) => {
+      throw error;
+    });
 }
 
 export function triggerSaveAsPDF(

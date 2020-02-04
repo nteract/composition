@@ -4,10 +4,9 @@
 // https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces
 
 declare namespace NodeJS {
-
   interface Image {
     prototype: HTMLImageElement;
-    new(): HTMLImageElement;
+    new (): HTMLImageElement;
   }
 
   interface Global {
@@ -21,12 +20,12 @@ declare namespace NodeJS {
       document: {
         // Codemirror Hack Polyfill
         createRange: () => any;
-      }
+      };
       focus: () => void;
       Image: Image;
       URL: {
         prototype: URL;
-        new(): URL;
+        new (): URL;
         createObjectURL: () => void;
       };
     };
