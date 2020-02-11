@@ -18,11 +18,6 @@ export function createMessage<MT extends MessageType>(
   return { ...message({ msg_type }), ...fields };
 }
 
-// TODO: Deprecate
-export function createExecuteRequest(code: string = ""): ExecuteRequest {
-  return executeRequest(code, {});
-}
-
 /**
  * creates a comm open message
  * @param  {string} comm_id       uuid

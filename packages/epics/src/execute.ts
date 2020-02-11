@@ -1,7 +1,7 @@
 import {
   Channels,
   childOf,
-  createExecuteRequest,
+  executeRequest,
   ExecuteRequest,
   executionCounts,
   inputReply,
@@ -512,7 +512,7 @@ export function sendExecuteRequestEpic(
           if ((cell as any).get("cell_type") === "code") {
             const source = cell.get("source", "");
 
-            const message = createExecuteRequest(source);
+            const message = executeRequest(source);
 
             return createExecuteCellStream(
               action$,

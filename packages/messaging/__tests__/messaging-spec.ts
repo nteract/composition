@@ -5,7 +5,7 @@ import { count, map, tap, toArray } from "rxjs/operators";
 import {
   childOf,
   convertOutputMessageToNotebookFormat,
-  createExecuteRequest,
+  executeRequest,
   createMessage,
   createCommMessage,
   createCommOpenMessage,
@@ -40,10 +40,10 @@ describe("createMessage", () => {
   });
 });
 
-describe("createExecuteRequest", () => {
+describe("executeRequest", () => {
   it("creates an execute_request message", () => {
     const code = 'print("test")';
-    const executeRequest = createExecuteRequest(code);
+    const executeRequest = executeRequest(code);
 
     expect(executeRequest.content.code).toEqual(code);
     expect(executeRequest.header.msg_type).toEqual("execute_request");
