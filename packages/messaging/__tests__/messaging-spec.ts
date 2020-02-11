@@ -43,10 +43,10 @@ describe("createMessage", () => {
 describe("executeRequest", () => {
   it("creates an execute_request message", () => {
     const code = 'print("test")';
-    const executeRequest = executeRequest(code);
+    const executeReq = executeRequest(code);
 
-    expect(executeRequest.content.code).toEqual(code);
-    expect(executeRequest.header.msg_type).toEqual("execute_request");
+    expect(executeReq.content.code).toEqual(code);
+    expect(executeReq.header.msg_type).toEqual("execute_request");
   });
 });
 
