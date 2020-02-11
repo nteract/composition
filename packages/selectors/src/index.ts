@@ -14,7 +14,6 @@ export * from "./core/kernelspecs";
 export * from "./core/transforms";
 export * from "./app";
 export * from "./comms";
-export * from "./config";
 
 /**
  * Returns the type of modal, such as the about modal, that is currently open

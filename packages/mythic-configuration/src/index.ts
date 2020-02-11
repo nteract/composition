@@ -1,0 +1,1 @@
+export { configuration } from "./package";

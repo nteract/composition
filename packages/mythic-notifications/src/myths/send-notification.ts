@@ -29,8 +29,9 @@ export const sendNotification =
 
     epics: [
       {
-        on: action => action.error ?? false,
-        create: action => ({
+        onAction: action => action.error ?? false,
+        dispatch: "self",
+        from: action => ({
           title: titleFromAction(action),
           message: messageFromAction(action),
           level: "error",

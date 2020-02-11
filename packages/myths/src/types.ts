@@ -2,7 +2,7 @@ import { RecordOf } from "immutable";
 import { ComponentClass } from "react";
 import { ConnectedComponent } from "react-redux";
 import { Action, Reducer } from "redux";
-import { Epic } from "redux-observable";
+import { Epic, StateObservable } from "redux-observable";
 
 export interface Myths<PKG extends string, STATE> {
   [key: string]: Myth<PKG, string, any, STATE>
@@ -31,7 +31,7 @@ export interface Myth<
   NAME extends string = string,
   PROPS = any,
   STATE = any,
-  > {
+> {
   pkg: PKG,
   name: NAME,
   type: string,
@@ -59,6 +59,13 @@ export interface Myth<
   ) => ConnectedComponent<ComponentClass<COMPONENT_PROPS>, COMPONENT_PROPS>;
 }
 
+export type RootState<
+  PKG extends string,
+  STATE
+> = RecordOf<{__private__: {[key in PKG]: RecordOf<STATE>}}>;
+
+export type Selector<STATE, T> = (state: RecordOf<STATE>) => T;
+
 export interface MythicPackage<
   PKG extends string = string,
   STATE = any
@@ -75,6 +82,9 @@ export interface MythicPackage<
   createMyth: <NAME extends string>(name: NAME) =>
     <PROPS>(definition: MythDefinition<STATE, PROPS>) =>
       Myth<PKG, NAME, PROPS, STATE>;
+  createSelector:
+    <T>(selector: Selector<STATE, T>) =>
+      (state: RootState<PKG, STATE>) => T
 }
 
 export type ReducerDefinition<STATE, PROPS> = (
@@ -84,17 +94,25 @@ export type ReducerDefinition<STATE, PROPS> = (
 
 export interface MythDefinition<STATE, PROPS> {
   reduce?: ReducerDefinition<STATE, PROPS>;
-  epics?: Array<EpicDefinition<PROPS>>;
+  epics?: Array<EpicDefinition<STATE, PROPS>>;
 }
 
-export interface CreateEpicDefinition<PROPS> {
-  on: (action: MythicAction) => boolean;
-  create: (action: MythicAction) => PROPS | void;
+export interface EpicDefinition<STATE, PROPS> {
+  onAction:
+    | "self"
+    | ((action: MythicAction<string, string, PROPS>) => boolean)
+    ;
+  dispatch?:
+    | "self"
+    | Myth
+    | null
+    ;
+  from?: (
+    action: MythicAction<string, string, PROPS>,
+    state$: StateObservable<RecordOf<STATE>>,
+  ) => any;
+  switchToMostRecent?: boolean;
 }
-
-export type EpicDefinition<PROPS> =
-  | CreateEpicDefinition<PROPS>
-  ;
 
 export interface PackageDefinition<STATE> {
   initialState: STATE;

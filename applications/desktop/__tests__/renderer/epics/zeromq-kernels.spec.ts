@@ -14,9 +14,7 @@ import {
 import { ActionsObservable, StateObservable } from "redux-observable";
 import { toArray } from "rxjs/operators";
 
-import { doneSavingConfig } from "@nteract/actions";
 import { mockAppState } from "@nteract/fixtures";
-import { displayName } from "@nteract/selectors/lib/core/contents/notebook";
 import Immutable from "immutable";
 import { Subject } from "rxjs";
 import {

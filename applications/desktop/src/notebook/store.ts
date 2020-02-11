@@ -15,7 +15,6 @@ export const configureStore = makeConfigureStore<DesktopNotebookAppState>()({
   reducers: {
     app: reducers.app,
     comms: reducers.comms,
-    config: reducers.config,
     core: reducers.core as any,
     desktopNotebook: handleDesktopNotebook,
   },

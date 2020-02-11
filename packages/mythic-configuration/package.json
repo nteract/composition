@@ -1,0 +1,25 @@
+{
+  "name": "@nteract/mythic-configuration",
+  "version": "0.1.0",
+  "description": "A configuration system based on the myths redux framework",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.ts",
+  "scripts": {},
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/mythic-configuration",
+  "keywords": [
+    "nteract"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "@nteract/myths": "^0.1.0"
+  },
+  "peerDependencies": {
+  },
+  "author": "nteract contributers",
+  "license": "BSD-3-Clause"
+}

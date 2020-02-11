@@ -106,8 +106,6 @@ export const makeCommsRecord = Immutable.Record<CommsRecordProps>({
 // Pull version from our package.json
 const version: string = require("../package.json").version;
 
-export type ConfigState = Immutable.Map<string, any>;
-
 export interface StateRecordProps {
   kernelRef: KernelRef | null;
   currentKernelspecsRef?: KernelspecsRef | null;
@@ -127,7 +125,6 @@ export interface AppRecordProps {
   githubToken?: string | null;
   isSaving: boolean;
   lastSaved?: Date | null;
-  configLastSaved?: Date | null;
   error: any;
   // The version number should be provided by an app on boot
   version: string;
@@ -138,7 +135,6 @@ export const makeAppRecord = Immutable.Record<AppRecordProps>({
   githubToken: null,
   isSaving: false,
   lastSaved: null,
-  configLastSaved: null,
   error: null,
   // set the default version to @nteract/core's version
   version: `@nteract/core@${version}`
@@ -149,6 +145,5 @@ export type AppRecord = Immutable.RecordOf<AppRecordProps>;
 export interface AppState {
   app: AppRecord;
   comms: CommsRecord;
-  config: ConfigState;
   core: CoreRecord;
 }

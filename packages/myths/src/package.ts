@@ -1,8 +1,8 @@
-import * as Immutable from "immutable";
+import { Record } from "immutable";
 import { makeMakeRootEpic } from "./epics";
 import { makeCreateMyth } from "./myth";
 import { makeRootReducer } from "./reducer";
-import { MythicPackage, Myths, PackageDefinition } from "./types";
+import { MythicPackage, Myths, PackageDefinition, RootState, Selector } from "./types";
 
 export const createMythicPackage =
   <PKG extends string>(pkg: PKG) =>
@@ -18,7 +18,7 @@ export const createMythicPackage =
         // for use in typeof expressions:
         state: undefined as unknown as STATE,
 
-        makeStateRecord: Immutable.Record<STATE>(
+        makeStateRecord: Record<STATE>(
           packageDefinition.initialState,
         ),
 
@@ -30,5 +30,10 @@ export const createMythicPackage =
 
         createMyth:
           makeCreateMyth(pkg, myths),
+
+        createSelector:
+          <T>(selector: Selector<STATE, T>) =>
+            (state: RootState<PKG, STATE>) =>
+              selector(state.__private__[pkg])
       };
     };

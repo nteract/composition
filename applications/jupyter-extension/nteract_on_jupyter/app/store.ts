@@ -14,7 +14,6 @@ export const configureStore = makeConfigureStore<AppState>()({
   reducers: {
     app: reducers.app,
     comms: reducers.comms,
-    config: reducers.config,
     core: reducers.core as any,
   },
   epics: coreEpics.allEpics,

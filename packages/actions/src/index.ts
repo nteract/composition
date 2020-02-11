@@ -3,7 +3,6 @@ export * from "./actionTypes/cell_io";
 export * from "./actionTypes/cell_state";
 export * from "./actionTypes/cell_structure";
 export * from "./actionTypes/comm";
-export * from "./actionTypes/config";
 export * from "./actionTypes/content_publish";
 export * from "./actionTypes/content_save_load";
 export * from "./actionTypes/content_state";
