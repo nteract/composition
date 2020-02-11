@@ -1,6 +1,6 @@
 import * as actions from "@nteract/actions";
 import { mockAppState } from "@nteract/fixtures";
-import { createExecuteRequest, createMessage } from "@nteract/messaging";
+import { executeRequest, createMessage } from "@nteract/messaging";
 import * as stateModule from "@nteract/types";
 import { ActionsObservable, StateObservable } from "redux-observable";
 import { empty, from, of, Subject } from "rxjs";
@@ -244,7 +244,7 @@ describe("createExecuteCellStream", () => {
       }
     };
     const action$ = ActionsObservable.from([]);
-    const message = createExecuteRequest("source");
+    const message = executeRequest("source");
 
     const observable = createExecuteCellStream(
       action$,
