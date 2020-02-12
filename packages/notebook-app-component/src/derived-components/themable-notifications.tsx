@@ -1,4 +1,5 @@
 import { selectors } from "@nteract/core";
+import { theme } from "@nteract/mythic-configuration";
 import { NotificationRoot } from "@nteract/mythic-notifications";
 import { AppState } from "@nteract/types";
 import React from "react";
@@ -12,6 +13,6 @@ const PureThemableNotifications = ({ theme }: Props) =>
   <NotificationRoot darkTheme={theme === "dark"}/>;
 
 export const ThemableNotifications = connect(
-  (state: AppState) => ({theme: selectors.currentTheme(state)}),
+  (state: AppState) => ({theme: theme(state)}),
 )(PureThemableNotifications);
 ThemableNotifications.displayName = "ThemableNotifications";

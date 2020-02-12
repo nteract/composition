@@ -1,3 +1,4 @@
+import { theme } from "@nteract/mythic-configuration";
 import Immutable from "immutable";
 import React from "react";
 import { connect } from "react-redux";
@@ -110,7 +111,6 @@ export const makeMapStateToProps = (
 
     const handlers = selectors.transformsById(state);
     const order = selectors.displayOrder(state);
-    const theme = selectors.userTheme(state);
 
     const mediaType = richestMediaType(output, order, handlers);
 
@@ -123,14 +123,14 @@ export const makeMapStateToProps = (
         mediaType,
         data,
         metadata,
-        theme
+        theme: theme(state),
       };
     }
     return {
       Media: () => null,
       mediaType,
       output,
-      theme
+      theme: theme(state),
     };
   };
   return mapStateToProps;

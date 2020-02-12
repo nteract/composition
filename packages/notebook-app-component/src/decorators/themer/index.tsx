@@ -1,3 +1,4 @@
+import { theme } from "@nteract/mythic-configuration";
 import React from "react";
 import { connect } from "react-redux";
 
@@ -35,7 +36,7 @@ export class Themer extends React.Component<ComponentProps & StateProps> {
 const makeMapStateToProps = (initialState: AppState) => {
   const mapStateToProps = (state: AppState) => {
     return {
-      theme: selectors.userTheme(state)
+      theme: theme(state)
     };
   };
   return mapStateToProps;

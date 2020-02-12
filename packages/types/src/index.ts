@@ -1,4 +1,5 @@
 import { MediaBundle } from "@nteract/commutable";
+import { HasPrivateConfigurationState } from "@nteract/mythic-configuration";
 import * as Immutable from "immutable";
 import { EntitiesRecordProps, makeEmptyHostRecord, makeEntitiesRecord } from "./entities";
 import { HostRecord } from "./entities/hosts";
@@ -142,7 +143,7 @@ export const makeAppRecord = Immutable.Record<AppRecordProps>({
 
 export type AppRecord = Immutable.RecordOf<AppRecordProps>;
 
-export interface AppState {
+export interface AppState extends HasPrivateConfigurationState {
   app: AppRecord;
   comms: CommsRecord;
   core: CoreRecord;

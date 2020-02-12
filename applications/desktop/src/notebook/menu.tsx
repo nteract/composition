@@ -1,6 +1,7 @@
 import { Breadcrumbs } from "@blueprintjs/core";
-
+import { setCursorBlink } from "@nteract/actions/lib/actionTypes/config";
 import { actions, ContentRef, createKernelRef, selectors } from "@nteract/core";
+import { loadConfig, setTheme } from "@nteract/mythic-configuration";
 import { sendNotification } from "@nteract/mythic-notifications";
 import { ipcRenderer as ipc, remote, shell, webFrame } from "electron";
 import * as fs from "fs";
@@ -8,6 +9,7 @@ import throttle from "lodash.throttle";
 import * as path from "path";
 import React from "react";
 import styled from "styled-components";
+import { setDefaultKernel } from "./config-options";
 import { DesktopStore } from "./store";
 
 type NotificationSystemRef = any;
@@ -381,7 +383,7 @@ export function dispatchSetTheme(
   evt: Event,
   theme: string
 ): void {
-  store.dispatch(actions.setTheme(theme));
+  store.dispatch(setTheme(theme));
 }
 
 export function dispatchSetCursorBlink(
@@ -390,17 +392,16 @@ export function dispatchSetCursorBlink(
   evt: Event,
   value: string
 ): void {
-  store.dispatch(actions.setCursorBlink(value));
+  store.dispatch(setCursorBlink(value));
 }
 
-export function dispatchSetConfigAtKey(
+export function dispatchSetDefaultKernel(
   ownProps: { contentRef: ContentRef },
   store: DesktopStore,
-  key: string,
   evt: Event,
   value: string
 ): void {
-  store.dispatch(actions.setConfigAtKey(key, value));
+  store.dispatch(setDefaultKernel(value));
 }
 
 export function dispatchCopyCell(
@@ -706,7 +707,10 @@ export function dispatchLoadConfig(
   _ownProps: { contentRef: ContentRef },
   store: DesktopStore
 ): void {
-  store.dispatch(actions.loadConfig());
+  const HOME = remote.app.getPath("home");
+  const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
+
+  store.dispatch(loadConfig.create(CONFIG_FILE_PATH));
 }
 
 export function initMenuHandlers(
@@ -774,7 +778,7 @@ export function initMenuHandlers(
   ipc.on("menu:set-blink-rate", dispatchSetCursorBlink.bind(null, opts, store));
   ipc.on(
     "menu:set-default-kernel",
-    dispatchSetConfigAtKey.bind(null, opts, store, "defaultKernel")
+    dispatchSetDefaultKernel.bind(null, opts, store)
   );
   ipc.on("menu:publish:gist", dispatchPublishGist.bind(null, opts, store));
   ipc.on("menu:exportPDF", storeToPDF.bind(null, opts, store));

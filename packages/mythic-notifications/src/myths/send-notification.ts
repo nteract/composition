@@ -31,7 +31,7 @@ export const sendNotification =
       {
         onAction: action => action.error ?? false,
         dispatch: "self",
-        from: action => ({
+        from: ([action]) => ({
           title: titleFromAction(action),
           message: messageFromAction(action),
           level: "error",

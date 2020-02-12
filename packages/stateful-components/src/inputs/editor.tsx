@@ -1,8 +1,12 @@
+import { actions, AppState, ContentRef, selectors } from "@nteract/core";
+import { createConfigOption, theme } from "@nteract/mythic-configuration";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { actions, AppState, ContentRef, selectors } from "@nteract/core";
+const {
+  selector: editorType,
+} = createConfigOption("editorType")("codemirror");
 
 interface ComponentProps {
   id: string;
@@ -95,8 +99,6 @@ export const makeMapStateToProps = (
     let channels = null;
     let kernelStatus = "not connected";
     let value = "";
-    const editorType = selectors.editorType(state);
-    const theme = selectors.userTheme(state);
 
     if (model && model.type === "notebook") {
       const cell = selectors.notebook.cellById(model, { id });
@@ -118,8 +120,8 @@ export const makeMapStateToProps = (
       value,
       channels,
       kernelStatus,
-      editorType,
-      theme
+      editorType: editorType(state),
+      theme: theme(state),
     };
   };
 

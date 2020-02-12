@@ -7,7 +7,7 @@ import { MythicAction, MythicPackage } from "./types";
 export const makeConfigureStore = <STATE>() => <DEPS>(
   definition: {
     packages: MythicPackage[],
-    reducers?: ReducersMapObject<STATE, any>
+    reducers?: ReducersMapObject<Omit<STATE, "__private__">, any>
     epics?: Epic[],
     epicMiddleware?: Middleware[],
     epicDependencies?: DEPS,

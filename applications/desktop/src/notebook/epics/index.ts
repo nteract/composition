@@ -2,25 +2,12 @@ import { epics as coreEpics } from "@nteract/core";
 import { ActionsObservable, Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import { catchError, startWith } from "rxjs/operators";
+import { Actions } from "../actions";
 import { DesktopNotebookAppState } from "../state";
-
 import { closeNotebookEpic } from "./close-notebook";
-import {
-  loadConfigEpic,
-  saveConfigEpic,
-  saveConfigOnChangeEpic
-} from "./config";
 import { publishEpic } from "./github-publish";
 import { newNotebookEpic } from "./loading";
-import {
-  interruptKernelEpic,
-  killKernelEpic,
-  launchKernelByNameEpic,
-  launchKernelEpic,
-  watchSpawn
-} from "./zeromq-kernels";
-
-import { Actions } from "../actions";
+import { interruptKernelEpic, killKernelEpic, launchKernelByNameEpic, launchKernelEpic, watchSpawn } from "./zeromq-kernels";
 
 export function retryAndEmitError(err: Error, source: Observable<Actions>) {
   console.error(err);
@@ -61,9 +48,6 @@ const epics = [
   launchKernelByNameEpic,
   interruptKernelEpic,
   killKernelEpic,
-  loadConfigEpic,
-  saveConfigEpic,
-  saveConfigOnChangeEpic,
   closeNotebookEpic
 ];
 

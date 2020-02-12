@@ -34,7 +34,7 @@ export const makeCreateMyth =
 
         // Epics to include into our rootEpic
         mythWIP.epics =
-          makeEpics(mythWIP.create, definition.epics ?? []);
+          makeEpics(pkg, mythWIP.type!, mythWIP.create, definition.epics ?? []);
 
         // Is this action one of ours?
         mythWIP.appliesTo =

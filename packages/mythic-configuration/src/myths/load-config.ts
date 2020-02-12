@@ -1,57 +1,21 @@
-import { remote } from "electron";
-import { readFileObservable, writeFileObservable } from "fs-observable";
-import * as path from "path";
+import { readFileObservable } from "fs-observable";
 import { map } from "rxjs/operators";
 import { configuration } from "../package";
+import { mergeConfig } from "./merge-config";
 
-const HOME = remote.app.getPath("home");
-const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
-
-export const mergeConfig = configuration.createMyth("mergeConfig")<object>({
+export const loadConfig = configuration.createMyth("loadConfig")<string>({
   reduce: (state, action) =>
-    state.merge(action.payload),
-});
+    state.set("filename", action.payload),
 
-export const loadConfig = configuration.createMyth("loadConfig")<void>({
   epics: [
     {
       onAction: "self",
       dispatch: mergeConfig,
-      from: () =>
-        readFileObservable(CONFIG_FILE_PATH).pipe(
+      from: ([_, state]) =>
+        readFileObservable(state.filename!).pipe(
           map(data => JSON.parse(data.toString())),
         ),
       switchToMostRecent: true,
-    },
-  ],
-});
-
-export const saveConfig = configuration.createMyth("saveConfig")<void>({
-  epics: [
-    {
-      onAction: "self",
-      dispatch: null,
-      from: (_, state$) =>
-        writeFileObservable(
-          CONFIG_FILE_PATH,
-          JSON.stringify(state$.value.current),
-        ),
-      switchToMostRecent: true,
-    },
-  ],
-});
-
-export const setConfigAtKey = configuration.createMyth("setConfigAtKey")<{
-  key: string;
-  value: any;
-}>({
-  reduce: (state, action) =>
-    state.setIn(["current", action.payload.key], action.payload.value),
-
-  epics: [
-    {
-      onAction: "self",
-      dispatch: saveConfig,
     },
   ],
 });

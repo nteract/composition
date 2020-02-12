@@ -59,12 +59,16 @@ export interface Myth<
   ) => ConnectedComponent<ComponentClass<COMPONENT_PROPS>, COMPONENT_PROPS>;
 }
 
-export type RootState<
+export interface RootState<
   PKG extends string,
   STATE
-> = RecordOf<{__private__: {[key in PKG]: RecordOf<STATE>}}>;
+> {
+  __private__: {
+    [key in PKG]: RecordOf<STATE>;
+  };
+}
 
-export type Selector<STATE, T> = (state: RecordOf<STATE>) => T;
+export type Selector<STATE, T> = (state: STATE) => T;
 
 export interface MythicPackage<
   PKG extends string = string,
@@ -107,10 +111,10 @@ export interface EpicDefinition<STATE, PROPS> {
     | Myth
     | null
     ;
-  from?: (
-    action: MythicAction<string, string, PROPS>,
-    state$: StateObservable<RecordOf<STATE>>,
-  ) => any;
+  from?: (params: [
+    MythicAction<string, string, PROPS>,
+    RecordOf<STATE>,
+  ]) => any;
   switchToMostRecent?: boolean;
 }
 

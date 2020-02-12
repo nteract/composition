@@ -61,9 +61,6 @@ const store = configureStore({
     version: remote.app.getVersion()
   }),
   comms: makeCommsRecord(),
-  config: Immutable.Map({
-    theme: "light"
-  }),
   core: makeStateRecord({
     entities: makeEntitiesRecord({
       contents: makeContentsRecord({

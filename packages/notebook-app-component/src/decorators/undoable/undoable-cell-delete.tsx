@@ -1,10 +1,14 @@
-import { actions, selectors, AppState } from "@nteract/core";
+import { actions, AppState, selectors } from "@nteract/core";
+import { createConfigOption } from "@nteract/mythic-configuration";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import styled from "styled-components";
-
 import UndoableDelete from "./undoable-delete";
+
+export const {
+  selector: deleteDelay,
+} = createConfigOption("deleteDelay")(10_000);
 
 interface InitialProps extends selectors.cell.CellAddress {
   children: React.ReactNode;
@@ -38,7 +42,7 @@ const UnstyledUndoableCellDelete = connect(
     isDeleting: !!selectors.cell
       .cellFromState(state, selectors.cell.cellAddress(props))
       .getIn(["metadata", "nteract", "transient", "deleting"]),
-    secondsDelay: selectors.deleteDelay(state) / 1000
+    secondsDelay: deleteDelay(state) / 1000
   }),
   (dispatch: Dispatch, props: InitialProps) => ({
     doDelete: () =>

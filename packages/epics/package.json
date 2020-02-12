@@ -35,6 +35,7 @@
     "@nteract/actions": "^3.0.1-alpha.0",
     "@nteract/commutable": "^7.2.5-alpha.0",
     "@nteract/messaging": "^6.2.6-alpha.0",
+    "@nteract/mythic-configuration": "0.1.0",
     "@nteract/mythic-notifications": "0.1.0",
     "@nteract/selectors": "^2.8.2-alpha.0",
     "@nteract/types": "^5.1.1-alpha.0",

@@ -9,6 +9,7 @@
     { "path": "../actions" },
     { "path": "../commutable" },
     { "path": "../messaging" },
+    { "path": "../mythic-configuration" },
     { "path": "../mythic-notifications" },
     { "path": "../selectors" },
     { "path": "../types" },

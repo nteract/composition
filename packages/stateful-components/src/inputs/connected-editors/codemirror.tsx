@@ -1,7 +1,11 @@
+import { AppState, ContentRef, selectors } from "@nteract/core";
+import CodeMirrorEditor from "@nteract/editor";
+import { createConfigOption } from "@nteract/mythic-configuration";
 import { connect } from "react-redux";
 
-import { selectors, AppState, ContentRef } from "@nteract/core";
-import CodeMirrorEditor from "@nteract/editor";
+const {
+  selector: cursorBlinkRate,
+} = createConfigOption("cursorBlinkRate")(530);
 
 const markdownMode = {
   name: "gfm",
@@ -27,7 +31,6 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
   const { id, contentRef } = ownProps;
   const mapStateToProps = (state: AppState) => {
     let mode = rawMode;
-    let cursorBlinkRate = state.config.get("cursorBlinkRate", 530);
     let lineWrapping = true;
 
     const model = selectors.model(state, { contentRef });
@@ -54,7 +57,7 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
     }
     return {
       mode,
-      cursorBlinkRate,
+      cursorBlinkRate: cursorBlinkRate(state),
       lineWrapping,
       tip: true,
       completion: true

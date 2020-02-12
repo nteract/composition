@@ -1,7 +1,7 @@
-import { ActionsObservable, combineEpics, Epic } from "redux-observable";
+import { ActionsObservable, combineEpics, Epic, ofType, StateObservable } from "redux-observable";
 import { EMPTY, of } from "rxjs";
-import { filter, map, mergeMap } from "rxjs/operators";
-import { CreateEpicDefinition, EpicDefinition, MythicAction, Myths } from "./types";
+import { filter, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
+import { EpicDefinition, MythicAction, Myths, RootState } from "./types";
 
 export const makeEpics = <
   PKG extends string,
@@ -9,24 +9,38 @@ export const makeEpics = <
   STATE,
   PROPS,
 >(
+  pkg: PKG,
+  type: string,
   create: (payload: PROPS) => MythicAction<PKG, NAME, PROPS>,
-  definitions: Array<EpicDefinition<PROPS>>,
+  definitions: Array<EpicDefinition<STATE, PROPS>>,
 ) => {
   const epics: Epic[] = [];
 
   for (const definition of definitions ?? []) {
-    if ("create" in definition) {
-      const def: CreateEpicDefinition<PROPS> = definition;
+    const mapper = definition.switchToMostRecent
+      ? switchMap
+      : mergeMap;
 
-      epics.push(
-        (action$: ActionsObservable<MythicAction>) =>
-          action$.pipe(
-            filter(def.on),
-            map(def.create),
-            mergeMap(props => props ? of(create(props)) : EMPTY),
-          )
-      );
-    }
+    const action = definition.dispatch === "self"
+      ? (x: any) => of(create(x))
+      : definition.dispatch
+        ? (x: any) => of((definition.dispatch as any).create(x))
+        : () => EMPTY;
+
+    epics.push(
+      (
+        action$: ActionsObservable<MythicAction>,
+        state$: StateObservable<RootState<PKG, STATE>>,
+      ) =>
+        action$.pipe(
+          definition.onAction === "self"
+            ? ofType(type)
+            : filter(definition.onAction),
+          withLatestFrom(state$.pipe(map(state => state.__private__[pkg]))),
+          map(definition.from ?? (_ => undefined)),
+          mapper(props => props ? action(props) : EMPTY),
+        )
+    );
   }
 
   return epics;

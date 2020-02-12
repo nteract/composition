@@ -1,5 +1,6 @@
 import { actions, AppState, ContentRef, selectors } from "@nteract/core";
 import { MonacoEditorProps } from "@nteract/monaco-editor";
+import { theme } from "@nteract/mythic-configuration";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -102,7 +103,7 @@ function makeMapStateToTextFileProps(
       contentRef,
       mimetype: content.mimetype != null ? content.mimetype : "text/plain",
       text,
-      theme: selectors.currentTheme(state)
+      theme: theme(state)
     };
   };
   return mapStateToTextFileProps;

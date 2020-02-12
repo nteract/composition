@@ -1,5 +1,6 @@
 import * as actions from "@nteract/actions";
 import { Notebook, stringifyNotebook, toJS } from "@nteract/commutable";
+import { createConfigOption } from "@nteract/mythic-configuration";
 import * as selectors from "@nteract/selectors";
 import { AppState, ContentRef, DirectoryContentRecordProps, DummyContentRecordProps, FileContentRecordProps, IContent, IContentProvider, JupyterHostRecord, NotebookContentRecordProps, ServerConfig } from "@nteract/types";
 import FileSaver from "file-saver";
@@ -135,12 +136,16 @@ export function downloadString(
   FileSaver.saveAs(blob, filename);
 }
 
+const {
+  selector: autoSaveInterval,
+} = createConfigOption("autoSaveInterval")(120_000);
+
 export function autoSaveCurrentContentEpic(
   action$: ActionsObservable<Action>,
   state$: StateObservable<AppState>
 ): Observable<actions.Save> {
   const state = state$.value;
-  const duration = selectors.autoSaveInterval(state);
+  const duration = autoSaveInterval(state);
   return interval(duration).pipe(
     mergeMap(() => {
       return from(

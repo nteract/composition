@@ -1,4 +1,5 @@
 // Vendor modules
+import { setTheme } from "@nteract/actions/lib/actionTypes/config";
 import { CellType } from "@nteract/commutable";
 import { actions } from "@nteract/core";
 import {
@@ -108,7 +109,7 @@ export function makeMapDispatchToProps(
       to: CellType;
       contentRef: string;
     }) => dispatch(actions.changeCellType(payload)),
-    setTheme: (theme: string) => dispatch(actions.setTheme(theme)),
+    setTheme: (theme: string) => dispatch(setTheme(theme)),
     openAboutModal: () =>
       dispatch(actions.openModal({ modalType: MODAL_TYPES.ABOUT })),
     changeKernelByName: (payload: {
