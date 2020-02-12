@@ -1,20 +1,8 @@
-import * as path from "path";
-
 import { manifest } from "@nteract/examples";
-import {
-  app,
-  BrowserWindow,
-  dialog,
-  FileFilter,
-  globalShortcut,
-  Menu,
-  MenuItemConstructorOptions,
-  shell,
-  WebContents
-} from "electron";
-import sortBy from "lodash.sortby";
-
 import { KernelspecInfo } from "@nteract/types";
+import { app, BrowserWindow, dialog, FileFilter, globalShortcut, Menu, MenuItemConstructorOptions, shell, WebContents } from "electron";
+import sortBy from "lodash.sortby";
+import * as path from "path";
 import { installShellCommand } from "./cli";
 import { launch, launchNewNotebook } from "./launch";
 
@@ -49,18 +37,6 @@ const theme_menu = [
   {
     label: "Dark",
     click: createSender("menu:theme", "dark")
-  }
-];
-const blink_menu = [
-  // TODO: replace the with one `type: 'checkbox'` item once we have state to
-  // know which way it should be set initially.
-  {
-    label: "Do Not Blink Editor Cursor",
-    click: createSender("menu:set-blink-rate", 0)
-  },
-  {
-    label: "Blink Editor Cursor",
-    click: createSender("menu:set-blink-rate", 530)
   }
 ];
 
@@ -563,11 +539,6 @@ export function loadFullMenu(store = global.store) {
       {
         label: "Theme",
         submenu: theme_menu
-      },
-
-      {
-        label: "Editor options",
-        submenu: blink_menu
       },
       {
         label: "Set default kernel",

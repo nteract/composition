@@ -3,6 +3,7 @@ import { ComponentClass } from "react";
 import { ConnectedComponent } from "react-redux";
 import { Action, Reducer } from "redux";
 import { Epic, StateObservable } from "redux-observable";
+import { Observable } from "rxjs";
 
 export interface Myths<PKG extends string, STATE> {
   [key: string]: Myth<PKG, string, any, STATE>
@@ -114,7 +115,7 @@ export interface EpicDefinition<STATE, PROPS> {
   from?: (params: [
     MythicAction<string, string, PROPS>,
     RecordOf<STATE>,
-  ]) => any;
+  ]) => Observable<any>;
   switchToMostRecent?: boolean;
 }
 

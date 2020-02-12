@@ -1,20 +1,10 @@
-// Vendor modules
-import { setTheme } from "@nteract/actions/lib/actionTypes/config";
 import { CellType } from "@nteract/commutable";
 import { actions } from "@nteract/core";
-import {
-  AppState,
-  ContentRef,
-  HostRecord,
-  KernelRef,
-  KernelspecsByRefRecordProps,
-  KernelspecsRef
-} from "@nteract/types";
+import { setTheme } from "@nteract/mythic-configuration/lib";
+import { AppState, ContentRef, HostRecord, KernelRef, KernelspecsByRefRecordProps, KernelspecsRef } from "@nteract/types";
 import { RecordOf } from "immutable";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-
-// Local modules
 import { MODAL_TYPES } from "../modal-controller";
 import PureNotebookMenu from "./PureNotebookMenu";
 

@@ -11,7 +11,7 @@ export const setConfigAtKey = configuration.createMyth("setConfigAtKey")<{
   epics: [
     {
       onAction: "self",
-      dispatch: saveConfig
+      dispatch: saveConfig,
     }
   ]
 });

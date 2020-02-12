@@ -9,9 +9,9 @@ export const saveConfig = configuration.createMyth("saveConfig")<void>({
       from: ([_, state]) =>
         writeFileObservable(
           state.filename!,
-          JSON.stringify(state.current.toJS())
+          JSON.stringify(state.current.toJSON()),
         ),
-      switchToMostRecent: true
-    }
-  ]
+      switchToMostRecent: true,
+    },
+  ],
 });

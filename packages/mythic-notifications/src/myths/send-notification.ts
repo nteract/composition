@@ -1,4 +1,5 @@
 import { MythicAction } from "@nteract/myths";
+import { of } from "rxjs";
 import { notifications } from "../package";
 import { NotificationMessage } from "../types";
 
@@ -31,7 +32,7 @@ export const sendNotification =
       {
         onAction: action => action.error ?? false,
         dispatch: "self",
-        from: ([action]) => ({
+        from: ([action]) => of({
           title: titleFromAction(action),
           message: messageFromAction(action),
           level: "error",

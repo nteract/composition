@@ -1,5 +1,4 @@
 import { Breadcrumbs } from "@blueprintjs/core";
-import { setCursorBlink } from "@nteract/actions/lib/actionTypes/config";
 import { actions, ContentRef, createKernelRef, selectors } from "@nteract/core";
 import { loadConfig, setTheme } from "@nteract/mythic-configuration";
 import { sendNotification } from "@nteract/mythic-notifications";
@@ -386,15 +385,6 @@ export function dispatchSetTheme(
   store.dispatch(setTheme(theme));
 }
 
-export function dispatchSetCursorBlink(
-  ownProps: { contentRef: ContentRef },
-  store: DesktopStore,
-  evt: Event,
-  value: string
-): void {
-  store.dispatch(setCursorBlink(value));
-}
-
 export function dispatchSetDefaultKernel(
   ownProps: { contentRef: ContentRef },
   store: DesktopStore,
@@ -775,7 +765,6 @@ export function initMenuHandlers(
     dispatchRestartKernel.bind(null, opts, store, "Run All")
   );
   ipc.on("menu:theme", dispatchSetTheme.bind(null, opts, store));
-  ipc.on("menu:set-blink-rate", dispatchSetCursorBlink.bind(null, opts, store));
   ipc.on(
     "menu:set-default-kernel",
     dispatchSetDefaultKernel.bind(null, opts, store)
