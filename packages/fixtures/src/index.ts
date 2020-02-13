@@ -1,13 +1,11 @@
 /* eslint-disable no-plusplus */
 
 import { appendCellToNotebook, emptyCodeCell, emptyMarkdownCell, emptyNotebook, ImmutableNotebook, JSONObject, monocellNotebook } from "@nteract/commutable";
-
 import { comms, core } from "@nteract/reducers";
 import { AppState, createContentRef, createKernelRef, makeAppRecord, makeCommsRecord, makeContentsRecord, makeDocumentRecord, makeEntitiesRecord, makeKernelsRecord, makeNotebookContentRecord, makeRemoteKernelRecord, makeStateRecord } from "@nteract/types";
 import * as Immutable from "immutable";
 import { combineReducers, createStore, Store } from "redux";
 import { Subject } from "rxjs";
-
 export { fixtureCommutable, fixture, fixtureJSON } from "./fixture-nb";
 
 const rootReducer = combineReducers({
@@ -121,7 +119,8 @@ export const mockAppState = (config: JSONObject): AppState => {
     comms: makeCommsRecord(),
     __private__: Immutable.Record({
       configuration: Immutable.Record({
-        current: {},
+        backend: null,
+        current: Immutable.Map<string, any>(),
       })(),
     })(),
   };

@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "@blueprintjs/core";
 import { actions, ContentRef, createKernelRef, selectors } from "@nteract/core";
-import { loadConfig, setTheme } from "@nteract/mythic-configuration";
+import { setConfigFile, setTheme } from "@nteract/mythic-configuration";
 import { sendNotification } from "@nteract/mythic-notifications";
 import { ipcRenderer as ipc, remote, shell, webFrame } from "electron";
 import * as fs from "fs";
@@ -699,8 +699,7 @@ export function dispatchLoadConfig(
 ): void {
   const HOME = remote.app.getPath("home");
   const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
-
-  store.dispatch(loadConfig.create(CONFIG_FILE_PATH));
+  store.dispatch(setConfigFile(CONFIG_FILE_PATH));
 }
 
 export function initMenuHandlers(

@@ -5,7 +5,7 @@ import { ConfigurationState } from "./types";
 export const configuration =
   createMythicPackage("configuration")<ConfigurationState>({
     initialState: {
-      filename: null,
+      backend: null,
       current: Map(),
     },
   });

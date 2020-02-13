@@ -1,6 +1,6 @@
 import { createConfigOption } from "./create-option";
 
-export { loadConfig } from "./myths/load-config"
+export { setConfigFile } from "./backends/filesystem"
 export { configuration } from "./package";
 export { createConfigOption } from "./create-option";
 export * from "./types";

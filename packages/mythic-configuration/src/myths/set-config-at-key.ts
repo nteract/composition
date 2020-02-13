@@ -10,8 +10,6 @@ export const setConfigAtKey = configuration.createMyth("setConfigAtKey")<{
     state.setIn(["current", action.payload.key], action.payload.value),
 
   thenDispatch: [
-    () => of(
-      saveConfig.create(),
-    ),
+    () => of(saveConfig.create()),
   ],
 });
