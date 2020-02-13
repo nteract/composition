@@ -1,6 +1,6 @@
 import { CellType } from "@nteract/commutable";
 import { actions } from "@nteract/core";
-import { setTheme } from "@nteract/mythic-configuration/lib";
+import { setTheme } from "@nteract/mythic-configuration";
 import { AppState, ContentRef, HostRecord, KernelRef, KernelspecsByRefRecordProps, KernelspecsRef } from "@nteract/types";
 import { RecordOf } from "immutable";
 import { connect } from "react-redux";
