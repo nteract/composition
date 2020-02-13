@@ -28,15 +28,16 @@ export const sendNotification =
     reduce: (state, action) =>
       state.current.addNotification(action.payload),
 
-    epics: [
+    andAlso: [
       {
-        onAction: action => action.error ?? false,
-        dispatch: "self",
-        from: ([action]) => of({
-          title: titleFromAction(action),
-          message: messageFromAction(action),
-          level: "error",
-        }),
+        when: action => action.error ?? false,
+        dispatch: (action, _, sendNotificationMyth) => of(
+          sendNotificationMyth.create({
+            title: titleFromAction(action),
+            message: messageFromAction(action),
+            level: "error",
+          }),
+        ),
       },
     ],
   });

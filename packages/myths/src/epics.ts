@@ -1,7 +1,28 @@
 import { ActionsObservable, combineEpics, Epic, ofType, StateObservable } from "redux-observable";
-import { EMPTY, of } from "rxjs";
-import { filter, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
-import { EpicDefinition, Myth, MythicAction, Myths, RootState } from "./types";
+import { EMPTY, Observable } from "rxjs";
+import { filter, map, mergeMap, withLatestFrom } from "rxjs/operators";
+import { EpicFuncDefinition, Myth, MythDefinition, MythicAction, Myths, RootState } from "./types";
+
+const makeEpic = <
+  PKG extends string,
+  NAME extends string,
+  STATE,
+  PROPS,
+>(
+  pkg: PKG,
+  myth: Myth<PKG, NAME, PROPS, STATE>,
+  dispatch: EpicFuncDefinition<STATE, PROPS, MythicAction>,
+  narrow: (source: Observable<MythicAction>) => Observable<MythicAction>
+) =>
+    (
+      action$: ActionsObservable<MythicAction>,
+      state$: StateObservable<RootState<PKG, STATE>>,
+    ) =>
+      action$.pipe(
+        narrow,
+        withLatestFrom(state$.pipe(map(state => state.__private__[pkg]))),
+        mergeMap(([action, state]) => dispatch(action, state, myth) ?? EMPTY),
+      );
 
 export const makeEpics = <
   PKG extends string,
@@ -10,37 +31,17 @@ export const makeEpics = <
   PROPS,
 >(
   pkg: PKG,
-  type: string,
-  create: (payload: PROPS) => MythicAction<PKG, NAME, PROPS>,
-  definitions: Array<EpicDefinition<STATE, PROPS>>,
+  myth: Myth<PKG, NAME, PROPS, STATE>,
+  definition: MythDefinition<STATE, PROPS>,
 ) => {
   const epics: Epic[] = [];
 
-  for (const definition of definitions ?? []) {
-    const mapper = definition.switchToMostRecent
-      ? switchMap
-      : mergeMap;
+  for (const { when, dispatch } of definition.andAlso ?? []) {
+    epics.push(makeEpic(pkg, myth, dispatch, filter(when)));
+  }
 
-    const action = definition.dispatch === "self"
-      ? (x: any) => of(create(x))
-      : definition.dispatch
-        ? (x: any) => of((definition.dispatch as Myth).create(x))
-        : () => EMPTY;
-
-    epics.push(
-      (
-        action$: ActionsObservable<MythicAction>,
-        state$: StateObservable<RootState<PKG, STATE>>,
-      ) =>
-        action$.pipe(
-          definition.onAction === "self"
-            ? ofType(type)
-            : filter(definition.onAction),
-          withLatestFrom(state$.pipe(map(state => state.__private__[pkg]))),
-          mapper(definition.from ?? (_ => of(null))),
-          mapper(props => props !== undefined ? action(props) : EMPTY),
-        )
-    );
+  for (const dispatch of definition.thenDispatch ?? []) {
+    epics.push(makeEpic(pkg, myth, dispatch, ofType(myth.type)));
   }
 
   return epics;

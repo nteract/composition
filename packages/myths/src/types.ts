@@ -2,7 +2,7 @@ import { RecordOf } from "immutable";
 import { ComponentClass } from "react";
 import { ConnectedComponent } from "react-redux";
 import { Action, Reducer } from "redux";
-import { Epic, StateObservable } from "redux-observable";
+import { Epic } from "redux-observable";
 import { Observable } from "rxjs";
 
 export interface Myths<PKG extends string, STATE> {
@@ -99,24 +99,20 @@ export type ReducerDefinition<STATE, PROPS> = (
 
 export interface MythDefinition<STATE, PROPS> {
   reduce?: ReducerDefinition<STATE, PROPS>;
-  epics?: Array<EpicDefinition<STATE, PROPS>>;
+  thenDispatch?: Array<EpicFuncDefinition<STATE, PROPS, MythicAction>>;
+  andAlso?: Array<EpicWhenFuncDefinition<STATE, PROPS, MythicAction>>;
 }
 
-export interface EpicDefinition<STATE, PROPS> {
-  onAction:
-    | "self"
-    | ((action: MythicAction<string, string, PROPS>) => boolean)
-    ;
-  dispatch?:
-    | "self"
-    | Myth
-    | null
-    ;
-  from?: (params: [
-    MythicAction<string, string, PROPS>,
-    RecordOf<STATE>,
-  ]) => Observable<any>;
-  switchToMostRecent?: boolean;
+export type EpicFuncDefinition<STATE, PROPS, RESULT> =
+  (
+    action: MythicAction<string, string, PROPS>,
+    state: RecordOf<STATE>,
+    myth: Myth<string, string, PROPS>,
+  ) => Observable<RESULT>;
+
+export interface EpicWhenFuncDefinition<STATE, PROPS, RESULT> {
+  when: (action: MythicAction<string, string, PROPS>) => boolean;
+  dispatch: EpicFuncDefinition<STATE, PROPS, RESULT>;
 }
 
 export interface PackageDefinition<STATE> {
