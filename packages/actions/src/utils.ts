@@ -1,5 +1,6 @@
 import { CellId } from "@nteract/commutable";
 import { ContentRef, HostRef, KernelRef, KernelspecsRef } from "@nteract/types";
+import { Subtract } from "utility-types";
 
 export interface Action<T extends string, P = void> {
   type: T;
@@ -13,8 +14,16 @@ export interface ErrorAction<T extends string, P extends {} | Error = Error>
 
 export const makeActionFunction =
   <T extends Action<string, any>>
-  (type: T["type"]) => (payload: T["payload"]) =>
-    ({ type, payload });
+  (type: T["type"]) => {
+    const func = (payload: T["payload"]) =>
+      ({ type, payload });
+    
+    func.with = <U extends Partial<T["payload"]>>(partial: U) =>
+      (payload: Subtract<T["payload"], U>) =>
+        ({ type, payload: { ...partial, ...payload } as T["payload"] });
+
+    return func;
+  };
 
 export const makeErrorActionFunction =
   <T extends ErrorAction<string, any>>

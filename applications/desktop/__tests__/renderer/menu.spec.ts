@@ -1,12 +1,15 @@
 jest.mock("fs");
-import { actions, makeAppRecord, selectors } from "@nteract/core";
+import { actions, selectors } from "@nteract/core";
+
+import { mockAppState } from "@nteract/fixtures";
 import { sendNotification } from "@nteract/mythic-notifications";
 import { ipcRenderer as ipc, remote, webFrame } from "electron";
 import * as Immutable from "immutable";
 
 import * as menu from "../../src/notebook/menu";
-
-import { mockAppState } from "@nteract/fixtures";
+import { exportPDF, storeToPDF } from "../../src/notebook/menu-export-pdf";
+import { dispatchPublishGist } from "../../src/notebook/menu-publish-gist";
+import { promptUserAboutNewKernel, showSaveAsDialog, triggerWindowRefresh } from "../../src/notebook/menu_save";
 
 describe("dispatchCreateCellAbove", () => {
   test("dispatches a CREATE_CELL_ABOVE with code action", () => {
@@ -498,7 +501,7 @@ describe("dispatchPublishUserGist", () => {
       contentRef: "123"
     };
 
-    menu.dispatchPublishGist(props, store, {});
+    dispatchPublishGist(props, store, {});
     expect(store.dispatch).toHaveBeenCalledWith({
       type: actions.PUBLISH_GIST,
       payload: {
@@ -728,7 +731,7 @@ describe("triggerWindowRefresh", () => {
       dispatch: jest.fn()
     };
 
-    expect(menu.triggerWindowRefresh(store, null)).toBeUndefined();
+    expect(triggerWindowRefresh(store, null)).toBeUndefined();
   });
   test("sends a SAVE_AS action if given filename", () => {
     const props = {
@@ -740,7 +743,7 @@ describe("triggerWindowRefresh", () => {
     };
     const filepath = "dummy-nb.ipynb";
 
-    menu.triggerWindowRefresh(props, store, filepath);
+    triggerWindowRefresh(props, store, filepath);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       actions.saveAs({
@@ -762,7 +765,7 @@ describe("exportPDF", () => {
       getState: jest.fn(() => state),
     };
     const filepath = "thisisafilename.ipynb";
-    menu.exportPDF({ contentRef }, store, filepath);
+    exportPDF({ contentRef }, store, filepath);
     expect(store.dispatch).toHaveBeenCalledWith(
       sendNotification.create({
         title: "PDF exported",
@@ -800,7 +803,7 @@ describe("storeToPDF", () => {
       })
     };
 
-    menu.storeToPDF(props, store);
+    storeToPDF(props, store);
     expect(store.dispatch).toHaveBeenCalledWith(
       sendNotification.create({
         action: { callback: expect.any(Function), label: "Save As" },
@@ -861,7 +864,7 @@ describe("exportPDF", () => {
     };
 
     const invocation = () =>
-      menu.exportPDF(
+      exportPDF(
         { contentRef: "abc" },
         store,
         "my-notebook.pdf",
@@ -879,7 +882,7 @@ describe("exportPDF", () => {
     };
     const props = { contentRef };
 
-    menu.exportPDF(props, store, "my-notebook");
+    exportPDF(props, store, "my-notebook");
     expect(store.dispatch).toBeCalledWith({
       type: actions.TOGGLE_OUTPUT_EXPANSION,
       payload: {
@@ -915,7 +918,7 @@ describe("dispatchSetConfigAtKey", () => {
 
 describe("showSaveAsDialog", () => {
   it("shows the saveAs dialog", () => {
-    menu.showSaveAsDialog().then(filepath => {
+    showSaveAsDialog().then(filepath => {
       expect(remote.dialog.showSaveAsDialog).toBeCalled();
     });
   });
@@ -931,8 +934,7 @@ describe("promptUserAboutNewKernel", () => {
       dispatch: jest.fn(),
       getState: jest.fn(() => state)
     };
-    menu
-      .promptUserAboutNewKernel({ contentRef }, store, "file.ipynb")
+    promptUserAboutNewKernel({ contentRef }, store, "file.ipynb")
       .then(filepath => {
         expect(remote.dialog.showMessageBox).toBeCalled();
       });
