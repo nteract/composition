@@ -1,22 +1,13 @@
-import React from "react";
-import {
-  Cells,
-  CodeCell,
-  MarkdownCell,
-  RawCell
-} from "@nteract/stateful-components";
+import { CellType } from "@nteract/commutable/src";
 import { ContentRef } from "@nteract/core";
-import { ThemableNotifications } from "../derived-components/themable-notifications";
-
-import CellToolbar from "../derived-components/toolbar";
-import StatusBar from "../derived-components/status-bar";
-
+import { Cells, CodeCell, MarkdownCell, RawCell, ThemableNotifications } from "@nteract/stateful-components";
+import React from "react";
 import { DragDropContext as dragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import DraggableCell from "../decorators/draggable";
-
 import HijackScroll from "../decorators/hijack-scroll";
-import { CellType } from "@nteract/commutable/src";
+import StatusBar from "../derived-components/status-bar";
+import CellToolbar from "../derived-components/toolbar";
 
 interface ComponentProps {
   contentRef: ContentRef;

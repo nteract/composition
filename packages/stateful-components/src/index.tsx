@@ -6,7 +6,9 @@ import CodeCell from "./cells/code-cell";
 import MarkdownCell from "./cells/markdown-cell";
 import RawCell from "./cells/raw-cell";
 import CellToolbar, { CellToolbarContext } from "./cells/toolbar";
+import Themer from "./decorators/themer";
 import StatusBar, { StatusBarContext } from "./notebook/status-bar";
+import { ThemableNotifications } from "./notebook/themable-notifications";
 
 export {
   Cells,
@@ -16,7 +18,9 @@ export {
   CellToolbar,
   CellToolbarContext,
   StatusBar,
-  StatusBarContext
+  StatusBarContext,
+  ThemableNotifications,
+  Themer,
 };
 
 interface ComponentProps {

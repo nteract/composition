@@ -1,17 +1,11 @@
-import { theme } from "@nteract/mythic-configuration";
+import { ImmutableDisplayData, ImmutableExecuteResult, JSONObject } from "@nteract/commutable";
+import { actions, AppState, ContentRef, selectors } from "@nteract/core";
 import Immutable from "immutable";
+import memoizeOne from "memoize-one";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-
-import {
-  ImmutableDisplayData,
-  ImmutableExecuteResult,
-  JSONObject
-} from "@nteract/commutable";
-import { actions, AppState, ContentRef, selectors } from "@nteract/core";
-
-import memoizeOne from "memoize-one";
+import { getTheme } from "../decorators/themer";
 
 interface ComponentProps {
   output_type: string;
@@ -123,14 +117,14 @@ export const makeMapStateToProps = (
         mediaType,
         data,
         metadata,
-        theme: theme(state),
+        theme: getTheme(state),
       };
     }
     return {
       Media: () => null,
       mediaType,
       output,
-      theme: theme(state),
+      theme: getTheme(state),
     };
   };
   return mapStateToProps;

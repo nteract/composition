@@ -1,15 +1,8 @@
-import React from "react";
-import {
-  Cells,
-  CodeCell,
-  MarkdownCell,
-  RawCell
-} from "@nteract/stateful-components";
 import { ContentRef } from "@nteract/core";
-import { ThemableNotifications } from "../derived-components/themable-notifications";
-
-import CellToolbar from "../derived-components/toolbar";
+import { Cells, CodeCell, MarkdownCell, RawCell, ThemableNotifications } from "@nteract/stateful-components";
+import React from "react";
 import StatusBar from "../derived-components/status-bar";
+import CellToolbar from "../derived-components/toolbar";
 
 interface ComponentProps {
   contentRef: ContentRef;

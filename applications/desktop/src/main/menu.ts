@@ -29,17 +29,6 @@ function createSender(
   };
 }
 
-const theme_menu = [
-  {
-    label: "Light",
-    click: createSender("menu:theme", "light")
-  },
-  {
-    label: "Dark",
-    click: createSender("menu:theme", "dark")
-  }
-];
-
 const windowDraft = {
   label: "Window",
   role: "window",
@@ -536,17 +525,6 @@ export function loadFullMenu(store = global.store) {
         accelerator: "CmdOrCtrl+-",
         click: createSender("menu:zoom-out")
       },
-      {
-        label: "Theme",
-        submenu: theme_menu
-      },
-      {
-        label: "Set default kernel",
-        submenu: sortBy(kernelSpecs, "spec.display_name").map(kernel => ({
-          label: kernel.spec.display_name,
-          click: createSender("menu:set-default-kernel", kernel.name)
-        }))
-      }
     ]
   };
 

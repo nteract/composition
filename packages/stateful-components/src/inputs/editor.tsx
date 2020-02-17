@@ -1,5 +1,5 @@
 import { actions, AppState, ContentRef, selectors } from "@nteract/core";
-import { createConfigOption, theme } from "@nteract/mythic-configuration";
+import { createConfigOption } from "@nteract/mythic-configuration";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -121,7 +121,7 @@ export const makeMapStateToProps = (
       channels,
       kernelStatus,
       editorType: editorType(state),
-      theme: theme(state),
+      theme: "light", // FIXME figure out how to best access the theme
     };
   };
 

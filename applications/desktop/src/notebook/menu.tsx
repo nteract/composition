@@ -1,6 +1,6 @@
 import { Breadcrumbs } from "@blueprintjs/core";
 import { actions, ContentRef, createKernelRef, selectors } from "@nteract/core";
-import { setConfigFile, setTheme } from "@nteract/mythic-configuration";
+import { setConfigFile } from "@nteract/mythic-configuration";
 import { sendNotification } from "@nteract/mythic-notifications";
 import { ipcRenderer as ipc, remote, shell, webFrame } from "electron";
 import * as fs from "fs";
@@ -376,24 +376,6 @@ export function dispatchZoomReset(): void {
   webFrame.setZoomLevel(0);
 }
 
-export function dispatchSetTheme(
-  ownProps: { contentRef: ContentRef },
-  store: DesktopStore,
-  evt: Event,
-  theme: string
-): void {
-  store.dispatch(setTheme(theme));
-}
-
-export function dispatchSetDefaultKernel(
-  ownProps: { contentRef: ContentRef },
-  store: DesktopStore,
-  evt: Event,
-  value: string
-): void {
-  store.dispatch(setDefaultKernel(value));
-}
-
 export function dispatchCopyCell(
   ownProps: { contentRef: ContentRef },
   store: DesktopStore
@@ -762,11 +744,6 @@ export function initMenuHandlers(
   ipc.on(
     "menu:restart-and-run-all",
     dispatchRestartKernel.bind(null, opts, store, "Run All")
-  );
-  ipc.on("menu:theme", dispatchSetTheme.bind(null, opts, store));
-  ipc.on(
-    "menu:set-default-kernel",
-    dispatchSetDefaultKernel.bind(null, opts, store)
   );
   ipc.on("menu:publish:gist", dispatchPublishGist.bind(null, opts, store));
   ipc.on("menu:exportPDF", storeToPDF.bind(null, opts, store));
