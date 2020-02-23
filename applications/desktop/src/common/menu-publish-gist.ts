@@ -1,7 +1,7 @@
 import { actions } from "@nteract/core";
 import { sendNotification } from "@nteract/mythic-notifications";
 import { ContentRef } from "@nteract/types";
-import { DesktopStore } from "./store";
+import { DesktopStore } from "../notebook/store";
 
 export function dispatchPublishGist(
   ownProps: { contentRef: ContentRef },

@@ -3,7 +3,7 @@ import { ContentRef } from "@nteract/types";
 import { remote } from "electron";
 import * as fs from "fs";
 import * as path from "path";
-import { DesktopStore } from "./store";
+import { DesktopStore } from "../notebook/store";
 
 const dialog = remote.dialog;
 

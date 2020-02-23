@@ -7,8 +7,8 @@ import * as fs from "fs";
 import * as path from "path";
 import React from "react";
 import styled from "styled-components";
+import { DesktopStore } from "../notebook/store";
 import { showSaveAsDialog, triggerWindowRefresh } from "./menu-save";
-import { DesktopStore } from "./store";
 
 /**
  * Print notebook to PDF.
