@@ -1,58 +1,46 @@
 import { app } from "electron";
 import { appName } from "./appname";
+import * as commands from "./commands";
 
 export const menu = [
-  {
-    [appName]: [
-      { About: `About ${appName}` },
-      {},
-      { InstallShellCommand: "Install Shell Command" },
-      {},
-      {
-        "Services": [],
-        role: "services",
-      },
-      {},
-      { Hide: `Hide ${appName}` },
-      { HideOthers: "Hide Others" },
-      { Unhide: "Show All" },
-      {},
-      { Quit: "Quit" },
-    ],
-    platform: "darwin",
-  },
-  {
-    "&File": [
-      {
-        "&New": [
-          { NewNotebook: { forEach: "kernelspec" } },
-        ],
-      },
-      { Open: "&Open" },
-      {
-        "Open Recent": [
-          { ClearRecentDocuments: "Clear Recent" },
-        ],
-        role: "recentdocuments",
-        platform: "darwin",
-      },
-      {
-        "Open E&xample Notebook": [
-          { Open: { forEach: "example-notebook" } },
-        ],
-      },
-      { Save: "&Save" },
-      { SaveAs: "Save &As" },
-      {
-        "&Publish": [
-          { PublishGist: "&Gist" },
-        ],
-      },
-      { ExportPDF: "Export &PDF" },
-      {},
-      { Close: "Exit", platform: "win32" },
-    ],
-  },
+  [appName, { platform: "darwin" }, [
+    [`About ${appName}`, commands.About],
+    [],
+    ["Install Shell Command", commands.InstallShellCommand],
+    [],
+    ["Services", { role: "services" }, [
+      // filled by the system based on role
+    ]],
+    [],
+    { Hide: `Hide ${appName}` },
+    { HideOthers: "Hide Others" },
+    { Unhide: "Show All" },
+    [],
+    { Quit: "Quit" },
+  ]],
+  ["&File", [
+    ["&New", [
+      ["{name}", commands.NewNotebook, { forEach: "kernelspec" }],
+    ]],
+    ["&Open", commands.Open],
+    ["Open Recent", { role: "recentdocuments", platform: "darwin" }, [
+      ["Clear Recent", commands.ClearRecentDocuments],
+      // documents added by the system based on role
+    ]],
+    ["Open E&xample Notebook", [
+      ["{language}->{name}", commands.Open, { forEach: "example-notebook" }],
+    ]],
+    ["&Save", commands.Save],
+    ["Save &As", commands.SaveAs],
+    ["&Publish", [
+      ["&Gist", commands.PublishGist],
+    ]],
+    ["Ex&port", [
+      ["&PDF", commands.ExportPDF],
+    ]],
+    [],
+    ["Exit", commands.Close, { platform: "win32" }],
+  ]],
   {
     "Edit": [
       { Cut: "Cut" },

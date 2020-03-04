@@ -54,8 +54,6 @@
     "strict-type-predicates": true,
     "typedef": [
       true,
-      "call-signature",
-      "parameter",
       "member-variable-declaration"
     ],
     "variable-name": [true, "ban-keywords"]

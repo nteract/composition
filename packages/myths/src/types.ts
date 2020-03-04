@@ -4,6 +4,7 @@ import { ConnectedComponent } from "react-redux";
 import { Action, Reducer } from "redux";
 import { Epic } from "redux-observable";
 import { Observable } from "rxjs";
+import { Diff, Intersection } from "utility-types";
 
 export interface Myths<PKG extends string, STATE> {
   [key: string]: Myth<PKG, string, any, STATE>
@@ -30,7 +31,7 @@ export type ConnectedComponentProps<
 export interface Myth<
   PKG extends string = string,
   NAME extends string = string,
-  PROPS = any,
+  PROPS extends {} = any,
   STATE = any,
 > {
   pkg: PKG,
@@ -45,6 +46,13 @@ export interface Myth<
 
   // Create an action of this Myth
   create: (payload: PROPS) => MythicAction<PKG, NAME, PROPS>,
+
+  // Create a function that create actions of this Myth; props partially set
+  with:
+    <DEFINED_PROPS extends Partial<PROPS>>
+    (partial: DEFINED_PROPS & Partial<PROPS>) =>
+      (payload: Diff<PROPS, DEFINED_PROPS>) =>
+        MythicAction<PKG, NAME, PROPS>
 
   // Is this one of our actions?
   appliesTo: (action: Action) => boolean,

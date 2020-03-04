@@ -34,11 +34,6 @@ export const makeErrorActionFunction =
       error: true;
     };
 
-export const makeOneArgActionFunction =
-  <T extends Action<string, any>>(type: T["type"]) =>
-    <N extends string>(name: N) =>
-      (payload: T["payload"][N]) => ({ type, payload: { [name]: payload } });
-
 export const makeZeroArgActionFunction =
   <T extends Action<string, any>>
   (type: T["type"]) => () =>
