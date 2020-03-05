@@ -43,6 +43,7 @@ const PDFMessage = (props: { pdfPath: string }) =>
   </>;
 
 export const ExportPDF: DesktopCommand<RequiresContent> = {
+  name: "ExportPDF",
   async *makeActionTemplates(store, props) {
     const state = store.getState();
     const notebookName = selectors.filepath(state, props);

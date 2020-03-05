@@ -13,6 +13,7 @@ const makeGithubNotification = (message: string) =>
   });
 
 export const PublishGist: DesktopCommand<RequiresContent> = {
+  name: "PublishGist",
   async *makeActionTemplates(store) {
     if (!store.getState().app.get("githubToken")) {
       yield makeGithubNotification("Authenticating...");

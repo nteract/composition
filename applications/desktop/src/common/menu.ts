@@ -12,11 +12,11 @@ export const menu = [
       // filled by the system based on role
     ]],
     [],
-    { Hide: `Hide ${appName}` },
-    { HideOthers: "Hide Others" },
-    { Unhide: "Show All" },
+    [`Hide ${appName}`, commands.Hide],
+    ["Hide Others", commands.HideOthers],
+    ["Show All", commands.Unhide],
     [],
-    { Quit: "Quit" },
+    ["Quit", commands.Quit],
   ]],
   ["&File", [
     ["&New", [
@@ -41,93 +41,64 @@ export const menu = [
     [],
     ["Exit", commands.Close, { platform: "win32" }],
   ]],
-  {
-    "Edit": [
-      { Cut: "Cut" },
-      { Copy: "Copy" },
-      { Paste: "Paste" },
-      { SelectAll: "Select All" },
-      {},
-      { NewCodeCellAbove: "Insert Code Cell Above" },
-      { NewCodeCellBelow: "Insert Code Cell Below" },
-      { NewTextCellBelow: "Insert Text Cell Below" },
-      { NewRawCellBelow: "Insert Raw Cell Below" },
-      {},
-      { CopyCell: "Copy Cell" },
-      { CutCell: "Cut Cell" },
-      { PasteCell: "Paste Cell" },
-      { DeleteCell: "Delete Cell" },
-    ],
-  },
-  {
-    "Cell": [
-      { ChangeCellToCode: "Change Cell Type to Code" },
-      { ChangeCellToText: "Change Cell Type to Text" },
-      {},
-      { RunAll: "Run All" },
-      { RunAllBelow: "Run All Below" },
-      { ClearAll: "Clear All Outputs" },
-      { UnhideAll: "Unhide Input and Output in all Cells" },
-    ],
-  },
-  {
-    "View": [
-      { Reload: "Reload" },
-      { FullScreen: "Toggle Full Screen" },
-      { DevTools: "Toggle Developer Tools" },
-      {},
-      { ZoomReset: "Actual Size" },
-      { ZoomIn: "Zoom In" },
-      { ZoomOut: "Zoom Out" },
-    ],
-  },
-  {
-    "&Runtime": [
-      { KillKernel: "&Kill" },
-      { InterruptKernel: "&Interrupt" },
-      { RestartKernel: "&Restart" },
-      { RestartAndClearAll: "Restart and &Clear All Cells" },
-      { RestartAndRunAll: "Restart and Run &All Cells" },
-      {},
-      { "https://nteract.io/kernels": "&Install Runtimes" },
-      {},
-      { NewKernel: { forEach: "kernelspec" } },
-    ],
-  },
-  {
-    "Window": [
-      { Minimize: "Minimize" },
-      { Close: "Close" },
-      {},
-      { BringAllToFront: "Bring All to Front", platform: "darwin" },
-    ],
-    role: "window",
-  },
-  {
-    "Help": [
-      { "https://docs.nteract.io":
-          "Documentation" },
-
-      { "https://docs.nteract.io/#/desktop/shortcut-keys":
-          "Keyboard Shortcuts" },
-
-      { "https://github.com/nteract/nteract":
-          "View nteract on GitHub" },
-
-      // tslint:disable-next-line:max-line-length
-      { [`https://github.com/nteract/nteract/releases/tag/v${app.getVersion()}`]:
-          `Release Notes (${app.getVersion()})` },
-
-      { "https://nteract.io/kernels":
-          "Install Additional Kernels" },
-
-      {},
-
-      {
-        InstallShellCommand: "Install Shell Command",
-        platfom: "!darwin",
-      },
-    ],
-    role: "help",
-  },
+  ["Edit", [
+    ["Cut", commands.Cut],
+    ["Copy", commands.Copy],
+    ["Paste", commands.Paste],
+    ["Select All", commands.SelectAll],
+    [],
+    ["Insert Code Cell Above", commands.NewCodeCellAbove],
+    ["Insert Code Cell Below", commands.NewCodeCellBelow],
+    ["Insert Text Cell Below", commands.NewTextCellBelow],
+    ["Insert Raw Cell Below", commands.NewRawCellBelow],
+    [],
+    ["Copy Cell", commands.CopyCell],
+    ["Cut Cell", commands.CutCell],
+    ["Paste Cell", commands.PasteCell],
+    ["Delete Cell", commands.DeleteCell],
+  ]],
+  ["Cell", [
+    ["Change Cell Type to Code", commands.ChangeCellToCode],
+    ["Change Cell Type to Text", commands.ChangeCellToText],
+    [],
+    ["Run All", commands.RunAll],
+    ["Run All Below", commands.RunAllBelow],
+    ["Clear All Outputs", commands.ClearAll],
+    ["Unhide Input and Output in all Cells", commands.UnhideAll],
+  ]],
+  ["View", [
+    ["Reload", commands.Reload],
+    ["Toggle Full Screen", commands.FullScreen],
+    ["Toggle Developer Tools", commands.DevTools],
+    [],
+    ["Actual Size", commands.ZoomReset],
+    ["Zoom In", commands.ZoomIn],
+    ["Zoom Out", commands.ZoomOut],
+  ]],
+  ["&Runtime", [
+    ["&Kill", commands.KillKernel],
+    ["&Interrupt", commands.InterruptKernel],
+    ["&Restart", commands.RestartKernel],
+    ["Restart and &Clear All Cells", commands.RestartAndClearAll],
+    ["Restart and Run &All Cells", commands.RestartAndRunAll],
+    [],
+    ["&Install Runtimes", "https://nteract.io/kernels"],
+    [],
+    ["{name}", commands.NewKernel, { forEach: "kernelspec" }],
+  ]],
+  ["Window", { role: "window" }, [
+    ["Minimize", commands.Minimize],
+    ["Close", commands.Close],
+    [],
+    ["Bring All to Front", commands.BringAllToFront, { platform: "darwin" }],
+  ]],
+  ["Help", { role: "help" }, [
+    ["Documentation", "https://docs.nteract.io"],
+    ["Keyboard Shortcuts", "https://docs.nteract.io/#/desktop/shortcut-keys"],
+    ["View nteract on GitHub", "https://github.com/nteract/nteract"],
+    [`Release Notes (${app.getVersion()})`, `https://github.com/nteract/nteract/releases/tag/v${app.getVersion()}`],
+    ["Install Additional Kernels", "https://nteract.io/kernels"],
+    [],
+    ["Install Shell Command", commands.InstallShellCommand, { platform: "!darwin" }],
+  ]],
 ];
