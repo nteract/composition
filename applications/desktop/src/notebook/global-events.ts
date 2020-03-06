@@ -1,6 +1,8 @@
-import { selectors } from "@nteract/core";
+import { actions, createKernelRef, selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
-import { ipcRenderer as ipc } from "electron";
+import { setConfigFile } from "@nteract/mythic-configuration";
+import { ipcRenderer as ipc, remote } from "electron";
+import * as path from "path";
 import { Store } from "redux";
 
 import { Actions, closeNotebook } from "./actions";
@@ -60,4 +62,27 @@ export function initGlobalHandlers(
   // In our manually-orchestrated reload, onbeforeunload will still fire
   // at the end, but by then we'd transitioned our closingState such that it's a no-op.
   ipc.on("reload", () => onBeforeUnloadOrReload(contentRef, store, true));
+
+  ipc.on(
+    "main:load", (_event: Event, filepath: string) =>
+      store.dispatch(
+        actions.fetchContent({
+          // Remove the protocol string from requests originating from
+          // another notebook
+          filepath: filepath.replace("file://", ""),
+          params: {},
+          kernelRef: createKernelRef(),
+          contentRef,
+        }),
+      ),
+  );
+
+  ipc.on(
+    "main:load-config", (_event: Event) =>
+      store.dispatch(
+        setConfigFile(path.join(
+          remote.app.getPath("home"), ".jupyter", "nteract.json",
+        )),
+      ),
+  );
 }
