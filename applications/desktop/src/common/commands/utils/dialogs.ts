@@ -1,9 +1,8 @@
 import { actions, createKernelRef, selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/types";
 import { remote } from "electron";
-import * as fs from "fs";
 import * as path from "path";
-import { DesktopStore } from "../notebook/store";
+import { DesktopStore } from "../../../notebook/store";
 import { documentDirectoryFor, systemDocumentDirectory } from "./directories";
 
 const dialog = remote.dialog;

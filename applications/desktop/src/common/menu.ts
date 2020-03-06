@@ -68,7 +68,7 @@ export const menu = [
   ]],
   ["View", [
     ["Reload", commands.Reload],
-    ["Toggle Full Screen", commands.FullScreen],
+    ["Toggle Full Screen", commands.Fullscreen],
     ["Toggle Developer Tools", commands.DevTools],
     [],
     ["Actual Size", commands.ZoomReset],
