@@ -1,6 +1,5 @@
 import { CellType } from "@nteract/commutable";
 import { actions } from "@nteract/core";
-import { setTheme } from "@nteract/mythic-configuration";
 import { AppState, ContentRef, HostRecord, KernelRef, KernelspecsByRefRecordProps, KernelspecsRef } from "@nteract/types";
 import { RecordOf } from "immutable";
 import { connect } from "react-redux";
@@ -99,7 +98,7 @@ export function makeMapDispatchToProps(
       to: CellType;
       contentRef: string;
     }) => dispatch(actions.changeCellType(payload)),
-    setTheme: (theme: string) => dispatch(setTheme(theme)),
+    setTheme: (theme: string) => console.error("Not implemented"),
     openAboutModal: () =>
       dispatch(actions.openModal({ modalType: MODAL_TYPES.ABOUT })),
     changeKernelByName: (payload: {

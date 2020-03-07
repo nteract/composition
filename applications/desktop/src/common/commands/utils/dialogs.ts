@@ -5,8 +5,6 @@ import * as path from "path";
 import { DesktopStore } from "../../../notebook/store";
 import { documentDirectoryFor, systemDocumentDirectory } from "./directories";
 
-const dialog = remote.dialog;
-
 interface SaveDialogOptions {
   title: string;
   filters: Array<{ name: string; extensions: string[] }>;
@@ -28,7 +26,7 @@ export function showSaveAsDialog(): Promise<string> {
       options.defaultPath = defaultPath;
     }
 
-    dialog.showSaveDialog(options, filepath => {
+    remote.dialog.showSaveDialog(options, filepath => {
       // If there was a filepath set and the extension name for it is blank,
       // append `.ipynb`
       resolve(
@@ -46,7 +44,7 @@ export function promptUserAboutNewKernel(
   filepath: string
 ): Promise<void> {
   return new Promise(resolve => {
-    dialog.showMessageBox(
+    remote.dialog.showMessageBox(
       {
         type: "question",
         buttons: ["Launch New Kernel", "Don't Launch New Kernel"],

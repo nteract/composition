@@ -1,165 +1,113 @@
 import { manifest as examplesManifest } from "@nteract/examples";
-import { KernelspecInfo } from "@nteract/types";
-import { app, BrowserWindow, dialog, FileFilter, globalShortcut, Menu } from "electron";
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions, shell } from "electron";
 import sortBy from "lodash.sortby";
 import * as path from "path";
+import { Store } from "redux";
 import { appName } from "../common/appname";
-import { installShellCommand } from "./cli";
-import { launch, launchNewNotebook } from "./launch";
-
-type Sender = (item: object, focusedWindow: BrowserWindow | null) => void;
-
-const createSender = (
-  eventName: string,
-  obj?: object | string | number
-): Sender =>
-  (item: object, focusedWindow: BrowserWindow | null) => {
-    if (focusedWindow) {
-      focusedWindow.webContents.send(eventName, obj);
-    }
-  };
-
-
+import { Command, MenuStructure, SubmenuOptions } from "../common/commands/types";
+import { menu, tray } from "../common/menu";
+import { MainAction, MainStateRecord } from "./reducers";
 
 // Pasting cells will also paste text, so we need to intercept the event with
 // a global shortcut and then only trigger the IPC call.
+/*
 function interceptAcceleratorAndForceOnlyMenuAction(
   command: string,
 ): void {
   globalShortcut.register((accelerators as any)[command], () => {
     const focusedWindow = BrowserWindow.getFocusedWindow();
-    createSender(`command:${command}`)({}, focusedWindow);
+    if (focusedWindow) {
+      focusedWindow.webContents.send(`command:${command}`);
+    }
   });
 }
 
 interceptAcceleratorAndForceOnlyMenuAction("PasteCell");
-
+*/
 
 app.setName(appName);
 
-export function loadFullMenu(store = global.store) {
-  // NOTE for those looking for selectors -- this state is not the same as the
-  //      "core" state -- it's a main process side model in the electron app
-  const state = store.getState();
-  const kernelSpecs = state.get("kernelSpecs") ? state.get("kernelSpecs") : {};
-  sortBy(kernelSpecs, "spec.display_name").map(
-    kernel => ({
-      label: kernel.spec.display_name,
-      click: () => launchNewNotebook(null, kernel)
-    })
-  ),
-    submenu: examplesManifest.map(collection => ({
-    label: `&${collection.language}`,
-    submenu: collection.files.map(fileInfo => ({
-      click: () => launch(path.join(examplesBaseDir, fileInfo.path)),
-      needsWindow: false,
-      label: `&${fileInfo.metadata.title}`
-    })),
-  })),
-  const doOpen = () => {
-    const opts: {
-      title: string;
-      filters: FileFilter[];
-      properties: ["openFile"];
-      defaultPath?: string;
-    } = {
-      title: "Open a notebook",
-      filters: [{ name: "Notebooks", extensions: ["ipynb"] }],
-      properties: ["openFile"],
-      defaultPath: undefined
-    };
-    if (process.cwd() === "/") {
-      opts.defaultPath = app.getPath("home");
-    }
+const examplesBaseDir = path
+  .join(__dirname, "..", "node_modules", "@nteract/examples")
+  .replace("app.asar", "app.asar.unpacked");
 
-    dialog.showOpenDialog(opts, (fname?: string[]) => {
-      if (fname) {
-        launch(fname[0]);
-        app.addRecentDocument(fname[0]);
-      }
-    });
+function buildMenuTemplate(
+  store: Store<MainStateRecord, MainAction>,
+  structure: MenuStructure,
+) {
+  const collections = {
+    kernelspec: sortBy(store.getState().kernelSpecs ?? {}, "spec.display_name"),
+    example: examplesManifest,
   };
-  const doSaveAs = (item: object, focusedWindow: BrowserWindow) => {
-    const opts: {
-      title: string;
-      filters: FileFilter[];
-      defaultPath?: string;
-    } = {
-      title: "Save Notebook As",
-      filters: [{ name: "Notebooks", extensions: ["ipynb"] }],
-      defaultPath: undefined
-    };
 
-    if (process.cwd() === "/") {
-      opts.defaultPath = app.getPath("home");
-    }
+  const build = {
+    separator: () => ({
+      type: "separator" as "separator",
+    }),
 
-    dialog.showSaveDialog(opts, filename => {
-      if (!filename) {
-        return;
-      }
+    url: (label: string, url: string) => ({
+      label,
+      click: () => shell.openExternal(url),
+    }),
 
-      const ext = path.extname(filename) === "" ? ".ipynb" : "";
-      send(focusedWindow, "save-as", `${filename}${ext}`);
-    });
+    command: (label: string, options: {}, command: Command) => ({
+      label,
+      click: () => {
+        const focusedWindow = BrowserWindow.getFocusedWindow();
+        if (focusedWindow) {
+          focusedWindow.webContents.send(`command:${command.name}`);
+        }
+      },
+    }),
+
+    submenu: (label: string, options: SubmenuOptions, sub: MenuStructure) => ({
+      type: "submenu" as "submenu",
+      label,
+      submenu: Array.from(buildItems(sub)),
+    }),
   };
-  const examplesBaseDir = path
-    .join(__dirname, "..", "node_modules", "@nteract/examples")
-    .replace("app.asar", "app.asar.unpacked");
 
+  function* buildItems(
+    submenu: MenuStructure,
+  ): Generator<MenuItemConstructorOptions> {
+    for (const item of submenu) {
+      if (Array.isArray(item)) {
+        if (item.length === 0) {
+          yield build.separator();
+        } else if (Array.isArray(item[item.length - 1])) {
+          if (item.length === 2) {
+            yield build.submenu(item[0], {}, item[1] as MenuStructure);
+          } else {
+            yield build.submenu(...item as [string, {}, MenuStructure]);
+          }
+        } else if (typeof item[1] === "string") {
+          yield build.url(...item as [string, string])
+        } else {
+          if (item.length === 2) {
+            yield build.command(item[0], {}, item[1] as Command);
+          } else {
+            yield build.command(item[0], item[2], item[1] as Command);
+          }
+        }
+      } else {
+        yield* buildItems(
+          (collections[item.forEach] as any).map(item.create)
+        );
+      }
+    }
+  }
 
+  return Array.from(buildItems(structure));
+}
+
+export function loadFullMenu() {
+  const template = buildMenuTemplate(global.store, menu);
+  console.log("menu", template);
   return Menu.buildFromTemplate(template);
 }
 
-export function loadTrayMenu(store = global.store): Menu {
-  // NOTE for those looking for selectors -- this state is not the same as the
-  //      "core" state -- it's a main process side model in the electron app
-  const state = store.getState();
-  const kernelSpecs = state.get("kernelSpecs") ? state.get("kernelSpecs") : {};
-
-  const newNotebookItems = sortBy(kernelSpecs, "spec.display_name").map(
-    kernel => ({
-      label: kernel.spec.display_name,
-      click: () => launchNewNotebook(null, kernel)
-    })
-  );
-
-  const open = {
-    label: "&Open",
-    click: () => {
-      const opts: {
-        title: string;
-        filters: FileFilter[];
-        properties: ["openFile"];
-        defaultPath?: string;
-      } = {
-        title: "Open a notebook",
-        filters: [{ name: "Notebooks", extensions: ["ipynb"] }],
-        properties: ["openFile"],
-        defaultPath: undefined
-      };
-      if (process.cwd() === "/") {
-        opts.defaultPath = app.getPath("home");
-      }
-
-      dialog.showOpenDialog(opts, (fname?: string[]) => {
-        if (fname) {
-          launch(fname[0]);
-          app.addRecentDocument(fname[0]);
-        }
-      });
-    }
-  };
-
-  const template = [];
-
-  const fileWithNew = {
-    label: "&New",
-    submenu: newNotebookItems
-  };
-
-  template.push(fileWithNew);
-  template.push(open);
-
+export function loadTrayMenu() {
+  const template = buildMenuTemplate(global.store, tray);
+  console.log("tray", template);
   return Menu.buildFromTemplate(template);
 }

@@ -1,8 +1,20 @@
 import { app } from "electron";
 import { appName } from "./appname";
 import * as commands from "./commands";
+import { MenuStructure } from "./commands/types";
 
-export const menu = [
+export const tray: MenuStructure = [
+  ["&New", [
+    {
+      forEach: "kernelspec",
+      create: spec =>
+        [spec.name, commands.NewNotebook],
+    },
+  ]],
+  ["&Open", commands.Open],
+];
+
+export const menu: MenuStructure = [
   [appName, { platform: "darwin" }, [
     [`About ${appName}`, commands.About],
     [],
@@ -20,15 +32,25 @@ export const menu = [
   ]],
   ["&File", [
     ["&New", [
-      ["{name}", commands.NewNotebook, { forEach: "kernelspec" }],
+      {
+        forEach: "kernelspec",
+        create: spec => [spec.name, commands.NewNotebook],
+      },
     ]],
     ["&Open", commands.Open],
-    ["Open Recent", { role: "recentdocuments", platform: "darwin" }, [
+    ["Open Recent", { role: "recentDocuments", platform: "darwin" }, [
       ["Clear Recent", commands.ClearRecentDocuments],
       // documents added by the system based on role
     ]],
     ["Open E&xample Notebook", [
-      ["{language}->{name}", commands.Open, { forEach: "example-notebook" }],
+      {
+        forEach: "example",
+        create: item =>
+          [item.language, item.files.map(file =>
+            [file.metadata.title,
+              commands.Open, { params: { filepath: file.path } }]
+          )],
+      }
     ]],
     ["&Save", commands.Save],
     ["Save &As", commands.SaveAs],
@@ -84,7 +106,11 @@ export const menu = [
     [],
     ["&Install Runtimes", "https://nteract.io/kernels"],
     [],
-    ["{name}", commands.NewKernel, { forEach: "kernelspec" }],
+    {
+      forEach: "kernelspec",
+      create: spec =>
+        [spec.name, commands.NewKernel],
+    },
   ]],
   ["Window", { role: "window" }, [
     ["Minimize", commands.Minimize],

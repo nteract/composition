@@ -17,3 +17,8 @@ export const Unhide = {
   name: "Unhide",
   mapToElectronRole: "unhide",
 };
+
+export const Quit = {
+  name: "Quit",
+  mapToElectronRole: "quit",
+};
