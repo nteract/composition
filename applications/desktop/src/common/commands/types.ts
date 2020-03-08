@@ -1,51 +1,51 @@
 import { ContentRef, KernelspecInfo } from "@nteract/core";
 import { ManifestItem } from "@nteract/examples";
 import { Action, Store } from "redux";
+import { OptionalKeys, RequiredKeys } from "utility-types";
 import { DesktopStore } from "../../notebook/store";
 
-export type ActionTemplate<PROPS> =
-  | ((props: PROPS) => Action | Promise<Action | undefined>)
-  | ((props: {})    => Action | Promise<Action | undefined>)
-  ;
-
-export type ActionTemplateGenerator<PROPS> =
-  | Generator<ActionTemplate<PROPS>>
-  | AsyncGenerator<ActionTemplate<PROPS>>
+export type ActionGenerator =
+  | Generator<Action | Promise<Action>>
+  | AsyncGenerator<Action | Promise<Action>>
   ;
 
 export interface ActionCommand<STORE extends Store, PROPS> {
   name: string;
-  makeActionTemplates: (store: STORE, props: PROPS) =>
-    ActionTemplateGenerator<PROPS>;
+  props: { [key in RequiredKeys<PROPS>]: "required" }
+       & { [key in OptionalKeys<PROPS>]: "optional" };
+  makeAction?: (props: PROPS) => Action;
+  makeActions?: (store: STORE, props: PROPS) => ActionGenerator;
+}
+
+export interface ElectronRoleCommand {
+  name: string;
+  mapToElectronRole: ElectronMenuItemRole;
 }
 
 export type Command =
-  | ActionCommand<Store, {}>
-  | {
-      name: string;
-      mapToElectronRole: string;
-    }
+  | ActionCommand<any, any>
+  | ElectronRoleCommand
   ;
 
-export interface RequiresContent { contentRef: ContentRef }
-export interface RequiresKernelSpec { kernelSpec: KernelspecInfo }
+export interface ReqContent { contentRef: ContentRef }
+export interface ReqKernelSpec { kernelSpec: KernelspecInfo }
 
-export type DesktopCommand<PROPS = {}> = ActionCommand<DesktopStore, PROPS>;
+export type DesktopCommand<T = {}> = ActionCommand<DesktopStore, T>;
 
-// == Menu Structure ==
-export type MenuStructure = MenuStructureItem[];
-export type MenuStructureItem =
+// == Menu Definition ==
+export type MenuDefinition = MenuDefinitionItem[];
+export type MenuDefinitionItem =
   // Submenu
-  | [string, SubmenuOptions, MenuStructure]
-  | [string, MenuStructure]
+  | [string, SubmenuOptions, MenuDefinition]
+  | [string, MenuDefinition]
 
   // Dynamic Menu
   | DyanamicMenuItems<"kernelspec", KernelspecInfo>
   | DyanamicMenuItems<"example", ManifestItem>
 
   // Menuitem
-  | [string, Command | ActionCommand<any, any>, MenuitemOptions]
-  | [string, Command | ActionCommand<any, any>]
+  | [string, Command, MenuitemOptions]
+  | [string, Command]
 
   // URL
   | [string, string]
@@ -56,7 +56,7 @@ export type MenuStructureItem =
 
 export interface DyanamicMenuItems<NAME extends string, T> {
   forEach: NAME;
-  create: (item: T) => MenuStructureItem;
+  create: (item: T) => MenuDefinitionItem;
 }
 
 export interface MenuitemOptions {
@@ -71,11 +71,51 @@ export interface SubmenuOptions {
 
 // from https://www.electronjs.org/docs/api/menu-item#roles
 export type ElectronSubmenuRole =
+  | "fileMenu"
+  | "editMenu"
+  | "viewMenu"
+  | "windowMenu"
   | "appMenu"
   | "window"
   | "help"
   | "services"
   | "recentDocuments"
+  ;
+
+// from https://www.electronjs.org/docs/api/menu-item#roles
+export type ElectronMenuItemRole =
+  | "undo"
+  | "redo"
+  | "cut"
+  | "copy"
+  | "paste"
+  | "pasteAndMatchStyle"
+  | "selectAll"
+  | "delete"
+  | "minimize"
+  | "close"
+  | "quit"
+  | "reload"
+  | "forceReload"
+  | "toggleDevTools"
+  | "togglefullscreen"
+  | "resetZoom"
+  | "zoomIn"
+  | "zoomOut"
+  | "about"
+  | "hide"
+  | "hideOthers"
+  | "unhide"
+  | "startSpeaking"
+  | "stopSpeaking"
+  | "front"
+  | "zoom"
+  | "toggleTabBar"
+  | "selectNextTab"
+  | "selectPreviousTab"
+  | "mergeAllWindows"
+  | "moveTabToNewWindow"
+  | "clearRecentDocuments"
   ;
 
 export type Platform =

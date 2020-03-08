@@ -1,9 +1,9 @@
 import { app } from "electron";
 import { appName } from "./appname";
 import * as commands from "./commands";
-import { MenuStructure } from "./commands/types";
+import { MenuDefinition } from "./commands/types";
 
-export const tray: MenuStructure = [
+export const tray: MenuDefinition = [
   ["&New", [
     {
       forEach: "kernelspec",
@@ -14,7 +14,7 @@ export const tray: MenuStructure = [
   ["&Open", commands.Open],
 ];
 
-export const menu: MenuStructure = [
+export const menu: MenuDefinition = [
   [appName, { platform: "darwin" }, [
     [`About ${appName}`, commands.About],
     [],

@@ -4,7 +4,7 @@ import sortBy from "lodash.sortby";
 import * as path from "path";
 import { Store } from "redux";
 import { appName } from "../common/appname";
-import { Command, MenuStructure, SubmenuOptions } from "../common/commands/types";
+import { Command, MenuDefinition, SubmenuOptions } from "../common/commands/types";
 import { menu, tray } from "../common/menu";
 import { MainAction, MainStateRecord } from "./reducers";
 
@@ -33,7 +33,7 @@ const examplesBaseDir = path
 
 function buildMenuTemplate(
   store: Store<MainStateRecord, MainAction>,
-  structure: MenuStructure,
+  structure: MenuDefinition,
 ) {
   const collections = {
     kernelspec: sortBy(store.getState().kernelSpecs ?? {}, "spec.display_name"),
@@ -60,7 +60,7 @@ function buildMenuTemplate(
       },
     }),
 
-    submenu: (label: string, options: SubmenuOptions, sub: MenuStructure) => ({
+    submenu: (label: string, options: SubmenuOptions, sub: MenuDefinition) => ({
       type: "submenu" as "submenu",
       label,
       submenu: Array.from(buildItems(sub)),
@@ -68,7 +68,7 @@ function buildMenuTemplate(
   };
 
   function* buildItems(
-    submenu: MenuStructure,
+    submenu: MenuDefinition,
   ): Generator<MenuItemConstructorOptions> {
     for (const item of submenu) {
       if (Array.isArray(item)) {
@@ -76,9 +76,9 @@ function buildMenuTemplate(
           yield build.separator();
         } else if (Array.isArray(item[item.length - 1])) {
           if (item.length === 2) {
-            yield build.submenu(item[0], {}, item[1] as MenuStructure);
+            yield build.submenu(item[0], {}, item[1] as MenuDefinition);
           } else {
-            yield build.submenu(...item as [string, {}, MenuStructure]);
+            yield build.submenu(...item as [string, {}, MenuDefinition]);
           }
         } else if (typeof item[1] === "string") {
           yield build.url(...item as [string, string])

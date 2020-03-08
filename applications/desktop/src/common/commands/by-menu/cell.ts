@@ -1,44 +1,53 @@
 import { actions } from "@nteract/core";
-import { DesktopCommand, RequiresContent } from "../types";
+import { DesktopCommand, ReqContent } from "../types";
 
-export const ChangeCellToCode: DesktopCommand<RequiresContent> = {
+export const ChangeCellToCode: DesktopCommand<ReqContent> = {
   name: "ChangeCellToCode",
-  *makeActionTemplates() {
-    yield actions.changeCellType.with({ to: "code" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.changeCellType.with({ to: "code" }),
 };
 
-export const ChangeCellToText: DesktopCommand<RequiresContent> = {
+export const ChangeCellToText: DesktopCommand<ReqContent> = {
   name: "ChangeCellToText",
-  *makeActionTemplates() {
-    yield actions.changeCellType.with({ to: "markdown" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.changeCellType.with({ to: "markdown" }),
 };
 
-export const RunAll: DesktopCommand<RequiresContent> = {
+export const RunAll: DesktopCommand<ReqContent> = {
   name: "RunAll",
-  *makeActionTemplates() {
-    yield actions.executeAllCells;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.executeAllCells,
 };
 
-export const RunAllBelow: DesktopCommand<RequiresContent> = {
+export const RunAllBelow: DesktopCommand<ReqContent> = {
   name: "RunAllBelow",
-  *makeActionTemplates() {
-    yield actions.executeAllCellsBelow;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.executeAllCellsBelow,
 };
 
-export const ClearAll: DesktopCommand<RequiresContent> = {
+export const ClearAll: DesktopCommand<ReqContent> = {
   name: "ClearAll",
-  *makeActionTemplates() {
-    yield actions.clearAllOutputs;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.clearAllOutputs,
 };
 
-export const UnhideAll: DesktopCommand<RequiresContent> = {
+export const UnhideAll: DesktopCommand<ReqContent> = {
   name: "UnhideAll",
-  *makeActionTemplates() {
-    yield actions.unhideAll.with({ inputHidden: false, outputHidden: false });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.unhideAll.with({
+    inputHidden: false,
+    outputHidden: false,
+  }),
 };

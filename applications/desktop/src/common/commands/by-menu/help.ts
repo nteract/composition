@@ -6,11 +6,14 @@ import { join } from "path";
 import { merge, Observable } from "rxjs";
 import { catchError, mergeMap } from "rxjs/operators";
 import { spawn } from "spawn-rx";
-import { DesktopCommand, RequiresContent } from "../types";
+import { DesktopCommand, ReqContent } from "../types";
 
-export const InstallShellCommand: DesktopCommand<RequiresContent> = {
+export const InstallShellCommand: DesktopCommand<ReqContent> = {
   name: "InstallShellCommand",
-  async *makeActionTemplates(store) {
+  props: {
+    contentRef: "required",
+  },
+  async *makeActions(store) {
     const makeGithubNotification = (message: string) =>
       sendNotification.with({
         level: "in-progress",

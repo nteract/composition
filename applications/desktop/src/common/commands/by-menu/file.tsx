@@ -7,27 +7,32 @@ import React from "react";
 import { promisify } from "util";
 import { launch } from "../../../main/launch";
 import { dispatchCommand } from "../dispatch";
-import { DesktopCommand, RequiresContent, RequiresKernelSpec } from "../types";
+import { DesktopCommand, ElectronRoleCommand, ReqContent, ReqKernelSpec } from "../types";
 import { authenticate } from "../utils/auth";
 import { showSaveAsDialog } from "../utils/dialogs";
 import { systemDocumentDirectory } from "../utils/directories";
 import { FilePathMessage } from "../utils/notifications";
 
-export const NewNotebook:
-  DesktopCommand<RequiresContent & RequiresKernelSpec> = {
+export const NewNotebook: DesktopCommand<ReqContent & ReqKernelSpec> = {
   name: "NewNotebook",
-  *makeActionTemplates() {
-    yield actions.newNotebook.with({
+  props: {
+    contentRef: "required",
+    kernelSpec: "required",
+  },
+  *makeActions(_store, props) {
+    yield actions.newNotebook({
       cwd: systemDocumentDirectory(),
       kernelRef: createKernelRef(),
       filepath: null,
+      ...props,
     });
   },
 };
 
 export const Open: DesktopCommand = {
   name: "Open",
-  *makeActionTemplates() {
+  props: {},
+  *makeActions() {
     dialog.showOpenDialog({
       title: "Open a notebook",
       filters: [{ name: "Notebooks", extensions: ["ipynb"] }],
@@ -44,40 +49,49 @@ export const Open: DesktopCommand = {
   },
 };
 
-export const ClearRecentDocuments = {
+export const ClearRecentDocuments: ElectronRoleCommand = {
   name: "ClearRecentDocuments",
   mapToElectronRole: "clearRecentDocuments",
 };
 
-export const SaveAs: DesktopCommand<RequiresContent> = {
+export const SaveAs: DesktopCommand<ReqContent> = {
   name: "SaveAs",
-  async *makeActionTemplates() {
+  props: {
+    contentRef: "required",
+  },
+  async *makeActions(_store, props) {
     const newFilepath = await showSaveAsDialog();
 
     if (newFilepath) {
-      yield actions.saveAs.with({ filepath: newFilepath });
+      yield actions.saveAs({ filepath: newFilepath, ...props });
     }
   },
 };
 
-export const Save: DesktopCommand<RequiresContent> = {
+export const Save: DesktopCommand<ReqContent> = {
   name: "Save",
-  async *makeActionTemplates(store, props) {
+  props: {
+    contentRef: "required",
+  },
+  async *makeActions(store, props) {
     const filepath = selectors.filepath(store.getState(), props);
 
     if (filepath === null || filepath === "") {
-      yield* SaveAs.makeActionTemplates(store, props);
+      yield* SaveAs.makeActions!(store, props);
     } else {
-      yield actions.save;
+      yield actions.save(props);
     }
   },
 };
 
-export const PublishGist: DesktopCommand<RequiresContent> = {
+export const PublishGist: DesktopCommand<ReqContent> = {
   name: "PublishGist",
-  async *makeActionTemplates(store) {
+  props: {
+    contentRef: "required",
+  },
+  async *makeActions(store, props) {
     const makeGithubNotification = (message: string) =>
-      sendNotification.with({
+      sendNotification.create({
         level: "in-progress",
         key: "github-publish",
         icon: "book",
@@ -88,25 +102,28 @@ export const PublishGist: DesktopCommand<RequiresContent> = {
     if (!store.getState().app.get("githubToken")) {
       yield makeGithubNotification("Authenticating...");
 
-      yield actions.setGithubToken.with({
+      yield actions.setGithubToken({
         githubToken: await authenticate("github"),
       });
 
       yield makeGithubNotification("Authenticated 🔒");
     }
 
-    yield actions.publishGist;
+    yield actions.publishGist(props);
   },
 };
 
-export const ExportPDF: DesktopCommand<RequiresContent> = {
+export const ExportPDF: DesktopCommand<ReqContent> = {
   name: "ExportPDF",
-  async *makeActionTemplates(store, props) {
+  props: {
+    contentRef: "required",
+  },
+  async *makeActions(store, props) {
     const state = store.getState();
     const notebookName = selectors.filepath(state, props);
 
     if (notebookName === null) {
-      yield sendNotification.with({
+      yield sendNotification.create({
         title: "File has not been saved!",
         message: `Click the button below to save the notebook so that it can be
                   exported as a PDF.`,
@@ -132,7 +149,7 @@ export const ExportPDF: DesktopCommand<RequiresContent> = {
     //       run through before we print...
     const unexpandedCells = selectors.notebook.hiddenCellIds(model);
     yield* unexpandedCells.map(
-      id => actions.toggleOutputExpansion.with({ id }),
+      id => actions.toggleOutputExpansion({ id, ...props }),
     );
 
     let data: any;
@@ -145,13 +162,13 @@ export const ExportPDF: DesktopCommand<RequiresContent> = {
     finally {
       // Restore the modified cells to their unexpanded state.
       yield* unexpandedCells.map(
-        id => actions.toggleOutputExpansion.with({ id }),
+        id => actions.toggleOutputExpansion({ id, ...props }),
       );
     }
 
     await promisify(fs.writeFile)(pdfPath, data);
 
-    yield sendNotification.with({
+    yield sendNotification.create({
       title: "PDF exported",
       message: <FilePathMessage filepath={pdfPath}/>,
       level: "success",

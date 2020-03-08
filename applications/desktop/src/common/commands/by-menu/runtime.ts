@@ -1,49 +1,59 @@
 import { actions, createKernelRef } from "@nteract/core";
-import { DesktopCommand, RequiresContent, RequiresKernelSpec } from "../types";
+import { DesktopCommand, ReqContent, ReqKernelSpec } from "../types";
 import { currentDocumentDirectory } from "../utils/directories";
 
-export const KillKernel: DesktopCommand<RequiresContent> = {
+export const KillKernel: DesktopCommand<ReqContent> = {
   name: "KillKernel",
-  *makeActionTemplates() {
-    yield actions.killKernel.with({ restarting: false });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.killKernel.with({ restarting: false }),
 };
 
-export const InterruptKernel: DesktopCommand<RequiresContent> = {
+export const InterruptKernel: DesktopCommand<ReqContent> = {
   name: "InterruptKernel",
-  *makeActionTemplates() {
-    yield actions.interruptKernel;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.interruptKernel,
 };
 
-export const RestartKernel: DesktopCommand<RequiresContent> = {
+export const RestartKernel: DesktopCommand<ReqContent> = {
   name: "RestartKernel",
-  *makeActionTemplates() {
-    yield actions.restartKernel.with({ outputHandling: "None" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.restartKernel.with({ outputHandling: "None" }),
 };
 
-export const RestartAndClearAll: DesktopCommand<RequiresContent> = {
+export const RestartAndClearAll: DesktopCommand<ReqContent> = {
   name: "RestartAndClearAll",
-  *makeActionTemplates() {
-    yield actions.restartKernel.with({ outputHandling: "Clear All" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.restartKernel.with({ outputHandling: "Clear All" }),
 };
 
-export const RestartAndRunAll: DesktopCommand<RequiresContent> = {
+export const RestartAndRunAll: DesktopCommand<ReqContent> = {
   name: "RestartAsRunAll",
-  *makeActionTemplates() {
-    yield actions.restartKernel.with({ outputHandling: "Run All" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.restartKernel.with({ outputHandling: "Run All" }),
 };
 
-export const NewKernel: DesktopCommand<RequiresContent & RequiresKernelSpec> = {
+export const NewKernel: DesktopCommand<ReqContent & ReqKernelSpec> = {
   name: "NewKernel",
-  *makeActionTemplates(store, { contentRef }) {
-    yield actions.launchKernel.with({
-      cwd: currentDocumentDirectory(store, contentRef),
+  props: {
+    contentRef: "required",
+    kernelSpec: "required",
+  },
+  *makeActions(store, props) {
+    yield actions.launchKernel({
+      cwd: currentDocumentDirectory(store, props.contentRef),
       kernelRef: createKernelRef(),
       selectNextKernel: true,
+      ...props,
     });
   },
 };

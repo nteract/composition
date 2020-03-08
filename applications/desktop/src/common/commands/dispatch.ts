@@ -10,15 +10,18 @@ export const dispatchCommand = <
   command: COMMAND,
   props: PROPS,
 ) => {
-  const templates = command.makeActionTemplates(store, props);
-  Promise.resolve(templates).then(
-    async result => {
-      for await (const template of result) {
-        const action = await template(props);
-        if (action !== undefined) {
-          store.dispatch(action);
+  if (command.makeAction) {
+    store.dispatch(command.makeAction(props));
+  }
+
+  if (command.makeActions) {
+    const actions = command.makeActions(store, props);
+    Promise.resolve(actions).then(
+      async result => {
+        for await (const action of result) {
+          store.dispatch(await action);
         }
-      }
-    },
-  );
+      },
+    );
+  }
 };

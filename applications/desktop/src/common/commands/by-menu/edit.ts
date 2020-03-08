@@ -1,78 +1,89 @@
 import { actions } from "@nteract/core";
-import { DesktopCommand, RequiresContent } from "../types";
+import { DesktopCommand, ElectronRoleCommand, ReqContent } from "../types";
 
-export const Cut = {
+export const Cut: ElectronRoleCommand = {
   name: "Cut",
   mapToElectronRole: "cut",
 };
 
-export const Copy = {
+export const Copy: ElectronRoleCommand = {
   name: "Copy",
   mapToElectronRole: "copy",
 };
 
-export const Paste = {
+export const Paste: ElectronRoleCommand = {
   name: "Paste",
   mapToElectronRole: "paste",
 };
 
-export const SelectAll = {
+export const SelectAll: ElectronRoleCommand = {
   name: "SelectAll",
   mapToElectronRole: "selectAll",
 };
 
-export const CopyCell: DesktopCommand<RequiresContent> = {
+export const CopyCell: DesktopCommand<ReqContent> = {
   name: "CopyCell",
-  *makeActionTemplates() {
-    yield actions.copyCell;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.copyCell,
 };
 
-export const CutCell: DesktopCommand<RequiresContent> = {
+export const CutCell: DesktopCommand<ReqContent> = {
   name: "CutCell",
-  *makeActionTemplates() {
-    yield actions.cutCell;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.cutCell,
 };
 
-export const PasteCell: DesktopCommand<RequiresContent> = {
+export const PasteCell: DesktopCommand<ReqContent> = {
   name: "PasteCell",
-  *makeActionTemplates() {
-    yield actions.pasteCell;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.pasteCell,
 };
 
-export const DeleteCell: DesktopCommand<RequiresContent> = {
+export const DeleteCell: DesktopCommand<ReqContent> = {
   name: "DeleteCell",
-  *makeActionTemplates() {
-    yield actions.deleteCell;
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.deleteCell,
 };
 
-export const NewCodeCellAbove: DesktopCommand<RequiresContent> = {
+export const NewCodeCellAbove: DesktopCommand<ReqContent> = {
   name: "NewCodeCellAbove",
-  *makeActionTemplates() {
-    yield actions.createCellAbove.with({ cellType: "code" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.createCellAbove.with({ cellType: "code" }),
 };
 
-export const NewCodeCellBelow: DesktopCommand<RequiresContent> = {
+export const NewCodeCellBelow: DesktopCommand<ReqContent> = {
   name: "NewCodeCellBelow",
-  *makeActionTemplates() {
-    yield actions.createCellBelow.with({ cellType: "code", source: "" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.createCellBelow.with({ cellType: "code", source: "" }),
 };
 
-export const NewTextCellBelow: DesktopCommand<RequiresContent> = {
+export const NewTextCellBelow: DesktopCommand<ReqContent> = {
   name: "NewTextCellBelow",
-  *makeActionTemplates() {
-    yield actions.createCellBelow.with({ cellType: "markdown", source: "" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.createCellBelow.with({
+    cellType: "markdown",
+    source: "",
+  }),
 };
 
-export const NewRawCellBelow: DesktopCommand<RequiresContent> = {
+export const NewRawCellBelow: DesktopCommand<ReqContent> = {
   name: "NewRawCellBelow",
-  *makeActionTemplates() {
-    yield actions.createCellBelow.with({ cellType: "raw", source: "" });
+  props: {
+    contentRef: "required",
   },
+  makeAction: actions.createCellBelow.with({ cellType: "raw", source: "" }),
 };
