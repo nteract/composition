@@ -12,7 +12,7 @@ export const Hide: ElectronRoleCommand = {
 
 export const HideOthers: ElectronRoleCommand = {
   name: "HideOthers",
-  mapToElectronRole: "hideOthers",
+  mapToElectronRole: "hideothers",
 };
 
 export const Unhide: ElectronRoleCommand = {

@@ -25,8 +25,6 @@ function interceptAcceleratorAndForceOnlyMenuAction(
 interceptAcceleratorAndForceOnlyMenuAction("PasteCell");
 */
 
-app.setName(appName);
-
 const examplesBaseDir = path
   .join(__dirname, "..", "node_modules", "@nteract/examples")
   .replace("app.asar", "app.asar.unpacked");
@@ -50,15 +48,24 @@ function buildMenuTemplate(
       click: () => shell.openExternal(url),
     }),
 
-    command: (label: string, options: {}, command: Command) => ({
-      label,
-      click: () => {
-        const focusedWindow = BrowserWindow.getFocusedWindow();
-        if (focusedWindow) {
-          focusedWindow.webContents.send(`command:${command.name}`);
-        }
-      },
-    }),
+    command: (label: string, options: {}, command: Command) => {
+      if ("mapToElectronRole" in command) {
+        return {
+          label,
+          role: command.mapToElectronRole,
+        };
+      } else {
+        return {
+          label,
+          click: () => {
+            const focusedWindow = BrowserWindow.getFocusedWindow();
+            if (focusedWindow) {
+              focusedWindow.webContents.send("command", command.name);
+            }
+          },
+        };
+      }
+    },
 
     submenu: (label: string, options: SubmenuOptions, sub: MenuDefinition) => ({
       type: "submenu" as "submenu",
@@ -101,13 +108,10 @@ function buildMenuTemplate(
 }
 
 export function loadFullMenu() {
-  const template = buildMenuTemplate(global.store, menu);
-  console.log("menu", template);
-  return Menu.buildFromTemplate(template);
+  return Menu.buildFromTemplate(buildMenuTemplate(global.store, menu));
 }
 
 export function loadTrayMenu() {
-  const template = buildMenuTemplate(global.store, tray);
-  console.log("tray", template);
-  return Menu.buildFromTemplate(template);
+  app.setName(appName);
+  return Menu.buildFromTemplate(buildMenuTemplate(global.store, tray));
 }

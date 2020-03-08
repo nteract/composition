@@ -1,9 +1,12 @@
-import { actions, createKernelRef, selectors } from "@nteract/core";
+import { actions, createKernelRef, KernelspecInfo, selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
 import { setConfigFile } from "@nteract/mythic-configuration";
 import { ipcRenderer as ipc, remote } from "electron";
 import * as path from "path";
 import { Store } from "redux";
+import { NewNotebook } from "../common/commands";
+import { dispatchCommand } from "../common/commands/dispatch";
+import { OptFilepath, ReqContent, ReqKernelSpec } from "../common/commands/types";
 
 import { Actions, closeNotebook } from "./actions";
 import { DesktopNotebookAppState } from "./state";
@@ -75,6 +78,19 @@ export function initGlobalHandlers(
           contentRef,
         }),
       ),
+  );
+
+  ipc.on(
+    "main:new", (
+      _event: Event,
+      filepath: string | null,
+      kernelSpec: KernelspecInfo,
+    ) =>
+      dispatchCommand(store, NewNotebook, {
+        contentRef,
+        kernelSpec,
+        filepath: filepath ?? undefined,
+      } as ReqContent & ReqKernelSpec & OptFilepath),
   );
 
   ipc.on(

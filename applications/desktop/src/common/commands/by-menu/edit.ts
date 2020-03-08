@@ -18,7 +18,7 @@ export const Paste: ElectronRoleCommand = {
 
 export const SelectAll: ElectronRoleCommand = {
   name: "SelectAll",
-  mapToElectronRole: "selectAll",
+  mapToElectronRole: "selectall",
 };
 
 export const CopyCell: DesktopCommand<ReqContent> = {

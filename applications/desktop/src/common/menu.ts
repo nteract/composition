@@ -122,7 +122,7 @@ export const menu: MenuDefinition = [
     ["Documentation", "https://docs.nteract.io"],
     ["Keyboard Shortcuts", "https://docs.nteract.io/#/desktop/shortcut-keys"],
     ["View nteract on GitHub", "https://github.com/nteract/nteract"],
-    [`Release Notes (${app.getVersion()})`, `https://github.com/nteract/nteract/releases/tag/v${app.getVersion()}`],
+    // [`Release Notes (${app.getVersion()})`, `https://github.com/nteract/nteract/releases/tag/v${app.getVersion()}`],
     ["Install Additional Kernels", "https://nteract.io/kernels"],
     [],
     ["Install Shell Command", commands.InstallShellCommand, { platform: "!darwin" }],

@@ -2,7 +2,7 @@ import { ElectronRoleCommand } from "../types";
 
 export const Reload: ElectronRoleCommand = {
   name: "Reload",
-  mapToElectronRole: "forceReload",
+  mapToElectronRole: "forcereload",
 };
 
 export const Fullscreen: ElectronRoleCommand = {
@@ -12,20 +12,20 @@ export const Fullscreen: ElectronRoleCommand = {
 
 export const DevTools: ElectronRoleCommand = {
   name: "DevTools",
-  mapToElectronRole: "toggleDevTools",
+  mapToElectronRole: "toggledevtools",
 };
 
 export const ZoomReset: ElectronRoleCommand = {
   name: "ZoomReset",
-  mapToElectronRole: "resetZoom",
+  mapToElectronRole: "resetzoom",
 };
 
 export const ZoomIn: ElectronRoleCommand = {
   name: "ZoomIn",
-  mapToElectronRole: "zoomIn",
+  mapToElectronRole: "zoomin",
 };
 
 export const ZoomOut: ElectronRoleCommand = {
   name: "ZoomOut",
-  mapToElectronRole: "zoomOut",
+  mapToElectronRole: "zoomout",
 };

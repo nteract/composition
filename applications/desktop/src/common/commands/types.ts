@@ -29,6 +29,7 @@ export type Command =
 
 export interface ReqContent { contentRef: ContentRef }
 export interface ReqKernelSpec { kernelSpec: KernelspecInfo }
+export interface OptFilepath { filepath?: string }
 
 export type DesktopCommand<T = {}> = ActionCommand<DesktopStore, T>;
 
@@ -89,33 +90,27 @@ export type ElectronMenuItemRole =
   | "cut"
   | "copy"
   | "paste"
-  | "pasteAndMatchStyle"
-  | "selectAll"
+  | "pasteandmatchstyle"
+  | "selectall"
   | "delete"
   | "minimize"
   | "close"
   | "quit"
   | "reload"
-  | "forceReload"
-  | "toggleDevTools"
+  | "forcereload"
+  | "toggledevtools"
   | "togglefullscreen"
-  | "resetZoom"
-  | "zoomIn"
-  | "zoomOut"
+  | "resetzoom"
+  | "zoomin"
+  | "zoomout"
   | "about"
   | "hide"
-  | "hideOthers"
+  | "hideothers"
   | "unhide"
-  | "startSpeaking"
-  | "stopSpeaking"
+  | "startspeaking"
+  | "stopspeaking"
   | "front"
   | "zoom"
-  | "toggleTabBar"
-  | "selectNextTab"
-  | "selectPreviousTab"
-  | "mergeAllWindows"
-  | "moveTabToNewWindow"
-  | "clearRecentDocuments"
   ;
 
 export type Platform =

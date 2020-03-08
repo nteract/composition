@@ -7,24 +7,28 @@ import React from "react";
 import { promisify } from "util";
 import { launch } from "../../../main/launch";
 import { dispatchCommand } from "../dispatch";
-import { DesktopCommand, ElectronRoleCommand, ReqContent, ReqKernelSpec } from "../types";
+import { DesktopCommand, ElectronRoleCommand, OptFilepath, ReqContent, ReqKernelSpec } from "../types";
 import { authenticate } from "../utils/auth";
 import { showSaveAsDialog } from "../utils/dialogs";
 import { systemDocumentDirectory } from "../utils/directories";
 import { FilePathMessage } from "../utils/notifications";
 
-export const NewNotebook: DesktopCommand<ReqContent & ReqKernelSpec> = {
+export const NewNotebook: DesktopCommand<
+  ReqContent & ReqKernelSpec & OptFilepath
+> = {
   name: "NewNotebook",
   props: {
     contentRef: "required",
     kernelSpec: "required",
+    filepath: "optional",
   },
-  *makeActions(_store, props) {
+  *makeActions(_store, { contentRef, kernelSpec, filepath }) {
     yield actions.newNotebook({
       cwd: systemDocumentDirectory(),
       kernelRef: createKernelRef(),
-      filepath: null,
-      ...props,
+      filepath: filepath ?? null,
+      contentRef,
+      kernelSpec,
     });
   },
 };
@@ -51,7 +55,8 @@ export const Open: DesktopCommand = {
 
 export const ClearRecentDocuments: ElectronRoleCommand = {
   name: "ClearRecentDocuments",
-  mapToElectronRole: "clearRecentDocuments",
+  mapToElectronRole: "clearrecentdocuments" as any,
+                      // Listed in docs, but not types
 };
 
 export const SaveAs: DesktopCommand<ReqContent> = {
