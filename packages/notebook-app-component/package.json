@@ -15,7 +15,7 @@
     "@nteract/commutable": "^7.2.7",
     "@nteract/core": "^13.0.2-alpha.0",
     "@nteract/data-explorer": "^8.0.0",
-    "@nteract/dropdown-menu": "^1.1.9-alpha.0",
+    "@nteract/dropdown-menu": "^1.1.9",
     "@nteract/editor": "^9.6.4-alpha.0",
     "@nteract/jupyter-widgets": "^4.4.9-alpha.0",
     "@nteract/markdown": "^4.3.9-alpha.0",

@@ -24,11 +24,6 @@ module.exports = {
       private: false
     },
     {
-      name: "@nteract/dropdown-menu",
-      version: "0.5.7",
-      private: false
-    },
-    {
       name: "@nteract/editor",
       version: "8.0.0-alpha.0",
       private: false
@@ -36,11 +31,6 @@ module.exports = {
     {
       name: "enchannel-zmq-backend",
       version: "8.0.0-alpha.0",
-      private: false
-    },
-    {
-      name: "fs-observable",
-      version: "3.0.2",
       private: false
     },
     {
@@ -55,11 +45,6 @@ module.exports = {
     },
     {
       name: "@nteract/markdown",
-      version: "3.0.1",
-      private: false
-    },
-    {
-      name: "@nteract/mathjax",
       version: "3.0.1",
       private: false
     },

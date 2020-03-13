@@ -2,7 +2,7 @@
 import { Action, makeActionFunction } from "../utils";
 
 // FIXME: probably belongs somewhere else
-interface ConfigPayload {
+export interface ConfigPayload {
   config: {
     [key: string]: string | number;
   };

@@ -5,9 +5,5 @@
     "rootDir": "src"
   },
   "include": ["src"],
-  "references": [
-    { "path": "../markdown" },
-    { "path": "../mathjax" },
-    { "path": "../commutable" }
-  ]
+  "references": [{ "path": "../markdown" }, { "path": "../commutable" }]
 }

@@ -53,10 +53,6 @@ module.exports = {
     {
       name: "@nteract/markdown",
       content: "packages/markdown/examples.md"
-    },
-    {
-      name: "@nteract/mathjax",
-      content: "packages/mathjax/examples.md"
     }
   ],
   // For overriding the components styleguidist uses

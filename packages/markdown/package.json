@@ -17,7 +17,7 @@
   "author": "Trevor Lyon <github.com/tlyon3>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@nteract/mathjax": "^4.0.7-alpha.0",
+    "@nteract/mathjax": "^4.0.7",
     "@nteract/presentational-components": "^3.3.9-alpha.0",
     "react-markdown": "^4.0.0"
   },

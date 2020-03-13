@@ -9,7 +9,6 @@
     { "path": "../actions" },
     { "path": "../commutable" },
     { "path": "../core" },
-    { "path": "../dropdown-menu" },
     { "path": "../editor" },
     { "path": "../markdown" },
     { "path": "../mythic-notifications" },

@@ -6,7 +6,7 @@
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.js",
   "scripts": {},
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/fs-observable",
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/host-cache",
   "keywords": [
     "mybinder",
     "notebooks",

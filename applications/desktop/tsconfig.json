@@ -10,7 +10,6 @@
     { "path": "../../packages/editor" },
     { "path": "../../packages/notebook-app-component" },
     { "path": "../../packages/presentational-components" },
-    { "path": "../../packages/fs-observable" },
     { "path": "../../packages/jupyter-widgets" },
     { "path": "../../packages/styles" },
     { "path": "../../packages/transform-geojson" },

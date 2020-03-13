@@ -76,20 +76,6 @@ Provide a bulleted list of new features or improvements and a reference to the P
 
 Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
 
-### @nteract/dropdown-menu ([publish-version-here])
-
-#### Breaking Changes
-
-Provide a bulleted list of breaking changes and a reference to the PR(s) containing those changes.
-
-#### New Features
-
-Provide a bulleted list of new features or improvements and a reference to the PR(s) containing these changes.
-
-#### Bug Fixes
-
-Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
-
 ### @nteract/editor ([publish-version-here])
 
 #### Breaking Changes
@@ -146,20 +132,6 @@ Provide a bulleted list of new features or improvements and a reference to the P
 
 Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
 
-### fs-observable ([publish-version-here])
-
-#### Breaking Changes
-
-Provide a bulleted list of breaking changes and a reference to the PR(s) containing those changes.
-
-#### New Features
-
-Provide a bulleted list of new features or improvements and a reference to the PR(s) containing these changes.
-
-#### Bug Fixes
-
-Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
-
 ### @mybinder/host-cache ([publish-version-here])
 
 #### Breaking Changes
@@ -189,20 +161,6 @@ Provide a bulleted list of new features or improvements and a reference to the P
 Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
 
 ### @nteract/markdown ([publish-version-here])
-
-#### Breaking Changes
-
-Provide a bulleted list of breaking changes and a reference to the PR(s) containing those changes.
-
-#### New Features
-
-Provide a bulleted list of new features or improvements and a reference to the PR(s) containing these changes.
-
-#### Bug Fixes
-
-Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
-
-### @nteract/mathjax ([publish-version-here])
 
 #### Breaking Changes
 

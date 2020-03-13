@@ -8,7 +8,7 @@
   "scripts": {},
   "dependencies": {
     "@nteract/markdown": "^4.3.9-alpha.0",
-    "@nteract/mathjax": "^4.0.7-alpha.0",
+    "@nteract/mathjax": "^4.0.7",
     "ansi-to-react": "^6.0.5",
     "react-json-tree": "^0.11.0"
   },
