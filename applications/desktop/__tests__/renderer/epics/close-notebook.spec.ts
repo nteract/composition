@@ -16,6 +16,7 @@ import {
   DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
   DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
 } from "../../../src/notebook/state";
+import { doneSavingConfig } from "@nteract/actions";
 
 const buildScheduler = () =>
   new TestScheduler((actual, expected) => expect(actual).toEqual(expected));
@@ -49,7 +50,7 @@ const buildState = (dirty: boolean = false) => ({
 
 describe("closeNotebookEpic", () => {
   describe("when notebook is dirty, prompts user to abort", () => {
-    test("and allows continuing", async () => {
+    test("and allows continuing", done => {
       let registeredCallback;
       ipc.once = (event, callback) => {
         if (event === "show-message-box-response") {
@@ -67,14 +68,17 @@ describe("closeNotebookEpic", () => {
       };
 
       const state = buildState(true);
-      const responses = await closeNotebookEpic(
+      const responses = [];
+      closeNotebookEpic(
         ActionsObservable.of(
           actions.closeNotebook({ contentRef: "contentRef1" })
         ),
         { value: state }
-      )
-        .pipe(toArray())
-        .toPromise();
+      ).subscribe(
+        action => responses.push(action),
+        () => done(),
+        error => done()
+      );
 
       expect(responses).toEqual([
         coreActions.killKernel({ kernelRef: "kernelRef1", restarting: false }),
@@ -84,7 +88,7 @@ describe("closeNotebookEpic", () => {
       ]);
     });
 
-    test("and allows aborting, triggering IPC close-notebook-canceled for app-wide quit orchestration", async () => {
+    test("and allows aborting, triggering IPC close-notebook-canceled for app-wide quit orchestration", done => {
       let registeredCallback;
       ipc.once = (event, callback) => {
         if (event === "show-message-box-response") {
@@ -107,14 +111,17 @@ describe("closeNotebookEpic", () => {
       };
 
       const state = buildState(true);
-      const responses = await closeNotebookEpic(
+      const responses = [];
+      closeNotebookEpic(
         ActionsObservable.of(
           actions.closeNotebook({ contentRef: "contentRef1" })
         ),
         { value: state }
-      )
-        .pipe(toArray())
-        .toPromise();
+      ).subscribe(
+        action => responses.push(action),
+        () => done(),
+        error => done()
+      );
 
       // Closing state reset back to starting value
       expect(responses).toEqual([
@@ -126,7 +133,7 @@ describe("closeNotebookEpic", () => {
   });
 
   describe("kill kernels", () => {
-    test("promptly continue when KILL_KERNEL is successful", async () => {
+    test("promptly continue when KILL_KERNEL is successful", () => {
       const state = buildState(false);
 
       const testScheduler = buildScheduler();
@@ -158,7 +165,7 @@ describe("closeNotebookEpic", () => {
       });
     });
 
-    test("promptly continue when KILL_KERNEL fails", async () => {
+    test("promptly continue when KILL_KERNEL fails", () => {
       const state = buildState(false);
 
       const testScheduler = buildScheduler();
@@ -193,7 +200,7 @@ describe("closeNotebookEpic", () => {
       });
     });
 
-    test("continue after a timeout period when no KILL_KERNEL result is received", async () => {
+    test("continue after a timeout period when no KILL_KERNEL result is received", () => {
       const state = buildState(false);
 
       const testScheduler = buildScheduler();
@@ -226,18 +233,23 @@ describe("closeNotebookEpic", () => {
     });
   });
 
-  test("update close progress state and trigger window.close", async () => {
+  test.only("update close progress state and trigger window.close", async done => {
     window.close = jest.fn();
 
     const state = buildState(false);
-    const responses = await closeNotebookEpic(
+    const responses = [];
+    closeNotebookEpic(
       ActionsObservable.of(
         actions.closeNotebook({ contentRef: "contentRef1" })
       ),
       { value: state }
     )
       .pipe(toArray())
-      .toPromise();
+      .subscribe(
+        action => responses.push(action),
+        err => done.fail(err),
+        () => done()
+      );
 
     expect(responses).toEqual([
       coreActions.killKernel({ kernelRef: "kernelRef1", restarting: false }),
