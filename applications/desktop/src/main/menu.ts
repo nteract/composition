@@ -13,7 +13,7 @@ import {
   WebContents
 } from "electron";
 import sortBy from "lodash.sortby";
-
+import {addRightClickMenu} from "./newfile-entry";
 import { KernelspecInfo } from "@nteract/types";
 import { installShellCommand } from "./cli";
 import { launch, launchNewNotebook } from "./launch";
@@ -104,6 +104,11 @@ const helpDraft = {
   label: "Help",
   role: "help",
   submenu: [
+    {
+      label:"Create new .ipynb to system menu",
+      click:() => addRightClickMenu()
+    
+    },
     {
       label: "Documentation",
       click: () => {
