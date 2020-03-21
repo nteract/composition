@@ -27,7 +27,7 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
   const { id, contentRef } = ownProps;
   const mapStateToProps = (state: AppState) => {
     let mode = rawMode;
-    let cursorBlinkRate = state.config.get("cursorBlinkRate", 530);
+    let cursorBlinkRate = state.config.get("codeMirror.cursorBlinkRate", 530);
     let lineWrapping = true;
 
     const model = selectors.model(state, { contentRef });

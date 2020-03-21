@@ -195,7 +195,7 @@ describe("dispatchCopyCell", () => {
   });
 });
 
-describe("dispatchSetTheme", () => {
+describe("dispatchSetConfigAtKey for the theme", () => {
   test("dispatches a SET_CONFIG_AT_KEY action", () => {
     const store = {
       dispatch: jest.fn()
@@ -204,7 +204,15 @@ describe("dispatchSetTheme", () => {
       contentRef: "123"
     };
 
-    menu.dispatchSetTheme(props, store, {}, "test_theme");
+    menu.dispatchSetConfigAtKey(
+      props,
+      store,
+      {},
+      {
+        key: "theme",
+        value: "test_theme"
+      }
+    );
 
     expect(store.dispatch).toHaveBeenCalledWith({
       type: actions.SET_CONFIG_AT_KEY,
@@ -215,7 +223,7 @@ describe("dispatchSetTheme", () => {
     });
   });
 });
-describe("dispatchSetCursorBlink", () => {
+describe("dispatch dispatchSetConfigAtKey for the SetCursorBlink Codemirror configuration", () => {
   test("dispatches a SET_CONFIG_AT_KEY action", () => {
     const store = {
       dispatch: jest.fn()
@@ -224,12 +232,17 @@ describe("dispatchSetCursorBlink", () => {
       contentRef: "123"
     };
 
-    menu.dispatchSetCursorBlink(props, store, {}, 42);
+    menu.dispatchSetConfigAtKey(
+      props,
+      store,
+      {},
+      { key: "codeMirror.cursorBlinkRate", value: 42 }
+    );
 
     expect(store.dispatch).toHaveBeenCalledWith({
       type: actions.SET_CONFIG_AT_KEY,
       payload: {
-        key: "cursorBlinkRate",
+        key: "codeMirror.cursorBlinkRate",
         value: 42
       }
     });
@@ -713,7 +726,7 @@ describe("initMenuHandlers", () => {
       "menu:zoom-in",
       "menu:zoom-out",
       "menu:theme",
-      "menu:set-blink-rate",
+      "menu:set-codemirror-config",
       "main:load",
       "main:new"
     ].forEach(name => {
@@ -759,7 +772,7 @@ describe("exportPDF", () => {
       .first();
     const store = {
       dispatch: jest.fn(),
-      getState: jest.fn(() => state),
+      getState: jest.fn(() => state)
     };
     const filepath = "thisisafilename.ipynb";
     menu.exportPDF({ contentRef }, store, filepath);
@@ -770,9 +783,9 @@ describe("exportPDF", () => {
         level: "success",
         action: {
           label: "Open",
-          callback: expect.any(Function),
-        },
-      }),
+          callback: expect.any(Function)
+        }
+      })
     );
   });
 });
@@ -796,7 +809,7 @@ describe("storeToPDF", () => {
               })
             }
           }
-        },
+        }
       })
     };
 
@@ -809,7 +822,7 @@ describe("storeToPDF", () => {
           "Click the button below to save the notebook"
         ),
         level: "warning"
-      }),
+      })
     );
   });
 });
@@ -855,17 +868,12 @@ describe("exportPDF", () => {
             }
           }
         },
-        app: Immutable.Map({
-        })
+        app: Immutable.Map({})
       })
     };
 
     const invocation = () =>
-      menu.exportPDF(
-        { contentRef: "abc" },
-        store,
-        "my-notebook.pdf",
-      );
+      menu.exportPDF({ contentRef: "abc" }, store, "my-notebook.pdf");
     expect(invocation).toThrow();
   });
   it("unhides hidden cells before exporting to PDF", () => {
@@ -900,13 +908,7 @@ describe("dispatchSetConfigAtKey", () => {
     };
     const key = "key";
     const value = "value";
-    menu.dispatchSetConfigAtKey(
-      props,
-      store,
-      key,
-      new Event("testEvet"),
-      value
-    );
+    menu.dispatchSetConfigAtKey(props, store, {}, { key, value });
     expect(store.dispatch).toHaveBeenCalledWith(
       actions.setConfigAtKey(key, value)
     );

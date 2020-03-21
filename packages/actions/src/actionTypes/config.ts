@@ -36,6 +36,3 @@ export const doneSavingConfig = makeActionFunction<DoneSavingConfigAction>(
 export const mergeConfig = makeActionFunction<MergeConfigAction>(MERGE_CONFIG);
 export const setConfigAtKey = <T>(key: string, value: T) =>
   makeActionFunction<SetConfigAction<T>>(SET_CONFIG_AT_KEY)({ key, value });
-export const setTheme = (theme: string) => setConfigAtKey("theme", theme);
-export const setCursorBlink = (value: string) =>
-  setConfigAtKey("cursorBlinkRate", value);

@@ -44,25 +44,31 @@ function createSender(
 const theme_menu = [
   {
     label: "Light",
-    click: createSender("menu:theme", "light")
+    click: createSender("menu:theme", { key: "theme", value: "light" })
   },
   {
     label: "Dark",
-    click: createSender("menu:theme", "dark")
+    click: createSender("menu:theme", { key: "theme", value: "dark" })
   }
 ];
-const blink_menu = [
-  // TODO: replace the with one `type: 'checkbox'` item once we have state to
-  // know which way it should be set initially.
+// Definitions for all the codeMirror configurations that can be set.
+const codeMirrorConfig = [
   {
     label: "Do Not Blink Editor Cursor",
-    click: createSender("menu:set-blink-rate", 0)
+    eventName: "menu:set-codemirror-config",
+    config: { key: "codeMirror.cursorBlinkRate", value: 0 }
   },
   {
     label: "Blink Editor Cursor",
-    click: createSender("menu:set-blink-rate", 530)
+    eventName: "menu:set-codemirror-config",
+    config: { key: "codeMirror.cursorBlinkRate", value: 530 }
   }
 ];
+
+const blink_menu = codeMirrorConfig.map(collection => ({
+  label: collection.label,
+  click: createSender(collection.eventName, collection.config)
+}));
 
 const windowDraft = {
   label: "Window",
@@ -573,7 +579,10 @@ export function loadFullMenu(store = global.store) {
         label: "Set default kernel",
         submenu: sortBy(kernelSpecs, "spec.display_name").map(kernel => ({
           label: kernel.spec.display_name,
-          click: createSender("menu:set-default-kernel", kernel.name)
+          click: createSender("menu:set-default-kernel", {
+            key: "defaultKernel",
+            value: kernel.name
+          })
         }))
       }
     ]
