@@ -105,9 +105,9 @@ const helpDraft = {
   role: "help",
   submenu: [
     {
-      label:"Create new .ipynb to system menu",
+      label:"Add Context Menu Item",
       click:() => addRightClickMenu()
-    
+
     },
     {
       label: "Documentation",

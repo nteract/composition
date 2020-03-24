@@ -1,16 +1,15 @@
 import { dialog } from "electron";
+let fs = require("fs-extra");
+let path = require("path");
 
-var fs = require("fs-extra");
+let home = process.env["HOME"];
+let fileName = "/Templates/jupyter-notebook.ipynb";
+let lpath = path.join(home + fileName);
 
-var home = process.env["HOME"];
-var tdir = "/Templates";
-var fileName = "/Templates/New_ipython_file.ipynb";
-var path = home + fileName;
-
-var jsonData =
+let jsonData =
   '{"cells": [{"cell_type": "code","execution_count": null,"metadata": {},"outputs": [],"source": []}],"metadata": {"kernelspec": {"display_name": "Python 3","language": "python","name": "python3"}},"nbformat": 4,"nbformat_minor": 2}';
-var jsonObj = JSON.parse(jsonData);
-var jsonContent = JSON.stringify(jsonObj);
+let jsonObj = JSON.parse(jsonData);
+let jsonContent = JSON.stringify(jsonObj);
 
 export const addRightClickMenu = () => {
   if (process.platform === "win32") {
@@ -19,16 +18,16 @@ export const addRightClickMenu = () => {
       "Other Platform will be supported in future"
     );
   } else {
-    if (!fs.existsSync(home + tdir)) {
-      fs.mkdirSync(home + tdir);
+    if (!fs.existsSync(path.dirname(lpath))) {
+      fs.mkdirSync(path.dirname(lpath));
     }
 
-    fs.outputFile(path, jsonContent, (err:any) => {
+    fs.outputFile(lpath, jsonContent, function(err) {
       if (err) return console.error(err);
       dialog.showMessageBox({
         title: "Successfully installed.",
-        message: "You may now be able to create new .ipynb file from anywhere.",
-        detail: "Right Click and Select Create New_ipython_file.ipynb",
+        message: "You can now create new notebook files from anywhere.",
+        detail: "Usage : Right Click >> Create New >> jupyter-notebook.ipynb",
         buttons: ["OK"]
       });
     });
