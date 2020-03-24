@@ -22,7 +22,7 @@ export const addRightClickMenu = () => {
       fs.mkdirSync(path.dirname(lpath));
     }
 
-    fs.outputFile(lpath, jsonContent, function(err) {
+    fs.outputFile(lpath, jsonContent, function(err:string) {
       if (err) return console.error(err);
       dialog.showMessageBox({
         title: "Successfully installed.",
