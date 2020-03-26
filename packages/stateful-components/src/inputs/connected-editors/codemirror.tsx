@@ -28,7 +28,20 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
   const mapStateToProps = (state: AppState) => {
     let mode = rawMode;
     let cursorBlinkRate = state.config.get("codeMirror.cursorBlinkRate", 530);
-    let lineWrapping = true;
+    let showCursorWhenSelecting = state.config.get(
+      "codeMirror.showCursorWhenSelecting",
+      false
+    );
+    let autoCloseBrackets = state.config.get(
+      "codeMirror.autoCloseBrackets",
+      false
+    );
+    let matchBrackets = state.config.get("codeMirror.matchBrackets", true);
+    let smartIndent = state.config.get("codeMirror.smartIndent", true);
+    let tabSize = state.config.get("codeMirror.tabSize", 4);
+    let indentWithTabs = state.config.get("codeMirror.indentWithTabs", false);
+    let lineNumbers = state.config.get("codeMirror.lineNumbers", false);
+    let lineWrapping = state.config.get("codeMirror.lineWrapping", true);
 
     const model = selectors.model(state, { contentRef });
     const kernel = selectors.kernelByContentRef(state, { contentRef });
@@ -55,6 +68,13 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
     return {
       mode,
       cursorBlinkRate,
+      showCursorWhenSelecting,
+      autoCloseBrackets,
+      matchBrackets,
+      smartIndent,
+      tabSize,
+      indentWithTabs,
+      lineNumbers,
       lineWrapping,
       tip: true,
       completion: true

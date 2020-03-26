@@ -52,23 +52,195 @@ const theme_menu = [
   }
 ];
 // Definitions for all the codeMirror configurations that can be set.
-const codeMirrorConfig = [
-  {
-    label: "Do Not Blink Editor Cursor",
-    eventName: "menu:set-codemirror-config",
-    config: { key: "codeMirror.cursorBlinkRate", value: 0 }
-  },
+// TODO: Can we read the current config from here?
+// TODO: Should refresh current cell, or only in new cells? Does not refresh right now for new configs.
+// TODO: //autocorrect, autocapitalize,spellcheck?
+const codemirror_config_menu = [
   {
     label: "Blink Editor Cursor",
-    eventName: "menu:set-codemirror-config",
-    config: { key: "codeMirror.cursorBlinkRate", value: 530 }
+    submenu: [
+      {
+        label: "Yes",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.cursorBlinkRate",
+          value: 530
+        })
+      },
+      {
+        label: "No",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.cursorBlinkRate",
+          value: 0
+        })
+      }
+    ]
+  },
+  {
+    label: "Show Cursor When Selecting",
+    submenu: [
+      {
+        label: "Yes",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.showCursorWhenSelecting",
+          value: true
+        })
+      },
+      {
+        label: "No",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.showCursorWhenSelecting",
+          value: false
+        })
+      }
+    ]
+  },
+  {
+    type: "separator"
+  },
+  {
+    label: "Close Brackets Automatically",
+    submenu: [
+      {
+        label: "Yes",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.autoCloseBrackets",
+          value: true
+        })
+      },
+      {
+        label: "No",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.autoCloseBrackets",
+          value: false
+        })
+      }
+    ]
+  },
+  {
+    label: "Show Matching Brackets",
+    submenu: [
+      {
+        label: "Yes",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.matchBrackets",
+          value: true
+        })
+      },
+      {
+        label: "No",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.matchBrackets",
+          value: false
+        })
+      }
+    ]
+  },
+  {
+    label: "Use Smart Indent",
+    submenu: [
+      {
+        label: "Yes",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.smartIndent",
+          value: true
+        })
+      },
+      {
+        label: "No",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.smartIndent",
+          value: false
+        })
+      }
+    ]
+  },
+  {
+    label: "Tab Size",
+    submenu: [
+      {
+        label: "2 Spaces",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.tabSize",
+          value: 2
+        })
+      },
+      {
+        label: "3 Spaces",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.tabSize",
+          value: 3
+        })
+      },
+      {
+        label: "4 Spaces",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.tabSize",
+          value: 4
+        })
+      }
+    ]
+  },
+  {
+    label: "Indentation Style",
+    submenu: [
+      {
+        label: "Tabs",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.indentWithTabs",
+          value: true
+        })
+      },
+      {
+        label: "Spaces",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.indentWithTabs",
+          value: false
+        })
+      }
+    ]
+  },
+  {
+    type: "separator"
+  },
+  {
+    label: "Show Line Numbers",
+    submenu: [
+      {
+        label: "Yes",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.lineNumbers",
+          value: true
+        })
+      },
+      {
+        label: "No",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.lineNumbers",
+          value: false
+        })
+      }
+    ]
+  },
+  {
+    label: "Wrap Lines",
+    submenu: [
+      {
+        label: "Yes",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.lineWrapping",
+          value: true
+        })
+      },
+      {
+        label: "No",
+        click: createSender("menu:set-codemirror-config", {
+          key: "codeMirror.lineWrapping",
+          value: false
+        })
+      }
+    ]
   }
 ];
-
-const blink_menu = codeMirrorConfig.map(collection => ({
-  label: collection.label,
-  click: createSender(collection.eventName, collection.config)
-}));
 
 const windowDraft = {
   label: "Window",
@@ -573,7 +745,7 @@ export function loadFullMenu(store = global.store) {
 
       {
         label: "Editor options",
-        submenu: blink_menu
+        submenu: codemirror_config_menu
       },
       {
         label: "Set default kernel",

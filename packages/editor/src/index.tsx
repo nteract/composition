@@ -94,10 +94,15 @@ export default class CodeMirrorEditor extends React.Component<
 
     // CodeMirror specific options for defaults
     matchBrackets: true,
+    autoCloseBrackets: false,
     indentUnit: 4,
+    tabSize: 4 /*TODO: What is the difference between indentUnit and tabsize?*/,
     lineNumbers: false,
+    lineWrapping: true,
+    smartIndent: true,
     cursorBlinkRate: 530,
-    editorType: "codemirror"
+    editorType: "codemirror",
+    showCursorWhenSelecting: true
   };
 
   textarea?: HTMLTextAreaElement | null;
