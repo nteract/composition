@@ -36,16 +36,6 @@ module.exports = {
       name: "@nteract/presentational-components",
       components: "packages/presentational-components/src/components/*.tsx"
     },
-    {
-      name: "@nteract/outputs",
-      components: "packages/outputs/src/components/*.tsx"
-    },
-    {
-      name: "@nteract/outputs/media",
-      components: "packages/outputs/src/components/media/*.tsx",
-      content: "packages/outputs/src/components/media/index.md",
-      ignore: "packages/outputs/src/components/media/index.tsx"
-    },
     // {
     //   name: "@mybinder/host-cache",
     //   components: "packages/host-cache/src/components/*.tsx"
@@ -53,10 +43,6 @@ module.exports = {
     {
       name: "@nteract/markdown",
       content: "packages/markdown/examples.md"
-    },
-    {
-      name: "@nteract/mathjax",
-      content: "packages/mathjax/examples.md"
     }
   ],
   // For overriding the components styleguidist uses

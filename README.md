@@ -50,7 +50,7 @@ Once you've download the app, head over to our [documentation page](https://docs
 
 ## Supporting nteract
 
-nteract is a non-profit open-source organization fisically sponsored by [NumFOCUS](https://numfocus.org/). **If you are interested in supporting development on nteract, please consider [making a recurring donation](https://numfocus.salsalabs.org/donate-to-nteract/index.html).**
+nteract is a non-profit open-source organization fiscally sponsored by [NumFOCUS](https://numfocus.org/). **If you are interested in supporting development on nteract, please consider [making a recurring donation](https://numfocus.salsalabs.org/donate-to-nteract/index.html).**
 
 Development on nteract is also supported by the following organizations.
 

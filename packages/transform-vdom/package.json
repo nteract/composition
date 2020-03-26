@@ -1,6 +1,6 @@
 {
   "name": "@nteract/transform-vdom",
-  "version": "4.0.13-alpha.0",
+  "version": "4.0.15-alpha.0",
   "description": "VDOM Transform for jupyter outputs",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

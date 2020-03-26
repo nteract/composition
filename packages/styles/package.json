@@ -1,6 +1,6 @@
 {
   "name": "@nteract/styles",
-  "version": "2.1.7-alpha.0",
+  "version": "2.1.9-alpha.0",
   "description": "css for use in nteract apps",
   "main": "index.js",
   "types": "index.d.ts",

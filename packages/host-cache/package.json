@@ -1,12 +1,12 @@
 {
   "name": "@mybinder/host-cache",
-  "version": "2.1.19-alpha.0",
+  "version": "2.1.21-alpha.0",
   "description": "Local Storage backed cache of binder hosts",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.js",
   "scripts": {},
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/fs-observable",
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/host-cache",
   "keywords": [
     "mybinder",
     "notebooks",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "rx-binder": "^4.0.2",
-    "rx-jupyter": "^5.5.4-alpha.0",
+    "rx-jupyter": "^5.5.6-alpha.0",
     "rxjs": "^6.3.3"
   }
 }
