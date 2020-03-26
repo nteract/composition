@@ -1,15 +1,17 @@
 import { dialog } from "electron";
+import {
+  monocellNotebook,
+  toJS
+} from "@nteract/commutable";
+
 let fs = require("fs-extra");
 let path = require("path");
 
 let home = process.env["HOME"];
 let fileName = "/Templates/jupyter-notebook.ipynb";
 let lpath = path.join(home + fileName);
-
-let jsonData =
-  '{"cells": [{"cell_type": "code","execution_count": null,"metadata": {},"outputs": [],"source": []}],"metadata": {"kernelspec": {"display_name": "Python 3","language": "python","name": "python3"}},"nbformat": 4,"nbformat_minor": 2}';
-let jsonObj = JSON.parse(jsonData);
-let jsonContent = JSON.stringify(jsonObj);
+let xx=toJS(monocellNotebook);
+let jsonContent = JSON.stringify(xx);
 
 export const addRightClickMenu = () => {
   if (process.platform === "win32") {
@@ -21,7 +23,6 @@ export const addRightClickMenu = () => {
     if (!fs.existsSync(path.dirname(lpath))) {
       fs.mkdirSync(path.dirname(lpath));
     }
-
     fs.outputFile(lpath, jsonContent, function(err:string) {
       if (err) return console.error(err);
       dialog.showMessageBox({
