@@ -16,6 +16,7 @@ const jsonContent = JSON.stringify(toJS(monocellNotebook));
 export const addRightClickMenu = () => {
   if (process.platform === "win32" || process.platform === "darwin") {
     dialog.showErrorBox(
+      "Sorry!",
       "This feature is only supported on Linux. Other platforms will be supported in the future."
     );
   } else {
