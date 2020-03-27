@@ -1,6 +1,6 @@
 {
   "name": "nteract",
-  "version": "0.22.4-alpha.0",
+  "version": "0.22.2-alpha.0",
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
   "repository": "nteract/nteract",
@@ -149,6 +149,6 @@
     "@types/lodash.sortby": "^4.7.6",
     "@types/lodash.throttle": "^4.1.6",
     "electron": "5.0.13",
-    "file-loader": "^6.0.0"
+    "file-loader": "^5.0.0"
   }
 }

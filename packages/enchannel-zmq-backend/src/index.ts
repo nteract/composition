@@ -263,7 +263,10 @@ export const createMainChannelFromSockets = (
         refCount()
       );
     })
-  ).pipe(publish(), refCount());
+  ).pipe(
+    publish(),
+    refCount()
+  );
 
   const subject: Subject<JupyterMessage> = Subject.create(
     outgoingMessages,

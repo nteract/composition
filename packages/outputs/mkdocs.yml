@@ -1,0 +1,6 @@
+site_name: nteract/outputs
+
+nav:
+  - Overview: "overview.md"
+  - Transforms: "transforms.md"
+  - Creating custom transforms: "creating-transforms.md"

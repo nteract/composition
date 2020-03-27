@@ -1,0 +1,1 @@
+You can access components for a variety of media types, like HTML and JSON, under this set of `Media` components.

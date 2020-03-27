@@ -5,5 +5,8 @@
     "rootDir": "src"
   },
   "include": ["src"],
-  "references": [{ "path": "../presentational-components" }]
+  "references": [
+    { "path": "../mathjax" },
+    { "path": "../presentational-components" }
+  ]
 }
