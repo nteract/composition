@@ -1,29 +1,28 @@
 import { dialog } from "electron";
-import {
-  monocellNotebook,
-  toJS
-} from "@nteract/commutable";
+import { monocellNotebook, toJS } from "@nteract/commutable";
 
-let fs = require("fs-extra");
-let path = require("path");
+import fs from "fs-extra";
+import path from "path";
 
-let home = process.env["HOME"];
-let fileName = "/Templates/jupyter-notebook.ipynb";
-let lpath = path.join(home + fileName);
-let xx=toJS(monocellNotebook);
-let jsonContent = JSON.stringify(xx);
+/**
+* Linux File Manager checks Templates file from either
+* '/usr/share/templates' or 'home/Templates' (this case)
+*/
+const home = process.env["HOME"];
+const fileName = "/Templates/jupyter-notebook.ipynb";
+const lpath = path.join(home + fileName);
+const jsonContent = JSON.stringify(toJS(monocellNotebook));
 
 export const addRightClickMenu = () => {
-  if (process.platform === "win32") {
+  if (process.platform === "win32" || process.platform === "darwin") {
     dialog.showErrorBox(
-      "This works only for Linux as of now .",
-      "Other Platform will be supported in future"
+      "This feature is only supported on Linux. Other platforms will be supported in the future."
     );
   } else {
     if (!fs.existsSync(path.dirname(lpath))) {
       fs.mkdirSync(path.dirname(lpath));
     }
-    fs.outputFile(lpath, jsonContent, function(err:string) {
+    fs.outputFile(lpath, jsonContent, function(err: string) {
       if (err) return console.error(err);
       dialog.showMessageBox({
         title: "Successfully installed.",

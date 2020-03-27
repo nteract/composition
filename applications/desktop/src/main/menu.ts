@@ -13,7 +13,7 @@ import {
   WebContents
 } from "electron";
 import sortBy from "lodash.sortby";
-import {addRightClickMenu} from "./newfile-entry";
+import { addRightClickMenu } from "./newfile-entry";
 import { KernelspecInfo } from "@nteract/types";
 import { installShellCommand } from "./cli";
 import { launch, launchNewNotebook } from "./launch";
@@ -105,9 +105,8 @@ const helpDraft = {
   role: "help",
   submenu: [
     {
-      label:"Add Context Menu Item",
-      click:() => addRightClickMenu()
-
+      label: "Add Context Menu Item",
+      click: () => addRightClickMenu()
     },
     {
       label: "Documentation",
