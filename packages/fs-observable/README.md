@@ -31,13 +31,9 @@ export default () => {
 };
 ```
 
-## Documentation
-
-We're working on adding more documentation for this component. Stay tuned by watching this repository!
-
 ## Support
 
-If you experience an issue while using this package or have a feature request, please file an issue on the [issue board](https://github.com/nteract/nteract/issues/new/choose) and add the `pkg:fs-observable` label.
+If you experience an issue while using this package or have a feature request, please file an issue on the [issue board](https://github.com/nteract/fs-observable/issues).
 
 ## License
 

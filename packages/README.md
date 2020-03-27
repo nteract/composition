@@ -13,7 +13,12 @@
 Recently, we made an effort to improve the developer experience and release process for our packages by moving certain packages out of the monorepo and into their own repositories.
 
 - [ansi-to-react](https://github.com/nteract/ansi-to-react)
+- [enchannel-zmq-backend](https://github.com/nteract/enchannel-zmq-backend)
+- [fs-observable](https://github.com/nteract/fs-observable)
 - [@nteract/directory-listing](https://github.com/nteract/directory-listing)
+- [@nteract/dropdown-menu](https://github.com/nteract/dropdown-menu)
 - [@nteract/logos](https://github.com/nteract/logos)
+- [@nteract/mathjax](https://github.com/nteract/mathjax)
 - [@nteract/octicons](https://github.com/nteract/octicons)
+- [@nteract/outputs](https://github.com/nteract/outputs)
 - [@nteract/styled-blueprintjsx](https://github.com/nteract/styled-blueprintjsx)

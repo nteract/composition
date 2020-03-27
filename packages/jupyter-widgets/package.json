@@ -1,6 +1,6 @@
 {
   "name": "@nteract/jupyter-widgets",
-  "version": "4.4.9-alpha.0",
+  "version": "4.4.11-alpha.0",
   "description": "Transform for rendering Jupyter-JS-Widgets in output areas.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

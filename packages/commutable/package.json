@@ -1,6 +1,6 @@
 {
   "name": "@nteract/commutable",
-  "version": "7.2.7",
+  "version": "7.2.9-alpha.0",
   "description": "library for immutable notebook operations",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

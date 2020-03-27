@@ -20,9 +20,19 @@ type Socket = typeof _Socket &
   EventEmitter & { unmonitor: Function };
 
 import { JupyterMessage, MessageType } from "@nteract/messaging";
+import { Message } from "../__mocks__/jmp";
 
 interface Sockets {
   [id: string]: Socket;
+}
+
+// Mock a jmp socket
+class HokeySocket extends _Socket {
+  send = jest.fn();
+  constructor() {
+    super("hokey");
+    this.send = jest.fn();
+  }
 }
 
 describe("createSocket", () => {
@@ -50,16 +60,20 @@ describe("verifiedConnect", () => {
   test("verifiedConnect monitors the socket", async done => {
     const emitter = new EventEmitter();
 
-    const socket = ({
+    const socket = {
+      type: "hokey",
       monitor: jest.fn(),
       unmonitor: jest.fn(),
       close: jest.fn(),
       on: jest.fn(emitter.on.bind(emitter)),
       emit: jest.fn(emitter.emit.bind(emitter)),
       connect: jest.fn(() => {})
-    } as any) as Socket;
+    };
 
-    const p = verifiedConnect(socket, "tcp://127.0.0.1:8945");
+    const p = verifiedConnect(
+      (socket as unknown) as _Socket,
+      "tcp://127.0.0.1:8945"
+    );
     expect(socket.monitor).toHaveBeenCalledTimes(1);
     expect(socket.connect).toHaveBeenCalledTimes(1);
     expect(socket.connect).toHaveBeenCalledWith("tcp://127.0.0.1:8945");
@@ -77,7 +91,8 @@ describe("verifiedConnect", () => {
   test("verifiedConnect monitors the socket properly even on fast connect", async done => {
     const emitter = new EventEmitter();
 
-    const socket = ({
+    const socket = {
+      type: "hokey",
       monitor: jest.fn(),
       unmonitor: jest.fn(),
       close: jest.fn(),
@@ -86,9 +101,9 @@ describe("verifiedConnect", () => {
       connect: jest.fn(() => {
         emitter.emit("connect");
       })
-    } as any) as Socket;
+    };
 
-    verifiedConnect(socket, "tcp://127.0.0.1:8945");
+    verifiedConnect((socket as unknown) as _Socket, "tcp://127.0.0.1:8945");
     expect(socket.monitor).toHaveBeenCalledTimes(1);
     expect(socket.connect).toHaveBeenCalledTimes(1);
     expect(socket.unmonitor).toHaveBeenCalledTimes(1);
@@ -133,9 +148,9 @@ describe("getUsername", () => {
 
 describe("createMainChannelFromSockets", () => {
   test("basic creation", () => {
-    const sockets = ({
-      hokey: {}
-    } as any) as Sockets;
+    const sockets = {
+      hokey: {} as any
+    };
     // TODO: This shouldn't work silently if the socket doesn't actually behave
     // like an actual socket
     // NOTE: RxJS doesn't error with the fromEvent until there is at least one
@@ -147,22 +162,17 @@ describe("createMainChannelFromSockets", () => {
   });
 
   test("simple one channel message passing from 'socket' to channels", () => {
-    const hokeySocket = new EventEmitter();
-    const sockets = ({
+    const hokeySocket = new HokeySocket();
+    const sockets = {
       shell: hokeySocket
-    } as any) as Sockets;
+    };
 
     const channels = createMainChannelFromSockets(sockets);
     expect(channels).toBeInstanceOf(Subject);
 
     const messages = [{ a: 1 }, { a: 2 }, { b: 3 }];
 
-    const p = channels
-      .pipe(
-        take(messages.length),
-        toArray()
-      )
-      .toPromise();
+    const p = channels.pipe(take(messages.length), toArray()).toPromise();
 
     for (const message of messages) {
       hokeySocket.emit("message", message);
@@ -176,21 +186,16 @@ describe("createMainChannelFromSockets", () => {
   });
 
   test("handles multiple socket routing underneath", () => {
-    const shellSocket = new EventEmitter();
-    const iopubSocket = new EventEmitter();
-    const sockets = ({
+    const shellSocket = new HokeySocket();
+    const iopubSocket = new HokeySocket();
+    const sockets = {
       shell: shellSocket,
       iopub: iopubSocket
-    } as any) as Sockets;
+    };
 
     const channels = createMainChannelFromSockets(sockets);
 
-    const p = channels
-      .pipe(
-        take(2),
-        toArray()
-      )
-      .toPromise();
+    const p = channels.pipe(take(2), toArray()).toPromise();
 
     shellSocket.emit("message", { yolo: false });
     iopubSocket.emit("message", { yolo: true });
@@ -204,47 +209,35 @@ describe("createMainChannelFromSockets", () => {
   });
 
   test("propagates header information through", async done => {
-    // Mock a jmp socket
-    class HokeySocket extends EventEmitter {
-      send = jest.fn();
-      constructor() {
-        super();
-        this.send = jest.fn();
-      }
-    }
-
     const shellSocket = new HokeySocket();
     const iopubSocket = new HokeySocket();
-    const sockets = ({
+    const sockets = {
       shell: shellSocket,
       iopub: iopubSocket
-    } as any) as Sockets;
+    };
 
     const channels = createMainChannelFromSockets(sockets, {
       session: "spinning",
       username: "dj"
     });
 
-    const responses = channels
-      .pipe(
-        take(2),
-        toArray()
-      )
-      .toPromise();
+    const responses = channels.pipe(take(2), toArray()).toPromise();
 
     channels.next({ channel: "shell" } as JupyterMessage<any>);
 
-    expect(shellSocket.send).toHaveBeenCalledWith({
-      buffers: [],
-      content: {},
-      header: {
-        session: "spinning",
-        username: "dj"
-      },
-      idents: [],
-      metadata: {},
-      parent_header: {}
-    });
+    expect(shellSocket.send).toHaveBeenCalledWith(
+      new Message({
+        buffers: new Uint8Array(),
+        content: {},
+        header: {
+          session: "spinning",
+          username: "dj"
+        },
+        idents: [],
+        metadata: {},
+        parent_header: {}
+      })
+    );
 
     channels.next({
       channel: "shell",
@@ -263,23 +256,25 @@ describe("createMainChannelFromSockets", () => {
       }
     } as JupyterMessage);
 
-    expect(shellSocket.send).toHaveBeenLastCalledWith({
-      buffers: [],
-      content: {
-        applesauce: "mcgee"
-      },
-      header: {
-        msg_type: "random",
-        session: "spinning",
-        username: "dj",
-        msg_id: "XYZ",
-        date: expect.any(String),
-        version: "3"
-      },
-      idents: [],
-      metadata: {},
-      parent_header: {}
-    });
+    expect(shellSocket.send).toHaveBeenLastCalledWith(
+      new Message({
+        buffers: new Uint8Array(),
+        content: {
+          applesauce: "mcgee"
+        },
+        header: {
+          msg_type: "random",
+          session: "spinning",
+          username: "dj",
+          msg_id: "XYZ",
+          date: expect.any(String),
+          version: "3"
+        },
+        idents: [],
+        metadata: {},
+        parent_header: {}
+      })
+    );
 
     shellSocket.emit("message", { yolo: false });
     iopubSocket.emit("message", { yolo: true });
