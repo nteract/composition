@@ -1,14 +1,11 @@
-import { mount } from "enzyme";
 import Immutable from "immutable";
-import React from "react";
 
 import { makeDisplayData } from "@nteract/commutable";
-import { state as types } from "@nteract/core";
+import { makeContentsRecord, state as types } from "@nteract/core";
 import { mockAppState } from "@nteract/fixtures";
 
 import {
-  mapStateToProps,
-  PureTransformMedia,
+  makeMapStateToProps,
   richestMediaType
 } from "../../src/outputs/transform-media";
 
@@ -55,11 +52,11 @@ describe("richestMediaType", () => {
   });
 });
 
-describe("mapStateToProps", () => {
+describe("makeMapStateToProps", () => {
   it("returns empty Media component for invalid output_types", () => {
     const state = mockAppState({});
     const ownProps = { output_type: "stream" };
-    const result = mapStateToProps(state, ownProps);
+    const result = makeMapStateToProps(state, ownProps)(state);
     expect(result.Media()).toBeNull();
   });
   it("returns an empty Media component for unregistered transforms", () => {
@@ -71,7 +68,7 @@ describe("mapStateToProps", () => {
       }
     });
     const ownProps = { output_type: "display_data", output };
-    const result = mapStateToProps(state, ownProps);
+    const result = makeMapStateToProps(state, ownProps)(state);
     expect(result.Media()).toBeNull();
   });
   it("returns an empty Media component for unregistered transforms", () => {
@@ -96,14 +93,7 @@ describe("mapStateToProps", () => {
       }
     });
     const ownProps = { output_type: "display_data", output };
-    const result = mapStateToProps(state, ownProps);
+    const result = makeMapStateToProps(state, ownProps)(state);
     expect(result.Media).toBe(transform);
-  });
-});
-
-describe("PureTransformMedia", () => {
-  it("renders nothing if there is no mediaType provided", () => {
-    const component = mount(<PureTransformMedia />);
-    expect(component.isEmptyRender()).toBe(true);
   });
 });

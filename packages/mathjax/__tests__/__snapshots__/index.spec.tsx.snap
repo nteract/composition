@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MathJax Node can be renderered without provider 1`] = `
+<MathJaxNode
+  inline={false}
+  onRender={null}
+>
+  <Provider
+    delay={0}
+    didFinishTypeset={null}
+    input="tex"
+    loading={null}
+    noGate={false}
+    onError={[Function]}
+    onLoad={null}
+    options={Object {}}
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+  >
+    <MathJaxNode
+      inline={false}
+      onRender={null}
+    />
+  </Provider>
+</MathJaxNode>
+`;
+
+exports[`MathJax Nodes use existing provider 1`] = `
+<Provider
+  delay={0}
+  didFinishTypeset={null}
+  input="tex"
+  loading={null}
+  noGate={false}
+  onError={[Function]}
+  onLoad={null}
+  options={Object {}}
+  src="script-src"
+>
+  <MathJaxNode
+    inline={false}
+    onRender={null}
+  />
+  <MathJaxNode
+    inline={false}
+    onRender={null}
+  />
+</Provider>
+`;
+
+exports[`MathJax Text node renders LaTeX text 1`] = `
+<MathJaxText
+  onRender={null}
+>
+  <Provider
+    delay={0}
+    didFinishTypeset={null}
+    input="tex"
+    loading={null}
+    noGate={false}
+    onError={[Function]}
+    onLoad={null}
+    options={Object {}}
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"
+  >
+    <MathJaxText
+      onRender={null}
+    />
+  </Provider>
+</MathJaxText>
+`;

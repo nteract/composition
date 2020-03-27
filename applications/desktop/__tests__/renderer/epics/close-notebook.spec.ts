@@ -17,8 +17,6 @@ import {
   DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
 } from "../../../src/notebook/state";
 
-jest.mock("fs");
-
 const buildScheduler = () =>
   new TestScheduler((actual, expected) => expect(actual).toEqual(expected));
 
@@ -229,38 +227,25 @@ describe("closeNotebookEpic", () => {
   });
 
   test("update close progress state and trigger window.close", async () => {
+    window.close = jest.fn();
+
     const state = buildState(false);
+    const responses = await closeNotebookEpic(
+      ActionsObservable.of(
+        actions.closeNotebook({ contentRef: "contentRef1" })
+      ),
+      { value: state }
+    )
+      .pipe(toArray())
+      .toPromise();
 
-    const testScheduler = buildScheduler();
-    testScheduler.run(helpers => {
-      const { hot, expectObservable } = helpers;
-      const inputActions = {
-        a: actions.closeNotebook({
-          contentRef: "contentRef1",
-          reloading: false
-        }),
-        b: coreActions.killKernelSuccessful({ kernelRef: "kernelRef1" })
-      };
+    expect(responses).toEqual([
+      coreActions.killKernel({ kernelRef: "kernelRef1", restarting: false }),
+      actions.closeNotebookProgress({
+        newState: DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
+      })
+    ]);
 
-      const outputActions = {
-        c: coreActions.killKernel({
-          kernelRef: "kernelRef1",
-          restarting: false
-        }),
-        d: actions.closeNotebookProgress({
-          newState: DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
-        })
-      };
-
-      const inputMarbles = "a b";
-      const outputMarbles = "c d";
-
-      const inputAction$ = hot(inputMarbles, inputActions);
-      const outputAction$ = closeNotebookEpic(inputAction$, { value: state });
-
-      expectObservable(outputAction$).toBe(outputMarbles, outputActions);
-
-      expect(window.close).toBeCalled();
-    });
+    expect(window.close).toBeCalled();
   });
 });

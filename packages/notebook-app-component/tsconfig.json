@@ -9,12 +9,14 @@
     { "path": "../actions" },
     { "path": "../commutable" },
     { "path": "../core" },
+    { "path": "../dropdown-menu" },
     { "path": "../editor" },
     { "path": "../markdown" },
     { "path": "../mythic-notifications" },
     { "path": "../presentational-components" },
     { "path": "../stateful-components" },
     { "path": "../selectors" },
-    { "path": "../types" }
+    { "path": "../types" },
+    { "path": "../outputs" }
   ]
 }

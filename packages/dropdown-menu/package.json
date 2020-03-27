@@ -1,0 +1,32 @@
+{
+  "name": "@nteract/dropdown-menu",
+  "version": "1.1.9-alpha.0",
+  "description": "Dropdown Menu for nteract apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.tsx",
+  "scripts": {},
+  "repository": "https://github.com/nteract/nteract/tree/master/packages/dropdown-menu",
+  "keywords": [
+    "nteract",
+    "editor",
+    "notebook",
+    "jupyter"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "react-hot-loader": "^4.1.2"
+  },
+  "peerDependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "styled-components": ">= 4"
+  },
+  "author": "Kyle Kelley <rgbkrk@gmail.com>",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "styled-components": "^4.4.1"
+  }
+}

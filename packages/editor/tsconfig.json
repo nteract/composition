@@ -5,5 +5,5 @@
     "rootDir": "src"
   },
   "include": ["src"],
-  "references": [{ "path": "../messaging" }]
+  "references": [{ "path": "../messaging" }, { "path": "../outputs" }]
 }

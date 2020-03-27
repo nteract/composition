@@ -72,6 +72,6 @@ describe("makeMapStateToProps", () => {
     const ownProps = { contentRef, id };
     const result = makeMapStateToProps(state, ownProps)(state);
     expect(result.hidden).toBe(false);
-    expect(result.expanded).toBe(false);
+    expect(result.expanded).toBe(true);
   });
 });
