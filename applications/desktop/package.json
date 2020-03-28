@@ -145,6 +145,7 @@
     "nteract-assets": "^4.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^8.1.0",
     "@types/lodash.sample": "^4.2.6",
     "@types/lodash.sortby": "^4.7.6",
     "@types/lodash.throttle": "^4.1.6",
