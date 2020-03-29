@@ -5,8 +5,8 @@ import { ipcRenderer as ipc, remote } from "electron";
 import * as path from "path";
 import { Store } from "redux";
 import { NewNotebook } from "../common/commands";
-import { dispatchCommand } from "../common/commands/dispatch";
-import { OptFilepath, ReqContent, ReqKernelSpec } from "../common/commands/types";
+import { dispatchCommandInRenderer } from "../common/commands/dispatch";
+import { ReqContent, ReqKernelSpec } from "../common/commands/types";
 
 import { Actions, closeNotebook } from "./actions";
 import { DesktopNotebookAppState } from "./state";
@@ -86,11 +86,11 @@ export function initGlobalHandlers(
       filepath: string | null,
       kernelSpec: KernelspecInfo,
     ) =>
-      dispatchCommand(store, NewNotebook, {
+      dispatchCommandInRenderer(store, NewNotebook, {
         contentRef,
         kernelSpec,
         filepath: filepath ?? undefined,
-      } as ReqContent & ReqKernelSpec & OptFilepath),
+      } as ReqContent & ReqKernelSpec),
   );
 
   ipc.on(

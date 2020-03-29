@@ -1,33 +1,62 @@
 import { manifest as examplesManifest } from "@nteract/examples";
-import { app, BrowserWindow, Menu, MenuItemConstructorOptions, shell } from "electron";
+import { app, BrowserWindow, globalShortcut, Menu, MenuItemConstructorOptions, shell } from "electron";
 import sortBy from "lodash.sortby";
-import * as path from "path";
 import { Store } from "redux";
+import { accelerators } from "../common/accelerators";
 import { appName } from "../common/appname";
-import { Command, MenuDefinition, SubmenuOptions } from "../common/commands/types";
+import { dispatchCommandInMain } from "../common/commands/dispatch";
+import { ActionCommand, Command, MenuDefinition, MenuitemOptions, Platform, SubmenuOptions } from "../common/commands/types";
 import { menu, tray } from "../common/menu";
 import { MainAction, MainStateRecord } from "./reducers";
 
-// Pasting cells will also paste text, so we need to intercept the event with
-// a global shortcut and then only trigger the IPC call.
-/*
-function interceptAcceleratorAndForceOnlyMenuAction(
-  command: string,
-): void {
-  globalShortcut.register((accelerators as any)[command], () => {
-    const focusedWindow = BrowserWindow.getFocusedWindow();
-    if (focusedWindow) {
-      focusedWindow.webContents.send(`command:${command}`);
+const interceptAcceleratorEarly =
+  (accelerator: string, command: ActionCommand<any, any>, props: any) =>
+    globalShortcut.register(
+      accelerator, () => dispatchCommandInMain(command, props)
+    );
+
+const acceleratorFor = (command: Command, options: MenuitemOptions) => {
+  const data: any = accelerators[command.name];
+
+  if (data === undefined) {
+    return undefined;
+  }
+
+  if (typeof data === "string") {
+    return data;
+  }
+
+  const interceptEarly = data.interceptEarly;
+  let accelerator = null;
+
+  if (data[process.platform] === undefined) {
+    if (data.others === undefined) {
+      return undefined;
     }
-  });
-}
+    accelerator = data.others;
+  }
+  else {
+    accelerator = data[process.platform];
+  }
 
-interceptAcceleratorAndForceOnlyMenuAction("PasteCell");
-*/
+  if (interceptEarly && !("mapToElectronRole" in command)) {
+    interceptAcceleratorEarly(accelerator, command, options.props);
+  }
 
-const examplesBaseDir = path
-  .join(__dirname, "..", "node_modules", "@nteract/examples")
-  .replace("app.asar", "app.asar.unpacked");
+  return accelerator;
+};
+
+const processString = (str: string) =>
+  str.replace("<<version>>", app.getVersion());
+
+const matchesPlatform = ({ platform }: { platform?: Platform }) =>
+  platform === undefined ||
+  (platform.charAt(0) !== "!" && platform === process.platform) ||
+  (platform.charAt(0) === "!" && platform !== `!${process.platform}`);
+
+const isEnabled = <PROPS>(command: ActionCommand<any, PROPS>) =>
+  (command.props as any)?.contentRef !== "required"
+  || !!BrowserWindow.getFocusedWindow();
 
 function buildMenuTemplate(
   store: Store<MainStateRecord, MainAction>,
@@ -44,32 +73,29 @@ function buildMenuTemplate(
     }),
 
     url: (label: string, url: string) => ({
-      label,
-      click: () => shell.openExternal(url),
+      label: processString(label),
+      click: () => shell.openExternal(processString(url)),
     }),
 
-    command: (label: string, options: {}, command: Command) => {
-      if ("mapToElectronRole" in command) {
-        return {
-          label,
+    command: (label: string, options: MenuitemOptions, command: Command) =>
+      "mapToElectronRole" in command
+        ? {
+          label: processString(label),
           role: command.mapToElectronRole,
-        };
-      } else {
-        return {
-          label,
-          click: () => {
-            const focusedWindow = BrowserWindow.getFocusedWindow();
-            if (focusedWindow) {
-              focusedWindow.webContents.send("command", command.name);
-            }
-          },
-        };
-      }
-    },
+          accelerator: acceleratorFor(command, options),
+          enabled: isEnabled(command),
+        }
+        : {
+          label: processString(label),
+          click: () => dispatchCommandInMain(command, options.props),
+          accelerator: acceleratorFor(command, options),
+          enabled: isEnabled(command),
+        },
 
     submenu: (label: string, options: SubmenuOptions, sub: MenuDefinition) => ({
       type: "submenu" as "submenu",
-      label,
+      label: processString(label),
+      role: options.role ?? undefined,
       submenu: Array.from(buildItems(sub)),
     }),
   };
@@ -84,16 +110,24 @@ function buildMenuTemplate(
         } else if (Array.isArray(item[item.length - 1])) {
           if (item.length === 2) {
             yield build.submenu(item[0], {}, item[1] as MenuDefinition);
-          } else {
-            yield build.submenu(...item as [string, {}, MenuDefinition]);
+          } else if (matchesPlatform(item[1] as SubmenuOptions)) {
+            yield build.submenu(
+              item[0],
+              item[1] as SubmenuOptions,
+              item[2] as MenuDefinition,
+            );
           }
         } else if (typeof item[1] === "string") {
           yield build.url(...item as [string, string])
         } else {
           if (item.length === 2) {
             yield build.command(item[0], {}, item[1] as Command);
-          } else {
-            yield build.command(item[0], item[2], item[1] as Command);
+          } else if (matchesPlatform(item[2] as MenuitemOptions)) {
+            yield build.command(
+              item[0],
+              item[2] as MenuitemOptions,
+              item[1] as Command,
+            );
           }
         }
       } else {

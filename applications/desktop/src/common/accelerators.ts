@@ -1,7 +1,9 @@
-export const accelerators = {
+import { Accelerators } from "./commands/types";
+
+export const accelerators: Accelerators = {
   ChangeCellToCode: "CmdOrCtrl+Shift+Y",
   ChangeCellToText: "CmdOrCtrl+Shift+M",
-  Close: { win32: "Alt+F4", others: "CmdOrCtrl+W"},
+  Close: { win32: "Alt+F4", others: "CmdOrCtrl+W" },
   Copy: "CmdOrCtrl+C",
   CopyCell: { others: "CmdOrCtrl+Shift+C", interceptEarly: true },
   Cut: "CmdOrCtrl+X",
@@ -17,7 +19,7 @@ export const accelerators = {
   NewNotebook: "CmdOrCtrl+N",
   Open: "CmdOrCtrl+O",
   Paste: "CmdOrCtrl+V",
-  PasteCell: "CmdOrCtrl+Shift+V",
+  PasteCell: { others: "CmdOrCtrl+Shift+V", interceptEarly: true },
   Quit: "Command+Q",
   Reload: "CmdOrCtrl+R",
   Save: "CmdOrCtrl+S",

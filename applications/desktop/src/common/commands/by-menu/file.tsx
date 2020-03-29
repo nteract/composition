@@ -5,16 +5,39 @@ import * as fs from "fs";
 import * as path from "path";
 import React from "react";
 import { promisify } from "util";
-import { launch } from "../../../main/launch";
-import { dispatchCommand } from "../dispatch";
-import { DesktopCommand, ElectronRoleCommand, OptFilepath, ReqContent, ReqKernelSpec } from "../types";
+import { launch, launchNewNotebook } from "../../../main/launch";
+import { dispatchCommandInRenderer } from "../dispatch";
+import { DesktopCommand, ElectronRoleCommand, ReqContent, ReqKernelSpec } from "../types";
 import { authenticate } from "../utils/auth";
 import { showSaveAsDialog } from "../utils/dialogs";
 import { systemDocumentDirectory } from "../utils/directories";
 import { FilePathMessage } from "../utils/notifications";
 
+export const Launch: DesktopCommand<{ filepath: string }> = {
+  name: "Launch",
+  props: {
+    filepath: "required",
+  },
+  runInMainThread({ filepath }) {
+    launch(filepath);
+  },
+};
+
+export const LaunchNewNotebook: DesktopCommand<
+  ReqKernelSpec & { filepath?: string }
+> = {
+  name: "LaunchNewNotebook",
+  props: {
+    kernelSpec: "required",
+    filepath: "optional",
+  },
+  runInMainThread({ kernelSpec, filepath }) {
+    launchNewNotebook(filepath ?? null, kernelSpec);
+  },
+};
+
 export const NewNotebook: DesktopCommand<
-  ReqContent & ReqKernelSpec & OptFilepath
+  ReqContent & ReqKernelSpec & { filepath?: string }
 > = {
   name: "NewNotebook",
   props: {
@@ -36,7 +59,7 @@ export const NewNotebook: DesktopCommand<
 export const Open: DesktopCommand = {
   name: "Open",
   props: {},
-  *makeActions() {
+  runInMainThread() {
     dialog.showOpenDialog({
       title: "Open a notebook",
       filters: [{ name: "Notebooks", extensions: ["ipynb"] }],
@@ -56,7 +79,7 @@ export const Open: DesktopCommand = {
 export const ClearRecentDocuments: ElectronRoleCommand = {
   name: "ClearRecentDocuments",
   mapToElectronRole: "clearrecentdocuments" as any,
-                      // Listed in docs, but not types
+                      // Listed in electron docs, but not types
 };
 
 export const SaveAs: DesktopCommand<ReqContent> = {
@@ -106,11 +129,9 @@ export const PublishGist: DesktopCommand<ReqContent> = {
 
     if (!store.getState().app.get("githubToken")) {
       yield makeGithubNotification("Authenticating...");
-
       yield actions.setGithubToken({
         githubToken: await authenticate("github"),
       });
-
       yield makeGithubNotification("Authenticated 🔒");
     }
 
@@ -136,8 +157,8 @@ export const ExportPDF: DesktopCommand<ReqContent> = {
         action: {
           label: "Save As & Export PDF",
           callback: () => {
-            dispatchCommand(store, SaveAs, props);
-            dispatchCommand(store, ExportPDF, props);
+            dispatchCommandInRenderer(store, SaveAs, props);
+            dispatchCommandInRenderer(store, ExportPDF, props);
           },
         },
       });

@@ -1,14 +1,20 @@
-import { app } from "electron";
+import * as path from "path";
 import { appName } from "./appname";
 import * as commands from "./commands";
 import { MenuDefinition } from "./commands/types";
+
+const examplesBaseDir = path
+  .join(__dirname, "..", "node_modules", "@nteract/examples")
+  .replace("app.asar", "app.asar.unpacked");
 
 export const tray: MenuDefinition = [
   ["&New", [
     {
       forEach: "kernelspec",
       create: spec =>
-        [spec.name, commands.NewNotebook],
+        [spec.name, commands.LaunchNewNotebook, { props: {
+          kernelSpec: spec,
+        }}],
     },
   ]],
   ["&Open", commands.Open],
@@ -21,7 +27,7 @@ export const menu: MenuDefinition = [
     ["Install Shell Command", commands.InstallShellCommand],
     [],
     ["Services", { role: "services" }, [
-      // filled by the system based on role
+      // filled by the system based on the above role
     ]],
     [],
     [`Hide ${appName}`, commands.Hide],
@@ -34,13 +40,16 @@ export const menu: MenuDefinition = [
     ["&New", [
       {
         forEach: "kernelspec",
-        create: spec => [spec.name, commands.NewNotebook],
+        create: spec =>
+          [spec.name, commands.LaunchNewNotebook, { props: {
+            kernelSpec: spec,
+          }}],
       },
     ]],
-    ["&Open", commands.Open],
-    ["Open Recent", { role: "recentDocuments", platform: "darwin" }, [
+    ["&Open", commands.Open],      // v-- Listed in electron docs, but not types
+    ["Open Recent", { role: "recentDocuments" as any, platform: "darwin" }, [
       ["Clear Recent", commands.ClearRecentDocuments],
-      // documents added by the system based on role
+      // documents added by the system based on the above role
     ]],
     ["Open E&xample Notebook", [
       {
@@ -48,12 +57,15 @@ export const menu: MenuDefinition = [
         create: item =>
           [item.language, item.files.map(file =>
             [file.metadata.title,
-              commands.Open, { params: { filepath: file.path } }]
+              commands.Launch, { props: {
+                filepath: path.join(examplesBaseDir, file.path),
+              } }]
           )],
       }
     ]],
     ["&Save", commands.Save],
     ["Save &As", commands.SaveAs],
+    [],
     ["&Publish", [
       ["&Gist", commands.PublishGist],
     ]],
@@ -122,7 +134,7 @@ export const menu: MenuDefinition = [
     ["Documentation", "https://docs.nteract.io"],
     ["Keyboard Shortcuts", "https://docs.nteract.io/#/desktop/shortcut-keys"],
     ["View nteract on GitHub", "https://github.com/nteract/nteract"],
-    // [`Release Notes (${app.getVersion()})`, `https://github.com/nteract/nteract/releases/tag/v${app.getVersion()}`],
+    ["Release Notes (<<version>>)", "https://github.com/nteract/nteract/releases/tag/v<<version>>"],
     ["Install Additional Kernels", "https://nteract.io/kernels"],
     [],
     ["Install Shell Command", commands.InstallShellCommand, { platform: "!darwin" }],

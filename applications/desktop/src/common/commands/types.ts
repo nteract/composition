@@ -4,32 +4,32 @@ import { Action, Store } from "redux";
 import { OptionalKeys, RequiredKeys } from "utility-types";
 import { DesktopStore } from "../../notebook/store";
 
-export type ActionGenerator =
-  | Generator<Action | Promise<Action>>
-  | AsyncGenerator<Action | Promise<Action>>
+export type Command =
+  | ActionCommand<any, any>
+  | ElectronRoleCommand
   ;
 
 export interface ActionCommand<STORE extends Store, PROPS> {
   name: string;
   props: { [key in RequiredKeys<PROPS>]: "required" }
        & { [key in OptionalKeys<PROPS>]: "optional" };
+  runInMainThread?: (props: PROPS) => void;
   makeAction?: (props: PROPS) => Action;
   makeActions?: (store: STORE, props: PROPS) => ActionGenerator;
 }
+
+export type ActionGenerator =
+  | Generator<Action | Promise<Action>>
+  | AsyncGenerator<Action | Promise<Action>>
+  ;
 
 export interface ElectronRoleCommand {
   name: string;
   mapToElectronRole: ElectronMenuItemRole;
 }
 
-export type Command =
-  | ActionCommand<any, any>
-  | ElectronRoleCommand
-  ;
-
 export interface ReqContent { contentRef: ContentRef }
 export interface ReqKernelSpec { kernelSpec: KernelspecInfo }
-export interface OptFilepath { filepath?: string }
 
 export type DesktopCommand<T = {}> = ActionCommand<DesktopStore, T>;
 
@@ -62,7 +62,7 @@ export interface DyanamicMenuItems<NAME extends string, T> {
 
 export interface MenuitemOptions {
   platform?: Platform;
-  params?: {};
+  props?: {};
 }
 
 export interface SubmenuOptions {
@@ -80,7 +80,6 @@ export type ElectronSubmenuRole =
   | "window"
   | "help"
   | "services"
-  | "recentDocuments"
   ;
 
 // from https://www.electronjs.org/docs/api/menu-item#roles
@@ -121,3 +120,14 @@ export type Platform =
   | "!linux"
   | "!darwin"
   ;
+
+// == Accelerators ==
+export interface Accelerators {
+  [commandName: string]: string | undefined | {
+    win32?: string;
+    linux?: string;
+    darwin?: string;
+    others?: string;
+    interceptEarly?: boolean;
+  }
+}

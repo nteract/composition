@@ -18,9 +18,9 @@ export function showSaveAsDialog(): Promise<string> {
       filters: [{ name: "Notebooks", extensions: ["ipynb"] }]
     };
 
-    // In Electron, we want an object we can merge into dialog opts, falling back
-    // to the defaults from the dialog by not defining defaultPath. Electron treats
-    // a literal undefined differently than this not being set.
+    // In Electron, we want an object we can merge into dialog opts, falling
+    // back to the defaults from the dialog by not defining defaultPath.
+    // Electron treats a literal undefined differently than this not being set.
     const defaultPath = systemDocumentDirectory();
     if (process.cwd() !== defaultPath) {
       options.defaultPath = defaultPath;
