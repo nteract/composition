@@ -1,14 +1,14 @@
-import { ConfigurationOption, createConfigOption } from "@nteract/mythic-configuration";
+import { ConfigurationOption, createConfigOption, setConfigFile } from "@nteract/mythic-configuration";
 import { KernelspecInfo, Kernelspecs } from "@nteract/types";
 import { app, BrowserWindow, dialog, Event, ipcMain as ipc, Menu, Tray } from "electron";
 import * as log from "electron-log";
 import { existsSync } from "fs";
-import { mkdirpObservable, readFileObservable, writeFileObservable } from "fs-observable";
+import { mkdirpObservable } from "fs-observable";
 import * as jupyterPaths from "jupyter-paths";
 import * as kernelspecs from "kernelspecs";
 import { join, resolve } from "path";
 import { forkJoin, fromEvent, Observable, Subscriber, zip } from "rxjs";
-import { buffer, catchError, first, mergeMap, skipUntil, takeUntil } from "rxjs/operators";
+import { buffer, first, mergeMap, skipUntil, takeUntil } from "rxjs/operators";
 import yargs from "yargs/yargs";
 import { QUITTING_STATE_NOT_STARTED, QUITTING_STATE_QUITTING, setKernelSpecs, setQuittingState } from "./actions";
 import { initAutoUpdater } from "./auto-updater";
@@ -19,7 +19,7 @@ import { loadFullMenu, loadTrayMenu } from "./menu";
 import prepareEnv from "./prepare-env";
 import configureStore from "./store";
 
-const store = configureStore({});
+const store = configureStore(undefined);
 
 // HACK: The main process store should not be stored in a global.
 (global as any).store = store;
@@ -76,27 +76,15 @@ const fullAppReady$ = zip(electronReady$, prepareEnv).pipe(first());
 const jupyterConfigDir = join(app.getPath("home"), ".jupyter");
 const nteractConfigFilename = join(jupyterConfigDir, "nteract.json");
 
+store.dispatch(setConfigFile(nteractConfigFilename));
+
 const prepJupyterObservable = prepareEnv.pipe(
   mergeMap(() =>
     // Create all the directories we need in parallel
     forkJoin(
       // Ensure the runtime Dir is setup for kernels
       mkdirpObservable(jupyterPaths.runtimeDir()),
-      // Ensure the config directory is all set up
-      mkdirpObservable(jupyterConfigDir)
-    )
-  ),
-  // Set up our configuration file
-  mergeMap(() =>
-    readFileObservable(nteractConfigFilename).pipe(
-      catchError(err => {
-        if (err.code === "ENOENT") {
-          return writeFileObservable(
-            nteractConfigFilename, "{}"
-          );
-        }
-        throw err;
-      })
+      // The config directory is taken care of by the configuration myths
     )
   ),
 );

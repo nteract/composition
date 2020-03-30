@@ -48,7 +48,7 @@ export const makeConfigureStore = <STATE>() => <DEPS>(
       })
     );
 
-  return (initialState: Partial<STATE>): Store<RecordOf<STATE>, MythicAction> => {
+  return (initialState?: Partial<STATE>): Store<RecordOf<STATE>, MythicAction> => {
     const baseEnhancer = applyMiddleware(
       ...(definition.epics ? [epicMiddleware] : []),
       ...(definition.epicMiddleware ?? []),
