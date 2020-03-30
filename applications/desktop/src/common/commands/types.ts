@@ -1,5 +1,6 @@
 import { ContentRef, KernelspecInfo } from "@nteract/core";
 import { ManifestItem } from "@nteract/examples";
+import { ConfigurationOption } from "@nteract/mythic-configuration";
 import { Action, Store } from "redux";
 import { OptionalKeys, RequiredKeys } from "utility-types";
 import { DesktopStore } from "../../notebook/store";
@@ -41,8 +42,9 @@ export type MenuDefinitionItem =
   | [string, MenuDefinition]
 
   // Dynamic Menu
-  | DyanamicMenuItems<"kernelspec", KernelspecInfo>
-  | DyanamicMenuItems<"example", ManifestItem>
+  | DynamicMenuItems<"kernelspec", KernelspecInfo>
+  | DynamicMenuItems<"example", ManifestItem>
+  | DynamicMenuItems<"preference", ConfigurationOption>
 
   // Menuitem
   | [string, Command, MenuitemOptions]
@@ -55,7 +57,7 @@ export type MenuDefinitionItem =
   | []
   ;
 
-export interface DyanamicMenuItems<NAME extends string, T> {
+export interface DynamicMenuItems<NAME extends string, T> {
   forEach: NAME;
   create: (item: T) => MenuDefinitionItem;
 }

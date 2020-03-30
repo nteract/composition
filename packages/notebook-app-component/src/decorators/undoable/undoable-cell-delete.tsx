@@ -8,7 +8,10 @@ import UndoableDelete from "./undoable-delete";
 
 export const {
   selector: deleteDelay,
-} = createConfigOption("deleteDelay")(10_000);
+} = createConfigOption({
+  key: "deleteDelay",
+  label: "Delay for undo-ing deletes",
+}, 10_000);
 
 interface InitialProps extends selectors.cell.CellAddress {
   children: React.ReactNode;

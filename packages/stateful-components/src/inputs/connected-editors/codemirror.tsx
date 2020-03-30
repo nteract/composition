@@ -5,7 +5,14 @@ import { connect } from "react-redux";
 
 const {
   selector: cursorBlinkRate,
-} = createConfigOption("cursorBlinkRate")(530);
+} = createConfigOption({
+  key: "cursorBlinkRate",
+  label: "Cursor blinking",
+  values: [
+    { value: 530, label: "On" },
+    { value: 0, label: "Off" },
+  ]
+}, 530);
 
 const markdownMode = {
   name: "gfm",

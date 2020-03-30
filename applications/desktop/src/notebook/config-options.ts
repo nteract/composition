@@ -3,4 +3,7 @@ import { createConfigOption } from "@nteract/mythic-configuration";
 export const {
   selector: defaultKernel,
   action: setDefaultKernel,
-} = createConfigOption("defaultKernel")("python3");
+} = createConfigOption({
+  key: "defaultKernel",
+  label: "Default kernel on startup",
+}, "python3");

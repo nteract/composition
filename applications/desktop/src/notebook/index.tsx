@@ -10,6 +10,7 @@ import { ContentRecord, ContentRef, createContentRef, makeAppRecord, makeCommsRe
 import DataExplorer from "@nteract/data-explorer";
 import WidgetDisplay from "@nteract/jupyter-widgets";
 import * as MathJax from "@nteract/mathjax";
+import { allConfigOptions } from "@nteract/mythic-configuration";
 import NotebookApp from "@nteract/notebook-app-component";
 import { Media } from "@nteract/outputs";
 
@@ -158,6 +159,8 @@ export default class App extends React.PureComponent {
     );
   }
 }
+
+ipc.send("transfer-config-options-to-main", allConfigOptions());
 
 const app = document.querySelector("#app");
 

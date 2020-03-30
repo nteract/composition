@@ -12,9 +12,7 @@ export const tray: MenuDefinition = [
     {
       forEach: "kernelspec",
       create: spec =>
-        [spec.name, commands.LaunchNewNotebook, { props: {
-          kernelSpec: spec,
-        }}],
+        [spec.name, commands.LaunchNewNotebook, { props: { kernelSpec: spec }}],
     },
   ]],
   ["&Open", commands.Open],
@@ -41,9 +39,7 @@ export const menu: MenuDefinition = [
       {
         forEach: "kernelspec",
         create: spec =>
-          [spec.name, commands.LaunchNewNotebook, { props: {
-            kernelSpec: spec,
-          }}],
+          [spec.name, commands.LaunchNewNotebook, {props: {kernelSpec: spec}}],
       },
     ]],
     ["&Open", commands.Open],      // v-- Listed in electron docs, but not types
@@ -61,7 +57,7 @@ export const menu: MenuDefinition = [
                 filepath: path.join(examplesBaseDir, file.path),
               } }]
           )],
-      }
+      },
     ]],
     ["&Save", commands.Save],
     ["Save &As", commands.SaveAs],
@@ -121,7 +117,18 @@ export const menu: MenuDefinition = [
     {
       forEach: "kernelspec",
       create: spec =>
-        [spec.name, commands.NewKernel],
+        [spec.name, commands.NewKernel, { props: { kernelSpec: spec } }],
+    },
+  ]],
+  ["Preferences", [
+    {
+      forEach: "preference",
+      create: item =>
+        [item.label, (item.values ?? []).map(value => [
+          value.label,
+          commands.SetPreference,
+          { props: { key: item.key, value: value.value } },
+        ])],
     },
   ]],
   ["Window", { role: "window" }, [

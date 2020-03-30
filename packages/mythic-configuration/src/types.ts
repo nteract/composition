@@ -17,5 +17,14 @@ export interface ConfigurationState {
   current: Configuration;
 }
 
+export interface ConfigurationOption<TYPE = any> {
+  label: string;
+  key: string;
+  values?: Array<{
+    label: string;
+    value: TYPE;
+  }>;
+}
+
 export type HasPrivateConfigurationState =
   RootState<"configuration", ConfigurationState>;

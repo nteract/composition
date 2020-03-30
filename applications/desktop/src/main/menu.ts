@@ -1,4 +1,5 @@
 import { manifest as examplesManifest } from "@nteract/examples";
+import { allConfigOptions, ConfigurationOption } from "@nteract/mythic-configuration";
 import { app, BrowserWindow, globalShortcut, Menu, MenuItemConstructorOptions, shell } from "electron";
 import sortBy from "lodash.sortby";
 import { Store } from "redux";
@@ -65,6 +66,7 @@ function buildMenuTemplate(
   const collections = {
     kernelspec: sortBy(store.getState().kernelSpecs ?? {}, "spec.display_name"),
     example: examplesManifest,
+    preference: allConfigOptions().filter(x => x.values !== undefined),
   };
 
   const build = {
@@ -83,7 +85,6 @@ function buildMenuTemplate(
           label: processString(label),
           role: command.mapToElectronRole,
           accelerator: acceleratorFor(command, options),
-          enabled: isEnabled(command),
         }
         : {
           label: processString(label),

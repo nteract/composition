@@ -136,9 +136,10 @@ export function downloadString(
   FileSaver.saveAs(blob, filename);
 }
 
-const {
-  selector: autoSaveInterval,
-} = createConfigOption("autoSaveInterval")(120_000);
+const { selector: autoSaveInterval } = createConfigOption({
+  key: "autoSaveInterval",
+  label: "Auto-save interval",
+}, 120_000);
 
 export function autoSaveCurrentContentEpic(
   action$: ActionsObservable<Action>,

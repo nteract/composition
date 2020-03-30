@@ -7,7 +7,14 @@ import { connect } from "react-redux";
 export const {
   selector: getTheme,
   action: setTheme,
-} = createConfigOption("theme")("light");
+} = createConfigOption({
+  key: "theme",
+  label: "Theme",
+  values: [
+    { value: "light", label: "Light" },
+    { value: "dark", label: "Dark" },
+  ]
+}, "light");
 
 interface ComponentProps {
   children: React.ReactNode;

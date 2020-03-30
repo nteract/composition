@@ -1,3 +1,4 @@
+import { ConfigurationOption, createConfigOption } from "@nteract/mythic-configuration";
 import * as log from "electron-log";
 import { existsSync } from "fs";
 import * as jupyterPaths from "jupyter-paths";
@@ -67,6 +68,11 @@ const argv = yargs()
 log.info("args", argv);
 
 const notebooks = argv._.filter(x => /(.ipynb)$/.test(x));
+
+ipc.on("transfer-config-options-to-main",
+  (_event: any, options: ConfigurationOption[]) => {
+    options.forEach(each => createConfigOption(each, null, true));
+  });
 
 ipc.on("new-kernel", (_event: any, k: KernelspecInfo) => {
   launchNewNotebook(null, k);

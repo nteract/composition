@@ -6,7 +6,10 @@ import { Dispatch } from "redux";
 
 const {
   selector: editorType,
-} = createConfigOption("editorType")("codemirror");
+} = createConfigOption({
+  key: "editorType",
+  label: "Editor type",
+}, "codemirror");
 
 interface ComponentProps {
   id: string;

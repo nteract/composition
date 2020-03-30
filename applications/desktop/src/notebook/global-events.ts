@@ -1,20 +1,12 @@
-import { actions, createKernelRef, KernelspecInfo, selectors } from "@nteract/core";
-import { ContentRef } from "@nteract/core";
+import { actions, ContentRef, createKernelRef, KernelspecInfo, selectors } from "@nteract/core";
 import { setConfigFile } from "@nteract/mythic-configuration";
-import { ipcRenderer as ipc, remote } from "electron";
+import { Event, ipcRenderer as ipc, remote } from "electron";
 import * as path from "path";
-import { Store } from "redux";
 import { NewNotebook } from "../common/commands";
 import { dispatchCommandInRenderer } from "../common/commands/dispatch";
 import { ReqContent, ReqKernelSpec } from "../common/commands/types";
-
-import { Actions, closeNotebook } from "./actions";
-import { DesktopNotebookAppState } from "./state";
-import {
-  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
-  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
-} from "./state";
-
+import { closeNotebook } from "./actions";
+import { DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED, DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE } from "./state";
 import { DesktopStore } from "./store";
 
 export function onBeforeUnloadOrReload(
