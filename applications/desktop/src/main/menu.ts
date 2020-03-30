@@ -63,10 +63,26 @@ function buildMenuTemplate(
   store: Store<MainStateRecord, MainAction>,
   structure: MenuDefinition,
 ) {
+  const kernelspecs = sortBy(store.getState().kernelSpecs ?? {}, "spec.display_name");
   const collections = {
-    kernelspec: sortBy(store.getState().kernelSpecs ?? {}, "spec.display_name"),
+    kernelspec: kernelspecs,
     example: examplesManifest,
-    preference: allConfigOptions().filter(x => x.values !== undefined),
+    preference: allConfigOptions()
+      .filter(x => x.values !== undefined || x.valuesFrom === "kernelspecs")
+      .map(x => {
+        if (x.valuesFrom === "kernelspecs") {
+          return {
+            ...x,
+            values: kernelspecs.map(spec => ({
+              value: spec.name,
+              label: spec.spec.display_name,
+            }))
+          }
+        }
+        else {
+          return x;
+        }
+      }),
   };
 
   const build = {

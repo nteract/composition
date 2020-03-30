@@ -1,8 +1,9 @@
+import { fromJS, RecordOf } from "immutable";
 import { applyMiddleware, combineReducers, createStore, Middleware, ReducersMapObject, Store } from "redux";
 import { ActionsObservable, combineEpics, createEpicMiddleware, Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { MythicAction, MythicPackage } from "./types";
+import { MythicAction, MythicPackage, RootState } from "./types";
 
 export const makeConfigureStore = <STATE>() => <DEPS>(
   definition: {
@@ -47,19 +48,21 @@ export const makeConfigureStore = <STATE>() => <DEPS>(
       })
     );
 
-  return (initialState: Partial<STATE>): Store<STATE, MythicAction> => {
+  return (initialState: Partial<STATE>): Store<RecordOf<STATE>, MythicAction> => {
     const baseEnhancer = applyMiddleware(
-      epicMiddleware,
+      ...(definition.epics ? [epicMiddleware] : []),
       ...(definition.epicMiddleware ?? []),
     );
     const store = createStore(
       rootReducer,
-      (initialState as unknown) as any,
+      initialState as any,
       definition.enhancer
         ? definition.enhancer(baseEnhancer)
         : baseEnhancer,
     );
-    epicMiddleware.run(rootEpic);
+    if (definition.epics) {
+      epicMiddleware.run(rootEpic);
+    }
 
     return store as any;
   };

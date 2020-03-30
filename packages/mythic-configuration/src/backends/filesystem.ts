@@ -2,8 +2,8 @@ import { mapErrorTo } from "@nteract/myths";
 import { mkdirpObservable, readFileObservable, watchFileObservable, writeFileObservable } from "fs-observable";
 import { Map } from "immutable";
 import * as path from "path";
-import { concat, EMPTY, of } from "rxjs";
-import { map, mapTo, mergeMapTo, skipWhile } from "rxjs/operators";
+import { concat, of } from "rxjs";
+import { map, mapTo, skipWhile } from "rxjs/operators";
 import { ConfigurationBackend } from "..";
 import { loadConfig } from "../myths/load-config";
 import { mergeConfig } from "../myths/merge-config";
@@ -31,9 +31,7 @@ const filesystemConfigurationBackend = (filename: string) => ({
   save: (current: Map<string, any>) =>
     concat(
       mkdirpObservable(path.dirname(filename)),
-      writeFileObservable(filename, JSON.stringify(current.toJSON())).pipe(
-        mergeMapTo(EMPTY),
-      ),
+      writeFileObservable(filename, JSON.stringify(current.toJSON())),
     ),
 } as ConfigurationBackend);
 

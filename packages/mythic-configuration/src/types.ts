@@ -9,7 +9,7 @@ export type Configuration = Map<string, any>;
 export interface ConfigurationBackend {
   setup: () => Observable<typeof loadConfig.action>,
   load: () => Observable<typeof mergeConfig.action>
-  save: (current: Configuration) => Observable<never>,
+  save: (current: Configuration) => Observable<any>,
 }
 
 export interface ConfigurationState {
@@ -20,6 +20,7 @@ export interface ConfigurationState {
 export interface ConfigurationOption<TYPE = any> {
   label: string;
   key: string;
+  valuesFrom?: "kernelspecs";
   values?: Array<{
     label: string;
     value: TYPE;

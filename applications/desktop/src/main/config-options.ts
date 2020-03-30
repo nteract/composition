@@ -6,4 +6,5 @@ export const {
 } = createConfigOption({
   key: "defaultKernel",
   label: "Default kernel on startup",
+  valuesFrom: "kernelspecs",
 }, "python3");

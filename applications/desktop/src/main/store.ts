@@ -1,15 +1,25 @@
-import { middlewares as coreMiddlewares } from "@nteract/core";
-import { applyMiddleware, compose, createStore, Middleware, Store } from "redux";
+import { Kernelspecs, middlewares as coreMiddlewares } from "@nteract/core";
+import { configuration } from "@nteract/mythic-configuration";
+import { makeConfigureStore } from "@nteract/myths";
+import { AnyAction } from "redux";
+import { QUITTING_STATE_NOT_STARTED, QuittingState } from "./actions";
+import { MainStateProps } from "./reducers";
 
-import reducers, { MainAction, MainStateRecord } from "./reducers";
-
-const middlewares: Middleware[] = [];
-
-/* istanbul ignore if -- only used for debugging */
-if (process.env.DEBUG === "true") {
-  middlewares.push(coreMiddlewares.logger());
-}
-
-export default function configureStore(): Store<MainStateRecord, MainAction> {
-  return createStore(reducers, compose(applyMiddleware(...middlewares)));
-}
+export const configureStore = makeConfigureStore<MainStateProps>()({
+  packages: [
+    configuration,
+  ],
+  reducers: {
+    kernelSpecs: (state: Kernelspecs = {}, action: AnyAction) =>
+      action.type === "SET_KERNELSPECS" ? action.payload.kernelSpecs : state,
+    quittingState: (
+      state: QuittingState = QUITTING_STATE_NOT_STARTED, action: AnyAction
+    ) =>
+      action.type === "SET_QUITTING_STATE" ? action.payload.newState : state,
+  },
+  epicMiddleware:
+    process.env.DEBUG === "true"
+      ? [coreMiddlewares.logger()]
+      : [],
+});
+export default configureStore;

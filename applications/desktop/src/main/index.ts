@@ -1,53 +1,25 @@
 import { ConfigurationOption, createConfigOption } from "@nteract/mythic-configuration";
+import { KernelspecInfo, Kernelspecs } from "@nteract/types";
+import { app, BrowserWindow, dialog, Event, ipcMain as ipc, Menu, Tray } from "electron";
 import * as log from "electron-log";
 import { existsSync } from "fs";
+import { mkdirpObservable, readFileObservable, writeFileObservable } from "fs-observable";
 import * as jupyterPaths from "jupyter-paths";
 import * as kernelspecs from "kernelspecs";
 import { join, resolve } from "path";
-import yargs from "yargs/yargs";
-
-import { KernelspecInfo, Kernelspecs } from "@nteract/types";
-
-import {
-  app,
-  BrowserWindow,
-  dialog,
-  Event,
-  ipcMain as ipc,
-  Menu,
-  Tray
-} from "electron";
-import {
-  mkdirpObservable,
-  readFileObservable,
-  writeFileObservable
-} from "fs-observable";
 import { forkJoin, fromEvent, Observable, Subscriber, zip } from "rxjs";
-import {
-  buffer,
-  catchError,
-  first,
-  mergeMap,
-  skipUntil,
-  takeUntil,
-  tap
-} from "rxjs/operators";
-
-import {
-  QUITTING_STATE_NOT_STARTED,
-  QUITTING_STATE_QUITTING,
-  setKernelSpecs,
-  setQuittingState
-} from "./actions";
+import { buffer, catchError, first, mergeMap, skipUntil, takeUntil } from "rxjs/operators";
+import yargs from "yargs/yargs";
+import { QUITTING_STATE_NOT_STARTED, QUITTING_STATE_QUITTING, setKernelSpecs, setQuittingState } from "./actions";
 import { initAutoUpdater } from "./auto-updater";
+import { defaultKernel } from "./config-options";
 import initializeKernelSpecs from "./kernel-specs";
 import { launch, launchNewNotebook } from "./launch";
 import { loadFullMenu, loadTrayMenu } from "./menu";
 import prepareEnv from "./prepare-env";
-
 import configureStore from "./store";
 
-const store = configureStore();
+const store = configureStore({});
 
 // HACK: The main process store should not be stored in a global.
 (global as any).store = store;
@@ -104,10 +76,6 @@ const fullAppReady$ = zip(electronReady$, prepareEnv).pipe(first());
 const jupyterConfigDir = join(app.getPath("home"), ".jupyter");
 const nteractConfigFilename = join(jupyterConfigDir, "nteract.json");
 
-const CONFIG = {
-  defaultKernel: "python3"
-};
-
 const prepJupyterObservable = prepareEnv.pipe(
   mergeMap(() =>
     // Create all the directories we need in parallel
@@ -124,21 +92,13 @@ const prepJupyterObservable = prepareEnv.pipe(
       catchError(err => {
         if (err.code === "ENOENT") {
           return writeFileObservable(
-            nteractConfigFilename,
-            JSON.stringify({
-              theme: "light"
-            })
+            nteractConfigFilename, "{}"
           );
         }
         throw err;
       })
     )
   ),
-  tap(file => {
-    if (file) {
-      Object.assign(CONFIG, JSON.parse(file.toString("utf8")));
-    }
-  })
 );
 
 const kernelSpecsPromise = prepJupyterObservable
@@ -285,15 +245,12 @@ openFile$
 
     const cliLaunchNewNotebook = (filepath: string | null) => {
       kernelSpecsPromise.then((specs: Kernelspecs) => {
-        let kernel: string;
+        let kernel: string = defaultKernel(store.getState());
         const passedKernel = argv.kernel as string;
-        const defaultKernel = CONFIG.defaultKernel;
 
         if (passedKernel && passedKernel in specs) {
           kernel = passedKernel;
-        } else if (defaultKernel && defaultKernel in specs) {
-          kernel = defaultKernel;
-        } else {
+        } else if (!kernel && !(kernel in specs)) {
           const specList = Object.keys(specs);
           specList.sort();
           kernel = specList[0];
