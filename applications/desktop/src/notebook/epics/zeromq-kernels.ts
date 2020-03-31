@@ -16,7 +16,7 @@ import {
 } from "enchannel-zmq-backend";
 import * as jmp from "jmp";
 import sample from "lodash.sample";
-import { ActionsObservable, ofType, StateObservable } from "redux-observable";
+import { ofType, StateObservable } from "redux-observable";
 import { empty, merge, Observable, of, Subscriber } from "rxjs";
 import {
   catchError,
@@ -173,7 +173,7 @@ export const kernelSpecsObservable: Observable<Kernelspecs> = new Observable<
 });
 
 export const launchKernelByNameEpic = (
-  action$: ActionsObservable<actions.LaunchKernelByNameAction>
+  action$: Observable<actions.LaunchKernelByNameAction>
 ): Observable<Actions> =>
   action$.pipe(
     ofType(actions.LAUNCH_KERNEL_BY_NAME),
@@ -219,7 +219,7 @@ type LaunchKernelResponseActions =
  * @param  {ActionObservable} action$  ActionObservable for LAUNCH_KERNEL action
  */
 export const launchKernelEpic = (
-  action$: ActionsObservable<actions.LaunchKernelAction>,
+  action$: Observable<actions.LaunchKernelAction>,
   state$: StateObservable<AppState>
 ): Observable<Actions> => {
   const response$ = action$.pipe(
@@ -293,7 +293,7 @@ type InterruptActions =
   | actions.InterruptKernelSuccessful;
 
 export const interruptKernelEpic = (
-  action$: ActionsObservable<actions.InterruptKernel>,
+  action$: Observable<actions.InterruptKernel>,
   state$: StateObservable<AppState>
 ): Observable<InterruptActions> =>
   action$.pipe(
@@ -366,7 +366,7 @@ function killSpawn(spawn: ChildProcess): void {
 // shutdown by sending a shutdown msg to the kernel, and only if the kernel
 // doesn't respond promptly does it SIGKILL the kernel.
 export const killKernelEpic = (
-  action$: ActionsObservable<actions.KillKernelAction>,
+  action$: Observable<actions.KillKernelAction>,
   state$: StateObservable<AppState>
 ): Observable<Actions> =>
   action$.pipe(
@@ -451,7 +451,7 @@ export const killKernelEpic = (
   ) as Observable<Actions>;
 
 export function watchSpawn(
-  action$: ActionsObservable<actions.NewKernelAction>
+  action$: Observable<actions.NewKernelAction>
 ) {
   return action$.pipe(
     ofType(actions.LAUNCH_KERNEL_SUCCESSFUL),

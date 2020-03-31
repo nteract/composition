@@ -2,8 +2,8 @@ import * as actions from "@nteract/actions";
 import { mockAppState } from "@nteract/fixtures";
 import { createExecuteRequest, createMessage } from "@nteract/messaging";
 import * as stateModule from "@nteract/types";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { empty, from, of, Subject } from "rxjs";
+import { StateObservable } from "redux-observable";
+import { empty, from, Observable, of, Subject } from "rxjs";
 import { catchError, share, toArray } from "rxjs/operators";
 
 import {
@@ -182,7 +182,7 @@ describe("createExecuteCellStream", () => {
         }
       }
     };
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({
         id: "id",
         message: "test",
@@ -241,7 +241,7 @@ describe("createExecuteCellStream", () => {
         }
       }
     };
-    const action$ = ActionsObservable.from([]);
+    const action$ = from([]);
     const message = createExecuteRequest("source");
 
     const observable = createExecuteCellStream(
@@ -306,7 +306,7 @@ describe("executeCellEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeCell({ id: "0", contentRef: "fakeContentRef" })
     );
     const responses = await executeCellEpic(action$, state$)
@@ -334,7 +334,7 @@ describe("executeCellEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeCell({ id: "0", contentRef: "fakeContentRef" })
     );
     const responses = await executeCellEpic(action$, state$)
@@ -365,9 +365,9 @@ describe("sendExecuteRequestEpic", () => {
 
   test("Errors on a bad action", done => {
     // Make one hot action
-    const badAction$ = ActionsObservable.of(
+    const badAction$ = of(
       actions.sendExecuteRequest({ id: "id", contentRef: "fakeContentRef" })
-    ).pipe(share()) as ActionsObservable<any>;
+    ).pipe(share()) as Observable<any>;
     const responseActions = sendExecuteRequestEpic(badAction$, state$).pipe(
       catchError(error => {
         expect(error.message).toEqual("execute cell needs an id");
@@ -385,9 +385,9 @@ describe("sendExecuteRequestEpic", () => {
   });
 
   test("Errors on an action where source not a string", done => {
-    const badAction$ = ActionsObservable.of(
+    const badAction$ = of(
       actions.sendExecuteRequest({ id: "id", contentRef: "fakeContentRef" })
-    ).pipe(share()) as ActionsObservable<any>;
+    ).pipe(share()) as Observable<any>;
     const responseActions = sendExecuteRequestEpic(badAction$, state$).pipe(
       catchError(error => {
         expect(error.message).toEqual("execute cell needs source string");
@@ -431,7 +431,7 @@ describe("sendExecuteRequestEpic", () => {
       new Subject(),
       disconnectedState
     );
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: "first", contentRef: "fakeContentRef" })
     );
     const responses = await sendExecuteRequestEpic(action$, disconnectedState$)
@@ -476,7 +476,7 @@ describe("executeCellAfterKernelLaunchEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.launchKernelSuccessful({
         contentRef: "fakeContentRef",
         kernel: fakeKernel,
@@ -540,7 +540,7 @@ describe("executeCellAfterKernelLaunchEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.launchKernelSuccessful({
         contentRef: "fakeContentRef",
         kernel: fakeKernel,
@@ -583,7 +583,7 @@ describe("lazyLaunchKernelEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeCell({ id: "0", contentRef: "fakeContentRef" }),
       actions.executeCell({ id: "1", contentRef: "fakeContentRef" }),
       actions.executeCell({ id: "2", contentRef: "fakeContentRef" })
@@ -636,7 +636,7 @@ describe("updateDisplayEpic", () => {
     ];
 
     const channels = from(messages);
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actions.LAUNCH_KERNEL_SUCCESSFUL,
       payload: {
         kernel: {
@@ -684,7 +684,7 @@ describe("updateDisplayEpic", () => {
 describe("sendInputReplyEpic", () => {
   it("does nothing if there is no active kernel", done => {
     const state = mockAppState({});
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendInputReply({ contentRef: "noKernelForMe" })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -723,7 +723,7 @@ describe("sendInputReplyEpic", () => {
       }
     };
     const contentRef = state.core.entities.contents.byRef.keySeq().first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendInputReply({ contentRef })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -743,7 +743,7 @@ describe("sendInputReplyEpic", () => {
 describe("executeAllCellsEpic", () => {
   test("does nothing if the model is not a notebook", done => {
     const state = mockAppState({});
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeAllCells({ contentRef: "noContentForMe" })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -760,7 +760,7 @@ describe("executeAllCellsEpic", () => {
   test("does nothing if the model is not a notebook", done => {
     const state = mockAppState({ codeCellCount: 2 });
     const contentRef = state.core.entities.contents.byRef.keySeq().first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeAllCells({ contentRef })
     );
     const state$ = new StateObservable(new Subject(), state);

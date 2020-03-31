@@ -216,7 +216,7 @@
     "react-test-renderer": "^16.2.0",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "redux-observable": "^1.0.0",
+    "redux-observable": "^2.0.0-alpha.0",
     "regenerator-runtime": "^0.13.0",
     "remark-parse": "^7.0.0",
     "remark-stringify": "^7.0.0",

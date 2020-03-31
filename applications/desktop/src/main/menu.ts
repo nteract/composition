@@ -64,10 +64,11 @@ function buildMenuTemplate(
   structure: MenuDefinition,
 ) {
   const kernelspecs = sortBy(store.getState().kernelSpecs ?? {}, "spec.display_name");
+  console.log(allConfigOptions(store.getState()));
   const collections = {
     kernelspec: kernelspecs,
     example: examplesManifest,
-    preference: allConfigOptions()
+    preference: allConfigOptions(store.getState())
       .filter(x => x.values !== undefined || x.valuesFrom === "kernelspecs")
       .map(x => {
         if (x.valuesFrom === "kernelspecs") {
@@ -98,11 +99,15 @@ function buildMenuTemplate(
     command: (label: string, options: MenuitemOptions, command: Command) =>
       "mapToElectronRole" in command
         ? {
+          type: options.type ?? "normal" as "normal",
+          checked: options.isChecked,
           label: processString(label),
           role: command.mapToElectronRole,
           accelerator: acceleratorFor(command, options),
         }
         : {
+          type: options.type ?? "normal" as "normal",
+          checked: options.isChecked,
           label: processString(label),
           click: () => dispatchCommandInMain(command, options.props),
           accelerator: acceleratorFor(command, options),

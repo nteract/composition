@@ -1,14 +1,14 @@
-import { actions, makeAppRecord } from "@nteract/core";
+import { actions } from "@nteract/core";
 import { mockAppState } from "@nteract/fixtures";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { publishEpic } from "../../../src/notebook/epics/github-publish";
+import { StateObservable } from "redux-observable";
 
-import { Subject } from "rxjs";
+import { of, Subject } from "rxjs";
 import { toArray } from "rxjs/operators";
+import { publishEpic } from "../../../src/notebook/epics/github-publish";
 
 describe("publishEpic", () => {
   it("does nothing if no content ref is provided", done => {
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.publishGist({ contentRef: undefined })
     );
     const state$ = new StateObservable(new Subject(), {});
@@ -23,7 +23,7 @@ describe("publishEpic", () => {
     );
   });
   it("does nothing if there is no content", done => {
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.publishGist({ contentRef: "" })
     );
     const state$ = new StateObservable(new Subject(), {});
@@ -42,7 +42,7 @@ describe("publishEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(actions.publishGist({ contentRef }));
+    const action$ = of(actions.publishGist({ contentRef }));
     const state$ = new StateObservable(new Subject(), state);
     const obs = publishEpic(action$, state$);
     obs.pipe(toArray()).subscribe(

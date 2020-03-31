@@ -1,9 +1,9 @@
-import { fromJS, RecordOf } from "immutable";
+import { RecordOf } from "immutable";
 import { applyMiddleware, combineReducers, createStore, Middleware, ReducersMapObject, Store } from "redux";
-import { ActionsObservable, combineEpics, createEpicMiddleware, Epic, StateObservable } from "redux-observable";
+import { combineEpics, createEpicMiddleware, Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { MythicAction, MythicPackage, RootState } from "./types";
+import { MythicAction, MythicPackage } from "./types";
 
 export const makeConfigureStore = <STATE>() => <DEPS>(
   definition: {
@@ -33,14 +33,13 @@ export const makeConfigureStore = <STATE>() => <DEPS>(
   });
 
   const rootEpic = (
-    action$: ActionsObservable<any>,
+    action$: Observable<any>,
     store$: StateObservable<any>,
     dependencies: any,
   ) =>
     combineEpics(
       ...(definition.epics ?? []),
-      ...definition.packages
-        .map(pkg => pkg.makeRootEpic()),
+      ...definition.packages.map(pkg => pkg.makeRootEpic()),
     )(action$, store$, dependencies).pipe(
       catchError((error: any, source: Observable<any>) => {
         console.error(error);
@@ -48,22 +47,21 @@ export const makeConfigureStore = <STATE>() => <DEPS>(
       })
     );
 
-  return (initialState?: Partial<STATE>): Store<RecordOf<STATE>, MythicAction> => {
-    const baseEnhancer = applyMiddleware(
-      ...(definition.epics ? [epicMiddleware] : []),
-      ...(definition.epicMiddleware ?? []),
-    );
-    const store = createStore(
-      rootReducer,
-      initialState as any,
-      definition.enhancer
-        ? definition.enhancer(baseEnhancer)
-        : baseEnhancer,
-    );
-    if (definition.epics) {
+  return (initialState?: Partial<STATE>):
+    Store<RecordOf<STATE>, MythicAction> => {
+      const baseEnhancer = applyMiddleware(
+        epicMiddleware,
+        ...(definition.epicMiddleware ?? []),
+      );
+      const store = createStore(
+        rootReducer,
+        initialState as any,
+        definition.enhancer
+          ? definition.enhancer(baseEnhancer)
+          : baseEnhancer,
+      );
       epicMiddleware.run(rootEpic);
-    }
 
-    return store as any;
-  };
+      return store as any;
+    };
 };

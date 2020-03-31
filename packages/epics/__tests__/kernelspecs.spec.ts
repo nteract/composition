@@ -1,7 +1,5 @@
-import { ActionsObservable } from "redux-observable";
-import { toArray } from "rxjs/operators";
-
 import { fetchKernelspecs } from "@nteract/actions";
+import { toArray } from "rxjs/operators";
 import { fetchKernelspecsEpic } from "../src/kernelspecs";
 
 describe("fetchKernelspecsEpic", () => {
@@ -10,7 +8,7 @@ describe("fetchKernelspecsEpic", () => {
       kernelspecsRef: "fake",
       hostRef: "alsoFake"
     });
-    const action$ = ActionsObservable.of(action);
+    const action$ = of(action);
     const state$ = {
       value: {
         app: {

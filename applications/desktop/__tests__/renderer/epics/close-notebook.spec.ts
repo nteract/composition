@@ -1,21 +1,13 @@
-import {
-  actions as coreActions,
-  makeDocumentRecord,
-  makeNotebookContentRecord,
-  state as stateModule
-} from "@nteract/core";
+import { actions as coreActions, makeDocumentRecord, makeNotebookContentRecord, state as stateModule } from "@nteract/core";
 import * as Immutable from "immutable";
-import { ActionsObservable } from "redux-observable";
+import { of } from "rxjs";
 import { toArray } from "rxjs/operators";
 import { TestScheduler } from "rxjs/testing";
 
 import { ipcRenderer as ipc } from "../../../__mocks__/electron";
 import * as actions from "../../../src/notebook/actions";
 import { closeNotebookEpic } from "../../../src/notebook/epics/close-notebook";
-import {
-  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
-  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
-} from "../../../src/notebook/state";
+import { DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED, DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE } from "../../../src/notebook/state";
 
 const buildScheduler = () =>
   new TestScheduler((actual, expected) => expect(actual).toEqual(expected));
@@ -68,7 +60,7 @@ describe("closeNotebookEpic", () => {
 
       const state = buildState(true);
       const responses = await closeNotebookEpic(
-        ActionsObservable.of(
+        of(
           actions.closeNotebook({ contentRef: "contentRef1" })
         ),
         { value: state }
@@ -108,7 +100,7 @@ describe("closeNotebookEpic", () => {
 
       const state = buildState(true);
       const responses = await closeNotebookEpic(
-        ActionsObservable.of(
+        of(
           actions.closeNotebook({ contentRef: "contentRef1" })
         ),
         { value: state }
@@ -231,7 +223,7 @@ describe("closeNotebookEpic", () => {
 
     const state = buildState(false);
     const responses = await closeNotebookEpic(
-      ActionsObservable.of(
+      of(
         actions.closeNotebook({ contentRef: "contentRef1" })
       ),
       { value: state }

@@ -1,5 +1,5 @@
 import { notifications, sendNotification } from "@nteract/mythic-notifications";
-import { ActionsObservable } from "redux-observable";
+import { Observable } from "rxjs";
 import { TestScheduler } from "rxjs/testing";
 
 const buildScheduler = () =>
@@ -60,7 +60,7 @@ describe("notifications", () => {
       const inputMarbles  = "ab|";
       const outputMarbles = "AB|";
 
-      const inputAction$ = new ActionsObservable(
+      const inputAction$ = new Observable(
         hot(inputMarbles, inputActions),
       );
       const outputAction$ = notifications.makeRootEpic()(

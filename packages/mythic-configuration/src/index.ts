@@ -1,6 +1,7 @@
+import { Store } from "redux";
 import { setConfigAtKey } from "./myths/set-config-at-key";
 import { configuration } from "./package";
-import { ConfigurationOption } from "./types";
+import { ConfigurationOption, HasPrivateConfigurationState } from "./types";
 
 export { setConfigFile } from "./backends/filesystem"
 export { configuration } from "./package";
@@ -28,4 +29,14 @@ export const createConfigOption = <TYPE>(
   };
 };
 
-export const allConfigOptions = () => Object.values(options);
+export const allConfigOptions = (state?: HasPrivateConfigurationState) => {
+  const all = Object.values(options);
+
+  if (state !== undefined) {
+    console.log(state.__private__.configuration.current);
+    return all.map(x => ({...x, value: state.__private__.configuration.current.get(x.key)}))
+  }
+  else {
+    return all;
+  }
+}

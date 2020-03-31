@@ -1,30 +1,21 @@
+import { commMessageAction, commOpenAction, KILL_KERNEL_SUCCESSFUL, KillKernelSuccessful, LAUNCH_KERNEL_SUCCESSFUL, NewKernelAction } from "@nteract/actions";
 import { ofMessageType } from "@nteract/messaging";
-import { ofType, StateObservable } from "redux-observable";
-import { ActionsObservable } from "redux-observable";
-import { merge } from "rxjs";
-import { map, switchMap, takeUntil, filter } from "rxjs/operators";
-
-import {
-  commMessageAction,
-  commOpenAction,
-  KILL_KERNEL_SUCCESSFUL,
-  LAUNCH_KERNEL_SUCCESSFUL,
-  NewKernelAction,
-  KillKernelSuccessful
-} from "@nteract/actions";
 import * as selectors from "@nteract/selectors";
 import { AppState } from "@nteract/types";
+import { ofType, StateObservable } from "redux-observable";
+import { merge, Observable } from "rxjs";
+import { filter, map, switchMap, takeUntil } from "rxjs/operators";
 
 import { ipywidgetsModel$ } from "./ipywidgets";
 
 /**
  * An epic that emits comm actions from the backend kernel
- * @param  {ActionsObservable} action$ Action Observable from redux-observable
+ * @param  {Observable} action$ Action Observable from redux-observable
  * @param  {redux.Store} store   the redux store
- * @return {ActionsObservable}         Comm actions
+ * @return {Observable}         Comm actions
  */
 export const commListenEpic = (
-  action$: ActionsObservable<NewKernelAction | KillKernelSuccessful>,
+  action$: Observable<NewKernelAction | KillKernelSuccessful>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(

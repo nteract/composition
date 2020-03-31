@@ -3,17 +3,12 @@ import { mockAppState } from "@nteract/fixtures";
 import { createMessage, JupyterMessage, MessageType } from "@nteract/messaging";
 import { sendNotification } from "@nteract/mythic-notifications";
 import * as Immutable from "immutable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { of, Subject } from "rxjs";
 import { toArray } from "rxjs/operators";
 import { TestScheduler } from "rxjs/testing";
 
-import {
-  acquireKernelInfo,
-  restartKernelEpic,
-  watchExecutionStateEpic,
-  launchKernelWhenNotebookSetEpic
-} from "../src/kernel-lifecycle";
+import { acquireKernelInfo, launchKernelWhenNotebookSetEpic, restartKernelEpic, watchExecutionStateEpic } from "../src/kernel-lifecycle";
 
 const buildScheduler = () =>
   new TestScheduler((actual, expected) => expect(actual).toEqual(expected));
@@ -203,7 +198,7 @@ describe("acquireKernelInfo", () => {
 
 describe("watchExecutionStateEpic", () => {
   test("returns an Observable with an initial state of idle", done => {
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
       payload: {
         kernel: {
@@ -433,7 +428,7 @@ describe("restartKernelEpic", () => {
     };
 
     const responses = await restartKernelEpic(
-      ActionsObservable.of(
+      of(
         actionsModule.restartKernel({
           outputHandling: "Run All",
           kernelRef: "oldKernelRef",
@@ -453,7 +448,7 @@ describe("launchKernelWhenNotebookSet", () => {
   it("does nothing if content is not a notebook", done => {
     const contentRef = stateModule.createContentRef();
     const kernelRef = stateModule.createKernelRef();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actionsModule.fetchContentFulfilled({
         contentRef,
         filepath: "my-file.txt",
@@ -477,7 +472,7 @@ describe("launchKernelWhenNotebookSet", () => {
       .keySeq()
       .first();
     const kernelRef = stateModule.createKernelRef();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actionsModule.fetchContentFulfilled({
         contentRef,
         filepath: "my-file.txt",

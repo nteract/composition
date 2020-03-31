@@ -20,6 +20,7 @@ export interface ConfigurationState {
 export interface ConfigurationOption<TYPE = any> {
   label: string;
   key: string;
+  value?: TYPE;
   valuesFrom?: "kernelspecs";
   values?: Array<{
     label: string;

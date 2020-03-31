@@ -3,7 +3,7 @@ import { actions, AppState, ContentRecord, createContentRef, createKernelspecsRe
 import { fixtureJSON, mockAppState } from "@nteract/fixtures";
 import FileSaver from "file-saver";
 import Immutable from "immutable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { contents } from "rx-jupyter";
 import { of, Subject } from "rxjs";
 import { map, toArray } from "rxjs/operators";
@@ -92,7 +92,7 @@ describe("saveAs", () => {
     };
 
     const responses = await saveAsContentEpic(
-      ActionsObservable.of(
+      of(
         actions.saveAs({ filepath: "test.ipynb", contentRef })
       ),
       new StateObservable(new Subject(), state),
@@ -139,7 +139,7 @@ describe("saveAs", () => {
     };
 
     const responses = await saveAsContentEpic(
-      ActionsObservable.of(
+      of(
         actions.saveAs({ filepath: "test.ipynb", contentRef })
       ),
       new StateObservable(new Subject(), state),
@@ -191,7 +191,7 @@ describe("save", () => {
     };
 
     const responses = await saveContentEpic(
-      ActionsObservable.of(
+      of(
         actions.save({ filepath: "test.ipynb", contentRef })
       ),
       new StateObservable(new Subject(), state),
@@ -242,7 +242,7 @@ describe("save", () => {
     };
 
     const responses = await saveContentEpic(
-      ActionsObservable.of(actions.downloadContent({ contentRef })),
+      of(actions.downloadContent({ contentRef })),
       new StateObservable(new Subject(), state),
       { contentProvider: contents.JupyterContentProvider }
     )
@@ -286,7 +286,7 @@ describe("save", () => {
     };
 
     const responses = await saveContentEpic(
-      ActionsObservable.of(actions.downloadContent({ contentRef })),
+      of(actions.downloadContent({ contentRef })),
       new StateObservable(new Subject(), state),
       { contentProvider: contents.JupyterContentProvider }
     )
@@ -306,7 +306,7 @@ describe("closeNotebookEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.closeNotebook({
         contentRef
       })
@@ -335,7 +335,7 @@ describe("fetchContentEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.fetchContent({
         contentRef,
         filepath: "my-file.ipynb"
@@ -365,7 +365,7 @@ describe("updateContentEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.changeContentName({
         contentRef,
         filepath: "test.ipynb"

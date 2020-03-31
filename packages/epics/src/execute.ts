@@ -15,7 +15,7 @@ import {
 } from "@nteract/messaging";
 import { AnyAction } from "redux";
 import { ofType } from "redux-observable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { empty, merge, Observable, Observer, of, throwError } from "rxjs";
 import {
   catchError,
@@ -186,7 +186,7 @@ export function executeCellStream(
 }
 
 export function createExecuteCellStream(
-  action$: ActionsObservable<
+  action$: Observable<
     | actions.ExecuteCanceled
     | actions.DeleteCell
     | actions.LaunchKernelAction
@@ -273,7 +273,7 @@ export function createExecuteCellStream(
 }
 
 export function executeAllCellsEpic(
-  action$: ActionsObservable<
+  action$: Observable<
     actions.ExecuteAllCells | actions.ExecuteAllCellsBelow
   >,
   state$: StateObservable<AppState>
@@ -309,7 +309,7 @@ export function executeAllCellsEpic(
 }
 
 export function executeFocusedCellEpic(
-  action$: ActionsObservable<actions.ExecuteFocusedCell>,
+  action$: Observable<actions.ExecuteFocusedCell>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(
@@ -341,7 +341,7 @@ export function executeFocusedCellEpic(
  * being emitted more than once within the same notebook.
  */
 export function lazyLaunchKernelEpic(
-  action$: ActionsObservable<actions.ExecuteCell>,
+  action$: Observable<actions.ExecuteCell>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(
@@ -399,7 +399,7 @@ export function lazyLaunchKernelEpic(
  *    the EnqueueAction action
  */
 export function executeCellEpic(
-  action$: ActionsObservable<actions.ExecuteCell>,
+  action$: Observable<actions.ExecuteCell>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(
@@ -431,7 +431,7 @@ export function executeCellEpic(
  * the kernel is launched successfully and is ready to execute.
  */
 export function executeCellAfterKernelLaunchEpic(
-  action$: ActionsObservable<actions.NewKernelAction>,
+  action$: Observable<actions.NewKernelAction>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(
@@ -471,7 +471,7 @@ export function executeCellAfterKernelLaunchEpic(
  * creating inner observable streams of the running execution responses
  */
 export function sendExecuteRequestEpic(
-  action$: ActionsObservable<actions.SendExecuteRequest>,
+  action$: Observable<actions.SendExecuteRequest>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(
@@ -556,7 +556,7 @@ export function sendExecuteRequestEpic(
 }
 
 export const updateDisplayEpic = (
-  action$: ActionsObservable<
+  action$: Observable<
     actions.NewKernelAction | actions.KillKernelSuccessful
   >
 ) =>
@@ -599,7 +599,7 @@ export const updateDisplayEpic = (
   );
 
 export const sendInputReplyEpic = (
-  action$: ActionsObservable<actions.SendInputReply>,
+  action$: Observable<actions.SendInputReply>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(

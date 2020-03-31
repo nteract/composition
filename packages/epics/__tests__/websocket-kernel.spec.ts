@@ -1,11 +1,10 @@
-import * as Immutable from "immutable";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { Subject, of } from "rxjs";
-import { toArray } from "rxjs/operators";
-
 import * as actions from "@nteract/actions";
-import * as stateModule from "@nteract/types";
 import { mockAppState } from "@nteract/fixtures";
+import * as stateModule from "@nteract/types";
+import * as Immutable from "immutable";
+import { StateObservable } from "redux-observable";
+import { of, Subject } from "rxjs";
+import { toArray } from "rxjs/operators";
 import * as coreEpics from "../src";
 
 jest.mock("rx-jupyter", () => ({
@@ -88,7 +87,7 @@ describe("launchWebSocketKernelEpic", () => {
       new Subject<stateModule.AppState>(),
       value
     );
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.launchKernelByName({
         contentRef,
         kernelRef,
@@ -155,7 +154,7 @@ describe("interruptKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.interruptKernel({ kernelRef: "fake" })
     );
 
@@ -206,7 +205,7 @@ describe("interruptKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.interruptKernel({ contentRef: "contentRef" })
     );
 
@@ -252,7 +251,7 @@ describe("restartKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.restartKernel({
         kernelRef: null,
         contentRef: "contentRef",
@@ -302,7 +301,7 @@ describe("restartKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.restartKernel({
         kernelRef: "fake",
         contentRef: "contentRef",
@@ -354,7 +353,7 @@ describe("restartKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.restartKernel({
         kernelRef: "fake",
         contentRef: "contentRef",
@@ -406,7 +405,7 @@ describe("restartKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.restartKernel({
         kernelRef: "fake",
         contentRef: "contentRef",
@@ -456,7 +455,7 @@ describe("restartKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.restartKernel({
         kernelRef: "fake",
         contentRef: "contentRef",
@@ -512,7 +511,7 @@ describe("restartKernelEpic", () => {
       comms: stateModule.makeCommsRecord(),
       config: Immutable.Map({})
     });
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.restartKernel({
         kernelRef: "fake",
         contentRef: "contentRef",
@@ -552,7 +551,7 @@ describe("changeWebSocketKernelEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.changeKernelByName({
         kernelSpecName: "julia",
         contentRef,
@@ -586,7 +585,7 @@ describe("changeWebSocketKernelEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.changeKernelByName({
         kernelSpecName: "julia",
         contentRef,
@@ -623,7 +622,7 @@ describe("killKernelEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.killKernel({
         contentRef,
         kernelRef
@@ -650,7 +649,7 @@ describe("killKernelEpic", () => {
         host: stateModule.makeJupyterHostRecord({})
       })
     };
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.killKernel({
         contentRef: "none",
         kernelRef: "none"
@@ -695,7 +694,7 @@ describe("killKernelEpic", () => {
         })
       })
     };
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.killKernel({
         contentRef: "aContent",
         kernelRef: "aKernel"

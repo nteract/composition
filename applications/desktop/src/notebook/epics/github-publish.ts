@@ -3,7 +3,7 @@ import { sendNotification } from "@nteract/mythic-notifications";
 import { shell } from "electron";
 
 import * as path from "path";
-import { ActionsObservable, ofType, StateObservable } from "redux-observable";
+import { ofType, StateObservable } from "redux-observable";
 import { concat, EMPTY, Observable, of } from "rxjs";
 import { ajax, AjaxResponse } from "rxjs/ajax";
 import { catchError, mergeMap } from "rxjs/operators";
@@ -50,7 +50,7 @@ function publishGist(
  * response from the Github API.
  */
 export const publishEpic = (
-  action$: ActionsObservable<actions.PublishGist>,
+  action$: Observable<actions.PublishGist>,
   state$: StateObservable<DesktopNotebookAppState>
 ) => {
   return action$.pipe(

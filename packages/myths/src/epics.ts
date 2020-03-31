@@ -1,4 +1,4 @@
-import { ActionsObservable, combineEpics, Epic, ofType, StateObservable } from "redux-observable";
+import { combineEpics, Epic, ofType, StateObservable } from "redux-observable";
 import { EMPTY, Observable } from "rxjs";
 import { filter, map, mergeMap, withLatestFrom } from "rxjs/operators";
 import { EpicFuncDefinition, Myth, MythDefinition, MythicAction, Myths, RootState } from "./types";
@@ -15,7 +15,7 @@ const makeEpic = <
   narrow: (source: Observable<MythicAction>) => Observable<MythicAction>
 ) =>
     (
-      action$: ActionsObservable<MythicAction>,
+      action$: Observable<MythicAction>,
       state$: StateObservable<RootState<PKG, STATE>>,
     ) =>
       action$.pipe(

@@ -1,48 +1,23 @@
-import {
-  actions as coreActions,
-  DocumentRecordProps,
-  selectors
-} from "@nteract/core";
-import { ipcRenderer as ipc } from "electron";
-import { RecordOf } from "immutable";
-import { ActionsObservable, ofType, StateObservable } from "redux-observable";
-import { concat, empty, Observable, Observer, of, zip } from "rxjs";
-import {
-  catchError,
-  concatMap,
-  exhaustMap,
-  filter,
-  take,
-  tap,
-  timeout
-} from "rxjs/operators";
-
-import * as actions from "../actions";
-import { CLOSE_NOTEBOOK, CloseNotebook } from "../actionTypes";
-import {
-  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
-  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE,
-  DesktopNotebookAppState
-} from "../state";
+import { actions as coreActions, DocumentRecordProps, selectors } from "@nteract/core";
 
 import { KernelRecord, KernelRef } from "@nteract/types";
+import { ipcRenderer as ipc } from "electron";
+import { RecordOf } from "immutable";
+import { ofType, StateObservable } from "redux-observable";
+import { concat, empty, Observable, Observer, of, zip } from "rxjs";
+import { catchError, concatMap, exhaustMap, filter, take, tap, timeout } from "rxjs/operators";
+
+import * as actions from "../actions";
 import { Actions } from "../actions";
+import { CLOSE_NOTEBOOK, CloseNotebook } from "../actionTypes";
+import { DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED, DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE, DesktopNotebookAppState } from "../state";
 
 export const closeNotebookEpic = (
-  action$: ActionsObservable<
-    | CloseNotebook
-    | coreActions.KillKernelFailed
-    | coreActions.KillKernelSuccessful
-  >,
+  action$: Observable<any>,
   state$: StateObservable<DesktopNotebookAppState>
 ) =>
   action$.pipe(
-    ofType<
-      | CloseNotebook
-      | coreActions.KillKernelFailed
-      | coreActions.KillKernelSuccessful,
-      ReturnType<typeof actions.closeNotebook>
-    >(CLOSE_NOTEBOOK),
+    ofType(CLOSE_NOTEBOOK),
     exhaustMap((action: CloseNotebook) => {
       const contentRef = action.payload.contentRef;
       const state = state$.value;
@@ -91,15 +66,7 @@ export const closeNotebookEpic = (
 
             killKernelAwaits.push(
               action$.pipe(
-                ofType<
-                  | CloseNotebook
-                  | coreActions.KillKernelFailed
-                  | coreActions.KillKernelSuccessful,
-                  ReturnType<
-                    | typeof coreActions.killKernelSuccessful
-                    | typeof coreActions.killKernelFailed
-                  >
-                >(
+                ofType(
                   coreActions.KILL_KERNEL_SUCCESSFUL,
                   coreActions.KILL_KERNEL_FAILED
                 ),

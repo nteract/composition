@@ -12990,10 +12990,10 @@ redux-logger@^3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
-redux-observable@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-1.2.0.tgz#ff51b6c6be2598e9b5e89fc36639186bb0e669c7"
-  integrity sha512-yeR90RP2WzZzCxxnQPlh2uFzyfFLsfXu8ROh53jGDPXVqj71uNDMmvi/YKQkd9ofiVoO4OYb1snbowO49tCEMg==
+redux-observable@^2.0.0-alpha.0:
+  version "2.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/redux-observable/-/redux-observable-2.0.0-alpha.0.tgz#e2fbb9da1db722a581c861976958c3b5d58f49cd"
+  integrity sha512-w0RsVGprIFiYi1AhFCOATiv3ld2AtuobvbcVsLvX19p8eAwLowWl2OrKYcCq/QEeEpmSHTXutXfVfcBnzaWmdw==
 
 redux@^3.6.0:
   version "3.7.2"

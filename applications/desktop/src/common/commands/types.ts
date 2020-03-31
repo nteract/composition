@@ -65,6 +65,8 @@ export interface DynamicMenuItems<NAME extends string, T> {
 export interface MenuitemOptions {
   platform?: Platform;
   props?: {};
+  type?: "checkbox" | "radio";
+  isChecked?: boolean;
 }
 
 export interface SubmenuOptions {

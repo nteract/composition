@@ -3,18 +3,9 @@ import * as actions from "@nteract/actions";
 import { toJS } from "@nteract/commutable";
 import { NotebookV4 } from "@nteract/commutable/lib/v4";
 import * as selectors from "@nteract/selectors";
-import {
-  AppState,
-  DirectoryContentRecordProps,
-  DummyContentRecordProps,
-  FileContentRecordProps,
-  NotebookContentRecordProps,
-  ServerConfig,
-  IContentProvider
-} from "@nteract/types";
+import { AppState, DirectoryContentRecordProps, DummyContentRecordProps, FileContentRecordProps, IContentProvider, NotebookContentRecordProps, ServerConfig } from "@nteract/types";
 import { RecordOf } from "immutable";
-import { ofType } from "redux-observable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { ofType, StateObservable } from "redux-observable";
 import { bookstore } from "rx-jupyter";
 import { empty, Observable, of } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
@@ -30,7 +21,7 @@ import { catchError, map, switchMap, tap } from "rxjs/operators";
  * @param state$  Application state.
  */
 export function publishToBookstore(
-  action$: ActionsObservable<actions.PublishToBookstore>,
+  action$: Observable<actions.PublishToBookstore>,
   state$: StateObservable<AppState>,
   dependencies: { contentProvider: IContentProvider }
 ): Observable<unknown> {
@@ -126,7 +117,7 @@ export function publishToBookstore(
  * @param state$  Application state.
  */
 export function publishToBookstoreAfterSave(
-  action$: ActionsObservable<actions.PublishToBookstoreAfterSave>,
+  action$: Observable<actions.PublishToBookstoreAfterSave>,
   state$: StateObservable<AppState>
 ): Observable<void | actions.PublishToBookstoreFailed> {
   const state: any = state$.value;

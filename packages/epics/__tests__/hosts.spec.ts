@@ -1,12 +1,11 @@
 import { actions, state as stateModule } from "@nteract/core";
 import Immutable from "immutable";
-import { ActionsObservable } from "redux-observable";
 
 import { publishToBookstore } from "../src/hosts";
 
 describe("publishToBookstore", () => {
   test("throws an error if no payload is provided to action", () => {
-    const badAction$ = ActionsObservable.of({
+    const badAction$ = of({
       type: actions.PUBLISH_TO_BOOKSTORE,
       payload: undefined
     });
@@ -31,7 +30,7 @@ describe("publishToBookstore", () => {
     );
   });
   test("throws error if content type is not notebook", () => {
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actions.PUBLISH_TO_BOOKSTORE,
       payload: { contentRef: "contentRef" }
     });
@@ -78,7 +77,7 @@ describe("publishToBookstore", () => {
   });
 
   test("emits correct action after successful save", () => {
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actions.PUBLISH_TO_BOOKSTORE,
       payload: { contentRef: "contentRef" }
     });

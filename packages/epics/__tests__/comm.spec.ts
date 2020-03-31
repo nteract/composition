@@ -4,7 +4,7 @@ import Immutable from "immutable";
 
 import * as actions from "@nteract/actions";
 import { COMM_MESSAGE, COMM_OPEN } from "@nteract/actions";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { commListenEpic } from "../src/comm";
 
 import {
@@ -72,7 +72,7 @@ describe("commActionObservable", () => {
       buffers: new Uint8Array([])
     };
 
-    const action = ActionsObservable.of(
+    const action = of(
       actions.launchKernelSuccessful({
         kernel: {
           channels: of(commOpenMessage, commMessage) as Subject<any>,

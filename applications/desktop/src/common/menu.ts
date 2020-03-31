@@ -124,11 +124,15 @@ export const menu: MenuDefinition = [
     {
       forEach: "preference",
       create: item =>
-        [item.label, (item.values ?? []).map(value => [
-          value.label,
-          commands.SetPreference,
-          { props: { key: item.key, value: value.value } },
-        ])],
+        [item.label, (item.values ?? []).map(value =>
+          [value.label, commands.SetPreference,
+            {
+              props: { key: item.key, value: value.value },
+              type: "radio",
+              isChecked: item.value === value.value,
+            }
+          ],
+        )],
     },
   ]],
   ["Window", { role: "window" }, [
