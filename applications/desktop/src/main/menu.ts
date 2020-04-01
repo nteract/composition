@@ -1,5 +1,5 @@
 import { manifest as examplesManifest } from "@nteract/examples";
-import { allConfigOptions, ConfigurationOption } from "@nteract/mythic-configuration";
+import { allConfigOptions, HasPrivateConfigurationState } from "@nteract/mythic-configuration";
 import { app, BrowserWindow, globalShortcut, Menu, MenuItemConstructorOptions, shell } from "electron";
 import sortBy from "lodash.sortby";
 import { Store } from "redux";
@@ -8,6 +8,7 @@ import { appName } from "../common/appname";
 import { dispatchCommandInMain } from "../common/commands/dispatch";
 import { ActionCommand, Command, MenuDefinition, MenuitemOptions, Platform, SubmenuOptions } from "../common/commands/types";
 import { menu, tray } from "../common/menu";
+import { customAccelerators } from "./config-options";
 import { MainAction, MainStateRecord } from "./reducers";
 
 const interceptAcceleratorEarly =
@@ -16,8 +17,13 @@ const interceptAcceleratorEarly =
       accelerator, () => dispatchCommandInMain(command, props)
     );
 
-const acceleratorFor = (command: Command, options: MenuitemOptions) => {
-  const data: any = accelerators[command.name];
+const acceleratorFor = (
+  state: HasPrivateConfigurationState,
+  command: Command,
+  options: MenuitemOptions,
+) => {
+  const customs = customAccelerators(state);
+  const data: any = customs[command.name] ?? accelerators[command.name];
 
   if (data === undefined) {
     return undefined;
@@ -64,7 +70,6 @@ function buildMenuTemplate(
   structure: MenuDefinition,
 ) {
   const kernelspecs = sortBy(store.getState().kernelSpecs ?? {}, "spec.display_name");
-  console.log(allConfigOptions(store.getState()));
   const collections = {
     kernelspec: kernelspecs,
     example: examplesManifest,
@@ -103,14 +108,14 @@ function buildMenuTemplate(
           checked: options.isChecked,
           label: processString(label),
           role: command.mapToElectronRole,
-          accelerator: acceleratorFor(command, options),
+          accelerator: acceleratorFor(store.getState(), command, options),
         }
         : {
           type: options.type ?? "normal" as "normal",
           checked: options.isChecked,
           label: processString(label),
           click: () => dispatchCommandInMain(command, options.props),
-          accelerator: acceleratorFor(command, options),
+          accelerator: acceleratorFor(store.getState(), command, options),
           enabled: isEnabled(command),
         },
 

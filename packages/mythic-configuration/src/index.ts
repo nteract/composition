@@ -33,7 +33,6 @@ export const allConfigOptions = (state?: HasPrivateConfigurationState) => {
   const all = Object.values(options);
 
   if (state !== undefined) {
-    console.log(state.__private__.configuration.current);
     return all.map(x => ({...x, value: state.__private__.configuration.current.get(x.key)}))
   }
   else {

@@ -33,7 +33,11 @@ export const createMythicPackage =
 
         createSelector:
           <T>(selector: Selector<STATE, T>) =>
-            (state: RootState<PKG, STATE>) =>
-              selector(state.__private__[pkg])
+            (state: RootState<PKG, STATE>) => {
+              const value = selector(state.__private__[pkg]);
+              return (value as any).toJS !== undefined
+                ? (value as any).toJS()
+                : value;
+            }
       };
     };

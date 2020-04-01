@@ -31,7 +31,9 @@ const filesystemConfigurationBackend = (filename: string) => ({
   save: (current: Map<string, any>) =>
     concat(
       mkdirpObservable(path.dirname(filename)),
-      writeFileObservable(filename, JSON.stringify(current.toJSON())),
+      writeFileObservable(filename,
+        JSON.stringify(current.toJSON(), undefined, 2)
+      ),
     ),
 } as ConfigurationBackend);
 
