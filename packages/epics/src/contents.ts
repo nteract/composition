@@ -139,7 +139,8 @@ export function downloadString(
 const { selector: autoSaveInterval } = createConfigOption({
   key: "autoSaveInterval",
   label: "Auto-save interval",
-}, 120_000);
+  defaultValue: 120_000,
+});
 
 export function autoSaveCurrentContentEpic(
   action$: Observable<Action>,

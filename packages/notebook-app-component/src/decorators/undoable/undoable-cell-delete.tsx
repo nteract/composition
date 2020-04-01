@@ -11,7 +11,8 @@ export const {
 } = createConfigOption({
   key: "deleteDelay",
   label: "Delay for undo-ing deletes",
-}, 10_000);
+  defaultValue: 10_000,
+});
 
 interface InitialProps extends selectors.cell.CellAddress {
   children: React.ReactNode;

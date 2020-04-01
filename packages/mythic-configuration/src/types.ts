@@ -3,6 +3,7 @@ import { Map } from "immutable";
 import { Observable } from "rxjs";
 import { loadConfig } from "./myths/load-config";
 import { mergeConfig } from "./myths/merge-config";
+import { setConfigAtKey } from "./myths/set-config-at-key";
 
 export type Configuration = Map<string, any>;
 
@@ -17,15 +18,23 @@ export interface ConfigurationState {
   current: Configuration;
 }
 
-export interface ConfigurationOption<TYPE = any> {
+export interface ConfigurationOptionDefinition<TYPE = any> {
   label: string;
   key: string;
-  value?: TYPE;
+  defaultValue: TYPE;
   valuesFrom?: "kernelspecs";
   values?: Array<{
     label: string;
     value: TYPE;
   }>;
+}
+
+export interface ConfigurationOption<TYPE = any>
+  extends ConfigurationOptionDefinition<TYPE> {
+
+  value?: TYPE;
+  selector: (state: HasPrivateConfigurationState) => TYPE;
+  action: (value: TYPE) => typeof setConfigAtKey.action;
 }
 
 export type HasPrivateConfigurationState =

@@ -13,8 +13,9 @@ export const {
   values: [
     { value: "light", label: "Light" },
     { value: "dark", label: "Dark" },
-  ]
-}, "light");
+  ],
+  defaultValue: "light",
+});
 
 interface ComponentProps {
   children: React.ReactNode;

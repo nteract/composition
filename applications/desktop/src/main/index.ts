@@ -1,4 +1,4 @@
-import { ConfigurationOption, createConfigOption, setConfigFile } from "@nteract/mythic-configuration";
+import { ConfigurationOption, createConfigOption, setConfigFile, transferConfigOptionFromRenderer } from "@nteract/mythic-configuration";
 import { KernelspecInfo, Kernelspecs } from "@nteract/types";
 import { app, BrowserWindow, dialog, Event, ipcMain as ipc, Menu, Tray } from "electron";
 import * as log from "electron-log";
@@ -43,7 +43,7 @@ const notebooks = argv._.filter(x => /(.ipynb)$/.test(x));
 
 ipc.on("transfer-config-options-to-main",
   (_event: any, options: ConfigurationOption[]) => {
-    options.forEach(each => createConfigOption(each, null, true));
+    options.forEach(each => transferConfigOptionFromRenderer(each));
   });
 
 ipc.on("new-kernel", (_event: any, k: KernelspecInfo) => {

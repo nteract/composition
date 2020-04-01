@@ -9,7 +9,8 @@ const {
 } = createConfigOption({
   key: "editorType",
   label: "Editor type",
-}, "codemirror");
+  defaultValue: "codemirror",
+});
 
 interface ComponentProps {
   id: string;

@@ -11,8 +11,9 @@ const {
   values: [
     { value: 530, label: "On" },
     { value: 0, label: "Off" },
-  ]
-}, 530);
+  ],
+  defaultValue: 530,
+});
 
 const markdownMode = {
   name: "gfm",
