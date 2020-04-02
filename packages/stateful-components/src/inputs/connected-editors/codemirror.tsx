@@ -41,6 +41,7 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
     let tabSize = state.config.get("codeMirror.tabSize", 4);
     let lineNumbers = state.config.get("codeMirror.lineNumbers", false);
     let lineWrapping = true;
+
     const model = selectors.model(state, { contentRef });
     const kernel = selectors.kernelByContentRef(state, { contentRef });
 

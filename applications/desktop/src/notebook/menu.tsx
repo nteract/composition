@@ -6,7 +6,6 @@ import { ipcRenderer as ipc, remote, shell, webFrame } from "electron";
 import * as fs from "fs";
 import throttle from "lodash.throttle";
 import * as path from "path";
-import * as log from "electron-log";
 import React from "react";
 import styled from "styled-components";
 import { DesktopStore } from "./store";

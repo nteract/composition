@@ -52,6 +52,8 @@ const theme_menu = [
   }
 ];
 // Definitions for all the codeMirror configurations that can be set from the menu.
+// TODO: replace Yes/No `type: 'checkbox'` item once we have state to get current
+// configuration to know which way it should be set initially.
 const codemirror_config_menu = [
   {
     label: "Blink Editor Cursor",
