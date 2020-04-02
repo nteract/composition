@@ -96,9 +96,8 @@ export default class CodeMirrorEditor extends React.Component<
     matchBrackets: true,
     autoCloseBrackets: false,
     indentUnit: 4,
-    tabSize: 4 /*TODO: What is the difference between indentUnit and tabsize?*/,
+    tabSize: 4,
     lineNumbers: false,
-    lineWrapping: true,
     smartIndent: true,
     cursorBlinkRate: 530,
     editorType: "codemirror",
@@ -319,7 +318,27 @@ export default class CodeMirrorEditor extends React.Component<
       this.props.editorFocused !== nextProps.editorFocused;
     const cursorBlinkRateChanged =
       this.props.cursorBlinkRate !== nextProps.cursorBlinkRate;
-    return valueChanged || editorFocusedChanged || cursorBlinkRateChanged;
+    const showCursorWhenSelectingChanged =
+      this.props.showCursorWhenSelecting != nextProps.showCursorWhenSelecting;
+    const autoCloseBracketsChanged =
+      this.props.autoCloseBrackets != nextProps.autoCloseBrackets;
+    const matchBracketsChanged =
+      this.props.matchBrackets != nextProps.matchBrackets;
+    const smartIndentChanged = this.props.smartIndent != nextProps.smartIndent;
+    const tabSizeChanged = this.props.tabSize != nextProps.tabSize;
+    const lineNumbersChanged = this.props.lineNumbers != nextProps.lineNumbers;
+
+    return (
+      valueChanged ||
+      editorFocusedChanged ||
+      cursorBlinkRateChanged ||
+      showCursorWhenSelectingChanged ||
+      autoCloseBracketsChanged ||
+      matchBracketsChanged ||
+      smartIndentChanged ||
+      tabSizeChanged ||
+      lineNumbersChanged
+    );
   }
 
   componentDidUpdate(prevProps: CodeMirrorEditorProps): void {
@@ -371,7 +390,7 @@ export default class CodeMirrorEditor extends React.Component<
       if (!isConfigurable(optionName)) {
         continue;
       }
-      if (this.props[optionName] !== this.props[optionName]) {
+      if (this.props[optionName] !== prevProps[optionName]) {
         this.cm.setOption(optionName, this.props[optionName]);
       }
     }

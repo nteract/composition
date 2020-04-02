@@ -51,10 +51,7 @@ const theme_menu = [
     click: createSender("menu:theme", { key: "theme", value: "dark" })
   }
 ];
-// Definitions for all the codeMirror configurations that can be set.
-// TODO: Can we read the current config from here?
-// TODO: Should refresh current cell, or only in new cells? Does not refresh right now for new configs.
-// TODO: //autocorrect, autocapitalize,spellcheck?
+// Definitions for all the codeMirror configurations that can be set from the menu.
 const codemirror_config_menu = [
   {
     label: "Blink Editor Cursor",
@@ -181,25 +178,6 @@ const codemirror_config_menu = [
     ]
   },
   {
-    label: "Indentation Style",
-    submenu: [
-      {
-        label: "Tabs",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.indentWithTabs",
-          value: true
-        })
-      },
-      {
-        label: "Spaces",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.indentWithTabs",
-          value: false
-        })
-      }
-    ]
-  },
-  {
     type: "separator"
   },
   {
@@ -216,25 +194,6 @@ const codemirror_config_menu = [
         label: "No",
         click: createSender("menu:set-codemirror-config", {
           key: "codeMirror.lineNumbers",
-          value: false
-        })
-      }
-    ]
-  },
-  {
-    label: "Wrap Lines",
-    submenu: [
-      {
-        label: "Yes",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.lineWrapping",
-          value: true
-        })
-      },
-      {
-        label: "No",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.lineWrapping",
           value: false
         })
       }
@@ -744,7 +703,7 @@ export function loadFullMenu(store = global.store) {
       },
 
       {
-        label: "Editor options",
+        label: "Code Editor Options",
         submenu: codemirror_config_menu
       },
       {
