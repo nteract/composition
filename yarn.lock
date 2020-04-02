@@ -2812,14 +2812,6 @@
   resolved "https://registry.yarnpkg.com/@nteract/any-vega/-/any-vega-1.0.1.tgz#d790774bdc453bc5af663455747637a2100f634a"
   integrity sha512-RjECjm2bdQpEHuhpWyIjAg8dA8t5iWGDmx2VuStBhVSffciNrCn0WxhJiK5TSkyuBgk4rB4eAOspJ8UnfjOAyA==
 
-"@nteract/commutable@^7.2.6":
-  version "7.2.6"
-  resolved "https://registry.yarnpkg.com/@nteract/commutable/-/commutable-7.2.6.tgz#632d43c5d8d87d56771d387d0a46f8769492500f"
-  integrity sha512-pn2TVhnkrGumytmsmrKLhcKns1jBPdoeKnaihnSx1oaV55iUpfcWER9jgq/k7tcPronQy/dunJQid+s/Ch8mMQ==
-  dependencies:
-    immutable "^4.0.0-rc.12"
-    uuid "^3.1.0"
-
 "@nteract/data-explorer@^8.0.0":
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/@nteract/data-explorer/-/data-explorer-8.0.2.tgz#d84a5c105ce14d94d6bf7235b821a9797c86af6e"
@@ -2865,15 +2857,6 @@
   resolved "https://registry.yarnpkg.com/@nteract/logos/-/logos-1.0.0.tgz#e17ca29f41a5282fe32fa5e4e69a5a3a9839d378"
   integrity sha512-6f675p3gzs7ZMAovzfOx+QOMNu1TGVT2aV5lPOwnPxJCM/APLpDRFcSoURwLA26CROlTTDEe10XweFzJgQ+VEQ==
 
-"@nteract/markdown@^4.3.10-alpha.0":
-  version "4.3.10-alpha.0"
-  resolved "https://registry.yarnpkg.com/@nteract/markdown/-/markdown-4.3.10-alpha.0.tgz#756cc06e0aca0015e984ec7d44e9cf19c24ff7ad"
-  integrity sha512-HXimVRO4PrvmHS+ionGvtRslk/+eHPgUUNo2rJqH6eTMhLJRoJixNJdi37KOQLA0KEGz39EvfL19BmapuCpW/A==
-  dependencies:
-    "@nteract/mathjax" "^4.0.8-alpha.0"
-    "@nteract/presentational-components" "^3.3.10-alpha.0"
-    react-markdown "^4.0.0"
-
 "@nteract/mathjax@^4.0.7":
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/@nteract/mathjax/-/mathjax-4.0.7.tgz#9aef85b04e12eda7d6c2506fbc676c40837ffc11"
@@ -2882,24 +2865,6 @@
     load-script "^1.0.0"
     react "^16.13.0"
     react-dom "^16.13.0"
-
-"@nteract/mathjax@^4.0.8-alpha.0":
-  version "4.0.8-alpha.0"
-  resolved "https://registry.yarnpkg.com/@nteract/mathjax/-/mathjax-4.0.8-alpha.0.tgz#369d5d57a6c42bf0c88f9fd02083093a5b0c0251"
-  integrity sha512-P6G38Tiq3bIGDuuRipkiyQiKfKhyuRm7Lybxx9A2I+UQ5Z8vIV2Y1UU5rlHdXvFhpQYARCT3DMT5Rysw6aQILw==
-  dependencies:
-    load-script "^1.0.0"
-
-"@nteract/messaging@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nteract/messaging/-/messaging-7.0.0.tgz#2ed8665dfe29c11b0d4981a8109bc1428bfb4679"
-  integrity sha512-N/M8/7/seeSBYbtO0ZKzVeMnzJtVn5fiBSoDiEmvkFB8Y/UXoOeVxBusZVVZN054FbOgkX+vnRvaSEd75iRGag==
-  dependencies:
-    "@nteract/types" "^6.0.0"
-    "@types/uuid" "^3.4.4"
-    lodash.clonedeep "^4.5.0"
-    rxjs "^6.3.3"
-    uuid "^3.1.0"
 
 "@nteract/octicons@^2.0.0":
   version "2.0.0"
@@ -2915,25 +2880,6 @@
     "@nteract/mathjax" "^4.0.7"
     ansi-to-react "^6.0.5"
     react-json-tree "^0.11.0"
-
-"@nteract/presentational-components@^3.3.10-alpha.0":
-  version "3.3.10-alpha.0"
-  resolved "https://registry.yarnpkg.com/@nteract/presentational-components/-/presentational-components-3.3.10-alpha.0.tgz#8fd38f7162c242b1cfffa755d552e858daa61e18"
-  integrity sha512-5NvvvXNHY+sCty+3rGGGS30W5S25su5YeQ0J3jVegaaxJStU+UyPQcAqL/ZetDMzlJrlxVtyRszwDwhD2wq+FA==
-  dependencies:
-    "@blueprintjs/core" "^3.7.0"
-    "@blueprintjs/select" "^3.2.0"
-    react-syntax-highlighter "^12.0.0"
-
-"@nteract/types@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@nteract/types/-/types-6.0.0.tgz#16202c716c62b719448bd3a4a80700d0013d3509"
-  integrity sha512-vpqZnXbJwQ31ngxHizs9c8t1g76Po3W4vay+zM5yiog8/bgWtfKiG8zVoQMesHrLGCJPt+QDoPIIXo2Ju61A3A==
-  dependencies:
-    "@nteract/commutable" "^7.2.6"
-    immutable "^4.0.0-rc.12"
-    rxjs "^6.3.3"
-    uuid "^3.1.0"
 
 "@octokit/endpoint@^5.5.0":
   version "5.5.1"
@@ -3183,10 +3129,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/codemirror@^0.0.88":
-  version "0.0.88"
-  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.88.tgz#429e3462ce22865dc40cc1cb27862edaeda0bbab"
-  integrity sha512-FI9BvlO+SIEmKoIdrS9uphasiHJ/JbeUsAbVTdklBOcmnr/bQpJ6QaCw540FY98LGdDNl1Nyn7erGxo0eD2gOg==
+"@types/codemirror@^0.0.90":
+  version "0.0.90"
+  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.90.tgz#9c5edafce2a780b4f8bc5e3b699fe1f4727c8f17"
+  integrity sha512-8Z9+tSg27NPRGubbUPUCrt5DDG/OWzLph5BvcDykwR5D7RyZh5mhHG0uS1ePKV1YFCA+/cwc4Ey2AJAEFfV3IA==
   dependencies:
     "@types/tern" "*"
 
@@ -3695,11 +3641,6 @@
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/url-join/-/url-join-4.0.0.tgz#72eff71648a429c7d4acf94e03780e06671369bd"
   integrity sha512-awrJu8yML4E/xTwr2EMatC+HBnHGoDxc2+ImA9QyeUELI1S7dOCIZcyjki1rkwoA8P2D2NVgLAJLjnclkdLtAw==
-
-"@types/uuid@^3.4.4":
-  version "3.4.8"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.8.tgz#4ba887fcef88bd9a7515ca2de336d691e3e18318"
-  integrity sha512-zHWce3allXWSmRx6/AGXKCtSOA7JjeWd2L3t4aHfysNk8mouQnWCocveaT7a4IEIlPVHp81jzlnknqTgCjCLXA==
 
 "@types/uuid@^7.0.0":
   version "7.0.0"
@@ -18186,7 +18127,7 @@ uuid@3, uuid@^3.3.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
 
-uuid@^3.0.1, uuid@^3.1.0, uuid@^3.3.2:
+uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
