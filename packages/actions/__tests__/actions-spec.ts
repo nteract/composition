@@ -597,7 +597,7 @@ describe("updateOutputMetadata", () => {
 
 describe("setGithubToken", () => {
   test("creates a SET_GITHUB_TOKEN action", () => {
-    expect(actions.setGithubToken("token_string")).toEqual({
+    expect(actions.setGithubToken({ githubToken: "token_string" })).toEqual({
       type: actionTypes.SET_GITHUB_TOKEN,
       payload: { githubToken: "token_string" }
     });

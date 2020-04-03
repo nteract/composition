@@ -77,7 +77,7 @@ export interface RootState<
   };
 }
 
-export type Selector<STATE, T> = (state: STATE) => T;
+export type Selector<STATE, T> = (state?: STATE) => T;
 
 export interface MythicPackage<
   PKG extends string = string,

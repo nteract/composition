@@ -1,4 +1,5 @@
 import { fetchKernelspecs } from "@nteract/actions";
+import { of } from "rxjs";
 import { toArray } from "rxjs/operators";
 import { fetchKernelspecsEpic } from "../src/kernelspecs";
 

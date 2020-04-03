@@ -21,7 +21,7 @@ const defineConfigOption = <TYPE>(
     ...props,
     value: props.defaultValue,
     selector: configuration.createSelector(
-      state => state.current.get(props.key, props.defaultValue),
+      state => state?.current?.get(props.key) ?? props.defaultValue,
     ),
     action: (value: TYPE) => setConfigAtKey.create({ key: props.key, value }),
   };

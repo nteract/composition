@@ -1,15 +1,14 @@
 import { stringifyNotebook } from "@nteract/commutable";
 import { actions, AppState, ContentRecord, createContentRef, createKernelspecsRef, makeAppRecord, makeCommsRecord, makeContentsRecord, makeDummyContentRecord, makeEntitiesRecord, makeHostsRecord, makeJupyterHostRecord, makeNotebookContentRecord, makeStateRecord, makeTransformsRecord } from "@nteract/core";
 import { fixtureJSON, mockAppState } from "@nteract/fixtures";
-import FileSaver from "file-saver";
-import Immutable from "immutable";
+import * as FileSaver from "file-saver";
+import * as Immutable from "immutable";
 import { StateObservable } from "redux-observable";
-import { contents } from "rx-jupyter";
 import { of, Subject } from "rxjs";
 import { map, toArray } from "rxjs/operators";
 import { closeNotebookEpic, downloadString, fetchContentEpic, saveAsContentEpic, saveContentEpic, updateContentEpic } from "../src/contents";
 
-jest.mock("rx-jupyter", () => ({
+jest.doMock("rx-jupyter", () => ({
   contents: {
     JupyterContentProvider: {
       save: (severConfig, filepath, model) => {
@@ -18,8 +17,7 @@ jest.mock("rx-jupyter", () => ({
       update: (serverConfig, prevFilePath, object) => {
         return of({ status: 200, response: {} });
       },
-      get: jest
-        .fn()
+      get: jest.fn()
         .mockReturnValue(
           of({
             status: 200,
@@ -30,17 +28,19 @@ jest.mock("rx-jupyter", () => ({
           of({
             status: 200,
             response: { last_modified: "one_value" }
-          })
-        )
+          }
+        ))
         .mockReturnValueOnce(
           of({
             status: 200,
             response: { last_modified: "one_value" }
-          })
-        )
+          }
+        )),
     }
   }
 }));
+
+import { contents } from "rx-jupyter";
 
 describe("downloadString", () => {
   it("calls FileSaver.saveAs with notebook and filename", () => {

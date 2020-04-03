@@ -1,3 +1,4 @@
+import { of } from "rxjs";
 import { createMythicPackage, makeConfigureStore } from "../src";
 
 describe("myths", () => {
@@ -47,10 +48,11 @@ describe("myths", () => {
       iCanAdd.createMyth("addToSum")<number>({
         reduce: (state, action) =>
           state.set("sum", state.get("sum") + action.payload),
-        epics: [
+        andAlso: [
           {
-            on: action => action.payload >= 10,
-            create: action => -action.payload * 2,
+            when: action => action.payload >= 10,
+            dispatch: (action, _, addToSum_) =>
+              of(addToSum_.create(-action.payload * 2)),
           },
         ],
       });

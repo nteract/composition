@@ -1,5 +1,6 @@
 import { notifications, sendNotification } from "@nteract/mythic-notifications";
-import { Observable } from "rxjs";
+import { StateObservable } from "redux-observable";
+import { of } from "rxjs";
 import { TestScheduler } from "rxjs/testing";
 
 const buildScheduler = () =>
@@ -26,6 +27,16 @@ describe("notifications", () => {
   });
 
   test("emits sendNotification on an error action", () => {
+    const originalState = {
+      __private__: {
+        notifications: notifications.makeStateRecord({
+          current: {
+            addNotification: jest.fn(),
+          },
+        }),
+      }
+    };
+
     buildScheduler().run(helpers => {
       const { hot, expectObservable } = helpers;
       const inputActions = {
@@ -60,12 +71,10 @@ describe("notifications", () => {
       const inputMarbles  = "ab|";
       const outputMarbles = "AB|";
 
-      const inputAction$ = new Observable(
-        hot(inputMarbles, inputActions),
-      );
+      const inputAction$ = hot(inputMarbles, inputActions);
       const outputAction$ = notifications.makeRootEpic()(
         inputAction$,
-        null,
+        new StateObservable(of(), originalState),
         {},
       );
 

@@ -22,7 +22,8 @@ const iconPath = path.join(__dirname, "..", "static", "icon.png");
 const initContextMenu = require("electron-context-menu");
 
 // Setup right-click context menu for all BrowserWindows
-initContextMenu();
+// initContextMenu();
+// TODO: This needs to happen somewhere, but not here
 
 export function launch(filename?: string) {
   const win = new BrowserWindow({

@@ -1,5 +1,6 @@
 import { actions, state as stateModule } from "@nteract/core";
-import Immutable from "immutable";
+import * as Immutable from "immutable";
+import { of } from "rxjs";
 
 import { publishToBookstore } from "../src/hosts";
 

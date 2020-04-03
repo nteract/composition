@@ -14,7 +14,8 @@ module.exports = {
             callback();
           })
         },
-        loadURL: jest.fn()
+        loadURL: jest.fn(),
+        getAllWindows: () => [],
       };
     },
     app: {
