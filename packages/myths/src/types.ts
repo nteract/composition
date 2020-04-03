@@ -89,6 +89,8 @@ export interface MythicPackage<
   // The following is undefined, but can be used in typeof expressions
   state: STATE;
 
+  initialState: RecordOf<STATE>;
+
   makeStateRecord: (state: STATE) => RecordOf<STATE>,
   makeRootEpic: () => Epic;
   rootReducer: Reducer<RecordOf<STATE>, MythicAction>;
@@ -98,6 +100,13 @@ export interface MythicPackage<
   createSelector:
     <T>(selector: Selector<STATE, T>) =>
       (state: RootState<PKG, STATE>) => T
+
+  testMarbles: (
+    inputMarbles: string,
+    outputMarbles: string,
+    marblesMapToActions: { [key: string]: MythicAction },
+    state?: STATE,
+  ) => void;
 }
 
 export type ReducerDefinition<STATE, PROPS> = (

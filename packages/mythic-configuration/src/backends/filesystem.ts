@@ -3,7 +3,7 @@ import { mkdirpObservable, readFileObservable, watchFileObservable, writeFileObs
 import { Map } from "immutable";
 import * as path from "path";
 import { concat, of } from "rxjs";
-import { map, mapTo, skipWhile } from "rxjs/operators";
+import { ignoreElements, map, mapTo, skipWhile } from "rxjs/operators";
 import { ConfigurationBackend } from "..";
 import { loadConfig } from "../myths/load-config";
 import { mergeConfig } from "../myths/merge-config";
@@ -34,6 +34,8 @@ const filesystemConfigurationBackend = (filename: string) => ({
       writeFileObservable(filename,
         JSON.stringify(current.toJSON(), undefined, 2)
       ),
+    ).pipe(
+      ignoreElements(),
     ),
 } as ConfigurationBackend);
 

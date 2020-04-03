@@ -1,10 +1,4 @@
 import { notifications, sendNotification } from "@nteract/mythic-notifications";
-import { StateObservable } from "redux-observable";
-import { of } from "rxjs";
-import { TestScheduler } from "rxjs/testing";
-
-const buildScheduler = () =>
-  new TestScheduler((actual, expected) => expect(actual).toEqual(expected));
 
 describe("notifications", () => {
   test("emits a notification when sendNotification is reduced", () => {
@@ -27,19 +21,10 @@ describe("notifications", () => {
   });
 
   test("emits sendNotification on an error action", () => {
-    const originalState = {
-      __private__: {
-        notifications: notifications.makeStateRecord({
-          current: {
-            addNotification: jest.fn(),
-          },
-        }),
-      }
-    };
-
-    buildScheduler().run(helpers => {
-      const { hot, expectObservable } = helpers;
-      const inputActions = {
+    notifications.testMarbles(
+      "ab|",
+      "AB|",
+      {
         a: {
           type: "catContent/downloadFailed",
           error: true,
@@ -53,9 +38,6 @@ describe("notifications", () => {
           error: true,
           payload: new Error("🙀"),
         },
-      };
-
-      const outputActions = {
         A: sendNotification.create({
           title: "Download failed",
           message: "😿 no new cat pics found 😿",
@@ -66,19 +48,7 @@ describe("notifications", () => {
           message: "🙀",
           level: "error",
         }),
-      };
-
-      const inputMarbles  = "ab|";
-      const outputMarbles = "AB|";
-
-      const inputAction$ = hot(inputMarbles, inputActions);
-      const outputAction$ = notifications.makeRootEpic()(
-        inputAction$,
-        new StateObservable(of(), originalState),
-        {},
-      );
-
-      expectObservable(outputAction$).toBe(outputMarbles, outputActions);
-    });
+      },
+    );
   });
 });

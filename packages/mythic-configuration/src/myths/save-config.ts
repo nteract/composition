@@ -4,8 +4,6 @@ import { configuration } from "../package";
 export const saveConfig = configuration.createMyth("saveConfig")<void>({
   thenDispatch: [
     (_, state) =>
-      state.backend!.save(state.current).pipe(
-        ignoreElements(),
-      ),
+      state.backend!.save(state.current),
   ],
 });
