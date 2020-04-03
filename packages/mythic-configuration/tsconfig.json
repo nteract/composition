@@ -6,6 +6,7 @@
   },
   "include": ["src"],
   "references": [
+    { "path": "../fs-observable" },
     { "path": "../myths" }
   ]
 }
