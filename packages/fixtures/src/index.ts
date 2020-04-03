@@ -117,12 +117,6 @@ export const mockAppState = (config: JSONObject): AppState => {
       githubToken: "TOKEN",
     }),
     comms: makeCommsRecord(),
-    __private__: Immutable.Record({
-      configuration: Immutable.Record({
-        backend: null,
-        current: Immutable.Map<string, any>(),
-      })(),
-    })(),
   };
 };
 

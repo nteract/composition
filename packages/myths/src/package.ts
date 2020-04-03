@@ -5,7 +5,7 @@ import { TestScheduler } from "rxjs/testing";
 import { makeMakeRootEpic } from "./epics";
 import { makeCreateMyth } from "./myth";
 import { makeRootReducer } from "./reducer";
-import { MythicAction, MythicPackage, Myths, PackageDefinition, RootState, Selector } from "./types";
+import { MaybeRootState, MythicAction, MythicPackage, Myths, PackageDefinition, RootState, Selector } from "./types";
 
 export const createMythicPackage =
   <PKG extends string>(pkg: PKG) =>
@@ -42,7 +42,7 @@ export const createMythicPackage =
 
         createSelector:
           <T>(selector: Selector<STATE, T>) =>
-            (state: RootState<PKG, STATE>) => {
+            (state?: MaybeRootState<PKG, STATE>) => {
               const value = selector(state?.__private__?.[pkg]);
               return (value as any).toJS !== undefined
                 ? (value as any).toJS()

@@ -33,7 +33,7 @@ export interface ConfigurationOption<TYPE = any>
   extends ConfigurationOptionDefinition<TYPE> {
 
   value?: TYPE;
-  selector: (state: HasPrivateConfigurationState) => TYPE;
+  selector: (state: {}) => TYPE;
   action: (value: TYPE) => typeof setConfigAtKey.action;
 }
 

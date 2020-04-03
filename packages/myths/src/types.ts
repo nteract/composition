@@ -68,12 +68,15 @@ export interface Myth<
   ) => ConnectedComponent<ComponentClass<COMPONENT_PROPS>, COMPONENT_PROPS>;
 }
 
-export interface RootState<
-  PKG extends string,
-  STATE
-> {
+export interface RootState<PKG extends string, STATE> {
   __private__: {
     [key in PKG]: RecordOf<STATE>;
+  };
+}
+
+export interface MaybeRootState<PKG extends string, STATE> {
+  __private__?: {
+    [key in PKG]?: RecordOf<STATE>;
   };
 }
 
@@ -99,7 +102,7 @@ export interface MythicPackage<
       Myth<PKG, NAME, PROPS, STATE>;
   createSelector:
     <T>(selector: Selector<STATE, T>) =>
-      (state: RootState<PKG, STATE>) => T
+      (state?: MaybeRootState<PKG, STATE>) => T | undefined
 
   testMarbles: (
     inputMarbles: string,
