@@ -22,7 +22,7 @@ export interface ConfigurationOptionDefinition<TYPE = any> {
   label: string;
   key: string;
   defaultValue: TYPE;
-  valuesFrom?: "kernelspecs";
+  valuesFrom?: string;
   values?: Array<{
     label: string;
     value: TYPE;

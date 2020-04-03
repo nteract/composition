@@ -1,70 +1,92 @@
-# @nteract/mythic-notifications
+# @nteract/mythic-configuration
 
-This package implements a notification system based on `blueprintjs`, using the `myths` framework.
+This package implements a configuration system.
 
 ## Installation
 
 ```
-$ yarn add @nteract/mythic-notifications
+$ yarn add @nteract/mythic-configuration
 ```
 
 ```
-$ npm install --save @nteract/mythic-notifications
+$ npm install --save @nteract/mythic-configuration
 ```
 
 ## Usage
 
-Initialize the package by including the `notifications` package in your store and rendering the `<NotificationsRoot/>`:
+Initialize the package by including the `configuration` package and dispatching a `setConfigFile` action:
 
 ```javascript
-import { notifications, NotificationRoot } from "@nteract/mythic-notifications";
+import { configuration } from "@nteract/mythic-configuration";
 import { makeConfigureStore } from "@nteract/myths";
 
 export const configureStore = makeConfigureStore({
-  packages: [notifications],
+  packages: [configuration],
 });
 
-export const App = () =>
-    <>
-      {/* ... */}
-      <NotificationRoot darkTheme={false} />
-    </>
+store.dispatch(setConfigFile("/etc/app.conf"));
 ```
 
-Then dispatch actions made by `sendNotification.create`:
+The package will use that file to save any configuration options. The file is also watched and loaded when it changes.
+
+After this initialisation, you can then work with configuration options:
 
 ```javascript
-import { sendNotification } from "@nteract/mythic-notifications";
+export const {
+  selector: defaultKernel,
+  action: setDefaultKernel,
+} = createConfigOption({
+  key: "defaultKernel",
+  label: "Default kernel on startup",
+  valuesFrom: "kernelspecs",
+  defaultValue: "python3",
+});
 
-store.dispatch(sendNotification.create({
-  title: "Hello World!",
-  message: <em>Hi out there!</em>,
-  level: "info",
-}));
+const currentValue = defaultKernel(store.getState());
+
+store.dispatch(setDefaultKernel("node_nteract"));
+```
+
+You can also get all options:
+```javascript
+import { allConfigOptions } from "@nteract/mythic-configuration";
+
+const options = allConfigOptions();
+const optionsWithCurrentValues = allConfigOptions(store.getState());
 ```
 
 ## API
 
 ```typescript
-import { IconName } from "@blueprintjs/core";
+import { RootState } from "@nteract/myths";
+import { ConfigurationState, setConfigAtKey } from "@nteract/mythic-configuration";
 
-export interface NotificationMessage {
-  key?: string;
-  icon?: IconName;
-  title?: string;
-  message: string | JSX.Element;
-  level: "error" | "warning" | "info" | "success" | "in-progress";
-  action?: {
-    icon?: IconName;
+export interface ConfigurationOptionDefinition<TYPE = any> {
+  label: string;
+  key: string;
+  defaultValue: TYPE;
+  valuesFrom?: string;
+  values?: Array<{
     label: string;
-    callback: () => void;
-  };
+    value: TYPE;
+  }>;
 }
+
+export interface ConfigurationOption<TYPE = any>
+  extends ConfigurationOptionDefinition<TYPE> {
+
+  value?: TYPE;
+  selector: (state: HasPrivateConfigurationState) => TYPE;
+  action: (value: TYPE) => typeof setConfigAtKey.action;
+}
+
+export type HasPrivateConfigurationState =
+  RootState<"configuration", ConfigurationState>;
 ```
 
 ## Support
 
-If you experience an issue while using this package or have a feature request, please file an issue on the [issue board](https://github.com/nteract/nteract/issues/new/choose) and add the `pkg:mythic-notifications` label.
+If you experience an issue while using this package or have a feature request, please file an issue on the [issue board](https://github.com/nteract/nteract/issues/new/choose) and add the `pkg:mythic-configuration` label.
 
 ## License
 

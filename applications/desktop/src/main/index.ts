@@ -1,6 +1,7 @@
 import { ConfigurationOption, createConfigOption, setConfigFile, transferConfigOptionFromRenderer } from "@nteract/mythic-configuration";
 import { KernelspecInfo, Kernelspecs } from "@nteract/types";
 import { app, BrowserWindow, dialog, Event, ipcMain as ipc, Menu, Tray } from "electron";
+import initContextMenu from "electron-context-menu";
 import * as log from "electron-log";
 import { existsSync } from "fs";
 import { mkdirpObservable } from "fs-observable";
@@ -275,6 +276,9 @@ openFile$
 openFile$.pipe(skipUntil(fullAppReady$)).subscribe(openFileFromEvent);
 let tray = null;
 fullAppReady$.subscribe(() => {
+  // Setup right-click context menu for all BrowserWindows
+  initContextMenu();
+  
   kernelSpecsPromise
     .then(kernelSpecs => {
       if (Object.keys(kernelSpecs).length !== 0) {
