@@ -41,7 +41,7 @@ function createSender(
   };
 }
 
-const theme_menu = [
+const themeMenu = [
   {
     label: "Light",
     click: createSender("menu:theme", { key: "theme", value: "light" })
@@ -54,7 +54,7 @@ const theme_menu = [
 // Definitions for all the codeMirror configurations that can be set from the menu.
 // TODO: replace Yes/No `type: 'checkbox'` item once we have state to get current
 // configuration to know which way it should be set initially.
-const codemirror_config_menu = [
+const codeMirrorConfigMenu = [
   {
     label: "Blink Editor Cursor",
     submenu: [
@@ -701,12 +701,12 @@ export function loadFullMenu(store = global.store) {
       },
       {
         label: "Theme",
-        submenu: theme_menu
+        submenu: themeMenu
       },
 
       {
         label: "Code Editor Options",
-        submenu: codemirror_config_menu
+        submenu: codeMirrorConfigMenu
       },
       {
         label: "Set default kernel",
