@@ -4,16 +4,15 @@ import { ConfigState } from "@nteract/types";
 import { Map } from "immutable";
 
 type ConfigAction =
-  | actions.SetConfigAction<any>
+  | actions.SetConfigAction
   | actions.MergeConfigAction
   | actions.ConfigLoadedAction;
-
-export function setConfigAtKey(
+//TODO:Useful to keep both setConfig and mergeConfig?
+export function setConfig(
   state: ConfigState,
-  action: actions.SetConfigAction<any>
+  action: actions.SetConfigAction
 ): Map<string, any> {
-  const { key, value } = action.payload;
-  return state.set(key, value);
+  return state.mergeDeep(action.payload);
 }
 
 export function mergeConfig(
@@ -21,7 +20,7 @@ export function mergeConfig(
   action: actions.MergeConfigAction | actions.ConfigLoadedAction
 ): Map<string, any> {
   const { config } = action.payload;
-  return state.merge(config);
+  return state.mergeDeep(config);
 }
 
 export default function handleConfig(
@@ -29,8 +28,8 @@ export default function handleConfig(
   action: ConfigAction
 ): Map<string, any> {
   switch (action.type) {
-    case actions.SET_CONFIG_AT_KEY:
-      return setConfigAtKey(state, action);
+    case actions.SET_CONFIG:
+      return setConfig(state, action);
     case actions.MERGE_CONFIG:
     case actions.CONFIG_LOADED:
       return mergeConfig(state, action);

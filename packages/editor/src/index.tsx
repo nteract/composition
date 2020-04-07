@@ -32,6 +32,8 @@ import { Tooltip } from "./components/tooltip";
 import CodeMirrorCSS from "./vendored/codemirror";
 import ShowHintCSS from "./vendored/show-hint";
 
+import isEqual from "lodash.isEqual";
+
 export { CodeMirrorCSS, ShowHintCSS };
 
 function normalizeLineEndings(str: string): string {
@@ -46,6 +48,7 @@ export interface EditorKeyEvent {
 }
 
 export type CodeMirrorEditorProps = {
+  autofocus: boolean;
   preserveScrollPosition: boolean;
   editorFocused: boolean;
   completion: boolean;
@@ -65,7 +68,8 @@ export type CodeMirrorEditorProps = {
   onFocusChange?: (focused: boolean) => void;
   value: string;
   editorType: "codemirror";
-} & Partial<FullEditorConfiguration>;
+  codeMirror: FullEditorConfiguration;
+};
 
 interface CodeMirrorEditorState {
   bundle: MediaBundle | null;
@@ -91,17 +95,18 @@ export default class CodeMirrorEditor extends React.Component<
     theme: "light",
     tip: false,
     autofocus: false,
-
-    // CodeMirror specific options for defaults
-    matchBrackets: true,
-    autoCloseBrackets: false,
-    indentUnit: 4,
-    tabSize: 4,
-    lineNumbers: false,
-    smartIndent: true,
-    cursorBlinkRate: 530,
     editorType: "codemirror",
-    showCursorWhenSelecting: true
+    // CodeMirror specific options for defaults
+    codeMirror: {
+      matchBrackets: true,
+      autoCloseBrackets: false,
+      indentUnit: 4,
+      tabSize: 4,
+      lineNumbers: false,
+      smartIndent: true,
+      cursorBlinkRate: 530,
+      showCursorWhenSelecting: true
+    }
   };
 
   textarea?: HTMLTextAreaElement | null;
@@ -172,23 +177,26 @@ export default class CodeMirrorEditor extends React.Component<
     return Object.keys(this.props)
       .filter(isConfigurable)
       .reduce((obj, key) => {
-        obj[key] = this.props[key];
+        obj[key] = this.props.codeMirror[key];
         return obj;
       }, defaults);
   }
 
   cleanMode(): string | object {
-    if (!this.props.mode) {
+    if (!this.props.codeMirror.mode) {
       return "text/plain";
     }
-    if (typeof this.props.mode === "string") {
-      return this.props.mode;
+    if (typeof this.props.codeMirror.mode === "string") {
+      return this.props.codeMirror.mode;
     }
     // If the mode comes in as an immutable map, convert it first
-    if (typeof this.props.mode === "object" && "toJS" in this.props.mode) {
-      return this.props.mode.toJS();
+    if (
+      typeof this.props.codeMirror.mode === "object" &&
+      "toJS" in this.props.codeMirror.mode
+    ) {
+      return this.props.codeMirror.mode.toJS();
     }
-    return this.props.mode;
+    return this.props.codeMirror.mode;
   }
 
   componentDidMount(): void {
@@ -316,29 +324,13 @@ export default class CodeMirrorEditor extends React.Component<
     const valueChanged = this.props.value !== nextProps.value;
     const editorFocusedChanged =
       this.props.editorFocused !== nextProps.editorFocused;
-    const cursorBlinkRateChanged =
-      this.props.cursorBlinkRate !== nextProps.cursorBlinkRate;
-    const showCursorWhenSelectingChanged =
-      this.props.showCursorWhenSelecting != nextProps.showCursorWhenSelecting;
-    const autoCloseBracketsChanged =
-      this.props.autoCloseBrackets != nextProps.autoCloseBrackets;
-    const matchBracketsChanged =
-      this.props.matchBrackets != nextProps.matchBrackets;
-    const smartIndentChanged = this.props.smartIndent != nextProps.smartIndent;
-    const tabSizeChanged = this.props.tabSize != nextProps.tabSize;
-    const lineNumbersChanged = this.props.lineNumbers != nextProps.lineNumbers;
 
-    return (
-      valueChanged ||
-      editorFocusedChanged ||
-      cursorBlinkRateChanged ||
-      showCursorWhenSelectingChanged ||
-      autoCloseBracketsChanged ||
-      matchBracketsChanged ||
-      smartIndentChanged ||
-      tabSizeChanged ||
-      lineNumbersChanged
+    const codeMirrorConfigChanged = !isEqual(
+      this.props.codeMirror,
+      nextProps.codeMirror
     );
+    debugger;
+    return valueChanged || editorFocusedChanged || codeMirrorConfigChanged;
   }
 
   componentDidUpdate(prevProps: CodeMirrorEditorProps): void {
@@ -356,8 +348,14 @@ export default class CodeMirrorEditor extends React.Component<
       editorFocused ? this.cm.focus() : this.cm.getInputField().blur();
     }
 
-    if (prevProps.cursorBlinkRate !== this.props.cursorBlinkRate) {
-      this.cm.setOption("cursorBlinkRate", this.props.cursorBlinkRate);
+    if (
+      prevProps.codeMirror.cursorBlinkRate !==
+      this.props.codeMirror.cursorBlinkRate
+    ) {
+      this.cm.setOption(
+        "cursorBlinkRate",
+        this.props.codeMirror.cursorBlinkRate
+      );
       if (editorFocused) {
         // code mirror doesn't change the blink rate immediately, we have to
         // move the cursor, or unfocus and refocus the editor to get the blink
@@ -367,7 +365,7 @@ export default class CodeMirrorEditor extends React.Component<
       }
     }
 
-    if (prevProps.mode !== this.props.mode) {
+    if (prevProps.codeMirror.mode !== this.props.codeMirror.mode) {
       this.cm.setOption("mode", this.cleanMode());
     }
 
@@ -385,13 +383,15 @@ export default class CodeMirrorEditor extends React.Component<
         this.cm.setValue(this.props.value);
       }
     }
-
-    for (const optionName in this.props) {
+    // TODO: Should only be codeMirror props? Adjust typescript types?
+    for (const optionName in this.props.codeMirror) {
       if (!isConfigurable(optionName)) {
         continue;
       }
-      if (this.props[optionName] !== prevProps[optionName]) {
-        this.cm.setOption(optionName, this.props[optionName]);
+      if (
+        this.props.codeMirror[optionName] !== prevProps.codeMirror[optionName]
+      ) {
+        this.cm.setOption(optionName, this.props.codeMirror[optionName]);
       }
     }
   }

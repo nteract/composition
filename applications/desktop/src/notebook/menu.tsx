@@ -381,13 +381,13 @@ export function dispatchZoomReset(): void {
   webFrame.setZoomLevel(0);
 }
 
-export function dispatchSetConfigAtKey(
+export function dispatchSetConfig(
   ownProps: { contentRef: ContentRef },
   store: DesktopStore,
   evt: Event,
-  config: { key: string; value: string }
+  config: ConfigPayload
 ): void {
-  store.dispatch(actions.setConfigAtKey(config.key, config.value));
+  store.dispatch(actions.setConfig(config));
 }
 
 export function dispatchCopyCell(
@@ -768,15 +768,7 @@ export function initMenuHandlers(
     "menu:restart-and-run-all",
     dispatchRestartKernel.bind(null, opts, store, "Run All")
   );
-  ipc.on("menu:theme", dispatchSetConfigAtKey.bind(null, opts, store));
-  ipc.on(
-    "menu:set-codemirror-config",
-    dispatchSetConfigAtKey.bind(null, opts, store)
-  );
-  ipc.on(
-    "menu:set-default-kernel",
-    dispatchSetConfigAtKey.bind(null, opts, store)
-  );
+  ipc.on("menu:set-config", dispatchSetConfig.bind(null, opts, store));
   ipc.on("menu:publish:gist", dispatchPublishGist.bind(null, opts, store));
   ipc.on("menu:exportPDF", storeToPDF.bind(null, opts, store));
   ipc.on("main:load", dispatchLoad.bind(null, opts, store));

@@ -44,11 +44,11 @@ function createSender(
 const themeMenu = [
   {
     label: "Light",
-    click: createSender("menu:theme", { key: "theme", value: "light" })
+    click: createSender("menu:set-config", { theme: "light" })
   },
   {
     label: "Dark",
-    click: createSender("menu:theme", { key: "theme", value: "dark" })
+    click: createSender("menu:set-config", { theme: "dark" })
   }
 ];
 // Definitions for all the codeMirror configurations that can be set from the menu.
@@ -60,16 +60,14 @@ const codeMirrorConfigMenu = [
     submenu: [
       {
         label: "Yes",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.cursorBlinkRate",
-          value: 530
+        click: createSender("menu:set-config", {
+          codeMirror: { cursorBlinkRate: 530 }
         })
       },
       {
         label: "No",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.cursorBlinkRate",
-          value: 0
+        click: createSender("menu:set-config", {
+          codeMirror: { cursorBlinkRate: 0 }
         })
       }
     ]
@@ -79,16 +77,14 @@ const codeMirrorConfigMenu = [
     submenu: [
       {
         label: "Yes",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.showCursorWhenSelecting",
-          value: true
+        click: createSender("menu:set-config", {
+          codeMirror: { showCursorWhenSelecting: true }
         })
       },
       {
         label: "No",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.showCursorWhenSelecting",
-          value: false
+        click: createSender("menu:set-config", {
+          codeMirror: { showCursorWhenSelecting: false }
         })
       }
     ]
@@ -101,16 +97,14 @@ const codeMirrorConfigMenu = [
     submenu: [
       {
         label: "Yes",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.autoCloseBrackets",
-          value: true
+        click: createSender("menu:set-config", {
+          codeMirror: { autoCloseBrackets: true }
         })
       },
       {
         label: "No",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.autoCloseBrackets",
-          value: false
+        click: createSender("menu:set-config", {
+          codeMirror: { autoCloseBrackets: false }
         })
       }
     ]
@@ -120,16 +114,14 @@ const codeMirrorConfigMenu = [
     submenu: [
       {
         label: "Yes",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.matchBrackets",
-          value: true
+        click: createSender("menu:set-config", {
+          codeMirror: { matchBrackets: true }
         })
       },
       {
         label: "No",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.matchBrackets",
-          value: false
+        click: createSender("menu:set-config", {
+          codeMirror: { matchBrackets: false }
         })
       }
     ]
@@ -139,16 +131,14 @@ const codeMirrorConfigMenu = [
     submenu: [
       {
         label: "Yes",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.smartIndent",
-          value: true
+        click: createSender("menu:set-config", {
+          codeMirror: { smartIndent: true }
         })
       },
       {
         label: "No",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.smartIndent",
-          value: false
+        click: createSender("menu:set-config", {
+          codeMirror: { smartIndent: false }
         })
       }
     ]
@@ -158,23 +148,20 @@ const codeMirrorConfigMenu = [
     submenu: [
       {
         label: "2 Spaces",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.tabSize",
-          value: 2
+        click: createSender("menu:set-config", {
+          codeMirror: { tabSize: 2 }
         })
       },
       {
         label: "3 Spaces",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.tabSize",
-          value: 3
+        click: createSender("menu:set-config", {
+          codeMirror: { tabSize: 3 }
         })
       },
       {
         label: "4 Spaces",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.tabSize",
-          value: 4
+        click: createSender("menu:set-config", {
+          codeMirror: { tabSize: 4 }
         })
       }
     ]
@@ -187,16 +174,14 @@ const codeMirrorConfigMenu = [
     submenu: [
       {
         label: "Yes",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.lineNumbers",
-          value: true
+        click: createSender("menu:set-config", {
+          codeMirror: { lineNumbers: true }
         })
       },
       {
         label: "No",
-        click: createSender("menu:set-codemirror-config", {
-          key: "codeMirror.lineNumbers",
-          value: false
+        click: createSender("menu:set-config", {
+          codeMirror: { lineNumbers: false }
         })
       }
     ]
@@ -712,9 +697,8 @@ export function loadFullMenu(store = global.store) {
         label: "Set default kernel",
         submenu: sortBy(kernelSpecs, "spec.display_name").map(kernel => ({
           label: kernel.spec.display_name,
-          click: createSender("menu:set-default-kernel", {
-            key: "defaultKernel",
-            value: kernel.name
+          click: createSender("menu:set-config", {
+            defaultKernel: kernel.name
           })
         }))
       }

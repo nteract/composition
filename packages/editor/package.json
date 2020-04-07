@@ -32,6 +32,7 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@types/lodash.debounce": "^4.0.6",
+    "@types/lodash.isequal": "^4.5.5",
     "styled-components": "^4.4.1"
   }
 }

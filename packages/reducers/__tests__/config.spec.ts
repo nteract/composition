@@ -6,13 +6,10 @@ import reducers from "../src/config";
 describe("setKey", () => {
   test("sets the keys in the config", () => {
     const initialState = Map({ theme: null });
-
+    const config = { theme: "light" };
     const state = reducers(initialState, {
-      type: actionTypes.SET_CONFIG_AT_KEY,
-      payload: {
-        key: "theme",
-        value: "light"
-      }
+      type: actionTypes.SET_CONFIG,
+      payload: config
     });
     expect(state.get("theme")).toBe("light");
   });

@@ -27,19 +27,24 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
   const { id, contentRef } = ownProps;
   const mapStateToProps = (state: AppState) => {
     let mode = rawMode;
-    let cursorBlinkRate = state.config.get("codeMirror.cursorBlinkRate", 530);
-    let showCursorWhenSelecting = state.config.get(
-      "codeMirror.showCursorWhenSelecting",
-      false
+
+    const codeMirrorDefaults = {
+      cursorBlinkRate: 530,
+      showCursorWhenSelecting: false,
+      autoCloseBrackets: false,
+      matchBrackets: true,
+      smartIndent: true,
+      tabSize: 4,
+      lineNumbers: false
+    };
+    const codeMirrorCurrentConfig = state.config.get("codeMirror");
+
+    const codeMirror = Object.assign(
+      {},
+      codeMirrorDefaults,
+      codeMirrorCurrentConfig
     );
-    let autoCloseBrackets = state.config.get(
-      "codeMirror.autoCloseBrackets",
-      false
-    );
-    let matchBrackets = state.config.get("codeMirror.matchBrackets", true);
-    let smartIndent = state.config.get("codeMirror.smartIndent", true);
-    let tabSize = state.config.get("codeMirror.tabSize", 4);
-    let lineNumbers = state.config.get("codeMirror.lineNumbers", false);
+
     let lineWrapping = true;
 
     const model = selectors.model(state, { contentRef });
@@ -66,13 +71,7 @@ const makeMapStateToProps = (state: AppState, ownProps: ComponentProps) => {
     }
     return {
       mode,
-      cursorBlinkRate,
-      showCursorWhenSelecting,
-      autoCloseBrackets,
-      matchBrackets,
-      smartIndent,
-      tabSize,
-      lineNumbers,
+      codeMirror,
       lineWrapping,
       tip: true,
       completion: true

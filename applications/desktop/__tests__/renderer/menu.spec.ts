@@ -195,8 +195,8 @@ describe("dispatchCopyCell", () => {
   });
 });
 
-describe("dispatchSetConfigAtKey for the theme", () => {
-  test("dispatches a SET_CONFIG_AT_KEY action", () => {
+describe("dispatchSetConfig for the theme", () => {
+  test("dispatches a SET_CONFIG action", () => {
     const store = {
       dispatch: jest.fn()
     };
@@ -204,27 +204,27 @@ describe("dispatchSetConfigAtKey for the theme", () => {
       contentRef: "123"
     };
 
-    menu.dispatchSetConfigAtKey(
+    const config = { theme: "test_theme" };
+
+    menu.dispatchSetConfig(
       props,
       store,
       {},
       {
-        key: "theme",
-        value: "test_theme"
+        config
       }
     );
 
     expect(store.dispatch).toHaveBeenCalledWith({
-      type: actions.SET_CONFIG_AT_KEY,
+      type: actions.SET_CONFIG,
       payload: {
-        key: "theme",
-        value: "test_theme"
+        config
       }
     });
   });
 });
-describe("dispatch dispatchSetConfigAtKey for the SetCursorBlink Codemirror configuration", () => {
-  test("dispatches a SET_CONFIG_AT_KEY action", () => {
+describe("dispatch dispatchSetConfig for the SetCursorBlink Codemirror configuration", () => {
+  test("dispatches a SET_CONFIG action", () => {
     const store = {
       dispatch: jest.fn()
     };
@@ -232,18 +232,14 @@ describe("dispatch dispatchSetConfigAtKey for the SetCursorBlink Codemirror conf
       contentRef: "123"
     };
 
-    menu.dispatchSetConfigAtKey(
-      props,
-      store,
-      {},
-      { key: "codeMirror.cursorBlinkRate", value: 42 }
-    );
+    const config = { codeMirror: { cursorBlinkRate: 42 } };
+
+    menu.dispatchSetConfig(props, store, {}, { config });
 
     expect(store.dispatch).toHaveBeenCalledWith({
-      type: actions.SET_CONFIG_AT_KEY,
+      type: actions.SET_CONFIG,
       payload: {
-        key: "codeMirror.cursorBlinkRate",
-        value: 42
+        config
       }
     });
   });
@@ -725,8 +721,7 @@ describe("initMenuHandlers", () => {
       "menu:publish:gist",
       "menu:zoom-in",
       "menu:zoom-out",
-      "menu:theme",
-      "menu:set-codemirror-config",
+      "menu:set-config",
       "main:load",
       "main:new"
     ].forEach(name => {
@@ -898,20 +893,17 @@ describe("exportPDF", () => {
   });
 });
 
-describe("dispatchSetConfigAtKey", () => {
-  test("dispatches a setConfigAtKey action", () => {
+describe("dispatch SetConfig", () => {
+  test("dispatches a setConfig action", () => {
     const store = {
       dispatch: jest.fn()
     };
     const props = {
       contentRef: "123"
     };
-    const key = "key";
-    const value = "value";
-    menu.dispatchSetConfigAtKey(props, store, {}, { key, value });
-    expect(store.dispatch).toHaveBeenCalledWith(
-      actions.setConfigAtKey(key, value)
-    );
+    const config = { key: "value" };
+    menu.dispatchSetConfig(props, store, {}, { config });
+    expect(store.dispatch).toHaveBeenCalledWith(actions.setConfig({ config }));
   });
 });
 
