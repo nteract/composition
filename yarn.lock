@@ -2857,7 +2857,6 @@
   resolved "https://registry.yarnpkg.com/@nteract/logos/-/logos-1.0.0.tgz#e17ca29f41a5282fe32fa5e4e69a5a3a9839d378"
   integrity sha512-6f675p3gzs7ZMAovzfOx+QOMNu1TGVT2aV5lPOwnPxJCM/APLpDRFcSoURwLA26CROlTTDEe10XweFzJgQ+VEQ==
 
-
 "@nteract/markdown@^4.3.10-alpha.0", "@nteract/markdown@^4.3.12":
   version "4.3.12"
   resolved "https://registry.yarnpkg.com/@nteract/markdown/-/markdown-4.3.12.tgz#81a654392aa98818824c1f8ac4ec908f0aceeb3f"
@@ -2876,24 +2875,6 @@
     react "^16.13.0"
     react-dom "^16.13.0"
 
-"@nteract/mathjax@^4.0.8-alpha.0":
-  version "4.0.8-alpha.0"
-  resolved "https://registry.yarnpkg.com/@nteract/mathjax/-/mathjax-4.0.8-alpha.0.tgz#369d5d57a6c42bf0c88f9fd02083093a5b0c0251"
-  integrity sha512-P6G38Tiq3bIGDuuRipkiyQiKfKhyuRm7Lybxx9A2I+UQ5Z8vIV2Y1UU5rlHdXvFhpQYARCT3DMT5Rysw6aQILw==
-  dependencies:
-    load-script "^1.0.0"
-
-"@nteract/messaging@^7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@nteract/messaging/-/messaging-7.0.0.tgz#2ed8665dfe29c11b0d4981a8109bc1428bfb4679"
-  integrity sha512-N/M8/7/seeSBYbtO0ZKzVeMnzJtVn5fiBSoDiEmvkFB8Y/UXoOeVxBusZVVZN054FbOgkX+vnRvaSEd75iRGag==
-  dependencies:
-    "@nteract/types" "^6.0.0"
-    "@types/uuid" "^3.4.4"
-    lodash.clonedeep "^4.5.0"
-    rxjs "^6.3.3"
-    uuid "^3.1.0"
-
 "@nteract/octicons@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@nteract/octicons/-/octicons-2.0.0.tgz#eccd5de8bc0ef4d1bb4154b791db80f4f6bac995"
@@ -2908,26 +2889,6 @@
     "@nteract/mathjax" "^4.0.7"
     ansi-to-react "^6.0.5"
     react-json-tree "^0.11.0"
-
-
-"@nteract/presentational-components@^3.3.10-alpha.0":
-  version "3.3.10-alpha.0"
-  resolved "https://registry.yarnpkg.com/@nteract/presentational-components/-/presentational-components-3.3.10-alpha.0.tgz#8fd38f7162c242b1cfffa755d552e858daa61e18"
-  integrity sha512-5NvvvXNHY+sCty+3rGGGS30W5S25su5YeQ0J3jVegaaxJStU+UyPQcAqL/ZetDMzlJrlxVtyRszwDwhD2wq+FA==
-  dependencies:
-    "@blueprintjs/core" "^3.7.0"
-    "@blueprintjs/select" "^3.2.0"
-    react-syntax-highlighter "^12.0.0"
-
-"@nteract/types@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@nteract/types/-/types-6.0.0.tgz#16202c716c62b719448bd3a4a80700d0013d3509"
-  integrity sha512-vpqZnXbJwQ31ngxHizs9c8t1g76Po3W4vay+zM5yiog8/bgWtfKiG8zVoQMesHrLGCJPt+QDoPIIXo2Ju61A3A==
-  dependencies:
-    "@nteract/commutable" "^7.2.6"
-    immutable "^4.0.0-rc.12"
-    rxjs "^6.3.3"
-    uuid "^3.1.0"
 
 "@octokit/auth-token@^2.4.0":
   version "2.4.0"
@@ -14816,7 +14777,7 @@ react-error-overlay@^6.0.3:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.4.tgz#0d165d6d27488e660bc08e57bdabaad741366f7a"
   integrity sha512-ueZzLmHltszTshDMwyfELDq8zOA803wQ1ZuzCccXa1m57k1PxSHfflPD5W9YIiTXLs0JTLzoj6o1LuM5N6zzNA==
 
-react-fast-compare@^2.0.2:
+react-fast-compare@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
@@ -14828,15 +14789,15 @@ react-group@^3.0.2:
   dependencies:
     prop-types "^15.7.2"
 
-react-helmet@^5.2.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.2.1.tgz#16a7192fdd09951f8e0fe22ffccbf9bb3e591ffa"
-  integrity sha512-CnwD822LU8NDBnjCpZ4ySh8L6HYyngViTZLfBBb3NjtrpN8m49clH8hidHouq20I51Y6TpCTISCBbqiY5GamwA==
+react-helmet@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.0.0.tgz#fcb93ebaca3ba562a686eb2f1f9d46093d83b5f8"
+  integrity sha512-My6S4sa0uHN/IuVUn0HFmasW5xj9clTkB9qmMngscVycQ5vVG51Qp44BEvLJ4lixupTwDlU9qX1/sCrMN4AEPg==
   dependencies:
     object-assign "^4.1.1"
-    prop-types "^15.5.4"
-    react-fast-compare "^2.0.2"
-    react-side-effect "^1.1.0"
+    prop-types "^15.7.2"
+    react-fast-compare "^2.0.4"
+    react-side-effect "^2.1.0"
 
 react-hot-loader@^4.1.2:
   version "4.12.18"
@@ -14958,12 +14919,10 @@ react-router@5.1.2:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-side-effect@^1.1.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-1.2.0.tgz#0e940c78faba0c73b9b0eba9cd3dda8dfb7e7dae"
-  integrity sha512-v1ht1aHg5k/thv56DRcjw+WtojuuDHFUgGfc+bFHOWsF4ZK6C2V57DO0Or0GPsg6+LSTE0M6Ry/gfzhzSwbc5w==
-  dependencies:
-    shallowequal "^1.0.1"
+react-side-effect@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
+  integrity sha512-IgmcegOSi5SNX+2Snh1vqmF0Vg/CbkycU9XZbOHJlZ6kMzTmi3yc254oB1WCkgA7OQtIAoLmcSFuHTc/tlcqXg==
 
 react-simple-code-editor@^0.10.0:
   version "0.10.0"
@@ -16274,7 +16233,7 @@ shallow-clone@^3.0.0:
   dependencies:
     kind-of "^6.0.2"
 
-shallowequal@^1.0.1, shallowequal@^1.1.0:
+shallowequal@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
   integrity sha512-y0m1JoUZSlPAjXVtPPW70aZWfIL/dSP7AFkRnniLCrK/8MDKog3TySTBmckD+RObVxH0v4Tox67+F14PdED2oQ==
