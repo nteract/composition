@@ -59,6 +59,7 @@
     "test:unit": "npm run test",
     "test:coverage": "npm run test -- --coverage",
     "test:lint": "npm run lint",
+    "test:chrome": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand packages/editor/__tests__/editor.spec.tsx",
     "diagnostics": "scripts/kernelspecs-diagnostics.js",
     "verifyBeforePublish": "npm run build:packages && npm run build:apps",
     "prepublishOnly": "npm run build:packages",

@@ -174,7 +174,7 @@ export default class CodeMirrorEditor extends React.Component<
 
   fullOptions(defaults: FullEditorConfiguration = {}) {
     // Only pass to codemirror the options we support
-    return Object.keys(this.props)
+    return Object.keys(this.props.codeMirror)
       .filter(isConfigurable)
       .reduce((obj, key) => {
         obj[key] = this.props.codeMirror[key];
@@ -329,13 +329,24 @@ export default class CodeMirrorEditor extends React.Component<
       this.props.codeMirror,
       nextProps.codeMirror
     );
-    debugger;
+
     return valueChanged || editorFocusedChanged || codeMirrorConfigChanged;
   }
 
   componentDidUpdate(prevProps: CodeMirrorEditorProps): void {
     if (!this.cm) {
       return;
+    }
+
+    for (const optionName in this.props.codeMirror) {
+      if (!isConfigurable(optionName)) {
+        continue;
+      }
+      if (
+        this.props.codeMirror[optionName] !== prevProps.codeMirror[optionName]
+      ) {
+        this.cm.setOption(optionName, this.props.codeMirror[optionName]);
+      }
     }
 
     const { editorFocused, theme } = this.props;
@@ -352,10 +363,6 @@ export default class CodeMirrorEditor extends React.Component<
       prevProps.codeMirror.cursorBlinkRate !==
       this.props.codeMirror.cursorBlinkRate
     ) {
-      this.cm.setOption(
-        "cursorBlinkRate",
-        this.props.codeMirror.cursorBlinkRate
-      );
       if (editorFocused) {
         // code mirror doesn't change the blink rate immediately, we have to
         // move the cursor, or unfocus and refocus the editor to get the blink
@@ -363,10 +370,6 @@ export default class CodeMirrorEditor extends React.Component<
         this.cm.getInputField().blur();
         this.cm.focus();
       }
-    }
-
-    if (prevProps.codeMirror.mode !== this.props.codeMirror.mode) {
-      this.cm.setOption("mode", this.cleanMode());
     }
 
     if (
@@ -381,17 +384,6 @@ export default class CodeMirrorEditor extends React.Component<
         this.cm.scrollTo(prevScrollPosition.left, prevScrollPosition.top);
       } else {
         this.cm.setValue(this.props.value);
-      }
-    }
-    // TODO: Should only be codeMirror props? Adjust typescript types?
-    for (const optionName in this.props.codeMirror) {
-      if (!isConfigurable(optionName)) {
-        continue;
-      }
-      if (
-        this.props.codeMirror[optionName] !== prevProps.codeMirror[optionName]
-      ) {
-        this.cm.setOption(optionName, this.props.codeMirror[optionName]);
       }
     }
   }

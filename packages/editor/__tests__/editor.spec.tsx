@@ -148,7 +148,7 @@ describe("Editor", () => {
     const instance = editorWrapper.instance();
     const cm = instance.cm;
     expect(cm.options.cursorBlinkRate).toBe(531);
-    editorWrapper.setProps({ cursorBlinkRate: 0 });
+    editorWrapper.setProps({ codeMirror: { cursorBlinkRate: 0 } });
     expect(cm.options.cursorBlinkRate).toBe(0);
   });
   it("tab triggers completion when pressed at end of line", () => {
@@ -173,21 +173,21 @@ describe("Editor", () => {
   });
   it("converts an Immutable.Map mode to an object", () => {
     const component = mount(
-      <Editor mode={Immutable.Map({ language: "python" })} />
+      <Editor codeMirror={{ mode: Immutable.Map({ language: "python" }) }} />
     );
     const result = component.instance().cleanMode();
     expect(result.language).toBe("python");
   });
   it("can update component", () => {
     const component = mount(
-      <Editor mode={Immutable.Map({ language: "python" })} />
+      <Editor codeMirror={{ mode: Immutable.Map({ language: "python" }) }} />
     );
-    component.setProps({ mode: "text/ipython" });
+    component.setProps({ codeMirror: { mode: "text/ipython" } });
     expect(component.isEmptyRender()).toBe(false);
   });
   it("can handle moving line down if not at bottom", () => {
     const component = mount(
-      <Editor mode={Immutable.Map({ language: "python" })} />
+      <Editor codeMirror={{ mode: Immutable.Map({ language: "python" }) }} />
     );
     const editor = {
       getCursor: jest.fn(() => ({ line: 2, ch: 1 })),
@@ -201,7 +201,7 @@ describe("Editor", () => {
 
   it("can handle moving line down if at bottom", () => {
     const component = mount(
-      <Editor mode={Immutable.Map({ language: "python" })} />
+      <Editor codeMirror={{ mode: Immutable.Map({ language: "python" }) }} />
     );
     const editor = {
       getCursor: jest.fn(() => ({ line: 5, ch: 4 })),
@@ -215,7 +215,7 @@ describe("Editor", () => {
   });
   it("can handle moving line up if not at top", () => {
     const component = mount(
-      <Editor mode={Immutable.Map({ language: "python" })} />
+      <Editor codeMirror={{ mode: Immutable.Map({ language: "python" }) }} />
     );
     const editor = {
       getCursor: jest.fn(() => ({ line: 2, ch: 1 })),
@@ -228,7 +228,7 @@ describe("Editor", () => {
 
   it("can handle moving line up if at top", () => {
     const component = mount(
-      <Editor mode={Immutable.Map({ language: "python" })} />
+      <Editor codeMirror={{ mode: Immutable.Map({ language: "python" }) }} />
     );
     const editor = {
       getCursor: jest.fn(() => ({ line: 0, ch: 0 })),
