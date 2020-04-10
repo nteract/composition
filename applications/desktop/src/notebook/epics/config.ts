@@ -38,7 +38,6 @@ export const saveConfigOnChangeEpic = (action$: ActionsObservable<Actions>) =>
 /**
  * An epic that saves the configuration.
  */
-//TODO: Solve save config bug, remove extra config:{}
 export const saveConfigEpic = (
   action$: ActionsObservable<Actions>,
   state$: StateObservable<DesktopNotebookAppState>
