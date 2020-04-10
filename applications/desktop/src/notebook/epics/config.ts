@@ -21,11 +21,7 @@ export const loadConfigEpic = (action$: ActionsObservable<Actions>) =>
     ofType(actions.LOAD_CONFIG),
     switchMap(() =>
       readFileObservable(CONFIG_FILE_PATH).pipe(
-        map(data =>
-          actions.configLoaded({
-            config: JSON.parse(data.toString())
-          })
-        )
+        map(data => actions.configLoaded(JSON.parse(data.toString())))
       )
     )
   );
@@ -42,6 +38,7 @@ export const saveConfigOnChangeEpic = (action$: ActionsObservable<Actions>) =>
 /**
  * An epic that saves the configuration.
  */
+//TODO: Solve save config bug, remove extra config:{}
 export const saveConfigEpic = (
   action$: ActionsObservable<Actions>,
   state$: StateObservable<DesktopNotebookAppState>

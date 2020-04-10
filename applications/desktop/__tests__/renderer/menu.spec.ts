@@ -234,13 +234,11 @@ describe("dispatch dispatchSetConfig for the SetCursorBlink Codemirror configura
 
     const config = { codeMirror: { cursorBlinkRate: 42 } };
 
-    menu.dispatchSetConfig(props, store, {}, { config });
+    menu.dispatchSetConfig(props, store, {}, config);
 
     expect(store.dispatch).toHaveBeenCalledWith({
       type: actions.SET_CONFIG,
-      payload: {
-        config
-      }
+      payload: config
     });
   });
 });
