@@ -6,7 +6,7 @@ import { Map } from "immutable";
 type ConfigAction = actions.SetConfigAction | actions.ConfigLoadedAction;
 export function setConfig(
   state: ConfigState,
-  action: actions.SetConfigAction
+  action: ConfigAction
 ): Map<string, any> {
   return state.mergeDeep(action.payload);
 }

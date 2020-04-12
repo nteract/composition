@@ -385,7 +385,7 @@ export function dispatchSetConfig(
   ownProps: { contentRef: ContentRef },
   store: DesktopStore,
   evt: Event,
-  config: ConfigPayload
+  config: Object
 ): void {
   store.dispatch(actions.setConfig(config));
 }
