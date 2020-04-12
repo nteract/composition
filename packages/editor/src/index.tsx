@@ -32,7 +32,7 @@ import { Tooltip } from "./components/tooltip";
 import CodeMirrorCSS from "./vendored/codemirror";
 import ShowHintCSS from "./vendored/show-hint";
 
-import isEqual from "lodash.isEqual";
+import isEqual from "lodash.isequal";
 
 export { CodeMirrorCSS, ShowHintCSS };
 
