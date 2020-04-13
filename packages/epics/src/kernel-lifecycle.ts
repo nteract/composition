@@ -9,7 +9,7 @@ import {
 import { sendNotification } from "@nteract/mythic-notifications";
 import { AnyAction } from "redux";
 import { ActionsObservable, ofType, StateObservable } from "redux-observable";
-import { EMPTY, merge, Observable, Observer, of } from "rxjs";
+import { EMPTY, merge, Observable, Observer, of, empty } from "rxjs";
 import {
   catchError,
   concatMap,
@@ -20,7 +20,7 @@ import {
   switchMap,
   take,
   takeUntil,
-  timeout
+  timeout  
 } from "rxjs/operators";
 
 import * as actions from "@nteract/actions";
@@ -63,7 +63,10 @@ export const watchExecutionStateEpic = (
                 ) => killAction.payload.kernelRef === action.payload.kernelRef
               )
             )
-          )
+          ),
+          catchError((error: Error) => {
+            return empty();
+          })
         )
     )
   );

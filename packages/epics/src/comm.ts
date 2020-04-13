@@ -1,8 +1,8 @@
 import { ofMessageType } from "@nteract/messaging";
 import { ofType, StateObservable } from "redux-observable";
 import { ActionsObservable } from "redux-observable";
-import { merge } from "rxjs";
-import { map, switchMap, takeUntil, filter } from "rxjs/operators";
+import { merge, empty } from "rxjs";
+import { map, switchMap, takeUntil, filter, catchError } from "rxjs/operators";
 
 import {
   commMessageAction,
@@ -57,7 +57,10 @@ export const commListenEpic = (
                 action.payload.kernelRef === kernelRef
             )
           )
-        )
+        ),
+        catchError((error: Error) => {
+          return empty();
+        })
       );
 
       const commMessageAction$ = kernel.channels.pipe(
@@ -71,7 +74,10 @@ export const commListenEpic = (
                 action.payload.kernelRef === kernelRef
             )
           )
-        )
+        ),
+        catchError((error: Error) => {
+          return empty();
+        })
       );
 
       return merge(

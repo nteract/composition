@@ -11,8 +11,8 @@ import {
   DirectoryModelRecordProps
 } from "@nteract/types";
 
-import { of } from "rxjs";
-import { filter, switchMap } from "rxjs/operators";
+import { of, empty } from "rxjs";
+import { filter, switchMap, catchError } from "rxjs/operators";
 import { RecordOf } from "immutable";
 
 /**
@@ -86,5 +86,8 @@ export const ipywidgetsModel$ = (
             })
           : null
       );
+    }),
+    catchError((error: Error) => {
+      return empty();
     })
   );
