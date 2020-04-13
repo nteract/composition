@@ -6,6 +6,17 @@ Interactive notebooks are a great tool for data scientists, hobbyists, and progr
 
 The fastest way to get started with nteract is to download the desktop application to your machine. You can download the installer for your operating system on the [nteract homepage](https://nteract.io/desktop). Once you've downloaded and installed nteract, you can launch the program from the install directory. Note that this guide assumes you are using the nteract desktop application.
 
+### Setting up using Snap
+
+To install nteract desktop application using [Snapcraft](https://snapcraft.io), which should work with all the major Linux distros. If you are new to Snaps, you can learn more about it from [here](https://snapcraft.io/docs/getting-started), and download it for your distro from [here](https://snapcraft.io/docs/installing-snapd). 
+
+Once you have installed Snap, you can install `nteract` by:
+```bash
+$ sudo snap install nteract --edge
+```
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/nteract)
+
 ### Setting up the nteract web application
 
 In addition to using nteract on the desktop, you can also use nteract within your web browser. To do so, you'll need to install the `nteract_on_jupyter` Python package using the following command.

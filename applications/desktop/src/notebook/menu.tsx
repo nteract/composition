@@ -79,18 +79,6 @@ export function showSaveAsDialog(): Promise<string> {
   });
 }
 
-export function triggerWindowRefresh(
-  ownProps: { contentRef: ContentRef },
-  store: DesktopStore,
-  filepath: string
-): void {
-  if (!filepath) {
-    return;
-  }
-
-  store.dispatch(actions.saveAs({ filepath, contentRef: ownProps.contentRef }));
-}
-
 export function dispatchRestartKernel(
   ownProps: { contentRef: ContentRef },
   store: DesktopStore,
@@ -113,73 +101,6 @@ export function dispatchRestartKernel(
   );
 }
 
-export function promptUserAboutNewKernel(
-  ownProps: { contentRef: ContentRef },
-  store: DesktopStore,
-  filepath: string
-): Promise<void> {
-  return new Promise(resolve => {
-    dialog.showMessageBox(
-      {
-        type: "question",
-        buttons: ["Launch New Kernel", "Don't Launch New Kernel"],
-        title: "New Kernel Needs to Be Launched",
-        message:
-          "It looks like you've saved your notebook file to a new location.",
-        detail:
-          "The kernel executing your code thinks your notebook is still in " +
-          "the old location. Would you like to launch a new kernel to match " +
-          "it with the new location of the notebook?"
-      },
-      index => {
-        if (index === 0) {
-          const state = store.getState();
-          const oldKernelRef = selectors.kernelRefByContentRef(state, ownProps);
-          if (!oldKernelRef) {
-            console.error("kernel not available for relaunch");
-            return;
-          }
-          const kernel = selectors.kernel(state, { kernelRef: oldKernelRef });
-          if (!kernel) {
-            console.error("kernel not available for relaunch");
-            return;
-          }
-
-          const cwd = filepath
-            ? path.dirname(path.resolve(filepath))
-            : getDocumentDirectory();
-
-          // Create a brand new kernel
-          const kernelRef = createKernelRef();
-
-          store.dispatch(
-            actions.launchKernelByName({
-              kernelSpecName: kernel.kernelSpecName,
-              cwd,
-              kernelRef,
-              selectNextKernel: true,
-              contentRef: ownProps.contentRef
-            })
-          );
-        }
-        resolve();
-      }
-    );
-  });
-}
-
-export function triggerSaveAs(
-  ownProps: { contentRef: ContentRef },
-  store: DesktopStore
-): void {
-  showSaveAsDialog().then(filepath => {
-    if (filepath) {
-      triggerWindowRefresh(ownProps, store, filepath);
-      promptUserAboutNewKernel(ownProps, store, filepath);
-    }
-  });
-}
-
 export function dispatchSave(
   ownProps: { contentRef: ContentRef },
   store: DesktopStore
@@ -189,7 +110,10 @@ export function dispatchSave(
   const filepath = selectors.filepath(state, ownProps);
 
   if (filepath === null || filepath === "") {
-    triggerSaveAs(ownProps, store);
+    showSaveAsDialog().then(filepath => {
+      if (filepath)
+        store.dispatch(actions.saveAs({ filepath, contentRef: ownProps.contentRef }));
+    });
   } else {
     store.dispatch(actions.save(ownProps));
   }
@@ -665,7 +589,7 @@ export function triggerSaveAsPDF(
     .then(filepath => {
       if (filepath) {
         return Promise.all([
-          triggerWindowRefresh(ownProps, store, filepath)
+          store.dispatch(actions.saveAs({ filepath, contentRef: ownProps.contentRef }))
         ]).then(() => storeToPDF(ownProps, store));
       }
     })

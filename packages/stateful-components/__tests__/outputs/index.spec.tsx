@@ -22,7 +22,7 @@ describe("Outputs", () => {
     );
     expect(component.find(".hidden").length).not.toBe(0);
   });
-  it("sets expanded class correctly based on props", () => {
+  it("sets expanded class when expanded prop is true", () => {
     const component = mount(
       <Outputs
         id={"cellId"}
@@ -35,6 +35,20 @@ describe("Outputs", () => {
       </Outputs>
     );
     expect(component.find(".expanded").length).not.toBe(0);
+  });
+  it("does not set expanded class when expanded prop is false", () => {
+    const component = mount(
+      <Outputs
+        id={"cellId"}
+        contentRef={"contentRef"}
+        hidden={false}
+        expanded={false}
+        outputs={Immutable.List()}
+      >
+        <p>test</p>
+      </Outputs>
+    );
+    expect(component.find(".expanded").length).toBe(0);
   });
 });
 
@@ -58,6 +72,6 @@ describe("makeMapStateToProps", () => {
     const ownProps = { contentRef, id };
     const result = makeMapStateToProps(state, ownProps)(state);
     expect(result.hidden).toBe(false);
-    expect(result.expanded).toBe(true);
+    expect(result.expanded).toBe(false);
   });
 });

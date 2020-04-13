@@ -24,7 +24,8 @@ export const makeCodeCell = Record<CodeCellParams>({
   cell_type: "code",
   execution_count: null,
   metadata: ImmutableMap({
-    collapsed: false,
+    collapsed: true,
+    outputExpanded: false,
     jupyter: ImmutableMap({
       source_hidden: false,
       outputs_hidden: false

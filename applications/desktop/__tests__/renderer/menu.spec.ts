@@ -728,35 +728,6 @@ describe("initMenuHandlers", () => {
   });
 });
 
-describe("triggerWindowRefresh", () => {
-  test("does nothing if no filename is given", () => {
-    const store = {
-      dispatch: jest.fn()
-    };
-
-    expect(menu.triggerWindowRefresh(store, null)).toBeUndefined();
-  });
-  test("sends a SAVE_AS action if given filename", () => {
-    const props = {
-      contentRef: "123"
-    };
-
-    const store = {
-      dispatch: jest.fn()
-    };
-    const filepath = "dummy-nb.ipynb";
-
-    menu.triggerWindowRefresh(props, store, filepath);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      actions.saveAs({
-        filepath,
-        contentRef: "123"
-      })
-    );
-  });
-});
-
 describe("exportPDF", () => {
   test("it notifies a user upon successful write", () => {
     const state = mockAppState({});
@@ -910,23 +881,5 @@ describe("showSaveAsDialog", () => {
     menu.showSaveAsDialog().then(filepath => {
       expect(remote.dialog.showSaveAsDialog).toBeCalled();
     });
-  });
-});
-
-describe("promptUserAboutNewKernel", () => {
-  it("shows a message box for restarting a new kernel", () => {
-    const state = mockAppState({});
-    const contentRef: string = state.core.entities.contents.byRef
-      .keySeq()
-      .first();
-    const store = {
-      dispatch: jest.fn(),
-      getState: jest.fn(() => state)
-    };
-    menu
-      .promptUserAboutNewKernel({ contentRef }, store, "file.ipynb")
-      .then(filepath => {
-        expect(remote.dialog.showMessageBox).toBeCalled();
-      });
   });
 });

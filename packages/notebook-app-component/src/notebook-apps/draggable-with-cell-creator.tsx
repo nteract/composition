@@ -4,7 +4,7 @@ import {
   Cells,
   CodeCell,
   MarkdownCell,
-  RawCell
+  RawCell,
 } from "@nteract/stateful-components";
 import React from "react";
 
@@ -72,7 +72,7 @@ export class NotebookApp extends React.Component<ComponentProps> {
                             id={props.id}
                             contentRef={props.contentRef}
                           />
-                        )
+                        ),
                       }}
                     </CodeCell>
                   ),
@@ -92,7 +92,7 @@ export class NotebookApp extends React.Component<ComponentProps> {
                             id={props.id}
                             contentRef={props.contentRef}
                           />
-                        )
+                        ),
                       }}
                     </MarkdownCell>
                   ),
@@ -112,14 +112,14 @@ export class NotebookApp extends React.Component<ComponentProps> {
                             id={props.id}
                             contentRef={props.contentRef}
                           />
-                        )
+                        ),
                       }}
                     </RawCell>
-                  )
+                  ),
               }}
             </Cells>
             <StatusBar contentRef={this.props.contentRef} />
-            <ThemableNotifications/>
+            <ThemableNotifications />
           </KeyboardShortcuts>
         </Themer>
       </React.Fragment>

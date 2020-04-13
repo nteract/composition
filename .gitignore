@@ -67,3 +67,5 @@ site/
 
 # Ignore pip install data for the Jupyter extensions
 applications/jupyter-extension/pip-wheel-metadata/
+
+applications/desktop/**/*.d.ts

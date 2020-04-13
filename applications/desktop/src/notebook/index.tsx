@@ -5,7 +5,19 @@
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/select/lib/css/blueprint-select.css";
 
-import { ContentRecord, ContentRef, createContentRef, makeAppRecord, makeCommsRecord, makeContentsRecord, makeEntitiesRecord, makeLocalHostRecord, makeNotebookContentRecord, makeStateRecord, makeTransformsRecord } from "@nteract/core";
+import {
+  ContentRecord,
+  ContentRef,
+  createContentRef,
+  makeAppRecord,
+  makeCommsRecord,
+  makeContentsRecord,
+  makeEntitiesRecord,
+  makeLocalHostRecord,
+  makeNotebookContentRecord,
+  makeStateRecord,
+  makeTransformsRecord,
+} from "@nteract/core";
 
 import DataExplorer from "@nteract/data-explorer";
 import WidgetDisplay from "@nteract/jupyter-widgets";
@@ -24,7 +36,16 @@ import GeoJSONTransform from "@nteract/transform-geojson";
 import ModelDebug from "@nteract/transform-model-debug";
 import PlotlyTransform from "@nteract/transform-plotly";
 import VDOMDisplay from "@nteract/transform-vdom";
-import { Vega2, Vega3, Vega4, Vega5, VegaLite1, VegaLite2, VegaLite3, VegaLite4 } from "@nteract/transform-vega";
+import {
+  Vega2,
+  Vega3,
+  Vega4,
+  Vega5,
+  VegaLite1,
+  VegaLite2,
+  VegaLite3,
+  VegaLite4,
+} from "@nteract/transform-vega";
 
 import "codemirror/addon/hint/show-hint.css";
 import "codemirror/lib/codemirror.css";
@@ -58,16 +79,16 @@ const initialRefs = Immutable.Map<ContentRef, ContentRecord>().set(
 const store = configureStore({
   app: makeAppRecord({
     host: makeLocalHostRecord(),
-    version: remote.app.getVersion()
+    version: remote.app.getVersion(),
   }),
   comms: makeCommsRecord(),
   config: Immutable.Map({
-    theme: "light"
+    theme: "light",
   }),
   core: makeStateRecord({
     entities: makeEntitiesRecord({
       contents: makeContentsRecord({
-        byRef: initialRefs
+        byRef: initialRefs,
       }),
       transforms: makeTransformsRecord({
         displayOrder: Immutable.List([
@@ -95,7 +116,7 @@ const store = configureStore({
           "image/gif",
           "image/png",
           "image/jpeg",
-          "text/plain"
+          "text/plain",
         ]),
         byId: Immutable.Map({
           "text/vnd.plotly.v1+html": PlotlyTransform,
@@ -122,12 +143,12 @@ const store = configureStore({
           "image/gif": Media.Image,
           "image/png": Media.Image,
           "image/jpeg": Media.Image,
-          "text/plain": Media.Plain
-        })
-      })
-    })
+          "text/plain": Media.Plain,
+        }),
+      }),
+    }),
   }),
-  desktopNotebook: makeDesktopNotebookRecord()
+  desktopNotebook: makeDesktopNotebookRecord(),
 });
 
 // Register for debugging

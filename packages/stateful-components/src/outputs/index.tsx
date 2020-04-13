@@ -57,8 +57,8 @@ export const makeMapStateToProps = (
           cell.getIn(["metadata", "jupyter", "outputs_hidden"]);
         expanded =
           cell.cell_type === "code" &&
-          (cell.getIn(["metadata", "outputExpanded"]) ||
-            !cell.getIn(["metadata", "collapsed"]));
+          (cell.getIn(["metadata", "collapsed"]) === false ||
+            cell.getIn(["metadata", "outputExpanded"]));
       }
     }
 

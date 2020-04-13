@@ -12,7 +12,6 @@ nav:
       - "@nteract/commutable": "!include ./packages/commutable/mkdocs.yml"
       - "@nteract/core": "!include ./packages/core/mkdocs.yml"
       - "@nteract/epics": "!include ./packages/epics/mkdocs.yml"
-      - "@nteract/outputs": "!include ./packages/outputs/mkdocs.yml"
       - "@nteract/stateful-components": "!include ./packages/stateful-components/mkdocs.yml"
 
 plugins:

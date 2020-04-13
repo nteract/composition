@@ -256,6 +256,7 @@ export const byRef = (
           })
       );
     }
+    case actionTypes.SAVE_AS_FULFILLED:
     case actionTypes.SAVE_FULFILLED: {
       const saveFulfilledAction = action as actionTypes.SaveFulfilled;
       return state

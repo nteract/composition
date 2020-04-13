@@ -1,17 +1,18 @@
 {
   "name": "@nteract/web",
-  "version": "1.0.2-alpha.0",
+  "version": "1.0.5",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@mybinder/host-cache": "^2.1.18-alpha.0",
-    "@nteract/core": "^13.0.1-alpha.0",
-    "@nteract/notebook-app-component": "^7.3.0-alpha.0",
-    "@nteract/outputs": "^3.0.7-alpha.0",
-    "@nteract/styles": "^2.1.6-alpha.0",
+    "@mybinder/host-cache": "^2.1.21",
+    "@nteract/core": "^13.0.4",
+    "@nteract/notebook-app-component": "^7.3.3",
+    "@nteract/outputs": "^3.0.9",
+    "@nteract/styles": "^2.1.9",
+    "@octokit/rest": "^17.1.1",
     "codemirror": "^5.51.0",
     "next": "^9.2.1",
     "next-redux-wrapper": "^5.0.0",
@@ -20,22 +21,23 @@
     "react-redux": "^6.0.0",
     "redux": "^4.0.0",
     "redux-observable": "^1.0.0",
-    "rx-jupyter": "^5.5.3-alpha.0",
-    "rxjs": "^6.3.3"
+    "rx-jupyter": "^5.5.6",
+    "rxjs": "^6.3.3",
+    "shortid": "^2.2.15"
   },
   "description": "An nteract-based web application with kernels provided by Binder",
   "author": "nteract Contributors",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "@nteract/webpack-configurator": "^3.1.8-alpha.0",
+    "@nteract/webpack-configurator": "^3.1.11",
     "@types/node": "^13.7.1",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "@zeit/next-css": "^1.0.1",
     "base64-inline-loader": "^1.1.1",
-    "file-loader": "^5.0.2",
+    "file-loader": "^6.0.0",
     "next-transpile-modules": "^3.0.2",
     "typescript": "^3.7.5",
-    "url-loader": "^3.0.0"
+    "url-loader": "^4.0.0"
   }
 }

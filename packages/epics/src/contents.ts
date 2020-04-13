@@ -1,9 +1,11 @@
 import * as actions from "@nteract/actions";
 import { Notebook, stringifyNotebook, toJS } from "@nteract/commutable";
+import { sendNotification } from "@nteract/mythic-notifications";
 import * as selectors from "@nteract/selectors";
 import {
   AppState,
   ContentRef,
+  createKernelRef,
   DirectoryContentRecordProps,
   DummyContentRecordProps,
   FileContentRecordProps,
@@ -15,6 +17,7 @@ import {
 } from "@nteract/types";
 import FileSaver from "file-saver";
 import { RecordOf } from "immutable";
+import * as path from "path";
 import { Action } from "redux";
 import { ActionsObservable, ofType, StateObservable } from "redux-observable";
 import { EMPTY, from, interval, Observable, of } from "rxjs";
@@ -457,14 +460,60 @@ export function saveAsContentEpic(
       const host = selectors.currentHost(state) as JupyterHostRecord;
       const serverConfig = selectors.serverConfig(host);
 
+      const kernelRef = selectors.kernelRefByContentRef(state, { contentRef });
+      const alertKernelChanged: any[] = [];
+
+      if (kernelRef) {
+        const kernel = selectors.kernel(state, { kernelRef });
+
+        if (kernel) {
+          const cwd = path.dirname(path.resolve(filepath));
+          if (cwd !== kernel.cwd) {
+            alertKernelChanged.push(
+              sendNotification.create({
+                title: "Notebook folder changed",
+                message:
+                  "The kernel executing your code thinks your notebook is still " +
+                  "in the old folder. Would you like to launch a new kernel in " +
+                  "the new folder?",
+                level: "warning",
+                action: {
+                  label: "Launch new kernel",
+                  callback(): void {
+                    if (window && (window as any).store) {
+                      (window as any).store.dispatch(
+                        actions.launchKernelByName({
+                          kernelSpecName: kernel.kernelSpecName,
+                          cwd,
+                          kernelRef: createKernelRef(),
+                          selectNextKernel: true,
+                          contentRef
+                        })
+                      );
+                    }
+                  }
+                }
+              })
+            );
+          }
+        }
+      }
+
       return dependencies.contentProvider
         .save(serverConfig, filepath, saveModel)
         .pipe(
-          map((xhr: AjaxResponse) => {
-            return actions.saveAsFulfilled({
-              contentRef: action.payload.contentRef,
-              model: xhr.response
-            });
+          mergeMap((xhr: AjaxResponse) => {
+            return of(
+              actions.changeFilename({
+                contentRef: action.payload.contentRef,
+                filepath
+              }),
+              actions.saveAsFulfilled({
+                contentRef: action.payload.contentRef,
+                model: xhr.response
+              }),
+              ...alertKernelChanged
+            );
           }),
           catchError((error: Error) =>
             of(

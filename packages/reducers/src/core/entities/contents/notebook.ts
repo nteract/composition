@@ -477,7 +477,7 @@ function unmarkCellAsDeleting(
 
 function deleteCellFromState(
   state: NotebookModel,
-  action: actionTypes.DeleteCell,
+  action: actionTypes.DeleteCell
 ): RecordOf<DocumentRecordProps> {
   const id = action.payload.id ? action.payload.id : state.cellFocused;
   if (!id) {
@@ -860,10 +860,15 @@ function toggleOutputExpansion(
   return state.updateIn(
     ["notebook", "cellMap"],
     (cells: Map<CellId, ImmutableCell>) =>
-      cells.setIn(
-        [id, "metadata", "outputExpanded"],
-        !cells.getIn([id, "metadata", "outputExpanded"])
-      )
+      cells
+        .setIn(
+          [id, "metadata", "collapsed"],
+          !cells.getIn([id, "metadata", "collapsed"])
+        )
+        .setIn(
+          [id, "metadata", "outputExpanded"],
+          !cells.getIn([id, "metadata", "outputExpanded"])
+        )
   );
 }
 

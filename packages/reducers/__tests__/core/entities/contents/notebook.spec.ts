@@ -784,7 +784,11 @@ describe("toggleOutputExpansion", () => {
     const originalState = monocellDocument.updateIn(
       ["notebook", "cellMap"],
       cells =>
-        cells.map(value => value.setIn(["metadata", "outputExpanded"], false))
+        cells.map(value =>
+          value
+            .setIn(["metadata", "outputExpanded"], false)
+            .setIn(["metadata", "collapsed"], true)
+        )
     );
     const id = originalState.getIn(["notebook", "cellOrder"]).first();
     const state = reducers(
@@ -794,6 +798,9 @@ describe("toggleOutputExpansion", () => {
     expect(
       state.getIn(["notebook", "cellMap", id, "metadata", "outputExpanded"])
     ).toBe(true);
+    expect(
+      state.getIn(["notebook", "cellMap", id, "metadata", "collapsed"])
+    ).toBe(false);
   });
 });
 describe("appendOutput", () => {

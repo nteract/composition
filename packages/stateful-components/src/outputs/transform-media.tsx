@@ -10,8 +10,6 @@ import {
 } from "@nteract/commutable";
 import { actions, AppState, ContentRef, selectors } from "@nteract/core";
 
-import memoizeOne from "memoize-one";
-
 interface ComponentProps {
   output_type: string;
   id: string;
@@ -35,7 +33,7 @@ interface DispatchProps {
   };
 }
 
-const PureTransformMedia = (
+export const PureTransformMedia = (
   props: ComponentProps & StateProps & DispatchProps
 ) => {
   const {
@@ -84,56 +82,48 @@ export const richestMediaType = (
   return mediaType;
 };
 
-export const makeMapStateToProps = (
-  initialState: AppState,
+export const mapStateToProps = (
+  state: AppState,
   ownProps: ComponentProps
-) => {
-  const { output_type, output } = ownProps;
-
-  const memoizedMetadata = memoizeOne(immutableMetadata =>
-    immutableMetadata ? immutableMetadata.toJS() : {}
-  );
-
-  const mapStateToProps = (state: AppState): StateProps => {
-    // This component should only be used with display data and execute result
-    if (
-      !output ||
-      !(output_type === "display_data" || output_type === "execute_result")
-    ) {
-      console.warn(
-        "connected transform media managed to get a non media bundle output"
-      );
-      return {
-        Media: () => null
-      };
-    }
-
-    const handlers = selectors.transformsById(state);
-    const order = selectors.displayOrder(state);
-    const theme = selectors.userTheme(state);
-
-    const mediaType = richestMediaType(output, order, handlers);
-
-    if (mediaType) {
-      const metadata = memoizedMetadata(output.metadata.get(mediaType));
-      const data = output.data[mediaType];
-      const Media = selectors.transform(state, { id: mediaType });
-      return {
-        Media,
-        mediaType,
-        data,
-        metadata,
-        theme
-      };
-    }
+): StateProps => {
+  const { output, output_type } = ownProps;
+  // This component should only be used with display data and execute result
+  if (
+    !output ||
+    !(output_type === "display_data" || output_type === "execute_result")
+  ) {
+    console.warn(
+      "connected transform media managed to get a non media bundle output"
+    );
     return {
-      Media: () => null,
+      Media: () => null
+    };
+  }
+
+  const handlers = selectors.transformsById(state);
+  const order = selectors.displayOrder(state);
+  const theme = selectors.userTheme(state);
+
+  const mediaType = richestMediaType(output, order, handlers);
+
+  if (mediaType) {
+    const metadata = output.metadata.get(mediaType);
+    const data = output.data[mediaType];
+    const Media = selectors.transform(state, { id: mediaType });
+    return {
+      Media,
       mediaType,
-      output,
+      data,
+      metadata,
       theme
     };
+  }
+  return {
+    Media: () => null,
+    mediaType,
+    output,
+    theme
   };
-  return mapStateToProps;
 };
 
 const makeMapDispatchToProps = (
@@ -167,7 +157,7 @@ const TransformMedia = connect<
   ComponentProps,
   AppState
 >(
-  makeMapStateToProps,
+  mapStateToProps,
   makeMapDispatchToProps
 )(PureTransformMedia);
 

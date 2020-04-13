@@ -267,8 +267,7 @@ export const launchKernelWhenNotebookSetEpic = (
  */
 export const restartKernelEpic = (
   action$: ActionsObservable<actions.RestartKernel | actions.NewKernelAction>,
-  state$: any,
-  kernelRefGenerator: () => KernelRef = createKernelRef
+  state$: any
 ) =>
   action$.pipe(
     ofType(actions.RESTART_KERNEL),
@@ -305,7 +304,7 @@ export const restartKernelEpic = (
         );
       }
 
-      const newKernelRef = kernelRefGenerator();
+      const newKernelRef = createKernelRef();
       const initiatingContentRef = action.payload.contentRef;
       const successNotification = sendNotification.create({
         title: "Kernel Restarting...",

@@ -185,6 +185,10 @@ describe("saveAs", () => {
       .toPromise();
 
     expect(responses).toEqual([
+      actions.changeFilename({
+        contentRef,
+        filepath: "test.ipynb"
+      }),
       actions.saveAsFulfilled({
         contentRef,
         model: {}

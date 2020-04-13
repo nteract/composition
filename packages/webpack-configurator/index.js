@@ -9,7 +9,7 @@ const { aliases } = require("./aliases");
 // We don't transpile packages in node_modules, unless it's _our_ package
 // Also don't transpile @nteract/plotly because it's plotly and massive
 // Explicitly ignore the typescript/lib in monaco, or everything fails
-const exclude = /node_modules\/(?!(@nteract\/(?!plotly)|rx-jupyter|rx-binder|ansi-to-react|enchannel-zmq-backend|fs-observable))|vs\/language\/typescript\/lib/;
+const exclude = /node_modules\/(?!(@nteract\/(?!plotly)|rx-jupyter|fs-observable|rx-binder))|vs\/language\/typescript\/lib/;
 
 function mergeDefaultAliases(originalAlias /*: ?Aliases */) /*: Aliases */ {
   return {
@@ -18,7 +18,7 @@ function mergeDefaultAliases(originalAlias /*: ?Aliases */) /*: Aliases */ {
     // Alias nteract packages
     ...aliases,
     // Alias RxJS modules
-    ...rxAliases
+    ...rxAliases,
   };
 }
 
@@ -27,14 +27,14 @@ const tsLoaderConfig = {
   options: {
     transpileOnly: true,
     compilerOptions: {
-      noEmit: false
-    }
-  }
+      noEmit: false,
+    },
+  },
 };
 
 const fileLoaderConfig = {
   loader: "file-loader",
-  test: /\.(jpg|png|gif)$/
+  test: /\.(jpg|png|gif)$/,
 };
 
 function nextWebpack(config /*: WebpackConfig */) /*: WebpackConfig */ {
@@ -46,7 +46,7 @@ function nextWebpack(config /*: WebpackConfig */) /*: WebpackConfig */ {
 
   config.node = {
     ...config.node,
-    fs: "empty"
+    fs: "empty",
   };
 
   config.module.rules.push(fileLoaderConfig);
@@ -60,7 +60,7 @@ function nextWebpack(config /*: WebpackConfig */) /*: WebpackConfig */ {
             "nteractDesktop",
             "jsnext:main",
             "module",
-            "main"
+            "main",
           ]
         : ["nteractDesktop", "jsnext:main", "module", "main"],
     alias: mergeDefaultAliases(
@@ -69,7 +69,7 @@ function nextWebpack(config /*: WebpackConfig */) /*: WebpackConfig */ {
     extensions:
       config.resolve && config.resolve.extensions
         ? [...config.resolve.extensions, ".js", ".jsx", ".ts", ".tsx"]
-        : [".js", ".jsx", ".ts", ".tsx"]
+        : [".js", ".jsx", ".ts", ".tsx"],
   };
 
   return config;
@@ -80,5 +80,5 @@ module.exports = {
   aliases,
   mergeDefaultAliases,
   nextWebpack,
-  tsLoaderConfig
+  tsLoaderConfig,
 };
