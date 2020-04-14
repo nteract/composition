@@ -20,7 +20,7 @@ import {
   switchMap,
   take,
   takeUntil,
-  timeout  
+  timeout
 } from "rxjs/operators";
 
 import * as actions from "@nteract/actions";
