@@ -2212,10 +2212,42 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
+"@nteract/actions@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@nteract/actions/-/actions-4.0.4.tgz#a96631708d6255e0191f3c3505748b3e25652073"
+  integrity sha512-ZmTLMbrLhw8HhFG8EcnJ2fNQOSNAsuvYi+P5TAYK3yvVITgFP8zXv20sN35p2mBBQBW8i5mezwHxp/eylS91fA==
+  dependencies:
+    "@nteract/commutable" "^7.2.9"
+    "@nteract/messaging" "^7.0.4"
+    "@nteract/types" "^6.0.4"
+    immutable "^4.0.0-rc.12"
+    rx-jupyter "^5.5.6"
+
 "@nteract/any-vega@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@nteract/any-vega/-/any-vega-1.0.1.tgz#d790774bdc453bc5af663455747637a2100f634a"
   integrity sha512-RjECjm2bdQpEHuhpWyIjAg8dA8t5iWGDmx2VuStBhVSffciNrCn0WxhJiK5TSkyuBgk4rB4eAOspJ8UnfjOAyA==
+
+"@nteract/commutable@^7.2.9":
+  version "7.2.9"
+  resolved "https://registry.yarnpkg.com/@nteract/commutable/-/commutable-7.2.9.tgz#314342f17bea57c64f321ac5d763333d20bd831d"
+  integrity sha512-QwNp8LO4vq5j1W1ls2ZMpwS4E1YIk92ZmfZLy7QLbNumLrkxP/Q0SWNyxRGfugAsWco+8ORqFf/tY8ePBUCcxg==
+  dependencies:
+    immutable "^4.0.0-rc.12"
+    uuid "^7.0.0"
+
+"@nteract/core@^13.0.0":
+  version "13.0.4"
+  resolved "https://registry.yarnpkg.com/@nteract/core/-/core-13.0.4.tgz#f22ddaf3e3f625713aa27e20e7b16da38d749b93"
+  integrity sha512-4QuR7bRgH1YsokTFHt+1U/2I2XPbNZ6OMMTcuudexzUkOW1EC2sP9Hdo+SY74g1Ni4c0feaJJkQ0zGe1/EZMOQ==
+  dependencies:
+    "@nteract/actions" "^4.0.4"
+    "@nteract/commutable" "^7.2.9"
+    "@nteract/epics" "^4.0.6"
+    "@nteract/reducers" "^3.1.4"
+    "@nteract/selectors" "^2.8.7"
+    "@nteract/types" "^6.0.4"
+    redux-logger "^3.0.6"
 
 "@nteract/data-explorer@^8.0.0":
   version "8.1.0"
@@ -2249,6 +2281,23 @@
   integrity sha512-xmeVUKwSMnxfW1PnLW8NsRyL1H2WT+zu6DSCp/sXB57UqWLxVnB617CcLXKepwDOJ1HfWV3sCePgL67/CiUeHw==
   dependencies:
     react-hot-loader "^4.1.2"
+
+"@nteract/epics@^4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@nteract/epics/-/epics-4.0.6.tgz#d1be8bd7ab0c89d2e9b76152fa8f4f81bf5260aa"
+  integrity sha512-TST0epw86Ah3NJ3LbA2nKi22R/BEvsiwLXQ7GZazEk5wVAZ1zEM3WWKvPncPz0P0P/RPxrUKpf6o2MtBswIUtA==
+  dependencies:
+    "@nteract/actions" "^4.0.4"
+    "@nteract/commutable" "^7.2.9"
+    "@nteract/messaging" "^7.0.4"
+    "@nteract/mythic-notifications" "^0.1.6"
+    "@nteract/selectors" "^2.8.7"
+    "@nteract/types" "^6.0.4"
+    file-saver "^2.0.0"
+    redux "^4.0.1"
+    redux-observable "^1.0.0"
+    rx-jupyter "^5.5.6"
+    rxjs "^6.3.3"
 
 "@nteract/examples@3.2.0":
   version "3.2.0"
@@ -2292,6 +2341,35 @@
     react "^16.13.0"
     react-dom "^16.13.0"
 
+"@nteract/messaging@^7.0.0", "@nteract/messaging@^7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@nteract/messaging/-/messaging-7.0.4.tgz#f0b9265189211041e8d8ccf6ee8255986e1cbd27"
+  integrity sha512-n0vggzsrRFEtte5SgMVMbgjo19qXa5khDGhvXt4qqmNY3gOSnNSQMpVkXbno6fQXreKOYQ1uO8YIlQTDfOt/Nw==
+  dependencies:
+    "@nteract/types" "^6.0.4"
+    "@types/uuid" "^7.0.0"
+    lodash.clonedeep "^4.5.0"
+    rxjs "^6.3.3"
+    uuid "^7.0.0"
+
+"@nteract/mythic-notifications@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@nteract/mythic-notifications/-/mythic-notifications-0.1.6.tgz#b3a676d02ecd5ec8cf13b1f3c62bc0d9987766de"
+  integrity sha512-Xpd0Elbf+KXGx9Q/IRD3elanGa3/5+ZBDi1qx1V7ZPCt74Xbs5rYfu/zmokRbSOreXiAXSgf+RwZEKVvwtZN7w==
+  dependencies:
+    "@blueprintjs/core" "^3.7.0"
+    "@nteract/myths" "^0.1.6"
+
+"@nteract/myths@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@nteract/myths/-/myths-0.1.6.tgz#5eab81ada515b1a3aa1c2ddb447775902267bad5"
+  integrity sha512-Pn0HDZvxBq9xekeFF/HV6tjimCP16rRWaU4AT68CwrzZ+hy41o361sCqAQNUCflrpVQLU+HfuqaE7jS2AGaqyg==
+  dependencies:
+    react-redux "^6.0.0"
+    redux "^4.0.0"
+    redux-observable "^1.0.0"
+    rxjs "^6.3.3"
+
 "@nteract/octicons@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@nteract/octicons/-/octicons-2.0.0.tgz#eccd5de8bc0ef4d1bb4154b791db80f4f6bac995"
@@ -2306,6 +2384,41 @@
     "@nteract/mathjax" "^4.0.7"
     ansi-to-react "^6.0.5"
     react-json-tree "^0.11.0"
+
+"@nteract/presentational-components@^3.3.11", "@nteract/presentational-components@^3.3.7":
+  version "3.3.11"
+  resolved "https://registry.yarnpkg.com/@nteract/presentational-components/-/presentational-components-3.3.11.tgz#17fe2ef7a7596726fa13955e8dab0d576a767dec"
+  integrity sha512-9upeANjZiXTS0Z4zCHQEsjwUVdoj6+mYVnU6dYxmO/oQgLj/SzDUASjVR84/xjKzbNU+r4pyMBW0rEWF2hNobA==
+  dependencies:
+    "@blueprintjs/core" "^3.7.0"
+    "@blueprintjs/select" "^3.2.0"
+    react-syntax-highlighter "^12.0.0"
+
+"@nteract/reducers@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@nteract/reducers/-/reducers-3.1.4.tgz#22a113b2412f33071d87d053ccd12483183260b5"
+  integrity sha512-jGJomHGK+JHINH2pXBnBJRIeb3Vka2BuXBN3zMbfopq3MOUy2u1GlAUDCSIh0/XHaD6af2CotYCLhmy/J+50Og==
+  dependencies:
+    "@nteract/actions" "^4.0.4"
+    "@nteract/commutable" "^7.2.9"
+    "@nteract/types" "^6.0.4"
+    escape-carriage "^1.3.0"
+    immutable "^4.0.0-rc.12"
+    lodash.has "^4.5.2"
+    redux "^4.0.1"
+    redux-immutable "^4.0.0"
+    uuid "^7.0.0"
+
+"@nteract/selectors@^2.8.7":
+  version "2.8.7"
+  resolved "https://registry.yarnpkg.com/@nteract/selectors/-/selectors-2.8.7.tgz#a212648daaba72789945b30c8e431818650d9711"
+  integrity sha512-qyPnW5DvB9F+wUHB47+9rwGqfeq2Z/uYTiK2HCOaH31YxMuNVH6o1YWmYcLyyIE5Zs3VY1O34S7XiMRSLipBAQ==
+  dependencies:
+    "@nteract/commutable" "^7.2.9"
+    "@nteract/types" "^6.0.4"
+    immutable "^4.0.0-rc.12"
+    reselect "^4.0.0"
+    rx-jupyter "^5.5.6"
 
 "@nteract/transform-geojson@^5.1.13":
   version "5.1.13"
@@ -2343,6 +2456,16 @@
   dependencies:
     "@nteract/any-vega" "^1.0.1"
     "@nteract/presentational-components" "^3.3.7"
+
+"@nteract/types@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@nteract/types/-/types-6.0.4.tgz#cd076e2a316361c40eb028d62608a5e971a89032"
+  integrity sha512-Td7+ql+7XukuHzP2b4qiq7xjD7y6hLJAnXfX4aikjYMzUGXNUAfODqeetKEXDRODFIcwr/jcGewIlWKwedqgLQ==
+  dependencies:
+    "@nteract/commutable" "^7.2.9"
+    immutable "^4.0.0-rc.12"
+    rxjs "^6.3.3"
+    uuid "^7.0.0"
 
 "@octokit/auth-token@^2.4.0":
   version "2.4.0"
@@ -6050,7 +6173,7 @@ debug@3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@^3.0.0, debug@^3.1.0, debug@^3.1.1, debug@^3.2.5, debug@^3.2.6:
+debug@^3.0.0, debug@^3.1.0, debug@^3.1.1, debug@^3.2.5:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
@@ -6258,7 +6381,7 @@ detect-indent@^5.0.0:
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-5.0.0.tgz#3871cc0a6a002e8c3e5b3cf7f336264675f06b9d"
   integrity sha1-OHHMCmoALow+Wzz38zYmRnXwa50=
 
-detect-libc@^1.0.2, detect-libc@^1.0.3:
+detect-libc@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
@@ -6568,23 +6691,23 @@ electron-builder@^22.1.0:
     update-notifier "^4.1.0"
     yargs "^15.1.0"
 
-electron-context-menu@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/electron-context-menu/-/electron-context-menu-0.16.0.tgz#4f53b4640e321f536415a625505a908518f5dff7"
-  integrity sha512-lGr1/nRlNGmU8THc0hl2dYEB5bwXJpsi7vCjjsnsNGJKPZZLY8nHY3xvtjdtwKocErvp1h8wUb19moWenzoGPw==
+electron-context-menu@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/electron-context-menu/-/electron-context-menu-1.0.0.tgz#ddf01999e51506dabd84ae3c7f0dab7dea6ef4fe"
+  integrity sha512-Vg20fMnUv/DQjcTg1F2pFVsufE+t5RhRDLbxMaPG5x7KOcevT7iWnNrenGPgAdPzezVMf/S2blin8jhUxJilcA==
   dependencies:
     cli-truncate "^2.0.0"
-    electron-dl "^1.2.0"
+    electron-dl "^3.0.0"
     electron-is-dev "^1.0.1"
 
-electron-dl@^1.2.0:
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-1.14.0.tgz#1466f1b945664ca3d784268307c2b935728177bf"
-  integrity sha512-4okyei42a1mLsvLK7hLrIfd20EQzB18nIlLTwBV992aMSmTGLUEFRTmO1MfSslGNrzD8nuPuy1l/VxO8so4lig==
+electron-dl@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/electron-dl/-/electron-dl-3.0.0.tgz#42c5cb572af44e90b3aa4b709a14abe701bbc31c"
+  integrity sha512-TeBRv+vQgNVLGf/XLV4EYfYIBMI4TQcw84aDlM8xEm/1Lgxux3PUXDzaingivf+6jMvRojXSRPTHmiWI/6LrqQ==
   dependencies:
     ext-name "^5.0.0"
-    pupa "^1.0.0"
-    unused-filename "^1.0.0"
+    pupa "^2.0.1"
+    unused-filename "^2.1.0"
 
 electron-download@^4.1.0:
   version "4.1.1"
@@ -8439,7 +8562,7 @@ hyphenate-style-name@^1.0.3:
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.3.tgz#097bb7fa0b8f1a9cf0bd5c734cf95899981a9b48"
   integrity sha512-EcuixamT82oplpoJ2XU4pDtKGWQ7b00CD9f1ug9IaQ3p1bkHMiKCZ9ut9QDI6qsa6cpUuB+A/I+zLtdNK4n2DQ==
 
-iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@^0.4.4, iconv-lite@~0.4.13:
+iconv-lite@0.4.24, iconv-lite@^0.4.24, iconv-lite@~0.4.13:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
   integrity sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==
@@ -11078,15 +11201,6 @@ nearley@^2.7.10:
     randexp "0.4.6"
     semver "^5.4.1"
 
-needle@^2.2.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/needle/-/needle-2.4.1.tgz#14af48732463d7475696f937626b1b993247a56a"
-  integrity sha512-x/gi6ijr4B7fwl6WYL9FwlCvRQKGlUNvnceho8wxkwXqN8jvVmmmATTmZPRRG7b/yC1eode26C2HO9jl78Du9g==
-  dependencies:
-    debug "^3.2.6"
-    iconv-lite "^0.4.4"
-    sax "^1.2.4"
-
 negotiator@0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
@@ -11276,22 +11390,6 @@ node-notifier@^6.0.0:
     shellwords "^0.1.1"
     which "^1.3.1"
 
-node-pre-gyp@*:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.14.0.tgz#9a0596533b877289bcad4e143982ca3d904ddc83"
-  integrity sha512-+CvDC7ZttU/sSt9rFjix/P05iS43qHCOOGzcr3Ry99bXG7VX953+vFyEuph/tfqoYu8dttBkE86JSKBO2OzcxA==
-  dependencies:
-    detect-libc "^1.0.2"
-    mkdirp "^0.5.1"
-    needle "^2.2.1"
-    nopt "^4.0.1"
-    npm-packlist "^1.1.6"
-    npmlog "^4.0.2"
-    rc "^1.2.7"
-    rimraf "^2.6.1"
-    semver "^5.3.0"
-    tar "^4.4.2"
-
 node-releases@^1.1.29, node-releases@^1.1.44, node-releases@^1.1.53:
   version "1.1.53"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.53.tgz#2d821bfa499ed7c5dffc5e2f28c88e78a08ee3f4"
@@ -11398,7 +11496,7 @@ npm-normalize-package-bin@^1.0.0, npm-normalize-package-bin@^1.0.1:
     semver "^5.6.0"
     validate-npm-package-name "^3.0.0"
 
-npm-packlist@^1.1.6, npm-packlist@^1.4.4:
+npm-packlist@^1.4.4:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/npm-packlist/-/npm-packlist-1.4.8.tgz#56ee6cc135b9f98ad3d51c1c95da22bbb9b2ef3e"
   integrity sha512-5+AZgwru5IevF5ZdnFglB5wNlHG1AOOuw28WhUq8/8emhBmLv6jX5by4WJCh7lW0uSYZYS6DXqIsyZVIXRZU9A==
@@ -11430,7 +11528,7 @@ npm-run-path@^4.0.0:
   dependencies:
     path-key "^3.0.0"
 
-npmlog@^4.0.1, npmlog@^4.0.2, npmlog@^4.1.2:
+npmlog@^4.0.1, npmlog@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/npmlog/-/npmlog-4.1.2.tgz#08a7f2a8bf734604779a9efa4ad5cc717abb954b"
   integrity sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==
@@ -12620,11 +12718,6 @@ punycode@^2.1.0, punycode@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
-
-pupa@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/pupa/-/pupa-1.0.0.tgz#9a9568a5af7e657b8462a6e9d5328743560ceff6"
-  integrity sha1-mpVopa9+ZXuEYqbp1TKHQ1YM7/Y=
 
 pupa@^2.0.1:
   version "2.0.1"
@@ -13849,7 +13942,7 @@ rework@1.0.1:
     convert-source-map "^0.3.3"
     css "^2.0.0"
 
-rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2, rimraf@^2.6.3, rimraf@^2.7.1:
+rimraf@^2.5.4, rimraf@^2.6.2, rimraf@^2.6.3, rimraf@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.7.1.tgz#35797f13a7fdadc566142c29d4f07ccad483e3ec"
   integrity sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==
@@ -13897,6 +13990,19 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   integrity sha1-6Eg5bwV9Ij8kOGkkYY4laUFh7Ec=
   dependencies:
     aproba "^1.1.1"
+
+rx-jupyter@^5.5.6:
+  version "5.5.6"
+  resolved "https://registry.yarnpkg.com/rx-jupyter/-/rx-jupyter-5.5.6.tgz#e6e17491778713f251c9b89a8b84ddd3828b4656"
+  integrity sha512-C6YqIXPtb2jVyJxdxbiGzNgez5CRbq+oXGcICFmmeHF2S1SLSJCgy0+Jd48RoXZqmDzqYLBSDEF4aVsPMqZLLg==
+  dependencies:
+    "@nteract/commutable" "^7.2.9"
+    "@nteract/messaging" "^7.0.4"
+    "@types/ungap__url-search-params" "^0.1.0"
+    "@ungap/url-search-params" "^0.1.2"
+    js-cookie "^2.2.0"
+    rxjs "^6.3.3"
+    url-join "^4.0.0"
 
 rxjs@^6.3.1, rxjs@^6.3.3, rxjs@^6.4.0, rxjs@^6.5.2:
   version "6.5.5"
@@ -15064,7 +15170,7 @@ tar-stream@^2.0.0:
     inherits "^2.0.3"
     readable-stream "^3.1.1"
 
-tar@^4.4.10, tar@^4.4.12, tar@^4.4.2, tar@^4.4.8:
+tar@^4.4.10, tar@^4.4.12, tar@^4.4.8:
   version "4.4.13"
   resolved "https://registry.yarnpkg.com/tar/-/tar-4.4.13.tgz#43b364bc52888d555298637b10d60790254ab525"
   integrity sha512-w2VwSrBoHa5BsSyH+KxEqeQBAllHhccyMFVHtGtdMpF4W7IRWfZjFiQceJPChOeTsSDVUpER2T8FA93pr0L+QA==
@@ -15929,13 +16035,13 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-unused-filename@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/unused-filename/-/unused-filename-1.0.0.tgz#d340880f71ae2115ebaa1325bef05cc6684469c6"
-  integrity sha1-00CID3GuIRXrqhMlvvBcxmhEacY=
+unused-filename@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/unused-filename/-/unused-filename-2.1.0.tgz#33719c4e8d9644f32d2dec1bc8525c6aaeb4ba51"
+  integrity sha512-BMiNwJbuWmqCpAM1FqxCTD7lXF97AvfQC8Kr/DIeA6VtvhJaMDupZ82+inbjl5yVP44PcxOuCSxye1QMS0wZyg==
   dependencies:
     modify-filename "^1.1.0"
-    path-exists "^3.0.0"
+    path-exists "^4.0.0"
 
 upath@^1.1.1, upath@^1.2.0:
   version "1.2.0"
