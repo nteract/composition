@@ -1,6 +1,6 @@
 import { actions as actionsModule, state as stateModule } from "@nteract/core";
 import { mockAppState } from "@nteract/fixtures";
-import { createMessage, JupyterMessage, MessageType } from "@nteract/messaging";
+import { createMessage, JupyterMessage, MessageType, payloads } from "@nteract/messaging";
 import { sendNotification } from "@nteract/mythic-notifications";
 import * as Immutable from "immutable";
 import { ActionsObservable, StateObservable } from "redux-observable";
@@ -399,6 +399,49 @@ describe("watchExecutionStateEpic", () => {
       actions => {
         const types = actions.map(({ type }) => type);
         expect(types).toEqual([actionsModule.SET_EXECUTION_STATE]);
+      },
+      err => done.fail(err), // It should not error in the stream
+      () => done()
+    );
+  });
+  
+  test("on kernel error returns executeFailed action", done => {
+    const sent = new Subject();
+    const received = new Subject();
+    received.hasError = true;
+
+    const mockSocket = Subject.create(sent, received);
+
+    const action$ = ActionsObservable.of({
+      type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
+      payload: {
+        kernel: {
+          channels: mockSocket,
+          cwd: "/home/tester",
+          type: "websocket"
+        },
+        kernelRef: "fakeKernelRef",
+        contentRef: "fakeContentRef",
+        selectNextKernel: false
+      }
+    });
+    const obs = watchExecutionStateEpic(action$);
+    obs.pipe(toArray()).subscribe(
+      // Every action that goes through should get stuck on an array
+      actions => {
+        expect(actions).toEqual([
+          {
+            type: actionsModule.EXECUTE_FAILED,
+            error: true,
+            payload: {
+              code:"EXEC_WEBSOCKET_ERROR",
+              contentRef: "fakeContentRef",
+              error: new Error(
+                "The WebSocket connection has unexpectedly disconnected."
+                )
+            }
+          }
+        ]);
       },
       err => done.fail(err), // It should not error in the stream
       () => done()

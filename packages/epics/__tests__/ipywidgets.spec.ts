@@ -6,7 +6,7 @@ import { actions, createContentRef, makeDocumentRecord } from "@nteract/core";
 import { fixtureCommutable } from "@nteract/fixtures";
 
 import { ipywidgetsModel$ } from "../src/ipywidgets";
-import { from } from "rxjs";
+import { from, Subject } from "rxjs";
 
 const monocellDocument = makeDocumentRecord({
   notebook: appendCellToNotebook(fixtureCommutable, emptyCodeCell)
@@ -79,6 +79,35 @@ describe("ipywidgetsModel$", () => {
     expect(resultingActions).toHaveLength(0);
     done();
   });
+
+  test("on kernel error returns executeFailed action", done => {
+    const contentRef = "fakeContentRef";
+    const sent = new Subject();
+    const received = new Subject();
+    received.hasError = true;
+
+    const mockSocket = Subject.create(sent, received);
+    const kernel = { channels: mockSocket };
+    const resultingActions = [];
+    ipywidgetsModel$(kernel, monocellDocument, contentRef).subscribe(x =>
+      resultingActions.push(x)
+    );    
+    expect(resultingActions).toEqual([
+      {
+        type: actions.EXECUTE_FAILED,
+        error: true,
+        payload: {
+          code:"EXEC_WEBSOCKET_ERROR",
+          contentRef: "fakeContentRef",
+          error: new Error(
+            "The WebSocket connection has unexpectedly disconnected."
+            )
+        }
+      }
+    ]);
+    done();
+  });
+
   test("does not emit an appendOutput for non-notebook types", done => {
     const contentRef = createContentRef();
     const comm_id = "a_comm_id";
