@@ -1,7 +1,7 @@
 import { ofMessageType } from "@nteract/messaging";
 import { ofType, StateObservable } from "redux-observable";
 import { ActionsObservable } from "redux-observable";
-import { merge, empty, of } from "rxjs";
+import { merge, of } from "rxjs";
 import { map, switchMap, takeUntil, filter, catchError } from "rxjs/operators";
 
 import {

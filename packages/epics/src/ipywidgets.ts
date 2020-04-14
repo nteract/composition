@@ -12,7 +12,7 @@ import {
   errors
 } from "@nteract/types";
 
-import { of, empty } from "rxjs";
+import { of } from "rxjs";
 import { filter, switchMap, catchError } from "rxjs/operators";
 import { RecordOf } from "immutable";
 
