@@ -9,7 +9,7 @@ import {
 import { sendNotification } from "@nteract/mythic-notifications";
 import { AnyAction } from "redux";
 import { ActionsObservable, ofType, StateObservable } from "redux-observable";
-import { EMPTY, merge, Observable, Observer, of, empty } from "rxjs";
+import { EMPTY, merge, Observable, Observer, of } from "rxjs";
 import {
   catchError,
   concatMap,
@@ -26,7 +26,7 @@ import {
 import * as actions from "@nteract/actions";
 import * as selectors from "@nteract/selectors";
 import { AppState, ContentRef, KernelInfo, KernelRef } from "@nteract/types";
-import { createKernelRef } from "@nteract/types";
+import { createKernelRef, errors } from "@nteract/types";
 
 const path = require("path");
 
@@ -65,7 +65,15 @@ export const watchExecutionStateEpic = (
             )
           ),
           catchError((error: Error) => {
-            return empty();
+            return of(
+              actions.executeFailed({
+                  error: new Error(
+                  "The WebSocket connection has unexpectedly disconnected."
+                  ),
+                  code: errors.EXEC_WEBSOCKET_ERROR,
+                  contentRef: (action as actions.NewKernelAction).payload.contentRef  
+              })
+          );
           })
         )
     )
