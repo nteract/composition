@@ -1,7 +1,7 @@
 import { ofMessageType } from "@nteract/messaging";
 import { ofType, StateObservable } from "redux-observable";
 import { ActionsObservable } from "redux-observable";
-import { merge, empty } from "rxjs";
+import { merge, empty, of } from "rxjs";
 import { map, switchMap, takeUntil, filter, catchError } from "rxjs/operators";
 
 import {
@@ -10,10 +10,11 @@ import {
   KILL_KERNEL_SUCCESSFUL,
   LAUNCH_KERNEL_SUCCESSFUL,
   NewKernelAction,
-  KillKernelSuccessful
+  KillKernelSuccessful,
+  executeFailed
 } from "@nteract/actions";
 import * as selectors from "@nteract/selectors";
-import { AppState } from "@nteract/types";
+import { AppState, errors } from "@nteract/types";
 
 import { ipywidgetsModel$ } from "./ipywidgets";
 
@@ -59,7 +60,15 @@ export const commListenEpic = (
           )
         ),
         catchError((error: Error) => {
-          return empty();
+          return of(
+            executeFailed({
+                error: new Error(
+                "The WebSocket connection has unexpectedly disconnected."
+                ),
+                code: errors.EXEC_WEBSOCKET_ERROR,
+                contentRef
+            })
+        );
         })
       );
 
@@ -76,7 +85,15 @@ export const commListenEpic = (
           )
         ),
         catchError((error: Error) => {
-          return empty();
+          return of(
+            executeFailed({
+                error: new Error(
+                "The WebSocket connection has unexpectedly disconnected."
+                ),
+                code: errors.EXEC_WEBSOCKET_ERROR,
+                contentRef
+            })
+        );
         })
       );
 

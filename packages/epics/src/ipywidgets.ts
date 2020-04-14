@@ -1,5 +1,5 @@
 import { ofMessageType, JupyterMessage } from "@nteract/messaging";
-import { commOpenAction, appendOutput } from "@nteract/actions";
+import { commOpenAction, appendOutput, executeFailed } from "@nteract/actions";
 import * as selectors from "@nteract/selectors";
 import {
   ContentRef,
@@ -8,7 +8,8 @@ import {
   DocumentRecordProps,
   EmptyModelRecordProps,
   FileModelRecordProps,
-  DirectoryModelRecordProps
+  DirectoryModelRecordProps,
+  errors
 } from "@nteract/types";
 
 import { of, empty } from "rxjs";
@@ -88,6 +89,14 @@ export const ipywidgetsModel$ = (
       );
     }),
     catchError((error: Error) => {
-      return empty();
+      return of(
+        executeFailed({
+            error: new Error(
+            "The WebSocket connection has unexpectedly disconnected."
+            ),
+            code: errors.EXEC_WEBSOCKET_ERROR,
+            contentRef
+        })
+    );
     })
   );
