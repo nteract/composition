@@ -361,6 +361,7 @@ export function sendExecuteRequestEpic(
                       null
                     )} cell.`
                   ),
+                  // RID:JK We want to silence this in the Ui
                   code: errors.EXEC_INVALID_CELL_TYPE,
                   contentRef,
                   id
@@ -379,6 +380,7 @@ export function sendExecuteRequestEpic(
                   error: new Error(
                     "Cannot execute cells with no source content."
                   ),
+                  // RID:JK We want to silence this in the Ui
                   code: errors.EXEC_NO_SOURCE_ERROR,
                   contentRef,
                   id

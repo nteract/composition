@@ -28,7 +28,7 @@ export const LAUNCH_KERNEL_BY_NAME        = "LAUNCH_KERNEL_BY_NAME";
 export const LAUNCH_KERNEL_SUCCESSFUL     = "LAUNCH_KERNEL_SUCCESSFUL";
 export const LAUNCH_KERNEL_FAILED         = "LAUNCH_KERNEL_FAILED";
 export const SHUTDOWN_REPLY_SUCCEEDED     = "SHUTDOWN_REPLY_SUCCEEDED";
-export const SHUTDOWN_REPLY_TIMED_OUT     = "SHUTDOWN_REPLY_TIMED_OUT";
+export const SHUTDOWN_REPLY_TIMED_OUT     = "SHUTDOWN_REPLY_TIMED_OUT"; /* RID:JK This I'd like to silence in UI */
 export const DISPOSE_KERNEL               = "DISPOSE_KERNEL";
 
 export type InterruptKernel               = Action     <typeof INTERRUPT_KERNEL,            MaybeHasContent & MaybeHasKernel>;
