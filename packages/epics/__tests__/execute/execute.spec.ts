@@ -397,13 +397,13 @@ describe("sendExecuteRequestEpic", () => {
     let result = "";
     sendExecuteRequestEpic(action$, state$).subscribe(
       // Every action that goes through should get stuck on an array
-      (x: actions.ExecuteFailed) => {
-        result = x.payload.error.message;
+      (x: actions.ExecuteCanceled) => {
+        result = x.payload.code;
         done();
       },
       err => done.fail(err)
     );
-    expect(result).toContain("Can only execute code cells but recieved");
+    expect(result).toContain("EXEC_INVALID_CELL_TYPE");
   });
 
   test("throws an error when cell is empty", done => {
@@ -441,13 +441,13 @@ describe("sendExecuteRequestEpic", () => {
     let result = "";
     sendExecuteRequestEpic(action$, state$).subscribe(
       // Every action that goes through should get stuck on an array
-      (x: actions.ExecuteFailed) => {
-        result = x.payload.error.message;
+      (x: actions.ExecuteCanceled) => {
+        result = x.payload.code;
         done();
       },
       err => done.fail(err)
     );
-    expect(result).toContain("Cannot execute cells with no source content");
+    expect(result).toContain("EXEC_NO_SOURCE_ERROR");
   });
 
   test("throws an error when kernel is not connected", done => {
