@@ -348,20 +348,9 @@ export function sendExecuteRequestEpic(
              * Only code cells can be execute so we throw an error
              * if an attempt to execute a non-code cell is made.
              */
-            if (
-              cell.get("cell_type", null) === "markdown" ||
-              cell.get("cell_type", null) === "raw" ||
-              !cell.get("cell_type", null)
-            ) {
+            if (cell.get("cell_type", null) != "code") {
               return of(
-                actions.executeFailed({
-                  error: new Error(
-                    `Can only execute code cells but recieved ${cell.get(
-                      "cell_type",
-                      null
-                    )} cell.`
-                  ),
-                  // RID:JK We want to silence this in the Ui
+                actions.executeCanceled({
                   code: errors.EXEC_INVALID_CELL_TYPE,
                   contentRef,
                   id
@@ -376,11 +365,7 @@ export function sendExecuteRequestEpic(
             const source = cell.get("source", "");
             if (source === "") {
               return of(
-                actions.executeFailed({
-                  error: new Error(
-                    "Cannot execute cells with no source content."
-                  ),
-                  // RID:JK We want to silence this in the Ui
+                actions.executeCanceled({
                   code: errors.EXEC_NO_SOURCE_ERROR,
                   contentRef,
                   id
