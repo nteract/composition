@@ -410,7 +410,7 @@ export const killKernelEpic = (
           /* RID:JK this way of throwing the error now matched who it's
            * done for the executionFailed error. Adding it here to be able
            * to filter it out from the UI */
-          of(actions.shutdownReplyTimedOut({ error: err, kernelRef, code: actions.SHUTDOWN_REPLY_TIMED_OUT }))
+          of(actions.shutdownReplyTimedOut({ kernelRef }))
         ),
         mergeMap(resultingAction => {
           // End all communication on the channels
