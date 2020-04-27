@@ -187,7 +187,7 @@
     "css-loader": "^3.0.0",
     "electron": "5.0.13",
     "electron-builder": "^22.1.0",
-    "electron-context-menu": "^0.16.0",
+    "electron-context-menu": "^2.0.0",
     "electron-log": "^4.0.0",
     "electron-updater": "^4.2.0",
     "enzyme": "^3.3.0",
