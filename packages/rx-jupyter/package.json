@@ -27,6 +27,7 @@
     "url-join": "^4.0.0"
   },
   "devDependencies": {
+    "@nteract/fixtures": "^2.3.6",
     "@nteract/types": "^6.0.6",
     "@types/js-cookie": "^2.2.0",
     "@types/url-join": "^4.0.0"

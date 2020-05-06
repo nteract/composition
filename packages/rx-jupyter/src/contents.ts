@@ -4,6 +4,7 @@ import { ajax, AjaxResponse } from "rxjs/ajax";
 import urljoin from "url-join";
 import { ServerConfig, IGetParams, IContent, FileType, IContentProvider } from "@nteract/types";
 import { createAJAXSettings, JupyterAjaxResponse } from "./base";
+import { Notebook, stringifyNotebook } from "@nteract/commutable";
 
 const formURI = (path: string) => urljoin("/api/contents/", path);
 
@@ -100,7 +101,10 @@ export function create<FT extends FileType>(
 ): Observable<AjaxResponse> {
   return ajax(
     createAJAXSettings(serverConfig, formURI(path), {
-      body: model,
+      body: {
+        ...model,
+        content: model.type === "notebook" ? stringifyNotebook(model.content as Notebook) : model.content
+      },
       headers: {
         "Content-Type": "application/json"
       },
@@ -126,7 +130,10 @@ export function save<FT extends FileType>(
 ) {
   return ajax(
     createAJAXSettings(serverConfig, formURI(path), {
-      body: model,
+      body: {
+        ...model,
+        content: model.type === "notebook" ? stringifyNotebook(model.content as Notebook) : model.content
+      },
       headers: {
         "Content-Type": "application/json"
       },

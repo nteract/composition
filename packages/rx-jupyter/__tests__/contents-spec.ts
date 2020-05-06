@@ -1,5 +1,7 @@
 import { JupyterContentProvider } from "../src/contents";
 import { AjaxObservable } from "./types";
+import { fixtureJSON } from "@nteract/fixtures";
+import { stringifyNotebook } from "@nteract/commutable";
 
 const serverConfig = {
   endpoint: "http://localhost:8888",
@@ -71,7 +73,7 @@ describe("contents", () => {
         type: "notebook",
         name: "c.ipynb",
         writable: true,
-        content: {},
+        content: fixtureJSON,
         format: "json"
       };
       const create$ = JupyterContentProvider.create(serverConfig, "/a/b/c.ipynb", model);
@@ -84,14 +86,19 @@ describe("contents", () => {
         Authorization: "token secret-token",
         "Content-Type": "application/json"
       });
-      expect(request.body).toEqual(model);
+      expect(request.body).toEqual({
+        ...model,
+        content: stringifyNotebook(model.content)
+      });
     });
   });
 
   describe("save", () => {
     test("creates the AjaxObservable for saving a file", () => {
       const model = {
-        path: "save/to/this/path"
+        path: "save/to/this/path",
+        content: fixtureJSON,
+        type: "notebook"
       };
       const create$ = JupyterContentProvider.save(serverConfig, "/path/to/content", model);
       const request = (create$ as AjaxObservable).request;
@@ -99,7 +106,10 @@ describe("contents", () => {
         "http://localhost:8888/api/contents/path/to/content"
       );
       expect(request.method).toBe("PUT");
-      expect(request.body).toEqual(model);
+      expect(request.body).toEqual({
+        ...model,
+        content: stringifyNotebook(model.content)
+      });
       expect(request.crossDomain).toBe(true);
       expect(request.responseType).toBe("json");
     });
