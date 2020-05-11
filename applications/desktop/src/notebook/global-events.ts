@@ -70,6 +70,17 @@ export function onDrop(
     imagePaths = destinationImagePaths;
   };
 
+  // For image files that are within the notebook directory, only use relative paths,
+  // for all other files, use the full path.
+  imagePaths = imagePaths.map(imagePath => {
+    let relativePath = path.relative(notebookPath, imagePath);
+    if (relativePath.startsWith("../")) {
+      return imagePath;
+    } else {
+      return relativePath;
+    }
+  });
+
   if (imagePaths.length > 0) {
     store.dispatch(
       actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
