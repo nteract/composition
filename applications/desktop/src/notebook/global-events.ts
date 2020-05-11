@@ -1,3 +1,4 @@
+import { actions } from "@nteract/core";
 import { selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
 import { ipcRenderer as ipc } from "electron";
@@ -40,6 +41,26 @@ export function onBeforeUnloadOrReload(
   }
 }
 
+export function onDrop(
+  event: MouseEvent,
+  contentRef: ContentRef,
+  store: DesktopStore
+) {
+  let imagePaths = Array.from(event.dataTransfer.files)
+    .filter(file => file.type.match(/image.*/))
+    .map(file => file.path);
+
+  if (imagePaths.length > 0) {
+    store.dispatch(
+      actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
+        cellType: "markdown",
+        contentRef: contentRef,
+        source: imagePaths.map((path) => `<img src=\"${path}\">`).join("\n")
+      })
+    );
+  }
+}
+
 export function initGlobalHandlers(
   contentRef: ContentRef,
   store: DesktopStore
@@ -60,4 +81,7 @@ export function initGlobalHandlers(
   // In our manually-orchestrated reload, onbeforeunload will still fire
   // at the end, but by then we'd transitioned our closingState such that it's a no-op.
   ipc.on("reload", () => onBeforeUnloadOrReload(contentRef, store, true));
+
+  // Listen to drag-and-drop events, e.g. to handle dropping images.
+  window.addEventListener('drop', (event) => onDrop(event, contentRef, store));
 }
