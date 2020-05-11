@@ -3,6 +3,8 @@ import { selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
 import { ipcRenderer as ipc } from "electron";
 import { Store } from "redux";
+import * as path from "path";
+import * as fs from 'fs';
 
 import { Actions, closeNotebook } from "./actions";
 import { DesktopNotebookAppState } from "./state";
@@ -46,9 +48,27 @@ export function onDrop(
   contentRef: ContentRef,
   store: DesktopStore
 ) {
-  let imagePaths = Array.from(event.dataTransfer.files)
+  var imagePaths = Array.from(event.dataTransfer.files)
     .filter(file => file.type.match(/image.*/))
     .map(file => file.path);
+
+  const notebookPath = path.dirname(selectors.filepath(store.getState(), {contentRef: contentRef}));
+
+  // When holding the alt key, copy the files to the notebook directory.
+  if (event.altKey) {
+    let destinationImagePaths = []
+    for (let sourceImagePath of imagePaths) {
+      let imageBaseName = path.basename(sourceImagePath);
+      let destinationImagePath = `${notebookPath}/${imageBaseName}`;
+      destinationImagePaths.push(destinationImagePath);
+      if (! fs.existsSync(destinationImagePath)) {
+        fs.copyFile(sourceImagePath, destinationImagePath, () => {});
+      } else {
+        // TODO: Can we have some kind of warning banner here?
+      }
+    }
+    imagePaths = destinationImagePaths;
+  };
 
   if (imagePaths.length > 0) {
     store.dispatch(
