@@ -2723,10 +2723,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/codemirror@^0.0.88":
-  version "0.0.88"
-  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.88.tgz#429e3462ce22865dc40cc1cb27862edaeda0bbab"
-  integrity sha512-FI9BvlO+SIEmKoIdrS9uphasiHJ/JbeUsAbVTdklBOcmnr/bQpJ6QaCw540FY98LGdDNl1Nyn7erGxo0eD2gOg==
+"@types/codemirror@^0.0.93":
+  version "0.0.93"
+  resolved "https://registry.yarnpkg.com/@types/codemirror/-/codemirror-0.0.93.tgz#74ce5e1132325cb2c88a9bb91fd819294fe0c8ed"
+  integrity sha512-7F2ksY4U5amV/bIkMTev0n22RWcFO2BBuFuFYmAJIT19gr3kDElr1phgjPsNKV/Pj301bujnMjSy5GlWla+cow==
   dependencies:
     "@types/tern" "*"
 
