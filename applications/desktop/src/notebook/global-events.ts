@@ -1,7 +1,9 @@
 import { selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
 import { ipcRenderer as ipc } from "electron";
+import { clipboard } from "electron";
 import { Store } from "redux";
+import * as plist from "plist";
 
 import { insertImages } from "./insert-images";
 
@@ -71,6 +73,30 @@ export function onDrop(
   });
 }
 
+export function onPaste(
+  event: ClipboardEvent,
+  contentRef: ContentRef,
+  store: DesktopStore
+) {
+
+  // Paste image paths (macOS only).
+  // https://github.com/nteract/nteract/issues/4963#issuecomment-627561034
+  if (clipboard.has('NSFilenamesPboardType')) {
+    let filePathsFromClipboard = plist.parse(clipboard.read('NSFilenamesPboardType'));
+    let imagePaths = filePathsFromClipboard
+      .filter(filePath => /[\w-]+\.(png|jpg|jpeg|heic|gif|tiff)/.test(filePath));
+
+    insertImages({
+      imagePaths: imagePaths,
+      copyImagesToNotebookDirectory: false,
+      contentRef: contentRef,
+      store: store
+    });
+
+    event.preventDefault();
+  }
+}
+
 export function initGlobalHandlers(
   contentRef: ContentRef,
   store: DesktopStore
@@ -94,4 +120,7 @@ export function initGlobalHandlers(
 
   // Listen to drag-and-drop events, e.g. to handle dropping images.
   window.addEventListener('drop', (event) => onDrop(event, contentRef, store));
+
+  // Listen to paste evnet, e.g. to insert pasted image files.
+  window.addEventListener('paste', (event) => onPaste(event, contentRef, store));
 }
