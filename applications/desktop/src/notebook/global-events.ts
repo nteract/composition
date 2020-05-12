@@ -1,10 +1,9 @@
-import { actions } from "@nteract/core";
 import { selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
 import { ipcRenderer as ipc } from "electron";
 import { Store } from "redux";
-import * as path from "path";
-import * as fs from 'fs';
+
+import { insertImages } from "./insert-images";
 
 import { Actions, closeNotebook } from "./actions";
 import { DesktopNotebookAppState } from "./state";
@@ -48,48 +47,25 @@ export function onDrop(
   contentRef: ContentRef,
   store: DesktopStore
 ) {
-  var imagePaths = Array.from(event.dataTransfer.files)
+  let imagePaths = Array.from(event.dataTransfer.files)
     .filter(file => file.type.match(/image.*/))
     .map(file => file.path);
 
-  const notebookPath = path.dirname(selectors.filepath(store.getState(), {contentRef: contentRef}));
+  // If the options key is held down while dropping the image,
+  // the images are copied to the notebook directory and linked
+  // via a relative path.
+  // If no key is held down while dropping the image,
+  // the images are not copied, but their original file paths
+  // are used.
+  let copyImagesToNotebookDirectory =
+    (event.altKey);
 
-  // When holding the alt key, copy the files to the notebook directory.
-  if (event.altKey) {
-    let destinationImagePaths = []
-    for (let sourceImagePath of imagePaths) {
-      let imageBaseName = path.basename(sourceImagePath);
-      let destinationImagePath = `${notebookPath}/${imageBaseName}`;
-      destinationImagePaths.push(destinationImagePath);
-      if (! fs.existsSync(destinationImagePath)) {
-        fs.copyFile(sourceImagePath, destinationImagePath, () => {});
-      } else {
-        // TODO: Can we have some kind of warning banner here?
-      }
-    }
-    imagePaths = destinationImagePaths;
-  };
-
-  // For image files that are within the notebook directory, only use relative paths,
-  // for all other files, use the full path.
-  imagePaths = imagePaths.map(imagePath => {
-    let relativePath = path.relative(notebookPath, imagePath);
-    if (relativePath.startsWith("../")) {
-      return imagePath;
-    } else {
-      return relativePath;
-    }
+  insertImages({
+    imagePaths: imagePaths,
+    copyImagesToNotebookDirectory: copyImagesToNotebookDirectory,
+    contentRef: contentRef,
+    store: store
   });
-
-  if (imagePaths.length > 0) {
-    store.dispatch(
-      actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
-        cellType: "markdown",
-        contentRef: contentRef,
-        source: imagePaths.map((path) => `<img src=\"${path}\">`).join("\n")
-      })
-    );
-  }
 }
 
 export function initGlobalHandlers(
