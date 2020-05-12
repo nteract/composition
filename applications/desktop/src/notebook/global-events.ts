@@ -58,8 +58,10 @@ export function onDrop(
   // If no key is held down while dropping the image,
   // the images are not copied, but their original file paths
   // are used.
-  let copyImagesToNotebookDirectory =
-    (event.altKey || event.ctrlKey);
+  let copyImagesToNotebookDirectory = (
+    (process.platform === "darwin" && event.altKey) ||
+    (process.platform != "darwin" && event.ctrlKey)
+  );
 
   insertImages({
     imagePaths: imagePaths,
