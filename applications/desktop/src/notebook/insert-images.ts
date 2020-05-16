@@ -2,6 +2,7 @@ import { actions } from "@nteract/core";
 import { selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
 import { Store } from "redux";
+import { sendNotification } from "@nteract/mythic-notifications";
 import * as path from "path";
 import * as fs from 'fs';
 
@@ -27,10 +28,22 @@ export function insertImages({
       let imageBaseName = path.basename(sourceImagePath);
       let destinationImagePath = `${notebookPath}/${imageBaseName}`;
       destinationImagePaths.push(destinationImagePath);
+      let performCopy = () => { fs.copyFile(sourceImagePath, destinationImagePath, () => {}) };
       if (! fs.existsSync(destinationImagePath)) {
-        fs.copyFile(sourceImagePath, destinationImagePath, () => {});
+        performCopy()
       } else {
-        // TODO: Can we have some kind of warning banner here?
+        store.dispatch(
+          sendNotification.create({
+            key: `insert-images-file-${imageBaseName}-already-exists`,
+            title: "File already exists",
+            message: `The image ${destinationImagePath} already exists.`,
+            level: "warning",
+            action: {
+              label: "Replace",
+              callback: () => performCopy()
+            }
+          })
+        );
       }
     }
     imagePaths = destinationImagePaths;
