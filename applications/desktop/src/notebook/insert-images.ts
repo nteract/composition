@@ -28,6 +28,10 @@ export function insertImages({
 
   if (embedImagesInNotebook) {
     for (let imagePath of imagePaths) {
+      let fileExtension = path.extname(imagePath).slice(1);
+      let imageHash = fs.readFileSync(imagePath).toString('base64');
+      let imageSource = `data:image/${fileExtension};base64,${imageHash}`;
+      createMarkdownCellWithImages({imageSources: [imageSource], store: store, contentRef: contentRef});
     }
   }
 
