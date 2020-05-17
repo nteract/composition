@@ -72,7 +72,6 @@ export function onPaste(
   contentRef: ContentRef,
   store: DesktopStore
 ) {
-
   // Paste image paths (macOS only).
   // https://github.com/nteract/nteract/issues/4963#issuecomment-627561034
   if (clipboard.has('NSFilenamesPboardType')) {
@@ -82,12 +81,27 @@ export function onPaste(
 
     insertImages({
       imagePaths: imagePaths,
+      embedImagesInNotebook: true,
       copyImagesToNotebookDirectory: false,
+      linkImagesAndKeepAtOriginalPath: false,
       contentRef: contentRef,
       store: store
     });
 
     event.preventDefault();
+
+  // Paste blob image from the clipboard.
+  } else if (clipboard.has('public.tiff')) {
+    let base64ImageSource = clipboard.readImage().toDataURL();
+
+    insertImages({
+      base64ImageSource: base64ImageSource,
+      embedImagesInNotebook: true,
+      contentRef: contentRef,
+      store: store
+    });
+
+     event.preventDefault();
   }
 }
 

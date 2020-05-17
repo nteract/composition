@@ -8,6 +8,7 @@ import * as fs from 'fs';
 
 interface InsertImagesParameters {
   imagePaths: Array<string>;
+  base64ImageSource: string;
   embedImagesInNotebook: bool;
   linkImagesAndKeepAtOriginalPath: bool;
   copyImagesToNotebookDirectory: bool;
@@ -17,6 +18,7 @@ interface InsertImagesParameters {
 
 export function insertImages({
   imagePaths,
+  base64ImageSource,
   embedImagesInNotebook,
   linkImagesAndKeepAtOriginalPath,
   copyImagesToNotebookDirectory,
@@ -27,11 +29,15 @@ export function insertImages({
   const notebookDirectory = path.dirname(selectors.filepath(store.getState(), {contentRef: contentRef}));
 
   if (embedImagesInNotebook) {
-    for (let imagePath of imagePaths) {
-      let fileExtension = path.extname(imagePath).slice(1);
-      let imageHash = fs.readFileSync(imagePath).toString('base64');
-      let imageSource = `data:image/${fileExtension};base64,${imageHash}`;
-      createMarkdownCellWithImages({imageSources: [imageSource], store: store, contentRef: contentRef});
+    if (base64ImageSource) {
+      createMarkdownCellWithImages({imageSources: [base64ImageSource], store: store, contentRef: contentRef});
+    } else {
+      for (let imagePath of imagePaths) {
+        let fileExtension = path.extname(imagePath).slice(1);
+        let imageHash = fs.readFileSync(imagePath).toString('base64');
+        let imageSource = `data:image/${fileExtension};base64,${imageHash}`;
+        createMarkdownCellWithImages({imageSources: [imageSource], store: store, contentRef: contentRef});
+      }
     }
   }
 
