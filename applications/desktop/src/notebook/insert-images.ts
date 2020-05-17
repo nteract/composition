@@ -8,6 +8,8 @@ import * as fs from 'fs';
 
 interface InsertImagesParameters {
   imagePaths: Array<string>;
+  embedImagesInNotebook: bool;
+  linkImagesAndKeepAtOriginalPath: bool;
   copyImagesToNotebookDirectory: bool;
   contentRef: ContentRef;
   store: DesktopStore;
@@ -15,59 +17,107 @@ interface InsertImagesParameters {
 
 export function insertImages({
   imagePaths,
+  embedImagesInNotebook,
+  linkImagesAndKeepAtOriginalPath,
   copyImagesToNotebookDirectory,
   contentRef,
   store
 }: InsertImagesParameters) {
 
-  const notebookPath = path.dirname(selectors.filepath(store.getState(), {contentRef: contentRef}));
+  const notebookDirectory = path.dirname(selectors.filepath(store.getState(), {contentRef: contentRef}));
 
-  if (copyImagesToNotebookDirectory) {
-    let destinationImagePaths = []
-    for (let sourceImagePath of imagePaths) {
-      let imageBaseName = path.basename(sourceImagePath);
-      let destinationImagePath = `${notebookPath}/${imageBaseName}`;
-      destinationImagePaths.push(destinationImagePath);
-      let performCopy = () => { fs.copyFile(sourceImagePath, destinationImagePath, () => {}) };
-      if (! fs.existsSync(destinationImagePath)) {
-        performCopy()
-      } else {
-        store.dispatch(
-          sendNotification.create({
-            key: `insert-images-file-${imageBaseName}-already-exists`,
-            title: "File already exists",
-            message: `The image ${destinationImagePath} already exists.`,
-            level: "warning",
-            action: {
-              label: "Replace",
-              callback: () => performCopy()
-            }
-          })
-        );
-      }
+  if (embedImagesInNotebook) {
+    for (let imagePath of imagePaths) {
     }
-    imagePaths = destinationImagePaths;
   }
 
-  // For image files that are within the notebook directory, only use relative paths,
-  // for all other files, use the full path.
-  imagePaths = imagePaths.map(imagePath => {
-    let relativePath = path.relative(notebookPath, imagePath);
+  if (copyImagesToNotebookDirectory || linkImagesAndKeepAtOriginalPath) {
+    if (copyImagesToNotebookDirectory) {
+      imagePaths = copyImagesToDirectoryAndReturnNewPaths({
+        imagePaths: imagePaths,
+        destinationDirectory: notebookDirectory,
+        store: store,
+        contentRef: contentRef
+      })
+    }
+
+    imagePaths = makePathsRelativeWithinDirectory({
+      imagePaths: imagePaths,
+      directory: notebookDirectory
+    });
+
+    createMarkdownCellWithImages({
+      imageSources: imagePaths,
+      store: store,
+      contentRef: contentRef
+    });
+  }
+};
+
+function createMarkdownCellWithImages({
+  imageSources,
+  store,
+  contentRef
+})
+{
+  store.dispatch(
+    actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
+      cellType: "markdown",
+      contentRef: contentRef,
+      source: imageSources.map((src) => `<img src=\"${src}\" />`).join("\n")
+    })
+  );
+}
+
+function copyImagesToDirectoryAndReturnNewPaths({
+  imagePaths,
+  destinationDirectory,
+  store,
+  contentRef
+})
+{
+  let destinationImagePaths = []
+  for (let sourceImagePath of imagePaths) {
+    let imageBaseName = path.basename(sourceImagePath);
+    let destinationImagePath = `${destinationDirectory}/${imageBaseName}`;
+    destinationImagePaths.push(destinationImagePath);
+    let performCopy = () => { fs.copyFile(sourceImagePath, destinationImagePath, () => {}) };
+    if (! fs.existsSync(destinationImagePath)) {
+      performCopy()
+    } else {
+      store.dispatch(
+        sendNotification.create({
+          key: `insert-images-file-${imageBaseName}-already-exists`,
+          title: "File already exists",
+          message: `The image ${destinationImagePath} already exists.`,
+          level: "warning",
+          action: {
+            label: "Replace",
+            callback: () => performCopy()
+          }
+        })
+      );
+    }
+  }
+  return destinationImagePaths;
+}
+
+// For all image paths within the given directory, use relative paths,
+// for image paths outside the directory, use absolute paths.
+//
+function makePathsRelativeWithinDirectory({
+  imagePaths,
+  directory
+})
+{
+  return imagePaths.map(imagePath => {
+    let relativePath = path.relative(directory, imagePath);
     if (relativePath.startsWith("../")) {
       return imagePath;
     } else {
       return relativePath;
     }
   });
+}
 
-  if (imagePaths.length > 0) {
-    store.dispatch(
-      actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
-        cellType: "markdown",
-        contentRef: contentRef,
-        source: imagePaths.map((path) => `<img src=\"${path}\">`).join("\n")
-      })
-    );
-  }
 
-};

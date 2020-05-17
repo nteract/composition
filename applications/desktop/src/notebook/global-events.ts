@@ -53,21 +53,15 @@ export function onDrop(
     .filter(file => file.type.match(/image.*/))
     .map(file => file.path);
 
-  // If the options/alt key (macOS) or the ctrl key (linux, windows)
-  // is held down while dropping the image,
-  // the images are copied to the notebook directory and linked
-  // via a relative path.
-  // If no key is held down while dropping the image,
-  // the images are not copied, but their original file paths
-  // are used.
-  let copyImagesToNotebookDirectory = (
-    (process.platform === "darwin" && event.altKey) ||
-    (process.platform != "darwin" && event.ctrlKey)
-  );
+  let copyImagesToNotebookDirectory: bool = (event.dataTransfer.effectAllowed == "copy");
+  let linkImagesAndKeepAtOriginalPath: bool = (event.dataTransfer.effectAllowed == "link");
+  let embedImagesInNotebook: bool = !(copyImagesToNotebookDirectory || linkImagesAndKeepAtOriginalPath);
 
   insertImages({
     imagePaths: imagePaths,
     copyImagesToNotebookDirectory: copyImagesToNotebookDirectory,
+    linkImagesAndKeepAtOriginalPath: linkImagesAndKeepAtOriginalPath,
+    embedImagesInNotebook: embedImagesInNotebook,
     contentRef: contentRef,
     store: store
   });
