@@ -1,33 +1,31 @@
 import { actions } from "@nteract/core";
 import { selectors } from "@nteract/core";
 import { ContentRef } from "@nteract/core";
-import { Store } from "redux";
 import { sendNotification } from "@nteract/mythic-notifications";
+import { DesktopStore } from "./store";
 import * as path from "path";
 import * as fs from 'fs';
 
 interface InsertImagesParameters {
-  imagePaths: Array<string>;
-  base64ImageSource: string;
-  embedImagesInNotebook: bool;
-  linkImagesAndKeepAtOriginalPath: bool;
-  copyImagesToNotebookDirectory: bool;
+  imagePaths?: Array<string>;
+  base64ImageSource?: string;
+  embedImagesInNotebook?: boolean;
+  linkImagesAndKeepAtOriginalPath?: boolean;
+  copyImagesToNotebookDirectory?: boolean;
   contentRef: ContentRef;
   store: DesktopStore;
 };
 
 export function insertImages({
-  imagePaths,
+  imagePaths = [],
   base64ImageSource,
   embedImagesInNotebook,
   linkImagesAndKeepAtOriginalPath,
   copyImagesToNotebookDirectory,
   contentRef,
   store
-}: InsertImagesParameters) {
-
-  const notebookDirectory = path.dirname(selectors.filepath(store.getState(), {contentRef: contentRef}));
-
+}: InsertImagesParameters)
+{
   if (embedImagesInNotebook) {
     if (base64ImageSource) {
       createMarkdownCellWithImages({imageSources: [base64ImageSource], store: store, contentRef: contentRef});
@@ -41,20 +39,25 @@ export function insertImages({
     }
   }
 
-  if (copyImagesToNotebookDirectory || linkImagesAndKeepAtOriginalPath) {
-    if (copyImagesToNotebookDirectory) {
-      imagePaths = copyImagesToDirectoryAndReturnNewPaths({
-        imagePaths: imagePaths,
-        destinationDirectory: notebookDirectory,
-        store: store,
-        contentRef: contentRef
-      })
-    }
+  const notebookPath = selectors.filepath(store.getState(), {contentRef: contentRef});
+  const notebookDirectory = (notebookPath) ? path.dirname(notebookPath) : null;
 
-    imagePaths = makePathsRelativeWithinDirectory({
-      imagePaths: imagePaths,
-      directory: notebookDirectory
-    });
+  if (copyImagesToNotebookDirectory || linkImagesAndKeepAtOriginalPath) {
+    if (notebookDirectory) {
+      if (copyImagesToNotebookDirectory) {
+        imagePaths = copyImagesToDirectoryAndReturnNewPaths({
+          imagePaths: imagePaths,
+          destinationDirectory: notebookDirectory,
+          store: store,
+          contentRef: contentRef
+        })
+      }
+
+      imagePaths = makePathsRelativeWithinDirectory({
+        imagePaths: imagePaths,
+        directory: notebookDirectory
+      });
+    }
 
     createMarkdownCellWithImages({
       imageSources: imagePaths,
@@ -64,11 +67,17 @@ export function insertImages({
   }
 };
 
+interface CreateMarkdownCellWithImagesParameters {
+  imageSources: Array<string>;
+  store: DesktopStore;
+  contentRef: ContentRef;
+}
+
 function createMarkdownCellWithImages({
   imageSources,
   store,
   contentRef
-})
+}: CreateMarkdownCellWithImagesParameters)
 {
   store.dispatch(
     actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
@@ -79,12 +88,19 @@ function createMarkdownCellWithImages({
   );
 }
 
+interface CopyImagesToDirectoryAndReturnNewPathsParameters {
+  imagePaths: Array<string>;
+  destinationDirectory: string;
+  store: DesktopStore;
+  contentRef: ContentRef;
+}
+
 function copyImagesToDirectoryAndReturnNewPaths({
   imagePaths,
   destinationDirectory,
   store,
   contentRef
-})
+}: CopyImagesToDirectoryAndReturnNewPathsParameters)
 {
   let destinationImagePaths = []
   for (let sourceImagePath of imagePaths) {
@@ -112,13 +128,18 @@ function copyImagesToDirectoryAndReturnNewPaths({
   return destinationImagePaths;
 }
 
+interface MakePathsRelativeWithinDirectoryParameters {
+  imagePaths: Array<string>;
+  directory: string;
+}
+
 // For all image paths within the given directory, use relative paths,
 // for image paths outside the directory, use absolute paths.
 //
 function makePathsRelativeWithinDirectory({
   imagePaths,
   directory
-})
+}: MakePathsRelativeWithinDirectoryParameters)
 {
   return imagePaths.map(imagePath => {
     let relativePath = path.relative(directory, imagePath);
@@ -129,5 +150,3 @@ function makePathsRelativeWithinDirectory({
     }
   });
 }
-
-

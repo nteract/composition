@@ -45,17 +45,17 @@ export function onBeforeUnloadOrReload(
 }
 
 export function onDrop(
-  event: MouseEvent,
+  event: DragEvent,
   contentRef: ContentRef,
   store: DesktopStore
 ) {
-  let imagePaths = Array.from(event.dataTransfer.files)
+  let imagePaths = ((event.dataTransfer) ? Array.from(event.dataTransfer.files) : [])
     .filter(file => file.type.match(/image.*/))
     .map(file => file.path);
 
-  let copyImagesToNotebookDirectory: bool = (event.dataTransfer.effectAllowed == "copy");
-  let linkImagesAndKeepAtOriginalPath: bool = (event.dataTransfer.effectAllowed == "link");
-  let embedImagesInNotebook: bool = !(copyImagesToNotebookDirectory || linkImagesAndKeepAtOriginalPath);
+  let copyImagesToNotebookDirectory: boolean = (event.dataTransfer?.effectAllowed == "copy");
+  let linkImagesAndKeepAtOriginalPath: boolean = (event.dataTransfer?.effectAllowed == "link");
+  let embedImagesInNotebook: boolean = !(copyImagesToNotebookDirectory || linkImagesAndKeepAtOriginalPath);
 
   insertImages({
     imagePaths: imagePaths,
@@ -75,15 +75,13 @@ export function onPaste(
   // Paste image paths (macOS only).
   // https://github.com/nteract/nteract/issues/4963#issuecomment-627561034
   if (clipboard.has('NSFilenamesPboardType')) {
-    let filePathsFromClipboard = plist.parse(clipboard.read('NSFilenamesPboardType'));
+    let filePathsFromClipboard: Array<string> = plist.parse(clipboard.read('NSFilenamesPboardType'));
     let imagePaths = filePathsFromClipboard
       .filter(filePath => /[\w-]+\.(png|jpg|jpeg|heic|gif|tiff)/.test(filePath));
 
     insertImages({
       imagePaths: imagePaths,
       embedImagesInNotebook: true,
-      copyImagesToNotebookDirectory: false,
-      linkImagesAndKeepAtOriginalPath: false,
       contentRef: contentRef,
       store: store
     });
@@ -101,7 +99,7 @@ export function onPaste(
       store: store
     });
 
-     event.preventDefault();
+    event.preventDefault();
   }
 }
 
