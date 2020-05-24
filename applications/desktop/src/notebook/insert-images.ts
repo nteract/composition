@@ -5,6 +5,7 @@ import { sendNotification } from "@nteract/mythic-notifications";
 import { DesktopStore } from "./store";
 import * as path from "path";
 import * as fs from 'fs';
+import { ImmutableCell, emptyMarkdownCell } from "@nteract/commutable";
 
 interface InsertImagesParameters {
   imagePaths?: Array<string>;
@@ -79,11 +80,15 @@ function createMarkdownCellWithImages({
   contentRef
 }: CreateMarkdownCellWithImagesParameters)
 {
+  let newCell = emptyMarkdownCell.set("source",
+    imageSources.map((src) => `<img src=\"${src}\" />`).join("\n")
+  );
+
   store.dispatch(
     actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
       cellType: "markdown",
       contentRef: contentRef,
-      source: imageSources.map((src) => `<img src=\"${src}\" />`).join("\n")
+      cell: newCell
     })
   );
 }
