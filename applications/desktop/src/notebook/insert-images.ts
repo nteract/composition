@@ -85,7 +85,7 @@ function createMarkdownCellWithImages({
   );
 
   store.dispatch(
-    actions.createCellBelow({ // FIXME: I would like to insert the cell above, but `createCellBelow` appears to ignore the `source` argument.
+    actions.createCellAbove({
       cellType: "markdown",
       contentRef: contentRef,
       cell: newCell
