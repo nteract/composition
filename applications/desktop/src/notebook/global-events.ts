@@ -1,20 +1,14 @@
-import { selectors } from "@nteract/core";
-import { ContentRef } from "@nteract/core";
-import { ipcRenderer as ipc } from "electron";
-import { clipboard } from "electron";
-import { Store } from "redux";
-import * as plist from "plist";
-
-import { insertImages } from "./insert-images";
-
-import { Actions, closeNotebook } from "./actions";
-import { DesktopNotebookAppState } from "./state";
-import {
-  DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED,
-  DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE
-} from "./state";
-
+import { actions, ContentRef, createKernelRef, KernelspecInfo, selectors } from "@nteract/core";
+import { Event, ipcRenderer as ipc, remote } from "electron";
+import { NewNotebook } from "../common/commands";
+import { dispatchCommandInRenderer } from "../common/commands/dispatch";
+import { ReqContent, ReqKernelSpec } from "../common/commands/types";
+import { closeNotebook } from "./actions";
+import { DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED, DESKTOP_NOTEBOOK_CLOSING_READY_TO_CLOSE } from "./state";
 import { DesktopStore } from "./store";
+import { clipboard } from "electron";
+import * as plist from "plist";
+import { insertImages } from "./insert-images";
 
 export function onBeforeUnloadOrReload(
   contentRef: ContentRef,
@@ -123,6 +117,33 @@ export function initGlobalHandlers(
   // In our manually-orchestrated reload, onbeforeunload will still fire
   // at the end, but by then we'd transitioned our closingState such that it's a no-op.
   ipc.on("reload", () => onBeforeUnloadOrReload(contentRef, store, true));
+
+  ipc.on(
+    "main:load", (_event: Event, filepath: string) =>
+      store.dispatch(
+        actions.fetchContent({
+          // Remove the protocol string from requests originating from
+          // another notebook
+          filepath: filepath.replace("file://", ""),
+          params: {},
+          kernelRef: createKernelRef(),
+          contentRef,
+        }),
+      ),
+  );
+
+  ipc.on(
+    "main:new", (
+      _event: Event,
+      filepath: string | null,
+      kernelSpec: KernelspecInfo,
+    ) =>
+      dispatchCommandInRenderer(store, NewNotebook, {
+        contentRef,
+        kernelSpec,
+        filepath: filepath ?? undefined,
+      } as ReqContent & ReqKernelSpec),
+  );
 
   // Listen to drag-and-drop events, e.g. to handle dropping images.
   window.addEventListener('drop', (event) => onDrop(event, contentRef, store));

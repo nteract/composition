@@ -1,4 +1,4 @@
-import { createMainChannelFromSockets } from "enchannel-zmq-backend/src";
+import { createMainChannelFromSockets } from "enchannel-zmq-backend";
 
 const EventEmitter = require("events");
 

@@ -5,7 +5,8 @@ import {
   state as stateModule
 } from "@nteract/core";
 import * as Immutable from "immutable";
-import { ActionsObservable } from "redux-observable";
+import { of } from "rxjs";
+
 import { toArray } from "rxjs/operators";
 import { TestScheduler } from "rxjs/testing";
 
@@ -70,7 +71,7 @@ describe("closeNotebookEpic", () => {
 
       const state = buildState(true);
       const responses = await closeNotebookEpic(
-        ActionsObservable.of(
+        of(
           actions.closeNotebook({ contentRef: "contentRef1" })
         ),
         { value: state }
@@ -110,7 +111,7 @@ describe("closeNotebookEpic", () => {
 
       const state = buildState(true);
       const responses = await closeNotebookEpic(
-        ActionsObservable.of(
+        of(
           actions.closeNotebook({ contentRef: "contentRef1" })
         ),
         { value: state }

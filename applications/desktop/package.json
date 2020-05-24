@@ -140,6 +140,8 @@
     "@nteract/transform-plotly": "^6.1.10",
     "@nteract/transform-vdom": "^4.0.15",
     "@nteract/transform-vega": "^7.0.10",
+    "enchannel-zmq-backend": "^9.1.22",
+    "fs-observable": "^4.1.14",
     "ijavascript": "^5.2.0",
     "jmp": "^2.0.0",
     "lodash.sample": "^4.2.1",
@@ -147,14 +149,16 @@
     "lodash.throttle": "^4.1.1",
     "mathjax-electron": "^3.0.0",
     "nteract-assets": "^4.0.0",
-    "plist": "^3.0.1"
+    "plist": "^3.0.1",
+    "rxjs": "^6.5.5"
   },
   "devDependencies": {
-    "@types/fs-extra": "^8.1.0",
+    "@types/fs-extra": "^9.0.0",
     "@types/lodash.sample": "^4.2.6",
     "@types/lodash.sortby": "^4.7.6",
     "@types/lodash.throttle": "^4.1.6",
     "electron": "5.0.13",
-    "file-loader": "^6.0.0"
+    "file-loader": "^6.0.0",
+    "utility-types": "^3.10.0"
   }
 }

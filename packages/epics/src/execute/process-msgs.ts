@@ -4,8 +4,8 @@
  * the Jupyter kernel.
  */
 
-import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import { EMPTY, of } from "rxjs";
+import { StateObservable, ofType } from "redux-observable";
+import { EMPTY, Observable, of } from "rxjs";
 import { switchMap, filter, map, takeUntil, catchError } from "rxjs/operators";
 
 import * as actions from "@nteract/actions";
@@ -22,7 +22,7 @@ import { AppState } from "@nteract/types";
  * @param action$   The stream of actions being dispatched on the Redux store
  */
 export const updateDisplayEpic = (
-  action$: ActionsObservable<
+  action$: Observable<
     actions.NewKernelAction | actions.KillKernelSuccessful
   >
 ) =>
@@ -73,7 +73,7 @@ export const updateDisplayEpic = (
  * @param state$    The stream of changes to the Redux store
  */
 export const sendInputReplyEpic = (
-  action$: ActionsObservable<actions.SendInputReply>,
+  action$: Observable<actions.SendInputReply>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(

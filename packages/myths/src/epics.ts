@@ -1,5 +1,5 @@
-import { ActionsObservable, combineEpics, Epic } from "redux-observable";
-import { EMPTY, of } from "rxjs";
+import { combineEpics, Epic } from "redux-observable";
+import { EMPTY, Observable, of } from "rxjs";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { CreateEpicDefinition, EpicDefinition, MythicAction, Myths } from "./types";
 
@@ -19,7 +19,7 @@ export const makeEpics = <
       const def: CreateEpicDefinition<PROPS> = definition;
 
       epics.push(
-        (action$: ActionsObservable<MythicAction>) =>
+        (action$: Observable<MythicAction>) =>
           action$.pipe(
             filter(def.on),
             map(def.create),

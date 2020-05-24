@@ -6,7 +6,7 @@ import {
   List as ImmutableList,
   Map as ImmutableMap,
   Record,
-  RecordOf
+  RecordOf,
 } from "immutable";
 
 /* CodeCell Record Boilerplate */
@@ -25,19 +25,18 @@ export const makeCodeCell = Record<CodeCellParams>({
   execution_count: null,
   metadata: ImmutableMap({
     collapsed: true,
-    outputExpanded: false,
     jupyter: ImmutableMap({
       source_hidden: false,
-      outputs_hidden: false
+      outputs_hidden: false,
     }),
     nteract: ImmutableMap({
       transient: ImmutableMap({
-        deleting: false
-      })
-    })
+        deleting: false,
+      }),
+    }),
   }),
   source: "",
-  outputs: ImmutableList()
+  outputs: ImmutableList(),
 });
 
 export type ImmutableCodeCell = RecordOf<CodeCellParams>;
@@ -55,11 +54,11 @@ export const makeMarkdownCell = Record<MarkdownCellParams>({
   metadata: ImmutableMap({
     nteract: ImmutableMap({
       transient: ImmutableMap({
-        deleting: false
-      })
-    })
+        deleting: false,
+      }),
+    }),
   }),
-  source: ""
+  source: "",
 });
 
 export type ImmutableMarkdownCell = RecordOf<MarkdownCellParams>;
@@ -77,11 +76,11 @@ export const makeRawCell = Record<RawCellParams>({
   metadata: ImmutableMap({
     nteract: ImmutableMap({
       transient: ImmutableMap({
-        deleting: false
-      })
-    })
+        deleting: false,
+      }),
+    }),
   }),
-  source: ""
+  source: "",
 });
 
 export type ImmutableRawCell = RecordOf<RawCellParams>;

@@ -8,9 +8,10 @@ The fastest way to get started with nteract is to download the desktop applicati
 
 ### Setting up using Snap
 
-To install nteract desktop application using [Snapcraft](https://snapcraft.io), which should work with all the major Linux distros. If you are new to Snaps, you can learn more about it from [here](https://snapcraft.io/docs/getting-started), and download it for your distro from [here](https://snapcraft.io/docs/installing-snapd). 
+To install nteract desktop application using [Snapcraft](https://snapcraft.io), which should work with all the major Linux distros. If you are new to Snaps, you can learn more about it from [here](https://snapcraft.io/docs/getting-started), and download it for your distro from [here](https://snapcraft.io/docs/installing-snapd).
 
 Once you have installed Snap, you can install `nteract` by:
+
 ```bash
 $ sudo snap install nteract --edge
 ```
@@ -31,7 +32,12 @@ Then, run Jupyter with the nteract extension installed using the following comma
 $ jupyter nteract
 ```
 
-Your default browser should open to the nteract web interface where you can open, create, and edit notebooks.
+Your default browser should open to the nteract web interface where you can open, create, and edit notebooks.  If you want to run the examples mentioned later, you will need to install them separately:  navigate to the directory (for example, in a Command Prompt window) and run the following
+
+```
+git clone https://github.com/nteract/examples
+cd examples
+```
 
 ### How to create a new notebook
 
@@ -65,7 +71,7 @@ Like any written document, the organization of the content matters. nteract allo
 
 ### Speed things up with keyboard shortcuts
 
-As you use notebooks more and more, you'll probably want to start taking advantage of some of the keyboard shortcuts that are provided within nteract. You can view [a full list of these keyboard shortcuts](https://docs.nteract.io/#/desktop/shortcut-keys), and how they compare to those provided within the JupyterLab and classic Jupyter front ends to get started with these keyboard shortcuts.
+As you use notebooks more and more, you'll probably want to start taking advantage of some of the keyboard shortcuts that are provided within nteract. You can view [a full list of these keyboard shortcuts](https://docs.nteract.io/kbd-shortcuts/), and how they compare to those provided within the JupyterLab and classic Jupyter front ends to get started with these keyboard shortcuts.
 
 We also have a list specific for [cell keyboard shortcuts](https://github.com/nteract/nteract/blob/master/USER_GUIDE.md#cell-shortcuts).
 

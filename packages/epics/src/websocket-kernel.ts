@@ -1,8 +1,8 @@
 import { kernelInfoRequest } from "@nteract/messaging";
 import { ofType } from "redux-observable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { kernels, sessions } from "rx-jupyter";
-import { empty, of } from "rxjs";
+import { empty, Observable, of } from "rxjs";
 import {
   catchError,
   concatMap,
@@ -23,7 +23,7 @@ import { AjaxResponse } from "rxjs/ajax";
 import { extractNewKernel } from "./kernel-lifecycle";
 
 export const launchWebSocketKernelEpic = (
-  action$: ActionsObservable<actions.LaunchKernelByNameAction>,
+  action$: Observable<actions.LaunchKernelByNameAction>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(
@@ -105,7 +105,7 @@ export const launchWebSocketKernelEpic = (
   );
 
 export const changeWebSocketKernelEpic = (
-  action$: ActionsObservable<actions.ChangeKernelByName>,
+  action$: Observable<actions.ChangeKernelByName>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(
@@ -202,7 +202,7 @@ export const changeWebSocketKernelEpic = (
   );
 
 export const interruptKernelEpic = (
-  action$: ActionsObservable<actions.InterruptKernel>,
+  action$: Observable<actions.InterruptKernel>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(
@@ -281,7 +281,7 @@ export const interruptKernelEpic = (
   );
 
 export const killKernelEpic = (
-  action$: ActionsObservable<actions.KillKernelAction>,
+  action$: Observable<actions.KillKernelAction>,
   state$: StateObservable<AppState>
 ) =>
   // TODO: Use the sessions API for this
@@ -374,7 +374,7 @@ export const killKernelEpic = (
   );
 
 export const restartWebSocketKernelEpic = (
-  action$: ActionsObservable<actions.RestartKernel>,
+  action$: Observable<actions.RestartKernel>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(

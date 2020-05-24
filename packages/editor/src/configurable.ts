@@ -64,7 +64,6 @@ export const configurableCodeMirrorOptions: {
   maxHighlightLength: true,
   viewportMargin: true,
   lint: true,
-  placeholder: true,
 
   // CodeMirror addon configurations
   showHint: true,

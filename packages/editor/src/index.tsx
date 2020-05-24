@@ -349,7 +349,11 @@ export default class CodeMirrorEditor extends React.Component<
       if (
         this.props.codeMirror[optionName] !== prevProps.codeMirror[optionName]
       ) {
-        this.cm.setOption(optionName, this.props.codeMirror[optionName]);
+        if (optionName === "mode") {
+          this.cm.setOption(optionName, this.cleanMode());
+        } else {
+          this.cm.setOption(optionName, this.props.codeMirror[optionName]);
+        }
       }
     }
 

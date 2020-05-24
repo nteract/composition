@@ -1,5 +1,5 @@
 import { applyMiddleware, combineReducers, createStore, Middleware, ReducersMapObject, Store } from "redux";
-import { ActionsObservable, combineEpics, createEpicMiddleware, Epic, StateObservable } from "redux-observable";
+import { combineEpics, createEpicMiddleware, Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { MythicAction, MythicPackage } from "./types";
@@ -32,7 +32,7 @@ export const makeConfigureStore = <STATE>() => <DEPS>(
   });
 
   const rootEpic = (
-    action$: ActionsObservable<any>,
+    action$: Observable<any>,
     store$: StateObservable<any>,
     dependencies: any,
   ) =>

@@ -8,7 +8,7 @@ import {
 } from "@nteract/messaging";
 import { sendNotification } from "@nteract/mythic-notifications";
 import { AnyAction } from "redux";
-import { ActionsObservable, ofType, StateObservable } from "redux-observable";
+import { ofType, StateObservable } from "redux-observable";
 import { EMPTY, merge, Observable, Observer, of } from "rxjs";
 import {
   catchError,
@@ -36,7 +36,7 @@ const path = require("path");
  * @oaram  {ActionObservable}  action$ ActionObservable for LAUNCH_KERNEL_SUCCESSFUL action
  */
 export const watchExecutionStateEpic = (
-  action$: ActionsObservable<
+  action$: Observable<
     actions.NewKernelAction | actions.KillKernelSuccessful
   >
 ) =>
@@ -174,7 +174,7 @@ export function acquireKernelInfo(
  * @param  {ActionObservable}  The action type
  */
 export const acquireKernelInfoEpic = (
-  action$: ActionsObservable<actions.NewKernelAction>,
+  action$: Observable<actions.NewKernelAction>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(
@@ -222,7 +222,7 @@ export const extractNewKernel = (
  *       We could always inject those dependencies separately...
  */
 export const launchKernelWhenNotebookSetEpic = (
-  action$: ActionsObservable<actions.FetchContentFulfilled>,
+  action$: Observable<actions.FetchContentFulfilled>,
   state$: any
 ) =>
   action$.pipe(
@@ -277,7 +277,7 @@ export const launchKernelWhenNotebookSetEpic = (
  * killing the existing kernel process and starting an ew one.
  */
 export const restartKernelEpic = (
-  action$: ActionsObservable<actions.RestartKernel | actions.NewKernelAction>,
+  action$: Observable<actions.RestartKernel | actions.NewKernelAction>,
   state$: any
 ) =>
   action$.pipe(

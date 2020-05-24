@@ -44,6 +44,19 @@ export const model = (
   return content.model;
 };
 
+export const notebookModel = (
+  state: AppState,
+  { contentRef }: { contentRef: ContentRef }
+) => {
+  const notebook = model(state, { contentRef });
+
+  if (!notebook || notebook.type !== "notebook") {
+    throw new Error("Expected notebook model");
+  }
+
+  return notebook;
+};
+
 /**
  * Returns a ref to the kernel associated with a particular type of content.
  * Currently, this only support kernels associated with notebook contents.

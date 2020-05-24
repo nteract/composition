@@ -1,4 +1,4 @@
-import withRedux from "next-redux-wrapper";
+import { createWrapper } from "next-redux-wrapper";
 import App from "next/app";
 import React from "react";
 import { Provider } from "react-redux";
@@ -37,12 +37,10 @@ class WebApp extends App<StoreProps> {
 
   render() {
     const { Component, pageProps, store } = this.props;
-    return (
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    );
+    return (<Component {...pageProps} />);
   }
 }
 
-export default withRedux(configureStore as any)(WebApp);
+const wrapper = createWrapper(configureStore, { debug: true });
+
+export default wrapper.withRedux(WebApp);

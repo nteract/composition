@@ -14,7 +14,7 @@ import {
   makeHostsRecord,
   makeJupyterHostRecord,
   makeStateRecord,
-  makeTransformsRecord
+  makeTransformsRecord,
 } from "@nteract/core";
 import { Media } from "@nteract/outputs";
 import TransformVDOM from "@nteract/transform-vdom";
@@ -44,8 +44,8 @@ export async function main(
     token: config.token,
     origin: location.origin,
     basePath: config.baseUrl,
-    bookstoreEnabled: !!config.bookstore.version,
-    showHeaderEditor: false
+    bookstoreEnabled: config.bookstore.enabled,
+    showHeaderEditor: false,
   });
 
   const hostRef = createHostRef();
@@ -56,11 +56,11 @@ export async function main(
   const initialState: AppState = {
     app: makeAppRecord({
       version: `nteract-on-jupyter@${config.appVersion}`,
-      host: jupyterHostRecord
+      host: jupyterHostRecord,
     }),
     comms: makeCommsRecord(),
     config: Immutable.Map({
-      theme: "light"
+      theme: "light",
     }),
     core: makeStateRecord({
       currentKernelspecsRef: kernelspecsRef,
@@ -69,15 +69,15 @@ export async function main(
           byRef: Immutable.Map<string, HostRecord>().set(
             hostRef,
             jupyterHostRecord
-          )
+          ),
         }),
         contents: makeContentsRecord({
           byRef: Immutable.Map<string, ContentRecord>().set(
             contentRef,
             makeDummyContentRecord({
-              filepath: config.contentsPath
+              filepath: config.contentsPath,
             })
-          )
+          ),
         }),
         transforms: makeTransformsRecord({
           displayOrder: Immutable.List([
@@ -104,7 +104,7 @@ export async function main(
             "image/gif",
             "image/png",
             "image/jpeg",
-            "text/plain"
+            "text/plain",
           ]),
           byId: Immutable.Map({
             "text/vnd.plotly.v1+html": NullTransform,
@@ -130,11 +130,11 @@ export async function main(
             "image/gif": Media.Image,
             "image/png": Media.Image,
             "image/jpeg": Media.Image,
-            "text/plain": Media.Plain
-          })
-        })
-      })
-    })
+            "text/plain": Media.Plain,
+          }),
+        }),
+      }),
+    }),
   };
 
   const kernelRef = createKernelRef();
@@ -147,7 +147,7 @@ export async function main(
       filepath: config.contentsPath,
       params: {},
       kernelRef,
-      contentRef
+      contentRef,
     })
   );
   store.dispatch(actions.fetchKernelspecs({ hostRef, kernelspecsRef }));

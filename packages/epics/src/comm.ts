@@ -1,7 +1,7 @@
 import { ofMessageType } from "@nteract/messaging";
 import { ofType, StateObservable } from "redux-observable";
-import { ActionsObservable } from "redux-observable";
-import { merge, of } from "rxjs";
+
+import { merge, Observable, of } from "rxjs";
 import { map, switchMap, takeUntil, filter, catchError } from "rxjs/operators";
 
 import {
@@ -20,12 +20,12 @@ import { ipywidgetsModel$ } from "./ipywidgets";
 
 /**
  * An epic that emits comm actions from the backend kernel
- * @param  {ActionsObservable} action$ Action Observable from redux-observable
+ * @param  {Observable} action$ Action Observable from redux-observable
  * @param  {redux.Store} store   the redux store
- * @return {ActionsObservable}         Comm actions
+ * @return {Observable}         Comm actions
  */
 export const commListenEpic = (
-  action$: ActionsObservable<NewKernelAction | KillKernelSuccessful>,
+  action$: Observable<NewKernelAction | KillKernelSuccessful>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(

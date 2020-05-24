@@ -1,6 +1,7 @@
 import { fetchKernelspecs } from "@nteract/actions";
 import { JupyterHostRecordProps } from "@nteract/types";
-import { ActionsObservable } from "redux-observable";
+import { of } from "rxjs";
+
 import { toArray } from "rxjs/operators";
 import { fetchKernelspecsEpic } from "../src";
 
@@ -10,7 +11,7 @@ describe("fetchKernelspecsEpic", () => {
       kernelspecsRef: "fake",
       hostRef: "alsoFake"
     });
-    const action$ = ActionsObservable.of(action);
+    const action$ = of(action);
     const state$ = {
       value: {
         app: {

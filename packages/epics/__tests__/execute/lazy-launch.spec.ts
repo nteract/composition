@@ -1,7 +1,7 @@
 import * as actions from "@nteract/actions";
 import * as stateModule from "@nteract/types";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { Subject } from "rxjs";
+import { StateObservable } from "redux-observable";
+import { of, Subject } from "rxjs";
 import { toArray } from "rxjs/operators";
 
 import {
@@ -46,7 +46,7 @@ describe("executeCellAfterKernelLaunchEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.launchKernelSuccessful({
         contentRef: "fakeContentRef",
         kernel: fakeKernel,
@@ -110,7 +110,7 @@ describe("executeCellAfterKernelLaunchEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.launchKernelSuccessful({
         contentRef: "fakeContentRef",
         kernel: fakeKernel,
@@ -153,7 +153,7 @@ describe("lazyLaunchKernelEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeCell({ id: "0", contentRef: "fakeContentRef" }),
       actions.executeCell({ id: "1", contentRef: "fakeContentRef" }),
       actions.executeCell({ id: "2", contentRef: "fakeContentRef" })

@@ -1,8 +1,8 @@
 import * as actions from "@nteract/actions";
 import * as stateModule from "@nteract/types";
 import { mockAppState } from "@nteract/fixtures";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { Subject } from "rxjs";
+import { StateObservable } from "redux-observable";
+import { of, Subject } from "rxjs";
 import { toArray } from "rxjs/operators";
 
 import { executeAllCellsEpic, executeCellEpic } from "../../src/execute";
@@ -12,7 +12,7 @@ const Immutable = require("immutable");
 describe("executeAllCellsEpic", () => {
   test("returns an error action if no content given", done => {
     const state = mockAppState({});
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeAllCells({ contentRef: "noContentForMe" })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -29,7 +29,7 @@ describe("executeAllCellsEpic", () => {
   test("does nothing if the model is not a notebook", done => {
     const state = mockAppState({ codeCellCount: 2 });
     const contentRef = state.core.entities.contents.byRef.keySeq().first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeAllCells({ contentRef })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -91,7 +91,7 @@ describe("executeCellEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeCell({ id: "0", contentRef: "fakeContentRef" })
     );
     const responses = await executeCellEpic(action$, state$)
@@ -119,7 +119,7 @@ describe("executeCellEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.executeCell({ id: "0", contentRef: "fakeContentRef" })
     );
     const responses = await executeCellEpic(action$, state$)

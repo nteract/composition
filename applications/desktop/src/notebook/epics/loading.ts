@@ -6,8 +6,8 @@ import {
   toJS
 } from "@nteract/commutable";
 import { actions, AppState, selectors } from "@nteract/core";
-import { ActionsObservable, ofType, StateObservable } from "redux-observable";
-import { empty, of } from "rxjs";
+import { ofType, StateObservable } from "redux-observable";
+import { empty, Observable, of } from "rxjs";
 import {
   map,
   mergeMap
@@ -38,7 +38,7 @@ export const extractNewKernel = (
 };
 
 export const launchKernelWhenNotebookSetEpic = (
-  action$: ActionsObservable<actions.FetchContentFulfilled>,
+  action$: Observable<actions.FetchContentFulfilled>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(
@@ -80,7 +80,7 @@ export const launchKernelWhenNotebookSetEpic = (
  * @param  {ActionObservable}  ActionObservable for NEW_NOTEBOOK action
  */
 export const newNotebookEpic = (
-  action$: ActionsObservable<actions.NewNotebook>
+  action$: Observable<actions.NewNotebook>
 ) =>
   action$.pipe(
     ofType(actions.NEW_NOTEBOOK),

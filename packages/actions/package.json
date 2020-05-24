@@ -18,5 +18,8 @@
     "@nteract/types": "^6.0.6",
     "immutable": "^4.0.0-rc.12",
     "rx-jupyter": "^5.5.8"
+  },
+  "devDependencies": {
+    "utility-types": "^3.10.0"
   }
 }

@@ -11,14 +11,14 @@ import {
   makeRemoteKernelRecord,
   makeStateRecord
 } from "@nteract/core";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { toArray } from "rxjs/operators";
 
 import { doneSavingConfig } from "@nteract/actions";
 import { mockAppState } from "@nteract/fixtures";
 import { displayName } from "@nteract/selectors/lib/core/contents/notebook";
 import Immutable from "immutable";
-import { Subject } from "rxjs";
+import { of, Subject } from "rxjs";
 import {
   interruptKernelEpic,
   killKernelEpic,
@@ -27,7 +27,7 @@ import {
 
 describe("killKernelEpic", () => {
   it("does nothing if there is no kernelRef", done => {
-    const action$ = ActionsObservable.of(actions.killKernel({}));
+    const action$ = of(actions.killKernel({}));
     const obs = killKernelEpic(action$);
     obs.pipe(toArray()).subscribe(
       action => {
@@ -40,7 +40,7 @@ describe("killKernelEpic", () => {
   });
   it("does nothing if there is no kernel", done => {
     const state = mockAppState({});
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.killKernel({ kernelRef: "not real" })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -57,7 +57,7 @@ describe("killKernelEpic", () => {
   it("does nothing if the kernel is not a zeromq kernel", done => {
     const state = mockAppState({});
     const kernelRef = state.core.entities.kernels.byRef.keySeq().first();
-    const action$ = ActionsObservable.of(actions.killKernel({ kernelRef }));
+    const action$ = of(actions.killKernel({ kernelRef }));
     const state$ = new StateObservable(new Subject(), state);
     const obs = killKernelEpic(action$, state$);
     obs.pipe(toArray()).subscribe(
@@ -73,7 +73,7 @@ describe("killKernelEpic", () => {
 
 describe("interruptKernel", () => {
   it("returns an error if there is no kernel to interrupt", done => {
-    const action$ = ActionsObservable.of(actions.interruptKernel({}));
+    const action$ = of(actions.interruptKernel({}));
     const state$ = new StateObservable(new Subject(), mockAppState({}));
     const obs = interruptKernelEpic(action$, state$);
     obs.pipe(toArray()).subscribe(
@@ -88,7 +88,7 @@ describe("interruptKernel", () => {
   it("does nothing if the kernel is not a zeromq kernel", done => {
     const state = mockAppState({});
     const contentRef = state.core.entities.contents.byRef.keySeq().first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.interruptKernel({ contentRef })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -104,7 +104,7 @@ describe("interruptKernel", () => {
       () => done()
     );
   });
-  it("calls kill with a SIGINT on the kernel", () => {
+  it("calls kill with a SIGINT on the kernel", (done) => {
     const kill = jest.fn();
     const state = {
       ...mockAppState({}),
@@ -131,7 +131,7 @@ describe("interruptKernel", () => {
         })
       })
     };
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.interruptKernel({ contentRef: "content" })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -150,7 +150,7 @@ describe("interruptKernel", () => {
 
 describe("watchSpawn", () => {
   it("throws error if kernel type is not zeromq", done => {
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.launchKernelSuccessful({
         kernelRef: createKernelRef(),
         contentRef: createContentRef(),
@@ -169,7 +169,7 @@ describe("watchSpawn", () => {
     );
   });
   it("throws error if no spawn object is not available to watch", done => {
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.launchKernelSuccessful({
         kernelRef: createKernelRef(),
         contentRef: createContentRef(),

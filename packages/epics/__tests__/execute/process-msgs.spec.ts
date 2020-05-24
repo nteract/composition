@@ -1,8 +1,8 @@
 import * as actions from "@nteract/actions";
 import { mockAppState } from "@nteract/fixtures";
 import * as stateModule from "@nteract/types";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { from, Subject } from "rxjs";
+import { StateObservable } from "redux-observable";
+import { from, of, Subject } from "rxjs";
 import { toArray } from "rxjs/operators";
 
 import { sendInputReplyEpic, updateDisplayEpic } from "../../src/execute";
@@ -42,7 +42,7 @@ describe("updateDisplayEpic", () => {
     ];
 
     const channels = from(messages);
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actions.LAUNCH_KERNEL_SUCCESSFUL,
       payload: {
         kernel: {
@@ -90,7 +90,7 @@ describe("updateDisplayEpic", () => {
 describe("sendInputReplyEpic", () => {
   it("does nothing if there is no active kernel", done => {
     const state = mockAppState({});
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendInputReply({ contentRef: "noKernelForMe" })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -129,7 +129,7 @@ describe("sendInputReplyEpic", () => {
       }
     };
     const contentRef = state.core.entities.contents.byRef.keySeq().first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendInputReply({ contentRef })
     );
     const state$ = new StateObservable(new Subject(), state);

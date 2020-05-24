@@ -10,8 +10,8 @@
  * apps.
  */
 import { AnyAction } from "redux";
-import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import { of, merge } from "rxjs";
+import { StateObservable, ofType } from "redux-observable";
+import { of, merge, Observable } from "rxjs";
 import { switchMap, filter, distinct, withLatestFrom } from "rxjs/operators";
 
 import * as actions from "@nteract/actions";
@@ -25,7 +25,7 @@ import { extractNewKernel } from "../kernel-lifecycle";
  * the kernel is launched successfully and is ready to execute.
  */
 export const executeCellAfterKernelLaunchEpic = (
-  action$: ActionsObservable<actions.NewKernelAction>,
+  action$: Observable<actions.NewKernelAction>,
   state$: StateObservable<AppState>
 ) =>
   action$.pipe(
@@ -65,7 +65,7 @@ export const executeCellAfterKernelLaunchEpic = (
  * being emitted more than once within the same notebook.
  */
 export function lazyLaunchKernelEpic(
-  action$: ActionsObservable<actions.ExecuteCell>,
+  action$: Observable<actions.ExecuteCell>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(

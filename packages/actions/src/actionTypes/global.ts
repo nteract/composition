@@ -1,5 +1,5 @@
 // tslint:disable:max-line-length
-import { Action, ErrorAction, makeActionFunction, makeErrorActionFunction, makeOneArgActionFunction } from "../utils";
+import { Action, ErrorAction, makeActionFunction, makeErrorActionFunction } from "../utils";
 
 export const OPEN_MODAL                   = "CORE/OPEN_MODAL";
 export const CLOSE_MODAL                  = "CORE/CLOSE_MODAL";
@@ -17,7 +17,7 @@ export type CoreError                     = ErrorAction<typeof ERROR>;
 
 export const openModal                    = makeActionFunction      <OpenModal>                   (OPEN_MODAL);
 export const closeModal                   = makeActionFunction      <CloseModal>                  (CLOSE_MODAL);
-export const setGithubToken               = makeOneArgActionFunction<SetGithubTokenAction>        (SET_GITHUB_TOKEN)       ("githubToken");
+export const setGithubToken               = makeActionFunction      <SetGithubTokenAction>        (SET_GITHUB_TOKEN);
 export const addTransform                 = makeActionFunction      <AddTransform>                (ADD_TRANSFORM);
 export const removeTransform              = makeActionFunction      <RemoveTransform>             (REMOVE_TRANSFORM);
 export const coreError                    = makeErrorActionFunction <CoreError>                   (ERROR);

@@ -1,7 +1,6 @@
 import { KernelspecInfo } from "@nteract/types";
 import { BrowserWindow, Menu, shell } from "electron";
 import * as path from "path";
-
 import { loadFullMenu } from "./menu";
 
 let launchIpynb: (path: string) => void;
@@ -18,11 +17,6 @@ export function deferURL(event: Event, url: string) {
 }
 
 const iconPath = path.join(__dirname, "..", "static", "icon.png");
-
-const initContextMenu = require("electron-context-menu");
-
-// Setup right-click context menu for all BrowserWindows
-initContextMenu();
 
 export function launch(filename?: string) {
   const win = new BrowserWindow({

@@ -7,8 +7,6 @@
     { "path": "core" },
     { "path": "editor" },
     { "path": "epics" },
-    { "path": "enchannel-zmq-backend" },
-    { "path": "fs-observable" },
     { "path": "fixtures" },
     { "path": "host-cache" },
     { "path": "messaging" },

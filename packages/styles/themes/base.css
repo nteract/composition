@@ -11,10 +11,15 @@
 .nteract-cell-outputs {
   padding: 10px 10px 10px calc(var(--prompt-width, 50px) + 10px);
   word-wrap: break-word;
-  overflow-y: hidden;
+  overflow-y: scroll;
   outline: none;
   /* When expanded, this is overtaken to 100% */
   text-overflow: ellipsis;
+  max-height: 300px;
+}
+
+.nteract-cell-outputs.expanded {
+  height: 100%;
 }
 
 .nteract-cell-outputs:empty {

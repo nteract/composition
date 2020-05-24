@@ -20,9 +20,9 @@ import {
 import { fixtureJSON, mockAppState } from "@nteract/fixtures";
 import FileSaver from "file-saver";
 import * as Immutable from "immutable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { contents } from "rx-jupyter";
-import { of, Subject } from "rxjs";
+import { from, of, Subject } from "rxjs";
 import { map, take, toArray } from "rxjs/operators";
 import {
   autoSaveCurrentContentEpic,
@@ -128,7 +128,7 @@ describe("saveAs", () => {
     };
 
     const responses = await saveAsContentEpic(
-      ActionsObservable.of(
+      of(
         actions.saveAs({ filepath: "test.ipynb", contentRef })
       ),
       new StateObservable(new Subject(), state),
@@ -175,7 +175,7 @@ describe("saveAs", () => {
     };
 
     const responses = await saveAsContentEpic(
-      ActionsObservable.of(
+      of(
         actions.saveAs({ filepath: "test.ipynb", contentRef })
       ),
       new StateObservable(new Subject(), state),
@@ -232,7 +232,7 @@ describe("save", () => {
 
     const responses = [];
     saveContentEpic(
-      ActionsObservable.of(
+      of(
         actions.save({ filepath: "test.ipynb", contentRef })
       ),
       new StateObservable(new Subject(), state),
@@ -286,7 +286,7 @@ describe("save", () => {
     };
 
     const responses = await saveContentEpic(
-      ActionsObservable.of(actions.downloadContent({ contentRef })),
+      of(actions.downloadContent({ contentRef })),
       new StateObservable(new Subject(), state),
       { contentProvider: contents.JupyterContentProvider }
     )
@@ -330,7 +330,7 @@ describe("save", () => {
     };
 
     const responses = await saveContentEpic(
-      ActionsObservable.of(actions.downloadContent({ contentRef })),
+      of(actions.downloadContent({ contentRef })),
       new StateObservable(new Subject(), state),
       { contentProvider: contents.JupyterContentProvider }
     )
@@ -350,7 +350,7 @@ describe("closeNotebookEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.closeNotebook({
         contentRef
       })
@@ -379,7 +379,7 @@ describe("fetchContentEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.fetchContent({
         contentRef,
         filepath: "my-file.ipynb"
@@ -408,7 +408,7 @@ describe("fetchContentEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.fetchContent({
         contentRef,
         filepath: "my-file.ipynb"
@@ -445,7 +445,7 @@ describe("updateContentEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.changeContentName({
         contentRef,
         filepath: "test.ipynb"
@@ -477,7 +477,7 @@ describe("updateContentEpic", () => {
     const contentRef: string = state.core.entities.contents.byRef
       .keySeq()
       .first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.changeContentName({
         contentRef,
         filepath: "test.ipynb"
@@ -508,12 +508,12 @@ describe("updateContentEpic", () => {
 
 describe("autoSaveContentEpic", () => {
   it("returns a valid Observable", () => {
-    const action$ = ActionsObservable.from([]);
+    const action$ = from([]);
     const state$ = new StateObservable(new Subject(), mockAppState({}));
     expect(autoSaveCurrentContentEpic(action$, state$)).not.toBeNull();
   });
   it("dispatches a save action on content change", async done => {
-    const action$ = ActionsObservable.from([]);
+    const action$ = from([]);
     const stateSubject$ = new Subject();
     const state = {
       app: {},
@@ -580,7 +580,7 @@ describe("autoSaveContentEpic", () => {
     done();
   });
   it("dispatches nothing on no content change", async done => {
-    const action$ = ActionsObservable.from([]);
+    const action$ = from([]);
     const stateSubject$ = new Subject();
     const state = {
       app: {},

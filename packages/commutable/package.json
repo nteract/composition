@@ -22,6 +22,6 @@
     "uuid": "^8.0.0"
   },
   "devDependencies": {
-    "@types/uuid": "^7.0.0"
+    "@types/uuid": "^8.0.0"
   }
 }

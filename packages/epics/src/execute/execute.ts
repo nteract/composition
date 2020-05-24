@@ -13,7 +13,7 @@ import {
 } from "@nteract/messaging";
 import { AnyAction } from "redux";
 import { ofType } from "redux-observable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { merge, Observable, of, Observer, GroupedObservable } from "rxjs";
 import {
   catchError,
@@ -197,7 +197,7 @@ type StopExecutionActions =
 type ExecuteStreamActions = StopExecutionActions | actions.SendExecuteRequest;
 
 export function createExecuteCellStream(
-  action$: ActionsObservable<ExecuteStreamActions>,
+  action$: Observable<ExecuteStreamActions>,
   channels: Channels,
   message: ExecuteRequest,
   id: string,
@@ -265,7 +265,7 @@ export function createExecuteCellStream(
  * creating inner observable streams of the running execution responses
  */
 export function sendExecuteRequestEpic(
-  action$: ActionsObservable<actions.SendExecuteRequest>,
+  action$: Observable<actions.SendExecuteRequest>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(

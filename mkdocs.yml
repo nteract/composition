@@ -7,6 +7,8 @@ nav:
   - User Guides for Apps:
       - "Getting Started with nteract": "getting-started-with-nteract.md"
       - "Creating data visualizations in nteract": "creating-data-visualizations-in-nteract.md"
+      - "nteract Desktop Keyboard Shortcuts": "kbd-shortcuts.md"
+      - "Configuring the nteract desktop app": "desktop-config.md"
   - User Guides for Core SDK:
       - "@nteract/actions": "!include ./packages/actions/mkdocs.yml"
       - "@nteract/commutable": "!include ./packages/commutable/mkdocs.yml"

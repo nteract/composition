@@ -1,5 +1,5 @@
-import { Subject } from "rxjs";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { Observable, Subject } from "rxjs";
+import { StateObservable } from "redux-observable";
 
 import { mockAppState } from "@nteract/fixtures";
 
@@ -9,7 +9,7 @@ describe("epics", () => {
   test("is an array of epics", () => {
     expect(Array.isArray(epics)).toBe(true);
 
-    const action$ = new ActionsObservable();
+    const action$ = new Observable();
     const state$ = new StateObservable(new Subject(), mockAppState({}));
     const mapped = epics.map(epic => epic(action$, state$));
     expect(Array.isArray(mapped)).toBe(true);

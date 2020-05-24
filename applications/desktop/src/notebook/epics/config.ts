@@ -1,7 +1,8 @@
 import { actions } from "@nteract/core";
 import { remote } from "electron";
 import { readFileObservable, writeFileObservable } from "fs-observable";
-import { ActionsObservable, ofType, StateObservable } from "redux-observable";
+import { ofType, StateObservable } from "redux-observable";
+import { Observable } from "rxjs";
 import { map, mapTo, mergeMap, switchMap } from "rxjs/operators";
 import { DesktopNotebookAppState } from "../state";
 
@@ -16,7 +17,7 @@ export const CONFIG_FILE_PATH = path.join(HOME, ".jupyter", "nteract.json");
 /**
  * An epic that loads the configuration.
  */
-export const loadConfigEpic = (action$: ActionsObservable<Actions>) =>
+export const loadConfigEpic = (action$: Observable<Actions>) =>
   action$.pipe(
     ofType(actions.LOAD_CONFIG),
     switchMap(() =>
@@ -29,7 +30,7 @@ export const loadConfigEpic = (action$: ActionsObservable<Actions>) =>
 /**
  * An epic that saves the configuration if it has been changed.
  */
-export const saveConfigOnChangeEpic = (action$: ActionsObservable<Actions>) =>
+export const saveConfigOnChangeEpic = (action$: Observable<Actions>) =>
   action$.pipe(
     ofType(actions.SET_CONFIG),
     mapTo({ type: actions.SAVE_CONFIG })
@@ -39,7 +40,7 @@ export const saveConfigOnChangeEpic = (action$: ActionsObservable<Actions>) =>
  * An epic that saves the configuration.
  */
 export const saveConfigEpic = (
-  action$: ActionsObservable<Actions>,
+  action$: Observable<Actions>,
   state$: StateObservable<DesktopNotebookAppState>
 ) =>
   action$.pipe(

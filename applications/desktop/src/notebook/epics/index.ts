@@ -1,5 +1,5 @@
 import { epics as coreEpics } from "@nteract/core";
-import { ActionsObservable, Epic, StateObservable } from "redux-observable";
+import { Epic, StateObservable } from "redux-observable";
 import { Observable } from "rxjs";
 import { catchError, startWith } from "rxjs/operators";
 import { DesktopNotebookAppState } from "../state";
@@ -29,7 +29,7 @@ export function retryAndEmitError(err: Error, source: Observable<Actions>) {
 
 export const wrapEpic = (epic: Epic<Actions, Actions>) => (
   ...args: [
-    ActionsObservable<Actions>,
+    Observable<Actions>,
     StateObservable<DesktopNotebookAppState>,
     undefined
   ]

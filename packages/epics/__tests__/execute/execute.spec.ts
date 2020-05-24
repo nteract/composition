@@ -4,8 +4,8 @@ import { executeRequest, createMessage } from "@nteract/messaging";
 import * as stateModule from "@nteract/types";
 
 import Immutable from "immutable";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { empty, Subject } from "rxjs";
+import { StateObservable } from "redux-observable";
+import { empty, from, Observable, of, Subject } from "rxjs";
 import { catchError, share, toArray } from "rxjs/operators";
 
 import {
@@ -162,7 +162,7 @@ describe("createExecuteCellStream", () => {
         app: {}
       }
     };
-    const action$ = ActionsObservable.from([]);
+    const action$ = from([]);
     const message = executeRequest("source");
 
     const observable = createExecuteCellStream(
@@ -206,9 +206,9 @@ describe("sendExecuteRequestEpic", () => {
 
   test("Errors on a bad action", done => {
     // Make one hot action
-    const badAction$ = ActionsObservable.of(
+    const badAction$ = of(
       actions.sendExecuteRequest({ id: "id", contentRef: "fakeContentRef" })
-    ).pipe(share()) as ActionsObservable<any>;
+    ).pipe(share()) as Observable<any>;
     const responseActions = sendExecuteRequestEpic(badAction$, state$).pipe(
       catchError(error => {
         expect(error.message).toEqual(
@@ -228,9 +228,9 @@ describe("sendExecuteRequestEpic", () => {
   });
 
   test("Errors on an action where source not a string", done => {
-    const badAction$ = ActionsObservable.of(
+    const badAction$ = of(
       actions.sendExecuteRequest({ id: "id", contentRef: "fakeContentRef" })
-    ).pipe(share()) as ActionsObservable<any>;
+    ).pipe(share()) as Observable<any>;
     const responseActions = sendExecuteRequestEpic(badAction$, state$).pipe(
       catchError(error => {
         expect(error.message).toEqual("execute cell needs source string");
@@ -273,7 +273,7 @@ describe("sendExecuteRequestEpic", () => {
       new Subject(),
       disconnectedState
     );
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: "first", contentRef: "fakeContentRef" })
     );
     const responses = await sendExecuteRequestEpic(action$, disconnectedState$)
@@ -307,7 +307,7 @@ describe("sendExecuteRequestEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: "first", contentRef: "fakeContent" })
     );
     let result = "";
@@ -347,7 +347,7 @@ describe("sendExecuteRequestEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: "first", contentRef: "fakeContent" })
     );
     let result = "";
@@ -391,7 +391,7 @@ describe("sendExecuteRequestEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: cellId, contentRef: "fakeContent" })
     );
     let result = "";
@@ -435,7 +435,7 @@ describe("sendExecuteRequestEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: cellId, contentRef: "fakeContent" })
     );
     let result = "";
@@ -480,7 +480,7 @@ describe("sendExecuteRequestEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: cellId, contentRef: "fakeContent" })
     );
     let result = "";
@@ -526,7 +526,7 @@ describe("sendExecuteRequestEpic", () => {
       })
     };
     const state$ = new StateObservable(new Subject(), state);
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.sendExecuteRequest({ id: cellId, contentRef: "fakeContent" })
     );
     let result = "";

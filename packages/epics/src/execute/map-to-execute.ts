@@ -5,8 +5,8 @@
  * listen to.
  */
 import Immutable from "immutable";
-import { ActionsObservable, StateObservable, ofType } from "redux-observable";
-import { of } from "rxjs";
+import { StateObservable, ofType } from "redux-observable";
+import { Observable, of } from "rxjs";
 import { concatMap, mergeMap } from "rxjs/operators";
 
 import * as actions from "@nteract/actions";
@@ -23,7 +23,7 @@ import { AppState, KernelStatus, errors } from "@nteract/types";
  * @param state$   The stream of state changes
  */
 export function executeAllCellsEpic(
-  action$: ActionsObservable<
+  action$: Observable<
     actions.ExecuteAllCells | actions.ExecuteAllCellsBelow
   >,
   state$: StateObservable<AppState>
@@ -74,7 +74,7 @@ export function executeAllCellsEpic(
  * @param state$
  */
 export function executeFocusedCellEpic(
-  action$: ActionsObservable<actions.ExecuteFocusedCell>,
+  action$: Observable<actions.ExecuteFocusedCell>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(
@@ -123,7 +123,7 @@ export function executeFocusedCellEpic(
  * by emitting the EnqueueAction action.
  */
 export function executeCellEpic(
-  action$: ActionsObservable<actions.ExecuteCell>,
+  action$: Observable<actions.ExecuteCell>,
   state$: StateObservable<AppState>
 ) {
   return action$.pipe(

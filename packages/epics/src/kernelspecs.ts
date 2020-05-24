@@ -1,13 +1,13 @@
 import * as actions from "@nteract/actions";
 import * as selectors from "@nteract/selectors";
 import { KernelspecProps, ServerConfig } from "@nteract/types";
-import { ActionsObservable, ofType } from "redux-observable";
+import { ofType } from "redux-observable";
 import { kernelspecs } from "rx-jupyter";
-import { EMPTY, of } from "rxjs";
+import { EMPTY, Observable, of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 
 export const fetchKernelspecsEpic = (
-  action$: ActionsObservable<actions.FetchKernelspecs>,
+  action$: Observable<actions.FetchKernelspecs>,
   state$: any
 ) =>
   action$.pipe(

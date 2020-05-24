@@ -3,7 +3,7 @@ import { mockAppState } from "@nteract/fixtures";
 import { createMessage, JupyterMessage, MessageType, payloads } from "@nteract/messaging";
 import { sendNotification } from "@nteract/mythic-notifications";
 import * as Immutable from "immutable";
-import { ActionsObservable, StateObservable } from "redux-observable";
+import { StateObservable } from "redux-observable";
 import { of, Subject } from "rxjs";
 import { toArray } from "rxjs/operators";
 import { TestScheduler } from "rxjs/testing";
@@ -377,7 +377,7 @@ describe("acquireKernelInfo", () => {
 
 describe("watchExecutionStateEpic", () => {
   test("returns an Observable with an initial state of idle", done => {
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
       payload: {
         kernel: {
@@ -412,7 +412,7 @@ describe("watchExecutionStateEpic", () => {
 
     const mockSocket = Subject.create(sent, received);
 
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
       payload: {
         kernel: {
@@ -636,7 +636,7 @@ describe("restartKernelEpic", () => {
     };
 
     const responses = await restartKernelEpic(
-      ActionsObservable.of(
+      of(
         actionsModule.restartKernel({
           outputHandling: "Run All",
           kernelRef: "oldKernelRef",
@@ -672,7 +672,7 @@ describe("restartKernelEpic", () => {
     };
 
     const responses = await restartKernelEpic(
-      ActionsObservable.of(
+      of(
         actionsModule.restartKernel({
           outputHandling: "Run All",
           kernelRef: "oldKernelRef",
@@ -698,7 +698,7 @@ describe("launchKernelWhenNotebookSet", () => {
   it("does nothing if content is not a notebook", done => {
     const contentRef = stateModule.createContentRef();
     const kernelRef = stateModule.createKernelRef();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actionsModule.fetchContentFulfilled({
         contentRef,
         filepath: "my-file.txt",
@@ -722,7 +722,7 @@ describe("launchKernelWhenNotebookSet", () => {
       .keySeq()
       .first();
     const kernelRef = stateModule.createKernelRef();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actionsModule.fetchContentFulfilled({
         contentRef,
         filepath: "my-notebook",
@@ -758,7 +758,7 @@ describe("launchKernelWhenNotebookSet", () => {
         })
       }
     };
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actionsModule.fetchContentFulfilled({
         contentRef,
         filepath: "my-file.txt",

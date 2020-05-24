@@ -19,7 +19,7 @@ import FileSaver from "file-saver";
 import { RecordOf } from "immutable";
 import * as path from "path";
 import { Action } from "redux";
-import { ActionsObservable, ofType, StateObservable } from "redux-observable";
+import { ofType, StateObservable } from "redux-observable";
 import { EMPTY, from, interval, Observable, of } from "rxjs";
 import { AjaxResponse } from "rxjs/ajax";
 import {
@@ -35,7 +35,7 @@ import {
 import urljoin from "url-join";
 
 export function updateContentEpic(
-  action$: ActionsObservable<actions.ChangeContentName>,
+  action$: Observable<actions.ChangeContentName>,
   state$: StateObservable<AppState>,
   dependencies: { contentProvider: IContentProvider }
 ): Observable<unknown> {
@@ -91,7 +91,7 @@ export function updateContentEpic(
 }
 
 export function fetchContentEpic(
-  action$: ActionsObservable<
+  action$: Observable<
     | actions.FetchContent
     | actions.FetchContentFailed
     | actions.FetchContentFulfilled
@@ -158,7 +158,7 @@ export function downloadString(
 }
 
 export function autoSaveCurrentContentEpic(
-  action$: ActionsObservable<Action>,
+  action$: Observable<Action>,
   state$: StateObservable<AppState>
 ): Observable<actions.Save> {
   return state$.pipe(
@@ -236,7 +236,7 @@ function serializeContent(
 }
 
 export function saveContentEpic(
-  action$: ActionsObservable<actions.Save | actions.DownloadContent>,
+  action$: Observable<actions.Save | actions.DownloadContent>,
   state$: StateObservable<AppState>,
   dependencies: { contentProvider: IContentProvider }
 ): Observable<
@@ -414,7 +414,7 @@ export function saveContentEpic(
 }
 
 export function saveAsContentEpic(
-  action$: ActionsObservable<actions.SaveAs>,
+  action$: Observable<actions.SaveAs>,
   state$: StateObservable<AppState>,
   dependencies: { contentProvider: IContentProvider }
 ): Observable<actions.SaveAsFailed | actions.SaveAsFulfilled> {
@@ -529,7 +529,7 @@ export function saveAsContentEpic(
 }
 
 export function closeNotebookEpic(
-  action$: ActionsObservable<actions.CloseNotebook>,
+  action$: Observable<actions.CloseNotebook>,
   state$: StateObservable<AppState>
 ): Observable<actions.DisposeContent | actions.KillKernelAction> {
   return action$.pipe(

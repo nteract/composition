@@ -1,8 +1,8 @@
-type Fs = {
-    unlinkSync: jest.Mock,
-    unlink: jest.Mock,
-    existsSync: jest.Mock,
-    writeFile: jest.Mock
+interface Fs {
+  unlinkSync: jest.Mock;
+  unlink: jest.Mock;
+  existsSync: jest.Mock;
+  writeFile: jest.Mock;
 }
 
 const fs: Fs = jest.genMockFromModule("fs");

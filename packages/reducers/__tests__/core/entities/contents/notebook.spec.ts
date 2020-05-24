@@ -8,7 +8,7 @@ import {
   makeDisplayData,
   makeErrorOutput,
   makeExecuteResult,
-  makeStreamOutput
+  makeStreamOutput,
 } from "@nteract/commutable";
 import * as Immutable from "immutable";
 import uuid from "uuid/v4";
@@ -19,7 +19,7 @@ import { makeDocumentRecord } from "@nteract/types";
 import {
   cleanCellTransient,
   notebook as reducers,
-  reduceOutputs
+  reduceOutputs,
 } from "../../../../src/core/entities/contents/notebook";
 
 const initialDocument = Immutable.Map();
@@ -37,13 +37,13 @@ describe("reduceOutputs", () => {
         output_type: "error",
         ename: "well",
         evalue: "actually",
-        traceback: Immutable.List()
-      })
+        traceback: Immutable.List(),
+      }),
     ]);
     const newOutputs = reduceOutputs(outputs, {
       output_type: "display_data",
       data: {},
-      metadata: {}
+      metadata: {},
     });
 
     expect(newOutputs).toEqual(
@@ -51,31 +51,31 @@ describe("reduceOutputs", () => {
         makeStreamOutput({
           output_type: "stream",
           name: "stdout",
-          text: "Woo"
+          text: "Woo",
         }),
         makeErrorOutput({
           output_type: "error",
           ename: "well",
           evalue: "actually",
-          traceback: Immutable.List()
+          traceback: Immutable.List(),
         }),
         makeDisplayData({
           output_type: "display_data",
           data: {},
-          metadata: Immutable.Map()
-        })
+          metadata: Immutable.Map(),
+        }),
       ])
     );
   });
 
   test("handles the case of a single stream output", () => {
     const outputs = Immutable.List([
-      makeStreamOutput({ name: "stdout", text: "hello" })
+      makeStreamOutput({ name: "stdout", text: "hello" }),
     ]);
     const newOutputs = reduceOutputs(outputs, {
       name: "stdout",
       text: " world",
-      output_type: "stream"
+      output_type: "stream",
     });
 
     expect(newOutputs).toEqual(
@@ -83,8 +83,8 @@ describe("reduceOutputs", () => {
         makeStreamOutput({
           name: "stdout",
           text: "hello world",
-          output_type: "stream"
-        })
+          output_type: "stream",
+        }),
       ])
     );
   });
@@ -95,7 +95,7 @@ describe("reduceOutputs", () => {
     outputs = reduceOutputs(outputs, {
       name: "stdout",
       text: "hello",
-      output_type: "stream"
+      output_type: "stream",
     });
 
     expect(outputs).toEqual(
@@ -105,11 +105,11 @@ describe("reduceOutputs", () => {
     outputs = reduceOutputs(outputs, {
       name: "stdout",
       text: " world",
-      output_type: "stream"
+      output_type: "stream",
     });
     expect(outputs).toEqual(
       Immutable.List([
-        makeStreamOutput({ name: "stdout", text: "hello world" })
+        makeStreamOutput({ name: "stdout", text: "hello world" }),
       ])
     );
   });
@@ -119,19 +119,19 @@ describe("reduceOutputs", () => {
       makeStreamOutput({
         name: "stdout",
         text: "hello",
-        output_type: "stream"
+        output_type: "stream",
       }),
       makeStreamOutput({
         name: "stderr",
         text: "errors are",
-        output_type: "stream"
-      })
+        output_type: "stream",
+      }),
     ]);
 
     const newOutputs = reduceOutputs(outputs, {
       name: "stdout",
       text: " world",
-      output_type: "stream"
+      output_type: "stream",
     });
 
     expect(newOutputs).toEqual(
@@ -139,31 +139,31 @@ describe("reduceOutputs", () => {
         makeStreamOutput({
           name: "stdout",
           text: "hello world",
-          output_type: "stream"
+          output_type: "stream",
         }),
         makeStreamOutput({
           name: "stderr",
           text: "errors are",
-          output_type: "stream"
-        })
+          output_type: "stream",
+        }),
       ])
     );
 
     const evenNewerOutputs = reduceOutputs(newOutputs, {
       name: "stderr",
       text: " informative",
-      output_type: "stream"
+      output_type: "stream",
     });
     expect(evenNewerOutputs).toEqual(
       Immutable.fromJS([
         makeStreamOutput({
           name: "stdout",
-          text: "hello world"
+          text: "hello world",
         }),
         makeStreamOutput({
           name: "stderr",
-          text: "errors are informative"
-        })
+          text: "errors are informative",
+        }),
       ])
     );
   });
@@ -181,7 +181,7 @@ describe("setLanguageInfo", () => {
     const kernelInfo = {
       name: "french",
       language: "french",
-      displayName: "français"
+      displayName: "français",
     };
     const state = reducers(
       initialDocument,
@@ -240,7 +240,7 @@ describe("focusNextCell", () => {
       "notebook",
       "cellMap",
       newCellId,
-      "cell_type"
+      "cell_type",
     ]);
 
     expect(state.cellFocused).not.toBeNull();
@@ -263,7 +263,7 @@ describe("focusNextCell", () => {
       "notebook",
       "cellMap",
       newCellId,
-      "cell_type"
+      "cell_type",
     ]);
 
     expect(state.cellFocused).not.toBeNull();
@@ -364,7 +364,7 @@ describe("moveCell", () => {
       actions.createCellBelow({
         id: fixtureCommutable.get("cellOrder").first(),
         cellType: "markdown",
-        source: "# Woo\n*Yay*"
+        source: "# Woo\n*Yay*",
       })
     );
 
@@ -375,13 +375,13 @@ describe("moveCell", () => {
       actions.moveCell({
         id: cellOrder.get(0),
         destinationId: cellOrder.get(1),
-        above: false
+        above: false,
       })
     );
     expect(state.getIn(["notebook", "cellOrder"]).toJS()).toEqual([
       cellOrder.get(1),
       cellOrder.get(0),
-      cellOrder.get(2)
+      cellOrder.get(2),
     ]);
 
     const state2 = reducers(
@@ -389,13 +389,13 @@ describe("moveCell", () => {
       actions.moveCell({
         id: cellOrder.get(0),
         destinationId: cellOrder.get(1),
-        above: true
+        above: true,
       })
     );
     expect(state2.getIn(["notebook", "cellOrder"]).toJS()).toEqual([
       cellOrder.get(0),
       cellOrder.get(1),
-      cellOrder.get(2)
+      cellOrder.get(2),
     ]);
   });
 });
@@ -435,7 +435,7 @@ describe("clearOutputs", () => {
 
     const originalState = makeDocumentRecord({
       notebook,
-      filename: "test.ipynb"
+      filename: "test.ipynb",
     });
 
     const id = originalState.getIn(["notebook", "cellOrder"]).last();
@@ -455,7 +455,7 @@ describe("clearOutputs", () => {
     originalState = originalState.set(
       "cellPrompts",
       Immutable.Map({
-        [id]: Immutable.List([{ prompt: "Test: ", password: false }])
+        [id]: Immutable.List([{ prompt: "Test: ", password: false }]),
       })
     );
 
@@ -493,6 +493,18 @@ describe("createCellAbove", () => {
     expect(state.getIn(["notebook", "cellOrder"]).size).toBe(3);
     expect(state.getIn(["notebook", "cellOrder"]).last()).toBe(id);
   });
+  test("creates new cell given cell contents", () => {
+    const originalState = initialDocument.set("notebook", fixtureCommutable);
+    const id = originalState.getIn(["notebook", "cellOrder"]).last();
+    const state = reducers(
+      originalState,
+      actions.createCellAbove({ cellType: "markdown", id, cell: emptyMarkdownCell.set("source", "test contents") })
+    );
+    expect(state.getIn(["notebook", "cellOrder"]).size).toBe(3);
+    expect(state.getIn(["notebook", "cellOrder"]).last()).toBe(id);
+    const insertedCellId = state.getIn(["notebook", "cellOrder", 1]);
+    expect(state.getIn(["notebook", "cellMap", insertedCellId, "source"])).toEqual("test contents")
+  })
 });
 
 describe("newCellAppend", () => {
@@ -528,7 +540,7 @@ describe("overwriteMetadataField", () => {
       originalState,
       actions.overwriteMetadataField({
         field: "name",
-        value: "javascript"
+        value: "javascript",
       })
     );
     expect(state.getIn(["notebook", "metadata", "name"])).toBe("javascript");
@@ -553,8 +565,8 @@ describe("toggleCellOutputVisibility", () => {
   test("changes the visibility on a single cell", () => {
     const originalState = monocellDocument.updateIn(
       ["notebook", "cellMap"],
-      cells =>
-        cells.map(value =>
+      (cells) =>
+        cells.map((value) =>
           value.setIn(["metadata", "jupyter", "outputs_hidden"], false)
         )
     );
@@ -571,7 +583,7 @@ describe("toggleCellOutputVisibility", () => {
         id,
         "metadata",
         "jupyter",
-        "outputs_hidden"
+        "outputs_hidden",
       ])
     ).toBe(true);
   });
@@ -581,8 +593,8 @@ describe("toggleCellInputVisibility", () => {
   test("changes the input visibility on a single cell", () => {
     const originalState = monocellDocument.updateIn(
       ["notebook", "cellMap"],
-      cells =>
-        cells.map(value =>
+      (cells) =>
+        cells.map((value) =>
           value.setIn(["metadata", "jupyter", "source_hidden"], false)
         )
     );
@@ -590,7 +602,7 @@ describe("toggleCellInputVisibility", () => {
     const state = reducers(
       originalState,
       actions.toggleCellInputVisibility({
-        id
+        id,
       })
     );
     expect(
@@ -600,7 +612,7 @@ describe("toggleCellInputVisibility", () => {
         id,
         "metadata",
         "jupyter",
-        "source_hidden"
+        "source_hidden",
       ])
     ).toBe(true);
   });
@@ -654,11 +666,11 @@ describe("copyCell", () => {
         cellMap: {
           [firstId]: emptyCodeCell.set("source", "data"),
           [secondId]: emptyCodeCell,
-          [thirdId]: emptyCodeCell
-        }
+          [thirdId]: emptyCodeCell,
+        },
       }),
       cellFocused: secondId,
-      copied: null
+      copied: null,
     });
 
     const state = reducers(originalState, actions.copyCell({ id: firstId }));
@@ -671,8 +683,8 @@ describe("copyCell", () => {
         cellMap: {
           [firstId]: emptyCodeCell.set("source", "data"),
           [secondId]: emptyCodeCell,
-          [thirdId]: emptyCodeCell
-        }
+          [thirdId]: emptyCodeCell,
+        },
       })
     );
   });
@@ -690,11 +702,11 @@ describe("cutCell", () => {
         cellMap: {
           [firstId]: emptyCodeCell.set("source", "data"),
           [secondId]: emptyCodeCell,
-          [thirdId]: emptyCodeCell
-        }
+          [thirdId]: emptyCodeCell,
+        },
       }),
       cellFocused: secondId,
-      copied: null
+      copied: null,
     });
 
     const state = reducers(originalState, actions.cutCell({ id: firstId }));
@@ -716,11 +728,11 @@ describe("pasteCell", () => {
         cellMap: {
           [firstId]: emptyCodeCell,
           [secondId]: emptyCodeCell,
-          [thirdId]: emptyCodeCell
-        }
+          [thirdId]: emptyCodeCell,
+        },
       }),
       cellFocused: secondId,
-      copied: emptyCodeCell.set("source", "COPY PASTA")
+      copied: emptyCodeCell.set("source", "COPY PASTA"),
     });
 
     // We will paste the cell after the focused cell
@@ -780,24 +792,17 @@ describe("changeCellType", () => {
 });
 
 describe("toggleOutputExpansion", () => {
-  test("changes outputExpanded set", () => {
+  test("toggles value of collapsed property", () => {
     const originalState = monocellDocument.updateIn(
       ["notebook", "cellMap"],
-      cells =>
-        cells.map(value =>
-          value
-            .setIn(["metadata", "outputExpanded"], false)
-            .setIn(["metadata", "collapsed"], true)
-        )
+      (cells) =>
+        cells.map((value) => value.setIn(["metadata", "collapsed"], true))
     );
     const id = originalState.getIn(["notebook", "cellOrder"]).first();
     const state = reducers(
       originalState,
       actions.toggleOutputExpansion({ id })
     );
-    expect(
-      state.getIn(["notebook", "cellMap", id, "metadata", "outputExpanded"])
-    ).toBe(true);
     expect(
       state.getIn(["notebook", "cellMap", id, "metadata", "collapsed"])
     ).toBe(false);
@@ -813,8 +818,8 @@ describe("appendOutput", () => {
       id,
       output: {
         output_type: "display_data",
-        data: { "text/html": "<marquee>wee</marquee>" }
-      }
+        data: { "text/html": "<marquee>wee</marquee>" },
+      },
     });
 
     const state = reducers(originalState, action);
@@ -822,8 +827,8 @@ describe("appendOutput", () => {
       Immutable.List([
         makeDisplayData({
           output_type: "display_data",
-          data: { "text/html": "<marquee>wee</marquee>" }
-        })
+          data: { "text/html": "<marquee>wee</marquee>" },
+        }),
       ])
     );
 
@@ -841,23 +846,23 @@ describe("appendOutput", () => {
       output: {
         output_type: "display_data",
         data: { "text/html": "<marquee>wee</marquee>" },
-        transient: { display_id: "1234" }
-      }
+        transient: { display_id: "1234" },
+      },
     });
 
     const state = reducers(originalState, action);
     expect(state.getIn(["notebook", "cellMap", cellId, "outputs"])).toEqual(
       Immutable.List([
         makeDisplayData({
-          data: { "text/html": "<marquee>wee</marquee>" }
-        })
+          data: { "text/html": "<marquee>wee</marquee>" },
+        }),
       ])
     );
 
     expect(state.getIn(["transient", "keyPathsForDisplays", "1234"])).toEqual(
       // we expect a list of keypaths (which are lists of strings + numbers)
       Immutable.List([
-        Immutable.List(["notebook", "cellMap", cellId, "outputs", 0])
+        Immutable.List(["notebook", "cellMap", cellId, "outputs", 0]),
       ])
     );
   });
@@ -874,9 +879,9 @@ describe("updateDisplay", () => {
         output_type: "update_display_data",
         data: { "text/html": "🐱😼😹" },
         metadata: {},
-        transient: { display_id: "1234" }
+        transient: { display_id: "1234" },
       },
-      contentRef: undefined
+      contentRef: undefined,
     });
 
     const state = reducers(originalState, action);
@@ -897,17 +902,17 @@ describe("updateDisplay", () => {
         output: {
           output_type: "display_data",
           data: { "text/html": "<marquee>wee</marquee>" },
-          transient: { display_id: "1234" }
-        }
+          transient: { display_id: "1234" },
+        },
       }),
       actions.appendOutput({
         id,
         output: {
           output_type: "execute_result",
           data: { "text/plain": "shennagins afoot" },
-          transient: { display_id: "1234" }
-        }
-      })
+          transient: { display_id: "1234" },
+        },
+      }),
     ];
 
     const state = actionArray.reduce(
@@ -920,13 +925,13 @@ describe("updateDisplay", () => {
         makeDisplayData({
           output_type: "display_data",
           data: { "text/plain": "shennagins afoot" },
-          metadata: Immutable.Map({})
+          metadata: Immutable.Map({}),
         }),
         makeExecuteResult({
           output_type: "execute_result",
           data: { "text/plain": "shennagins afoot" },
-          metadata: Immutable.Map({})
-        })
+          metadata: Immutable.Map({}),
+        }),
       ])
     );
 
@@ -935,9 +940,9 @@ describe("updateDisplay", () => {
         content: {
           output_type: "update_display_data",
           data: { "text/html": "<marquee>WOO</marquee>" },
-          transient: { display_id: "1234" }
-        }
-      })
+          transient: { display_id: "1234" },
+        },
+      }),
     ];
 
     const moreState = moreActionArray.reduce(
@@ -950,13 +955,13 @@ describe("updateDisplay", () => {
         makeDisplayData({
           output_type: "display_data",
           data: { "text/html": "<marquee>WOO</marquee>" },
-          metadata: Immutable.Map({})
+          metadata: Immutable.Map({}),
         }),
         makeExecuteResult({
           output_type: "execute_result",
           data: { "text/html": "<marquee>WOO</marquee>" },
-          metadata: Immutable.Map({})
-        })
+          metadata: Immutable.Map({}),
+        }),
       ])
     );
   });
@@ -968,40 +973,40 @@ describe("cleanCellTransient", () => {
       1234: [
         ["notebook", "cellMap", "0000", "outputs", 0],
         ["notebook", "cellMap", "XYZA", "outputs", 0],
-        ["notebook", "cellMap", "0000", "outputs", 1]
+        ["notebook", "cellMap", "0000", "outputs", 1],
       ],
-      5678: [["notebook", "cellMap", "XYZA", "outputs", 1]]
+      5678: [["notebook", "cellMap", "XYZA", "outputs", 1]],
     });
     const state = new Immutable.Map({
       transient: new Immutable.Map({
-        keyPathsForDisplays
-      })
+        keyPathsForDisplays,
+      }),
     });
 
     expect(
       cleanCellTransient(state, "0000").getIn([
         "transient",
-        "keyPathsForDisplays"
+        "keyPathsForDisplays",
       ])
     ).toEqual(
       Immutable.fromJS({
         1234: [["notebook", "cellMap", "XYZA", "outputs", 0]],
-        5678: [["notebook", "cellMap", "XYZA", "outputs", 1]]
+        5678: [["notebook", "cellMap", "XYZA", "outputs", 1]],
       })
     );
 
     expect(
       cleanCellTransient(state, "XYZA").getIn([
         "transient",
-        "keyPathsForDisplays"
+        "keyPathsForDisplays",
       ])
     ).toEqual(
       Immutable.fromJS({
         1234: [
           ["notebook", "cellMap", "0000", "outputs", 0],
-          ["notebook", "cellMap", "0000", "outputs", 1]
+          ["notebook", "cellMap", "0000", "outputs", 1],
         ],
-        5678: []
+        5678: [],
       })
     );
   });
@@ -1013,7 +1018,7 @@ describe("acceptPayloadMessage", () => {
     const initialState = makeDocumentRecord({
       filename: "test.ipynb",
       notebook,
-      cellPagers: Immutable.Map({})
+      cellPagers: Immutable.Map({}),
     });
     const state = reducers(
       initialState,
@@ -1021,8 +1026,8 @@ describe("acceptPayloadMessage", () => {
         id: firstCellId,
         payload: {
           source: "page",
-          data: { well: "alright" }
-        }
+          data: { well: "alright" },
+        },
       })
     );
 
@@ -1037,8 +1042,8 @@ describe("acceptPayloadMessage", () => {
         payload: {
           source: "set_next_input",
           replace: true,
-          text: "this is now the text"
-        }
+          text: "this is now the text",
+        },
       })
     );
 
@@ -1068,13 +1073,13 @@ describe("updateOutputMetadata", () => {
         id,
         metadata: newOutputMetadata,
         index: 0,
-        mediaType: "test/mediatype"
+        mediaType: "test/mediatype",
       })
     );
     expect(state.getIn(["notebook", "cellMap", id, "outputs", 0])).toEqual(
       Immutable.Map({
         empty: "output",
-        metadata: Immutable.Map({ "test/mediatype": newOutputMetadata })
+        metadata: Immutable.Map({ "test/mediatype": newOutputMetadata }),
       })
     );
   });
@@ -1088,15 +1093,15 @@ describe("interruptKernelSuccessful", () => {
         cellMap: {
           cell1: { status: "" },
           cell2: { status: "" },
-          cell3: { status: "" }
-        }
-      }
+          cell3: { status: "" },
+        },
+      },
     });
     const state = reducers(
       originalState,
       actions.interruptKernelSuccessful({
         kernelRef: "testKernelRef",
-        contentRef: "testContentRef"
+        contentRef: "testContentRef",
       })
     );
     expect(state.getIn(["transient", "cellMap", "cell1", "status"])).toEqual(
@@ -1116,15 +1121,15 @@ describe("interruptKernelSuccessful", () => {
         cellMap: {
           cell1: { status: "queued" },
           cell2: { status: "running" },
-          cell3: { status: "" }
-        }
-      }
+          cell3: { status: "" },
+        },
+      },
     });
     const state = reducers(
       originalState,
       actions.interruptKernelSuccessful({
         kernelRef: "testKernelRef",
-        contentRef: "testContentRef"
+        contentRef: "testContentRef",
       })
     );
     expect(state.getIn(["transient", "cellMap", "cell1", "status"])).toEqual(
@@ -1161,8 +1166,8 @@ describe("unhideAll", () => {
             .setIn(["metadata", "jupyter", "outputs_hidden"], false),
           [cellOrder[3]]: emptyCodeCell
             .setIn(["metadata", "jupyter", "source_hidden"], true)
-            .setIn(["metadata", "jupyter", "outputs_hidden"], false)
-        }
+            .setIn(["metadata", "jupyter", "outputs_hidden"], false),
+        },
       })
     );
   });
@@ -1173,7 +1178,7 @@ describe("unhideAll", () => {
       initialState,
       actions.unhideAll({
         inputHidden: false,
-        contentRef: undefined
+        contentRef: undefined,
       })
     );
 
@@ -1181,7 +1186,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "source_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "source_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(true);
@@ -1189,7 +1194,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
         .toList()
         .toArray()
     ).toEqual([false, true, false, false]);
@@ -1201,7 +1206,7 @@ describe("unhideAll", () => {
       initialState,
       actions.unhideAll({
         inputHidden: true,
-        contentRef: undefined
+        contentRef: undefined,
       })
     );
 
@@ -1209,7 +1214,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "source_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "source_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(false);
@@ -1217,7 +1222,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
         .toList()
         .toArray()
     ).toEqual([false, true, false, false]);
@@ -1229,7 +1234,7 @@ describe("unhideAll", () => {
       initialState,
       actions.unhideAll({
         outputHidden: false,
-        contentRef: undefined
+        contentRef: undefined,
       })
     );
 
@@ -1237,7 +1242,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(true);
@@ -1245,7 +1250,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "source_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "source_hidden"]))
         .toList()
         .toArray()
     ).toEqual([false, false, false, true]);
@@ -1257,7 +1262,7 @@ describe("unhideAll", () => {
       initialState,
       actions.unhideAll({
         outputHidden: true,
-        contentRef: undefined
+        contentRef: undefined,
       })
     );
 
@@ -1265,7 +1270,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(false);
@@ -1273,7 +1278,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "source_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "source_hidden"]))
         .toList()
         .toArray()
     ).toEqual([false, false, false, true]);
@@ -1286,7 +1291,7 @@ describe("unhideAll", () => {
       actions.unhideAll({
         inputHidden: false,
         outputHidden: false,
-        contentRef: undefined
+        contentRef: undefined,
       })
     );
 
@@ -1294,7 +1299,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "source_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "source_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(true);
@@ -1302,7 +1307,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(true);
@@ -1315,7 +1320,7 @@ describe("unhideAll", () => {
       actions.unhideAll({
         inputHidden: true,
         outputHidden: true,
-        contentRef: undefined
+        contentRef: undefined,
       })
     );
 
@@ -1323,7 +1328,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "source_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "source_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(false);
@@ -1331,7 +1336,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
         .toList()
         .toArray()
     ).not.toContain(false);
@@ -1342,7 +1347,7 @@ describe("unhideAll", () => {
     const actualState = reducers(
       initialState,
       actions.unhideAll({
-        contentRef: undefined
+        contentRef: undefined,
       })
     );
 
@@ -1350,7 +1355,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "source_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "source_hidden"]))
         .toList()
         .toArray()
     ).toEqual([false, false, false, true]);
@@ -1358,7 +1363,7 @@ describe("unhideAll", () => {
     expect(
       actualState
         .getIn(["notebook", "cellMap"])
-        .map(cell => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
+        .map((cell) => cell.getIn(["metadata", "jupyter", "outputs_hidden"]))
         .toList()
         .toArray()
     ).toEqual([false, true, false, false]);

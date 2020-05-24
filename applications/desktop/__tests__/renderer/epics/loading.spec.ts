@@ -1,8 +1,8 @@
 import { monocellNotebook, toJS } from "@nteract/commutable";
 import { actions } from "@nteract/core";
 import { fixtureCommutable, mockAppState } from "@nteract/fixtures";
-import { ActionsObservable, StateObservable } from "redux-observable";
-import { Subject } from "rxjs";
+import { StateObservable } from "redux-observable";
+import { of, Subject } from "rxjs";
 import { toArray } from "rxjs/operators";
 
 import {
@@ -24,7 +24,7 @@ describe("extractNewKernel", () => {
 
 describe("newNotebookEpic", () => {
   test("calls new Kernel after creating a new notebook", async () => {
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actions.NEW_NOTEBOOK,
       payload: {
         filepath: null,
@@ -74,7 +74,7 @@ describe("newNotebookEpic", () => {
 
 describe("newNotebookEpicNamed", () => {
   test("calls new Kernel after creating a new notebook with given name", async () => {
-    const action$ = ActionsObservable.of({
+    const action$ = of({
       type: actions.NEW_NOTEBOOK,
       payload: {
         filepath: "/home/whatever2/some.ipynb",
@@ -125,7 +125,7 @@ describe("newNotebookEpicNamed", () => {
 describe("launchKernelWhenNotebookSetEpic", () => {
   it("does nothing for non-notebook files", done => {
     const state = mockAppState({});
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.fetchContentFulfilled({ contentRef: "test" })
     );
     const state$ = new StateObservable(new Subject(), state);
@@ -142,7 +142,7 @@ describe("launchKernelWhenNotebookSetEpic", () => {
   it("launches a kernel for a given content", done => {
     const state = mockAppState({});
     const contentRef = state.core.entities.contents.byRef.keySeq().first();
-    const action$ = ActionsObservable.of(
+    const action$ = of(
       actions.fetchContentFulfilled({ contentRef })
     );
     const state$ = new StateObservable(new Subject(), state);
