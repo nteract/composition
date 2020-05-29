@@ -1,6 +1,6 @@
 {
   "name": "@nteract/reducers",
-  "version": "3.2.1",
+  "version": "4.0.0",
   "description": "A set of reducers for use in nteract applications",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -10,9 +10,9 @@
   "author": "Safia Abdalla <safia@safia.rocks>",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@nteract/actions": "^5.0.1",
-    "@nteract/commutable": "^7.2.11",
-    "@nteract/types": "^6.0.6",
+    "@nteract/actions": "^6.0.0",
+    "@nteract/commutable": "^7.2.12",
+    "@nteract/types": "^6.0.7",
     "escape-carriage": "^1.3.0",
     "immutable": "^4.0.0-rc.12",
     "lodash.has": "^4.5.2",

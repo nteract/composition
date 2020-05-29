@@ -1,17 +1,17 @@
 {
   "name": "@nteract/web",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "@mybinder/host-cache": "^2.1.23",
-    "@nteract/core": "^13.1.1",
-    "@nteract/notebook-app-component": "^7.5.0",
+    "@mybinder/host-cache": "^2.1.24",
+    "@nteract/core": "^14.0.0",
+    "@nteract/notebook-app-component": "^7.5.1",
     "@nteract/outputs": "^3.0.9",
-    "@nteract/styles": "^2.1.11",
+    "@nteract/styles": "^2.1.12",
     "@octokit/rest": "^17.1.1",
     "codemirror": "^5.51.0",
     "next": "^9.2.1",
@@ -21,7 +21,7 @@
     "react-redux": "^6.0.0",
     "redux": "^4.0.0",
     "redux-observable": "^2.0.0-alpha.0",
-    "rx-jupyter": "^5.5.8",
+    "rx-jupyter": "^5.5.9",
     "rxjs": "^6.3.3",
     "shortid": "^2.2.15"
   },
@@ -29,7 +29,7 @@
   "author": "nteract Contributors",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "@nteract/webpack-configurator": "^3.1.13",
+    "@nteract/webpack-configurator": "^3.1.14",
     "@types/node": "^13.7.1",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",

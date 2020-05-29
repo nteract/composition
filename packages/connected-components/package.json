@@ -1,6 +1,6 @@
 {
   "name": "@nteract/connected-components",
-  "version": "6.7.14",
+  "version": "6.7.15",
   "description": "Connected components exported from @nteract/core",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.7.0",
-    "@nteract/commutable": "^7.2.11",
-    "@nteract/core": "^13.1.1",
-    "@nteract/types": "^6.0.6",
+    "@nteract/commutable": "^7.2.12",
+    "@nteract/core": "^14.0.0",
+    "@nteract/types": "^6.0.7",
     "react-redux": "^6.0.0",
     "redux": "^4.0.0"
   },
@@ -26,7 +26,7 @@
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "@nteract/fixtures": "^2.3.6",
+    "@nteract/fixtures": "^2.3.7",
     "styled-components": "^4.4.1"
   }
 }

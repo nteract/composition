@@ -1,6 +1,6 @@
 {
   "name": "@nteract/types",
-  "version": "6.0.6",
+  "version": "6.0.7",
   "description": "A collection of type definitions used within core nteract packages",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/commutable": "^7.2.11",
+    "@nteract/commutable": "^7.2.12",
     "immutable": "^4.0.0-rc.12",
     "rxjs": "^6.3.3",
     "uuid": "^8.0.0"

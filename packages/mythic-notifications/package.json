@@ -1,6 +1,6 @@
 {
   "name": "@nteract/mythic-notifications",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "A notification system based on blueprintjs toasters and the myths redux framework",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.7.0",
-    "@nteract/myths": "^0.1.8"
+    "@nteract/myths": "^0.1.9"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc.12",

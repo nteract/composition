@@ -1,6 +1,6 @@
 {
   "name": "@mybinder/host-cache",
-  "version": "2.1.23",
+  "version": "2.1.24",
   "description": "Local Storage backed cache of binder hosts",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -23,8 +23,8 @@
     "access": "public"
   },
   "dependencies": {
-    "rx-binder": "^4.0.2",
-    "rx-jupyter": "^5.5.8",
+    "rx-binder": "^4.0.3",
+    "rx-jupyter": "^5.5.9",
     "rxjs": "^6.3.3"
   }
 }

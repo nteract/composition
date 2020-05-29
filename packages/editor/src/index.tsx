@@ -82,6 +82,10 @@ interface CodeCompletionEvent {
   debounce: boolean;
 }
 
+type Mode = {
+  name: string
+}
+
 export default class CodeMirrorEditor extends React.Component<
   CodeMirrorEditorProps,
   CodeMirrorEditorState
@@ -135,6 +139,7 @@ export default class CodeMirrorEditor extends React.Component<
 
     this.fullOptions = this.fullOptions.bind(this);
     this.cleanMode = this.cleanMode.bind(this);
+    this.loadMode = this.loadMode.bind(this);
 
     // Bind our events to codemirror
     const extraKeys = {
@@ -182,7 +187,7 @@ export default class CodeMirrorEditor extends React.Component<
       }, defaults);
   }
 
-  cleanMode(): string | object {
+  cleanMode(): string | Mode {
     if (!this.props.codeMirror.mode) {
       return "text/plain";
     }
@@ -197,6 +202,19 @@ export default class CodeMirrorEditor extends React.Component<
       return this.props.codeMirror.mode.toJS();
     }
     return this.props.codeMirror.mode;
+  }
+
+  async loadMode(): Promise<string | Mode> {
+    let mode = this.cleanMode();
+    mode = typeof mode === "string" ? mode : mode.name;
+
+    if (CodeMirror.modes.hasOwnProperty(mode)) {
+      return mode;
+    }
+
+    await import(`codemirror/mode/${mode}/${mode}.js`)
+
+    return mode;
   }
 
   componentDidMount(): void {
@@ -250,6 +268,10 @@ export default class CodeMirrorEditor extends React.Component<
     };
 
     this.cm = CodeMirror.fromTextArea(this.textareaRef.current!, options);
+
+    this.loadMode()
+      .then(mode => this.cm.setOption("mode", mode))
+      .catch(error => console.error("Unable to load mode", error));
 
     this.cm.setValue(this.props.value || "");
 
@@ -350,7 +372,9 @@ export default class CodeMirrorEditor extends React.Component<
         this.props.codeMirror[optionName] !== prevProps.codeMirror[optionName]
       ) {
         if (optionName === "mode") {
-          this.cm.setOption(optionName, this.cleanMode());
+          this.loadMode()
+            .then(mode => this.cm.setOption("mode", mode))
+            .catch(error => console.error("Unable to load mode", error));
         } else {
           this.cm.setOption(optionName, this.props.codeMirror[optionName]);
         }

@@ -1,6 +1,6 @@
 {
   "name": "@nteract/editor",
-  "version": "10.0.1",
+  "version": "10.0.2",
   "description": "The editor that lives inside cells in nteract",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -17,7 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/messaging": "^7.0.6",
+    "@nteract/messaging": "^7.0.7",
     "@nteract/outputs": "^3.0.9",
     "codemirror": "5.54.0",
     "rxjs": "^6.3.3"

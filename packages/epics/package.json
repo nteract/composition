@@ -1,6 +1,6 @@
 {
   "name": "@nteract/epics",
-  "version": "4.0.8",
+  "version": "4.0.9",
   "description": "Redux-Observable epics for nteract apps",
   "keywords": [
     "jupyter",
@@ -32,16 +32,16 @@
     "url": "https://github.com/nteract/nteract/issues"
   },
   "dependencies": {
-    "@nteract/actions": "^5.0.1",
-    "@nteract/commutable": "^7.2.11",
-    "@nteract/messaging": "^7.0.6",
-    "@nteract/mythic-notifications": "^0.1.8",
-    "@nteract/selectors": "^2.8.9",
-    "@nteract/types": "^6.0.6",
+    "@nteract/actions": "^6.0.0",
+    "@nteract/commutable": "^7.2.12",
+    "@nteract/messaging": "^7.0.7",
+    "@nteract/mythic-notifications": "^0.1.9",
+    "@nteract/selectors": "^2.8.10",
+    "@nteract/types": "^6.0.7",
     "file-saver": "^2.0.0",
     "redux": "^4.0.1",
     "redux-observable": "^2.0.0-alpha.0",
-    "rx-jupyter": "^5.5.8",
+    "rx-jupyter": "^5.5.9",
     "rxjs": "^6.3.3"
   }
 }

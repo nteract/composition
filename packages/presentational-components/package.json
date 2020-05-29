@@ -1,6 +1,6 @@
 {
   "name": "@nteract/presentational-components",
-  "version": "3.3.13",
+  "version": "3.3.14",
   "description": "pure presentational components for nteract",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
