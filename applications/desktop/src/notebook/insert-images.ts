@@ -5,7 +5,8 @@ import { sendNotification } from "@nteract/mythic-notifications";
 import { DesktopStore } from "./store";
 import * as path from "path";
 import * as fs from 'fs';
-import { ImmutableCell, emptyMarkdownCell } from "@nteract/commutable";
+import { ImmutableCell, emptyMarkdownCell, emptyCodeCell, createImmutableOutput } from "@nteract/commutable";
+import * as Immutable from "immutable";
 
 interface InsertImagesParameters {
   imagePaths?: Array<string>;
@@ -35,7 +36,13 @@ export function insertImages({
         let fileExtension = path.extname(imagePath).slice(1);
         let imageHash = fs.readFileSync(imagePath).toString('base64');
         let imageSource = `data:image/${fileExtension};base64,${imageHash}`;
-        createMarkdownCellWithImages({imageSources: [imageSource], store: store, contentRef: contentRef});
+        createCodeCellWithImageOutput({
+          base64Image: imageHash,
+          imageType: `image/${fileExtension}`,
+          imagePath: imagePath,
+          store: store,
+          contentRef: contentRef
+        });
       }
     }
   }
@@ -87,6 +94,52 @@ function createMarkdownCellWithImages({
   store.dispatch(
     actions.createCellAbove({
       cellType: "markdown",
+      contentRef: contentRef,
+      cell: newCell
+    })
+  );
+}
+
+interface CreateCodeCellWithImageOutputParameters {
+  base64Image: string;
+  imageType: string;
+  imagePath: string;
+  store: DesktopStore;
+  contentRef: ContentRef;
+}
+
+function createCodeCellWithImageOutput({
+  base64Image,
+  imageType,
+  imagePath,
+  store,
+  contentRef
+}: CreateCodeCellWithImageOutputParameters) {
+
+  let newCell = emptyCodeCell
+    .set("outputs", Immutable.List([
+      createImmutableOutput({
+        "output_type": "display_data",
+        "data": {
+          [imageType]: [
+            base64Image + "\n"
+          ]
+        }
+      })
+    ]))
+    .set("metadata", Immutable.fromJS({
+      "collapsed": false,
+      "outputExpanded": true,
+      "jupyter": {
+        "source_hidden": true,
+        "output_hidden": false
+      }
+    }))
+  ;
+
+  store.dispatch(
+    actions.createCellAbove({
+      cellType: "code",
       contentRef: contentRef,
       cell: newCell
     })
