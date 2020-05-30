@@ -157,6 +157,7 @@
     "@types/lodash.sample": "^4.2.6",
     "@types/lodash.sortby": "^4.7.6",
     "@types/lodash.throttle": "^4.1.6",
+    "@types/plist": "^3.0.2",
     "electron": "5.0.13",
     "file-loader": "^6.0.0",
     "utility-types": "^3.10.0"

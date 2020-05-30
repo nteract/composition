@@ -8,6 +8,7 @@ import { DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED, DESKTOP_NOTEBOOK_CLOSING_READY_TO
 import { DesktopStore } from "./store";
 import { clipboard } from "electron";
 import * as plist from "plist";
+import { PlistValue, PlistArray } from "plist";
 import { insertImages } from "./insert-images";
 
 export function onBeforeUnloadOrReload(
@@ -69,7 +70,7 @@ export function onPaste(
   // Paste image paths (macOS only).
   // https://github.com/nteract/nteract/issues/4963#issuecomment-627561034
   if (clipboard.has('NSFilenamesPboardType')) {
-    let filePathsFromClipboard: Array<string> = plist.parse(clipboard.read('NSFilenamesPboardType'));
+    let filePathsFromClipboard: Array<string> = <Array<string>><PlistValue>(plist.parse(clipboard.read('NSFilenamesPboardType')));
     let imagePaths = filePathsFromClipboard
       .filter(filePath => /[\w-]+\.(png|jpg|jpeg|heic|gif|tiff)/.test(filePath));
 
@@ -149,5 +150,5 @@ export function initGlobalHandlers(
   window.addEventListener('drop', (event) => onDrop(event, contentRef, store));
 
   // Listen to paste evnet, e.g. to insert pasted image files.
-  window.addEventListener('paste', (event) => onPaste(event, contentRef, store));
+  window.addEventListener('paste', (event) => onPaste(<ClipboardEvent> event, contentRef, store));
 }

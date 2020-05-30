@@ -124,7 +124,8 @@ function createCodeCellWithImageOutput({
           [imageType]: [
             base64Image + "\n"
           ]
-        }
+        },
+        "metadata": {}
       })
     ]))
     .set("metadata", Immutable.fromJS({
