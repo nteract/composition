@@ -8,7 +8,7 @@ import { DESKTOP_NOTEBOOK_CLOSING_NOT_STARTED, DESKTOP_NOTEBOOK_CLOSING_READY_TO
 import { DesktopStore } from "./store";
 import { clipboard } from "electron";
 import * as plist from "plist";
-import { PlistValue, PlistArray } from "plist";
+import { PlistValue } from "plist";
 import { insertImages } from "./insert-images";
 
 export function onBeforeUnloadOrReload(

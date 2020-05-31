@@ -5,7 +5,7 @@ import { sendNotification } from "@nteract/mythic-notifications";
 import { DesktopStore } from "./store";
 import * as path from "path";
 import * as fs from 'fs';
-import { ImmutableCell, emptyMarkdownCell, emptyCodeCell, createImmutableOutput } from "@nteract/commutable";
+import { emptyMarkdownCell, emptyCodeCell, createImmutableOutput } from "@nteract/commutable";
 import * as Immutable from "immutable";
 
 interface InsertImagesParameters {
@@ -35,7 +35,6 @@ export function insertImages({
       for (let imagePath of imagePaths) {
         let fileExtension = path.extname(imagePath).slice(1);
         let imageHash = fs.readFileSync(imagePath).toString('base64');
-        let imageSource = `data:image/${fileExtension};base64,${imageHash}`;
         createCodeCellWithImageOutput({
           base64Image: imageHash,
           imageType: `image/${fileExtension}`,
