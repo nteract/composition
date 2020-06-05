@@ -67,7 +67,7 @@ export function insertImages({
     }
 
     createMarkdownCellWithImages({
-      imageSources,
+      imageSources: imagePaths,
       store,
       contentRef
     });
