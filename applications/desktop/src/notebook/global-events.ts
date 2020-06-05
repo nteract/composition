@@ -70,6 +70,8 @@ export function onPaste(
   // Paste image paths (macOS only).
   // https://github.com/nteract/nteract/issues/4963#issuecomment-627561034
   if (clipboard.has('NSFilenamesPboardType')) {
+    event.preventDefault();
+
     let filePathsFromClipboard: Array<string> = <Array<string>><PlistValue>(plist.parse(clipboard.read('NSFilenamesPboardType')));
     let imagePaths = filePathsFromClipboard
       .filter(filePath => /[\w-]+\.(png|jpg|jpeg|heic|gif|tiff)/.test(filePath));
@@ -81,10 +83,10 @@ export function onPaste(
       store: store
     });
 
-    event.preventDefault();
-
   // Paste blob image from the clipboard.
   } else if (clipboard.has('public.tiff')) {
+    event.preventDefault();
+
     let base64ImageSource = clipboard.readImage().toDataURL();
 
     insertImages({
@@ -93,8 +95,6 @@ export function onPaste(
       contentRef: contentRef,
       store: store
     });
-
-    event.preventDefault();
   }
 }
 
