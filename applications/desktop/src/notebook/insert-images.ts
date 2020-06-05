@@ -129,7 +129,6 @@ function createCodeCellWithImageOutput({
     ]))
     .set("metadata", Immutable.fromJS({
       "collapsed": false,
-      "outputExpanded": true,
       "jupyter": {
         "source_hidden": true,
         "output_hidden": false
