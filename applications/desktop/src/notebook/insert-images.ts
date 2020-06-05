@@ -30,17 +30,17 @@ export function insertImages({
 {
   if (embedImagesInNotebook) {
     if (base64ImageSource) {
-      createMarkdownCellWithImages({imageSources: [base64ImageSource], store: store, contentRef: contentRef});
+      createMarkdownCellWithImages({imageSources: [base64ImageSource], store, contentRef});
     } else {
       for (let imagePath of imagePaths) {
         let fileExtension = path.extname(imagePath).slice(1);
-        let imageHash = fs.readFileSync(imagePath).toString('base64');
+        let base64Image = fs.readFileSync(imagePath).toString('base64');
         createCodeCellWithImageOutput({
-          base64Image: imageHash,
+          base64Image,
           imageType: `image/${fileExtension}`,
-          imagePath: imagePath,
-          store: store,
-          contentRef: contentRef
+          imagePath,
+          store,
+          contentRef
         });
       }
     }
@@ -53,23 +53,23 @@ export function insertImages({
     if (notebookDirectory) {
       if (copyImagesToNotebookDirectory) {
         imagePaths = copyImagesToDirectoryAndReturnNewPaths({
-          imagePaths: imagePaths,
+          imagePaths,
           destinationDirectory: notebookDirectory,
-          store: store,
-          contentRef: contentRef
+          store,
+          contentRef
         })
       }
 
       imagePaths = makePathsRelativeWithinDirectory({
-        imagePaths: imagePaths,
+        imagePaths,
         directory: notebookDirectory
       });
     }
 
     createMarkdownCellWithImages({
-      imageSources: imagePaths,
-      store: store,
-      contentRef: contentRef
+      imageSources,
+      store,
+      contentRef
     });
   }
 };
@@ -93,7 +93,7 @@ function createMarkdownCellWithImages({
   store.dispatch(
     actions.createCellAbove({
       cellType: "markdown",
-      contentRef: contentRef,
+      contentRef,
       cell: newCell
     })
   );
@@ -139,7 +139,7 @@ function createCodeCellWithImageOutput({
   store.dispatch(
     actions.createCellAbove({
       cellType: "code",
-      contentRef: contentRef,
+      contentRef,
       cell: newCell
     })
   );

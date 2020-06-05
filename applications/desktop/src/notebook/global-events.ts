@@ -53,12 +53,12 @@ export function onDrop(
   let embedImagesInNotebook: boolean = !(copyImagesToNotebookDirectory || linkImagesAndKeepAtOriginalPath);
 
   insertImages({
-    imagePaths: imagePaths,
-    copyImagesToNotebookDirectory: copyImagesToNotebookDirectory,
-    linkImagesAndKeepAtOriginalPath: linkImagesAndKeepAtOriginalPath,
-    embedImagesInNotebook: embedImagesInNotebook,
-    contentRef: contentRef,
-    store: store
+    imagePaths,
+    copyImagesToNotebookDirectory,
+    linkImagesAndKeepAtOriginalPath,
+    embedImagesInNotebook,
+    contentRef,
+    store
   });
 }
 
@@ -77,10 +77,10 @@ export function onPaste(
       .filter(filePath => /[\w-]+\.(png|jpg|jpeg|heic|gif|tiff)/.test(filePath));
 
     insertImages({
-      imagePaths: imagePaths,
+      imagePaths,
       embedImagesInNotebook: true,
-      contentRef: contentRef,
-      store: store
+      contentRef,
+      store
     });
 
   // Paste blob image from the clipboard.
@@ -90,10 +90,10 @@ export function onPaste(
     let base64ImageSource = clipboard.readImage().toDataURL();
 
     insertImages({
-      base64ImageSource: base64ImageSource,
+      base64ImageSource,
       embedImagesInNotebook: true,
-      contentRef: contentRef,
-      store: store
+      contentRef,
+      store
     });
   }
 }
