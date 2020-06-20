@@ -198,7 +198,7 @@
     "husky": "^4.0.0",
     "immutable": "^4.0.0-rc.12",
     "jest": "^26.0.0",
-    "jest-junit": "^9.0.0",
+    "jest-junit": "^11.0.0",
     "jupyter-paths": "^2.0.0",
     "kernelspecs": "^2.0.0",
     "lerna": "^3.0.0",
