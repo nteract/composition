@@ -164,7 +164,7 @@ export function executeRequest(
     metadata: {},
     parent_header: {},
     content: {
-      code,
+      code: code.replace(/\r\n|\r/g, '\n'),
       silent: false,
       store_history: true,
       user_expressions: {},

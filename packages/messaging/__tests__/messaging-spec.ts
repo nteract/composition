@@ -48,6 +48,15 @@ describe("executeRequest", () => {
     expect(executeReq.content.code).toEqual(code);
     expect(executeReq.header.msg_type).toEqual("execute_request");
   });
+  
+  it("normalizes newlines", () => {
+    const code = 'print("line1")\r\nprint("line2")\rprint("line3")\nprint("line4")';
+    const normalized = 'print("line1")\nprint("line2")\nprint("line3")\nprint("line4")';
+
+    const executeReq = executeRequest(code);
+
+    expect(executeReq.content.code).toEqual(normalized);
+  });
 });
 
 describe("createCommMessage", () => {
