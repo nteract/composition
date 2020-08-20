@@ -10856,6 +10856,18 @@ labella@1.1.4:
   resolved "https://registry.yarnpkg.com/labella/-/labella-1.1.4.tgz#c6cc5a340e8df340eb335633683ea59b828c322d"
   integrity sha1-xsxaNA6N80DrM1YzaD6lm4KMMi0=
 
+lang-map@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/lang-map/-/lang-map-0.4.0.tgz#de38b07783a0a7db0bc082c6c5ff69c56e354ab5"
+  integrity sha1-3jiwd4Ogp9sLwILGxf9pxW41SrU=
+  dependencies:
+    language-map "^1.1.0"
+
+language-map@^1.1.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/language-map/-/language-map-1.4.0.tgz#d41e51100274df587865819af6837b7dfbdfb220"
+  integrity sha512-5XHMCqKQ/14VXwJTKZX7MZwsVyTrR0bwCsRBwrBq3nP4w7liMJiR0ixXgI29EF/T1/U6be8cYK2y0ibWW9kx2w==
+
 language-subtag-registry@~0.3.2:
   version "0.3.20"
   resolved "https://registry.yarnpkg.com/language-subtag-registry/-/language-subtag-registry-0.3.20.tgz#a00a37121894f224f763268e431c55556b0c0755"
@@ -17043,15 +17055,10 @@ typescript-tslint-plugin@^0.5.0:
     mock-require "^3.0.3"
     vscode-languageserver "^5.2.1"
 
-typescript@^3.7.3:
-  version "3.9.7"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
-  integrity sha512-BLbiRkiBzAwsjut4x/dsibSTB6yWpwT5qWmC2OfuCg3GgVQCSgMs4vEctYPhsaGtd0AeuuHMkjZ2h2WG8MSzRw==
-
-typescript@^3.7.5:
-  version "3.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.5.tgz#586f0dba300cde8be52dd1ac4f7e1009c1b13f36"
-  integrity sha512-hSAifV3k+i6lEoCJ2k6R2Z/rp/H3+8sdmcn5NrS3/3kE7+RyZXm9aqvxWqjEXHAd8b0pShatpcdMTvEdvAJltQ==
+typescript@^4.0.0:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.2.tgz#7ea7c88777c723c681e33bf7988be5d008d05ac2"
+  integrity sha512-e4ERvRV2wb+rRZ/IQeb3jm2VxBsirQLpQhdxplZ2MEzGvDkkMmPglecnNDfSUBivMjP93vRbngYYDQqQ/78bcQ==
 
 uglify-js@^3.1.4:
   version "3.9.4"
