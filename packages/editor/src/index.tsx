@@ -241,6 +241,7 @@ export default class CodeMirrorEditor extends React.Component<
     require("codemirror/mode/rust/rust");
 
     require("./mode/ipython");
+    require("./mode/nim");
 
     const { editorFocused, focusAbove, focusBelow } = this.props;
 
