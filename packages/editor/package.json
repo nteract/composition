@@ -19,7 +19,7 @@
   "dependencies": {
     "@nteract/messaging": "^7.0.9",
     "@nteract/outputs": "^3.0.9",
-    "codemirror": "5.56.0",
+    "codemirror": "5.57.0",
     "nim-codemirror-mode": "^0.1.0",
     "rxjs": "^6.3.3"
   },

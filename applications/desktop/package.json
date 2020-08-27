@@ -157,7 +157,7 @@
     "@types/lodash.sample": "^4.2.6",
     "@types/lodash.sortby": "^4.7.6",
     "@types/lodash.throttle": "^4.1.6",
-    "electron": "7.3.2",
+    "electron": "7.3.3",
     "file-loader": "^6.0.0",
     "utility-types": "^3.10.0"
   },
