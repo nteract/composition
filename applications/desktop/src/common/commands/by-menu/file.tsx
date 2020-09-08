@@ -170,30 +170,14 @@ export const ExportPDF: DesktopCommand<ReqContent> = {
     const pdfPath = `${basepath}.pdf`;
     const model = selectors.notebookModel(state, props);
 
-    // TODO: we should not be modifying the document to print PDFs
-    //       and we especially shouldn't be relying on all these actions to
-    //       run through before we print...
-    const unexpandedCells = selectors.notebook.hiddenCellIds(model);
-    yield* unexpandedCells.map(
-      id => actions.toggleOutputExpansion({ id, ...props }),
-    );
-
     let data: any;
+    data = await remote.getCurrentWindow().webContents.printToPDF({printBackground: true},);
 
-    try {
-      data = await promisify(remote.getCurrentWindow().webContents.printToPDF)(
-        { printBackground: true },
-      );
-    }
-    finally {
-      // Restore the modified cells to their unexpanded state.
-      yield* unexpandedCells.map(
-        id => actions.toggleOutputExpansion({ id, ...props }),
-      );
-    }
+    await fs.writeFile(pdfPath, data, _erros_fs => {
+      /**RID:JK TODO: use more user-facing error message? What?*/
+      console.log('PDF export write failed');
 
-    await promisify(fs.writeFile)(pdfPath, data);
-
+    });
     yield sendNotification.create({
       title: "PDF exported",
       message: <FilePathMessage filepath={pdfPath}/>,
