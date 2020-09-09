@@ -4,7 +4,6 @@ import { app, dialog, remote, shell } from "electron";
 import * as fs from "fs";
 import * as path from "path";
 import React from "react";
-import { promisify } from "util";
 import { launch, launchNewNotebook } from "../../../main/launch";
 import { dispatchCommandInRenderer } from "../dispatch";
 import { DesktopCommand, ElectronRoleCommand, ReqContent, ReqKernelSpec } from "../types";
@@ -168,10 +167,8 @@ export const ExportPDF: DesktopCommand<ReqContent> = {
     const basename = path.basename(notebookName, ".ipynb");
     const basepath = path.join(path.dirname(notebookName), basename);
     const pdfPath = `${basepath}.pdf`;
-    const model = selectors.notebookModel(state, props);
 
-    debugger;
-    let data : any
+    let data : any;
 
     data = await remote.getCurrentWindow().webContents.printToPDF({})
     await fs.writeFile(pdfPath, data, (error) =>  {
@@ -198,10 +195,6 @@ export const ExportPDF: DesktopCommand<ReqContent> = {
           },
         })
       );
-
     })
-
-
-
   },
 };
