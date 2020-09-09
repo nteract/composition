@@ -170,22 +170,38 @@ export const ExportPDF: DesktopCommand<ReqContent> = {
     const pdfPath = `${basepath}.pdf`;
     const model = selectors.notebookModel(state, props);
 
-    let data: any;
-    data = await remote.getCurrentWindow().webContents.printToPDF({printBackground: true},);
+    debugger;
+    let data : any
 
-    await fs.writeFile(pdfPath, data, _erros_fs => {
-      /**RID:JK TODO: use more user-facing error message? What?*/
-      console.log('PDF export write failed');
+    data = await remote.getCurrentWindow().webContents.printToPDF({})
+    await fs.writeFile(pdfPath, data, (error) =>  {
+      if(error) {
+        console.log(`RID:JK:PDF writeFile FAILURE ${pdfPath}`)
+        store.dispatch(
+          sendNotification.create({
+            title: "PDF export error",
+            message: error.toString(),
+            level: "error",
+          })
+        );
+        return;
+      }
+      console.log(`RID:JK:PDF writeFile success ${pdfPath}`)
+      store.dispatch(
+        sendNotification.create({
+          title: "PDF exported",
+          message: <FilePathMessage filepath={pdfPath}/>,
+          level: "success",
+          action: {
+            label: "Open",
+            callback: () => shell.openItem(pdfPath),
+          },
+        })
+      );
 
-    });
-    yield sendNotification.create({
-      title: "PDF exported",
-      message: <FilePathMessage filepath={pdfPath}/>,
-      level: "success",
-      action: {
-        label: "Open",
-        callback: () => shell.openItem(pdfPath),
-      },
-    });
+    })
+
+
+
   },
 };
