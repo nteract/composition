@@ -12044,10 +12044,10 @@ monaco-editor-webpack-plugin@1.7.0:
   dependencies:
     "@types/webpack" "^4.4.19"
 
-monaco-editor@0.18.1:
-  version "0.18.1"
-  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.18.1.tgz#ced7c305a23109875feeaf395a504b91f6358cfc"
-  integrity sha512-fmL+RFZ2Hrezy+X/5ZczQW51LUmvzfcqOurnkCIRFTyjdVjzR7JvENzI6+VKBJzJdPh6EYL4RoWl92b2Hrk9fw==
+monaco-editor@0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.21.0.tgz#35d964cbeff8b035d574bb113e9491331810d5f1"
+  integrity sha512-fUmW7iC+wKWMetD44iVacEoSi+RqkA+C0vQvAk/FkEugg70iwGGLj5WoheAULaxLASQbYiapD2+85FJ0cnErYg==
 
 moo@^0.5.0:
   version "0.5.1"
