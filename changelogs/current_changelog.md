@@ -92,6 +92,8 @@ Provide a bulleted list of breaking changes and a reference to the PR(s) contain
 
 #### New Features
 
+- Added a codemirror mode for [nim](https://nim-lang.org), [PR#5269](https://github.com/nteract/nteract/pull/5269)
+
 Provide a bulleted list of new features or improvements and a reference to the PR(s) containing these changes.
 
 #### Bug Fixes
