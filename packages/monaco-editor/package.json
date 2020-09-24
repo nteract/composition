@@ -25,7 +25,7 @@
   "dependencies": {
     "@nteract/core": "^14.0.0",
     "@nteract/messaging": "^7.0.10",
-    "monaco-editor": "0.18.1",
+    "monaco-editor": "0.21.1",
     "rxjs": "^6.3.3"
   },
   "peerDependencies": {
