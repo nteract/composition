@@ -11,7 +11,7 @@
     "@blueprintjs/select": "^3.2.0",
     "classnames": "^2.2.6",
     "re-resizable": "^6.5.0",
-    "react-syntax-highlighter": "^12.0.0",
+    "react-syntax-highlighter": "^14.0.0",
     "react-toggle": "^4.1.1"
   },
   "peerDependencies": {
