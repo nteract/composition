@@ -53,7 +53,7 @@
     "rxjs": "^6.6.0",
     "url-join": "^4.0.0",
     "webfontloader": "^1.6.28",
-    "webpack": "^4.17.2"
+    "webpack": "^5.0.0"
   },
   "devDependencies": {
     "file-loader": "^6.0.0"
