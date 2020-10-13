@@ -186,7 +186,7 @@
     "concurrently": "^5.0.0",
     "cpy-cli": "^3.0.0",
     "cross-env": "^7.0.0",
-    "css-loader": "^3.0.0",
+    "css-loader": "^5.0.0",
     "electron": "7.3.3",
     "electron-builder": "^22.7.0",
     "electron-context-menu": "^2.0.1",
