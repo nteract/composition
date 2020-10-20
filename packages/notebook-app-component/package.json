@@ -37,7 +37,7 @@
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc.12",
-    "react": "^16.3.2",
+    "react": "^17.0.0",
     "styled-components": ">= 5.0.1"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",

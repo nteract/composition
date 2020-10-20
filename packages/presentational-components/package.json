@@ -15,7 +15,7 @@
     "react-toggle": "^4.1.1"
   },
   "peerDependencies": {
-    "react": "^16.3.2",
+    "react": "^17.0.0",
     "styled-components": ">= 5.0.1"
   },
   "publishConfig": {
