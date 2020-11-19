@@ -160,7 +160,7 @@
     "@types/lodash.sortby": "^4.7.6",
     "@types/lodash.throttle": "^4.1.6",
     "@types/plist": "^3.0.2",
-    "electron": "7.3.3",
+    "electron": "11.0.2",
     "electron-notarize": "^1.0.0",
     "file-loader": "^6.0.0",
     "monaco-editor-webpack-plugin": "1.7.0",
