@@ -174,7 +174,7 @@
     "@types/react-redux": "^7.0.0",
     "@types/react-syntax-highlighter": "^11.0.1",
     "@types/react-table": "^7.0.0",
-    "@types/react-test-renderer": "^16.0.3",
+    "@types/react-test-renderer": "^17.0.0",
     "@types/react-timeago": "^4.1.0",
     "@types/redux-immutable": "^4.0.0",
     "@types/redux-logger": "^3.0.6",
