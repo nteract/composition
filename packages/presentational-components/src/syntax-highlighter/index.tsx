@@ -24,6 +24,8 @@ const Highlighter = (props: HighlighterProps) => {
   } else if (language === "text/x-scala") {
     // Adjust for the scala codemirror type
     language = "scala";
+  } else if (language === "text/x-julia") {
+    language = "julia";
   } else if (language.startsWith("text/x-")) {
     // Strip off the language from the mimetype
     language = language.slice("text/x-".length);
