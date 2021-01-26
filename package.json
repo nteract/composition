@@ -165,7 +165,7 @@
     "@types/jsonfile": "^6.0.0",
     "@types/leaflet": "^1.2.14",
     "@types/lodash": "^4.14.117",
-    "@types/numeral": "^0.0.30",
+    "@types/numeral": "^2.0.0",
     "@types/pidusage": "^2.0.0",
     "@types/react": "^16.4.18",
     "@types/react-color": "^3.0.0",
