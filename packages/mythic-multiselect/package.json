@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@nteract/myths": "^0.1.9"
+    "@nteract/myths": "^0.2.0"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc.12"
