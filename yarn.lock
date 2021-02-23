@@ -3149,34 +3149,10 @@
   dependencies:
     mkdirp "^1.0.4"
 
-"@nteract/actions@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@nteract/actions/-/actions-6.0.0.tgz#89f7dbe5a398350264df9add664a4bb4f2da737b"
-  integrity sha512-WxU82zz/YINTvgKVD2f7rLgWrPxIsZ04VVfAgAk/x23LvfZ/wZvho1ED9zloH18wjkrDJgdKaPaarlTJ4jujbw==
-  dependencies:
-    "@nteract/commutable" "^7.2.12"
-    "@nteract/messaging" "^7.0.7"
-    "@nteract/types" "^6.0.7"
-    immutable "^4.0.0-rc.12"
-    rx-jupyter "^5.5.9"
-
 "@nteract/any-vega@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@nteract/any-vega/-/any-vega-1.0.1.tgz#d790774bdc453bc5af663455747637a2100f634a"
   integrity sha512-RjECjm2bdQpEHuhpWyIjAg8dA8t5iWGDmx2VuStBhVSffciNrCn0WxhJiK5TSkyuBgk4rB4eAOspJ8UnfjOAyA==
-
-"@nteract/core@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.yarnpkg.com/@nteract/core/-/core-14.0.0.tgz#fa020ce1c3a717d56efee3f12c8cf78c17b904ef"
-  integrity sha512-Kiv+wytwINr9zI1ttn0UaohfOi5EEwX2acxs1HUG5gx2b0zhwHtMhedkCIXvyOahppsslQ03gnXoIS++wQuETA==
-  dependencies:
-    "@nteract/actions" "^6.0.0"
-    "@nteract/commutable" "^7.2.12"
-    "@nteract/epics" "^4.0.9"
-    "@nteract/reducers" "^4.0.0"
-    "@nteract/selectors" "^2.8.10"
-    "@nteract/types" "^6.0.7"
-    redux-logger "^3.0.6"
 
 "@nteract/data-explorer@^8.0.0":
   version "8.2.6"
@@ -3210,23 +3186,6 @@
   integrity sha512-xmeVUKwSMnxfW1PnLW8NsRyL1H2WT+zu6DSCp/sXB57UqWLxVnB617CcLXKepwDOJ1HfWV3sCePgL67/CiUeHw==
   dependencies:
     react-hot-loader "^4.1.2"
-
-"@nteract/epics@^4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@nteract/epics/-/epics-4.0.9.tgz#d5c30e2f08fcdf9f524b096def987f175c3a8393"
-  integrity sha512-Sd0t4SHSzDWPAUM+h/UWEmgMfx8Snvkv7+f/Og1q0qRXeEH6gPJxZLUQ8l0q612wB4XmAMG7M3xk26N41SSt4A==
-  dependencies:
-    "@nteract/actions" "^6.0.0"
-    "@nteract/commutable" "^7.2.12"
-    "@nteract/messaging" "^7.0.7"
-    "@nteract/mythic-notifications" "^0.1.9"
-    "@nteract/selectors" "^2.8.10"
-    "@nteract/types" "^6.0.7"
-    file-saver "^2.0.0"
-    redux "^4.0.1"
-    redux-observable "^2.0.0-alpha.0"
-    rx-jupyter "^5.5.9"
-    rxjs "^6.3.3"
 
 "@nteract/examples@3.2.0":
   version "3.2.0"
@@ -3288,14 +3247,6 @@
     react "^16.13.0"
     react-dom "^16.13.0"
 
-"@nteract/mythic-notifications@^0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@nteract/mythic-notifications/-/mythic-notifications-0.1.9.tgz#e1be44b4abfff866e507a8e032a0e2ce92fb8a15"
-  integrity sha512-z56zROjdLF8cUG4/yBxHb749rZ5v9IZUwEfadOdO9Q1fXZk9aEmg6yMMT/Y4AzLtgW35m2nbX+4SzNi/neSOKg==
-  dependencies:
-    "@blueprintjs/core" "^3.7.0"
-    "@nteract/myths" "^0.1.9"
-
 "@nteract/myths@^0.1.9":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@nteract/myths/-/myths-0.1.9.tgz#5a65a504a0d4bcc098c2f57a9dc4b8963430a55a"
@@ -3320,32 +3271,6 @@
     "@nteract/mathjax" "^4.0.11"
     ansi-to-react "^6.0.5"
     react-json-tree "^0.12.1"
-
-"@nteract/reducers@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@nteract/reducers/-/reducers-4.0.0.tgz#25e50cee37556e690680f4b06b4b2835a607a49a"
-  integrity sha512-Jv02jYk4XdhLUSzcRQCW0x8TR1QBGb/3iFhNoq3zIhRmGofP68WnhMayS+s6e+xNq1BsHXJy49U7QmAoQFqkBg==
-  dependencies:
-    "@nteract/actions" "^6.0.0"
-    "@nteract/commutable" "^7.2.12"
-    "@nteract/types" "^6.0.7"
-    escape-carriage "^1.3.0"
-    immutable "^4.0.0-rc.12"
-    lodash.has "^4.5.2"
-    redux "^4.0.1"
-    redux-immutable "^4.0.0"
-    uuid "^8.0.0"
-
-"@nteract/selectors@^2.8.10":
-  version "2.8.10"
-  resolved "https://registry.yarnpkg.com/@nteract/selectors/-/selectors-2.8.10.tgz#ef5afd1460ddb748e9c09cf623b1185f8ae43a9f"
-  integrity sha512-CJUmuYL76ThY7E57/XCfb9i3le8JQ2cKCqBqvULFPkCx9qcmKqWjMp47EJxUvRdRYyVBkqhpnTF0FgGi7LPPGg==
-  dependencies:
-    "@nteract/commutable" "^7.2.12"
-    "@nteract/types" "^6.0.7"
-    immutable "^4.0.0-rc.12"
-    reselect "^4.0.0"
-    rx-jupyter "^5.5.9"
 
 "@nteract/transform-geojson@^5.1.13":
   version "5.1.13"
@@ -3383,16 +3308,6 @@
   dependencies:
     "@nteract/any-vega" "^1.0.1"
     "@nteract/presentational-components" "^3.3.7"
-
-"@nteract/types@^6.0.7":
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/@nteract/types/-/types-6.0.7.tgz#5a9b458c376cb81feca875b684696c32a9769642"
-  integrity sha512-sv4X97iXVHXVoPBl2m/xxO396GwujUSfm+7Cx6W5ziGUxSBjs4ydGTn2Uy6zv1MRa7Gwv9uJ/Sl8hgm7vY80Tw==
-  dependencies:
-    "@nteract/commutable" "^7.2.12"
-    immutable "^4.0.0-rc.12"
-    rxjs "^6.3.3"
-    uuid "^8.0.0"
 
 "@octokit/auth-token@^2.4.0":
   version "2.4.1"

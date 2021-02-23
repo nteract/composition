@@ -23,7 +23,7 @@
     "styled-components": "^4.4.1"
   },
   "dependencies": {
-    "@nteract/core": "^14.0.0",
+    "@nteract/core": "^15.0.0",
     "@nteract/messaging": "^7.0.17",
     "lodash.debounce": "^4.0.6",
     "monaco-editor": "0.18.1",
