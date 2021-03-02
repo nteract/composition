@@ -18,7 +18,7 @@
     "file-url": "^3.0.0"
   },
   "peerDependencies": {
-    "electron": "7.3.2"
+    "electron": "12.0.0"
   },
   "author": "nteract contributers",
   "license": "BSD-3-Clause"
