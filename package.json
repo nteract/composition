@@ -236,7 +236,7 @@
     "spawnteract": "^5.0.0",
     "style-loader": "^2.0.0",
     "ts-jest": "^26.0.0",
-    "ts-loader": "^8.0.0",
+    "ts-loader": "^9.0.0",
     "ts-node": "^9.0.0",
     "tslint-config-prettier": "^1.17.0",
     "tslint-eslint-rules": "^5.4.0",
