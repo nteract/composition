@@ -14,7 +14,7 @@
     "@nteract/actions": "^7.0.9",
     "@nteract/commutable": "^7.4.3",
     "@nteract/core": "^15.1.7",
-    "@nteract/data-explorer": "^8.0.0",
+    "@nteract/data-explorer": "^8.2.6",
     "@nteract/dropdown-menu": "^1.1.9",
     "@nteract/editor": "^10.1.9",
     "@nteract/mythic-configuration": "^1.0.9",

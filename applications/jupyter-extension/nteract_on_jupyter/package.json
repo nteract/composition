@@ -21,7 +21,7 @@
     "@nteract/commutable": "^7.4.3",
     "@nteract/connected-components": "^6.8.9",
     "@nteract/core": "^15.1.7",
-    "@nteract/data-explorer": "^8.0.0",
+    "@nteract/data-explorer": "^8.2.6",
     "@nteract/directory-listing": "^2.1.0",
     "@nteract/editor": "^10.1.9",
     "@nteract/jupyter-widgets": "^4.4.14",
