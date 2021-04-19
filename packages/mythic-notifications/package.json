@@ -17,7 +17,7 @@
     "styled-components": "^5.0.1"
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.7.0",
+    "@blueprintjs/core": "^3.43.0",
     "@nteract/myths": "^0.2.9"
   },
   "peerDependencies": {

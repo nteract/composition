@@ -134,7 +134,7 @@
     ]
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.7.0",
+    "@blueprintjs/core": "^3.43.0",
     "@nteract/data-explorer": "^8.0.0",
     "@nteract/examples": "3.2.0",
     "@nteract/mathjax": "4.0.16",

@@ -11,7 +11,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.7.0",
+    "@blueprintjs/core": "^3.43.0",
     "@nteract/commutable": "^7.4.3",
     "@nteract/core": "^15.1.7",
     "@nteract/types": "^7.1.7",

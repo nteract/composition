@@ -7,7 +7,7 @@
   "nteractDesktop": "src/index.ts",
   "scripts": {},
   "dependencies": {
-    "@blueprintjs/core": "^3.7.0",
+    "@blueprintjs/core": "^3.43.0",
     "@blueprintjs/select": "^3.2.0",
     "classnames": "^2.2.6",
     "re-resizable": "^6.5.0",
