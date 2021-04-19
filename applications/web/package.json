@@ -18,7 +18,7 @@
     "@nteract/outputs": "^3.0.11",
     "@nteract/stateful-components": "^1.7.7",
     "@nteract/styles": "^2.2.9",
-    "@octokit/rest": "^17.1.1",
+    "@octokit/rest": "^17.10.0",
     "date-fns": "^2.16.1",
     "lang-map": "^0.4.0",
     "next": "^10.0.0",
