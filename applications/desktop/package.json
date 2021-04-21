@@ -167,7 +167,7 @@
     "utility-types": "^3.10.0"
   },
   "resolutions": {
-    "**/node-abi": "2.24.0",
+    "**/node-abi": "2.26.0",
     "**/@nteract/mathjax": "4.0.16"
   }
 }
