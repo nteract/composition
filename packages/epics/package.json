@@ -43,6 +43,6 @@
     "redux": "^4.0.1",
     "redux-observable": "^2.0.0-alpha.0",
     "rx-jupyter": "^5.5.19",
-    "rxjs": "^6.3.3"
+    "rxjs": "^7.0.0"
   }
 }

@@ -50,7 +50,7 @@
     "redux": "^4.0.0",
     "redux-observable": "^2.0.0-alpha.0",
     "rx-jupyter": "^5.5.19",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.0.0",
     "url-join": "^4.0.0",
     "webfontloader": "^1.6.28",
     "webpack": "^4.17.2"

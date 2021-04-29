@@ -27,7 +27,7 @@
     "@nteract/messaging": "^7.0.17",
     "lodash.debounce": "^4.0.6",
     "monaco-editor": "0.22.3",
-    "rxjs": "^6.3.3"
+    "rxjs": "^7.0.0"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc.12",

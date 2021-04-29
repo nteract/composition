@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "rxjs": "^6.3.3"
+    "rxjs": "^7.0.0"
   },
   "keywords": [],
   "author": "Kyle Kelley <rgbkrk@gmail.com>",

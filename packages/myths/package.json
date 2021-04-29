@@ -17,7 +17,7 @@
     "react-redux": "^6.0.0",
     "redux": "^4.0.0",
     "redux-observable": "^2.0.0-alpha.0",
-    "rxjs": "^6.3.3"
+    "rxjs": "^7.0.0"
   },
   "peerDependencies": {
     "immutable": "^4.0.0-rc.12",

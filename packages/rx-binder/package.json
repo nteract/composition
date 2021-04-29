@@ -17,7 +17,7 @@
     "nteract"
   ],
   "dependencies": {
-    "rxjs": "^6.3.3"
+    "rxjs": "^7.0.0"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause",

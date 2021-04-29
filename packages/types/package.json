@@ -15,7 +15,7 @@
   "dependencies": {
     "@nteract/commutable": "^7.4.3",
     "immutable": "^4.0.0-rc.12",
-    "rxjs": "^6.6.0",
+    "rxjs": "^7.0.0",
     "uuid": "^8.0.0"
   }
 }
