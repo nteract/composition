@@ -245,9 +245,6 @@ export default class Toolbar extends React.PureComponent<
                         </CellMenuItem>
                       </CellMenuSection>
                       <CellMenuSection>
-                        <CellMenuItem className="heading">
-                          Visibility
-                        </CellMenuItem>
                         <CellMenuItem tabIndex={0} focusWithin>
                           <ToggleSwitch
                             label="Input"

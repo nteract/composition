@@ -27,7 +27,7 @@ class NAppHandler(IPythonHandler):
         self.page = page
 
     @web.authenticated
-    def get(self, path="/"):
+    def get(self, path="/notebooks"):
         config = self.nteract_config
         settings_dir = config.settings_dir
         assets_dir = config.assets_dir

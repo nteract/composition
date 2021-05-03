@@ -26,9 +26,10 @@ export const Bar = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  font-size: 12px;
+  font-size: 16px;
   line-height: 0.5em;
-  background: var(--status-bar);
+  background: #22a6f1;
+  color: #fff;
   z-index: 99;
   @media print {
     display: none;

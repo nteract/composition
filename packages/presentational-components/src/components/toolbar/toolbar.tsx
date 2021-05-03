@@ -39,40 +39,17 @@ export class Toolbar extends Component<Props, State> {
     });
 
     return (
-      <div className={className}>
+      <div className={className} style={{ backgroundColor: "rgb(240,240,240)", borderBottom: "1px solid #22a6f1"}}>
         <span>
-          <ToolbarItem
-            image={<ExpandSidebar isSidebarVisible={isSidebarVisible} />}
-            buttonClassName="toolbar-item-expand"
-            text=""
-            showText={!isCollapsed}
-            onClick={onToggleFileBrowser}
-          />
-
           {React.Children.map(
             children as React.ReactElement[],
             (child: React.ReactElement) =>
               React.cloneElement(child as React.ReactElement, {
-                showText: !isCollapsed,
-                showButton: !isCollapsed,
+                showText: true,
+                showButton: true,
               })
           )}
         </span>
-        <ToolbarItem
-          image={
-            toolbarState === toolbarStates.collapsed ? <Expand /> : <Collapse />
-          }
-          text="Commands"
-          showText={!isCollapsed}
-          onClick={() => {
-            this.setState((previous) => ({
-              toolbarState:
-                previous.toolbarState === toolbarStates.collapsed
-                  ? toolbarStates.expandedMax
-                  : toolbarStates.collapsed,
-            }));
-          }}
-        />
       </div>
     );
   }

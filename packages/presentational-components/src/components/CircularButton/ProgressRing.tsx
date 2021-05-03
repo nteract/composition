@@ -17,9 +17,10 @@ export const ProgressRing: FC<ProgressRingProps> = ({
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <svg height={radius * 2} width={radius * 2} className="progress-ring">
+    <svg height={radius * 2} width={radius * 2} className="progress-ring"
+         style={{position: "relative", top: "-32px"}}>
       <circle
-        stroke="#000"
+        stroke="#FFF"
         fill="transparent"
         strokeWidth={stroke}
         strokeDasharray={`${circumference} ${circumference}`}

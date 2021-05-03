@@ -11,23 +11,14 @@ export const Collapse = ({ className }: { className?: string }) => (
   >
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="SVG-Layer" transform="translate(0.500000, 0.500000)">
-        <rect
-          fill="#E2E5E7"
-          fillRule="nonzero"
-          x="0"
-          y="0"
-          width="24"
-          height="24"
-          rx="4"
-        ></rect>
         <polyline
-          stroke="#757F88"
+          stroke="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="round"
           points="14 11.5 12 9.5 10 11.5"
         ></polyline>
         <polyline
-          stroke="#757F88"
+          stroke="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="round"
           points="14 14.5 12 12.5 10 14.5"
@@ -131,21 +122,12 @@ export const Clear = () => (
     <title>Group 4</title>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Group-4">
-        <rect
-          fill="#E2E5E7"
-          fillRule="nonzero"
-          x="0"
-          y="0"
-          width="24"
-          height="24"
-          rx="4"
-        ></rect>
         <line
           x1="15.5"
           y1="13.5"
           x2="18.5"
           y2="13.5"
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="bevel"
         ></line>
@@ -154,7 +136,7 @@ export const Clear = () => (
           y1="11.5"
           x2="18.5"
           y2="11.5"
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="bevel"
         ></line>
@@ -163,21 +145,21 @@ export const Clear = () => (
           y1="9.5"
           x2="18.5"
           y2="9.5"
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="bevel"
         ></line>
         <path
           d="M9.165,11.0698 C10.026,10.5137 10.984,10.125 12,10.0001 C12,10.0001 11.646,10.7967 11.608,11.9803 C11.323,11.9491 10.989,11.8924 10.64,11.7949 C10.112,11.647 9.591,11.4165 9.165,11.0698 Z M8.339,11.6765 C6.222,13.4292 4.876,16.1465 5,18.0001 L7.948,18.0001 C7.605,17.2117 7.537,16.424 7.567,15.7939 C7.587,15.3713 7.651,15.0114 7.711,14.7556 C7.741,14.6274 7.77,14.5245 7.792,14.4518 C7.803,14.4155 7.812,14.3867 7.819,14.366 L7.828,14.3411 L7.83,14.3333 L7.831,14.3306 L7.832,14.3296 L7.832,14.3292 C7.832,14.329 7.832,14.3288 8.302,14.4999 C8.772,14.6711 8.772,14.6709 8.772,14.6708 L8.772,14.6714 L8.767,14.6838 C8.763,14.6959 8.757,14.7157 8.749,14.7426 C8.732,14.7963 8.709,14.8779 8.685,14.9826 C8.636,15.1926 8.583,15.4915 8.566,15.8415 C8.535,16.4829 8.629,17.2684 9.071,18.0001 L11.241,18.0001 C10.83,17.6235 10.552,17.2219 10.365,16.8487 C10.185,16.4886 10.094,16.1626 10.048,15.9226 C10.025,15.8024 10.013,15.7031 10.007,15.6309 C10.004,15.5947 10.002,15.5653 10.001,15.5432 C10.001,15.5322 10,15.5231 10,15.5158 L10,15.5065 L10,15.5029 L10,15.5014 L10,15.5007 C10,15.5004 10,15.5001 10.5,15.5001 C11,15.5001 11,15.4998 11,15.4995 L11,15.4989 L11,15.498 L11,15.4966 L11,15.4958 L11,15.5023 C11.001,15.51 11.001,15.5245 11.003,15.545 C11.007,15.5861 11.014,15.6508 11.03,15.7338 C11.062,15.9 11.127,16.1365 11.26,16.4015 C11.513,16.908 12.027,17.5488 13.099,18.0001 L15,18.0001 C12.659,16.361 11.852,14.5027 11.657,12.9899 C11.278,12.9568 10.831,12.8866 10.371,12.7579 C9.697,12.5692 8.946,12.2405 8.339,11.6765 Z"
           id="Shape"
-          fill="#29313A"
+          fill="#22a6f1"
         ></path>
         <line
           x1="11.376"
           y1="10.7986"
           x2="16.5"
           y2="5.67474"
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></line>
@@ -197,38 +179,30 @@ export const Commands = () => (
     <title>Group</title>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Group" transform="translate(0.000000, 0.292248)">
-        <rect
-          fillOpacity="0"
-          fill="#D8D8D8"
-          x="0"
-          y="0.7077525"
-          width="22"
-          height="23"
-        ></rect>
         <path
           d="M0,20.5077525 L3.96,22.7077525 L11,18.7077525 L18.04,22.7077525 L22,20.5077525 L22,6.8677525 L11.977,1.2549925 C11.37,0.9150025 10.63,0.9150025 10.023,1.2549925 L0,6.8677525 L0,20.5077525 Z"
-          fill="#E2E5E7"
+          fill="#22a6f1"
           fillRule="nonzero"
         ></path>
         <polygon
-          fill="#8F969D"
+          fill="#22a6f1"
           fillRule="nonzero"
           points="10.998 12.0560525 5 9.0572525 10.998 5.7077525 16.995 9.0572525"
         ></polygon>
         <polygon
-          fill="#29313A"
+          fill="#22a6f1"
           fillRule="nonzero"
           points="5 9.0587625 10.998 12.0529525 10.998 18.4066525 5 15.4078525"
         ></polygon>
         <polygon
-          fill="#BABFC4"
+          fill="#22a6f1"
           fillRule="nonzero"
           points="16.995 9.0587625 10.997 12.0529525 10.997 18.4066525 16.995 15.4078525"
         ></polygon>
         <path
           d="M10.998,18.4021525 L10.998,12.0437525 M10.998,12.0437525 L5,9.0542525 M10.998,12.0437525 L17,9.0542525"
           id="Shape"
-          stroke="#E2E5E7"
+          stroke="#22a6f1"
           strokeWidth="1.5"
         ></path>
       </g>
@@ -362,19 +336,18 @@ export const Pause = () => (
     <title>Group 3</title>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Group-3" fillRule="nonzero">
-        <rect fill="#E2E5E7" x="0" y="0" width="24" height="24" rx="4"></rect>
         <polygon
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeWidth="2"
-          fill="#29313A"
+          fill="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="round"
           points="9 15 10 15 10 9 9 9"
         ></polygon>
         <polygon
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeWidth="2"
-          fill="#29313A"
+          fill="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="round"
           points="14 15 15 15 15 9 14 9"
@@ -395,11 +368,10 @@ export const Play = () => (
     <title>Group 2</title>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Group-2" fillRule="nonzero">
-        <rect fill="#E2E5E7" x="0" y="0" width="24" height="24" rx="4"></rect>
         <path
           d="M16.1317,11.4573 L9.9792,7.612 C9.5529,7.34558 9,7.65204 9,8.15472 L9,15.8453 C9,16.348 9.5529,16.6544 9.9792,16.388 L16.1316,12.5427 C16.5327,12.2921 16.5327,11.7079 16.1317,11.4573 Z"
-          stroke="#29313A"
-          fill="#29313A"
+          stroke="#22a6f1"
+          fill="#22a6f1"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
@@ -419,33 +391,24 @@ export const Plus = () => (
     <title>Group 5</title>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Group-5">
-        <rect
-          fill="#E2E5E7"
-          fillRule="nonzero"
-          x="0"
-          y="0"
-          width="24"
-          height="24"
-          rx="4"
-        ></rect>
-        <path d="M12,8 L12,16 L12,8 Z" fill="#29313A"></path>
+        <path d="M12,8 L12,16 L12,8 Z" fill="#22a6f1"></path>
         <line
           x1="12"
           y1="8"
           x2="12"
           y2="16"
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></line>
-        <path d="M8,12 L16,12 L8,12 Z" fill="#29313A"></path>
+        <path d="M8,12 L16,12 L8,12 Z" fill="#22a6f1"></path>
         <line
           x1="8"
           y1="12"
           x2="16"
           y2="12"
-          stroke="#29313A"
+          stroke="#22a6f1"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"

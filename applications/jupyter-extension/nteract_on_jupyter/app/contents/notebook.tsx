@@ -81,7 +81,9 @@ class Notebook extends React.PureComponent<Props, State> {
   render() {
     const App = this.state.App;
 
-    return <App contentRef={this.props.contentRef} />;
+    return (
+      <App contentRef={this.props.contentRef}></App>
+    );
   }
 }
 

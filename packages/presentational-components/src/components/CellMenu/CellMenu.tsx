@@ -50,7 +50,7 @@ export class CellMenuItem extends React.PureComponent<MenuItemProps, {}> {
     return (
       <li
         ref={this.element}
-        className={classnames("cell-menu-item", className)}
+        className={classnames("cell-menu-item", "mdl-menu__item", className)}
         {...props}
       >
         {children}
@@ -61,7 +61,7 @@ export class CellMenuItem extends React.PureComponent<MenuItemProps, {}> {
 
 export const CellMenu: React.FC<CellMenuProps> = ({ visible, children }) => {
   return (
-    <div className={visible ? "cell-menu" : "cell-menu-hidden cell-menu"}>
+    <div className={visible ? "mdl-menu cell-menu mdl-shadow--3dp" : "mdl-menu cell-menu-hidden cell-menu"}>
       {children}
     </div>
   );

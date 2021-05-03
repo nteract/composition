@@ -52,7 +52,6 @@ const ToolbarIcons = {
 export {
   CommandButtonRow,
   CommandPalette,
-  CommandPaletteProps,
   CircularButton,
   CellMenu,
   CellMenuItem,
@@ -72,9 +71,11 @@ export {
   Error,
   Sidebar,
   SidebarItem,
-  SidebarItemProps,
   Toolbar,
   ToolbarItem,
-  ToolbarItemProps,
   ToolbarIcons,
 };
+
+export type SidebarItemProps = SidebarItemProps;
+export type ToolbarItemProps = ToolbarItemProps;
+export type CommandPaletteProps = CommandPaletteProps;

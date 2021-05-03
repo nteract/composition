@@ -317,9 +317,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
       zIndex: 19, // blueprint's Toasts are at 20 and need to go on top
       display: "inline-flex",
       width: "100%",
-      background: "var(--theme-app-bg)",
-      color: "var(--theme-app-fg)",
-      borderBottom: "1px solid var(--theme-app-border)"
+      background: "var(--theme-app-bg)"
     };
 
     return (
@@ -329,12 +327,14 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
           children={
             <Menu>
               <MenuItem
+                key="open_notebook"
                 text="Open..."
                 icon={DOCUMENT_OPEN}
                 href="/nteract/edit"
                 target="_blank"
               />
               <MenuItem
+                key="save_notebook"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, SAVE_NOTEBOOK)
                 }
@@ -342,21 +342,13 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={FLOPPY_DISK}
               />
               <MenuItem
+                key="download_notebook"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, DOWNLOAD_NOTEBOOK)
                 }
                 text={MENU_ITEM_LABELS.DOWNLOAD_NOTEBOOK}
                 icon={DOWNLOAD}
               />
-              {bookstoreEnabled ? (
-                <MenuItem
-                  onClick={(e: SyntheticEvent) =>
-                    this.handleActionClick(e, PUBLISH_TO_BOOKSTORE)
-                  }
-                  text={MENU_ITEM_LABELS.PUBLISH_TO_BOOKSTORE}
-                  icon={CLOUD_UPLOAD}
-                />
-              ) : null}
             </Menu>
           }
         />
@@ -365,6 +357,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
           children={
             <Menu>
               <MenuItem
+                key="cut_cell"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, CUT_CELL)
                 }
@@ -372,6 +365,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={CUT}
               />
               <MenuItem
+                key="copy_cell"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, COPY_CELL)
                 }
@@ -379,6 +373,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={DUPLICATE}
               />
               <MenuItem
+                key="past_cell"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, PASTE_CELL)
                 }
@@ -388,12 +383,14 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
               <MenuDivider />
               <MenuItem text="Change Cell Type" icon={SWAP_HORIZONTAL}>
                 <MenuItem
+                  key="set_cell_type_code"
                   onClick={(e: SyntheticEvent) =>
                     this.handleActionClick(e, SET_CELL_TYPE_CODE)
                   }
                   text={MENU_ITEM_LABELS.SET_CELL_TYPE_CODE}
                 />
                 <MenuItem
+                  key="set_cell_type_markdown"
                   onClick={(e: SyntheticEvent) =>
                     this.handleActionClick(e, SET_CELL_TYPE_MARKDOWN)
                   }
@@ -404,38 +401,11 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
           }
         />
         <Dropdown
-          text="View"
-          children={
-            <Menu>
-              <MenuItem
-                onClick={(e: SyntheticEvent) =>
-                  this.handleActionClick(e, TOGGLE_EDITOR)
-                }
-                text={MENU_ITEM_LABELS.TOGGLE_EDITOR}
-                icon={WIDGET_HEADER}
-              />
-              <MenuItem text="Themes" icon={STYLE}>
-                <MenuItem
-                  onClick={(e: SyntheticEvent) =>
-                    this.handleActionClick(e, SET_THEME_LIGHT)
-                  }
-                  text={MENU_ITEM_LABELS.SET_THEME_LIGHT}
-                />
-                <MenuItem
-                  onClick={(e: SyntheticEvent) =>
-                    this.handleActionClick(e, SET_THEME_DARK)
-                  }
-                  text={MENU_ITEM_LABELS.SET_THEME_DARK}
-                />
-              </MenuItem>
-            </Menu>
-          }
-        />
-        <Dropdown
           text="Cell"
           children={
             <Menu>
               <MenuItem
+                key="execute_all_cells"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, EXECUTE_ALL_CELLS)
                 }
@@ -443,6 +413,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={PLAY}
               />
               <MenuItem
+                key="execute_all_cells_below"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, EXECUTE_ALL_CELLS_BELOW)
                 }
@@ -452,12 +423,14 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
               <MenuDivider />
               <MenuItem text="Create New" icon={INSERT}>
                 <MenuItem
+                  key="create_code_cell"
                   onClick={(e: SyntheticEvent) =>
                     this.handleActionClick(e, CREATE_CODE_CELL)
                   }
                   text={MENU_ITEM_LABELS.CREATE_CODE_CELL}
                 />
                 <MenuItem
+                  key="create_markdown_cell"
                   onClick={(e: SyntheticEvent) =>
                     this.handleActionClick(e, CREATE_MARKDOWN_CELL)
                   }
@@ -466,6 +439,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
               </MenuItem>
               <MenuDivider />
               <MenuItem
+                key="clear_all_outputs"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, CLEAR_ALL_OUTPUTS)
                 }
@@ -473,6 +447,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={ERASER}
               />
               <MenuItem
+                key="unhide_all"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, UNHIDE_ALL)
                 }
@@ -487,6 +462,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
           children={
             <Menu>
               <MenuItem
+                key="interrupt_kernel"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, INTERRUPT_KERNEL)
                 }
@@ -495,6 +471,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
               />
               <MenuDivider />
               <MenuItem
+                key="kill_kernel"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, KILL_KERNEL)
                 }
@@ -502,6 +479,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={STOP}
               />
               <MenuItem
+                key="restart_kernel"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, RESTART_KERNEL)
                 }
@@ -509,6 +487,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={REPEAT}
               />
               <MenuItem
+                key="restart_kernel_and_clear"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, RESTART_AND_CLEAR_OUTPUTS)
                 }
@@ -516,6 +495,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                 icon={REFRESH}
               />
               <MenuItem
+                key="restart_kernel_and_run_all"
                 onClick={(e: SyntheticEvent) =>
                   this.handleActionClick(e, RESTART_AND_RUN_ALL_OUTPUTS)
                 }
@@ -524,6 +504,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
               />
               <MenuDivider />
               <MenuItem
+                key="change_kernel"
                 disabled={!currentKernelspecs}
                 text="Change Kernel"
                 icon={EXCHANGE}
@@ -539,6 +520,7 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                     .map(([name, displayName]: string[]) => {
                       return (
                         <MenuItem
+                          key={displayName}
                           onClick={(e: SyntheticEvent) =>
                             this.handleActionClick(e, CHANGE_KERNEL, name)
                           }
@@ -547,20 +529,6 @@ class PureNotebookMenu extends React.PureComponent<PureNotebookMenuProps> {
                       );
                     })}
               </MenuItem>
-            </Menu>
-          }
-        />
-        <Dropdown
-          text="Help"
-          children={
-            <Menu>
-              <MenuItem
-                onClick={(e: SyntheticEvent) =>
-                  this.handleActionClick(e, OPEN_ABOUT)
-                }
-                text={MENU_ITEM_LABELS.OPEN_ABOUT}
-                icon={HELP}
-              />
             </Menu>
           }
         />

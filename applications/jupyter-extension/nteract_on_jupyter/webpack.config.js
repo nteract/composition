@@ -57,7 +57,7 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.(jpg|png|gif|svg)$/,
         use: "file-loader"
       },
       {
@@ -78,6 +78,11 @@ module.exports = {
           }
         ]
       }
+    ]
+  },
+  watchOptions: {
+    ignored: [
+      /\/app\/node_modules\//
     ]
   },
   resolve: {

@@ -1,4 +1,4 @@
-import { WideLogo } from "@nteract/logos";
+import logo from "../images/code-book-logo-light-gray.svg";
 import * as React from "react";
 
 interface ThemedLogoProps {
@@ -6,12 +6,12 @@ interface ThemedLogoProps {
   theme?: "light" | "dark";
 }
 
-const ThemedLogo = (props: ThemedLogoProps) => (
-  <WideLogo height={props.height} theme={props.theme} />
+const ThemedLogo = (props: ThemedLogoProps): JSX.Element => (
+  <img src={logo} alt="code-book logo" />
 );
 
 ThemedLogo.defaultProps = {
-  height: 20,
+  height: 20.0,
   theme: "light"
 };
 

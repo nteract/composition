@@ -30,16 +30,17 @@ export {
   StatusBarContext,
   ThemeFromConfig,
   CommandContext,
-  CommandProps,
-  CommandDispatchProps,
   CommandContainer,
   AppToolbar,
-  AppToolbarProps,
   AppToolbarContext,
   AppSidebar,
-  AppSidebarProps,
   AppSidebarContext,
 };
+
+export type CommandProps = CommandProps;
+export type CommandDispatchProps = CommandDispatchProps;
+export type AppToolbarProps = AppToolbarProps;
+export type AppSidebarProps = AppSidebarProps;
 
 export { userTheme } from "./config-options";
 

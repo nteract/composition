@@ -8,7 +8,7 @@
     "build:asap": "webpack",
     "build:watch": "webpack --watch",
     "dev": "concurrently \"npm run hot\" \"jupyter nteract --dev\"",
-    "hot": "webpack-dev-server --hot",
+    "hot": "webpack-dev-server --hot --host 0.0.0.0",
     "prepublishOnly": "echo it would be nice to npm run build once we are ready"
   },
   "publishConfig": {
@@ -51,6 +51,7 @@
     "redux-observable": "^2.0.0-alpha.0",
     "rx-jupyter": "^5.5.19",
     "rxjs": "^6.6.0",
+    "svg-url-loader": "^7.1.1",
     "url-join": "^4.0.0",
     "webfontloader": "^1.6.28",
     "webpack": "^4.17.2"

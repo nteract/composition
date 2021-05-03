@@ -18,7 +18,7 @@ export const ToolbarItem: FC<ToolbarItemProps> = ({
   onClick,
   buttonClassName,
 }) => {
-  const className = classnames("toolbar-item", buttonClassName, {
+  const className = classnames("toolbar-item", "mdl-button", buttonClassName, {
     hidden: !showButton,
   });
   return (

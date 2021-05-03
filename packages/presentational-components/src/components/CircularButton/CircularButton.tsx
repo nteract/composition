@@ -31,14 +31,19 @@ export class CircularButton extends React.PureComponent<Props> {
 
     const classes = classnames(
       "circular-button",
+      "mdl-button",
+      "mdl-button-js",
+      "mdl-button--fab",
+      "mdl-button-js-ripple-effect",
+      "mdl-button--colored",
       { progress: showPercent },
       additionalClasses
     );
 
     return (
       <button ref={this.buttonRef} className={classes} {...props}>
-        <ProgressRing radius={16} stroke={1} progress={percent || 0} />
         {children}
+        <ProgressRing radius={16} stroke={1} progress={percent || 0} />
       </button>
     );
   }

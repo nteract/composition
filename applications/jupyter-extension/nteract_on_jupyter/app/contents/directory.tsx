@@ -71,18 +71,9 @@ export class DirectoryApp extends React.PureComponent<DirectoryProps> {
 
     return (
       <React.Fragment>
-        <NewNotebookNavigation onClick={this.openNotebook} />
+        {/* <NewNotebookNavigation onClick={this.openNotebook} /> */}
         <ListingRoot>
           <Listing>
-            {atRoot ? null : (
-              // TODO: Create a contentRef for `..`, even though it's a placeholder
-              // When we're not at the root of the tree, show `..`
-              <Entry>
-                <Icon fileType={"directory"} />
-                <Name>{dotdotlink}</Name>
-                <LastSaved lastModified={null} />
-              </Entry>
-            )}
             {this.props.contents.map((entry, index) => {
               const link = (
                 <a

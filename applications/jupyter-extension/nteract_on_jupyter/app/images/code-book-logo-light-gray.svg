@@ -1,0 +1,20 @@
+<svg width="312" height="70" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="314" height="72" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect stroke="#000" fill="#F1F1F1" stroke-width="0" stroke-dasharray="2,2" stroke-opacity="null" x="0.20869" y="0.03957" width="445" height="69.76449" id="svg_17"/>
+  <g stroke="null" fill="none" id="svg_1">
+   <path stroke="null" d="m2.15974,56.75299c-0.77512,0 -1.38415,0.84147 -1.38415,1.91243s0.60903,1.91243 1.38415,1.91243l2.32538,0l0,8.9502l42.46583,0l0,-68.84773l-42.46583,0l0,10.63315l-2.32538,0c-0.77512,0 -1.38415,0.84147 -1.38415,1.91243s0.60903,1.91243 1.38415,1.91243l2.32538,0l0,11.32162l-2.32538,0c-0.77512,0 -1.38415,0.84147 -1.38415,1.91243s0.60903,1.91243 1.38415,1.91243l2.32538,0l0,11.32162l-2.32538,0c-0.77512,0 -1.38415,0.84147 -1.38415,1.91243s0.60903,1.91243 1.38415,1.91243l2.32538,0l0,11.32162l-2.32538,0l0,0.00003zm42.0229,8.9502l-6.58857,0l0,-61.19797l6.58857,0l0,61.19797zm-36.92922,-20.27183l2.82367,0c0.77512,0 1.38415,-0.84147 1.38415,-1.91243s-0.60903,-1.91243 -1.38415,-1.91243l-2.82367,0l0,-11.32162l2.82367,0c0.77512,0 1.38415,-0.84147 1.38415,-1.91243s-0.60903,-1.91243 -1.38415,-1.91243l-2.82367,0l0,-11.32162l2.82367,0c0.77512,0 1.38415,-0.84147 1.38415,-1.91243s-0.60903,-1.91243 -1.38415,-1.91243l-2.82367,0l0,-6.80827l29.23333,0l0,61.19797l-29.23333,0l0,-5.12533l2.82367,0c0.77512,0 1.38415,-0.84147 1.38415,-1.91243s-0.60903,-1.91243 -1.38415,-1.91243l-2.82367,0l0,-11.32162l0,-0.00003z" id="svg_2" fill="#1f1f23"/>
+  </g>
+  <text fill="#22a6f1" stroke-width="0" x="4.10209" y="58.12764" id="svg_3" font-size="63" font-family="'Courier New', Courier, monospace" text-anchor="start" xml:space="preserve" font-weight="normal" font-style="normal" stroke-dasharray="2,2" transform="matrix(0.8054574728012085,0,0,0.7810266017913818,4.960834443569183,3.137478221207857) " stroke="#000">{</text>
+  <text fill="#22a6f1" stroke-width="0" x="47.35087" y="51.30998" id="svg_6" font-size="57" font-family="'Courier New', Courier, monospace" text-anchor="start" xml:space="preserve" stroke-dasharray="2,2" transform="matrix(0.9653207025295173,0,0,1,1.8898655951490888,0.29410403966903687) " stroke="#000" font-style="normal" font-weight="normal">ode book</text>
+  <line fill="none" stroke-width="0" x1="99.51514" y1="70.43167" x2="395.2319" y2="69.54894" id="svg_7" stroke-linejoin="undefined" stroke-linecap="undefined"/>
+  <line fill="none" x1="98.61046" y1="73.37413" x2="394.95962" y2="72.78564" id="svg_8" stroke-linejoin="undefined" stroke-linecap="undefined" stroke-width="0"/>
+  <line fill="none" stroke-width="NaN" x1="169.54558" y1="83.96697" x2="284.30133" y2="76.90508" id="svg_12" stroke-linejoin="undefined" stroke-linecap="undefined" stroke-dasharray="2,2" transform="rotate(5 226.92346191406244,80.43601989746088) "/>
+  <text fill="#1f1f23" stroke-width="0" x="136.74763" y="170.31848" id="svg_13" font-size="26" font-family="'Courier New', Courier, monospace" text-anchor="start" xml:space="preserve" font-weight="normal" font-style="normal" stroke-dasharray="2,2" transform="matrix(0.9974961268488016,0,0,0.8404798463773975,10.796253784883731,-100.20722702202711) ">{</text>
+  <text fill="#1f1f23" stroke-width="0" x="154.42897" y="170.31848" id="svg_15" font-size="26" font-family="'Courier New', Courier, monospace" text-anchor="start" xml:space="preserve" font-weight="normal" font-style="normal" stroke-dasharray="2,2" transform="matrix(0.9974961268488016,0,0,0.8404798463773975,10.796253784883731,-100.20722702202711) ">}</text>
+ </g>
+</svg>

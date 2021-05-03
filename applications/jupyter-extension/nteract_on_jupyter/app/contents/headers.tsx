@@ -126,7 +126,7 @@ class FileHeader extends React.PureComponent<FileHeaderProps, State> {
               <ThemedLogo />
             </a>
             <div>
-              <H4 onClick={this.openDialog}>{this.props.displayName}</H4>
+              <H4 style={{lineHeight:"72px", fontWeight: 400}} onClick={this.openDialog}>{this.props.displayName}</H4>
               <EditableTitleOverlay
                 defaultValue={this.props.displayName}
                 isOpen={this.state.isDialogOpen}

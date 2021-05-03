@@ -5,7 +5,7 @@ export const Markdown = (props: any) => {
     <svg width={16} height={16} fill="none" {...props}>
       <path
         d="M2.346 11.5v-7h1.538l1.539 2.423L6.96 4.5h1.538v7H6.962V7.23L5.423 9.155 3.884 7.23V11.5H2.346zm9.269 0L9.499 9h1.25V4.5h1.5V9h1.25l-1.884 2.5z"
-        fill="#EEEFF0"
+        fill="#22a6f1"
       />
     </svg>
   );
@@ -16,7 +16,7 @@ export const Delete = (props: any) => {
     <svg width={16} height={16} fill="none" {...props}>
       <path
         d="M2.346 11.5v-7h1.538l1.539 2.423L6.96 4.5h1.538v7H6.962V7.23L5.423 9.155 3.884 7.23V11.5H2.346zm9.269 0L9.499 9h1.25V4.5h1.5V9h1.25l-1.884 2.5z"
-        fill="#EEEFF0"
+        fill="#22a6f1"
       />
     </svg>
   );
@@ -27,7 +27,7 @@ interface MutedProps extends HTMLAttributes<SVGElement> {
 }
 
 export const Commands: FC<MutedProps> = ({ muted = false }) => (
-  <svg width={24} height={24} fill="none">
+  <svg width={16} height={16} fill="none">
     <path
       d="M1 20.8L4.96 23 12 19l7.04 4L23 20.8V7.16L12.977 1.547a2 2 0 00-1.954 0L1 7.16V20.8z"
       fill="#475059"
@@ -54,13 +54,13 @@ export const AddCell = ({ below = true }) => {
     <svg width={16} height={16} fill="none">
       <path
         d="M13.5 9V3.833c0-.736-.597-1.333-1.333-1.333H3.833c-.736 0-1.333.597-1.333 1.333v8.334c0 .736.597 1.333 1.333 1.333H9M13.5 11.5v4M8 5.5v4M11.5 13.5h4"
-        stroke="#fff"
+        stroke="#22a6f1"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 8.5l-2 2-2-2"
-        stroke="#fff"
+        stroke="#22a6f1"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -69,13 +69,13 @@ export const AddCell = ({ below = true }) => {
     <svg width={16} height={16} fill="none">
       <path
         d="M13.5 9V3.833c0-.736-.597-1.333-1.333-1.333H3.833c-.736 0-1.333.597-1.333 1.333v8.334c0 .736.597 1.333 1.333 1.333H9M13.5 11.5v4M8 5.5v4M11.5 13.5h4"
-        stroke="#fff"
+        stroke="#22a6f1"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M10 8.5l-2 2-2-2"
-        stroke="#fff"
+        stroke="#22a6f1"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -86,7 +86,7 @@ export const AddCell = ({ below = true }) => {
 export const Clear = () => {
   return (
     <svg width={16} height={16} fill="none">
-      <g opacity={0.8} stroke="#EEEFF0">
+      <g opacity={0.8} stroke="#22a6f1">
         <path
           d="M8 6c-4.067.5-6.686 4.72-6.5 7.5h9.35C7 11 8 6 8 6z"
           strokeLinecap="round"
@@ -107,8 +107,8 @@ export const Play = () => {
     <svg width={9} height={10} fill="none">
       <path
         d="M8.132 4.457L1.979.612A.64.64 0 001 1.155v7.69c0 .503.553.81.98.543l6.152-3.845a.64.64 0 000-1.086z"
-        fill="#757F88"
-        stroke="#757F88"
+        fill="#FFF"
+        stroke="#FFF"
       />
     </svg>
   );
@@ -117,9 +117,9 @@ export const Play = () => {
 export const More = () => {
   return (
     <svg width={16} height={16} fill="none">
-      <circle cx={8} cy={8} r={1} fill="#757F88" />
-      <circle cx={4} cy={8} r={1} fill="#757F88" />
-      <circle cx={12} cy={8} r={1} fill="#757F88" />
+      <circle cx={8} cy={8} r={1} fill="#FFF" />
+      <circle cx={4} cy={8} r={1} fill="#FFF" />
+      <circle cx={12} cy={8} r={1} fill="#FFF" />
     </svg>
   );
 };

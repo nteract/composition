@@ -1,0 +1,14 @@
+<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="102" height="102" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_4" height="84.99834" width="71.94304" y="7.62235" x="17.36174" stroke-width="1.5" stroke="#000" fill="#fff"/>
+  <g fill="none" id="svg_1">
+   <path d="m10.8,78.3c-1.4,0 -2.5,1.1 -2.5,2.5s1.1,2.5 2.5,2.5l4.2,0l0,11.7l76.7,0l0,-90l-76.7,0l0,13.9l-4.2,0c-1.4,0 -2.5,1.1 -2.5,2.5s1.1,2.5 2.5,2.5l4.2,0l0,14.8l-4.2,0c-1.4,0 -2.5,1.1 -2.5,2.5s1.1,2.5 2.5,2.5l4.2,0l0,14.8l-4.2,0c-1.4,0 -2.5,1.1 -2.5,2.5s1.1,2.5 2.5,2.5l4.2,0l0,14.8l-4.2,0zm75.9,11.7l-11.9,0l0,-80l11.9,0l0,80zm-66.7,-26.5l5.1,0c1.4,0 2.5,-1.1 2.5,-2.5s-1.1,-2.5 -2.5,-2.5l-5.1,0l0,-14.8l5.1,0c1.4,0 2.5,-1.1 2.5,-2.5s-1.1,-2.5 -2.5,-2.5l-5.1,0l0,-14.8l5.1,0c1.4,0 2.5,-1.1 2.5,-2.5s-1.1,-2.5 -2.5,-2.5l-5.1,0l0,-8.9l52.8,0l0,80l-52.8,0l0,-6.7l5.1,0c1.4,0 2.5,-1.1 2.5,-2.5s-1.1,-2.5 -2.5,-2.5l-5.1,0l0,-14.8z" id="svg_2" fill="#1f1f23"/>
+  </g>
+  <text fill="#22a6f1" stroke-width="0" x="31.09375" y="67" id="svg_3" font-size="63" font-family="'Courier New', Courier, monospace" text-anchor="start" xml:space="preserve" stroke="#000" font-weight="normal" font-style="normal">{</text>
+ </g>
+</svg>
