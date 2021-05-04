@@ -1,4 +1,11 @@
-mkdocs
-mkdocs-material
-mkdocs-monorepo-plugin
-
+cython>=0.29
+numpy>=1.16.6
+setuptools==45
+setuptools_scm
+cffi
+hypothesis
+pandas
+pickle5; python_version == "3.6" or python_version == "3.7"
+pytest
+pytest-lazy-fixture
+pytz
