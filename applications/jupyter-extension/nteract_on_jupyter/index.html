@@ -73,6 +73,20 @@ Distributed under the terms of the Modified BSD License.
       text-align: left;
     }
 
+    .nteract-cells {
+      height: calc(100vh - 82px - 82px - 36px);
+    }
+
+    .monaco-container {
+      height: calc(100vh - 82px - 36px) !important;
+      overflow: auto !important;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
     .nteract-cell-gutter {
       max-width: 42px;
     }
@@ -178,7 +192,7 @@ Distributed under the terms of the Modified BSD License.
 
   <div id="root"></div>
 
-  <script src="{{ asset_url }}nteract/static/dist/app.js" type="text/javascript" charset="utf-8"></script>
+	<script src="{{ asset_url }}nteract/static/dist/app.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

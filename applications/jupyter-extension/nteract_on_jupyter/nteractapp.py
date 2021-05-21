@@ -13,7 +13,7 @@ from .utils import cmd_in_new_dir
 webpack_port = 8357
 
 webpack_hot = {
-    "address": 'http://localhost:{webpack_port}/'.format(webpack_port=webpack_port),
+    "address": 'http://code-book-notebooks.eastus.cloudapp.azure.com:{webpack_port}/'.format(webpack_port=webpack_port),
     "command": [
         "yarn",
         "workspace",

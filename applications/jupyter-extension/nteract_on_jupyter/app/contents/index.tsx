@@ -1,10 +1,11 @@
 // Vendor modules
 import * as actions from "@nteract/actions";
+import MonacoEditor from "@nteract/monaco-editor";
 import { CellType, ImmutableNotebook } from "@nteract/commutable";
 import { HeaderEditor } from "@nteract/connected-components";
 import { NotebookMenu } from "@nteract/connected-components";
 import { HeaderDataProps } from "@nteract/connected-components/lib/header-editor";
-import { AppState, ContentRef, HostRecord, selectors } from "@nteract/core";
+import { AppState, ContentRef, HostRecord, selectors, createKernelRef, createContentRef } from "@nteract/core";
 import {
   DirectoryContentRecordProps,
   DummyContentRecordProps,
@@ -23,6 +24,7 @@ import urljoin from "url-join";
 import { ConnectedDirectory } from "./directory";
 import { default as File } from "./file";
 import { ConnectedFileHeader as FileHeader, DirectoryHeader } from "./headers";
+import { first } from "rxjs/operators";
 
 interface IContentsBaseProps {
   appBase: string;
@@ -36,6 +38,7 @@ interface IContentsBaseProps {
   loading: boolean;
   mimetype?: string | null;
   saving: boolean;
+  viewerContents: string;
 }
 
 interface IContentsState {
@@ -50,6 +53,7 @@ interface IStateToProps {
 interface IDispatchFromProps {
   handlers: any;
   onHeaderEditorChange: (props: HeaderDataProps) => void;
+  onSidePanelFileSelect: () => void;
 }
 
 type ContentsProps = IContentsBaseProps & IStateToProps & IDispatchFromProps;
@@ -76,6 +80,26 @@ class Contents extends React.PureComponent<ContentsProps, IContentsState> {
     SAVE: ["ctrl+s", "ctrl+shift+s", "meta+s", "meta+shift+s"]
   };
 
+  private firstRun: boolean = true;
+
+  constructor(props: ContentsProps) {
+    super(props);
+    this.handleLoad = this.handleLoad.bind(this);
+  }
+
+
+  componentDidMount() {
+    window.addEventListener('load', this.handleLoad);
+  }
+
+  componentWillUnmount() { 
+    window.removeEventListener('load', this.handleLoad)  
+  }
+
+  handleLoad() {
+    this.props.onSidePanelFileSelect();
+  }
+
   render(): JSX.Element {
     const {
       appBase,
@@ -88,8 +112,10 @@ class Contents extends React.PureComponent<ContentsProps, IContentsState> {
       headerData,
       loading,
       onHeaderEditorChange,
+      onSidePanelFileSelect,
       saving,
-      showHeaderEditor
+      showHeaderEditor,
+      viewerContents
     } = this.props;
 
     switch (contentType) {
@@ -108,21 +134,42 @@ class Contents extends React.PureComponent<ContentsProps, IContentsState> {
                 loading={loading}
                 saving={saving}
               >
-                {contentType === "notebook" ? (
-                  <React.Fragment>
-                    <NotebookMenu contentRef={contentRef} />
-                    {showHeaderEditor ? (
-                      <HeaderEditor
-                        editable
-                        contentRef={contentRef}
-                        headerData={headerData}
-                        onChange={onHeaderEditorChange}
-                      />
+                <div style={{ display: 'flex' }}>
+                  <div style={{ flex: 1 }}>
+                    {contentType === "notebook" ? (
+                      <React.Fragment>
+                        <NotebookMenu contentRef={contentRef} />
+                        {showHeaderEditor ? (
+                          <HeaderEditor
+                            editable
+                            contentRef={contentRef}
+                            headerData={headerData}
+                            onChange={onHeaderEditorChange}
+                          />
+                        ) : null}
+                      </React.Fragment>
                     ) : null}
-                  </React.Fragment>
-                ) : null}
+                    <File contentRef={contentRef} appBase={appBase} />
+                  </div>
+                  <div style={{ minWidth: '40%', borderLeft: '3px solid #22a6f1' }}>
+                    <MonacoEditor
+                      id="code-results-display-pane"
+                      contentRef='e169379a-32ce-452d-b821-f76f8d61dd2d'
+                      theme="vscode"
+                      options={{
+                        lineNumbers: true,
+                        automaticLayout:true,
+                        fixedOverflowWidgets:true,
+                        scrollbar: {
+                          alwaysConsumeMouseWheel: false
+                        }
+                      }}
+                      language="java"
+                      value={viewerContents}
+                    />
+                  </div>
+                </div>
               </FileHeader>
-              <File contentRef={contentRef} appBase={appBase} />
             </HotKeys>
           </React.Fragment>
         );
@@ -158,6 +205,16 @@ const makeMapStateToProps: any = (
 
   const mapStateToProps = (state: AppState): Partial<ContentsProps> => {
     const contentRef: ContentRef = initialProps.contentRef;
+    
+    let viewerContents = '';
+
+    let temp = selectors.content(
+      state, { contentRef: 'e169379a-32ce-452d-b821-f76f8d61dd2d' }
+    );
+
+    if (temp && temp.model && temp.model.text) {
+      viewerContents = temp.model.text;
+    }
 
     if (!contentRef) {
       throw new Error("cant display without a contentRef");
@@ -203,6 +260,7 @@ const makeMapStateToProps: any = (
       });
     }
 
+
     return {
       appBase,
       baseDir: dirname(content.filepath),
@@ -216,7 +274,8 @@ const makeMapStateToProps: any = (
       loading: content.loading,
       mimetype: content.mimetype,
       saving: content.saving,
-      showHeaderEditor
+      showHeaderEditor,
+      viewerContents
     };
   };
 
@@ -229,12 +288,24 @@ const mapDispatchToProps = (
 ): object => {
   const { appBase, contentRef } = ownProps;
 
+
+
   return {
     onHeaderEditorChange: (props: HeaderDataProps) => {
       return dispatch(
         actions.overwriteMetadataFields({
           ...props,
           contentRef: ownProps.contentRef
+        })
+      );
+    },
+    onSidePanelFileSelect: () => {
+      return dispatch(
+        actions.fetchContent({
+          filepath: 'raw-files/999990533647395383.txt',
+          params: {},
+          kernelRef: createKernelRef(),
+          contentRef: 'e169379a-32ce-452d-b821-f76f8d61dd2d'
         })
       );
     },
@@ -270,8 +341,8 @@ const mapDispatchToProps = (
           event.key === "r"
             ? "None"
             : event.key === "a"
-            ? "Run All"
-            : "Clear All";
+              ? "Run All"
+              : "Clear All";
         return dispatch(actions.restartKernel({ outputHandling, contentRef }));
       },
       SAVE: () => dispatch(actions.save({ contentRef }))

@@ -46,28 +46,28 @@ class Notebook extends React.PureComponent<Props, State> {
       this.props.addTransform(module.default);
     });
 
-    import(
-      /* webpackChunkName: "jupyter-widgets" */ "@nteract/jupyter-widgets"
-    ).then(module => {
-      this.props.addTransform(module.default);
-    });
+    // import(
+    //   /* webpackChunkName: "jupyter-widgets" */ "@nteract/jupyter-widgets"
+    // ).then(module => {
+    //   this.props.addTransform(module.default);
+    // });
 
     import("@nteract/transform-model-debug").then(module => {
       this.props.addTransform(module.default);
     });
 
-    import(
-      /* webpackChunkName: "vega-transform" */ "@nteract/transform-vega"
-    ).then(module => {
-      this.props.addTransform(module.VegaLite1);
-      this.props.addTransform(module.VegaLite2);
-      this.props.addTransform(module.VegaLite3);
-      this.props.addTransform(module.VegaLite4);
-      this.props.addTransform(module.Vega2);
-      this.props.addTransform(module.Vega3);
-      this.props.addTransform(module.Vega4);
-      this.props.addTransform(module.Vega5);
-    });
+    // import(
+    //   /* webpackChunkName: "vega-transform" */ "@nteract/transform-vega"
+    // ).then(module => {
+    //   this.props.addTransform(module.VegaLite1);
+    //   this.props.addTransform(module.VegaLite2);
+    //   this.props.addTransform(module.VegaLite3);
+    //   this.props.addTransform(module.VegaLite4);
+    //   this.props.addTransform(module.Vega2);
+    //   this.props.addTransform(module.Vega3);
+    //   this.props.addTransform(module.Vega4);
+    //   this.props.addTransform(module.Vega5);
+    // });
 
     // TODO: The geojson transform will likely need some work because of the basemap URL(s)
     // import GeoJSONTransform from "@nteract/transform-geojson";
