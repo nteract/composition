@@ -10,7 +10,6 @@ jobs:
           node-version: '14'
       - run: yarn
       - run: yarn build
-      - run: yarn test
       - name: Release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
