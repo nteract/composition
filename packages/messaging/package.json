@@ -8,7 +8,7 @@
   "scripts": {
     "release": "semantic-release -e semantic-release-monorepo"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/messaging",
+  
   "dependencies": {
     "@nteract/types": "^7.1.8",
     "@types/uuid": "^8.0.0",

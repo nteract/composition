@@ -3,7 +3,7 @@
   "version": "0.29.0",
   "description": "Interactive literate coding notebook!",
   "main": "./lib/webpacked-main.js",
-  "repository": "nteract/nteract",
+  
   "keywords": [
     "jupyter",
     "electron",

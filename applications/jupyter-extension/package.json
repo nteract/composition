@@ -13,7 +13,7 @@
     "dry-run": true
   },
   "private": true,
-  "repository": "https://github.com/nteract/nteract/tree/master/applications/jupyter-extension",
+  
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }

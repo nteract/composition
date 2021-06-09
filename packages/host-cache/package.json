@@ -8,7 +8,7 @@
   "scripts": {
     "release": "semantic-release -e semantic-release-monorepo"
   },
-  "repository": "https://github.com/nteract/nteract/tree/master/packages/host-cache",
+  
   "keywords": [
     "mybinder",
     "notebooks",
