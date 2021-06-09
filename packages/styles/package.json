@@ -17,7 +17,9 @@
     "command-palette.css",
     "toolbar.css"
   ],
-  "scripts": {},
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo"
+  },
   "publishConfig": {
     "access": "public"
   },

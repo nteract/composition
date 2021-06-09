@@ -5,7 +5,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
-  "scripts": {},
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo"
+  },
   "repository": "https://github.com/nteract/nteract/tree/master/packages/mythic-windowing",
   "keywords": [
     "nteract"

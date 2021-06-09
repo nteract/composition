@@ -7,6 +7,9 @@
     "react",
     "nteract"
   ],
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo"
+  },
   "author": "Safia Abdalla <safia@microsoft.com>",
   "homepage": "https://github.com/nteract/nteract/tree/master/packages/stateful-components#readme",
   "license": "BSD-3-Clause",

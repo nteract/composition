@@ -5,7 +5,9 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
-  "scripts": {},
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo"
+  },
   "dependencies": {
     "@blueprintjs/core": "^3.7.0",
     "@blueprintjs/select": "^3.2.0",

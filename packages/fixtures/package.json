@@ -4,7 +4,9 @@
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "scripts": {},
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo"
+  },
   "keywords": [],
   "author": "Safia Abdalla <safia@safia.rocks>",
   "license": "BSD-3-Clause",
