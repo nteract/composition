@@ -35,5 +35,16 @@
     "color-space": "^1.16.0",
     "css": "^3.0.0",
     "styled-components": "^5.0.1"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }

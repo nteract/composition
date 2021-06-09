@@ -44,5 +44,16 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "@types/react-helmet": "^5.0.8"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }

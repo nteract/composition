@@ -15,5 +15,16 @@
     "@nteract/commutable": "^7.4.4",
     "@nteract/reducers": "^5.1.8",
     "@nteract/types": "^7.1.8"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }

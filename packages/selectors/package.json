@@ -17,5 +17,16 @@
     "immutable": "^4.0.0-rc.12",
     "reselect": "^4.0.0",
     "rx-jupyter": "^5.5.20"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }

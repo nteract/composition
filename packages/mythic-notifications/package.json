@@ -27,5 +27,16 @@
     "styled-components": ">= 5.0.1"
   },
   "author": "nteract contributers",
-  "license": "BSD-3-Clause"
+  "license": "BSD-3-Clause",
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
+  }
 }

@@ -44,5 +44,16 @@
     "redux-observable": "^2.0.0-alpha.0",
     "rx-jupyter": "^5.5.20",
     "rxjs": "^6.3.3"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }

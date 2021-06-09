@@ -26,5 +26,16 @@
     "rx-binder": "^4.0.14",
     "rx-jupyter": "^5.5.20",
     "rxjs": "^6.3.3"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }

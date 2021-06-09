@@ -24,5 +24,16 @@
   "bugs": {
     "url": "https://github.com/nteract/nteract/issues"
   },
-  "homepage": "https://github.com/nteract/nteract#readme"
+  "homepage": "https://github.com/nteract/nteract#readme",
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
+  }
 }

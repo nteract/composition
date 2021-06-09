@@ -23,5 +23,16 @@
   },
   "devDependencies": {
     "@types/uuid": "^8.0.0"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }

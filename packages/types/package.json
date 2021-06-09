@@ -17,5 +17,16 @@
     "immutable": "^4.0.0-rc.12",
     "rxjs": "^6.6.0",
     "uuid": "^8.0.0"
+  },
+  "release": {
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/npm"
+    ]
   }
 }
