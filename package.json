@@ -71,7 +71,8 @@
     "report:desktop": "tsc -b applications/desktop",
     "release": "lerna run release",
     "clean": "lerna clean --yes && npm run build:clean && rimraf node_modules",
-    "lint:jupyterExtension": "cd ./applications/jupyter-extension && black --config ./pyproject.toml --check ."
+    "lint:jupyterExtension": "cd ./applications/jupyter-extension && black --config ./pyproject.toml --check .",
+    "prepare": "husky install"
   },
   "comment:jest": [
     "The types in our tests don't match up right yet, so we have",
@@ -144,7 +145,8 @@
     ],
     "*.json,!package.json": [
       "prettier --write"
-    ]
+    ],
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
   },
   "private": true,
   "devDependencies": {
@@ -278,11 +280,6 @@
     "nohoist": [
       "**/nteract/**"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "dependencies": {}
 }
