@@ -7,6 +7,38 @@ import { ContentRef } from "@nteract/core";
 import { DocumentUri } from "./documentUri";
 import debounce from "lodash.debounce";
 
+interface ISize {
+  width: number;
+  height: number;
+}
+
+const editorsToLayout = new Map<monaco.editor.IEditor,ISize>();
+let layoutTimer: ReturnType<typeof requestAnimationFrame> | null = null;
+
+/**
+ * We need to call layout() on any editors that might have changed size otherwise the view will look off.
+ * These updates often happen together with other editors, such as when the window resizes.
+ * In order to avoid layout thrashing, we batch these layout calls together and perform them all at once in a RAF timeout.
+ */
+function scheduleEditorForLayout(editor: monaco.editor.IEditor, size: ISize) {
+  editorsToLayout.set(editor, size);
+  if (!layoutTimer) {
+    // Using RAF here ensures that the layout will happen on the next frame.
+    layoutTimer = requestAnimationFrame(() => {
+      layoutTimer = null;
+      editorsToLayout.forEach((s, ed) => { ed.layout(s);});
+      editorsToLayout.clear();
+    });
+  }
+}
+
+/**
+ * Unschedule an editor
+ */
+function unscheduleEditorForLayout(editor: monaco.editor.IEditor) {
+  editorsToLayout.delete(editor);
+}
+
 
 export type IModelContentChangedEvent = monaco.editor.IModelContentChangedEvent;
 
@@ -93,7 +125,7 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
 
   editor?: monaco.editor.IStandaloneCodeEditor;
   editorContainerRef = React.createRef<HTMLDivElement>();
-  contentHeight?: number;
+  contentSize: ISize = {width:0, height:0};
   private cursorPositionListener?: monaco.IDisposable;
 
   private blurEditorWidgetListener?: monaco.IDisposable;
@@ -136,16 +168,23 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
       // Retrieve content height directly from the editor if no height provided as param
       height = this.editor.getContentHeight();
     }
-    if (this.editorContainerRef && this.editorContainerRef.current && (this.contentHeight !== height)) {
-      this.editorContainerRef.current.style.height = height + "px";
-      /**
-       * With no params, the layout method queries the DOM to get the parent container dimensions
-       * This causes a forced layout by the browser
-       * We pass in the expected width and height to as an optimization to avoid the forced layout
-       */
-      this.editor.layout({ width: this.editor.getLayoutInfo().width, height });
-      this.contentHeight = height;
+
+    if (this.editorContainerRef && this.editorContainerRef.current){
+      const clientWidth = this.editorContainerRef.current.clientWidth;
+      if(this.contentSize.height !== height || this.contentSize.width!==clientWidth) {
+        this.updateEditorLayout(clientWidth, height);
+      }
     }
+  }
+
+  updateEditorLayout(width:number, height:number){
+    if(!this.editor){
+      return;
+    }
+
+    this.contentSize.height=height;
+    this.contentSize.width=width;
+    scheduleEditorForLayout(this.editor, this.contentSize);
   }
 
   componentDidMount() {
@@ -292,9 +331,11 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
    * Tells editor to check the surrounding container size and resize itself appropriately
    */
   resize() {
-    // We call layout only for the focussed editor and resize other instances using CSS
-    if (this.editor && this.props.editorFocused) {
-      this.editor.layout();
+    // We call layout only if the container is not hidden (e.g. if the notebook tab is not active)
+    // offsetHeight is used here to determine visibility (see https://davidwalsh.name/offsetheight-visibility)
+    if (this.editor && this.editorContainerRef.current?.offsetHeight) {
+      const { clientWidth, clientHeight } = this.editorContainerRef.current;
+      this.updateEditorLayout(clientWidth, clientHeight);
     }
   }
 
@@ -385,7 +426,7 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
     }
 
     // Tells the editor pane to check if its container has changed size and fill appropriately
-    this.editor.layout();
+    this.calculateHeight();
   }
 
   componentWillUnmount() {
@@ -398,6 +439,7 @@ export default class MonacoEditor extends React.Component<IMonacoProps> {
           model.dispose();
         }
 
+        unscheduleEditorForLayout(this.editor);
         this.editor.dispose();
       } catch (err) {
         // tslint:disable-next-line
