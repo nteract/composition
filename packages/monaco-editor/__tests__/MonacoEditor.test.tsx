@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Monaco from "monaco-editor";
-import { default as MonacoEditor } from "../src/MonacoEditor";
+import { default as MonacoEditor, waitForLayoutsDone } from "../src/MonacoEditor";
 import { mount } from "enzyme";
 
 // Common Props required to instantiate MonacoEditor View, shared by all tests.
@@ -313,7 +313,7 @@ describe("MonacoEditor resize handler when window size changes", () => {
     resizeHandlerSpy.mockRestore();
   });
 
-  it("Resize handler should trigger an editor.layout call for a focused editor", () => {
+  it("Resize handler should trigger an editor.layout call for a focused editor", async () => {
     // Create a new editor instance with the mock layout
     const mockEditorLayout = jest.fn();
     const newMockEditor = {...mockEditor};
@@ -333,7 +333,8 @@ describe("MonacoEditor resize handler when window size changes", () => {
     );
     (window as any).innerWidth = 500;
     window.dispatchEvent(new Event('resize'));
-
+    
+    await waitForLayoutsDone();
     expect(resizeHandlerSpy).toHaveBeenCalledTimes(1);
     expect(mockEditorLayout).toHaveBeenCalledTimes(1);
 

@@ -6,6 +6,8 @@ import { completionProvider } from "./completions/completionItemProvider";
 import { ContentRef } from "@nteract/core";
 import { DocumentUri } from "./documentUri";
 import debounce from "lodash.debounce";
+import { Subject } from "rxjs";
+import { take } from "rxjs/operators";
 
 interface ISize {
   width: number;
@@ -14,6 +16,20 @@ interface ISize {
 
 const editorsToLayout = new Map<monaco.editor.IEditor,ISize>();
 let layoutTimer: ReturnType<typeof requestAnimationFrame> | null = null;
+
+let layouting$ = new Subject<void>();
+
+/**
+ * Wait for editors done their layouts
+ */
+export function waitForLayoutsDone(){
+  if(editorsToLayout.size===0){
+    return Promise.resolve();
+  }
+  else{
+    return layouting$.pipe(take(1)).toPromise();
+  }
+}
 
 /**
  * We need to call layout() on any editors that might have changed size otherwise the view will look off.
@@ -28,6 +44,7 @@ function scheduleEditorForLayout(editor: monaco.editor.IEditor, size: ISize) {
       layoutTimer = null;
       editorsToLayout.forEach((s, ed) => { ed.layout(s);});
       editorsToLayout.clear();
+      layouting$.next();
     });
   }
 }
