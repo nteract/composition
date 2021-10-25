@@ -3,6 +3,11 @@
   "version": "7.0.20",
   "description": "Messaging mechanics for nteract apps (jupyter spec)",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/messaging"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
   "scripts": {

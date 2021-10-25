@@ -3,6 +3,11 @@
   "version": "7.1.9",
   "description": "A collection of type definitions used within core nteract packages",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/types"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
   "scripts": {

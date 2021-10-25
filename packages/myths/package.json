@@ -3,6 +3,11 @@
   "version": "0.2.13",
   "description": "A redux-observable framework for better locality of dependencies",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/myths"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
   "scripts": {

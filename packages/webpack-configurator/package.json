@@ -3,6 +3,11 @@
   "version": "3.2.0",
   "main": "index.js",
   "description": "a common webpack configurator for nteract applications",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/webpack-configurator"
+  },
   "files": [
     "*.js"
   ],

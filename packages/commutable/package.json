@@ -3,6 +3,11 @@
   "version": "7.4.6",
   "description": "library for immutable notebook operations",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/commutable"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
   "scripts": {

@@ -3,6 +3,11 @@
   "version": "3.1.9",
   "description": "A colletion of state selectors",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/selectors"
+  },
   "types": "lib/index.d.ts",
   "scripts": {
     "release": "semantic-release -e semantic-release-monorepo --tag-format='@nteract/selectors@${version}'"

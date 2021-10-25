@@ -3,6 +3,11 @@
   "version": "10.1.12",
   "description": "The editor that lives inside cells in nteract",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/editor"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.tsx",
   "scripts": {

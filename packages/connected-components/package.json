@@ -3,6 +3,11 @@
   "version": "6.8.12",
   "description": "Connected components exported from @nteract/core",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/connected-components"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.tsx",
   "scripts": {
