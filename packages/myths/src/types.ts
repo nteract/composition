@@ -66,7 +66,7 @@ export interface Myth<
   createConnectedComponent: <COMPONENT_NAME extends string, COMPONENT_PROPS>(
     componentName: COMPONENT_NAME,
     cls: ComponentClass<ConnectedComponentProps<NAME, PROPS, COMPONENT_PROPS>>,
-    makeState?: (state: any) => Partial<COMPONENT_PROPS>,
+    makeState?: (state: any, props: COMPONENT_PROPS) => Partial<COMPONENT_PROPS>,
   ) => ConnectedComponent<ComponentClass<COMPONENT_PROPS>, COMPONENT_PROPS>;
 }
 

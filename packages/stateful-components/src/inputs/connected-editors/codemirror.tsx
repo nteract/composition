@@ -1,6 +1,7 @@
-import { AppState, ContentRef, selectors, actions } from "@nteract/core";
+import { AppState, actions } from "@nteract/core";
 import CodeMirrorEditor from "@nteract/editor";
 import { createConfigCollection, createDeprecatedConfigOption, defineConfigOption, HasPrivateConfigurationState } from "@nteract/mythic-configuration";
+import { CellAddress, HasPrivateLanguageInfoState, lineWrappingOfCell, modeOfCell } from "@nteract/mythic-notebook";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -76,101 +77,32 @@ defineConfigOption({
   defaultValue: false,
 });
 
-const markdownMode = {
-  name: "gfm",
-  tokenTypeOverrides: {
-    emoji: "emoji",
-  },
-};
-
-const rawMode = {
-  name: "text/plain",
-  tokenTypeOverrides: {
-    emoji: "emoji",
-  },
-};
-
-interface ComponentProps {
-  id: string;
-  contentRef: ContentRef;
-  editorType: string;
-}
-
-interface DispatchProps {
-  focusAbove: () => void;
-  focusBelow: () => void;
-}
-
-const makeMapStateToProps = (state: AppState & HasPrivateConfigurationState, ownProps: ComponentProps) => {
-  const { id, contentRef } = ownProps;
-  const mapStateToProps = (state: AppState & HasPrivateConfigurationState) => {
-    let mode = rawMode;
-    let lineWrapping = true;
-
-    const model = selectors.model(state, { contentRef });
-    const kernel = selectors.kernelByContentRef(state, { contentRef });
-
-    if (model && model.type === "notebook") {
-      const cell = selectors.notebook.cellById(model, { id });
-      if (cell) {
-        switch (cell.cell_type) {
-          case "markdown":
-            mode = markdownMode;
-            break;
-          case "code":
-            lineWrapping = false;
-            mode =
-              kernel?.info?.codemirrorMode ||
-              selectors.notebook.codeMirrorMode(model);
-            break;
-          default:
-            mode = rawMode;
-            break;
-        }
-      }
-    }
-
-    // FIXME: The type for mode is wrong; it can also be a string or a Map at
-    //        this point! Hence:
-    // tslint:disable-next-line:strict-type-predicates
-    mode = typeof mode === "object" && "toJS" in mode
-      ? (mode as any).toJS()
-      : mode;
-
-    const codeMirror = {
-      mode,
-      ...codeMirrorConfig(state as any),
-    };
-
-    return {
-      mode,
-      codeMirror,
-      lineWrapping,
-      tip: true,
-      completion: true,
-    };
-  };
-  return mapStateToProps;
-};
-
-export const makeMapDispatchToProps = (
-  initialDispatch: Dispatch,
-  ownProps: ComponentProps
-) => {
-  const { id, contentRef } = ownProps;
-  const mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-      focusBelow: () => {
-        dispatch(actions.focusNextCell({ id, contentRef, createCellIfUndefined: true }));
-        dispatch(actions.focusNextCellEditor({ id, contentRef }));
+const makeMapStateToProps = (state: AppState & HasPrivateConfigurationState & HasPrivateLanguageInfoState, cell: CellAddress) =>
+  (state: AppState & HasPrivateConfigurationState & HasPrivateLanguageInfoState) => ({
+    codeMirror: {
+      mode: {
+        name: modeOfCell(state, cell, "codemirror") ?? "null",
+        tokenTypeOverrides: {
+          emoji: "emoji",
+        },
       },
-      focusAbove: () => {
-        dispatch(actions.focusPreviousCell({ id, contentRef }));
-        dispatch(actions.focusPreviousCellEditor({ id, contentRef }));
-      }
+      ...codeMirrorConfig(state),
+    },
+    lineWrapping: lineWrappingOfCell(state, cell) ?? true,
+    tip: true,
+    completion: true,
+  });
+
+const makeMapDispatchToProps = (initialDispatch: Dispatch, cell: CellAddress) =>
+  (dispatch: Dispatch) => ({
+    focusBelow: () => {
+      dispatch(actions.focusNextCell({ ...cell, createCellIfUndefined: true }));
+      dispatch(actions.focusNextCellEditor(cell));
+    },
+    focusAbove: () => {
+      dispatch(actions.focusPreviousCell(cell));
+      dispatch(actions.focusPreviousCellEditor(cell));
     }
-  };
-  return mapDispatchToProps;
-};
+  });
 
 export default connect(makeMapStateToProps, makeMapDispatchToProps)(CodeMirrorEditor);

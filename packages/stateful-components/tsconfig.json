@@ -10,6 +10,7 @@
     { "path": "../commutable" },
     { "path": "../messaging" },
     { "path": "../mythic-configuration" },
+    { "path": "../mythic-notebook" },
     { "path": "../selectors" },
     { "path": "../types" },
     { "path": "../rx-jupyter" }

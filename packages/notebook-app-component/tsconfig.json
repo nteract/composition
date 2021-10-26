@@ -11,6 +11,7 @@
     { "path": "../core" },
     { "path": "../editor" },
     { "path": "../mythic-configuration" },
+    { "path": "../mythic-notebook" },
     { "path": "../mythic-notifications" },
     { "path": "../presentational-components" },
     { "path": "../stateful-components" },

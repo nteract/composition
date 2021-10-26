@@ -65,11 +65,8 @@ const byRef = (state = Map(), action: Action): Map<unknown, unknown> => {
       );
     case actionTypes.SET_KERNEL_INFO:
       typedAction = action as actionTypes.SetKernelInfo;
-      let codemirrorMode = typedAction.payload.info.codemirrorMode;
-      // If the codemirror mode isn't set, fallback on the language name
-      if (!codemirrorMode) {
-        codemirrorMode = typedAction.payload.info.languageName;
-      }
+      let codemirrorMode: any = typedAction.payload.info.codemirrorMode;
+      // If the codemirror mode isn't set, do not set a fallback to allow the editor to do language selection.
       switch (typeof codemirrorMode) {
         case "string":
           // already set as we want it
@@ -78,8 +75,8 @@ const byRef = (state = Map(), action: Action): Map<unknown, unknown> => {
           codemirrorMode = Map(codemirrorMode as JSONObject);
           break;
         default:
-          // any other case results in falling back to language name
-          codemirrorMode = typedAction.payload.info.languageName;
+          // any other case results in falling back to undefined
+          codemirrorMode = undefined;
       }
 
       const helpLinks = typedAction.payload.info.helpLinks

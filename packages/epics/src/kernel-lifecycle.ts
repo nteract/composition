@@ -130,14 +130,9 @@ export function acquireKernelInfo(
         ];
       } else {
         result = [
-          // The original action we were using
-          actions.setLanguageInfo({
-            langInfo: msg.content.language_info,
-            kernelRef,
-            contentRef
-          }),
           actions.setKernelInfo({
             kernelRef,
+            contentRef,
             info
           }),
           actions.setExecutionState({ kernelStatus: KernelStatus.Launched, kernelRef })

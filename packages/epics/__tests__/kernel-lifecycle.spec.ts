@@ -131,24 +131,9 @@ describe("acquireKernelInfo", () => {
 
     expect(actions).toEqual([
       {
-        payload: {
-          contentRef: "fakeContentRef",
-          kernelRef: "fakeKernelRef",
-          langInfo: {
-            name: "python",
-            version: "3.6.5",
-            mimetype: "text/x-python",
-            codemirror_mode: { name: "ipython", version: 3 },
-            pygments_lexer: "ipython3",
-            nbconvert_exporter: "python",
-            file_extension: ".py"
-          }
-        },
-        type: "SET_LANGUAGE_INFO"
-      },
-      {
         type: "CORE/SET_KERNEL_INFO",
         payload: {
+          contentRef: "fakeContentRef",
           info: {
             protocolVersion: "5.1",
             implementation: "ipython",
@@ -317,24 +302,9 @@ describe("acquireKernelInfo", () => {
 
     expect(actions).toEqual([
       {
-        payload: {
-          contentRef: "fakeContentRef",
-          kernelRef: "fakeKernelRef",
-          langInfo: {
-            name: "python",
-            version: "3.6.5",
-            mimetype: "text/x-python",
-            codemirror_mode: { name: "ipython", version: 3 },
-            pygments_lexer: "ipython3",
-            nbconvert_exporter: "python",
-            file_extension: ".py"
-          }
-        },
-        type: "SET_LANGUAGE_INFO"
-      },
-      {
         type: "CORE/SET_KERNEL_INFO",
         payload: {
+          contentRef: "fakeContentRef",
           info: {
             protocolVersion: "5.1",
             implementation: "ipython",

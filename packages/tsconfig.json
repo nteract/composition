@@ -12,6 +12,7 @@
     { "path": "messaging" },
     { "path": "monaco-editor" },
     { "path": "mythic-configuration" },
+    { "path": "mythic-notebook" },
     { "path": "mythic-notifications" },
     { "path": "mythic-rtc" },
     { "path": "mythic-windowing" },

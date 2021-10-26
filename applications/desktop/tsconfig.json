@@ -9,6 +9,7 @@
     { "path": "../../packages/types" },
     { "path": "../../packages/editor" },
     { "path": "../../packages/mythic-configuration" },
+    { "path": "../../packages/mythic-notebook" },
     { "path": "../../packages/mythic-notifications" },
     { "path": "../../packages/mythic-windowing" },
     { "path": "../../packages/myths" },

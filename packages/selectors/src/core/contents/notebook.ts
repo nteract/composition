@@ -214,22 +214,6 @@ export const asString = createSelector(asJSON, notebookJS => {
   return "";
 });
 
-const CODE_MIRROR_MODE_DEFAULT = "text";
-
-/**
- * Returns the CodeMirror mode of the current notebook. This value can be used
- * to initialize the `mode` option in CodeMirror. Returns `text` if no mode
- * is set.
- */
-export const codeMirrorMode = createSelector(
-  metadata,
-  metadata =>
-    metadata.getIn(["language_info", "codemirror_mode"]) ||
-    metadata.getIn(["kernel_info", "language"]) ||
-    metadata.getIn(["kernelspec", "language"]) ||
-    CODE_MIRROR_MODE_DEFAULT
-);
-
 /**
  * Returns the display name of the kernel the notebook is currently
  * running against.

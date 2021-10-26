@@ -3,30 +3,6 @@ import * as actionTypes from "../src";
 
 const actions = actionTypes;
 
-describe("setLanguageInfo", () => {
-  test("creates a SET_LANGUAGE_INFO action", () => {
-    const langInfo = {
-      codemirror_mode: { name: "ipython", version: 3 },
-      file_extension: ".py",
-      mimetype: "text/x-python",
-      name: "python",
-      nbconvert_exporter: "python",
-      pygments_lexer: "ipython3",
-      version: "3.5.1"
-    };
-
-    const kernelRef = createKernelRef();
-    const contentRef = createContentRef();
-
-    expect(
-      actions.setLanguageInfo({ langInfo, kernelRef, contentRef })
-    ).toEqual({
-      type: actionTypes.SET_LANGUAGE_INFO,
-      payload: { langInfo, kernelRef, contentRef }
-    });
-  });
-});
-
 describe("unhideAll", () => {
   test("allows being called with sets defaults for outputHidden and inputHidden", () => {
     const contentRef = createContentRef();

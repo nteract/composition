@@ -1,44 +1,29 @@
 {
-  "name": "@nteract/stateful-components",
-  "version": "1.7.14",
-  "description": "A collection of sub-components pre-connected to nteract's Redux state",
+  "name": "@nteract/mythic-notebook",
+  "version": "0.0.1",
+  "description": "Mythic model of an .ipynb notebook",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "nteractDesktop": "src/index.ts",
+  "scripts": {
+    "release": "semantic-release -e semantic-release-monorepo --tag-format='@nteract/mythic-notebook@${version}'"
+  },
   "keywords": [
-    "redux",
-    "react",
     "nteract"
   ],
-  "scripts": {
-    "release": "semantic-release -e semantic-release-monorepo --tag-format='@nteract/stateful-components@${version}'"
-  },
-  "author": "Safia Abdalla <safia@microsoft.com>",
-  "homepage": "https://github.com/nteract/nteract/tree/master/packages/stateful-components#readme",
-  "license": "BSD-3-Clause",
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/nteract/nteract.git"
-  },
-  "bugs": {
-    "url": "https://github.com/nteract/nteract/issues"
-  },
-  "dependencies": {
-    "@nteract/commutable": "^7.4.5",
-    "@nteract/core": "^15.1.9",
-    "@nteract/fixtures": "^2.3.19",
-    "@nteract/markdown": "^4.6.1",
-    "@nteract/mythic-configuration": "^1.0.11",
-    "@nteract/mythic-notebook": "^0.0.1",
-    "@nteract/outputs": "^3.0.11",
-    "@nteract/presentational-components": "^3.4.11",
-    "immutable": "^4.0.0-rc.12",
-    "redux": "^4.0.4"
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
-    "react-markdown": "^4.3.1"
+  },
+  "dependencies": {
+    "@nteract/core": "^15.1.9",
+    "@nteract/myths": "^0.2.11"
   },
   "peerDependencies": {
-    "react-redux": "^7.2.0"
   },
+  "author": "nteract contributers",
+  "license": "BSD-3-Clause",
   "release": {
     "plugins": [
       [

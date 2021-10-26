@@ -19,6 +19,7 @@
     "@nteract/dropdown-menu": "^1.1.9",
     "@nteract/editor": "^10.1.12",
     "@nteract/mythic-configuration": "^1.0.11",
+    "@nteract/mythic-notebook": "^0.0.1",
     "@nteract/mythic-notifications": "^0.2.11",
     "@nteract/octicons": "^2.0.0",
     "@nteract/outputs": "^3.0.11",

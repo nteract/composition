@@ -38,17 +38,8 @@ export interface Kernelspecs {
   [name: string]: KernelspecInfo;
 }
 
-export interface LanguageInfoMetadata {
-  name: string;
-  codemirror_mode?: string | Immutable.Map<string, any> | object;
-  file_extension?: string;
-  mimetype?: string;
-  pygments_lexer?: string;
-}
-
 export interface NotebookMetadata {
   kernelspec: KernelspecMetadata;
-  language_info: LanguageInfoMetadata;
   // NOTE: We're not currently using orig_nbformat in nteract. Based on the comment
   // in the schema, we won't:
   //

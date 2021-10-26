@@ -1,13 +1,6 @@
 import * as actions from "@nteract/actions";
-import {
-  createContentRef,
-  createKernelRef,
-  KernelsRecordProps,
-  KernelStatus,
-  makeKernelsRecord,
-  makeRemoteKernelRecord
-} from "@nteract/types";
-import Immutable from "immutable";
+import { createContentRef, createKernelRef, KernelsRecordProps, KernelStatus, makeKernelsRecord, makeRemoteKernelRecord } from "@nteract/types";
+import * as Immutable from "immutable";
 
 import { kernels } from "../../../src/core/entities/kernels";
 
@@ -28,6 +21,7 @@ describe("kernels reducers", () => {
     const originalState = makeKernelsRecord({
       byRef: Immutable.Map({})
     });
+    // @ts-ignore supposed to be wrong
     const action = actions.launchKernelSuccessful({
       kernel: {
         type: "not-expected"
@@ -51,60 +45,6 @@ describe("kernels reducers", () => {
     const state = kernels(originalState, action);
     expect(state.byRef.size).toBe(1);
     expect(state.byRef.getIn([kernelRef, "type"])).toBe("websocket");
-  });
-  test("SET_KERNEL_INFO uses languageName as backup for CodeMirror mode", () => {
-    const originalState = makeKernelsRecord({
-      byRef: Immutable.Map({})
-    });
-    const kernelRef = createKernelRef();
-    const info = {
-      languageName: "python"
-    };
-    const action = actions.setKernelInfo({
-      kernelRef,
-      info
-    });
-    const state = kernels(originalState, action);
-    expect(state.byRef.getIn([kernelRef, "info", "codemirrorMode"])).toBe(
-      "python"
-    );
-  });
-  test("SET_KERNEL_INFO handles string-based CodeMirror mode", () => {
-    const originalState = makeKernelsRecord({
-      byRef: Immutable.Map({})
-    });
-    const kernelRef = createKernelRef();
-    const info = {
-      codemirrorMode: "python"
-    };
-    const action = actions.setKernelInfo({
-      kernelRef,
-      info
-    });
-    const state = kernels(originalState, action);
-    expect(state.byRef.getIn([kernelRef, "info", "codemirrorMode"])).toBe(
-      "python"
-    );
-  });
-  test("SET_KERNEL_INFO handles object-based CodeMirror mode", () => {
-    const originalState = makeKernelsRecord({
-      byRef: Immutable.Map({})
-    });
-    const kernelRef = createKernelRef();
-    const info = {
-      codemirrorMode: {
-        name: "python",
-        mode: "ipython"
-      }
-    };
-    const action = actions.setKernelInfo({
-      kernelRef,
-      info
-    });
-    const state = kernels(originalState, action);
-    expect(
-      state.byRef.getIn([kernelRef, "info", "codemirrorMode"])
-    ).toStrictEqual(Immutable.Map(info.codemirrorMode));
   });
   test("KILL_KERNEL_SUCCESSFUL sets kernel state", () => {
     const kernelRef = createKernelRef();
@@ -154,7 +94,7 @@ describe("kernels reducers", () => {
     });
     const action = actions.launchKernelByName({
       kernelRef,
-      kernelSpecName: "python2"
+      kernelSpecName: "python2",
     });
     const state = kernels(originalState, action) as KernelsRecordProps;
     expect(state.byRef.getIn([kernelRef, "status"])).toBe(KernelStatus.Starting);

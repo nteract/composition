@@ -36,7 +36,7 @@ export type ImmutableNotebook = ImmutableRecord<NotebookRecordParams> &
 export const makeNotebookRecord = ImmutableRecord<NotebookRecordParams>({
   cellOrder: ImmutableList(),
   cellMap: ImmutableMap(),
-  nbformat_minor: 0,
+  nbformat_minor: 5,
   nbformat: 4,
   metadata: ImmutableMap()
 });

@@ -15,6 +15,7 @@ import {
   makeTransformsRecord,
   reducers,
 } from "@nteract/core";
+import { languageInfo } from "@nteract/mythic-notebook";
 import { notifications } from "@nteract/mythic-notifications";
 import { makeConfigureStore } from "@nteract/myths";
 import { Media } from "@nteract/outputs";
@@ -71,7 +72,7 @@ export const initialState = Record<AppState>({
 })();
 
 const configureStore = makeConfigureStore<AppState>()({
-  packages: [notifications],
+  packages: [notifications, languageInfo],
   reducers: {
     app: reducers.app,
     core: reducers.core as any,

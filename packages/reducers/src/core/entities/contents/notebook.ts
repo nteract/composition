@@ -692,14 +692,6 @@ function updateOutputMetadata(
   return state.setIn(["notebook", "cellMap", id, "outputs"], updatedOutputs);
 }
 
-function setLanguageInfo(
-  state: NotebookModel,
-  action: actionTypes.SetLanguageInfo
-): RecordOf<DocumentRecordProps> {
-  const langInfo = fromJS(action.payload.langInfo);
-  return state.setIn(["notebook", "metadata", "language_info"], langInfo);
-}
-
 function setKernelMetadata(
   state: NotebookModel,
   action: actionTypes.SetKernelMetadata
@@ -921,7 +913,6 @@ type DocumentAction =
   | actionTypes.ToggleCellInputVisibility
   | actionTypes.UpdateCellStatus
   | actionTypes.UpdateOutputMetadata
-  | actionTypes.SetLanguageInfo
   | actionTypes.SetKernelMetadata
   | actionTypes.OverwriteMetadataField
   | actionTypes.DeleteMetadataField
@@ -1000,8 +991,6 @@ export function notebook(
       return updateCellStatus(state, action);
     case actionTypes.UPDATE_OUTPUT_METADATA:
       return updateOutputMetadata(state, action);
-    case actionTypes.SET_LANGUAGE_INFO:
-      return setLanguageInfo(state, action);
     case actionTypes.SET_KERNEL_METADATA:
       return setKernelMetadata(state, action);
     case actionTypes.OVERWRITE_METADATA_FIELD:
