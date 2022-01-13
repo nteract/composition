@@ -457,6 +457,16 @@ Provide a bulleted list of new features or improvements and a reference to the P
 
 Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.
 
+### @nteract/web
+
+#### New Features
+
+- Move away from the local state to the global state
+
+#### Bug Fixes
+
+- File Explorer won't auto update the state now.
+
 ### @nteract/webpack-configurator ([publish-version-here])
 
 #### Breaking Changes

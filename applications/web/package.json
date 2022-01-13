@@ -2,7 +2,7 @@
   "name": "@nteract/web",
   "version": "1.4.1",
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 3000",
     "build": "next build",
     "start": "next start"
   },

@@ -1,8 +1,6 @@
 import { createWrapper } from "next-redux-wrapper";
 import App from "next/app";
 import React from "react";
-import { Provider } from "react-redux";
-import { Store } from "redux";
 import configureStore from "../redux/store";
 
 /**
@@ -26,27 +24,26 @@ import "@nteract/styles/editor-overrides.css";
 import "@nteract/styles/markdown/github.css";
 
 
-
-interface StoreProps {
-  store: Store;
-}
-
-class WebApp extends App<StoreProps> {
+// Application wrapper by nextjs
+class WebApp extends App {
+  // Set initial props  
   static async getInitialProps({ Component, ctx }) {
     const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {};
+      ? await Component.getInitialProps(ctx): {};
 
+    // Anything returned here can be access by the client
     return { pageProps };
   }
 
   render() {
-    const { Component, pageProps, store } = this.props;
+    const { Component, pageProps } = this.props;
     return (
       <Component {...pageProps} />);
   }
 }
 
+// wrapper with redux store
 const wrapper = createWrapper(configureStore, { debug: true });
 
+// Export app with wrapper
 export default wrapper.withRedux(WebApp);

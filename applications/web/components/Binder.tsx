@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dispatch } from "redux";
+import { getLanguage} from "../util/helpers"
 import { connect } from "react-redux";
 import {
   AppState,
@@ -61,12 +62,15 @@ const Binder = (props: Props) => {
       setContentRef(cr)
 
       // Get content from github
-      props.getContent(filepath).then(({ data }) => {
-        const content = atob(data['content'])
-        const notebook = createNotebookModel(filepath, content);
-        // Set content in store
-        props.fetchContentFulfilled(filepath, notebook, cr, kr);
-      })
+      let extension = filepath.split('.').pop()
+      if (getLanguage(extension) == "ipynb") {
+          props.getContent(filepath).then(({ data }) => {
+          const content = atob(data['content'])
+          const notebook = createNotebookModel(filepath, content);
+          // Set content in store
+          props.fetchContentFulfilled(filepath, notebook, cr, kr);
+        })
+      }
     } else {
       setContentRef(props.contentRef)
     }

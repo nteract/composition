@@ -1,35 +1,62 @@
-import React, { FC, HTMLAttributes, useState, useEffect } from "react";
+import React, { FC, HTMLAttributes, useEffect } from "react";
 import { WithRouterProps } from "next/dist/client/with-router";
 import { withRouter, useRouter, NextRouter } from "next/router";
 import { connect } from "react-redux";
 import { Octokit } from "@octokit/rest";
 import { formatDistanceToNow } from "date-fns";
-import { AppState } from "@nteract/core"
+import { State, GlobalRecord } from "../../redux/store"
 import dynamic from "next/dynamic";
 import Immutable from "immutable";
 // nteract
 import { contentByRef } from "@nteract/selectors";
 import { ContentRecord } from "@nteract/types";
 import { Host } from "@mybinder/host-cache";
-import { toJS, stringifyNotebook } from "@nteract/commutable";
+import { stringifyNotebook } from "@nteract/commutable";
 const CodeMirrorEditor = dynamic(() => import('@nteract/editor'), { ssr: false });
 
 // User defined
+import { 
+  toggleBinderMenu, 
+  toggleConsole, 
+  toggleSaveDialog,
+  setFilePath,
+  setFileContent,
+  setProvider,
+  setORG,
+  setRepo,
+  setGitRef,
+  setLang,
+  setCommitMessage,
+  toggleStripOutput,
+  resetFileBuffer,
+  updateFileBuffer,
+  setSavedTime,
+  appendConsoleLog,
+  appendNotificationLog,
+  shiftNotificationLog,
+  setServerStatus,
+  setHost,
+  updateLoggedIn,
+  updateUsername,
+  updateUserImage,
+  updateUserLink,
+
+} from "../../redux/actions"
 import { Menu, MenuItem } from '../../components/Menu'
 import { Button } from '../../components/Button'
 import { Console } from '../../components/Console'
 import { Notification } from '../../components/Notification'
-import { BinderMenu } from '../../components/BinderMenu'
-import { Avatar } from '../../components/Avatar'
+import BinderMenu from '../../components/BinderMenu'
+import Avatar from '../../components/Avatar'
 import { Input } from '../../components/Input'
 import { Dialog, Shadow, DialogRow, DialogFooter } from '../../components/Dialog';
-import { FilesListing } from "../../components/FilesListing"
+import FilesListing from "../../components/FilesListing"
 import { Layout, Header, Body, Side, Footer } from "../../components/Layout"
 import { H3, P } from "../../components/Basic"
 import NextHead from "../../components/Header";
-import { getLanguage, useInput, useCheckInput } from "../../util/helpers"
+import { getLanguage} from "../../util/helpers"
 import { uploadToRepo, checkFork, getContent } from "../../util/github"
-import { runIcon, saveIcon, menuIcon, githubIcon, consoleIcon, pythonIcon, serverIcon, commitIcon } from "../../util/icons"
+import { runIcon, saveIcon, menuIcon, consoleIcon, pythonIcon, serverIcon, commitIcon } from "../../util/icons"
 const Binder = dynamic(() => import("../../components/Binder"), {
   ssr: false
 });
@@ -37,76 +64,52 @@ const Binder = dynamic(() => import("../../components/Binder"), {
 const BINDER_URL = "https://mybinder.org";
 
 export interface ComponentProps extends HTMLAttributes<HTMLDivElement> {
-  router: NextRouter
+  router: NextRouter,
+  toggleBinderMenu: () => {},
+  toggleConsole: () => {},
+  toggleSaveDialog: () => {}
+  
+  setFilePath: (val:string) => {}
+  setFileContent: (val:string) => {}
+  setProvider: (val:string) => {}
+  setORG: (val:string) => {}
+  setRepo: (val:string) => {}
+  setGitRef: (val:string) => {}
+  setLang: (val:string) => {}
+  setCommitMessage: (val:string) => {}
+  toggleStripOutput: () => {}
+  resetFileBuffer: () => {}
+  updateFileBuffer: (content: string, file:string) => {}
+  setSavedTime: (val:object) => {}
+  appendConsoleLog: (val:object) => {}
+  appendNotificationLog: (val:object) => {}
+  shiftNotificationLog: () => {}
+  setServerStatus: (val:string) => {}
+  setHost: (obj:object) => {}
+  updateLoggedIn: (val: boolean) => {}
+  updateUsername: (val:string) => {}
+  updateUserImage: (val:string) => {}
+  updateUserLink: (val:string) => {}
+
+  contents: Immutable.Map<string, ContentRecord>,
+  globalState: GlobalRecord
+
 }
 
-export interface StateProps {
-  contents: Immutable.Map<string, ContentRecord>
-}
-
-type Props = ComponentProps & StateProps;
 
 /**************************
  Main Component
 **************************/
-export const Main: FC<WithRouterProps> = (props: Props) => {
+export const Main: FC<WithRouterProps> = (props: ComponentProps) => {
   const router = useRouter()
-  // Toggle Values
-  const [showBinderMenu, setShowBinderMenu] = useState(false)
-  const [showConsole, setShowConsole] = useState(false)
-  const [showSaveDialog, setShowSaveDialog] = useState(false)
-  // Git API Values
-  const [filePath, setFilepath] = useState(router.query.file as string)
-  const [fileContent, setFileContent] = useState("")
-  const [fileType, setFileType] = useState("")
-  const [provider, setProvider] = useState(router.query.vcs as string)
-  const [org, setOrg] = useState(router.query.org as string)
-  const [repo, setRepo] = useState(router.query.repo as string)
-  const [gitRef, setGitRef] = useState(router.query.ref as string)
-  // File info
-  const [lang, setLang] = useState("markdown")
-  // Commit Values
-  const commitMessage = useInput("Auto commit from nteract web")
-  // This should be a boolean value but as a string
-  const stripOutput = useCheckInput(false)
-  const [fileBuffer, setFileBuffer] = useState({})
-  const [savedTime, setSavedTime] = useState(new Date())
-
-  // Console
-  const [consoleLog, setConsoleLog] = useState([])
-  const [notificationLog, setNotificationLog] = useState([])
-  // Server
-  const [serverStatus, setServerStatus] = useState("Launching...")
-  const [host, setHost] = useState()
-
-  // Login Values
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [username, setUsername] = useState("")
-  const [userImage, setUserImage] = useState("")
-  const [userLink, setUserLink] = useState("")
-
-
   /***************************************
     Notification and Console functions
   ****************************************/
-  // Function to add logs to notification
-  const addToNotification = (log) => {
-    let newNotificationLog = [...notificationLog]
-    newNotificationLog.push(log)
-    setNotificationLog(newNotificationLog)
-  }
-
-  // Function to add logs to console
-  const addToConsole = (log) => {
-    let newConsoleLog = [...consoleLog]
-    newConsoleLog.push(log)
-    setConsoleLog(newConsoleLog)
-  }
 
   // Function to add logs to both notification and console
   const addLog = (log) => {
-    addToConsole(log)
-    addToNotification(log)
+    props.appendConsoleLog(log)
+    props.appendNotificationLog(log)
   }
 
   /******************
@@ -114,25 +117,37 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
    *****************/
 
   useEffect(() => {
-    // To check if Github token exist, if yes, get user details
-    // Check if username is empty because we need to
-    // get username only if it's not defined.
-    if (localStorage.getItem("token") != undefined && username === "") {
-        getGithubUserDetails()
+    if (router.query.org != undefined ){
+    props.setORG(router.query.org as string)
     }
-  }, [username])
+
+    if (router.query.repo != undefined ){
+    props.setRepo(router.query.repo as string)
+    }
+
+
+    if (router.query.ref != undefined ){
+    props.setGitRef(router.query.ref as string)
+    }
+
+    if (router.query.vcs != undefined ){
+    props.setProvider(router.query.vcs as string)
+    }
+    
+  }, [props.globalState.provider])
+
 
   // To update file when filePath is updated
   // Also makes sure that filepath is not undefined
   // If it is undefined or empty, don't load the file
   // and set filePath to empty and not undefined
   useEffect(() => {
-    if (router.query.file != undefined && filePath != "") {
-      loadFile(filePath)
+    if (router.query.file != undefined && props.globalState.filePath != "") {
+      loadFile(props.globalState.filePath)
     } else {
-      setFilepath("")
+      props.setFilePath("")
     }
-  }, [filePath])
+  }, [props.globalState.filePath])
 
   // Remove notification after 3 seconds
   // We are removing the first element only, because
@@ -140,38 +155,27 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
   // been removed by now
   useEffect(() => {
     const timer = setTimeout(() => {
-      let newNotificationLog = [...notificationLog]
-      newNotificationLog.shift()
-      setNotificationLog(newNotificationLog)
+      props.shiftNotificationLog()
     }, 3000);
     return () => clearTimeout(timer)
-  }, [notificationLog])
+  }, [props.globalState.notificationLog])
 
   // When use update the binder menu, we also need to update the route and url
   useEffect(() => {
-    router.push(`/p?vcs=${provider}&org=${org}&repo=${repo}&ref=${gitRef}&file=${filePath}`, undefined, { shallow: true })
+    router.push(`/p?vcs=${props.globalState.provider}&org=${props.globalState.org}&repo=${props.globalState.repo}&ref=${props.globalState.gitRef}&file=${props.globalState.filePath}`, undefined, { shallow: true })
 
-  }, [provider, org, repo, gitRef, filePath])
+  }, [props.globalState.provider, props.globalState.org, props.globalState.repo, props.globalState.gitRef, props.globalState.filePath])
 
   /*************************************************
     Other functions
   ************************************************/
-  function addBuffer(e, filePath) {
-    const newFileBuffer = fileBuffer
-    newFileBuffer[filePath] = e
-    setFileBuffer(newFileBuffer)
-  }
-
-  function toggle(value, setFunction) {
-    setFunction(!value)
-  }
 
   function run() {
     console.log("run binder here")
   }
 
   function showSave() {
-    toggle(showSaveDialog, setShowSaveDialog)
+    props.toggleSaveDialog()
   }
 
 
@@ -179,15 +183,20 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
   // To save/upload data to github
   const onSave = async (event) => {
     event.preventDefault()
+    addLog({
+          type: "success",
+          message: "Initiating save..."
+    })
+    props.toggleSaveDialog()
 
     props.contents.map(x => {
       const content = stringifyNotebook(x.model.get("notebook", undefined))
-      addBuffer(content, x.filepath)
+      props.updateFileBuffer(content, x.filepath)
     }
     )
 
     // Step 1: Check if buffer is empty
-    if (Object.keys(fileBuffer).length == 0) {
+    if (Object.keys(props.globalState.fileBuffer).length == 0) {
       addLog({
         type: "failure",
         message: "Can't save changes, no file updated"
@@ -202,21 +211,21 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
     })
 
     // Step 3: Find fork or handle in case it doesn't exist.
-    await checkFork(octo, org, repo, gitRef, username).then(() => {
+    await checkFork(octo, props.globalState.org, props.globalState.repo, props.globalState.gitRef, props.globalState.username).then(() => {
       // Step 4: Since user is working on the fork or is owner of the repo
-      setOrg(username)
+      props.setORG(props.globalState.username)
       // Step 5: Upload to the repo from buffer
       try {
-        uploadToRepo(octo, username, repo, gitRef, fileBuffer, commitMessage.value).then(() => {
+        uploadToRepo(octo, props.globalState.username, props.globalState.repo, props.globalState.gitRef, props.globalState.fileBuffer, props.globalState.commitMessage).then(() => {
           // Step 6: Empty the buffer
-          setFileBuffer({})
+          props.resetFileBuffer()
           addLog({
             type: "success",
             message: "Successfully saved!"
           })
 
           // Update time of save
-          setSavedTime(new Date())
+          props.setSavedTime(new Date())
         })
       } catch (err) {
         addLog({
@@ -232,138 +241,54 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
       })
     })
 
-  }
 
-
-
-  // Folder Exploring Function
-  async function getFiles(path: string) {
-    const octokit = new Octokit()
-    let fileList: string[][] = []
-    await getContent(octokit, org, repo, gitRef, path).then((res) => {
-      res.data.map((item: any) => {
-        fileList.push([item.name, item.path, item.type])
-      })
-    }, (e: Error) => {
-      fileList = [[""]]
-      addLog({
-        type: "failure",
-        message: "Github repository not found."
-      })
-
-    })
-    return fileList
 
   }
 
   function loadFile(fileName) {
     let extension = fileName.split('.').pop()
-    setFilepath(fileName)
-    setFileType(extension)
-    setLang(getLanguage(extension))
+    props.setFilePath(fileName)
+    props.setLang(getLanguage(extension))
 
     if (extension != "ipynb") {
-      if (fileName in fileBuffer) {
-        setFileContent(fileBuffer[fileName])
+      if (fileName in props.globalState.fileBuffer) {
+        props.setFileContent(props.globalState.fileBuffer[fileName])
       } else {
         const octokit = new Octokit()
-        getContent(octokit, org, repo, gitRef, fileName).then(({ data }) => {
-          setFileContent(atob(data["content"]))
+        getContent(octokit, props.globalState.org, props.globalState.repo, props.globalState.gitRef, fileName).then(({ data }) => {
+          props.setFileContent(atob(data["content"]))
         })
       }
     }
 
   }
 
-  function updateVCSInfo(event, previousProvider, previousOrg, previousRepo, previousGitRef) {
-    event.preventDefault()
 
-    if (provider != previousProvider || org != previousOrg || repo != previousRepo || gitRef != previousGitRef ) {
-      setProvider(previousProvider)
-      setOrg(previousOrg)
-      setRepo(previousRepo)
-      setGitRef(previousGitRef )
-      setFilepath("")
-      // To empty buffer when repo is updated
-      setFileBuffer({})
 
-      addToNotification({
-        type: "success",
-        message: `Repo updated.`
-      })
-
-      addToConsole({
-        type: "success",
-        message: `Repo updated: VCS=${provider} Owner=${org} repo=${repo} ref=${gitRef} file=${filePath}`
-      })
-    }
-
-  }
-
-  function OAuthGithub() {
-    if (localStorage.getItem("token") == undefined) {
-      window.open('https://github.com/login/oauth/authorize?client_id=83370967af4ee7984ea7&scope=repo,read:user&state=23DF32sdGc12e', '_blank');
-      window.addEventListener('storage', getGithubUserDetails)
-    }
-  }
-
-  function getGithubUserDetails() {
-    const token = localStorage.getItem("token")
-    fetch("https://api.github.com/user", {
-      method: "GET",
-      headers: new Headers({
-        "Authorization": "token " + token
-      })
-
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data["login"] !== undefined) {
-          setLoggedIn(true)
-          setUsername(data["login"])
-          setUserLink(data["html_url"])
-          setUserImage(data["avatar_url"])
-
-          addToConsole({
-            type: "success",
-            message: `Successfully logged into Github as @${data["login"]}`
-          })
-
-        } else {
-          localStorage.removeItem("token")
-          setLoggedIn(false)
-          addLog({
-            type: "failure",
-            message: `Github token expired. User logged out.`
-          })
-
-        }
-      })
-    window.removeEventListener("storage", getGithubUserDetails)
-  }
 
   const addBinder = (ht) => {
-    if (ht != host) {
-      setServerStatus("Connected")
-      setHost(ht)
-      addToNotification({
+    if (ht != props.globalState.host) {
+      props.setServerStatus("Connected")
+      props.setHost(ht)
+      props.appendNotificationLog({
         type: "success",
         message: `Successfully connected to MyBinder`
       })
 
-      addToConsole({
+    props.appendConsoleLog({
         type: "success",
         message: `Successfully connected to MyBiner. \n\tServer running at ${ht.endpoint}?token=${ht.token}`
       })
 
     }
 
+    // This is just to avoid not string return error
     return ""
   }
 
   const getNotebook = async (fileName) => {
     const octokit = new Octokit()
-    const data = await getContent(octokit, org, repo, gitRef, fileName)
+    const data = await getContent(octokit, props.globalState.org, props.globalState.repo, props.globalState.gitRef, fileName)
     return data
   }
 
@@ -381,7 +306,7 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
         "Cmd-Enter": () => { }
       },
       cursorBlinkRate: 0,
-      mode: lang
+      mode: props.globalState.lang
     }}
     preserveScrollPosition
     editorType="codemirror"
@@ -389,45 +314,40 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
     focusAbove={() => { }}
     focusBelow={() => { }}
     kernelStatus={"not connected"}
-    value={fileContent}
+    value={props.globalState.fileContent}
     onChange={(e) => {
-      addBuffer(e, filePath)
-      setFileContent(e);
+      props.updateFileBuffer(e, props.globalState.filePath)
+      props.setFileContent(e);
     }}
   />)
 
   const binderEditor = (
     <>
-      <Binder getContent={getNotebook} filepath={filePath} host={host} />
+      <Binder getContent={getNotebook} filepath={props.globalState.filePath} host={props.globalState.host} />
     </>
   )
 
-  const editor = lang == "ipynb" ? binderEditor : generalEditor;
+  const editor = props.globalState.lang == "ipynb" ? binderEditor : generalEditor;
 
   return (
     <Layout>
-      <Host repo={`${org}/${repo}`} gitRef={gitRef} binderURL={BINDER_URL}>
+      <Host repo={`${props.globalState.org}/${props.globalState.repo}`} gitRef={props.globalState.gitRef} binderURL={BINDER_URL}>
         <Host.Consumer>
-          {host =>
+          { host =>
             host ? (
               <>
                 {addBinder(host)}
               </>
-            ) : null
+            ) : "test"
           }
         </Host.Consumer>
       </Host>
 
       <NextHead />
       {
-        showBinderMenu &&
+        props.globalState.showBinderMenu &&
 
         <BinderMenu
-          provider={provider}
-          org={org}
-          repo={repo}
-          gitRef={gitRef}
-          updateVCSInfo={updateVCSInfo}
           style={{
             height: "150px",
             position: "absolute",
@@ -439,32 +359,42 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
         />
       }
 
-      <Notification notifications={notificationLog} />
+      <Notification notifications={props.globalState.notificationLog} />
 
       {
-        showConsole && <Console style={{
+        props.globalState.showConsole && <Console style={{
           position: "absolute",
           bottom: "30px",
           right: "0px",
           width: "calc(100% - 260px)"
-        }} logs={consoleLog} />
+        }} logs={props.globalState.consoleLog} />
       }
 
 
-      {showSaveDialog &&
+      {props.globalState.showSaveDialog &&
         <>
-          <Shadow onClick={() => toggle(showSaveDialog, setShowSaveDialog)} />
+          <Shadow onClick={() => props.toggleSaveDialog()} />
           <Dialog >
             <form onSubmit={(e) => onSave(e)} >
-              You are about to commit to <b>{username}/{repo}[{gitRef}]</b> as <b>@{username}</b>.
+              You are about to commit to <b>{props.globalState.org}/{props.globalState.repo}[{props.globalState.gitRef}]</b> as <b>@{props.globalState.username}</b>.
               <br /><br />
               If this repo doesn&apos;t already exist, it will automatically be created/forked. Enter your commit message here.
              <DialogRow>
-                <Input id="commit_message" variant="textarea" label="Commit Message" {...commitMessage} autoFocus style={dialogInputStyle} />
+               <Input id="commit_message" 
+                      variant="textarea" 
+                      label="Commit Message" 
+                      onChange={(e: React.FormEvent<HTMLInputElement>)=> props.setCommitMessage(e.currentTarget.value)} 
+                      value={props.globalState.commitMessage} 
+                      style={dialogInputStyle} />
               </DialogRow>
               {false &&
                 <DialogRow>
-                  <Input id="strip_output" variant="checkbox" label="Strip the notebook output?" checked={stripOutput.value} onChange={stripOutput.onChange} style={dialogInputStyle} />
+                  <Input  id="strip_output"
+                          variant="checkbox" 
+                          label="Strip the notebook output?" 
+                          checked={props.globalState.stripOutput} 
+                          onChange={ () => props.toggleStripOutput() } 
+                          style={dialogInputStyle} />
                 </DialogRow>
               }
               <DialogFooter>
@@ -480,23 +410,20 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
           <MenuItem>
             <Button text="Run" variant="outlined" icon={runIcon} onClick={() => run()} />
           </MenuItem>
-          {loggedIn &&
+          {props.globalState.loggedIn &&
             <MenuItem>
               <Button text="Save" variant="outlined" icon={saveIcon} onClick={() => showSave()} />
             </MenuItem>
           }
 
           <MenuItem>
-            <Button text="Menu" variant="outlined" icon={menuIcon} onClick={() => toggle(showBinderMenu, setShowBinderMenu)} />
+            <Button text="Menu" variant="outlined" icon={menuIcon} onClick={() => props.toggleBinderMenu() } />
           </MenuItem>
 
         </Menu>
         <Menu>
           <MenuItem >
-            {loggedIn
-              ? <Avatar userImage={userImage} username={username} userLink={userLink} />
-              : <Button onClick={() => OAuthGithub()} text="Connect to Github" icon={githubIcon} />
-            }
+            <Avatar /> 
           </MenuItem>
         </Menu>
       </Header>
@@ -506,21 +433,14 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
           alt="nteract logo"
           className="logo"
         />
-        <FilesListing
-          loadFile={loadFile}
-          loadFolder={getFiles}
-          org={org}
-          repo={repo}
-          gitRef={gitRef}
-        />
+        <FilesListing/>
       </Side>
       <Body>
 
-
-        {filePath && editor}
+        {props.globalState.filePath && editor}
 
         {
-          !filePath &&
+          !props.globalState.filePath &&
 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "180px" }}>
 
@@ -546,18 +466,18 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
 
         <Menu>
           <MenuItem>
-            <Button text="Console" icon={consoleIcon} variant="transparent" onClick={() => toggle(showConsole, setShowConsole)} />
+            <Button text="Console" icon={consoleIcon} variant="transparent" onClick={() => props.toggleConsole()} />
           </MenuItem>
           <MenuItem>
             <Button text="Python 3" icon={pythonIcon} variant="transparent" disabled />
           </MenuItem>
           <MenuItem>
-            <Button text={serverStatus} icon={serverIcon} variant="transparent" disabled />
+            <Button text={props.globalState.serverStatus} icon={serverIcon} variant="transparent" disabled />
           </MenuItem>
         </Menu>
         <Menu>
           <MenuItem>
-            {formatDistanceToNow(savedTime)}
+            {formatDistanceToNow(props.globalState.savedTime as Date)}
           </MenuItem>
         </Menu>
       </Footer>
@@ -566,17 +486,38 @@ export const Main: FC<WithRouterProps> = (props: Props) => {
 }
 
 
-const makeMapStateToProps = (
-  initialState: AppState
-) => {
-  const mapStateToProps = (state: AppState): StateProps => {
-    return {
-      contents: contentByRef(state)
-    }
-  }
 
-  return mapStateToProps
-};
+const mapStateToProps = (state: State) => ({
+      contents: contentByRef(state),
+      globalState: state.global
+})
+
+const mapDispatchToProps = {
+      toggleBinderMenu: toggleBinderMenu,
+      toggleConsole: toggleConsole,
+      toggleSaveDialog: toggleSaveDialog,
+      setFilePath: setFilePath,
+      setFileContent: setFileContent,
+      setProvider: setProvider,
+      setORG: setORG,
+      setRepo: setRepo,
+      setGitRef: setGitRef,
+      setLang: setLang,
+      setCommitMessage: setCommitMessage,
+      toggleStripOutput: toggleStripOutput,
+      resetFileBuffer: resetFileBuffer,
+      updateFileBuffer: updateFileBuffer,
+      setSavedTime: setSavedTime,
+      appendConsoleLog: appendConsoleLog,
+      appendNotificationLog: appendNotificationLog,
+      shiftNotificationLog: shiftNotificationLog,
+      setServerStatus: setServerStatus,
+      setHost: setHost,
+      updateLoggedIn: updateLoggedIn,
+      updateUsername: updateUsername,
+      updateUserImage: updateUserImage,
+      updateUserLink: updateUserLink
+}
 
 
-export default connect(makeMapStateToProps, null)(withRouter(Main))
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main))

@@ -1,17 +1,26 @@
 import React, { FC, HTMLAttributes, useState } from "react";
+import { connect } from "react-redux";
+import { getLanguage} from "../util/helpers"
 import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFolder, faFileAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { generate } from 'shortid';
+import {
+  appendNotificationLog,
+  appendConsoleLog,
+  setFilePath,
+  setLang
+} from "../redux/actions"
+
 
 const folderIcon = <FontAwesomeIcon icon={faFolder} style={{ fontSize: "14px", opacity: "0.6", marginRight: "8px" }} />
-const fileIcon = <FontAwesomeIcon icon={faFileAlt} style={{ fontSize: "14px", opacity: "0.6", marginRight: "8px" }} />
-const arrowIcon = <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: "10px", opacity: "0.6", marginRight: "6px", marginLeft: "-13px", verticalAlign: "middle", marginTop: "-4px" }} />
-const arrowDownIcon = <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: "10px", opacity: "0.6", marginRight: "6px", marginLeft: "-13px", verticalAlign: "middle", marginTop: "-4px", transform: "rotate(90deg)" }} />
+  const fileIcon = <FontAwesomeIcon icon={faFileAlt} style={{ fontSize: "14px", opacity: "0.6", marginRight: "8px" }} />
+  const arrowIcon = <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: "10px", opacity: "0.6", marginRight: "6px", marginLeft: "-13px", verticalAlign: "middle", marginTop: "-4px" }} />
+  const arrowDownIcon = <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: "10px", opacity: "0.6", marginRight: "6px", marginLeft: "-13px", verticalAlign: "middle", marginTop: "-4px", transform: "rotate(90deg)" }} />
 
-// STYLED ITEMS
+  // STYLED ITEMS
 
-const UL = styled.ul`
+  const UL = styled.ul`
   list-style: none;
   margin: 0px;
   padding: 0px;
@@ -35,17 +44,7 @@ const UL = styled.ul`
 
 // Props Interface
 
-export interface Props extends HTMLAttributes<HTMLDivElement> {
-  data: string[][],
-  folderLoading: (filePath: string) => Promise<string[][]>
-  fileLoading: (filePath: string) => void,
-}
 
-export interface ListProps extends HTMLAttributes<HTMLDivElement> {
-  data: string[][],
-  folderLoading: (filePath: string) => Promise<string[][]>,
-  fileLoading: (filePath: string) => void,
-}
 
 export interface ItemProps extends HTMLAttributes<HTMLDivElement> {
   fileName: string,
@@ -70,9 +69,9 @@ const Item = React.memo((props: ItemProps) => {
             if (data[0][0] === "") {
               props.folderLoading(props.path).then((data) => {
                 setData(data)
-              })
-            }
-            setSubfiles(!showSub)
+          })
+          }
+          setSubfiles(!showSub)
           }}>
           {!showSub && arrowIcon}
           {showSub && arrowDownIcon}
@@ -81,7 +80,7 @@ const Item = React.memo((props: ItemProps) => {
         </li>
         {
           showSub &&
-          <List data={data} fileLoading={props.fileLoading} folderLoading={props.folderLoading} />
+            <List data={data} fileLoading={props.fileLoading} folderLoading={props.folderLoading} />
         }
       </>
     )
@@ -96,6 +95,13 @@ const Item = React.memo((props: ItemProps) => {
     </>
   );
 })
+
+
+export interface ListProps extends HTMLAttributes<HTMLDivElement> {
+  data: string[][],
+  folderLoading: (filePath: string) => Promise<string[][]>,
+  fileLoading: (filePath: string) => void,
+}
 
 const List = (props: ListProps) => {
   if (props.data[0][0] !== "") {
@@ -117,13 +123,30 @@ const List = (props: ListProps) => {
   )
 }
 
+export interface Props extends HTMLAttributes<HTMLDivElement> {
+  data: string[][],
+  folderLoading: (filePath: string) => Promise<string[][]>
+  setFilePath: (val:string)=> {}
+}
+
 
 const FE: FC<Props> = (props: Props) => {
   return (
     <>
-      <List data={props.data} fileLoading={props.fileLoading} folderLoading={props.folderLoading} />
+      <List data={props.data} fileLoading={props.setFilePath} folderLoading={props.folderLoading} />
     </>
   );
 }
 
-export const FileExplorer = React.memo(FE)
+
+const mapStateToProps = () => ({
+})
+
+const mapDispatchToProps = {
+  appendNotificationLog: appendNotificationLog,
+  appendConsoleLog: appendConsoleLog,
+  setFilePath: setFilePath,
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(FE)
