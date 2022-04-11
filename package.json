@@ -243,7 +243,7 @@
     "rxjs": "^6.6.0",
     "semantic-release": "^17.4.3",
     "semantic-release-monorepo": "^7.0.5",
-    "shell-env": "^3.0.0",
+    "shell-env": "^4.0.1",
     "spawn-rx": "^3.0.0",
     "spawnteract": "^5.0.0",
     "style-loader": "^2.0.0",
