@@ -15,7 +15,7 @@
     "@nteract/core": "^15.1.9",
     "@nteract/editor": "^10.1.12",
     "@nteract/notebook-app-component": "^7.7.9",
-    "@nteract/outputs": "^3.0.11",
+    "@nteract/outputs": "^5.1.14",
     "@nteract/stateful-components": "^1.7.9",
     "@nteract/styles": "^2.2.11",
     "@octokit/rest": "^17.1.1",

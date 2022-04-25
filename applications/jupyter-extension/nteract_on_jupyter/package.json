@@ -24,7 +24,7 @@
     "@nteract/logos": "^1.0.0",
     "@nteract/mathjax": "4.0.16",
     "@nteract/octicons": "^2.0.0",
-    "@nteract/outputs": "^3.0.11",
+    "@nteract/outputs": "^5.1.14",
     "@nteract/transform-geojson": "^5.1.13",
     "@nteract/transform-model-debug": "^5.0.1",
     "@nteract/transform-plotly": "^6.1.10",
