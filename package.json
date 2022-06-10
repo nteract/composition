@@ -241,7 +241,7 @@
     "remark-stringify": "^8.0.0",
     "rimraf": "^3.0.0",
     "rxjs": "^6.6.0",
-    "semantic-release": "^17.4.3",
+    "semantic-release": "^19.0.3",
     "semantic-release-monorepo": "^7.0.5",
     "shell-env": "^3.0.0",
     "spawn-rx": "^3.0.0",
