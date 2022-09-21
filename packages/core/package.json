@@ -12,7 +12,7 @@
     "@nteract/actions": "^7.0.11",
     "@nteract/commutable": "^7.4.5",
     "@nteract/epics": "^5.0.11",
-    "@nteract/reducers": "^5.1.9",
+    "@nteract/reducers": "^5.1.12",
     "@nteract/selectors": "^3.1.9",
     "@nteract/types": "^7.1.9",
     "redux-logger": "^3.0.6"

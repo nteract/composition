@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@nteract/commutable": "^7.4.5",
-    "@nteract/reducers": "^5.1.9",
+    "@nteract/reducers": "^5.1.12",
     "@nteract/types": "^7.1.9"
   },
   "release": {
