@@ -166,7 +166,7 @@
     "@types/lodash.throttle": "^4.1.6",
     "@types/plist": "^3.0.2",
     "babel-loader": "^8.2.5",
-    "electron": "11.5.0",
+    "electron": "22.0.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.0.0",
     "file-loader": "^6.0.0",
