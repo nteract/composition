@@ -653,17 +653,6 @@ describe("updateCellStatus", () => {
   });
 });
 
-describe("setLanguageInfo", () => {
-  test("sets the language object", () => {
-    const originalState = monocellDocument;
-
-    const action = actions.setLanguageInfo({ langInfo: "test" });
-
-    const state = reducers(originalState, action);
-    expect(state.getIn(["notebook", "metadata", "language_info"])).toBe("test");
-  });
-});
-
 describe("copyCell", () => {
   test("copies a cell", () => {
     const firstId = uuidv4();

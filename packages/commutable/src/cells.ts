@@ -49,6 +49,7 @@ export interface MarkdownCellParams {
   id?: string;
   source: string;
   metadata: ImmutableMap<string, any>;
+  attachments: ImmutableMap<string, ImmutableMap<string, string>>;
 }
 
 export const makeMarkdownCell = Record<MarkdownCellParams>({
@@ -62,6 +63,7 @@ export const makeMarkdownCell = Record<MarkdownCellParams>({
     }),
   }),
   source: "",
+  attachments: ImmutableMap(),
 });
 
 export type ImmutableMarkdownCell = RecordOf<MarkdownCellParams>;
@@ -73,6 +75,7 @@ export interface RawCellParams {
   cell_type: "raw";
   source: string;
   metadata: ImmutableMap<string, any>;
+  attachments: ImmutableMap<string, ImmutableMap<string, string>>;
 }
 
 export const makeRawCell = Record<RawCellParams>({
@@ -85,6 +88,7 @@ export const makeRawCell = Record<RawCellParams>({
     }),
   }),
   source: "",
+  attachments: ImmutableMap(),
 });
 
 export type ImmutableRawCell = RecordOf<RawCellParams>;

@@ -1,5 +1,6 @@
 import { middlewares as coreMiddlewares, reducers } from "@nteract/core";
 import { configuration } from "@nteract/mythic-configuration";
+import { languageInfo } from "@nteract/mythic-notebook";
 import { notifications } from "@nteract/mythic-notifications";
 import { windowing } from "@nteract/mythic-windowing";
 import { makeConfigureStore, MythicAction } from "@nteract/myths";
@@ -14,6 +15,7 @@ export const configureStore : (initialState?: DesktopNotebookAppState) => Store<
     configuration,
     notifications,
     windowing,
+    languageInfo,
   ],
   reducers: {
     app: reducers.app,

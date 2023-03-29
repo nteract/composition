@@ -7,6 +7,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nteract/dropdown-menu";
+import { LanguageSelector } from "@nteract/mythic-notebook";
 
 import { ContentRef } from "@nteract/types";
 import * as React from "react";
@@ -293,6 +294,14 @@ export default class Toolbar extends React.PureComponent<
                             }}
                             className="cell-menu-item-toggle"
                           />
+                        </CellMenuItem>
+                      </CellMenuSection>
+                      <CellMenuSection>
+                        <CellMenuItem className="heading">
+                          Language
+                        </CellMenuItem>
+                        <CellMenuItem tabIndex={0} focusWithin>
+                          <LanguageSelector cellAddress={{id: this.props.id, contentRef: this.props.contentRef}} />
                         </CellMenuItem>
                       </CellMenuSection>
                     </StyledDropdownContent>

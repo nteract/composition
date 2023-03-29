@@ -1,27 +1,21 @@
 import { CellType } from "@nteract/commutable";
 import { ContentRef } from "@nteract/core";
-import {
-  Cells,
-  CodeCell,
-  MarkdownCell,
-  RawCell,
-} from "@nteract/stateful-components";
-import { ThemeFromConfig } from "@nteract/stateful-components";
+import { Cells, CodeCell, MarkdownCell, RawCell, ThemeFromConfig } from "@nteract/stateful-components";
 import React from "react";
+
+import { DragDropContext as dragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+import CellBanner from "../decorators/cell-banner";
+
+import DraggableCell from "../decorators/draggable";
+import EditorLoader from "../decorators/editor-loader";
+import HijackScroll from "../decorators/hijack-scroll";
+import KeyboardShortcuts from "../decorators/kbd-shortcuts";
+import UndoableCellDelete from "../decorators/undoable/undoable-cell-delete";
 
 import StatusBar from "../derived-components/status-bar";
 import { ThemableNotifications } from "../derived-components/themable-notifications";
 import CellToolbar from "../derived-components/toolbar";
-
-import { DragDropContext as dragDropContext } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
-
-import DraggableCell from "../decorators/draggable";
-import HijackScroll from "../decorators/hijack-scroll";
-import KeyboardShortcuts from "../decorators/kbd-shortcuts";
-import UndoableCellDelete from "../decorators/undoable/undoable-cell-delete";
-import EditorLoader from "../decorators/editor-loader";
-import CellBanner from "../decorators/cell-banner";
 
 interface ComponentProps {
   contentRef: ContentRef;

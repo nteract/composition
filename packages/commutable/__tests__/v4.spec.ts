@@ -1,38 +1,18 @@
-import Immutable, { Record } from "immutable";
-
-import {
-  makeDisplayData,
-  makeErrorOutput,
-  makeExecuteResult,
-  makeStreamOutput,
-  OnDiskStreamOutput
-} from "../src/outputs";
-import {
-  createCodeCell,
-  createMarkdownCell,
-  NotebookRecordParams,
-  ImmutableNotebook,
-  makeNotebookRecord
-} from "../src/structures";
-
+import * as Immutable from "immutable";
+import { makeDisplayData, makeErrorOutput, makeExecuteResult, makeStreamOutput, OnDiskStreamOutput } from "../src/outputs";
 import * as primitives from "../src/primitives";
-
-import {
-  cellToJS,
-  outputToJS,
-  fromJS,
-  toJS,
-  NotebookV4,
-  Cell
-} from "../src/v4";
-import { CodeCellParams, ImmutableCell } from "../src/cells";
+import { createCodeCell, createMarkdownCell, makeNotebookRecord } from "../src/structures";
+import { cellToJS, fromJS, NotebookV4, outputToJS, toJS } from "../src/v4";
 
 describe("cellToJS", () => {
   it("throws an error for unkown cell types", () => {
     const cell = Immutable.Map({
       cell_type: "not_real"
     });
+
+    // @ts-ignore supposed to fail
     const invocation = () => cellToJS(cell);
+
     expect(invocation).toThrowError("Cell type unknown at runtime");
   });
   it("process known cell types", () => {
