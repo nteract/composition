@@ -3,6 +3,11 @@
   "version": "7.1.0",
   "description": "A collection of actions",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/actions"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
   "scripts": {

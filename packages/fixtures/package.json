@@ -3,6 +3,11 @@
   "version": "2.3.19",
   "description": "",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/fixtures"
+  },
   "types": "lib/index.d.ts",
   "scripts": {
     "release": "semantic-release -e semantic-release-monorepo --tag-format='@nteract/fixtures@${version}'"

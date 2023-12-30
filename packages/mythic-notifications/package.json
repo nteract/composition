@@ -3,6 +3,11 @@
   "version": "0.2.11",
   "description": "A notification system based on blueprintjs toasters and the myths redux framework",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/mythic-notifications"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
   "scripts": {

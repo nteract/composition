@@ -3,6 +3,11 @@
   "version": "2.1.36",
   "description": "Local Storage backed cache of binder hosts",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/host-cache"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.js",
   "scripts": {

@@ -3,6 +3,11 @@
   "version": "3.4.12",
   "description": "pure presentational components for nteract",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nteract/nteract.git",
+    "directory": "packages/presentational-components"
+  },
   "types": "lib/index.d.ts",
   "nteractDesktop": "src/index.ts",
   "scripts": {
