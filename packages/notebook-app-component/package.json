@@ -21,7 +21,7 @@
     "@nteract/mythic-configuration": "^1.0.11",
     "@nteract/mythic-notifications": "^0.2.11",
     "@nteract/octicons": "^2.0.0",
-    "@nteract/outputs": "^3.0.11",
+    "@nteract/outputs": "^5.1.14",
     "@nteract/presentational-components": "^3.4.11",
     "@nteract/selectors": "^3.1.9",
     "@nteract/stateful-components": "^1.7.9",

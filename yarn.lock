@@ -3388,15 +3388,6 @@
   resolved "https://registry.yarnpkg.com/@nteract/logos/-/logos-1.0.0.tgz#e17ca29f41a5282fe32fa5e4e69a5a3a9839d378"
   integrity sha512-6f675p3gzs7ZMAovzfOx+QOMNu1TGVT2aV5lPOwnPxJCM/APLpDRFcSoURwLA26CROlTTDEe10XweFzJgQ+VEQ==
 
-"@nteract/markdown@^4.5.2":
-  version "4.5.2"
-  resolved "https://registry.yarnpkg.com/@nteract/markdown/-/markdown-4.5.2.tgz#a1eaa58961a26219a1e1f7beaef42d41ef06e864"
-  integrity sha512-qf7kbNzYohwj0dKI0qDY8dOv4kubj6lN3KcM5Xaev433q+4iTSKIgtD6ffCC4Jryq3AqN957V1YsY9ZwBZ1GUQ==
-  dependencies:
-    "@nteract/mathjax" "^4.0.11"
-    "@nteract/presentational-components" "^3.3.11"
-    react-markdown "^4.0.0"
-
 "@nteract/markdown@^4.6.1":
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/@nteract/markdown/-/markdown-4.6.2.tgz#5e3dc44047f7af761b3fb8cf76f6d239e7bb65c3"
@@ -3406,7 +3397,7 @@
     "@nteract/presentational-components" "^3.3.11"
     react-markdown "^4.0.0"
 
-"@nteract/mathjax@4.0.16", "@nteract/mathjax@^4.0.11":
+"@nteract/mathjax@4.0.16", "@nteract/mathjax@^4.0.11", "@nteract/mathjax@^4.0.16":
   version "4.0.16"
   resolved "https://registry.yarnpkg.com/@nteract/mathjax/-/mathjax-4.0.16.tgz#1889a7e4ece011c2321434edb304f6d8d2b7b727"
   integrity sha512-eth384tJmOF2oNnHc3iqNwqZdFdNPZmnboY66aE7QRJvxZsYSUj0oHvERn3nXxFuVjv866xWGRc5zU+T4tPIDQ==
@@ -3418,15 +3409,15 @@
   resolved "https://registry.yarnpkg.com/@nteract/octicons/-/octicons-2.0.0.tgz#eccd5de8bc0ef4d1bb4154b791db80f4f6bac995"
   integrity sha512-wQHZMgYJHnZw/ozCeG/cwfUPiQDpmkmF8G57quKpWCMbBBLEN1tUhjRzcZ9IdJyZsiu0dxenjDhOs5+m5DHYGA==
 
-"@nteract/outputs@^3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@nteract/outputs/-/outputs-3.0.11.tgz#d49067d397612878c1a4069a896a11ad163c66fe"
-  integrity sha512-LeT9ViBf+fTPSubZ9dMe7128kg0rl1jIG54V0n2GiU5RuYnUz21FU0IOaLMPUfFMO1VyVEOW5jDc3PAQx5/Kwg==
+"@nteract/outputs@^5.1.14":
+  version "5.1.14"
+  resolved "https://registry.yarnpkg.com/@nteract/outputs/-/outputs-5.1.14.tgz#c0d401d99123b44c52ba41f2cde63296ca4ce5a9"
+  integrity sha512-Xzwqa2rkqh9F4tUX9DKHL0sBecmclApHTjtGIXcOkl5xnQbjIrnPohc4q6z3CIY+3lc/WeVgwKUNwKMgs7ZhEQ==
   dependencies:
-    "@nteract/markdown" "^4.5.2"
-    "@nteract/mathjax" "^4.0.11"
-    ansi-to-react "^6.0.5"
-    react-json-tree "^0.12.1"
+    "@nteract/markdown" "^4.6.1"
+    "@nteract/mathjax" "^4.0.16"
+    ansi-to-react "^6.1.5"
+    react-json-tree "^0.13.0"
 
 "@nteract/transform-geojson@^5.1.13":
   version "5.1.13"
@@ -3913,6 +3904,11 @@
     "@types/jquery" "*"
     "@types/underscore" "*"
 
+"@types/base16@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/base16/-/base16-1.0.2.tgz#eb3a07db52309bfefb9ba010dfdb3c0784971f65"
+  integrity sha512-oYO/U4VD1DavwrKuCSQWdLG+5K22SLPem2OQaHmFcQuwHoVeGC+JGVRji2MUqZUAIQZHEonOeVfAX09hYiLsdg==
+
 "@types/cheerio@*":
   version "0.22.18"
   resolved "https://registry.yarnpkg.com/@types/cheerio/-/cheerio-0.22.18.tgz#19018dceae691509901e339d63edf1e935978fe6"
@@ -4192,6 +4188,11 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.155.tgz#e2b4514f46a261fd11542e47519c20ebce7bc23a"
   integrity sha512-vEcX7S7aPhsBCivxMwAANQburHBtfN9RdyXFk84IJmu2Z4Hkg1tOFgaslRiEqqvoLtbCBi6ika1EMspE+NZ9Lg==
 
+"@types/lodash@^4.14.178":
+  version "4.14.182"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.182.tgz#05301a4d5e62963227eaafe0ce04dd77c54ea5c2"
+  integrity sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==
+
 "@types/memoize-one@^4.1.0":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@types/memoize-one/-/memoize-one-4.1.1.tgz#41dd138a4335b5041f7d8fc038f9d593d88b3369"
@@ -4259,6 +4260,11 @@
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+
+"@types/prop-types@^15.7.3":
+  version "15.7.5"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
+  integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
 "@types/react-color@^3.0.0":
   version "3.0.2"
@@ -5061,10 +5067,10 @@ ansi-styles@^4.1.0, ansi-styles@^4.3.0:
   dependencies:
     color-convert "^2.0.1"
 
-ansi-to-react@^6.0.5:
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/ansi-to-react/-/ansi-to-react-6.0.7.tgz#4e8487fac1121c9967e863608d8ad7128917ad41"
-  integrity sha512-ODRgVJ7X/G7ZWZ0aWzwMhdvbdSNXs/dYG4TR7EXM6iVBTsjfS4nUaGB6kWLElaCs3iyWaBfuRVEE7muJpP336g==
+ansi-to-react@^6.1.5:
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/ansi-to-react/-/ansi-to-react-6.1.6.tgz#d6fe15ecd4351df626a08121b1646adfe6c02ccb"
+  integrity sha512-+HWn72GKydtupxX9TORBedqOMsJRiKTqaLUKW8txSBZw9iBpzPKLI8KOu4WzwD4R7hSv1zEspobY6LwlWvwZ6Q==
   dependencies:
     anser "^1.4.1"
     escape-carriage "^1.3.0"
@@ -6692,7 +6698,7 @@ collection-visit@^1.0.0:
     map-visit "^1.0.0"
     object-visit "^1.0.0"
 
-color-convert@^1.9.0:
+color-convert@^1.9.0, color-convert@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-1.9.3.tgz#bb71850690e1f136567de629d2d5471deda4c1e8"
   integrity sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==
@@ -6732,6 +6738,22 @@ color-space@^1.16.0:
   dependencies:
     hsluv "^0.0.3"
     mumath "^3.3.4"
+
+color-string@^1.6.0:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/color-string/-/color-string-1.9.1.tgz#4467f9146f036f855b764dfb5bf8582bf342c7a4"
+  integrity sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==
+  dependencies:
+    color-name "^1.0.0"
+    simple-swizzle "^0.2.2"
+
+color@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
+  integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
+  dependencies:
+    color-convert "^1.9.3"
+    color-string "^1.6.0"
 
 colorette@^1.2.2:
   version "1.4.0"
@@ -7485,6 +7507,11 @@ csstype@^2.2.0, csstype@^2.6.5:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.11.tgz#452f4d024149ecf260a852b025e36562a253ffc5"
   integrity sha512-l8YyEC9NBkSm783PFTvh0FmJy7s5pFKrDp49ZL7zBGX3fWkO+N4EEyan1qqp8cwPLDcD0OSdyY6hAMoxp34JFw==
+
+csstype@^3.0.10:
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.11.tgz#d66700c5eacfac1940deb4e3ee5642792d85cd33"
+  integrity sha512-sa6P2wJ+CAbgyy4KFssIb/JNMLxFvKF1pCYCSXS8ZMuqZnMsrxqI2E5sPyoTpxoPU/gVZMzr2zjOfg8GIZOMsw==
 
 csstype@^3.0.2:
   version "3.0.9"
@@ -11220,6 +11247,11 @@ is-arrayish@^0.2.1:
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.2.1.tgz#77c99840527aa8ecb1a8ba697b80645a7a926a9d"
   integrity sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=
 
+is-arrayish@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
+  integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
+
 is-bigint@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/is-bigint/-/is-bigint-1.0.4.tgz#08147a1875bc2b32005d41ccd8291dffc6691df3"
@@ -13009,11 +13041,6 @@ lodash.flattendeep@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
   integrity sha1-+wMJF/hqMTTlvJvsDWngAT3f7bI=
-
-lodash.flow@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/lodash.flow/-/lodash.flow-3.5.0.tgz#87bf40292b8cf83e4e8ce1a3ae4209e20071675a"
-  integrity sha1-h79AKSuM+D5OjOGjrkIJ4gBxZ1o=
 
 lodash.get@^4.4.2:
   version "4.4.2"
@@ -15942,11 +15969,6 @@ pupa@^2.0.1:
   dependencies:
     escape-goat "^2.0.0"
 
-pure-color@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/pure-color/-/pure-color-1.3.0.tgz#1fe064fb0ac851f0de61320a8bf796836422f33e"
-  integrity sha1-H+Bk+wrIUfDeYTIKi/eWg2Qi8z4=
-
 q-i@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/q-i/-/q-i-2.0.1.tgz#fec7e3f0e713f3467358bb5ac80bcc4c115187d6"
@@ -16108,15 +16130,17 @@ react-annotation@3.0.0-beta.4:
     prop-types "^15"
     viz-annotation "0.0.5"
 
-react-base16-styling@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-base16-styling/-/react-base16-styling-0.7.0.tgz#0c9653e14f1f08dc81ad066cd31e9cfec89c80ea"
-  integrity sha512-lTa/VSFdU6BOAj+FryOe7OTZ0OBP8GXPOnCS0QnZi7G3zhssWgIgwl0eUL77onXx/WqKPFndB3ZeC77QC/l4Dw==
+react-base16-styling@^0.8.0:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/react-base16-styling/-/react-base16-styling-0.8.2.tgz#6bc97045b0f8c42d14857097d62b9017666aa5b9"
+  integrity sha512-5bxHCNKT/FfU9yMzNB/CaCQLGqZ/Nr4FnaIRJUTkwwPTRaCfYAP+/3opeQb61XvesmofJ4FloTSYW9aw1tMXqQ==
   dependencies:
+    "@types/base16" "^1.0.2"
+    "@types/lodash" "^4.14.178"
     base16 "^1.0.0"
+    color "^3.2.1"
+    csstype "^3.0.10"
     lodash.curry "^4.1.1"
-    lodash.flow "^3.5.0"
-    pure-color "^1.3.0"
 
 react-color@^2.14.1:
   version "2.18.1"
@@ -16295,13 +16319,14 @@ react-is@^16.12.0, react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-json-tree@^0.12.1:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/react-json-tree/-/react-json-tree-0.12.1.tgz#123ac8a2c722857d2cb1a5e0c948b0943576ef1a"
-  integrity sha512-j6fkRY7ha9XMv1HPVakRCsvyFwHGR5AZuwO8naBBeZXnZbbLor5tpcUxS/8XD01+D1v7ZN5p+7LU+9V1uyASiQ==
+react-json-tree@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/react-json-tree/-/react-json-tree-0.13.0.tgz#49b1e68e4ed7f4f918142a4b0d9af6c533c86a7d"
+  integrity sha512-FPJUQzYWi7pvBUAnMd9ENOnAUT2mXLhe01VUbPfKH9Q4gk4FQ0fpS1e1WZ3o7g6zfYJpYJeBTo1WwlMHlMlZOw==
   dependencies:
+    "@types/prop-types" "^15.7.3"
     prop-types "^15.7.2"
-    react-base16-styling "^0.7.0"
+    react-base16-styling "^0.8.0"
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"
@@ -17824,6 +17849,13 @@ simple-get@^3.0.3:
     decompress-response "^4.2.0"
     once "^1.3.1"
     simple-concat "^1.0.0"
+
+simple-swizzle@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/simple-swizzle/-/simple-swizzle-0.2.2.tgz#a4da6b635ffcccca33f70d17cb92592de95e557a"
+  integrity sha1-pNprY1/8zMoz9w0Xy5JZLeleVXo=
+  dependencies:
+    is-arrayish "^0.3.1"
 
 sisteransi@^1.0.4:
   version "1.0.5"
