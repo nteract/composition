@@ -12,7 +12,8 @@ import {
   acquireKernelInfo,
   launchKernelWhenNotebookSetEpic,
   restartKernelEpic,
-  watchExecutionStateEpic
+  watchExecutionStateEpic,
+  watchForKernelAutoRestartEpic
 } from "../src/kernel-lifecycle";
 
 const buildScheduler = () =>
@@ -443,6 +444,197 @@ describe("watchExecutionStateEpic", () => {
       }
     });
     const obs = watchExecutionStateEpic(action$);
+    obs.pipe(toArray()).subscribe(
+      // Every action that goes through should get stuck on an array
+      actions => {
+        expect(actions).toEqual([
+          {
+            type: actionsModule.EXECUTE_FAILED,
+            error: true,
+            payload: {
+              code: "EXEC_WEBSOCKET_ERROR",
+              contentRef: "fakeContentRef",
+              error: new Error(
+                "The WebSocket connection has unexpectedly disconnected."
+              )
+            }
+          }
+        ]);
+      },
+      err => done.fail(err), // It should not error in the stream
+      () => done()
+    );
+  });
+});
+
+
+describe("watchForKernelAutoRestartEpic", () => {
+  test("returns an empty Observable when not a jupyter host", done => {
+    const action$ = of({
+      type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
+      payload: {
+        kernel: {
+          channels: of({
+            header: { msg_type: "status" },
+            content: { execution_state: "restarting" }
+          }, 
+          {
+            header: { msg_type: "status" },
+            content: { execution_state: "starting" }
+          }) as Subject<any>,
+          cwd: "/home/tester",
+          type: "websocket"
+        },
+        kernelRef: "fakeKernelRef",
+        contentRef: "fakeContentRef",
+        selectNextKernel: false
+      }
+    });
+    const state = {
+      ...mockAppState({})
+    };
+    const state$ = new StateObservable<stateModule.AppState>(
+      new Subject(),
+      state
+    );
+
+    const obs = watchForKernelAutoRestartEpic(action$, state$);
+    obs.pipe(toArray()).subscribe(
+      // Every action that goes through should get stuck on an array
+      actions => {
+        const types = actions.map(({ type }) => type);
+        expect(types).toEqual([]);
+      },
+      err => done.fail(err), // It should not error in the stream
+      () => done()
+    );
+  });
+
+  test("returns an Observable detecting auto restarted with valid states", done => {
+
+    const action$ = of({
+      type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
+      payload: {
+        kernel: {
+          channels: of({
+            header: { msg_type: "status" },
+            content: { execution_state: "restarting" }
+          }, 
+          {
+            header: { msg_type: "status" },
+            content: { execution_state: "starting" }
+          }) as Subject<any>,
+          cwd: "/home/tester",
+          type: "websocket"
+        },
+        kernelRef: "fakeKernelRef",
+        contentRef: "fakeContentRef",
+        selectNextKernel: false
+      }
+    });
+    const state = {
+      ...mockAppState({}),
+      app: stateModule.makeAppRecord({
+        host: stateModule.makeJupyterHostRecord({})
+      })
+    };
+    const state$ = new StateObservable<stateModule.AppState>(
+      new Subject(),
+      state
+    );
+
+    const obs = watchForKernelAutoRestartEpic(action$, state$);
+    obs.pipe(toArray()).subscribe(
+      // Every action that goes through should get stuck on an array
+      actions => {
+        const types = actions.map(({ type }) => type);
+        expect(types).toEqual([actionsModule.KERNEL_AUTO_RESTARTED]);
+      },
+      err => done.fail(err), // It should not error in the stream
+      () => done()
+    );
+  });
+
+  test("returns an empty Observable when states are not valid", done => {
+    const action$ = of({
+      type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
+      payload: {
+        kernel: {
+          channels: of({
+            header: { msg_type: "status" },
+            content: { execution_state: "restarting" }
+          }, 
+          {
+            header: { msg_type: "status" },
+            content: { execution_state: "dead" }
+          }, 
+          {
+            header: { msg_type: "status" },
+            content: { execution_state: "starting" }
+          }) as Subject<any>,
+          cwd: "/home/tester",
+          type: "websocket"
+        },
+        kernelRef: "fakeKernelRef",
+        contentRef: "fakeContentRef",
+        selectNextKernel: false
+      }
+    });
+    const state = {
+      ...mockAppState({}),
+      app: stateModule.makeAppRecord({
+        host: stateModule.makeJupyterHostRecord({})
+      })
+    };
+    const state$ = new StateObservable<stateModule.AppState>(
+      new Subject(),
+      state
+    );
+
+    const obs = watchForKernelAutoRestartEpic(action$, state$);
+    obs.pipe(toArray()).subscribe(
+      // Every action that goes through should get stuck on an array
+      actions => {
+        const types = actions.map(({ type }) => type);
+        expect(types).toEqual([]);
+      },
+      err => done.fail(err), // It should not error in the stream
+      () => done()
+    );
+  });
+
+  test("on kernel error returns executeFailed action", done => {
+    const sent = new Subject();
+    const received = new Subject();
+    received.hasError = true;
+
+    const mockSocket = Subject.create(sent, received);
+
+    const action$ = of({
+      type: actionsModule.LAUNCH_KERNEL_SUCCESSFUL,
+      payload: {
+        kernel: {
+          channels: mockSocket,
+          cwd: "/home/tester",
+          type: "websocket"
+        },
+        kernelRef: "fakeKernelRef",
+        contentRef: "fakeContentRef",
+        selectNextKernel: false
+      }
+    });
+    const state = {
+      ...mockAppState({}),
+      app: stateModule.makeAppRecord({
+        host: stateModule.makeJupyterHostRecord({})
+      })
+    };
+    const state$ = new StateObservable<stateModule.AppState>(
+      new Subject(),
+      state
+    );
+
+    const obs = watchForKernelAutoRestartEpic(action$, state$);
     obs.pipe(toArray()).subscribe(
       // Every action that goes through should get stuck on an array
       actions => {

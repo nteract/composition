@@ -30,6 +30,7 @@ export const LAUNCH_KERNEL_FAILED         = "LAUNCH_KERNEL_FAILED";
 export const SHUTDOWN_REPLY_SUCCEEDED     = "SHUTDOWN_REPLY_SUCCEEDED";
 export const SHUTDOWN_REPLY_TIMED_OUT     = "SHUTDOWN_REPLY_TIMED_OUT";
 export const DISPOSE_KERNEL               = "DISPOSE_KERNEL";
+export const KERNEL_AUTO_RESTARTED        = "KERNEL_AUTO_RESTARTED";
 
 export type InterruptKernel               = Action     <typeof INTERRUPT_KERNEL,            MaybeHasContent & MaybeHasKernel>;
 export type InterruptKernelSuccessful     = Action     <typeof INTERRUPT_KERNEL_SUCCESSFUL, MaybeHasContent & MaybeHasKernel>;
@@ -48,6 +49,7 @@ export type LaunchKernelFailed            = ErrorAction<typeof LAUNCH_KERNEL_FAI
 export type ShutdownReplySucceeded        = Action     <typeof SHUTDOWN_REPLY_SUCCEEDED,    HasKernel & { content: { restart: boolean } }>;
 export type ShutdownReplyTimedOut         = Action     <typeof SHUTDOWN_REPLY_TIMED_OUT,    HasKernel>;
 export type DisposeKernel                 = Action     <typeof DISPOSE_KERNEL,              HasKernel>;
+export type KernelAutoRestarted           = Action     <typeof KERNEL_AUTO_RESTARTED,       HasKernel>;
 
 export const interruptKernel              = makeActionFunction      <InterruptKernel>           (INTERRUPT_KERNEL);
 export const interruptKernelSuccessful    = makeActionFunction      <InterruptKernelSuccessful> (INTERRUPT_KERNEL_SUCCESSFUL);
@@ -66,3 +68,4 @@ export const launchKernelFailed           = makeErrorActionFunction <LaunchKerne
 export const shutdownReplySucceeded       = makeActionFunction      <ShutdownReplySucceeded>    (SHUTDOWN_REPLY_SUCCEEDED);
 export const shutdownReplyTimedOut        = makeActionFunction      <ShutdownReplyTimedOut>     (SHUTDOWN_REPLY_TIMED_OUT);
 export const disposeKernel                = makeActionFunction      <DisposeKernel>             (DISPOSE_KERNEL);
+export const kernelAutoRestarted          = makeActionFunction      <KernelAutoRestarted>       (KERNEL_AUTO_RESTARTED);

@@ -92,6 +92,8 @@ Provide a bulleted list of breaking changes and a reference to the PR(s) contain
 
 Provide a bulleted list of new features or improvements and a reference to the PR(s) containing these changes.
 
+- Added support to detect and recover from Kernel auto-restarts for Jupyter. ([PR5558](https://github.com/nteract/nteract/pull/5558))
+
 #### Bug Fixes
 
 Provide a bulleted list of bug fixes and a reference to the PR(s) containing the changes.

@@ -4,7 +4,9 @@ import {
   childOf,
   createMessage,
   JupyterMessage,
-  ofMessageType
+  ofMessageType,
+  kernelStatuses,
+  kernelInfoRequest
 } from "@nteract/messaging";
 import { sendNotification } from "@nteract/mythic-notifications";
 import { AnyAction } from "redux";
@@ -17,9 +19,11 @@ import {
   first,
   map,
   mergeMap,
+  pairwise,
   switchMap,
   take,
   takeUntil,
+  tap, 
   timeout
 } from "rxjs/operators";
 
@@ -78,6 +82,73 @@ export const watchExecutionStateEpic = (
         )
     )
   );
+
+/**
+ * Jupyter has options to automatically restart the kernel on crash for a max-retry of 5 retries. 
+ * Monitor for the kernel to have successfully restarted (sent as a "restarting" status followed by a "starting"). 
+ * If all 5 retries fail, the kernel status is reported as "dead". 
+ *
+ * @oaram  {ActionObservable}  action$ ActionObservable for LAUNCH_KERNEL_SUCCESSFUL action
+ */
+export const watchForKernelAutoRestartEpic = (
+  action$: Observable<
+    actions.NewKernelAction | actions.KillKernelSuccessful
+  >,
+  state$: StateObservable<AppState>
+) =>
+  action$.pipe(
+    ofType(actions.LAUNCH_KERNEL_SUCCESSFUL),
+    // Only accept jupyter servers for the host with this epic
+    filter(() => selectors.isCurrentHostJupyter(state$.value)),
+    switchMap(
+      (action: actions.NewKernelAction | actions.KillKernelSuccessful) => {
+        const { kernel, kernelRef, contentRef } = (action as actions.NewKernelAction).payload;
+
+        return kernel.channels.pipe(
+          kernelStatuses(),
+          pairwise(),
+          filter(
+            ([previousStatus, currentStatus]: [KernelStatus, KernelStatus]) =>
+              previousStatus === KernelStatus.Restarting && currentStatus === KernelStatus.Starting
+          ),
+          tap(() => { 
+            // to avoid getting stuck in the "starting" state, nudge kernel with kernel_info_request to bring the status to Idle. 
+            // TODO: test can't seem to identify next on subject. For now, check before calling
+            if (kernel.channels.next) {
+              kernel.channels.next(kernelInfoRequest());
+            }
+          }),
+          map(() =>
+            actions.kernelAutoRestarted({
+              kernelRef
+            })
+          ),
+          takeUntil(
+            action$.pipe(
+              ofType(actions.KILL_KERNEL_SUCCESSFUL),
+              filter(
+                (
+                  killAction:
+                    | actions.KillKernelSuccessful
+                    | actions.NewKernelAction
+                ) => killAction.payload.kernelRef === action.payload.kernelRef
+              )
+            )
+          ),
+          catchError((error: Error) => {
+            return of(
+              actions.executeFailed({
+                error: new Error(
+                  "The WebSocket connection has unexpectedly disconnected."
+                ),
+                code: errors.EXEC_WEBSOCKET_ERROR,
+                contentRef
+              })
+            );
+          })
+        );
+      })
+    );
 
 /**
  * Send a kernel_info_request to the kernel.
