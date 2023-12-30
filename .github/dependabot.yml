@@ -7,3 +7,9 @@ updates:
     versioning-strategy: increase-if-necessary
     commit-message:
       prefix: "chore"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: 
+      interval: weekly
+    commit-message: 
+      prefix: chore
