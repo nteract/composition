@@ -60,7 +60,11 @@ describe("executeCellStream", () => {
           msg_type: "execute_reply"
         },
         content: {
-          execution_count: 0
+          execution_count: 1, 
+          status: "error",
+          ename: "TestException", 
+          evalue: "testEvalue", 
+          traceback: ["1", "2"]
         }
       }
     ];
@@ -124,6 +128,62 @@ describe("executeCellStream", () => {
       )
     );
 
+    expect(emittedActions).toContainEqual(
+      expect.objectContaining(
+        actions.updateCellStatus({
+          id: "0",
+          contentRef: "fakeContentRef",
+          status: "idle"
+        })
+      )
+    );
+
+    expect(emittedActions).toContainEqual(
+      expect.objectContaining(
+        actions.updateCellStatus({
+          id: "0",
+          contentRef: "fakeContentRef",
+          status: "busy"
+        })
+      )
+    );
+
+    expect(emittedActions).toContainEqual(
+      expect.objectContaining(
+        actions.updateCellExecutionResult({
+          id: "0",
+          contentRef: "fakeContentRef",
+          result: "error"
+        })
+      )
+    );
+
+    expect(emittedActions).toContainEqual(
+      expect.objectContaining(
+        actions.updateCellExecutionCount({
+          id: "0",
+          contentRef: "fakeContentRef",
+          value: 1
+        })
+      )
+    );
+
+    expect(emittedActions).toContainEqual(
+      expect.objectContaining(
+        actions.executeCanceled({
+          id: "0",
+          contentRef: "fakeContentRef",
+          code: "EXEC_CELL_RUNTIME_ERROR",
+          error: {
+            execution_count: 1, 
+            status: "error",
+            ename: "TestException", 
+            evalue: "testEvalue", 
+            traceback: ["1", "2"]
+          }
+        })
+      )
+    );
     done();
   });
 });

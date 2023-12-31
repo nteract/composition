@@ -15,10 +15,13 @@ import {
   kernelStatuses,
   ofMessageType,
   outputs,
-  payloads
+  payloads,
+  executionStatuses, 
+  executionErrors
 } from "../src";
 import {
   displayData,
+  error,
   executeInput,
   executeReply,
   message,
@@ -362,6 +365,63 @@ describe("executionCounts", () => {
       .toPromise()
       .then(arr => {
         expect(arr).toEqual([0, 1]);
+      });
+  });
+});
+
+describe("executionStatuses", () => {
+  it("extracts all execution status from a session", () => {
+    return of(
+      status(KernelStatus.Starting),
+      status(KernelStatus.Idle),
+      status(KernelStatus.Busy),
+      executeReply({
+        status: "ok",
+        execution_count: 0
+      }),
+      displayData({ data: { "text/plain": "woo" } }),
+      displayData({ data: { "text/plain": "hoo" } }),
+      executeReply({
+        status: "aborted",
+        execution_count: 1
+      }),
+      status(KernelStatus.Idle)
+    )
+      .pipe(executionStatuses(), toArray())
+      .toPromise()
+      .then(arr => {
+        expect(arr).toEqual(["ok", "aborted"]);
+      });
+  });
+});
+
+describe("error", () => {
+  it("extracts all error from a session", () => {
+    const errorContent = {
+      ename: "TestException", 
+      evalue: "testEvalue", 
+      traceback: ["1", "2"]
+    };
+    return of(
+      status(KernelStatus.Starting),
+      status(KernelStatus.Idle),
+      status(KernelStatus.Busy),
+      executeReply({
+        status: "error",
+        execution_count: 0,
+        ...errorContent
+      }),
+      error(errorContent),
+      status(KernelStatus.Idle)
+    )
+      .pipe(executionErrors(), toArray())
+      .toPromise()
+      .then(arr => {
+        expect(arr).toEqual([{
+          status: "error",
+          execution_count: 0,
+          ...errorContent
+        }]);
       });
   });
 });

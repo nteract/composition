@@ -678,6 +678,14 @@ function updateCellStatus(
   return state.setIn(["transient", "cellMap", id, "status"], status);
 }
 
+function updateCellExecutionResult(
+  state: NotebookModel,
+  action: actionTypes.UpdateCellExecutionResult
+): RecordOf<DocumentRecordProps> {
+  const { id, result } = action.payload;
+  return state.setIn(["transient", "cellMap", id, "executionResult"], result);
+}
+
 function updateOutputMetadata(
   state: NotebookModel,
   action: actionTypes.UpdateOutputMetadata
@@ -925,6 +933,7 @@ type DocumentAction =
   | actionTypes.ToggleCellOutputVisibility
   | actionTypes.ToggleCellInputVisibility
   | actionTypes.UpdateCellStatus
+  | actionTypes.UpdateCellExecutionResult
   | actionTypes.UpdateOutputMetadata
   | actionTypes.SetLanguageInfo
   | actionTypes.SetKernelMetadata
@@ -1003,6 +1012,8 @@ export function notebook(
       return acceptPayloadMessage(state, action);
     case actionTypes.UPDATE_CELL_STATUS:
       return updateCellStatus(state, action);
+    case actionTypes.UPDATE_CELL_EXECUTION_RESULT:
+      return updateCellExecutionResult(state, action);
     case actionTypes.UPDATE_OUTPUT_METADATA:
       return updateOutputMetadata(state, action);
     case actionTypes.SET_LANGUAGE_INFO:

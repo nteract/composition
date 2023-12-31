@@ -115,6 +115,7 @@ Provide a bulleted list of bug fixes and a reference to the PR(s) containing the
 #### Breaking Changes
 
 Provide a bulleted list of breaking changes and a reference to the PR(s) containing those changes.
+- execute cell is now synchronized with kernel execute_reply returned status and will not stop following cells while the kernel still executes. ([PR5561](https://github.com/nteract/nteract/pull/5561))
 
 #### New Features
 
@@ -172,10 +173,12 @@ Provide a bulleted list of bug fixes and a reference to the PR(s) containing the
 #### Breaking Changes
 
 Provide a bulleted list of breaking changes and a reference to the PR(s) containing those changes.
+- executeRequest uses Jupyter default for stop_on_error = True. ([PR5561](https://github.com/nteract/nteract/pull/5561))
 
 #### New Features
 
 Provide a bulleted list of new features or improvements and a reference to the PR(s) containing these changes.
+- Add support for retrieving executionErrors including aborted requests ([PR5561](https://github.com/nteract/nteract/pull/5561))
 
 #### Bug Fixes
 

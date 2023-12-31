@@ -4,6 +4,8 @@ import {
   executeRequest,
   ExecuteRequest,
   executionCounts,
+  executionStatuses,
+  executionErrors, 
   inputRequests,
   JupyterMessage,
   kernelStatuses,
@@ -35,11 +37,11 @@ import {
   ContentRef,
   InputRequestMessage,
   KernelStatus,
-  PayloadMessage,
+  PayloadMessage, 
   errors
 } from "@nteract/types";
 
-const EXECUTE_CANCEL_ALL = "all";
+import { ExecuteReplyError } from "@nteract/messaging";
 
 /**
  * Observe all the reactions to running code for cell with id.
@@ -131,6 +133,14 @@ export function executeCellStream(
       )
     ),
 
+    // Update the cell execution result from execute_reply.content.status
+    cellMessages.pipe(
+      executionStatuses() as any,
+      map((result: string) =>
+        actions.updateCellExecutionResult({ id, result, contentRef })
+      )
+    ),
+
     // Update the input numbering: `[ ]`
     cellMessages.pipe(
       executionCounts() as any,
@@ -148,8 +158,10 @@ export function executeCellStream(
     ),
 
     cellMessages.pipe(
-      ofMessageType("error"),
-      map(() => actions.executeCanceled({ contentRef, id: EXECUTE_CANCEL_ALL }))
+      executionErrors() as any,
+      map((error: ExecuteReplyError) => 
+        actions.executeCanceled({ contentRef, id, code: errors.EXEC_CELL_RUNTIME_ERROR, error })
+      )
     ),
 
     // clear_output display message
@@ -226,9 +238,7 @@ export function createExecuteCellStream(
         action$.pipe(
           ofType(actions.EXECUTE_CANCELED, actions.DELETE_CELL),
           filter(
-            (action: ExecuteStreamActions) =>
-              (action as PerCellStopStopExecutionActions).payload.id === id ||
-              (action as PerCellStopStopExecutionActions).payload.id === EXECUTE_CANCEL_ALL
+            (action: ExecuteStreamActions) => (action as PerCellStopStopExecutionActions).payload.id === id 
           )
         ),
         action$.pipe(

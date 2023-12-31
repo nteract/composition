@@ -317,6 +317,23 @@ describe("updateCellStatus", () => {
   });
 });
 
+describe("updateCellExecutionResult", () => {
+  test("creates an UPDATE_CELL_EXECUTION_RESULT action", () => {
+    const contentRef = createContentRef();
+    expect(
+      actions.updateCellExecutionResult({ id: "1234", result: "test", contentRef })
+    ).toEqual({
+      type: actionTypes.UPDATE_CELL_EXECUTION_RESULT,
+      payload: {
+        id: "1234",
+        contentRef,
+        result: "test"
+      }
+    });
+  });
+});
+
+
 describe("moveCell", () => {
   test("creates a MOVE_CELL action", () => {
     const contentRef = createContentRef();

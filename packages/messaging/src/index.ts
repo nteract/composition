@@ -246,6 +246,26 @@ export const executionCounts = () => (source: Observable<JupyterMessage>) =>
   );
 
 /**
+ * Get all the execution status from the observable of the jupyter messages
+ * One of: 'ok' OR 'error' OR 'aborted' from the messaging protocol: https://jupyter-client.readthedocs.io/en/stable/messaging.html#execution-results
+ */
+export const executionStatuses = () => (source: Observable<JupyterMessage>) =>
+source.pipe(
+  ofMessageType("execute_reply"),
+  map(entry => entry.content.status)
+);
+
+/**
+ * Get all execution errors from the observable of the jupyter messages
+ */
+export const executionErrors = () => (source: Observable<JupyterMessage>) =>
+source.pipe(
+  ofMessageType("execute_reply"),
+  filter((entry) => entry.content.status !== "ok"),
+  map(entry => entry.content)
+);
+
+/**
  * Get all statuses of all running kernels.
  */
 export const kernelStatuses = () => (source: Observable<JupyterMessage>) =>

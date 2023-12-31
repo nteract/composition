@@ -310,6 +310,7 @@ export const byRef = (
     case actionTypes.TOGGLE_CELL_INPUT_VISIBILITY:
     case actionTypes.ACCEPT_PAYLOAD_MESSAGE:
     case actionTypes.UPDATE_CELL_STATUS:
+    case actionTypes.UPDATE_CELL_EXECUTION_RESULT:
     case actionTypes.SET_LANGUAGE_INFO:
     case actionTypes.SET_KERNEL_METADATA:
     case actionTypes.OVERWRITE_METADATA_FIELD:

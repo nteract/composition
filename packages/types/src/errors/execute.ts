@@ -51,3 +51,7 @@ export const EXEC_ERROR_IN_CELL_STREAM = "EXEC_ERROR_IN_CELL_STREAM";
  * that were sent in the meantime might fail.
  */
 export const EXEC_EPIC_ERROR = "EXEC_EPIC_ERROR";
+/** 
+ * An error returned by the kernel on cell run as an "error" message type.
+ */
+export const EXEC_CELL_RUNTIME_ERROR = "EXEC_CELL_RUNTIME_ERROR"

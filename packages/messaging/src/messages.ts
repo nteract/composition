@@ -125,6 +125,7 @@ function createHeader<MT extends MessageType>(
 /**
  * An execute request creator
  *
+ * ref: https://jupyter-client.readthedocs.io/en/stable/messaging.html#execute
  * > executeRequest('print("hey")', { 'silent': true })
  * { header:
  *    { msg_id: 'f344cc6b-4308-4405-a8e8-a166b0345579',
@@ -141,7 +142,7 @@ function createHeader<MT extends MessageType>(
  *      store_history: true,
  *      user_expressions: {},
  *      allow_stdin: true,
- *      stop_on_error: false } }
+ *      stop_on_error: true } }
  *
  * @param code The code to execute
  * @param options The options for the execute request
@@ -170,7 +171,7 @@ export function executeRequest(
       store_history: true,
       user_expressions: {},
       allow_stdin: true,
-      stop_on_error: false,
+      stop_on_error: true,
       ...options
     },
     channel,
@@ -270,11 +271,14 @@ export function executeResult(content: {
  *
  * http://jupyter-client.readthedocs.io/en/stable/messaging.html#execution-errors
  */
-export function error(content: {
+
+export interface ExecuteError {
   ename?: string;
   evalue?: string;
   traceback?: string[];
-}) {
+}
+
+export function error(content: ExecuteError) {
   return message(
     {
       msg_type: "error"
